@@ -24,7 +24,7 @@ By removing the state from your form components, you inherently make them easier
 
 ## How it works
 
-When you are adding your reducers to your redux store, add a new one with `createFormReducer(])`.
+When you are adding your reducers to your redux store, add a new one with `createFormReducer()`.
 
 ```javascript
 import { createStore, combineReducers } from 'redux';
