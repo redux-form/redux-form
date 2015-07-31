@@ -16,7 +16,7 @@ Why would anyone want to do this, you ask? React a perfectly good way of keeping
 
 #### Hot Reloading
 
-When used in conjunction with [React Hot Loader](https://github.com/gaearon/react-hot-loader), you can modify your components, rebuild your app and immediately see your changes ***without losing your form data***. This may seem trivial, but the minutes of refilling out forms in a develomnet environment really add up.
+When used in conjunction with [React Hot Loader](https://github.com/gaearon/react-hot-loader), you can modify your components, rebuild your app and immediately see your changes ***without losing your form data***. This may seem trivial, but the minutes of refilling out forms in a development environment really add up.
 
 #### Stateless Components
 
