@@ -12,11 +12,15 @@ npm install --save redux-form
 
 ## Benefits
 
-Why would anyone want to do this, you ask? React a perfectly good way of keeping state in each component! The reasons are twofold.
+Why would anyone want to do this, you ask? React a perfectly good way of keeping state in each component! The reasons are threefold.
 
-#### Hot Reloading
+#### Unidirectional Data Flow
 
-When used in conjunction with [React Hot Loader](https://github.com/gaearon/react-hot-loader), you can modify your components, rebuild your app and immediately see your changes ***without losing your form data***. This may seem trivial, but the minutes of refilling out forms in a development environment really add up.
+For the same reason that React and Flux is superior to Angular's bidirectional data binding. Tracking down bugs is much simpler when the data all flows through one dispatcher.
+
+#### Redux Dev Tools
+
+When used in conjunction with [Redux Dev Tools](https://github.com/gaearon/redux-devtools), you can fast forward and rewind through your form data entry to better find bugs.
 
 #### Stateless Components
 
@@ -24,7 +28,7 @@ By removing the state from your form components, you inherently make them easier
 
 ## How it works
 
-When you are adding your reducers to your redux store, add a new one with `createFormReducer()`.
+When you are adding your reducers to your redux store, add a new one with `createFormReducer(])`.
 
 ```javascript
 import { createStore, combineReducers } from 'redux';
