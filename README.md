@@ -56,7 +56,8 @@ export default class ContactForm extends Component {
   render() {
     const {
       data: {name, address, phone},
-      errors: {name: nameError, address: addressError, phone: phoneError}
+      errors: {name: nameError, address: addressError, phone: phoneError},
+      handleChange
     } = this.props;
     return (
       <form>
