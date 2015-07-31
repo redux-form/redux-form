@@ -1,0 +1,48 @@
+{
+  "name": "redux-form",
+  "version": "0.0.2",
+  "description": "An ES7 decorator for forms using Redux and React",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikras/redux-form"
+  },
+  "scripts": {
+    "browser": "scripts/browser",
+    "build": "scripts/build",
+    "clean": "scripts/clean",
+    "lint": "scripts/lint",
+    "prepublish": "scripts/prepublish"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "flux",
+    "redux",
+    "form",
+    "decorator"
+  ],
+  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erikras/redux-form/issues"
+  },
+  "homepage": "https://github.com/erikras/redux-form",
+  "devDependencies": {
+    "babel": "^5.8.19",
+    "babel-core": "^5.8.19",
+    "babel-eslint": "^4.0.5",
+    "babel-loader": "^5.3.2",
+    "eslint": "^0.24.1",
+    "eslint-config-airbnb": "0.0.6",
+    "eslint-plugin-react": "^3.1.0",
+    "react": "^0.13.3",
+    "rifraf": "^2.0.2",
+    "rimraf": "^2.4.2",
+    "webpack": "^1.10.5"
+  },
+  "dependencies": {
+    "react-redux": "^0.2.2",
+    "redux": "^1.0.0-rc"
+  }
+}
