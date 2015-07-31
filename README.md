@@ -31,7 +31,7 @@ import { createStore, combineReducers } from 'redux';
 import { createFormReducer } from 'redux-form';
 const reducers = {
   // ... your other reducers here ...
-  createFormReducer('contacts', ['name', 'address', 'phone'], contactValidation)
+  createFormReducer('contacts', ['name', 'address', 'phone'])
 }
 const reducer = combineReducers(reducers);
 const store = createStore(reducer);
@@ -42,14 +42,15 @@ Then, on your form component, add the `@reduxForm('contacts')` decorator.
 ```javascript
 import React, {Component, PropTypes} from 'react';
 import reduxForm from 'redux-form';
+import contactValidation from './contactValidation';
 
-@reduxForm('contacts')
+@reduxForm('contacts', contactValidation)
 export default class ContactForm extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
     handleChange: PropTypes.func.isRequired,
-    validate: PropTypes.func.isRequired,
+    showAll: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired
   }
   
@@ -126,6 +127,34 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 ##### -`sliceName` : string
 
 > the name of your form and the key to where your form's state will be mounted in the Redux store
+
+### props
+
+The props passed into your decorated component will be:
+
+##### -`handleChange(field:string) : Function`
+
+> returns a `handleChange` function for the field passed.
+
+##### -`showAll() : Function`
+
+> marks all fields as "visited" to show errors. should be called on form submission.
+
+##### -`reset() : Function`
+
+> clears all the values in the form
+
+##### -`data:Object`
+
+> the form data, in the form `{ field1: <string>, field2: <string> }`
+
+##### -`errors:Object`
+
+> all the errors, in the form `{ field1: <string>, field2: <string> }`
+
+##### -`visited:Object`
+
+> the visited flags for each field, in the form `{ field1: <boolean>, field2: <boolean> }`
 
 ## Running Example
 

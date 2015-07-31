@@ -1,14 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {change, validate, reset} from './actions';
+import {change, showAll, reset} from './actions';
 
 const getDisplayName = (Comp) => Comp.displayName || Comp.name || 'Component';
 
 /**
  * @param sliceName The key in the state corresponding to the data in this form
- * @param changeCreator An action creator to accept changes in the form changeCreator(sliceName, field, value)
+ * @param validate A validation function that takes all the data and returns all the errors
  */
-export default function reduxForm(sliceName) {
+export default function reduxForm(sliceName, validate) {
   return DecoratedComponent => @connect(state => ({
     slice: state[sliceName]
   }))
@@ -25,8 +25,9 @@ export default function reduxForm(sliceName) {
       const handleChange = (name) => (event) => dispatch(change(sliceName, name, event.target.value));
       return (<DecoratedComponent
         handleChange={handleChange}
-        validate={() => dispatch(validate(sliceName))}
+        showAll={() => dispatch(showAll(sliceName))}
         reset={() => dispatch(reset(sliceName))}
+        errors={validate(slice.data)}
         {...slice}/>);
     }
   };

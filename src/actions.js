@@ -1,4 +1,4 @@
-import { CHANGE, VALIDATE, RESET } from './actionTypes';
+import { CHANGE, SHOW_ALL, RESET } from './actionTypes';
 
 export function change(form, field, value) {
   return {
@@ -9,9 +9,9 @@ export function change(form, field, value) {
   };
 }
 
-export function validate(form) {
+export function showAll(form) {
   return {
-    type: VALIDATE,
+    type: SHOW_ALL,
     form: form
   };
 }
