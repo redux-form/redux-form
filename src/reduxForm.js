@@ -22,13 +22,17 @@ export default function reduxForm(sliceName, validate) {
 
     render() {
       const {slice, dispatch} = this.props;
+      const passableProps = { ...this.props };
+      delete passableProps.slice;
+      delete passableProps.dispatch;
       const handleChange = (name) => (event) => dispatch(change(sliceName, name, event.target.value));
       return (<DecoratedComponent
         handleChange={handleChange}
         showAll={() => dispatch(showAll(sliceName))}
         reset={() => dispatch(reset(sliceName))}
         errors={validate(slice.data)}
-        {...slice}/>);
+        data={slice.data}
+        {...passableProps}/>); // pass other props
     }
   };
 }
