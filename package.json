@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An ES7 decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "repository": {
