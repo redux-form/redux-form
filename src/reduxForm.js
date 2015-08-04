@@ -32,6 +32,7 @@ export default function reduxForm(sliceName, validate) {
         reset={() => dispatch(reset(sliceName))}
         errors={validate(slice.data)}
         data={slice.data}
+        visited={slice.visited}
         {...passableProps}/>); // pass other props
     }
   };
