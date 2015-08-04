@@ -27,6 +27,7 @@ export default function reduxForm(sliceName, validate) {
       delete passableProps.dispatch;
       const handleChange = (name) => (event) => dispatch(change(sliceName, name, event.target.value));
       return (<DecoratedComponent
+        {...this.props}
         handleChange={handleChange}
         showAll={() => dispatch(showAll(sliceName))}
         reset={() => dispatch(reset(sliceName))}
