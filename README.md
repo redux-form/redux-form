@@ -112,7 +112,7 @@ You get the idea.
 
 Each form has a `sliceName`. That's the key in the Redux store tree where the data will be mounted.
 
-### createFormReducer(sliceName:string, fields:Array&lt;string&gt;, validate:Function)
+### createFormReducer(sliceName:string, fields:Array&lt;string&gt;, initialData:Object)
 
 ##### -`sliceName` : string
 
@@ -122,15 +122,19 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 
 > a list of all your fields in your form.
 
-##### - validation : Function
+##### - initialData: Object
 
-> your [validation function](#validation)
+> initial data to populate the state with
 
-### @reduxForm(sliceName:string)
+### @reduxForm(sliceName:string, validate:Function)
 
 ##### -`sliceName` : string
 
 > the name of your form and the key to where your form's state will be mounted in the Redux store
+
+##### - validation : Function
+
+> your [validation function](#validation)
 
 ### props
 
