@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {change, showAll, reset} from './actions';
+import {change, blur, showAll, reset} from './actions';
 
 const getDisplayName = (Comp) => Comp.displayName || Comp.name || 'Component';
 
@@ -23,8 +23,10 @@ export default function reduxForm(sliceName, validate) {
     render() {
       const {slice, dispatch, ...passableProps} = this.props;
       const handleChange = (name) => (event) => dispatch(change(sliceName, name, event.target.value));
+      const handleBlur = (name) => () => dispatch(blur(sliceName, name));
       return (<DecoratedComponent
         handleChange={handleChange}
+        handleBlur={handleBlur}
         showAll={() => dispatch(showAll(sliceName))}
         reset={() => dispatch(reset(sliceName))}
         errors={validate(slice.data)}

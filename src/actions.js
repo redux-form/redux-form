@@ -1,4 +1,4 @@
-import { CHANGE, SHOW_ALL, RESET } from './actionTypes';
+import { CHANGE, BLUR, SHOW_ALL, RESET } from './actionTypes';
 
 export function change(form, field, value) {
   return {
@@ -6,6 +6,14 @@ export function change(form, field, value) {
     form: form,
     field: field,
     value: value
+  };
+}
+
+export function blur(form, field) {
+  return {
+    type: BLUR,
+    form: form,
+    field: field
   };
 }
 
