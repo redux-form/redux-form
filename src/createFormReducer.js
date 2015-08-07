@@ -1,4 +1,4 @@
-import { CHANGE, SHOW_ALL, RESET } from './actionTypes';
+import { CHANGE, BLUR, SHOW_ALL, RESET } from './actionTypes';
 
 /**
  * Creates a state structure like:
@@ -34,7 +34,11 @@ export default function createFormReducer(name, fields, initialData = {}) {
         };
         return {
           ...state,
-          data: data,
+          data: data
+        };
+      case BLUR:
+        return {
+          ...state,
           visited: {
             ...state.visited,
             [action.field]: true
