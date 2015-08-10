@@ -1,11 +1,16 @@
 import createFormReducer from './createFormReducer';
 import reduxForm from './reduxForm';
-import {change, showAll, reset} from './actions';
+import {blur, change, initialize, reset, touch, touchAll, untouch, untouchAll} from './actions';
 
 export default reduxForm;
 export {
   createFormReducer,
+  blur,
   change,
-  showAll,
-  reset
+  initialize,
+  reset,
+  touch,
+  touchAll,
+  untouch,
+  untouchAll
 };

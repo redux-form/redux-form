@@ -1,8 +1,7 @@
 #redux-form
 
 
-`@reduxForm` is an ES7 decorator to for enabling a form in [React](https://github.com/facebook/react) to use [Redux](https://github.com/gaearon/redux) to store all of 
-its state.
+`redux-form` works with [React Redux](https://github.com/gaearon/react-redux) to enable an html form in [React](https://github.com/facebook/react) to use [Redux](https://github.com/gaearon/redux) to store all of its state.
 
 ## Installation
 
@@ -41,53 +40,91 @@ const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 ```
 
+`reduxForm()` creates a Higher Order Component that expects a `dispatch` prop and a slice of the Redux store where its data is stored as a `form` prop. These should be provided by [React Redux](https://github.com/gaearon/react-redux)'s `connect()` function.
+
+Let's look at an example:
+
 Then, on your form component, add the `@reduxForm('contacts')` decorator.
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import reduxForm from 'redux-form';
 import contactValidation from './contactValidation';
 
-@reduxForm('contacts', contactValidation)
-export default class ContactForm extends Component {
+class ContactForm extends Component {
+  // you don't need all to define all these props,
+  // only the ones you intend to use
   static propTypes = {
     data: PropTypes.object.isRequired,
+    dirty: PropTypes.bool.isRequired,
     errors: PropTypes.object.isRequired,
+    handleBlur: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
-    showAll: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired
+    initializeForm: PropTypes.func.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    resetForm: PropTypes.func.isRequired,
+    touch: PropTypes.func.isRequired,
+    touched: PropTypes.object.isRequired,
+    touchAll: PropTypes.func.isRequired,
+    untouch: PropTypes.func.isRequired,
+    untouchAll: PropTypes.func.isRequired,
+    valid: PropTypes.bool.isRequired
   }
   
   render() {
     const {
       data: {name, address, phone},
       errors: {name: nameError, address: addressError, phone: phoneError},
+      touched: {name: nameTouched, address: addressTouched, phone: phoneTouched},
       handleChange
     } = this.props;
     return (
       <form>
         <label>Name</label>
         <input type="text" value={name} onChange={handleChange('name')}/>
-        {nameError ? <div>{nameError}</div>}
+        {nameError && nameTouched ? <div>{nameError}</div>}
         
         <label>Address</label>
         <input type="text" value={address} onChange={handleChange('address')}/>
-        {addressError ? <div>{addressError}</div>}
+        {addressError && addressTouched ? <div>{addressError}</div>}
         
         <label>Phone</label>
         <input type="text" value={phone} onChange={handleChange('phone')}/>
-        {phoneError ? <div>{phoneError}</div>}
+        {phoneError && phoneTouched ? <div>{phoneError}</div>}
       </form>
     );
   }
 }
+
+// ------- HERE'S THE IMPORTANT BIT -------
+function mapStateToProps(state) {
+  return { form: state.contacts };
+}
+export default 
+  connect(mapStateToProps)
+  (reduxForm('contacts', contactValidation)
+  (ContactForm))
 ```
 
-Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component. I have left handling `onSubmit` as an excercise for the reader. Hint: your data is in `this.props.data`.
+Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component. I have left handling `onSubmit` as an exercise for the reader. Hint: your data is in `this.props.data`.
+
+### ES7 Decorator Sugar
+
+Using ES7 decorators, the example above could be written as:
+
+```javascript
+@connect(state => ({ form: state.contacts }))
+@reduxForm('contacts', contactValidation)
+export default class ContactForm extends Component {
+```
+
+Much nicer, don't you think?
 
 ## Validation
 
-You will need to supply your own validation function, which is in the form `({}) => {}` and takes in all your data and spits out error messages. For example:
+You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all your data and spits out error messages. For example:
 
 ```javascript
 function contactValidation(data) {
@@ -112,7 +149,7 @@ You get the idea.
 
 Each form has a `sliceName`. That's the key in the Redux store tree where the data will be mounted.
 
-### createFormReducer(sliceName:string, fields:Array&lt;string&gt;, initialData:Object)
+### createFormReducer(sliceName:string, fields:Array&lt;string&gt;, config:Object)
 
 ##### -`sliceName` : string
 
@@ -122,9 +159,17 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 
 > a list of all your fields in your form.
 
-##### - initialData: Object
+##### - config: Object [optional]
 
-> initial data to populate the state with
+> some control over when to mark fields as "touched" in the form:
+
+###### config.touchOnBlur : boolean [optional]
+
+> marks fields to touched when the blur action is fired. defaults to `true`
+
+###### config.touchOnChange : boolean [optional]
+
+> marks fields to touched when the change action is fired. defaults to `false`
 
 ### @reduxForm(sliceName:string, validate:Function)
 
@@ -132,7 +177,7 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 
 > the name of your form and the key to where your form's state will be mounted in the Redux store
 
-##### - validation : Function
+##### - validation : Function [optional]
 
 > your [validation function](#validation)
 
@@ -140,29 +185,66 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 
 The props passed into your decorated component will be:
 
-##### -`handleChange(field:string) : Function`
-
-> returns a `handleChange` function for the field passed.
-
-##### -`showAll() : Function`
-
-> marks all fields as "visited" to show errors. should be called on form submission.
-
-##### -`reset() : Function`
-
-> clears all the values in the form
-
 ##### -`data:Object`
 
-> the form data, in the form `{ field1: <string>, field2: <string> }`
+> The form data, in the form `{ field1: <string>, field2: <string> }`
+
+##### -`dirty:boolean`
+
+> `true` if the form data has changed from its initialized values. Opposite of `pristine`.
 
 ##### -`errors:Object`
 
-> all the errors, in the form `{ field1: <string>, field2: <string> }`
+> All the errors, in the form `{ field1: <string>, field2: <string> }`
 
-##### -`visited:Object`
+##### -`handleBlur(field:string) : Function`
 
-> the visited flags for each field, in the form `{ field1: <boolean>, field2: <boolean> }`
+> Returns a `handleBlur` function for the field passed.
+
+##### -`handleChange(field:string) : Function`
+
+> Returns a `handleChange` function for the field passed.
+
+##### -`initializeForm(data:Object) : Function`
+
+> Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by comparing the current data with these initialized values.
+
+##### -`invalid:boolean`
+
+> `true` if the form has validation errors. Opposite of `valid`.
+
+##### -`pristine:boolean`
+
+> `true` if the form data is the same as its initialized values. Opposite of `dirty`.
+
+##### -`resetForm() : Function`
+
+> Resets all the values in the form to the initialized state, making it pristine again.
+
+##### -`touch(...field:string) : Function`
+
+> Marks the given fields as "touched" to show errors.
+
+##### -`touched:Object`
+
+> the touched flags for each field, in the form `{ field1: <boolean>, field2: <boolean> }`
+
+##### -`touchAll() : Function`
+
+> Marks all fields as "touched" to show errors. should be called on form submission.
+
+##### -`untouch(...field:string) : Function`
+
+> Clears the "touched" flag for the given fields
+
+##### -`untouchAll() : Function`
+
+> Clears the "touched" flag for the all fields
+
+##### -`valid:boolean`
+
+> `true` if the form passes validation (has no validation errors). Opposite of `invalid`.
+
 
 ## Running Example
 

@@ -1,7 +1,7 @@
 {
   "name": "redux-form",
-  "version": "0.0.5",
-  "description": "An ES7 decorator for forms using Redux and React",
+  "version": "0.0.7",
+  "description": "A higher order component generator for forms using Redux and React",
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
@@ -40,9 +40,5 @@
     "rifraf": "^2.0.2",
     "rimraf": "^2.4.2",
     "webpack": "^1.10.5"
-  },
-  "dependencies": {
-    "react-redux": "^0.2.2",
-    "redux": "^1.0.0-rc"
   }
 }
