@@ -98,21 +98,25 @@ class ContactForm extends Component {
   }
 }
 
+// apply reduxForm() to teach it validation
+ContactForm = reduxForm('contacts', contactValidation)(ContactForm);
+
 // ------- HERE'S THE IMPORTANT BIT -------
 function mapStateToProps(state) {
   return { form: state.contacts };
 }
-export default 
-  connect(mapStateToProps)
-  (reduxForm('contacts', contactValidation)
-  (ContactForm))
+// apply connect() to bind it to Redux state
+ContactForm = connect(mapStateToProps)(ContactForm);
+
+// export the wrapped component
+export default ContactForm;
 ```
 
 Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component. I have left handling `onSubmit` as an exercise for the reader. Hint: your data is in `this.props.data`.
 
 ### ES7 Decorator Sugar
 
-Using ES7 decorators, the example above could be written as:
+Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators), the example above could be written as:
 
 ```javascript
 @connect(state => ({ form: state.contacts }))
@@ -121,6 +125,9 @@ export default class ContactForm extends Component {
 ```
 
 Much nicer, don't you think?
+
+You can enable it with [Babel stage 2](http://babeljs.io/docs/usage/experimental/).  
+Note that decorators are experimental, and this syntax might change or be removed later.
 
 ## Validation
 
