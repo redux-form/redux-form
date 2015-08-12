@@ -152,11 +152,16 @@ function contactValidation(data) {
 ```
 You get the idea.
 
+
+### Asynchronous Validation
+
+Async validation can be achieved by passing an `asyncConfig` parameter to `reduxForm()` containing a function that takes all the form data and returns a promise that will resolve to validation errors.
+
 ## API
 
 Each form has a `sliceName`. That's the key in the Redux store tree where the data will be mounted.
 
-### createFormReducer(sliceName:string, fields:Array&lt;string&gt;, config:Object)
+### `createFormReducer(sliceName:string, fields:Array&lt;string&gt;, config:Object)`
 
 ##### -`sliceName` : string
 
@@ -166,41 +171,57 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 
 > a list of all your fields in your form.
 
-##### - config: Object [optional]
+##### -`config`: Object [optional]
 
 > some control over when to mark fields as "touched" in the form:
 
-###### config.touchOnBlur : boolean [optional]
+###### `config.touchOnBlur` : boolean [optional]
 
 > marks fields to touched when the blur action is fired. defaults to `true`
 
-###### config.touchOnChange : boolean [optional]
+###### `config.touchOnChange` : boolean [optional]
 
 > marks fields to touched when the change action is fired. defaults to `false`
 
-### @reduxForm(sliceName:string, validate:Function)
+### `reduxForm(sliceName:string, validate:Function?, asyncConfig:Object?)`
 
-##### -`sliceName` : string
+##### -`sliceName : string`
 
 > the name of your form and the key to where your form's state will be mounted in the Redux store
 
-##### - validation : Function [optional]
+##### -`validate : Function` [optional]
 
 > your [validation function](#validation)
+
+##### -`asyncConfig : Object` [optional]
+
+> an object containing the following two values:
+
+###### -`validate : Function`
+
+> a function that takes all the form data and returns a Promise that will resolve to an object of validation errors in the form `{ field1: <string>, field2: <string> }` just like the synchronous [validation function](#validation).
+
+###### -`fields : Array<string>`
+
+> an array of field names for which `handleBlur` should trigger a call to the asynchronous validation function
 
 ### props
 
 The props passed into your decorated component will be:
 
-##### -`data:Object`
+##### -`asyncValidating : boolean`
+
+> `true` if the asynchronous validation function has been called but has not yet returned.
+
+##### -`data : Object`
 
 > The form data, in the form `{ field1: <string>, field2: <string> }`
 
-##### -`dirty:boolean`
+##### -`dirty : boolean`
 
 > `true` if the form data has changed from its initialized values. Opposite of `pristine`.
 
-##### -`errors:Object`
+##### -`errors : Object`
 
 > All the errors, in the form `{ field1: <string>, field2: <string> }`
 
@@ -216,11 +237,11 @@ The props passed into your decorated component will be:
 
 > Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by comparing the current data with these initialized values.
 
-##### -`invalid:boolean`
+##### -`invalid : boolean`
 
 > `true` if the form has validation errors. Opposite of `valid`.
 
-##### -`pristine:boolean`
+##### -`pristine: boolean`
 
 > `true` if the form data is the same as its initialized values. Opposite of `dirty`.
 
@@ -232,7 +253,7 @@ The props passed into your decorated component will be:
 
 > Marks the given fields as "touched" to show errors.
 
-##### -`touched:Object`
+##### -`touched : Object`
 
 > the touched flags for each field, in the form `{ field1: <boolean>, field2: <boolean> }`
 
@@ -248,7 +269,7 @@ The props passed into your decorated component will be:
 
 > Clears the "touched" flag for the all fields
 
-##### -`valid:boolean`
+##### -`valid : boolean`
 
 > `true` if the form passes validation (has no validation errors). Opposite of `invalid`.
 

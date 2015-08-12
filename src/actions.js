@@ -1,4 +1,5 @@
-import { BLUR, CHANGE, INITIALIZE, RESET, TOUCH, TOUCH_ALL, UNTOUCH, UNTOUCH_ALL } from './actionTypes';
+import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, STOP_ASYNC_VALIDATION,
+  TOUCH, TOUCH_ALL, UNTOUCH, UNTOUCH_ALL } from './actionTypes';
 
 export function blur(form, field, value) {
   return {
@@ -30,6 +31,21 @@ export function reset(form) {
   return {
     type: RESET,
     form: form
+  };
+}
+
+export function startAsyncValidation(form) {
+  return {
+    type: START_ASYNC_VALIDATION,
+    form: form
+  };
+}
+
+export function stopAsyncValidation(form, errors) {
+  return {
+    type: STOP_ASYNC_VALIDATION,
+    form: form,
+    errors: errors
   };
 }
 

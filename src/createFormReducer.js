@@ -1,4 +1,5 @@
-import { BLUR, CHANGE, INITIALIZE, RESET, TOUCH, TOUCH_ALL, UNTOUCH, UNTOUCH_ALL } from './actionTypes';
+import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, STOP_ASYNC_VALIDATION,
+  TOUCH, TOUCH_ALL, UNTOUCH, UNTOUCH_ALL } from './actionTypes';
 
 /**
  * Creates a state structure like:
@@ -26,7 +27,7 @@ import { BLUR, CHANGE, INITIALIZE, RESET, TOUCH, TOUCH_ALL, UNTOUCH, UNTOUCH_ALL
  * @returns {Function} a form reducer
  */
 export default function createFormReducer(name, fields, {touchOnBlur = true, touchOnChange = false} = {}) {
-  return (state = {initial: {}, data: {}, touched: {}}, action = {}) => {
+  return (state = {initial: {}, data: {}, touched: {}, asyncValidating: false, asyncErrors: {}}, action = {}) => {
     if (action.form !== name) {
       return state;
     }
@@ -69,13 +70,28 @@ export default function createFormReducer(name, fields, {touchOnBlur = true, tou
         return {
           initial: action.data,
           data: action.data,
+          asyncValidating: false,
+          asyncErrors: {},
           touched: {}
         };
       case RESET:
         return {
           initial: state.initial,
           data: state.initial,
-          touched: {}
+          touched: {},
+          asyncValidating: false,
+          asyncErrors: {}
+        };
+      case START_ASYNC_VALIDATION:
+        return {
+          ...state,
+          asyncValidating: true
+        };
+      case STOP_ASYNC_VALIDATION:
+        return {
+          ...state,
+          asyncValidating: false,
+          asyncErrors: action.errors
         };
       case TOUCH:
         const touchDiff = {};
