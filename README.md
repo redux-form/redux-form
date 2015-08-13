@@ -114,6 +114,36 @@ export default ContactForm;
 
 Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component. I have left handling `onSubmit` as an exercise for the reader. Hint: your data is in `this.props.data`.
 
+#### Binding Action Creators
+
+If your form component also needs other redux action creators - _and it probably does since you need to submit somehow_ - you cannot use the default `bindActionCreators()` from `redux`, because that will remove `dispatch` from the props the `connect()` passes along, and `reduxForm` needs `dispatch`. If you want the same default action creator binding, you will need to use `bindActionCreatorsAndDispatch()` from `redux-form`. In other words, change:
+
+```javascript
+import {bindActionCreators} from `redux`;
+
+...
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+```
+
+to:
+
+```javascript
+import {bindActionCreatorsAndDispatch} from `redux-form`; // <---- changed
+
+...
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreatorsAndDispatch(actionCreators, dispatch); // <---- changed
+}
+
+ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+```
+
 ### ES7 Decorator Sugar
 
 Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators), the example above could be written as:
