@@ -2,7 +2,11 @@ export default function bindActionCreatorsAndDispatch(actionCreators, dispatch) 
   const boundActionCreators =
     Object.keys(actionCreators).reduce(
       (result, key) => {
-        result[key] = () => dispatch(actionCreators[key].apply(undefined, arguments));
+        const actionCreator = actionCreators[key];
+        if (!actionCreator) {
+          throw `Action creator "${key}" is missing`;
+        }
+        result[key] = () => dispatch(actionCreator.apply(undefined, arguments));
         return result;
       }, {});
   return {
