@@ -13,7 +13,7 @@ import {getDisplayName, isPristine} from './util';
  * }
  */
 export default function reduxForm(sliceName, ...args) {
-  let validate = () => ({});
+  let validate = () => ({valid: true});
   let asyncConfig;
   if (typeof args[0] === 'function') {
     validate = args.shift();
@@ -31,6 +31,7 @@ export default function reduxForm(sliceName, ...args) {
       valid
     };
   }
+
   return DecoratedComponent =>
     class ReduxForm extends Component {
       static displayName = `ReduxForm(${getDisplayName(DecoratedComponent)})`;
@@ -47,11 +48,19 @@ export default function reduxForm(sliceName, ...args) {
       render() {
         const {form, sliceName, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
         const handleBlur = (name, value) => (event) => {
-          dispatch(blur(sliceName, name, value || event.target.value));
+          const fieldValue = value || event.target.value;
+          dispatch(blur(sliceName, name, fieldValue));
           if (asyncConfig && asyncConfig.validate && asyncConfig.fields && ~asyncConfig.fields.indexOf(name)) {
-            dispatch(startAsyncValidation(sliceName));
-            asyncConfig.validate(form.data)
-              .then(asyncErrors => dispatch(stopAsyncValidation(sliceName, asyncErrors)));
+            const syncError = validate({
+              ...form.data,
+              [name]: fieldValue
+            })[name];
+            // only dispatch async call if all synchronous client-side validation passes for this field
+            if (!syncError) {
+              dispatch(startAsyncValidation(sliceName));
+              asyncConfig.validate(form.data)
+                .then(asyncErrors => dispatch(stopAsyncValidation(sliceName, asyncErrors)));
+            }
           }
         };
         const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value));
