@@ -21,6 +21,16 @@ export default function reduxForm(sliceName, ...args) {
   if (typeof args[0] === 'object') {
     asyncConfig = args[0];
   }
+  function runValidation(form) {
+    const syncErrors = validate(form.data);
+    const asyncErrors = {...form.asyncErrors};
+    const valid = !!(syncErrors.valid && asyncErrors.valid);  // !! to convert falsy to boolean
+    return {
+      ...syncErrors,
+      ...asyncErrors,
+      valid
+    };
+  }
   return DecoratedComponent =>
     class ReduxForm extends Component {
       static displayName = `ReduxForm(${getDisplayName(DecoratedComponent)})`;
@@ -46,11 +56,7 @@ export default function reduxForm(sliceName, ...args) {
         };
         const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value));
         const pristine = isPristine(form.initial, form.data);
-        const errors = {  // eslint-disable-line no-dupe-keys
-          ...validate(form.data),
-          ...form.asyncErrors
-        };
-        const valid = !!errors.valid;
+        const {valid, ...errors} = runValidation(form);
         return (<DecoratedComponent
           asyncValidating={form.asyncValidating}
           data={form.data}
