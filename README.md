@@ -1,7 +1,7 @@
 #redux-form
 ---
-[![NPM Version](https://img.shields.io/npm/v/react-redux.svg?style=flat-square)](https://www.npmjs.com/package/react-redux) 
-[![NPM Downloads](https://img.shields.io/npm/dm/react-redux.svg?style=flat-square)](https://www.npmjs.com/package/react-redux)
+[![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat-square)](https://www.npmjs.com/package/redux-form) 
+[![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat-square)](https://www.npmjs.com/package/redux-form)
 [![Build Status](https://img.shields.io/travis/erikras/redux-form/master.svg?style=flat-square)](https://travis-ci.org/erikras/redux-form)
 [![redux-form channel on slack](https://img.shields.io/badge/slack-redux--form%40reactiflux-blue.svg)](http://www.reactiflux.com)
 
