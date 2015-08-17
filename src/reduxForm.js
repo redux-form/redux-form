@@ -49,7 +49,7 @@ export default function reduxForm(sliceName, ...args) {
         const errors = {
           ...validate(form.data),
           ...form.asyncErrors
-        };
+        };  // eslint-disable-line no-dupe-keys
         const valid = !Object.keys(errors).length;
         return (<DecoratedComponent
           asyncValidating={form.asyncValidating}
