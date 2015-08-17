@@ -120,7 +120,7 @@ Notice that we're just using vanilla `<input>` elements there is no state in the
 
 #### Binding Action Creators
 
-If your form component also needs other redux action creators - _and it probably does since you need to submit somehow_ - you cannot use the default `bindActionCreators()` from `redux`, because that will remove `dispatch` from the props the `connect()` passes along, and `reduxForm` needs `dispatch`. If you want the same default action creator binding, you will need to use `bindActionCreatorsAndDispatch()` from `redux-form`. In other words, change:
+If your form component also needs other redux action creators - _and it probably does since you need to submit somehow_ - you cannot simply use the default `bindActionCreators()` from `redux`, because that will remove `dispatch` from the props the `connect()` passes along, and `reduxForm` needs `dispatch`. You will need to also include `dispatch` in your `mapDispatchToProps()` function. Like so:
 
 ```javascript
 import {bindActionCreators} from `redux`;
@@ -137,12 +137,15 @@ ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 to:
 
 ```javascript
-import {bindActionCreatorsAndDispatch} from `redux-form`; // <---- changed
+import {bindActionCreators} from `redux`;
 
 ...
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreatorsAndDispatch(actionCreators, dispatch); // <---- changed
+  return {
+    ...bindActionCreators(actionCreators, dispatch),
+    dispatch
+  };
 }
 
 ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
@@ -165,27 +168,32 @@ Note that decorators are experimental, and this syntax might change or be remove
 
 ## Validation
 
-You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all your data and spits out error messages. For example:
+You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all your data and spits out error messages as well as a `valid` flag. For example:
 
 ```javascript
 function contactValidation(data) {
-  const errors = {};
+  const errors = { valid: true };
   if(!data.name) {
     errors.name = 'Required';
+    errors.valid = false;
   }
   if(data.address && data.address.length > 50) {
     errors.address = 'Must be fewer than 50 characters';
+    errors.valid = false;
   }
   if(!data.phone) {
     errors.phone = 'Required';
+    errors.valid = false;
   } else if(!/\d{3}-\d{3}-\d{4}/.test(data.phone)) {
     errors.phone = 'Phone must match the form "999-999-9999"'
+    errors.valid = false;
   }
   return errors;
 }
 ```
 You get the idea.
 
+__You must return a boolean `valid` flag in the result.__
 
 ### Asynchronous Validation
 
