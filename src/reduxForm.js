@@ -50,7 +50,7 @@ export default function reduxForm(sliceName, ...args) {
           ...validate(form.data),
           ...form.asyncErrors
         };
-        const valid = !Object.keys(errors).length;
+        const valid = !!errors.valid;
         return (<DecoratedComponent
           asyncValidating={form.asyncValidating}
           data={form.data}
