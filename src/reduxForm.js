@@ -23,7 +23,7 @@ export default function reduxForm(sliceName, ...args) {
   }
   function runValidation(form) {
     const syncErrors = validate(form.data);
-    const asyncErrors = {...form.asyncErrors};
+    const asyncErrors = {valid: true, ...form.asyncErrors};
     const valid = !!(syncErrors.valid && asyncErrors.valid);  // !! to convert falsy to boolean
     return {
       ...syncErrors,
