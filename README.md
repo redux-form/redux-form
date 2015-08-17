@@ -319,7 +319,6 @@ import {AUTH_LOGIN_FAIL} from '../actions/actionTypes';
 const loginFormReducer = createFormReducer('loginForm', ['email', 'password']);
 
 export default function loginForm(state, action = {}) {
-  state = loginFormReducer(state, action);
   switch (action.type) {
     case AUTH_LOGIN_FAIL:
       return {
@@ -330,7 +329,7 @@ export default function loginForm(state, action = {}) {
         }
       };
     default:
-      return state;
+      return loginFormReducer(state, action);
   }
 }
 ```
