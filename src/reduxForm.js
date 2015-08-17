@@ -46,10 +46,10 @@ export default function reduxForm(sliceName, ...args) {
         };
         const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value));
         const pristine = isPristine(form.initial, form.data);
-        const errors = {
+        const errors = {  // eslint-disable-line no-dupe-keys
           ...validate(form.data),
           ...form.asyncErrors
-        };  // eslint-disable-line no-dupe-keys
+        };
         const valid = !Object.keys(errors).length;
         return (<DecoratedComponent
           asyncValidating={form.asyncValidating}
