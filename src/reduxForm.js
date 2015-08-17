@@ -36,15 +36,15 @@ export default function reduxForm(sliceName, ...args) {
 
       render() {
         const {form, sliceName, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
-        const handleBlur = (name) => (event) => {
-          dispatch(blur(sliceName, name, event.target.value));
+        const handleBlur = (name, value) => (event) => {
+          dispatch(blur(sliceName, name, value || event.target.value));
           if (asyncConfig && asyncConfig.validate && asyncConfig.fields && ~asyncConfig.fields.indexOf(name)) {
             dispatch(startAsyncValidation(sliceName));
             asyncConfig.validate(form.data)
               .then(asyncErrors => dispatch(stopAsyncValidation(sliceName, asyncErrors)));
           }
         };
-        const handleChange = (name) => (event) => dispatch(change(sliceName, name, event.target.value));
+        const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value));
         const pristine = isPristine(form.initial, form.data);
         const errors = {
           ...validate(form.data),

@@ -191,7 +191,7 @@ Async validation can be achieved by passing an `asyncConfig` parameter to `redux
 
 Each form has a `sliceName`. That's the key in the Redux store tree where the data will be mounted.
 
-### `createFormReducer(sliceName:string, fields:Array&lt;string&gt;, config:Object)`
+### `createFormReducer(sliceName:string, fields:Array<string>, config:Object)`
 
 ##### -`sliceName` : string
 
