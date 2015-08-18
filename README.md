@@ -82,20 +82,30 @@ class ContactForm extends Component {
       data: {name, address, phone},
       errors: {name: nameError, address: addressError, phone: phoneError},
       touched: {name: nameTouched, address: addressTouched, phone: phoneTouched},
+      handleBlur,
       handleChange
     } = this.props;
     return (
       <form>
         <label>Name</label>
-        <input type="text" value={name} onChange={handleChange('name')}/>
+        <input type="text" 
+               value={name} 
+               onChange={handleChange('name')} 
+               onBlur={handleBlur('name')}/>
         {nameError && nameTouched ? <div>{nameError}</div>}
         
         <label>Address</label>
-        <input type="text" value={address} onChange={handleChange('address')}/>
+        <input type="text" 
+               value={address} 
+               onChange={handleChange('address')} 
+               onBlur={handleBlur('address')}/>
         {addressError && addressTouched ? <div>{addressError}</div>}
         
         <label>Phone</label>
-        <input type="text" value={phone} onChange={handleChange('phone')}/>
+        <input type="text" 
+               value={phone} 
+               onChange={handleChange('phone')} 
+               onBlur={handleBlur('phone')}/>
         {phoneError && phoneTouched ? <div>{phoneError}</div>}
       </form>
     );
