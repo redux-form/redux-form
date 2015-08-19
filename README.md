@@ -38,7 +38,7 @@ import { createStore, combineReducers } from 'redux';
 import { createFormReducer } from 'redux-form';
 const reducers = {
   // ... your other reducers here ...
-  createFormReducer('contacts', ['name', 'address', 'phone'])
+  createFormReducer('contactForm', ['name', 'address', 'phone'])
 }
 const reducer = combineReducers(reducers);
 const store = createStore(reducer);
@@ -48,7 +48,7 @@ const store = createStore(reducer);
 
 Let's look at an example:
 
-Then, on your form component, add the `@reduxForm('contacts')` decorator.
+Then, on your form component, add the `@reduxForm('contactForm')` decorator.
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
@@ -83,10 +83,11 @@ class ContactForm extends Component {
       errors: {name: nameError, address: addressError, phone: phoneError},
       touched: {name: nameTouched, address: addressTouched, phone: phoneTouched},
       handleBlur,
-      handleChange
+      handleChange,
+      handleSubmit
     } = this.props;
     return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>Name</label>
         <input type="text" 
                value={name} 
@@ -107,17 +108,19 @@ class ContactForm extends Component {
                onChange={handleChange('phone')} 
                onBlur={handleBlur('phone')}/>
         {phoneError && phoneTouched ? <div>{phoneError}</div>}
+        
+        <button onClick={handleSubmit}>Submit</button>
       </form>
     );
   }
 }
 
-// apply reduxForm() to teach it validation
-ContactForm = reduxForm('contacts', contactValidation)(ContactForm);
+// apply reduxForm() and include synchronous validation
+ContactForm = reduxForm('contactForm', contactValidation)(ContactForm);
 
 // ------- HERE'S THE IMPORTANT BIT -------
 function mapStateToProps(state) {
-  return { form: state.contacts };
+  return { form: state.contactForm };
 }
 // apply connect() to bind it to Redux state
 ContactForm = connect(mapStateToProps)(ContactForm);
@@ -163,11 +166,12 @@ ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 
 ### ES7 Decorator Sugar
 
-Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators), the example above could be written as:
+Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators), the example above
+could be written as:
 
 ```javascript
-@connect(state => ({ form: state.contacts }))
-@reduxForm('contacts', contactValidation)
+@connect(state => ({ form: state.contactForm }))
+@reduxForm('contactForm', contactValidation)
 export default class ContactForm extends Component {
 ```
 
@@ -176,9 +180,10 @@ Much nicer, don't you think?
 You can enable it with [Babel stage 2](http://babeljs.io/docs/usage/experimental/).  
 Note that decorators are experimental, and this syntax might change or be removed later.
 
-## Validation
+## Synchronous Validation
 
-You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all your data and spits out error messages as well as a `valid` flag. For example:
+You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all
+your data and spits out error messages as well as a `valid` flag. For example:
 
 ```javascript
 function contactValidation(data) {
@@ -207,13 +212,51 @@ __You must return a boolean `valid` flag in the result.__
 
 ### Asynchronous Validation
 
-Async validation can be achieved by passing an `asyncConfig` parameter to `reduxForm()` containing a function that takes all the form data and returns a promise that will resolve to validation errors.
+Async validation can be achieved by calling an additional function on the function returned by
+`reduxForm()` and passing it an asynchronous function that returns a promise that will resolve
+to validation errors of the format that the synchronous [validation function](#synchronous-validation)
+generates. So this...
+
+```javascript
+// apply reduxForm() and include synchronous validation
+ContactForm = reduxForm('contactForm', contactValidation)(ContactForm);
+```
+...changes to this:
+```javascript
+function asyncValidation(data) {
+  return new Promise((resolve, reject) => {
+    const errors = {valid: true};
+    // do async validation
+    resolve(errors);
+  });
+}
+
+// apply reduxForm() and include synchronous AND asynchronous validation
+ContactForm = reduxForm('contactForm', contactValidation)
+  .async(asyncValidation)(ContactForm);
+```
+
+Optionally, if you want asynchronous validation to be triggered when one or more of your form
+fields is blurred, you may pass those fields to the `async()` function along with the asynchronous
+validation function. Like so:
+```javascript
+ContactForm = reduxForm('contactForm', contactValidation)
+  .async(asyncValidation, 'name', 'phone')(ContactForm);
+```
+With that call, the asynchronous validation will be called when either `name` or `phone` is blurred.
+*Assuming that they have their `onBlur={handleBlur('name')}` properties properly set up.*
+
+**NOTE!** If you _only_ want asynchronous validation, you may leave out the synchronous validation function.
+And if you only want it to be run on submit, you may leave out the fields, as well.
+```javascript
+ContactForm = reduxForm('contactForm').async(asyncValidation)(ContactForm);
+```
 
 ## API
 
 Each form has a `sliceName`. That's the key in the Redux store tree where the data will be mounted.
 
-### `createFormReducer(sliceName:string, fields:Array<string>, config:Object)`
+### `createFormReducer(sliceName:string, fields:Array<string>, config:Object?)`
 
 ##### -`sliceName` : string
 
@@ -235,7 +278,7 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 
 > marks fields to touched when the change action is fired. defaults to `false`
 
-### `reduxForm(sliceName:string, validate:Function?, asyncConfig:Object?)`
+### `reduxForm(sliceName:string, validate:Function?)`
 
 ##### -`sliceName : string`
 
@@ -243,23 +286,28 @@ Each form has a `sliceName`. That's the key in the Redux store tree where the da
 
 ##### -`validate : Function` [optional]
 
-> your [validation function](#validation)
+> your [synchronous validation function](#synchronous-validation). Defaults to `() => ({valid: true})`
 
-##### -`asyncConfig : Object` [optional]
+### `reduxForm().async(asyncValidate:Function, ...fields:String?)`
 
-> an object containing the following two values:
+##### -`asyncValidate : Function`
 
-###### -`validate : Function`
+> a function that takes all the form data and returns a Promise that will resolve to an object
+of validation errors in the form `{ field1: <string>, field2: <string>, valid: <boolean> }` just like the
+[synchronous validation function](#synchronous-validation). See 
+[Aynchronous Validation](#asynchronous-validation) for more details.
 
-> a function that takes all the form data and returns a Promise that will resolve to an object of validation errors in the form `{ field1: <string>, field2: <string> }` just like the synchronous [validation function](#validation).
+###### -`...fields : String` [optional]
 
-###### -`fields : Array<string>`
-
-> an array of field names for which `handleBlur` should trigger a call to the asynchronous validation function
+> field names for which `handleBlur` should trigger a call to the `asyncValidate` function
 
 ### props
 
 The props passed into your decorated component will be:
+
+##### -`asyncValidate : Function`
+
+> a function that may be called to initiate asynchronous validation if asynchronous validation is enabled
 
 ##### -`asyncValidating : boolean`
 
@@ -284,6 +332,12 @@ The props passed into your decorated component will be:
 ##### -`handleChange(field:string) : Function`
 
 > Returns a `handleChange` function for the field passed.
+
+##### -`handleSubmit : Function`
+
+> a function meant to be passed to `<form onSubmit={handleSubmit}>` or to `<button onClick={handleSubmit}>`.
+It will run validation, both sync and async, and, if the form is valid, it will call `this.props.onSubmit(data)`
+with the contents of the form data.
 
 ##### -`initializeForm(data:Object) : Function`
 
@@ -324,6 +378,40 @@ The props passed into your decorated component will be:
 ##### -`valid : boolean`
 
 > `true` if the form passes validation (has no validation errors). Opposite of `invalid`.
+
+## Submitting your form
+
+The recommended way to submit your form is to create your form component as [shown above](#how-it-works),
+using the `handleSubmit` prop, and then pass an `onSubmit` prop to your form component.
+
+```javascript
+import React, {Component, PropTypes} from 'redux-form';
+import {connect} from 'redux';
+import {initialize} from 'redux-form';
+
+class ContactPage extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  }
+  
+  handleSubmit(data) {
+    console.log('Submission received!', data);
+    this.props.dispatch(initialize('contactForm', {})); // clear form
+  }
+  
+  render() {
+    return (
+      <div>
+        <h1>Contact Information</h1>
+        
+        <ContactForm onSubmit={::this.handleSubmit}/>
+      </div>
+    );
+  }
+}
+
+export default connect()(ContactPage);  // adds dispatch prop
+```
 
 ## Responding to other actions
 
