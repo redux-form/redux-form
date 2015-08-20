@@ -3,6 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat-square)](https://www.npmjs.com/package/redux-form) 
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat-square)](https://www.npmjs.com/package/redux-form)
 [![Build Status](https://img.shields.io/travis/erikras/redux-form/master.svg?style=flat-square)](https://travis-ci.org/erikras/redux-form)
+[![devDependency Status](https://david-dm.org/erikras/redux-form/dev-status.svg)](https://david-dm.org/erikras/redux-form#info=devDependencies)
 [![redux-form channel on slack](https://img.shields.io/badge/slack-redux--form%40reactiflux-blue.svg)](http://www.reactiflux.com)
 
 `redux-form` works with [React Redux](https://github.com/gaearon/react-redux) to enable an html form in [React](https://github.com/facebook/react) to use [Redux](https://github.com/gaearon/redux) to store all of its state.
