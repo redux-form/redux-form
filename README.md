@@ -179,7 +179,7 @@ export default class ContactForm extends Component {
 
 Much nicer, don't you think?
 
-You can enable it with [Babel stage 2](http://babeljs.io/docs/usage/experimental/).  
+You can enable it with [Babel Stage 1](http://babeljs.io/docs/usage/experimental/).
 Note that decorators are experimental, and this syntax might change or be removed later.
 
 ## Synchronous Validation
