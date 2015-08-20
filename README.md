@@ -341,6 +341,9 @@ The props passed into your decorated component will be:
 It will run validation, both sync and async, and, if the form is valid, it will call `this.props.onSubmit(data)`
 with the contents of the form data.
 
+> Optionally, you may also pass your `onSubmit` function to `handleSubmit` which will take the place of the 
+`onSubmit` prop. For example: `<form onSubmit={handleSubmit(this.save.bind(this))}>`
+
 ##### -`initializeForm(data:Object) : Function`
 
 > Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by comparing the current data with these initialized values.
@@ -406,13 +409,41 @@ class ContactPage extends Component {
       <div>
         <h1>Contact Information</h1>
         
-        <ContactForm onSubmit={::this.handleSubmit}/>
+        <ContactForm onSubmit={this.handleSubmit.bind(this)}/>
       </div>
     );
   }
 }
 
 export default connect()(ContactPage);  // adds dispatch prop
+```
+
+Or, if you wish to do your submission directly from your decorated form component, you may pass a function
+to `handleSubmit`. To abbreviate the example [shown above](#how-it-works):
+
+```javascript
+class ContactForm extends Component {
+  static propTypes = {
+    // ...
+    handleSubmit: PropTypes.func.isRequired
+  }
+  
+  saveForm(data) {
+    // make server call to save the data
+  }
+  
+  render() {
+    const {
+      // ...
+      handleSubmit
+    } = this.props;
+    return (
+      <form onSubmit={handleSubmit(this.saveForm)}> // <--- pass saveForm
+        // ...
+      </form>
+    );
+  }
+}
 ```
 
 ## Responding to other actions

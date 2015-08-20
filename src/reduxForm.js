@@ -30,7 +30,7 @@ function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncB
       }
 
       render() {
-        const {form, sliceName, dispatch, onSubmit, ...passableProps} = this.props; // eslint-disable-line no-shadow
+        const {form, sliceName, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
         const runAsyncValidation = asyncValidate ? () => {
           dispatch(startAsyncValidation(sliceName));
           const promise = asyncValidate(form.data);
@@ -59,23 +59,30 @@ function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncB
         const pristine = isPristine(form.initial, form.data);
         const {valid, ...errors} = combineValidationErrors(form);
         const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value));
-        const handleSubmit = (event) => {
-          if (event) {
-            event.preventDefault();
+        const handleSubmit = submitOrEvent => {
+          const createEventHandler = submit => event => {
+            if (event) {
+              event.preventDefault();
+            }
+            dispatch(touchAll(sliceName));
+            if (runAsyncValidation) {
+              runAsyncValidation().then(asyncValid => {
+                if (valid && asyncValid) {
+                  submit(form.data);
+                }
+              });
+            } else if (valid) {
+              submit(form.data);
+            }
+          };
+          if (typeof submitOrEvent === 'function') {
+            return createEventHandler(submitOrEvent);
           }
+          const {onSubmit} = this.props;
           if (!onSubmit) {
-            throw new Error('If you are going to use handleSubmit(), you must specify an onSubmit prop');
+            throw new Error('You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop');
           }
-          dispatch(touchAll(sliceName));
-          if (runAsyncValidation) {
-            runAsyncValidation().then(asyncValid => {
-              if (valid && asyncValid) {
-                onSubmit(form.data);
-              }
-            });
-          } else if (valid) {
-            onSubmit(form.data);
-          }
+          createEventHandler(onSubmit)(submitOrEvent /* is event */);
         };
         return (<DecoratedComponent
           asyncValidate={runAsyncValidation}
