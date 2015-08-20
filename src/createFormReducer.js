@@ -27,7 +27,7 @@ import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, STOP_ASYNC_VAL
  * @returns {Function} a form reducer
  */
 export default function createFormReducer(name, fields, {touchOnBlur = true, touchOnChange = false} = {}) {
-  return (state = {initial: {}, data: {}, touched: {}, asyncValidating: false, asyncErrors: {}}, action = {}) => {
+  return (state = {initial: {}, data: {}, touched: {}, asyncValidating: false, asyncErrors: {valid: true}}, action = {}) => {
     if (action.form !== name) {
       return state;
     }
@@ -50,16 +50,19 @@ export default function createFormReducer(name, fields, {touchOnBlur = true, tou
           ...blurDiff
         };
       case CHANGE:
+        const {[action.field]: oldError, valid, ...otherErrors} = state.asyncErrors;
         const changeDiff = {
           data: {
             ...state.data,
             [action.field]: action.value
           },
           asyncErrors: {
-            ...state.asyncErrors,
-            [action.field]: null
+            ...otherErrors,
+            valid: !Object.keys(otherErrors).length
           }
         };
+        delete changeDiff.asyncErrors[action.field];
+
         if (touchOnChange) {
           changeDiff.touched = {
             ...state.touched,
