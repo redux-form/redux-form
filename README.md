@@ -6,7 +6,35 @@
 [![devDependency Status](https://david-dm.org/erikras/redux-form/dev-status.svg)](https://david-dm.org/erikras/redux-form#info=devDependencies)
 [![redux-form channel on slack](https://img.shields.io/badge/slack-redux--form%40reactiflux-blue.svg)](http://www.reactiflux.com)
 
-`redux-form` works with [React Redux](https://github.com/gaearon/react-redux) to enable an html form in [React](https://github.com/facebook/react) to use [Redux](https://github.com/gaearon/redux) to store all of its state.
+`redux-form` works with [React Redux](https://github.com/gaearon/react-redux) to enable an html form in
+[React](https://github.com/facebook/react) to use [Redux](https://github.com/gaearon/redux) to store all of its state.
+
+## Table of Contents
+
+* [Installation](#installation)
+* [Release Notes](https://github.com/erikras/redux-form/releases)
+* [Benefits](#benefits) - Why use this library?
+  * [Unidirectional Data Flow](#unidirectonal-data-flow)
+  * [Redux Dev Tools](#redux-dev-tools)
+  * [Stateless Components](#stateless-components)
+* [Implementation Guide](#implementation-guide) <-------------- **Start here!**
+  * [A Simple Form Component](#a-simple-form-component)
+  * [ES7 Decorator Sugar](#es7-decorator-sugar) - :warning: Experimental! :warning:
+  * [Binding Action Creators](#binding-action-creators)
+  * [Synchronous Validation](#synchronous-validation) - Client Side
+  * [Asynchronous Validation](#asynchronous-validation) - Server Side
+  * [Submitting Your Form](#submitting-your-form)
+  * [Responding to Other Actions](#responding-to-other-actions)
+  * [Editing Multiple Records](#editing-multiple-records)
+* [API](#api)
+  * [`createFormReducer(sliceName, fields, config?)`](#createformreducerslicenamestring-fieldsarraystring-configobject)
+  * [`reduxForm(sliceName, validate?)`](#reduxformslicenamestring-validatefunction)
+  * [`reduxForm().async(asyncValidate, ...fields?)`](#reduxformasyncasyncvalidatefunction-fieldsstring)
+  * [`props`](#props) - The props passed in to your form component by `redux-form`
+  * [Action Creators](#action-creators) - Advanced
+* [Working Demo](#working-demo)
+
+---
 
 ## Installation
 
@@ -14,23 +42,32 @@
 npm install --save redux-form
 ```
 
+## Release Notes
+
+This project follows [SemVer](http://semver.org) and each release is posted on the 
+[Release Notes](https://github.com/erikras/redux-form/releases) page.
+
 ## Benefits
 
-Why would anyone want to do this, you ask? React a perfectly good way of keeping state in each component! The reasons are threefold.
+Why would anyone want to do this, you ask? React a perfectly good way of keeping state in each component! The
+reasons are threefold.
 
 #### Unidirectional Data Flow
 
-For the same reason that React and Flux is superior to Angular's bidirectional data binding. Tracking down bugs is much simpler when the data all flows through one dispatcher.
+For the same reason that React and Flux is superior to Angular's bidirectional data binding. Tracking down bugs
+is much simpler when the data all flows through one dispatcher.
 
 #### Redux Dev Tools
 
-When used in conjunction with [Redux Dev Tools](https://github.com/gaearon/redux-devtools), you can fast forward and rewind through your form data entry to better find bugs.
+When used in conjunction with [Redux Dev Tools](https://github.com/gaearon/redux-devtools), you can fast forward
+and rewind through your form data entry to better find bugs.
 
 #### Stateless Components
 
-By removing the state from your form components, you inherently make them easier to understand, test, and debug. The React philosophy is to always try to use `props` instead of `state` when possible.
+By removing the state from your form components, you inherently make them easier to understand, test, and debug.
+The React philosophy is to always try to use `props` instead of `state` when possible.
 
-## How it works
+## Implementation Guide
 
 When you are adding your reducers to your redux store, add a new one with `createFormReducer(])`.
 
@@ -45,11 +82,15 @@ const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 ```
 
-`reduxForm()` creates a Higher Order Component that expects a `dispatch` prop and a slice of the Redux store where its data is stored as a `form` prop. These should be provided by [React Redux](https://github.com/gaearon/react-redux)'s `connect()` function.
+`reduxForm()` creates a Higher Order Component that expects a `dispatch` prop and a slice of the Redux store where
+its data is stored as a `form` prop. These should be provided by
+[React Redux](https://github.com/gaearon/react-redux)'s `connect()` function.
 
-Let's look at an example:
+### A Simple Form Component
 
-Then, on your form component, add the `@reduxForm('contactForm')` decorator.
+You will need to wrap your form component *both* with 
+[React Redux](https://github.com/gaearon/react-redux)'s `connect()` function *and* with `redux-form`'s
+`reduxForm()` function.
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
@@ -58,35 +99,18 @@ import reduxForm from 'redux-form';
 import contactValidation from './contactValidation';
 
 class ContactForm extends Component {
-  // you don't need all to define all these props,
-  // only the ones you intend to use
   static propTypes = {
     data: PropTypes.object.isRequired,
-    dirty: PropTypes.bool.isRequired,
     errors: PropTypes.object.isRequired,
     handleBlur: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    initializeForm: PropTypes.func.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    resetForm: PropTypes.func.isRequired,
-    touch: PropTypes.func.isRequired,
-    touched: PropTypes.object.isRequired,
-    touchAll: PropTypes.func.isRequired,
-    untouch: PropTypes.func.isRequired,
-    untouchAll: PropTypes.func.isRequired,
-    valid: PropTypes.bool.isRequired
+    handleSubmit: PropTypes.func.isRequired
   }
   
   render() {
     const {
       data: {name, address, phone},
-      errors: {name: nameError, address: addressError, phone: phoneError},
-      touched: {name: nameTouched, address: addressTouched, phone: phoneTouched},
-      handleBlur,
-      handleChange,
-      handleSubmit
+      errors, touched, handleBlur, handleChange, handleSubmit
     } = this.props;
     return (
       <form onSubmit={handleSubmit}>
@@ -95,21 +119,21 @@ class ContactForm extends Component {
                value={name} 
                onChange={handleChange('name')} 
                onBlur={handleBlur('name')}/>
-        {nameError && nameTouched ? <div>{nameError}</div>}
+        {errors.name && touched.name ? <div>{errors.name}</div>}
         
         <label>Address</label>
         <input type="text" 
                value={address} 
                onChange={handleChange('address')} 
                onBlur={handleBlur('address')}/>
-        {addressError && addressTouched ? <div>{addressError}</div>}
+        {errors.address && touched.address ? <div>{errors.address}</div>}
         
         <label>Phone</label>
         <input type="text" 
                value={phone} 
                onChange={handleChange('phone')} 
                onBlur={handleBlur('phone')}/>
-        {phoneError && phoneTouched ? <div>{phoneError}</div>}
+        {errors.phone && touched.phone ? <div>{errors.phone}</div>}
         
         <button onClick={handleSubmit}>Submit</button>
       </form>
@@ -131,40 +155,8 @@ ContactForm = connect(mapStateToProps)(ContactForm);
 export default ContactForm;
 ```
 
-Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component. I have left handling `onSubmit` as an exercise for the reader. Hint: your data is in `this.props.data`.
-
-#### Binding Action Creators
-
-If your form component also needs other redux action creators - _and it probably does since you need to submit somehow_ - you cannot simply use the default `bindActionCreators()` from `redux`, because that will remove `dispatch` from the props the `connect()` passes along, and `reduxForm` needs `dispatch`. You will need to also include `dispatch` in your `mapDispatchToProps()` function. Like so:
-
-```javascript
-import {bindActionCreators} from `redux`;
-
-...
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(actionCreators, dispatch);
-}
-
-ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
-```
-
-to:
-
-```javascript
-import {bindActionCreators} from `redux`;
-
-...
-
-function mapDispatchToProps(dispatch) {
-  return {
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
-  };
-}
-
-ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
-```
+Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component.
+`handleSubmit` will call the function passed into `ContactForm`'s `onSubmit` prop.
 
 ### ES7 Decorator Sugar
 
@@ -179,10 +171,40 @@ export default class ContactForm extends Component {
 
 Much nicer, don't you think?
 
-You can enable it with [Babel Stage 1](http://babeljs.io/docs/usage/experimental/).
-Note that decorators are experimental, and this syntax might change or be removed later.
+You can enable it with [Babel Stage 1](http://babeljs.io/docs/usage/experimental/). Note that decorators
+are experimental, and this syntax might change or be removed later.
 
-## Synchronous Validation
+### Binding Action Creators
+
+If your form component also needs other redux action creators - _and it probably does since you need to submit
+somehow_ - you cannot simply use the default `bindActionCreators()` from `redux`, because that will remove
+`dispatch` from the props the `connect()` passes along, and `reduxForm` needs `dispatch`. You will need to also
+include `dispatch` in your `mapDispatchToProps()` function. So change this...
+
+```javascript
+import {bindActionCreators} from `redux`;
+...
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+```
+
+...to...
+
+```javascript
+import {bindActionCreators} from `redux`;
+...
+function mapDispatchToProps(dispatch) {
+  return {
+    ...bindActionCreators(actionCreators, dispatch),
+    dispatch  // <----- passing dispatch, too
+  };
+}
+ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+```
+
+### Synchronous Validation
 
 You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all
 your data and spits out error messages as well as a `valid` flag. For example:
@@ -241,6 +263,7 @@ ContactForm = reduxForm('contactForm', contactValidation)
 Optionally, if you want asynchronous validation to be triggered when one or more of your form
 fields is blurred, you may pass those fields to the `async()` function along with the asynchronous
 validation function. Like so:
+
 ```javascript
 ContactForm = reduxForm('contactForm', contactValidation)
   .async(asyncValidation, 'name', 'phone')(ContactForm);
@@ -252,6 +275,159 @@ With that call, the asynchronous validation will be called when either `name` or
 And if you only want it to be run on submit, you may leave out the fields, as well.
 ```javascript
 ContactForm = reduxForm('contactForm').async(asyncValidation)(ContactForm);
+```
+
+### Submitting Your Form
+
+The recommended way to submit your form is to create your form component as [shown above](#how-it-works),
+using the `handleSubmit` prop, and then pass an `onSubmit` prop to your form component.
+
+```javascript
+import React, {Component, PropTypes} from 'redux-form';
+import {connect} from 'redux';
+import {initialize} from 'redux-form';
+
+class ContactPage extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  }
+  
+  handleSubmit(data) {
+    console.log('Submission received!', data);
+    this.props.dispatch(initialize('contactForm', {})); // clear form
+  }
+  
+  render() {
+    return (
+      <div>
+        <h1>Contact Information</h1>
+        
+        <ContactForm onSubmit={this.handleSubmit.bind(this)}/>
+      </div>
+    );
+  }
+}
+
+export default connect()(ContactPage);  // adds dispatch prop
+```
+
+Or, if you wish to do your submission directly from your decorated form component, you may pass a function
+to `handleSubmit`. To abbreviate the example [shown above](#how-it-works):
+
+```javascript
+class ContactForm extends Component {
+  static propTypes = {
+    // ...
+    handleSubmit: PropTypes.func.isRequired
+  }
+  
+  saveForm(data) {
+    // make server call to save the data
+  }
+  
+  render() {
+    const {
+      // ...
+      handleSubmit
+    } = this.props;
+    return (
+      <form onSubmit={handleSubmit(this.saveForm)}> // <--- pass saveForm
+        // ...
+      </form>
+    );
+  }
+}
+```
+
+### Responding to Other Actions
+
+Part of the beauty of the flux architecture is that all the reducers (or "stores", in canonical Flux terminology)
+receive all the actions, and they can modify their data based on any of them. For example, say you have a login form,
+and when your login submission fails, you want to clear out the password field. Your login submission is part of
+another reducer/actions system, but your form can still respond.
+
+Rather than just using the vanilla reducer function generated by `createFormReducer()`, you can augment it to do
+other things.
+
+```javascript
+import {createFormReducer} from 'redux-form';
+import {AUTH_LOGIN_FAIL} from '../actions/actionTypes';
+const loginFormReducer = createFormReducer('loginForm', ['email', 'password']);
+
+export default function loginForm(state, action = {}) {
+  switch (action.type) {
+    case AUTH_LOGIN_FAIL:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          password: ''
+        }
+      };
+    default:
+      return loginFormReducer(state, action);
+  }
+}
+```
+
+### Editing Multiple Records
+
+Editing multiple records on the same page is trivially easy with `redux-form`. All you have to do is to pass a
+unique `sliceKey` prop into your form element, and initialize the data with `initializeWithKey()`
+instead of `initialize()`. Let's say we want to edit many contacts on the same page.
+
+```
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {initializeWithKey} from 'redux-form';
+import {bindActionCreators} from 'redux';
+import ContactForm from './ContactForm';
+
+class ContactsPage extends Component {
+  static propTypes = {
+    contacts: PropTypes.array.isRequired,
+    initializeWithKey: PropTypes.func.isRequired
+  }
+  
+  componentWillMount() {
+    const {contacts, initializeWithKey} = this.props;
+    contacts.forEach(function (contact) {
+      initializeWithKey('contactForm', String(contact.id), contact);
+    });
+  }
+  
+  handleSubmit(id, data) {
+    // send to server
+  }
+  
+  render() {
+    const {contacts} = this.props;
+    return (
+      <div>
+        {contacts.map(function (contact) {
+          return <ContactForm
+                   key={contact.id}                  // required by react
+                   sliceKey={String(contact.id)}     // required by redux-form
+                   onSubmit={this.handleSubmit.bind(this, contact.id)}/>
+        })}
+      </div>
+    );
+  }
+}
+
+function mapStateToProps(state) {
+  return { contacts: state.contacts.data };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ initializeWithKey }, dispatch),
+}
+
+// apply connect() to bind it to Redux state
+ContactsPage = connect(mapStateToProps, mapDispatchToProps)(ContactsPage);
+
+// export the wrapped component
+export default ContactPage;
 ```
 
 ## API
@@ -346,7 +522,8 @@ with the contents of the form data.
 
 ##### -`initializeForm(data:Object) : Function`
 
-> Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by comparing the current data with these initialized values.
+> Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by
+comparing the current data with these initialized values.
 
 ##### -`invalid : boolean`
 
@@ -359,6 +536,15 @@ with the contents of the form data.
 ##### -`resetForm() : Function`
 
 > Resets all the values in the form to the initialized state, making it pristine again.
+
+##### -`sliceKey : String`
+
+> The same `sliceKey` prop that was passed in. See [Editing Multiple Records](#editing-multiple-records).
+
+##### -`submitting : boolean`
+
+> Whether or not your form is currently submitting. This prop will only work if you have passed an
+`onSubmit` function that returns a promise. It will be true until the promise is resolved or rejected.
 
 ##### -`touch(...field:string) : Function`
 
@@ -384,97 +570,62 @@ with the contents of the form data.
 
 > `true` if the form passes validation (has no validation errors). Opposite of `invalid`.
 
-## Submitting your form
+### Action Creators
 
-The recommended way to submit your form is to create your form component as [shown above](#how-it-works),
-using the `handleSubmit` prop, and then pass an `onSubmit` prop to your form component.
+`redux-form` exports all of its internal action creators, allowing you complete control to dispatch any action
+you wish. However, **it is *highly* recommended that you use the actions passed as props to your component
+for most of your needs.**
 
-```javascript
-import React, {Component, PropTypes} from 'redux-form';
-import {connect} from 'redux';
-import {initialize} from 'redux-form';
+##### -`blur(form:String, field:String, value:String)`
 
-class ContactPage extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired
-  }
-  
-  handleSubmit(data) {
-    console.log('Submission received!', data);
-    this.props.dispatch(initialize('contactForm', {})); // clear form
-  }
-  
-  render() {
-    return (
-      <div>
-        <h1>Contact Information</h1>
-        
-        <ContactForm onSubmit={this.handleSubmit.bind(this)}/>
-      </div>
-    );
-  }
-}
+> Saves the value and, if you have `touchOnBlur` enabled, marks the field as `touched`.
 
-export default connect()(ContactPage);  // adds dispatch prop
-```
+##### -`change(form:String, field:String, value:String)`
 
-Or, if you wish to do your submission directly from your decorated form component, you may pass a function
-to `handleSubmit`. To abbreviate the example [shown above](#how-it-works):
+> Saves the value and, if you have `touchOnChange` enabled, marks the field as `touched`.
 
-```javascript
-class ContactForm extends Component {
-  static propTypes = {
-    // ...
-    handleSubmit: PropTypes.func.isRequired
-  }
-  
-  saveForm(data) {
-    // make server call to save the data
-  }
-  
-  render() {
-    const {
-      // ...
-      handleSubmit
-    } = this.props;
-    return (
-      <form onSubmit={handleSubmit(this.saveForm)}> // <--- pass saveForm
-        // ...
-      </form>
-    );
-  }
-}
-```
+##### -`initialize(form:String, data:Object)`
 
-## Responding to other actions
+> Sets the initial values in the form with which future data values will be compared to calculate
+`dirty` and `pristine`. The `data` parameter should only contain `String` values.
 
-Part of the beauty of the flux architecture is that all the reducers (or "stores", in canonical Flux terminology) receive all the actions, and they can modify their data based on any of them. For example, say you have a login form, and when your login submission fails, you want to clear out the password field. Your login submission is part of another reducer/actions system, but your form can still respond.
+##### -`initializeWithKey(form:String, sliceKey, data:Object)`
 
-Rather than just using the vanilla reducer function generated by `createFormReducer()`, you can augment it to do other things.
+> Used when editing multiple records with the same form component. See
+[Editing Multiple Records](#editing-multiple-records).
 
-```javascript
-import {createFormReducer} from 'redux-form';
-import {AUTH_LOGIN_FAIL} from '../actions/actionTypes';
-const loginFormReducer = createFormReducer('loginForm', ['email', 'password']);
+##### -`reset(form:String)`
 
-export default function loginForm(state, action = {}) {
-  switch (action.type) {
-    case AUTH_LOGIN_FAIL:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          password: ''
-        }
-      };
-    default:
-      return loginFormReducer(state, action);
-  }
-}
-```
+> Resets the values in the form back to the values past in with the most recent `initialize` action.
 
-## Running Example
+##### -`startAsyncValidation(form:String)`
 
-Check out the [react-redux-universal-hot-example project](https://github.com/erikras/react-redux-universal-hot-example) to see `redux-form` in action.
+> Flips the `asyncValidating` flag `true`.
+
+##### -`stopAsyncValidation(form:String, errors:Object)`
+
+> Flips the `asyncValidating` flag `false` and populates `asyncErrors`.
+
+##### -`touch(form:String, ...fields:String)`
+
+> Marks all the fields passed in as `touched`.
+
+##### -`touchAll(form:String)`
+
+> Marks all the fields in the form as `touched`.
+
+##### -`untouch(form:String, ...fields:String)`
+
+> Resets the 'touched' flag for all the fields passed in.
+
+##### -`untouchAll(form:String)`
+
+> Resets the 'touched' flag for all the fields in the form.
+
+## Working Demo
+
+Check out the 
+[react-redux-universal-hot-example project](https://github.com/erikras/react-redux-universal-hot-example) to see 
+`redux-form` in action.
 
 This is an extremely young library, so the API may change. Comments and feedback welcome.

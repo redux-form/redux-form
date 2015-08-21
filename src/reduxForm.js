@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {blur, change, initialize, reset, startAsyncValidation, stopAsyncValidation,
-  touch, touchAll, untouch, untouchAll} from './actions';
+import * as formActions from './actions';
 import {getDisplayName, isPristine} from './util';
+import bindSliceKey from './bindSliceKey';
+import {initialState} from './createFormReducer';
 
 function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncBlurFields) {
   function combineValidationErrors(form) {
@@ -21,7 +22,8 @@ function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncB
       static DecoratedComponent = DecoratedComponent;
       static propTypes = {
         sliceName: PropTypes.string,
-        form: PropTypes.object.isRequired,
+        sliceKey: PropTypes.string,
+        form: PropTypes.object,
         onSubmit: PropTypes.func,
         dispatch: PropTypes.func.isRequired
       }
@@ -30,24 +32,28 @@ function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncB
       }
 
       render() {
-        const {form, sliceName, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
+        const {form, sliceName, sliceKey, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
+        const reslicedForm = (sliceKey && form ? form[sliceKey] : form) || initialState;
+        const {blur, change, initialize, reset, startAsyncValidation, startSubmit, stopAsyncValidation,
+          stopSubmit, touch, touchAll, untouch, untouchAll} =
+          sliceKey ? bindSliceKey(formActions, sliceKey) : formActions;
         const runAsyncValidation = asyncValidate ? () => {
-          dispatch(startAsyncValidation(sliceName));
-          const promise = asyncValidate(form.data);
+          dispatch(startAsyncValidation(sliceName, sliceKey));
+          const promise = asyncValidate(reslicedForm.data);
           if (!promise || typeof promise.then !== 'function') {
             throw new Error('asyncValidate function passed to reduxForm must return a promise!');
           }
           return promise.then(asyncErrors => {
-            dispatch(stopAsyncValidation(sliceName, asyncErrors));
+            dispatch(stopAsyncValidation(sliceName, asyncErrors, sliceKey));
             return !!asyncErrors.valid;
           });
         } : undefined;
         const handleBlur = (name, value) => (event) => {
           const fieldValue = value || event.target.value;
-          dispatch(blur(sliceName, name, fieldValue));
+          dispatch(blur(sliceName, name, fieldValue, sliceKey));
           if (runAsyncValidation && ~asyncBlurFields.indexOf(name)) {
             const syncError = syncValidate({
-              ...form.data,
+              ...reslicedForm.data,
               [name]: fieldValue
             })[name];
             // only dispatch async call if all synchronous client-side validation passes for this field
@@ -56,23 +62,35 @@ function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncB
             }
           }
         };
-        const pristine = isPristine(form.initial, form.data);
-        const {valid, ...errors} = combineValidationErrors(form);
-        const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value));
+        const pristine = isPristine(reslicedForm.initial, reslicedForm.data);
+        const {valid, ...errors} = combineValidationErrors(reslicedForm);
+        const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value, sliceKey));
         const handleSubmit = submitOrEvent => {
           const createEventHandler = submit => event => {
             if (event) {
               event.preventDefault();
             }
-            dispatch(touchAll(sliceName));
+            const submitWithPromiseCheck = () => {
+              const result = submit(reslicedForm.data);
+              if (result && typeof result.then === 'function') {
+                // you're showing real promise, kid!
+                const stopAndReturn = (x) => {
+                  dispatch(stopSubmit(sliceName));
+                  return x;
+                };
+                dispatch(startSubmit(sliceName));
+                result.then(stopAndReturn, stopAndReturn);
+              }
+            };
+            dispatch(touchAll(sliceName, sliceKey));
             if (runAsyncValidation) {
-              runAsyncValidation().then(asyncValid => {
+              return runAsyncValidation().then(asyncValid => {
                 if (valid && asyncValid) {
-                  submit(form.data);
+                  return submitWithPromiseCheck(reslicedForm.data);
                 }
               });
             } else if (valid) {
-              submit(form.data);
+              return submitWithPromiseCheck(reslicedForm.data);
             }
           };
           if (typeof submitOrEvent === 'function') {
@@ -86,23 +104,25 @@ function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncB
         };
         return (<DecoratedComponent
           asyncValidate={runAsyncValidation}
-          asyncValidating={form.asyncValidating}
-          data={form.data}
+          asyncValidating={reslicedForm.asyncValidating}
+          data={reslicedForm.data}
           dirty={!pristine}
           dispatch={dispatch}
           errors={errors}
           handleBlur={handleBlur}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
-          initializeForm={data => dispatch(initialize(sliceName, data))}
+          initializeForm={data => dispatch(initialize(sliceName, data, sliceKey))}
           invalid={!valid}
           pristine={pristine}
-          resetForm={() => dispatch(reset(sliceName))}
-          touch={(...touchFields) => dispatch(touch(sliceName, ...touchFields))}
-          touched={form.touched}
-          touchAll={() => dispatch(touchAll(sliceName))}
-          untouch={(...untouchFields) => dispatch(untouch(sliceName, ...untouchFields))}
-          untouchAll={() => dispatch(untouchAll(sliceName))}
+          resetForm={() => dispatch(reset(sliceName, sliceKey))}
+          sliceKey={sliceKey}
+          submitting={reslicedForm.submitting}
+          touch={(...touchFields) => dispatch(touch(sliceName, ...touchFields, sliceKey))}
+          touched={reslicedForm.touched}
+          touchAll={() => dispatch(touchAll(sliceName, sliceKey))}
+          untouch={(...untouchFields) => dispatch(untouch(sliceName, ...untouchFields, sliceKey))}
+          untouchAll={() => dispatch(untouchAll(sliceName, sliceKey))}
           valid={valid}
           {...passableProps}/>); // pass other props
       }

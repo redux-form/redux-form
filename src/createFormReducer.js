@@ -1,5 +1,14 @@
-import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, STOP_ASYNC_VALIDATION,
-  TOUCH, TOUCH_ALL, UNTOUCH, UNTOUCH_ALL } from './actionTypes';
+import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+  STOP_SUBMIT, TOUCH, TOUCH_ALL, UNTOUCH, UNTOUCH_ALL } from './actionTypes';
+
+export const initialState = {
+  initial: {},
+  data: {},
+  touched: {},
+  asyncValidating: false,
+  asyncErrors: {valid: true},
+  submitting: false
+};
 
 /**
  * Creates a state structure like:
@@ -27,10 +36,8 @@ import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, STOP_ASYNC_VAL
  * @returns {Function} a form reducer
  */
 export default function createFormReducer(name, fields, {touchOnBlur = true, touchOnChange = false} = {}) {
-  return (state = {initial: {}, data: {}, touched: {}, asyncValidating: false, asyncErrors: {valid: true}}, action = {}) => {
-    if (action.form !== name) {
-      return state;
-    }
+  const reducer = (s, action = {}) => {
+    const state = s || initialState;
     switch (action.type) {
       case BLUR:
         const blurDiff = {
@@ -94,11 +101,21 @@ export default function createFormReducer(name, fields, {touchOnBlur = true, tou
           ...state,
           asyncValidating: true
         };
+      case START_SUBMIT:
+        return {
+          ...state,
+          submitting: true
+        };
       case STOP_ASYNC_VALIDATION:
         return {
           ...state,
           asyncValidating: false,
           asyncErrors: action.errors
+        };
+      case STOP_SUBMIT:
+        return {
+          ...state,
+          submitting: false
         };
       case TOUCH:
         const touchDiff = {};
@@ -145,5 +162,17 @@ export default function createFormReducer(name, fields, {touchOnBlur = true, tou
       default:
         return state;
     }
+  };
+  return (state = null, action = {}) => {
+    if (action.form !== name) {
+      return state;
+    }
+    if (action.key) {
+      return {
+        ...state,
+        [action.key]: reducer(state ? state[action.key] : undefined, action)
+      };
+    }
+    return reducer(state, action);
   };
 }
