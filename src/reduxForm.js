@@ -64,7 +64,8 @@ function createReduxFormDecorator(sliceName, syncValidate, asyncValidate, asyncB
         };
         const pristine = isPristine(reslicedForm.initial, reslicedForm.data);
         const {valid, ...errors} = combineValidationErrors(reslicedForm);
-        const handleChange = (name, value) => (event) => dispatch(change(sliceName, name, value || event.target.value, sliceKey));
+        const handleChange = (name, value) => (event) =>
+          dispatch(change(sliceName, name, value === undefined ? event.target.value : value, sliceKey));
         const handleSubmit = submitOrEvent => {
           const createEventHandler = submit => event => {
             if (event) {
