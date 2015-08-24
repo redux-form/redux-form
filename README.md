@@ -376,7 +376,7 @@ Editing multiple records on the same page is trivially easy with `redux-form`. A
 unique `sliceKey` prop into your form element, and initialize the data with `initializeWithKey()`
 instead of `initialize()`. Let's say we want to edit many contacts on the same page.
 
-```
+```javascript
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {initializeWithKey} from 'redux-form';
