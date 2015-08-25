@@ -26,9 +26,9 @@
   * [Submitting Your Form](#submitting-your-form)
   * [Responding to Other Actions](#responding-to-other-actions)
   * [Editing Multiple Records](#editing-multiple-records)
+  * [Calculating `props` from Form Data](#calculating-props-from-form-data)
 * [API](#api)
-  * [`createFormReducer(sliceName, fields, config?)`](#createformreducerslicenamestring-fieldsarraystring-configobject)
-  * [`reduxForm(sliceName, validate?)`](#reduxformslicenamestring-validatefunction)
+  * [`reduxForm(formName, validate?)`](#reduxformformnamestring-fieldsarraystring-validatefunction-touchonblurboolean-touchonchangeboolean)
   * [`reduxForm().async(asyncValidate, ...fields?)`](#reduxformasyncasyncvalidatefunction-fieldsstring)
   * [`props`](#props) - The props passed in to your form component by `redux-form`
   * [Action Creators](#action-creators) - Advanced
@@ -69,22 +69,24 @@ The React philosophy is to always try to use `props` instead of `state` when pos
 
 ## Implementation Guide
 
-When you are adding your reducers to your redux store, add a new one with `createFormReducer(])`.
+__STEP 1:__ The first thing that you have to do is to give the `redux-form` reducer to Redux. You will only have to do 
+this
+once, no matter how many form components your app uses.
 
 ```javascript
 import { createStore, combineReducers } from 'redux';
-import { createFormReducer } from 'redux-form';
+import { reducer as formReducer } from 'redux-form';
 const reducers = {
   // ... your other reducers here ...
-  createFormReducer('contactForm', ['name', 'address', 'phone'])
+  form: formReducer   // it is recommended that you use the key 'form'
 }
 const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 ```
 
-`reduxForm()` creates a Higher Order Component that expects a `dispatch` prop and a slice of the Redux store where
-its data is stored as a `form` prop. These should be provided by
-[React Redux](https://github.com/gaearon/react-redux)'s `connect()` function.
+__STEP 2:__ Wrap your form component with `reduxForm()`.  `reduxForm()` creates a Higher Order Component that expects
+a `dispatch` prop and a slice of the Redux store where all the `redux-form` data is stored as a `form` prop. These 
+should be provided by [React Redux](https://github.com/gaearon/react-redux)'s `connect()` function.
 
 ### A Simple Form Component
 
@@ -142,11 +144,11 @@ class ContactForm extends Component {
 }
 
 // apply reduxForm() and include synchronous validation
-ContactForm = reduxForm('contactForm', contactValidation)(ContactForm);
+ContactForm = reduxForm('contact', ['name', 'address', 'phone'], contactValidation)(ContactForm);
 
 // ------- HERE'S THE IMPORTANT BIT -------
 function mapStateToProps(state) {
-  return { form: state.contactForm };
+  return { form: state.form };  // if you mounted the reducer at 'form' in Step 1
 }
 // apply connect() to bind it to Redux state
 ContactForm = connect(mapStateToProps)(ContactForm);
@@ -156,7 +158,8 @@ export default ContactForm;
 ```
 
 Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component.
-`handleSubmit` will call the function passed into `ContactForm`'s `onSubmit` prop.
+`handleSubmit` will call the function passed into `ContactForm`'s `onSubmit` prop, _if and only
+if_ the synchronous validation passes. See [Submitting Your Form](#submitting-your-form).
 
 ### ES7 Decorator Sugar
 
@@ -164,8 +167,8 @@ Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators),
 could be written as:
 
 ```javascript
-@connect(state => ({ form: state.contactForm }))
-@reduxForm('contactForm', contactValidation)
+@connect(state => ({ form: state.form }))
+@reduxForm('contact', ['name', 'address', 'phone'], contactValidation)
 export default class ContactForm extends Component {
 ```
 
@@ -176,9 +179,9 @@ are experimental, and this syntax might change or be removed later.
 
 ### Binding Action Creators
 
-If your form component also needs other redux action creators - _and it probably does since you need to submit
-somehow_ - you cannot simply use the default `bindActionCreators()` from `redux`, because that will remove
-`dispatch` from the props the `connect()` passes along, and `reduxForm` needs `dispatch`. You will need to also
+If your form component also needs other redux action creators - _and you will if you are performaing your server 
+submit in your form component_ - you cannot simply use the default `bindActionCreators()` from `redux`, because that 
+will remove `dispatch` from the props the `connect()` passes along, and `reduxForm` needs `dispatch`. You will need to also
 include `dispatch` in your `mapDispatchToProps()` function. So change this...
 
 ```javascript
@@ -243,7 +246,7 @@ generates. So this...
 
 ```javascript
 // apply reduxForm() and include synchronous validation
-ContactForm = reduxForm('contactForm', contactValidation)(ContactForm);
+ContactForm = reduxForm('contact', ['name', 'address', 'phone'], contactValidation)(ContactForm);
 ```
 ...changes to this:
 ```javascript
@@ -256,7 +259,7 @@ function asyncValidation(data) {
 }
 
 // apply reduxForm() and include synchronous AND asynchronous validation
-ContactForm = reduxForm('contactForm', contactValidation)
+ContactForm = reduxForm('contact', ['name', 'address', 'phone'], contactValidation)
   .async(asyncValidation)(ContactForm);
 ```
 
@@ -265,7 +268,7 @@ fields is blurred, you may pass those fields to the `async()` function along wit
 validation function. Like so:
 
 ```javascript
-ContactForm = reduxForm('contactForm', contactValidation)
+ContactForm = reduxForm('contact', ['name', 'address', 'phone'], contactValidation)
   .async(asyncValidation, 'name', 'phone')(ContactForm);
 ```
 With that call, the asynchronous validation will be called when either `name` or `phone` is blurred.
@@ -274,7 +277,7 @@ With that call, the asynchronous validation will be called when either `name` or
 **NOTE!** If you _only_ want asynchronous validation, you may leave out the synchronous validation function.
 And if you only want it to be run on submit, you may leave out the fields, as well.
 ```javascript
-ContactForm = reduxForm('contactForm').async(asyncValidation)(ContactForm);
+ContactForm = reduxForm('contact', ['name', 'address', 'phone']).async(asyncValidation)(ContactForm);
 ```
 
 ### Submitting Your Form
@@ -346,34 +349,45 @@ receive all the actions, and they can modify their data based on any of them. Fo
 and when your login submission fails, you want to clear out the password field. Your login submission is part of
 another reducer/actions system, but your form can still respond.
 
-Rather than just using the vanilla reducer function generated by `createFormReducer()`, you can augment it to do
-other things.
+Rather than just using the vanilla reducer from `redux-form`, you can augment it to do other things by calling 
+the `plugin()` function.
 
 ```javascript
-import {createFormReducer} from 'redux-form';
+import {reducer as formReducer} from 'redux-form';
 import {AUTH_LOGIN_FAIL} from '../actions/actionTypes';
 const loginFormReducer = createFormReducer('loginForm', ['email', 'password']);
 
-export default function loginForm(state, action = {}) {
-  switch (action.type) {
-    case AUTH_LOGIN_FAIL:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          password: ''
-        }
-      };
-    default:
-      return loginFormReducer(state, action);
-  }
+const reducers = {
+  // ... your other reducers here ...
+  form: formReducer.plugin({
+    login: (state, action) => { // <------ 'login' is name of form given to reduxForm()
+      switch(action.type) {
+        case AUTH_LOGIN_FAIL:
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              password: ''     // <----- clear password field
+            },
+            touched: {
+              ...state.touched,
+              password: false // <------ also set password to 'untouched'
+            }
+          };
+        default:
+          return state;
+      }
+    }
+  })
 }
+const reducer = combineReducers(reducers);
+const store = createStore(reducer);
 ```
 
 ### Editing Multiple Records
 
 Editing multiple records on the same page is trivially easy with `redux-form`. All you have to do is to pass a
-unique `sliceKey` prop into your form element, and initialize the data with `initializeWithKey()`
+unique `formKey` prop into your form element, and initialize the data with `initializeWithKey()`
 instead of `initialize()`. Let's say we want to edit many contacts on the same page.
 
 ```javascript
@@ -392,7 +406,7 @@ class ContactsPage extends Component {
   componentWillMount() {
     const {contacts, initializeWithKey} = this.props;
     contacts.forEach(function (contact) {
-      initializeWithKey('contactForm', String(contact.id), contact);
+      initializeWithKey('contact', String(contact.id), contact);
     });
   }
   
@@ -407,7 +421,7 @@ class ContactsPage extends Component {
         {contacts.map(function (contact) {
           return <ContactForm
                    key={contact.id}                  // required by react
-                   sliceKey={String(contact.id)}     // required by redux-form
+                   formKey={String(contact.id)}      // required by redux-form
                    onSubmit={this.handleSubmit.bind(this, contact.id)}/>
         })}
       </div>
@@ -430,41 +444,63 @@ ContactsPage = connect(mapStateToProps, mapDispatchToProps)(ContactsPage);
 export default ContactPage;
 ```
 
+### Calculating `props` from Form Data
+
+You may want to have some calculated props, perhaps using [`reselect`](https://github.com/faassen/reselect)
+selectors based on the values of the data in your form. You might be tempted to do this in the `mapStateToProps`
+given to `connect()`. __This will not work__. The reason is that the form contents in the Redux store are lazily 
+initialized, so `state.form.contacts.data.name` will fail, because `state.form.contacts` will be null.
+
+The recommended way to accomplish this is to use yet another Higher Order Component decorator, such as
+[`map-props`](https://github.com/erikras/map-props), like so:
+```javascript
+import mapProps from 'map-props';
+...
+// FIRST map props
+ContactForm = mapProps({
+  hasName: props => !!props.data.name
+  hasPhone: props => !!props.data.phone
+})(ContactForm);
+
+// THEN apply reduxForm() and include synchronous validation
+ContactForm = reduxForm('contact', ['name', 'address', 'phone'], contactValidation)(ContactForm);
+...
+```
+Or, in ES7 land...
+```javascript
+@connect(state => ({ form: state.form }))
+@reduxForm('contact', ['name', 'address', 'phone'], contactValidation)
+@mapProps({
+  hasName: props => !!props.data.name
+  hasPhone: props => !!props.data.phone
+})
+export default class ContactForm extends Component {
+```
+---
 ## API
 
-Each form has a `sliceName`. That's the key in the Redux store tree where the data will be mounted.
+### `reduxForm(formName:string, fields:Array&lt;string&gt;, validate:Function?, touchOnBlur:boolean?, touchOnChange:boolean?)`
 
-### `createFormReducer(sliceName:string, fields:Array<string>, config:Object?)`
+##### -`formName : string`
 
-##### -`sliceName` : string
-
-> the name of your form and the key to where your form's state will be mounted in the Redux store
+> the name of your form and the key to where your form's state will be mounted, under the `redux-form` reducer, in the 
+Redux store
 
 ##### - fields : Array&lt;string&gt;
 
-> a list of all your fields in your form.
-
-##### -`config`: Object [optional]
-
-> some control over when to mark fields as "touched" in the form:
-
-###### `config.touchOnBlur` : boolean [optional]
-
-> marks fields to touched when the blur action is fired. defaults to `true`
-
-###### `config.touchOnChange` : boolean [optional]
-
-> marks fields to touched when the change action is fired. defaults to `false`
-
-### `reduxForm(sliceName:string, validate:Function?)`
-
-##### -`sliceName : string`
-
-> the name of your form and the key to where your form's state will be mounted in the Redux store
+> a list of all your fields in your form. This is used for marking all of the fields as `touched` on submit.
 
 ##### -`validate : Function` [optional]
 
 > your [synchronous validation function](#synchronous-validation). Defaults to `() => ({valid: true})`
+
+#### `touchOnBlur` : boolean [optional]
+
+> marks fields to touched when the blur action is fired. Defaults to `true`
+
+#### `touchOnChange` : boolean [optional]
+
+> marks fields to touched when the change action is fired. Defaults to `false`
 
 ### `reduxForm().async(asyncValidate:Function, ...fields:String?)`
 
@@ -537,9 +573,9 @@ comparing the current data with these initialized values.
 
 > Resets all the values in the form to the initialized state, making it pristine again.
 
-##### -`sliceKey : String`
+##### -`formKey : String`
 
-> The same `sliceKey` prop that was passed in. See [Editing Multiple Records](#editing-multiple-records).
+> The same `formKey` prop that was passed in. See [Editing Multiple Records](#editing-multiple-records).
 
 ##### -`submitting : boolean`
 
@@ -589,7 +625,7 @@ for most of your needs.**
 > Sets the initial values in the form with which future data values will be compared to calculate
 `dirty` and `pristine`. The `data` parameter should only contain `String` values.
 
-##### -`initializeWithKey(form:String, sliceKey, data:Object)`
+##### -`initializeWithKey(form:String, formKey, data:Object)`
 
 > Used when editing multiple records with the same form component. See
 [Editing Multiple Records](#editing-multiple-records).
@@ -610,17 +646,9 @@ for most of your needs.**
 
 > Marks all the fields passed in as `touched`.
 
-##### -`touchAll(form:String)`
-
-> Marks all the fields in the form as `touched`.
-
 ##### -`untouch(form:String, ...fields:String)`
 
 > Resets the 'touched' flag for all the fields passed in.
-
-##### -`untouchAll(form:String)`
-
-> Resets the 'touched' flag for all the fields in the form.
 
 ## Working Demo
 

@@ -1,23 +1,37 @@
-import createFormReducer from './createFormReducer';
+import reducer from './reducer';
 import reduxForm from './reduxForm';
-import bindSliceKey from './bindSliceKey';
-import {blur, change, initialize, reset, startAsyncValidation,
-  stopAsyncValidation, touch, touchAll, untouch, untouchAll} from './actions';
+import mapValues from './mapValues';
+import bindActionData from './bindActionData';
+import * as actions from './actions';
 
-const initializeWithKey = (form, key, data) => bindSliceKey(initialize, key)(form, data);
+// bind form as first parameter of action creators
+const boundActions = {
+  ...mapValues({
+    ...actions,
+    initializeWithKey: (key, data) => bindActionData(actions.initialize, {key})(data)
+  }, action => (form, ...args) => bindActionData(action, {form})(...args))
+};
 
-export default reduxForm;
+const blur = boundActions.blur;
+const change = boundActions.change;
+const initialize = boundActions.initialize;
+const initializeWithKey = boundActions.initializeWithKey;
+const reset = boundActions.reset;
+const startAsyncValidation = boundActions.startAsyncValidation;
+const stopAsyncValidation = boundActions.stopAsyncValidation;
+const touch = boundActions.touch;
+const untouch = boundActions.untouch;
+
 export {
   blur,
   change,
-  createFormReducer,
+  reducer,
   initialize,
   initializeWithKey,
   reset,
   startAsyncValidation,
   stopAsyncValidation,
   touch,
-  touchAll,
-  untouch,
-  untouchAll
+  untouch
 };
+export default reduxForm;
