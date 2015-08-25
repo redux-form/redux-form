@@ -449,8 +449,8 @@ export default ContactPage;
 You may want to have some calculated props, perhaps using [`reselect`](https://github.com/faassen/reselect)
 selectors based on the values of the data in your form. You might be tempted to do this in the `mapStateToProps`
 given to `connect()`. __This will not work__. The reason is that the form contents in the Redux store are lazily 
-initialized, so `state.form.contacts.data.name` will fail, because `state.form.contacts` will be null until the first 
-form action is dispatched.
+initialized, so `state.form.contacts.data.name` will fail, because `state.form.contacts` will be `undefined` until the 
+first form action is dispatched.
 
 The recommended way to accomplish this is to use yet another Higher Order Component decorator, such as
 [`map-props`](https://github.com/erikras/map-props), like so:
