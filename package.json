@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A higher order component generator for forms using Redux and React",
   "main": "./lib/index.js",
   "repository": {
@@ -40,5 +40,9 @@
     "rifraf": "^2.0.2",
     "rimraf": "^2.4.2",
     "webpack": "^1.10.5"
+  },
+  "dependencies": {
+    "react-redux": "^1.0.0",
+    "redux": "^1.0.1"
   }
 }

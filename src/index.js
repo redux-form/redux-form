@@ -1,5 +1,6 @@
 import reducer from './reducer';
 import reduxForm from './reduxForm';
+import connectReduxForm from './connectReduxForm';
 import mapValues from './mapValues';
 import bindActionData from './bindActionData';
 import * as actions from './actions';
@@ -25,6 +26,7 @@ const untouch = boundActions.untouch;
 export {
   blur,
   change,
+  connectReduxForm,
   reducer,
   initialize,
   initializeWithKey,
