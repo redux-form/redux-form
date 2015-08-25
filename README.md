@@ -32,6 +32,8 @@
 * [API](#api)
   * [`connectReduxForm(formName, fields, validate?, touchOnBlur?, touchOnChange?)`](#connectreduxformformnamestring-fieldsarrayltstringgt-validatefunction-touchonblurboolean-touchonchangeboolean)
   * [`connectReduxForm().async(asyncValidate, ...fields?)`](#connectreduxformasyncasyncvalidatefunction-fieldsstring)
+  * [`reduxForm()`](#reduxform)
+  * [`reduxForm().async()`](#reduxformasync)
   * [`props`](#props) - The props passed in to your form component by `redux-form`
   * [Action Creators](#action-creators) - Advanced
 * [Working Demo](#working-demo)
