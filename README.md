@@ -28,7 +28,7 @@
   * [Editing Multiple Records](#editing-multiple-records)
   * [Calculating `props` from Form Data](#calculating-props-from-form-data)
 * [API](#api)
-  * [`reduxForm(formName, fields, validate?)`](#reduxformformnamestring-fieldsarrayltstringgt-validatefunction-touchonblurboolean-touchonchangeboolean)
+  * [`reduxForm(formName, fields, validate?, touchOnBlur?, touchOnChange?)`](#reduxformformnamestring-fieldsarrayltstringgt-validatefunction-touchonblurboolean-touchonchangeboolean)
   * [`reduxForm().async(asyncValidate, ...fields?)`](#reduxformasyncasyncvalidatefunction-fieldsstring)
   * [`props`](#props) - The props passed in to your form component by `redux-form`
   * [Action Creators](#action-creators) - Advanced
