@@ -104,7 +104,7 @@ is released._
 ```javascript
 import React, {Component, PropTypes} from 'react';
 import {connectReduxForm} from 'redux-form';
-import contactValidation from './contactValidation';
+import validateContact from './validateContact';
 
 class ContactForm extends Component {
   static propTypes = {
@@ -150,7 +150,14 @@ class ContactForm extends Component {
 }
 
 // apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm('contact', ['name', 'address', 'phone'], contactValidation)(ContactForm);
+ContactForm = connectReduxForm(
+  // the name of your form and the key to where your form's state will be mounted
+  'contact',
+  // a list of all your fields in your form
+  ['name', 'address', 'phone'],
+  // a synchronous validation function
+  validateContact
+)(ContactForm);
 
 // export the wrapped component
 export default ContactForm;
@@ -166,7 +173,7 @@ Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators),
 could be written as:
 
 ```javascript
-@connectReduxForm('contact', ['name', 'address', 'phone'], contactValidation)
+@connectReduxForm('contact', ['name', 'address', 'phone'], validateContact)
 export default class ContactForm extends Component {
 ```
 
@@ -181,7 +188,7 @@ You may optionally supply a validation function, which is in the form `({}) => {
 your data and spits out error messages as well as a `valid` flag. For example:
 
 ```javascript
-function contactValidation(data) {
+function validateContact(data) {
   const errors = { valid: true };
   if(!data.name) {
     errors.name = 'Required';
@@ -214,11 +221,15 @@ generates. So this...
 
 ```javascript
 // apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm('contact', ['name', 'address', 'phone'], contactValidation)(ContactForm);
+ContactForm = connectReduxForm(
+  'contact',
+  ['name', 'address', 'phone'],
+  validateContact
+)(ContactForm);
 ```
 ...changes to this:
 ```javascript
-function asyncValidation(data) {
+function validateContactAsync(data) {
   return new Promise((resolve, reject) => {
     const errors = {valid: true};
     // do async validation
@@ -227,8 +238,13 @@ function asyncValidation(data) {
 }
 
 // apply connectReduxForm() and include synchronous AND asynchronous validation
-ContactForm = connectReduxForm('contact', ['name', 'address', 'phone'], contactValidation)
-  .async(asyncValidation)(ContactForm);
+ContactForm = connectReduxForm(
+  'contact',
+  ['name', 'address', 'phone'],
+  validateContact
+).async(
+  validateContactAsync
+)(ContactForm);
 ```
 
 Optionally, if you want asynchronous validation to be triggered when one or more of your form
@@ -237,8 +253,15 @@ validation function. Like so:
 
 ```javascript
 // will only run async validation when 'name' or 'phone' is blurred
-ContactForm = connectReduxForm('contact', ['name', 'address', 'phone'], contactValidation)
-  .async(asyncValidation, 'name', 'phone')(ContactForm);
+ContactForm = connectReduxForm(
+  'contact',
+  ['name', 'address', 'phone'],
+  validateContact
+).async(
+  validateContactAsync,
+  'name',
+  'phone'
+)(ContactForm);
 ```
 With that call, the asynchronous validation will be called when either `name` or `phone` is blurred.
 *Assuming that they have their `onBlur={handleBlur('name')}` properties properly set up.*
@@ -246,7 +269,12 @@ With that call, the asynchronous validation will be called when either `name` or
 **NOTE!** If you _only_ want asynchronous validation, you may leave out the synchronous validation function.
 And if you only want it to be run on submit, you may leave out the async blur fields, as well.
 ```javascript
-ContactForm = connectReduxForm('contact', ['name', 'address', 'phone']).async(asyncValidation)(ContactForm);
+ContactForm = connectReduxForm(
+  'contact',
+  ['name', 'address', 'phone']
+).async(
+  validateContactAsync
+)(ContactForm);
 ```
 
 ### Submitting Your Form
@@ -433,12 +461,20 @@ ContactForm = mapProps({
 })(ContactForm);
 
 // THEN apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm('contact', ['name', 'address', 'phone'], contactValidation)(ContactForm);
+ContactForm = connectReduxForm(
+  'contact',
+  ['name', 'address', 'phone'],
+  validateContact
+)(ContactForm);
 ...
 ```
 Or, in ES7 land...
 ```javascript
-@connectReduxForm('contact', ['name', 'address', 'phone'], contactValidation)
+@connectReduxForm(
+  'contact',
+  ['name', 'address', 'phone'],
+  validateContact
+)
 @mapProps({
   hasName: props => !!props.data.name
   hasPhone: props => !!props.data.phone
@@ -460,25 +496,37 @@ will need to wrap your form component *both* with
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import reduxForm from 'redux-form';
-import contactValidation from './contactValidation';
+import validateContact from './validateContact';
 
 class ContactForm extends Component {
   //...
 }
 
 // apply reduxForm() and include synchronous validation
-ContactForm = reduxForm('contact', ['name', 'address', 'phone'], contactValidation)(ContactForm);
+// note: we're using reduxForm, not connectReduxForm
+ContactForm = reduxForm(
+  'contact',
+  ['name', 'address', 'phone'],
+  validateContact
+)(ContactForm);
 
 // ------- HERE'S THE IMPORTANT BIT -------
-function mapStateToProps(state) {
-  return { form: state.placeWhereYouMountedFormReducer };
+function mapStateToProps(state, ownProps) {
+  // this is React Redux API: https://github.com/rackt/react-redux
+  // for example, you may use ownProps here to refer to the props passed from parent.
+  return {
+    form: state.placeWhereYouMountedFormReducer[ownProps.something]
+  };
 }
+
 // apply connect() to bind it to Redux state
 ContactForm = connect(mapStateToProps)(ContactForm);
 
 // export the wrapped component
 export default ContactForm;
 ```
+
+As you can see, `connectReduxForm()` is a tiny wrapper over `reduxForm()` that applies `connect()` for you.
 
 ##### Binding Action Creators
 
@@ -490,25 +538,37 @@ function. So change this...
 
 ```javascript
 import {bindActionCreators} from `redux`;
+
 ...
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(actionCreators, dispatch);
 }
-ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+
+ContactForm = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactForm);
 ```
 
 ...to...
 
 ```javascript
 import {bindActionCreators} from `redux`;
+
 ...
+
 function mapDispatchToProps(dispatch) {
   return {
     ...bindActionCreators(actionCreators, dispatch),
     dispatch  // <----- passing dispatch, too
   };
 }
-ContactForm = connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+
+ContactForm = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactForm);
 ```
 
 ---
