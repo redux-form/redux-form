@@ -17,6 +17,17 @@ function getSubForm(form, formName, formKey) {
   return initialState;
 }
 
+function getValue(passedValue, event) {
+  if (passedValue !== undefined || !event) {
+    return passedValue;
+  }
+  const {target: {type, value, checked}} = event;
+  if (type === 'checkbox') {
+    return checked;
+  }
+  return value;
+}
+
 function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields) {
   function combineValidationErrors(form) {
     const syncErrors = syncValidate(form.data);
@@ -63,7 +74,7 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
           });
         } : undefined;
         const handleBlur = (name, value) => (event) => {
-          const fieldValue = value || event.target.value;
+          const fieldValue = getValue(value, event);
           const doBlur = bindActionData(blur, {touch: touchOnBlur});
           dispatch(doBlur(name, fieldValue));
           if (runAsyncValidation && ~asyncBlurFields.indexOf(name)) {
@@ -81,7 +92,7 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
         const {valid, ...errors} = combineValidationErrors(subForm);
         const handleChange = (name, value) => (event) => {
           const doChange = bindActionData(change, {touch: touchOnChange});
-          dispatch(doChange(name, value === undefined ? event.target.value : value));
+          dispatch(doChange(name, getValue(value, event)));
         };
         const handleSubmit = submitOrEvent => {
           const createEventHandler = submit => event => {
