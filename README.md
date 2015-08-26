@@ -672,6 +672,18 @@ comparing the current data with these initialized values.
 
 > `true` if the form has validation errors. Opposite of `valid`.
 
+##### -`isDirty : Function`
+
+> a function that takes field name and returns whether or not that field is dirty (i.e. has a different value than 
+the one passed in to `initialize`). Good for only showing errors when a field has changed
+(e.g. `{errors.name && touched.name && isDirty('name') && <div>{errors.name}</div>}`).
+Opposite of `isPristine`.
+
+##### -`isPristine : Function`
+
+> a function that takes field name and returns whether or not that field is pristine (i.e. has the same value that 
+was passed in with `initialize`). Opposite of `isDirty`.
+
 ##### -`pristine: boolean`
 
 > `true` if the form data is the same as its initialized values. Opposite of `dirty`.

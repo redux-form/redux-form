@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "A higher order component generator for forms using Redux and React",
   "main": "./lib/index.js",
   "repository": {

@@ -144,6 +144,8 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
           handleSubmit={handleSubmit}
           initializeForm={data => dispatch(initialize(data))}
           invalid={!valid}
+          isDirty={field => !isPristine(subForm.data[field], subForm.initial[field])}
+          isPristine={field => isPristine(subForm.data[field], subForm.initial[field])}
           pristine={pristine}
           resetForm={() => dispatch(reset())}
           submitting={subForm.submitting}
