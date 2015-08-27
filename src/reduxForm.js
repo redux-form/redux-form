@@ -111,7 +111,7 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
         };
         const handleSubmit = submitOrEvent => {
           const createEventHandler = submit => event => {
-            if (event) {
+            if (event && event.preventDefault) {
               event.preventDefault();
               event.stopPropagation();
             }
