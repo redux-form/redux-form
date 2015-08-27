@@ -789,21 +789,25 @@ comparing the current data with these initialized values.
 
 > Marks the given fields as "touched" to show errors.
 
-##### -`touchAll() : Function`
+#### -`touchAll() : Function`
 
 > Marks all fields as "touched" to show errors. should be called on form submission.
 
-##### -`untouch(...field:string) : Function`
+#### -`untouch(...field:string) : Function`
 
 > Clears the "touched" flag for the given fields
 
-##### -`untouchAll() : Function`
+#### -`untouchAll() : Function`
 
 > Clears the "touched" flag for the all fields
 
-##### -`valid : boolean`
+#### -`valid : boolean`
 
 > `true` if the form passes validation (has no validation errors). Opposite of `invalid`.
+
+#### -`values : Object`
+
+> All of your values in the form `{ field1: <string>, field2: <string> }`.
 
 ### Action Creators
 
@@ -811,41 +815,41 @@ comparing the current data with these initialized values.
 you wish. However, **it is *highly* recommended that you use the actions passed as props to your component
 for most of your needs.**
 
-##### -`blur(form:String, field:String, value:String)`
+#### -`blur(form:String, field:String, value:String)`
 
 > Saves the value and, if you have `touchOnBlur` enabled, marks the field as `touched`.
 
-##### -`change(form:String, field:String, value:String)`
+#### -`change(form:String, field:String, value:String)`
 
 > Saves the value and, if you have `touchOnChange` enabled, marks the field as `touched`.
 
-##### -`initialize(form:String, data:Object)`
+#### -`initialize(form:String, data:Object)`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
 `dirty` and `pristine`. The `data` parameter should only contain `String` values.
 
-##### -`initializeWithKey(form:String, formKey, data:Object)`
+#### -`initializeWithKey(form:String, formKey, data:Object)`
 
 > Used when editing multiple records with the same form component. See
 [Editing Multiple Records](#editing-multiple-records).
 
-##### -`reset(form:String)`
+#### -`reset(form:String)`
 
 > Resets the values in the form back to the values past in with the most recent `initialize` action.
 
-##### -`startAsyncValidation(form:String)`
+#### -`startAsyncValidation(form:String)`
 
 > Flips the `asyncValidating` flag `true`.
 
-##### -`stopAsyncValidation(form:String, errors:Object)`
+#### -`stopAsyncValidation(form:String, errors:Object)`
 
 > Flips the `asyncValidating` flag `false` and populates `asyncErrors`.
 
-##### -`touch(form:String, ...fields:String)`
+#### -`touch(form:String, ...fields:String)`
 
 > Marks all the fields passed in as `touched`.
 
-##### -`untouch(form:String, ...fields:String)`
+#### -`untouch(form:String, ...fields:String)`
 
 > Resets the 'touched' flag for all the fields passed in.
 
