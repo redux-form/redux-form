@@ -25,6 +25,7 @@
   * [Asynchronous Validation](#asynchronous-validation) - Server Side
   * [Submitting Your Form](#submitting-your-form)
   * [Responding to Other Actions](#responding-to-other-actions)
+  * [Normalizing Form Data](#normalizing-form-data)
   * [Editing Multiple Records](#editing-multiple-records)
   * [Calculating `props` from Form Data](#calculating-props-from-form-data)
   * [Advanced Usage](#advanced-usage)
@@ -35,6 +36,9 @@
   * [`connectReduxForm().async(asyncValidate, ...fields?)`](#connectreduxformasyncasyncvalidatefunction-fieldsstring)
   * [`reduxForm()`](#reduxform)
   * [`reduxForm().async()`](#reduxformasync)
+  * [`reducer`](#reducer)
+  * [`reducer.plugin(Object<String, Function>)`](#reducerpluginobjectstring-function)
+  * [`reducer.normalize(Object<String, Function>)`](#reducerpluginobjectstring-function)
   * [`props`](#props) - The props passed in to your form component by `redux-form`
   * [Action Creators](#action-creators) - Advanced
 * [Working Demo](#working-demo)
@@ -109,40 +113,25 @@ import validateContact from './validateContact';
 
 class ContactForm extends Component {
   static propTypes = {
-    data: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
-    handleBlur: PropTypes.func.isRequired,
-    handleChange: PropTypes.func.isRequired,
+    fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired
   }
   
   render() {
-    const {
-      data: {name, address, phone},
-      errors, touched, handleBlur, handleChange, handleSubmit
-    } = this.props;
+    const { fields: {name, address, phone}, handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <label>Name</label>
-        <input type="text" 
-               value={name} 
-               onChange={handleChange('name')} 
-               onBlur={handleBlur('name')}/>
-        {errors.name && touched.name ? <div>{errors.name}</div>}
+        <input type="text" {...name}/>     // will pass value, onBlur and onChange
+        {name.error && name.touched ? <div>{name.error}</div>}
         
         <label>Address</label>
-        <input type="text" 
-               value={address} 
-               onChange={handleChange('address')} 
-               onBlur={handleBlur('address')}/>
-        {errors.address && touched.address ? <div>{errors.address}</div>}
+        <input type="text" {...address}/>  // will pass value, onBlur and onChange
+        {address.error && addresss.touched ? <div>{address.error}</div>}
         
         <label>Phone</label>
-        <input type="text" 
-               value={phone} 
-               onChange={handleChange('phone')} 
-               onBlur={handleBlur('phone')}/>
-        {errors.phone && touched.phone ? <div>{errors.phone}</div>}
+        <input type="text" {...phone}/>    // will pass value, onBlur and onChange
+        {phone.error && phone.touched ? <div>{phone.error}</div>}
         
         <button onClick={handleSubmit}>Submit</button>
       </form>
@@ -353,7 +342,6 @@ the `plugin()` function.
 ```javascript
 import {reducer as formReducer} from 'redux-form';
 import {AUTH_LOGIN_FAIL} from '../actions/actionTypes';
-const loginFormReducer = createFormReducer('loginForm', ['email', 'password']);
 
 const reducers = {
   // ... your other reducers here ...
@@ -363,17 +351,41 @@ const reducers = {
         case AUTH_LOGIN_FAIL:
           return {
             ...state,
-            data: {
-              ...state.data,
-              password: ''     // <----- clear password field
-            },
-            touched: {
-              ...state.touched,
-              password: false // <------ also set password to 'untouched'
-            }
+            password: {}        // <----- clear password field
           };
         default:
           return state;
+      }
+    }
+  })
+}
+const reducer = combineReducers(reducers);
+const store = createStore(reducer);
+```
+
+### Normalizing Form Data
+
+Let's say that you have a form field that only accepts uppercase letters and another one where you want the value to 
+be formatted in the `999-999-9999` United States phone number format. `redux-form` gives you a way to normalize your
+data on every action to the reducer by calling the `normalize()` function on the default reducer.
+
+```javascript
+import {reducer as formReducer} from 'redux-form';
+
+const reducers = {
+  // ... your other reducers here ...
+  form: formReducer.normalize({
+    contact: {                                           // <--- the form name
+      licensePlate: (value, previousValue, allValues) => // <--- field normalizer
+        value && value.toUpperCase(),
+      phone: (value, previousValue, allValues) => {      // <--- field normalizer
+        if (value) {
+          const match = value.match(/(\d{3})-?(\d{3})-?(\d{4})/);
+          if (match) {
+            return `${match[1]}-${match[2]}-${match[3]}`;
+          }
+        }
+        return value;
       }
     }
   })
@@ -457,8 +469,8 @@ import mapProps from 'map-props';
 ...
 // FIRST map props
 ContactForm = mapProps({
-  hasName: props => !!props.data.name
-  hasPhone: props => !!props.data.phone
+  hasName: props => !!props.name.value
+  hasPhone: props => !!props.phone.value
 })(ContactForm);
 
 // THEN apply connectReduxForm() and include synchronous validation
@@ -477,11 +489,12 @@ Or, in ES7 land...
   validateContact
 )
 @mapProps({
-  hasName: props => !!props.data.name
-  hasPhone: props => !!props.data.phone
+  hasName: props => !!props.name.value
+  hasPhone: props => !!props.phone.value
 })
 export default class ContactForm extends Component {
 ```
+---
 
 ## Advanced Usage
 
@@ -623,39 +636,121 @@ of validation errors in the form `{ field1: <string>, field2: <string>, valid: <
   [`connectReduxForm().async()`](#connectreduxformasyncasyncvalidatefunction-fieldsstring)
   except that ___you must [wrap the component in `connect()` yourself](#doing-the-connecting-yourself)___.
 
+### `reducer`
+
+> The form reducer. Should be given to mounted to your Redux state at `form`.
+
+### `reducer.plugin(Object<String, Function>)`
+
+> Returns a form reducer that will also pass each action through additional reducers specified. The parameter should 
+be an object mapping from `formName` to a `(state, action) => nextState` reducer. **The `state` passed to each reducer 
+will only be the slice that pertains to that form.** See [Responding to Other Actions](#responding-to-other-actions).
+
+### `reducer.normalize(Object<String, Object<String, Function>>)`
+
+> Returns a form reducer that will also pass each form value through the normalizing functions provided. The 
+parameter is an object mapping from `formName` to an object mapping from `fieldName` to a normalizer function. The 
+normalizer function is given three parameters and expected to return the normalized value of the field.
+See [Normalizing Form Data](#normalizing-form-data).
+
+##### -`value : string`
+
+> The current value of the field
+
+##### -`previousValue : string`
+
+> The previous value of the field before the current action was dispatched
+
+##### -`allValues : Object<string, string>`
+
+> All the values of the current form
+
 ### props
 
 The props passed into your decorated component will be:
 
-##### -`asyncValidate : Function`
+#### -`asyncValidate : Function`
 
 > a function that may be called to initiate asynchronous validation if asynchronous validation is enabled
 
-##### -`asyncValidating : boolean`
+#### -`asyncValidating : boolean`
 
 > `true` if the asynchronous validation function has been called but has not yet returned.
 
-##### -`data : Object`
-
-> The form data, in the form `{ field1: <string>, field2: <string> }`
-
-##### -`dirty : boolean`
+#### -`dirty : boolean`
 
 > `true` if the form data has changed from its initialized values. Opposite of `pristine`.
 
-##### -`errors : Object`
+#### -`fields : Object`
 
-> All the errors, in the form `{ field1: <string>, field2: <string> }`
+> The form data, in the form `{ field1: <Object>, field2: <Object> }`, where each field `Object` has the following 
+properties:
 
-##### -`handleBlur(field:string) : Function`
+##### ---`checked : boolean?`
 
-> Returns a `handleBlur` function for the field passed.
+> An alias for `value` _only when `value` is a boolean_. Provided for convenience of destructuring the whole field
+object into the props of a form element.
 
-##### -`handleChange(field:string) : Function`
+##### ---`dirty : boolean`
 
-> Returns a `handleChange` function for the field passed.
+> `true` if the field value has changed from its initialized value. Opposite of `pristine`.
 
-##### -`handleSubmit : Function`
+##### ---`error : String?`
+
+> The error for this field if its value is not passing validation. Both synchronous and asynchronous validation 
+errors will be reported here.
+
+##### ---`handleBlur : Function`
+
+> A function to call when the form field is blurred. It expects to receive the 
+[React SyntheticEvent](http://facebook.github.io/react/docs/events.html) and is meant to be passed to the form
+element's `onBlur` prop.
+
+##### ---`handleChange : Function`
+
+> A function to call when the form field is blurred. It expects to receive the 
+[React SyntheticEvent](http://facebook.github.io/react/docs/events.html) and is meant to be passed to the form
+element's `onChange` prop.
+
+##### ---`invalid : boolean`
+
+> `true` if the field value fails validation (has a validation error). Opposite of `valid`.
+
+##### ---`onBlur : Function`
+
+> An alias for `handleBlur`. Provided for convenience of destructuring the whole field object into the props of a 
+form element.
+
+##### ---`onChange : Function`
+
+> An alias for `handleChange`. Provided for convenience of destructuring the whole field object into the props of a 
+form element.
+
+##### ---`pristine : boolean`
+
+> `true` if the field value is the same as its initialized value. Opposite of `dirty`.
+
+##### ---`touched : boolean`
+
+> `true` if the field has been touched.
+
+##### ---`valid : boolean`
+
+> `true` if the field value passes validation (has no validation errors). Opposite of `invalid`.
+
+##### ---`value: any`
+
+> The value of this form field. It will be a boolean for checkboxes, and a string for all other input types.
+
+#### -`handleBlur(field:string) : Function`
+
+> Returns a `handleBlur` function for the field passed. `handleBlur('age')` returns `fields.age.handleBlur`.
+
+### -`handleChange(field:string) : Function`
+
+> Returns a `handleChange` function for the field passed. `handleChange('age')` returns `fields.age.handleChange`.
+
+#### -`handleSubmit : Function`
 
 > a function meant to be passed to `<form onSubmit={handleSubmit}>` or to `<button onClick={handleSubmit}>`.
 It will run validation, both sync and async, and, if the form is valid, it will call `this.props.onSubmit(data)`
@@ -664,51 +759,35 @@ with the contents of the form data.
 > Optionally, you may also pass your `onSubmit` function to `handleSubmit` which will take the place of the 
 `onSubmit` prop. For example: `<form onSubmit={handleSubmit(this.save.bind(this))}>`
 
-##### -`initializeForm(data:Object) : Function`
+#### -`initializeForm(data:Object) : Function`
 
 > Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by
 comparing the current data with these initialized values.
 
-##### -`invalid : boolean`
+#### -`invalid : boolean`
 
 > `true` if the form has validation errors. Opposite of `valid`.
 
-##### -`isDirty : Function`
-
-> a function that takes field name and returns whether or not that field is dirty (i.e. has a different value than 
-the one passed in to `initialize`). Good for only showing errors when a field has changed
-(e.g. `{errors.name && touched.name && isDirty('name') && <div>{errors.name}</div>}`).
-Opposite of `isPristine`.
-
-##### -`isPristine : Function`
-
-> a function that takes field name and returns whether or not that field is pristine (i.e. has the same value that 
-was passed in with `initialize`). Opposite of `isDirty`.
-
-##### -`pristine: boolean`
+#### -`pristine: boolean`
 
 > `true` if the form data is the same as its initialized values. Opposite of `dirty`.
 
-##### -`resetForm() : Function`
+#### -`resetForm() : Function`
 
 > Resets all the values in the form to the initialized state, making it pristine again.
 
-##### -`formKey : String`
+#### -`formKey : String`
 
 > The same `formKey` prop that was passed in. See [Editing Multiple Records](#editing-multiple-records).
 
-##### -`submitting : boolean`
+#### -`submitting : boolean`
 
 > Whether or not your form is currently submitting. This prop will only work if you have passed an
 `onSubmit` function that returns a promise. It will be true until the promise is resolved or rejected.
 
-##### -`touch(...field:string) : Function`
+#### -`touch(...field:string) : Function`
 
 > Marks the given fields as "touched" to show errors.
-
-##### -`touched : Object`
-
-> the touched flags for each field, in the form `{ field1: <boolean>, field2: <boolean> }`
 
 ##### -`touchAll() : Function`
 

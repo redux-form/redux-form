@@ -28,18 +28,18 @@ function getValue(passedValue, event) {
   return value;
 }
 
-function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields) {
-  function combineValidationErrors(form) {
-    const syncErrors = syncValidate(form.data);
-    const asyncErrors = {valid: true, ...form.asyncErrors};
-    const valid = !!(syncErrors.valid && asyncErrors.valid);  // !! to convert falsy to boolean
-    return {
-      ...syncErrors,
-      ...asyncErrors,
-      valid
-    };
-  }
+function silenceEvents(fn) {
+  return (event, ...args) => {
+    if (event && event.preventDefault) {
+      event.preventDefault();
+      event.stopPropagation();
+      return fn(...args);
+    }
+    return fn(event, ...args);
+  };
+}
 
+function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields) {
   return DecoratedComponent =>
     class ReduxForm extends Component {
       static displayName = `ReduxForm(${getDisplayName(DecoratedComponent)})`;
@@ -56,30 +56,47 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
       }
 
       render() {
+
+        // Read props
         const {formName, form, formKey, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
         const subForm = getSubForm(form, formName, formKey);
+
+        // Calculate calculable state
+        let allValid = true;
+        let allPristine = true;
+        const values = fields.reduce((accumulator, field) => ({
+          ...accumulator,
+          [field]: subForm[field] ? subForm[field].value : undefined
+        }), {});
+
+        // Create actions
         const {blur, change, initialize, reset, startAsyncValidation, startSubmit, stopAsyncValidation,
           stopSubmit, touch, untouch} = formKey ?
           bindActionData(formActions, {form: formName, key: formKey}) :
           bindActionData(formActions, {form: formName});
-        const runAsyncValidation = asyncValidate ? () => {
+
+        function runAsyncValidation() {
           dispatch(startAsyncValidation(formKey));
-          const promise = asyncValidate(subForm.data);
+          const promise = asyncValidate(values);
           if (!promise || typeof promise.then !== 'function') {
             throw new Error('asyncValidate function passed to reduxForm must return a promise!');
           }
           return promise.then(asyncErrors => {
             dispatch(stopAsyncValidation(asyncErrors));
             return !!asyncErrors.valid;
+          }, (err) => {
+            dispatch(stopAsyncValidation({}));
+            throw new Error('redux-form: Asynchronous validation failed: ' + err);
           });
-        } : undefined;
+        }
+
         const handleBlur = (name, value) => (event) => {
           const fieldValue = getValue(value, event);
           const doBlur = bindActionData(blur, {touch: touchOnBlur});
           dispatch(doBlur(name, fieldValue));
-          if (runAsyncValidation && ~asyncBlurFields.indexOf(name)) {
+          if (asyncValidate && ~asyncBlurFields.indexOf(name)) {
             const syncError = syncValidate({
-              ...subForm.data,
+              ...values,
               [name]: fieldValue
             })[name];
             // only dispatch async call if all synchronous client-side validation passes for this field
@@ -88,8 +105,6 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
             }
           }
         };
-        const pristine = isPristine(subForm.initial, subForm.data);
-        const {valid, ...errors} = combineValidationErrors(subForm);
         const handleChange = (name, value) => (event) => {
           const doChange = bindActionData(change, {touch: touchOnChange});
           dispatch(doChange(name, getValue(value, event)));
@@ -98,9 +113,10 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
           const createEventHandler = submit => event => {
             if (event) {
               event.preventDefault();
+              event.stopPropagation();
             }
             const submitWithPromiseCheck = () => {
-              const result = submit(subForm.data);
+              const result = submit(values);
               if (result && typeof result.then === 'function') {
                 // you're showing real promise, kid!
                 const stopAndReturn = (x) => {
@@ -112,14 +128,15 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
               }
             };
             dispatch(touch(...fields));
-            if (runAsyncValidation) {
-              return runAsyncValidation().then(asyncValid => {
-                if (valid && asyncValid) {
-                  return submitWithPromiseCheck(subForm.data);
-                }
-              });
-            } else if (valid) {
-              return submitWithPromiseCheck(subForm.data);
+            if (allValid) {
+              if (asyncValidate) {
+                return runAsyncValidation().then(asyncValid => {
+                  if (allValid && asyncValid) {
+                    return submitWithPromiseCheck(values);
+                  }
+                });
+              }
+              return submitWithPromiseCheck(values);
             }
           };
           if (typeof submitOrEvent === 'function') {
@@ -131,33 +148,69 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
           }
           createEventHandler(onSubmit)(submitOrEvent /* is event */);
         };
+
+        // Define fields
+        const syncErrors = syncValidate(values);
+        const allFields = fields.reduce((accumulator, name) => {
+          const field = subForm[name] || {};
+          const pristine = isPristine(field.value, field.initial);
+          const error = syncErrors[name] || field.asyncError;
+          if (error) {
+            allValid = false;
+          }
+          if (!pristine) {
+            allPristine = false;
+          }
+          return {
+            ...accumulator,
+            [name]: {
+              checked: typeof field.value === 'boolean' ? field.value : undefined,
+              dirty: !pristine,
+              error: error,
+              handleBlur: handleBlur(name),
+              handleChange: handleChange(name),
+              invalid: !!error,
+              onBlur: handleBlur(name),
+              onChange: handleChange(name),
+              pristine: pristine,
+              touched: field.touched,
+              valid: !error,
+              value: field.value
+            }
+          };
+        }, {});
+
+        // Return decorated component
         return (<DecoratedComponent
-          asyncValidate={runAsyncValidation}
-          asyncValidating={subForm.asyncValidating}
-          data={subForm.data}
-          dirty={!pristine}
-          dispatch={dispatch}
-          errors={errors}
+          // State:
+          asyncValidating={subForm._asyncValidating}
+          dirty={!allPristine}
+          fields={allFields}
           formKey={formKey}
-          handleBlur={handleBlur}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          initializeForm={data => dispatch(initialize(data))}
-          invalid={!valid}
-          isDirty={field => !isPristine(subForm.data[field], subForm.initial[field])}
-          isPristine={field => isPristine(subForm.data[field], subForm.initial[field])}
-          pristine={pristine}
-          resetForm={() => dispatch(reset())}
-          submitting={subForm.submitting}
-          touch={(...touchFields) => dispatch(touch(...touchFields))}
-          touched={subForm.touched}
-          touchAll={() => dispatch(touch(...fields))}
-          untouch={(...untouchFields) => dispatch(untouch(...untouchFields))}
-          untouchAll={() => dispatch(untouchAll(...fields))}
-          valid={valid}
-          {...passableProps}/>); // pass other props
+          invalid={!allValid}
+          pristine={allPristine}
+          submitting={subForm._submitting}
+          valid={allValid}
+          values={values}
+
+          // Actions:
+          asyncValidate={silenceEvents(runAsyncValidation)}
+          handleBlur={silenceEvents(handleBlur)}
+          handleChange={silenceEvents(handleChange)}
+          handleSubmit={silenceEvents(handleSubmit)}
+          initializeForm={silenceEvents(initialValues => dispatch(initialize(initialValues)))}
+          resetForm={silenceEvents(() => dispatch(reset()))}
+          touch={silenceEvents((...touchFields) => dispatch(touch(...touchFields)))}
+          touchAll={silenceEvents(() => dispatch(touch(...fields)))}
+          untouch={silenceEvents((...untouchFields) => dispatch(untouch(...untouchFields)))}
+          untouchAll={silenceEvents(() => dispatch(untouchAll(...fields)))}
+
+          // Other:
+          dispatch={dispatch}
+          {...passableProps}/>);
       }
     };
+
 }
 
 export default

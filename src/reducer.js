@@ -3,125 +3,103 @@ import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, 
 import mapValues from './mapValues';
 
 export const initialState = {
-  asyncErrors: {valid: true},
-  asyncValidating: false,
-  data: {},
-  initial: {},
-  submitting: false,
-  touched: {}
+  _asyncValidating: false,
+  _submitting: false
 };
+
+const getValues = (state) =>
+  Object.keys(state).reduce((accumulator, name) =>
+    name[0] === '_' ? accumulator : {
+      ...accumulator,
+      [name]: state[name].value
+    }, {});
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case BLUR:
-      const blurDiff = {
-        data: {
-          ...state.data,
-          [action.field]: action.value
-        }
-      };
-      if (action.touch) {
-        blurDiff.touched = {
-          ...state.touched,
-          [action.field]: true
-        };
-      }
       return {
         ...state,
-        ...blurDiff
+        [action.field]: {
+          ...state[action.field],
+          value: action.value,
+          touched: action.touch || (state[action.field] || {}).touched
+        }
       };
     case CHANGE:
-      const {[action.field]: oldError, valid, ...otherErrors} = state.asyncErrors;
-      const changeDiff = {
-        data: {
-          ...state.data,
-          [action.field]: action.value
-        },
-        asyncErrors: {
-          ...otherErrors,
-          valid: !Object.keys(otherErrors).length
-        }
-      };
-      delete changeDiff.asyncErrors[action.field];
-
-      if (action.touch) {
-        changeDiff.touched = {
-          ...state.touched,
-          [action.field]: true
-        };
-      }
       return {
         ...state,
-        ...changeDiff
+        [action.field]: {
+          ...state[action.field],
+          value: action.value,
+          touched: action.touch || (state[action.field] || {}).touched,
+          asyncError: null
+        }
       };
     case INITIALIZE:
       return {
-        asyncErrors: {},
-        asyncValidating: false,
-        data: action.data,
-        initial: action.data,
-        submitting: false,
-        touched: {}
+        ...mapValues(action.data, (value) => ({
+          initial: value,
+          value: value
+        })),
+        _asyncValidating: false,
+        _submitting: false
       };
     case RESET:
       return {
-        asyncErrors: {},
-        asyncValidating: false,
-        data: state.initial,
-        initial: state.initial,
-        submitting: false,
-        touched: {}
+        ...mapValues(state, (field, name) => {
+          return name[0] === '_' ? field : {
+            initial: field.initial,
+            value: field.initial
+          };
+        }),
+        _asyncValidating: false,
+        _submitting: false
       };
     case START_ASYNC_VALIDATION:
       return {
         ...state,
-        asyncValidating: true
+        _asyncValidating: true
       };
     case START_SUBMIT:
       return {
         ...state,
-        submitting: true
+        _submitting: true
       };
     case STOP_ASYNC_VALIDATION:
       return {
         ...state,
-        asyncValidating: false,
-        asyncErrors: action.errors
+        ...mapValues(action.errors, (error, key) => ({
+          ...state[key],
+          asyncError: error
+        })),
+        _asyncValidating: false
       };
     case STOP_SUBMIT:
       return {
         ...state,
-        submitting: false
+        _submitting: false
       };
     case TOUCH:
-      const touchDiff = {};
-      action.fields.forEach(field => {
-        if (typeof field !== 'string') {
-          throw new Error('fields passed to touch() must be strings');
-        }
-        touchDiff[field] = true;
-      });
       return {
         ...state,
-        touched: {
-          ...state.touched,
-          ...touchDiff
-        }
+        ...action.fields.reduce((accumulator, field) => ({
+          ...accumulator,
+          [field]: {
+            ...state[field],
+            touched: true
+          }
+        }), {})
       };
     case UNTOUCH:
-      const untouchDiff = {};
-      action.fields.forEach(field => {
-        if (typeof field !== 'string') {
-          throw new Error('fields passed to untouch() must be strings');
-        }
-        untouchDiff[field] = false;
-      });
       return {
         ...state,
-        touched: {
-          ...state.touched,
-          ...untouchDiff
-        }
+        ...action.fields.reduce((accumulator, field) => ({
+          ...accumulator,
+          [field]: {
+            ...state[field],
+            touched: false
+          }
+        }), {})
       };
     default:
       return state;
@@ -148,12 +126,40 @@ function formReducer(state = {}, action = {}) {
   };
 }
 
-formReducer.plugin = reducers => (state = {}, action = {}) => {
-  const result = formReducer(state, action);
-  return {
-    ...result,
-    ...mapValues(reducers, (red, key) => red(result[key] || initialState, action))
+/**
+ * Adds additional functionality to the reducer
+ */
+function decorate(target) {
+  target.plugin = function plugin(reducers) {
+    return decorate((state = {}, action = {}) => {
+      const result = this(state, action);
+      return {
+        ...result,
+        ...mapValues(reducers, (red, key) => red(result[key] || initialState, action))
+      };
+    });
   };
-};
 
-export default formReducer;
+  target.normalize = function normalize(normalizers) {
+    return decorate((state = {}, action = {}) => {
+      const result = this(state, action);
+      return {
+        ...result,
+        ...mapValues(normalizers, (formNormalizers, form) => ({
+          ...result[form],
+          ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
+            ...result[form][field],
+            value: fieldNormalizer(
+              result[form][field] ? result[form][field].value : undefined,                // value
+              state[form] && state[form][field] ? state[form][field].value : undefined,   // previous value
+              getValues(result[form]))                                                    // all field values
+          }))
+        }))
+      };
+    });
+  };
+
+  return target;
+}
+
+export default decorate(formReducer);
