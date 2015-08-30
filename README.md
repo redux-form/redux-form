@@ -716,6 +716,11 @@ element's `onChange` prop.
 
 > `true` if the field value fails validation (has a validation error). Opposite of `valid`.
 
+##### ---`name : String`
+
+> The name of the field. It will be the same as the key in the `fields` Object, but useful if bundling up a field to 
+send down to a specialized input component.
+
 ##### ---`onBlur : Function`
 
 > An alias for `handleBlur`. Provided for convenience of destructuring the whole field object into the props of a 
