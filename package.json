@@ -8,11 +8,13 @@
     "url": "https://github.com/erikras/redux-form"
   },
   "scripts": {
-    "browser": "scripts/browser",
-    "build": "scripts/build",
-    "clean": "scripts/clean",
-    "lint": "scripts/lint",
-    "prepublish": "scripts/prepublish"
+    "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
+    "build:lib": "babel src --out-dir lib",
+    "build:umd": "webpack src/index.js dist/redux.js --config webpack.config.development.js",
+    "build:umd:min": "webpack src/index.js dist/redux.min.js --config webpack.config.production.js",
+    "clean": "rimraf dist lib",
+    "lint": "eslint src",
+    "prepublish": "npm run lint && npm run clean && npm run build"
   },
   "keywords": [
     "react",
