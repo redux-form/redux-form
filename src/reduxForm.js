@@ -166,14 +166,14 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
             [name]: {
               checked: typeof field.value === 'boolean' ? field.value : undefined,
               dirty: !pristine,
-              error: error,
+              error,
               handleBlur: handleBlur(name),
               handleChange: handleChange(name),
               invalid: !!error,
-              name: name,
+              name,
               onBlur: handleBlur(name),
               onChange: handleChange(name),
-              pristine: pristine,
+              pristine,
               touched: field.touched,
               valid: !error,
               value: field.value
