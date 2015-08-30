@@ -170,6 +170,7 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
               handleBlur: handleBlur(name),
               handleChange: handleChange(name),
               invalid: !!error,
+              name: name,
               onBlur: handleBlur(name),
               onChange: handleChange(name),
               pristine: pristine,
