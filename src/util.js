@@ -7,7 +7,7 @@ export function isPristine(initial, data) {
     return true;
   }
   if (typeof initial === 'object') {
-    if (typeof data !== 'object') {
+    if (!data || typeof data !== 'object') {
       return false;
     }
     const dataKeys = Object.keys(data);
