@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import * as formActions from './actions';
-import {getDisplayName, isPristine} from './util';
+import getDisplayName from './getDisplayName';
+import isPristine from './isPristine';
 import bindActionData from './bindActionData';
 import {initialState} from './reducer';
 

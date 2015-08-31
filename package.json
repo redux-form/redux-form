@@ -14,7 +14,8 @@
     "build:umd:min": "webpack src/index.js dist/redux.min.js --config webpack.config.production.js",
     "clean": "rimraf dist lib",
     "lint": "eslint src",
-    "prepublish": "npm run lint && npm run clean && npm run build"
+    "prepublish": "npm run lint && npm run test && npm run clean && npm run build",
+    "test": "mocha --compilers js:babel/register --recursive"
   },
   "keywords": [
     "react",
@@ -38,6 +39,8 @@
     "eslint": "^1.2.0",
     "eslint-config-airbnb": "0.0.7",
     "eslint-plugin-react": "^3.2.3",
+    "expect": "^1.9.0",
+    "mocha": "^2.3.0",
     "react": "^0.13.3",
     "rifraf": "^2.0.2",
     "rimraf": "^2.4.2",
@@ -46,5 +49,14 @@
   "dependencies": {
     "react-redux": "^1.0.0",
     "redux": "^1.0.1"
-  }
+  },
+  "npmName": "redux-form",
+  "npmFileMap": [
+    {
+      "basePath": "/dist/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ]
 }
