@@ -588,14 +588,14 @@ ContactForm = connect(
 ---
 ## API
 
-### `connectReduxForm(formName:string, fields:Array&lt;string&gt;, validate:Function?, touchOnBlur:boolean?, touchOnChange:boolean?)`
+### `connectReduxForm(formName:string, fields:Array<string>, validate:Function?, touchOnBlur:boolean?, touchOnChange:boolean?)`
 
 ##### -`formName : string`
 
 > the name of your form and the key to where your form's state will be mounted, under the `redux-form` reducer, in the 
 Redux store
 
-##### - fields : Array&lt;string&gt;
+##### -`fields : Array<string>`
 
 > a list of all your fields in your form. This is used for marking all of the fields as `touched` on submit.
 
@@ -603,11 +603,11 @@ Redux store
 
 > your [synchronous validation function](#synchronous-validation). Defaults to `() => ({valid: true})`
 
-#### `touchOnBlur` : boolean [optional]
+#### `touchOnBlur : boolean` [optional]
 
 > marks fields to touched when the blur action is fired. Defaults to `true`
 
-#### `touchOnChange` : boolean [optional]
+#### `touchOnChange : boolean` [optional]
 
 > marks fields to touched when the change action is fired. Defaults to `false`
 
@@ -620,7 +620,7 @@ of validation errors in the form `{ field1: <string>, field2: <string>, valid: <
 [synchronous validation function](#synchronous-validation). See 
 [Aynchronous Validation](#asynchronous-validation) for more details.
 
-###### -`...fields : String` [optional]
+##### -`...fields : String` [optional]
 
 > field names for which `handleBlur` should trigger a call to the `asyncValidate` function
 
