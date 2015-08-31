@@ -49,7 +49,7 @@ export default function reduxForm(config) {
     asyncBlurFields: [],
     ...config
   };
-  if (!form) {
+  if (!formName) {
     throw new Error('No form name passed to redux-form');
   }
   if (!fields || !fields.length) {
