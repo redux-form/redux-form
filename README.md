@@ -32,10 +32,8 @@
     * [Doing the `connect()`ing Yourself](#doing-the-connecting-yourself)
       * [Binding Action Creators](#binding-action-creators)
 * [API](#api)
-  * [`connectReduxForm(formName, fields, validate?, touchOnBlur?, touchOnChange?)`](#connectreduxformformnamestring-fieldsarrayltstringgt-validatefunction-touchonblurboolean-touchonchangeboolean)
-  * [`connectReduxForm().async(asyncValidate, ...fields?)`](#connectreduxformasyncasyncvalidatefunction-fieldsstring)
-  * [`reduxForm()`](#reduxform)
-  * [`reduxForm().async()`](#reduxformasync)
+  * [`connectReduxForm(config)`](#connectreduxformconfigobject)
+  * [`reduxForm(config)`](#reduxformconfigobject)
   * [`reducer`](#reducer)
   * [`reducer.plugin(Object<String, Function>)`](#reducerpluginobjectstring-function)
   * [`reducer.normalize(Object<String, Function>)`](#reducerpluginobjectstring-function)
@@ -140,14 +138,12 @@ class ContactForm extends Component {
 }
 
 // apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm(
-  // the name of your form and the key to where your form's state will be mounted
-  'contact',
-  // a list of all your fields in your form
-  ['name', 'address', 'phone'],
-  // a synchronous validation function
-  validateContact
-)(ContactForm);
+ContactForm = connectReduxForm({
+  form: 'contact',                      // the name of your form and the key to
+                                        // where your form's state will be mounted
+  fields: ['name', 'address', 'phone'], // a list of all your fields in your form
+  validate: validateContact             // a synchronous validation function
+})(ContactForm);
 
 // export the wrapped component
 export default ContactForm;
@@ -163,7 +159,11 @@ Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators),
 could be written as:
 
 ```javascript
-@connectReduxForm('contact', ['name', 'address', 'phone'], validateContact)
+@connectReduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact
+})
 export default class ContactForm extends Component {
 ```
 
@@ -211,11 +211,11 @@ generates. So this...
 
 ```javascript
 // apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm(
-  'contact',
-  ['name', 'address', 'phone'],
-  validateContact
-)(ContactForm);
+ContactForm = connectReduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact
+})(ContactForm);
 ```
 ...changes to this:
 ```javascript
@@ -228,13 +228,12 @@ function validateContactAsync(data) {
 }
 
 // apply connectReduxForm() and include synchronous AND asynchronous validation
-ContactForm = connectReduxForm(
-  'contact',
-  ['name', 'address', 'phone'],
-  validateContact
-).async(
-  validateContactAsync
-)(ContactForm);
+ContactForm = connectReduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact,
+  asyncValidate: validateContactAsync
+})(ContactForm);
 ```
 
 Optionally, if you want asynchronous validation to be triggered when one or more of your form
@@ -243,15 +242,13 @@ validation function. Like so:
 
 ```javascript
 // will only run async validation when 'name' or 'phone' is blurred
-ContactForm = connectReduxForm(
-  'contact',
-  ['name', 'address', 'phone'],
-  validateContact
-).async(
-  validateContactAsync,
-  'name',
-  'phone'
-)(ContactForm);
+ContactForm = connectReduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact,
+  asyncValidate: validateContactAsync,
+  asyncBlurFields: ['name', 'phone']
+})(ContactForm);
 ```
 With that call, the asynchronous validation will be called when either `name` or `phone` is blurred.
 *Assuming that they have their `onBlur={handleBlur('name')}` properties properly set up.*
@@ -259,12 +256,11 @@ With that call, the asynchronous validation will be called when either `name` or
 **NOTE!** If you _only_ want asynchronous validation, you may leave out the synchronous validation function.
 And if you only want it to be run on submit, you may leave out the async blur fields, as well.
 ```javascript
-ContactForm = connectReduxForm(
-  'contact',
-  ['name', 'address', 'phone']
-).async(
-  validateContactAsync
-)(ContactForm);
+ContactForm = connectReduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  asyncValidate: validateContactAsync
+})(ContactForm);
 ```
 
 ### Submitting Your Form
@@ -474,20 +470,20 @@ ContactForm = mapProps({
 })(ContactForm);
 
 // THEN apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm(
-  'contact',
-  ['name', 'address', 'phone'],
-  validateContact
-)(ContactForm);
+ContactForm = connectReduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact
+})(ContactForm);
 ...
 ```
 Or, in ES7 land...
 ```javascript
-@connectReduxForm(
-  'contact',
-  ['name', 'address', 'phone'],
-  validateContact
-)
+@connectReduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact
+})
 @mapProps({
   hasName: props => !!props.name.value
   hasPhone: props => !!props.phone.value
@@ -518,11 +514,11 @@ class ContactForm extends Component {
 
 // apply reduxForm() and include synchronous validation
 // note: we're using reduxForm, not connectReduxForm
-ContactForm = reduxForm(
-  'contact',
-  ['name', 'address', 'phone'],
-  validateContact
-)(ContactForm);
+ContactForm = reduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact
+})(ContactForm);
 
 // ------- HERE'S THE IMPORTANT BIT -------
 function mapStateToProps(state, ownProps) {
@@ -588,64 +584,64 @@ ContactForm = connect(
 ---
 ## API
 
-### `connectReduxForm(formName:string, fields:Array<string>, validate:Function?, touchOnBlur:boolean?, touchOnChange:boolean?)`
+### `connectReduxForm(config:Object)`
 
-##### -`formName : string`
+#### -`config.form : string`
 
 > the name of your form and the key to where your form's state will be mounted, under the `redux-form` reducer, in the 
 Redux store
 
-##### -`fields : Array<string>`
+#### -`config.fields : Array<string>`
 
 > a list of all your fields in your form. This is used for marking all of the fields as `touched` on submit.
 
-##### -`validate : Function` [optional]
+#### -`config.validate : Function` [optional]
 
 > your [synchronous validation function](#synchronous-validation). Defaults to `() => ({valid: true})`
 
-#### `touchOnBlur : boolean` [optional]
+#### -`config.touchOnBlur : boolean` [optional]
 
 > marks fields to touched when the blur action is fired. Defaults to `true`
 
-#### `touchOnChange : boolean` [optional]
+#### -`config.touchOnChange : boolean` [optional]
 
 > marks fields to touched when the change action is fired. Defaults to `false`
 
-### `connectReduxForm().async(asyncValidate:Function, ...fields:String?)`
-
-##### -`asyncValidate : Function`
+#### -`config.asyncValidate : Function` [optional]
 
 > a function that takes all the form data and returns a Promise that will resolve to an object
 of validation errors in the form `{ field1: <string>, field2: <string>, valid: <boolean> }` just like the
 [synchronous validation function](#synchronous-validation). See 
 [Aynchronous Validation](#asynchronous-validation) for more details.
 
-##### -`...fields : String` [optional]
+#### -`config.asyncBlurFields : Array<String>` [optional]
 
-> field names for which `handleBlur` should trigger a call to the `asyncValidate` function
+> field names for which `handleBlur` should trigger a call to the `asyncValidate` function. Defaults to `[]`.
 
-### `reduxForm()`
+---
+  
+### `reduxForm(config:Object)`
 
 > __[NOT RECOMMENDED]__ `reduxForm()` has the same API as 
   [`connectReduxForm()`](#connectreduxformformnamestring-fieldsarrayltstringgt-validatefunction-touchonblurboolean-touchonchangeboolean)
   except that ___you must [wrap the component in `connect()` yourself](#doing-the-connecting-yourself)___.
   
-### `reduxForm().async()`
-
-> __[NOT RECOMMENDED]__ `reduxForm().async()` has the same API as 
-  [`connectReduxForm().async()`](#connectreduxformasyncasyncvalidatefunction-fieldsstring)
-  except that ___you must [wrap the component in `connect()` yourself](#doing-the-connecting-yourself)___.
-
+---
+  
 ### `reducer`
 
 > The form reducer. Should be given to mounted to your Redux state at `form`.
 
+---
+  
 ### `reducer.plugin(Object<String, Function>)`
 
 > Returns a form reducer that will also pass each action through additional reducers specified. The parameter should 
 be an object mapping from `formName` to a `(state, action) => nextState` reducer. **The `state` passed to each reducer 
 will only be the slice that pertains to that form.** See [Responding to Other Actions](#responding-to-other-actions).
 
+---
+  
 ### `reducer.normalize(Object<String, Object<String, Function>>)`
 
 > Returns a form reducer that will also pass each form value through the normalizing functions provided. The 
@@ -665,6 +661,8 @@ See [Normalizing Form Data](#normalizing-form-data).
 
 > All the values of the current form
 
+---
+  
 ### props
 
 The props passed into your decorated component will be:
@@ -751,7 +749,7 @@ form element.
 
 > Returns a `handleBlur` function for the field passed. `handleBlur('age')` returns `fields.age.handleBlur`.
 
-### -`handleChange(field:string) : Function`
+#### -`handleChange(field:string) : Function`
 
 > Returns a `handleChange` function for the field passed. `handleChange('age')` returns `fields.age.handleChange`.
 
@@ -814,6 +812,8 @@ comparing the current data with these initialized values.
 
 > All of your values in the form `{ field1: <string>, field2: <string> }`.
 
+---
+
 ### Action Creators
 
 `redux-form` exports all of its internal action creators, allowing you complete control to dispatch any action
@@ -858,6 +858,8 @@ for most of your needs.**
 
 > Resets the 'touched' flag for all the fields passed in.
 
+---
+  
 ## Working Demo
 
 Check out the 

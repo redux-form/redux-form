@@ -40,7 +40,21 @@ function silenceEvents(fn) {
   };
 }
 
-function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields) {
+export default function reduxForm(config) {
+  const {form: formName, fields, validate: syncValidate, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields} = {
+    validate: () => ({valid: true}),
+    touchOnBlur: true,
+    touchOnChange: false,
+    asyncValidate: null,
+    asyncBlurFields: [],
+    ...config
+  };
+  if (!form) {
+    throw new Error('No form name passed to redux-form');
+  }
+  if (!fields || !fields.length) {
+    throw new Error('No fields passed to redux-form');
+  }
   return DecoratedComponent =>
     class ReduxForm extends Component {
       static displayName = `ReduxForm(${getDisplayName(DecoratedComponent)})`;
@@ -212,15 +226,5 @@ function createReduxFormDecorator(formName, fields, syncValidate, touchOnBlur, t
           {...passableProps}/>);
       }
     };
-
 }
 
-export default
-function reduxForm(formName, fields, syncValidate = () => ({valid: true}), touchOnBlur = true, touchOnChange = false) {
-  const decorator = createReduxFormDecorator(formName, fields, syncValidate, !!touchOnBlur, !!touchOnChange);
-  decorator.async = (asyncValidate, ...blurFields) => {
-    return createReduxFormDecorator(formName, fields, syncValidate, !!touchOnBlur, !!touchOnChange, asyncValidate,
-      Array.isArray(blurFields[0]) ? blurFields[0] : blurFields);
-  };
-  return decorator;
-}

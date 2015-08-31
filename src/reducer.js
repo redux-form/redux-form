@@ -22,7 +22,7 @@ const reducer = (state = initialState, action = {}) => {
         [action.field]: {
           ...state[action.field],
           value: action.value,
-          touched: action.touch || (state[action.field] || {}).touched
+          touched: !!(action.touch || (state[action.field] || {}).touched)
         }
       };
     case CHANGE:
@@ -31,7 +31,7 @@ const reducer = (state = initialState, action = {}) => {
         [action.field]: {
           ...state[action.field],
           value: action.value,
-          touched: action.touch || (state[action.field] || {}).touched,
+          touched: !!(action.touch || (state[action.field] || {}).touched),
           asyncError: null
         }
       };
