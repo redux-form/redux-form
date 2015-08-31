@@ -40,9 +40,19 @@ function silenceEvents(fn) {
   };
 }
 
+function isValid(errors) {
+  if(!errors) {
+    return true;
+  }
+  if(errors.valid === undefined) {
+    return !Object.keys(errors);
+  }
+  return !!errors.valid;
+}
+
 export default function reduxForm(config) {
   const {form: formName, fields, validate: syncValidate, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields} = {
-    validate: () => ({valid: true}),
+    validate: () => ({}),
     touchOnBlur: true,
     touchOnChange: false,
     asyncValidate: null,
@@ -98,7 +108,7 @@ export default function reduxForm(config) {
           }
           return promise.then(asyncErrors => {
             dispatch(stopAsyncValidation(asyncErrors));
-            return !!asyncErrors.valid;
+            return isValid(asyncErrors);
           }, (err) => {
             dispatch(stopAsyncValidation({}));
             throw new Error('redux-form: Asynchronous validation failed: ' + err);

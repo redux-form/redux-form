@@ -175,32 +175,26 @@ are experimental, and this syntax might change or be removed later.
 ### Synchronous Validation
 
 You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all
-your data and spits out error messages as well as a `valid` flag. For example:
+your data and spits out error messages. For example:
 
 ```javascript
 function validateContact(data) {
-  const errors = { valid: true };
+  const errors = {};
   if(!data.name) {
     errors.name = 'Required';
-    errors.valid = false;
   }
   if(data.address && data.address.length > 50) {
     errors.address = 'Must be fewer than 50 characters';
-    errors.valid = false;
   }
   if(!data.phone) {
     errors.phone = 'Required';
-    errors.valid = false;
   } else if(!/\d{3}-\d{3}-\d{4}/.test(data.phone)) {
     errors.phone = 'Phone must match the form "999-999-9999"'
-    errors.valid = false;
   }
   return errors;
 }
 ```
 You get the idea.
-
-__You must return a boolean `valid` flag in the result.__
 
 ### Asynchronous Validation
 
@@ -221,7 +215,7 @@ ContactForm = connectReduxForm({
 ```javascript
 function validateContactAsync(data) {
   return new Promise((resolve, reject) => {
-    const errors = {valid: true};
+    const errors = {};
     // do async validation
     resolve(errors);
   });
@@ -597,7 +591,7 @@ Redux store
 
 #### -`config.validate : Function` [optional]
 
-> your [synchronous validation function](#synchronous-validation). Defaults to `() => ({valid: true})`
+> your [synchronous validation function](#synchronous-validation). Defaults to `() => ({})`
 
 #### -`config.touchOnBlur : boolean` [optional]
 
