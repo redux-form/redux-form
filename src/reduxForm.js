@@ -41,10 +41,10 @@ function silenceEvents(fn) {
 }
 
 function isValid(errors) {
-  if(!errors) {
+  if (!errors) {
     return true;
   }
-  if(errors.valid === undefined) {
+  if (errors.valid === undefined) {
     return !Object.keys(errors);
   }
   return !!errors.valid;
