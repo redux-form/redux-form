@@ -263,7 +263,7 @@ The recommended way to submit your form is to create your form component as [sho
 using the `handleSubmit` prop, and then pass an `onSubmit` prop to your form component.
 
 ```javascript
-import React, {Component, PropTypes} from 'redux-form';
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'redux';
 import {initialize} from 'redux-form';
 
