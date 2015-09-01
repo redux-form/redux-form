@@ -125,7 +125,7 @@ class ContactForm extends Component {
         
         <label>Address</label>
         <input type="text" {...address}/>  // will pass value, onBlur and onChange
-        {address.error && addresss.touched ? <div>{address.error}</div>}
+        {address.error && address.touched ? <div>{address.error}</div>}
         
         <label>Phone</label>
         <input type="text" {...phone}/>    // will pass value, onBlur and onChange
@@ -263,7 +263,7 @@ The recommended way to submit your form is to create your form component as [sho
 using the `handleSubmit` prop, and then pass an [`onSubmit` prop](#onsubmit-function-optional) to your form component.
 
 ```javascript
-import React, {Component, PropTypes} from 'redux-form';
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'redux';
 import {initialize} from 'redux-form';
 
