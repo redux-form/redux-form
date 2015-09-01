@@ -63,7 +63,8 @@ export default function reduxForm(config) {
     ...config
   };
   if (!fields || !fields.length) {
-    throw new Error('No fields passed to redux-form');
+    throw new Error('No fields passed to redux-form. Must be passed to ' +
+      'connectReduxForm({fields: ["my", "field", "names"]})');
   }
   return DecoratedComponent =>
     class ReduxForm extends Component {
