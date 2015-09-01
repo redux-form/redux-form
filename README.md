@@ -125,7 +125,7 @@ class ContactForm extends Component {
         
         <label>Address</label>
         <input type="text" {...address}/>  // will pass value, onBlur and onChange
-        {address.error && addresss.touched ? <div>{address.error}</div>}
+        {address.error && address.touched ? <div>{address.error}</div>}
         
         <label>Phone</label>
         <input type="text" {...phone}/>    // will pass value, onBlur and onChange
