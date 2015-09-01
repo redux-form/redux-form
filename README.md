@@ -37,7 +37,10 @@
   * [`reducer`](#reducer)
   * [`reducer.plugin(Object<String, Function>)`](#reducerpluginobjectstring-function)
   * [`reducer.normalize(Object<String, Function>)`](#reducerpluginobjectstring-function)
-  * [`props`](#props) - The props passed in to your form component by `redux-form`
+  * [`props` passed into your decorated component](#props-passed-into-your-decorated-component) - props provided by 
+  `redux-form`
+  * [`props` you can pass into your decorated component](#props-you-can-pass-into-your-decorated-component) - extra
+  functionality!
   * [Action Creators](#action-creators) - Advanced
 * [Working Demo](#working-demo)
 
@@ -633,7 +636,7 @@ See [Normalizing Form Data](#normalizing-form-data).
 
 ---
   
-### `props` passed in to your decorated component
+### `props` passed into your decorated component
 
 The props passed into your decorated component by `react-form` will be:
 
