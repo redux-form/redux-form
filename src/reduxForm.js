@@ -22,6 +22,9 @@ function getValue(passedValue, event) {
   if (passedValue !== undefined || !event) {
     return passedValue;
   }
+  if (event.target === undefined) {  // is it a value instead of an event?
+    return event;
+  }
   const {target: {type, value, checked}} = event;
   if (type === 'checkbox') {
     return checked;
