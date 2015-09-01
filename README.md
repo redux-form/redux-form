@@ -150,8 +150,8 @@ export default ContactForm;
 ```
 
 Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component.
-`handleSubmit` will call the function passed into `ContactForm`'s `onSubmit` prop, _if and only
-if_ the synchronous validation passes. See [Submitting Your Form](#submitting-your-form).
+`handleSubmit` will call the function passed into `ContactForm`'s [`onSubmit` prop](#onsubmit-function-optional), _if 
+and only if_ the synchronous validation passes. See [Submitting Your Form](#submitting-your-form).
 
 ### ES7 Decorator Sugar
 
@@ -260,7 +260,7 @@ ContactForm = connectReduxForm({
 ### Submitting Your Form
 
 The recommended way to submit your form is to create your form component as [shown above](#how-it-works),
-using the `handleSubmit` prop, and then pass an `onSubmit` prop to your form component.
+using the `handleSubmit` prop, and then pass an [`onSubmit` prop](#onsubmit-function-optional) to your form component.
 
 ```javascript
 import React, {Component, PropTypes} from 'redux-form';
@@ -387,27 +387,16 @@ const store = createStore(reducer);
 ### Editing Multiple Records
 
 Editing multiple records on the same page is trivially easy with `redux-form`. All you have to do is to pass a
-unique `formKey` prop into your form element, and initialize the data with `initializeWithKey()`
-instead of `initialize()`. Let's say we want to edit many contacts on the same page.
+unique `formKey` and `initialValues` props into your form element. Let's say we want to edit many contacts on the
+same page.
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {initializeWithKey} from 'redux-form';
-import {bindActionCreators} from 'redux';
 import ContactForm from './ContactForm';
 
-class ContactsPage extends Component {
+export default class ContactsPage extends Component {
   static propTypes = {
-    contacts: PropTypes.array.isRequired,
-    initializeWithKey: PropTypes.func.isRequired
-  }
-  
-  componentWillMount() {
-    const {contacts, initializeWithKey} = this.props;
-    contacts.forEach(function (contact) {
-      initializeWithKey('contact', String(contact.id), contact);
-    });
+    contacts: PropTypes.array.isRequired  // how you pass the data in is up to you
   }
   
   handleSubmit(id, data) {
@@ -422,26 +411,13 @@ class ContactsPage extends Component {
           return <ContactForm
                    key={contact.id}                  // required by react
                    formKey={String(contact.id)}      // required by redux-form
+                   initialValues={contact}           // initialize form values
                    onSubmit={this.handleSubmit.bind(this, contact.id)}/>
         })}
       </div>
     );
   }
 }
-
-function mapStateToProps(state) {
-  return { contacts: state.contacts.data };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ initializeWithKey }, dispatch),
-}
-
-// apply connect() to bind it to Redux state
-ContactsPage = connect(mapStateToProps, mapDispatchToProps)(ContactsPage);
-
-// export the wrapped component
-export default ContactPage;
 ```
 
 ### Calculating `props` from Form Data
@@ -580,10 +556,10 @@ ContactForm = connect(
 
 ### `connectReduxForm(config:Object)`
 
-#### -`config.form : string`
+#### -`config.form : string` [optional]
 
 > the name of your form and the key to where your form's state will be mounted, under the `redux-form` reducer, in the 
-Redux store
+Redux store. If you do not provide this, you must pass it in as a `formName` prop to your component.
 
 #### -`config.fields : Array<string>`
 
@@ -657,9 +633,9 @@ See [Normalizing Form Data](#normalizing-form-data).
 
 ---
   
-### props
+### `props` passed in to your decorated component
 
-The props passed into your decorated component will be:
+The props passed into your decorated component by `react-form` will be:
 
 #### -`asyncValidate : Function`
 
@@ -805,6 +781,33 @@ comparing the current data with these initialized values.
 #### -`values : Object`
 
 > All of your values in the form `{ field1: <string>, field2: <string> }`.
+
+---
+
+### `props` you can pass into your decorated component
+
+The props that you can pass into decorated component by `react-form` will be:
+
+#### -`formKey : String` [optional]
+
+> a unique key for the subform this component will be editing. See
+[Editing Multiple Records](#editing-multiple-records).
+
+#### -`formName : String` [optional]
+
+> the name of your form and the key to where your form's state will be mounted, under the `redux-form` reducer, in the 
+Redux store. Will overwrite any [`config.form`](#configform-string-optional) value that was passed to 
+[`connectReduxForm(config)`](#connectreduxformconfigobject).
+
+#### -`initialValues : Object` [optional]
+
+> the values with which to initialize your form in `componentWillMount`. Particularly useful when
+[Editing Multiple Records](#editing-multiple-records), but can also be used with single-record forms.
+
+#### -`onSubmit : Function` [optional]
+
+> the function to call with the form data when the `handleSubmit` is fired from within the form component. If you
+do not specify it as a prop here, you must pass it as a parameter to `handleSubmit` inside your form component.
 
 ---
 

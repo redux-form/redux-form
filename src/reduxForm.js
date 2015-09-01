@@ -62,9 +62,6 @@ export default function reduxForm(config) {
     asyncBlurFields: [],
     ...config
   };
-  if (!formName) {
-    throw new Error('No form name passed to redux-form');
-  }
   if (!fields || !fields.length) {
     throw new Error('No fields passed to redux-form');
   }
@@ -77,16 +74,31 @@ export default function reduxForm(config) {
         formKey: PropTypes.string,
         form: PropTypes.object,
         onSubmit: PropTypes.func,
-        dispatch: PropTypes.func.isRequired
+        dispatch: PropTypes.func.isRequired,
+        initialValues: PropTypes.object
       }
       static defaultProps = {
         formName
+      }
+
+      componentWillMount() {
+        const {initialValues, dispatch, formName, formKey} = this.props; // eslint-disable-line no-shadow
+        if (initialValues) {
+          const {initialize} = formKey ?
+            bindActionData(formActions, {form: formName, key: formKey}) :
+            bindActionData(formActions, {form: formName});
+          dispatch(initialize(initialValues));
+        }
       }
 
       render() {
 
         // Read props
         const {formName, form, formKey, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
+        if (!formName) {
+          throw new Error('No form name given to redux-form. Must be passed to ' +
+            'connectReduxForm({form: [form name]}) or as a "formName" prop');
+        }
         const subForm = getSubForm(form, formName, formKey);
 
         // Calculate calculable state
