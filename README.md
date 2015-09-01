@@ -799,7 +799,7 @@ The props that you can pass into decorated component by `react-form` will be:
 #### -`formName : String` [optional]
 
 > the name of your form and the key to where your form's state will be mounted, under the `redux-form` reducer, in the 
-Redux store. Will overwrite any [`config.form`](#configform-string-optional) value that was passed to 
+Redux store. Will overwrite any [`config.form`](#-configform--string-optional) value that was passed to 
 [`connectReduxForm(config)`](#connectreduxformconfigobject).
 
 #### -`initialValues : Object` [optional]
