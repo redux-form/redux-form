@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
   STOP_SUBMIT, TOUCH, UNTOUCH } from '../src/actionTypes';
 import {blur, change, initialize, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, touch, untouch} from '../src/actions';

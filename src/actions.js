@@ -1,4 +1,4 @@
-import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
   STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
 
 export function blur(field, value) {
@@ -7,6 +7,10 @@ export function blur(field, value) {
 
 export function change(field, value) {
   return {type: CHANGE, field, value};
+}
+
+export function focus(data) {
+  return {type: FOCUS, data};
 }
 
 export function initialize(data) {
