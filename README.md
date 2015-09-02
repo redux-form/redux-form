@@ -178,7 +178,8 @@ are experimental, and this syntax might change or be removed later.
 ### Synchronous Validation
 
 You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all
-your data and spits out error messages. For example:
+your data and spits out error messages. Your error messages may be strings or arrays of strings (if your field data 
+is complex). For example:
 
 ```javascript
 function validateContact(data) {
