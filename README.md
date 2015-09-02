@@ -178,7 +178,8 @@ are experimental, and this syntax might change or be removed later.
 ### Synchronous Validation
 
 You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all
-your data and spits out error messages. For example:
+your data and spits out error messages. Your error messages may be strings or arrays of strings (if your field data 
+is complex). For example:
 
 ```javascript
 function validateContact(data) {
@@ -267,7 +268,7 @@ using the `handleSubmit` prop, and then pass an [`onSubmit` prop](#onsubmit-func
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'redux';
+import {connect} from 'react-redux';
 import {initialize} from 'redux-form';
 
 class ContactPage extends Component {
