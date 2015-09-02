@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import * as formActions from './actions';
 import getDisplayName from './getDisplayName';
 import isPristine from './isPristine';
+import isValid from './isValid';
 import bindActionData from './bindActionData';
 import {initialState} from './reducer';
 
@@ -196,7 +197,8 @@ export default function reduxForm(config) {
           const field = subForm[name] || {};
           const pristine = isPristine(field.value, field.initial);
           const error = syncErrors[name] || field.asyncError;
-          if (error) {
+          const valid = isValid(error);
+          if (!valid) {
             allValid = false;
           }
           if (!pristine) {
@@ -210,13 +212,13 @@ export default function reduxForm(config) {
               error,
               handleBlur: handleBlur(name),
               handleChange: handleChange(name),
-              invalid: !!error,
+              invalid: !valid,
               name,
               onBlur: handleBlur(name),
               onChange: handleChange(name),
               pristine,
               touched: field.touched,
-              valid: !error,
+              valid: valid,
               value: field.value
             }
           };
