@@ -43,7 +43,7 @@ function silenceEvents(fn) {
   };
 }
 
-function isValid(errors) {
+function isAsyncValid(errors) {
   if (!errors) {
     return true;
   }
@@ -124,7 +124,7 @@ export default function reduxForm(config) {
           }
           return promise.then(asyncErrors => {
             dispatch(stopAsyncValidation(asyncErrors));
-            return isValid(asyncErrors);
+            return isAsyncValid(asyncErrors);
           }, (err) => {
             dispatch(stopAsyncValidation({}));
             throw new Error('redux-form: Asynchronous validation failed: ' + err);
