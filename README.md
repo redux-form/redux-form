@@ -267,7 +267,7 @@ using the `handleSubmit` prop, and then pass an [`onSubmit` prop](#onsubmit-func
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'redux';
+import {connect} from 'react-redux';
 import {initialize} from 'redux-form';
 
 class ContactPage extends Component {
