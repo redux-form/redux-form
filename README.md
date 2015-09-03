@@ -676,13 +676,15 @@ errors will be reported here.
 
 > A function to call when the form field is blurred. It expects to receive the 
 [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) and is meant to be passed to the form
-element's `onBlur` prop.
+element's `onBlur` prop. _Alternatively: you may pass the value directly into `handleBlur` to set the value on in the
+form._
 
 ##### ---`handleChange : Function`
 
-> A function to call when the form field is blurred. It expects to receive the 
+> A function to call when the form field is changed. It expects to receive the 
 [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) and is meant to be passed to the form
-element's `onChange` prop.
+element's `onChange` prop. _Alternatively: you may pass the value directly into `handleChange` to set the value on in
+the form._
 
 ##### ---`invalid : boolean`
 
@@ -719,13 +721,17 @@ form element.
 
 > The value of this form field. It will be a boolean for checkboxes, and a string for all other input types.
 
-#### -`handleBlur(field:string) : Function`
+#### -`handleBlur(field:string, value:any?) : Function`
 
-> Returns a `handleBlur` function for the field passed. `handleBlur('age')` returns `fields.age.handleBlur`.
+> Returns a `handleBlur` function for the field passed. `handleBlur('age')` returns `fields.age.handleBlur`. If you 
+pass it both a field and a value, it will set that value in the form. If you give it just a field, it will return a 
+function that will set the value when either given the value or an event from an input.
 
-#### -`handleChange(field:string) : Function`
+#### -`handleChange(field:string, value:any?) : Function`
 
-> Returns a `handleChange` function for the field passed. `handleChange('age')` returns `fields.age.handleChange`.
+> Returns a `handleChange` function for the field passed. `handleChange('age')` returns `fields.age.handleChange`. If
+you pass it both a field and a value, it will set that value in the form. If you give it just a field, it will return a 
+function that will set the value when either given the value or an event from an input.
 
 #### -`handleSubmit : Function`
 
