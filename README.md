@@ -680,7 +680,7 @@ element's `onBlur` prop.
 
 ##### ---`handleChange : Function`
 
-> A function to call when the form field is blurred. It expects to receive the 
+> A function to call when the form field is changed. It expects to receive the 
 [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) and is meant to be passed to the form
 element's `onChange` prop.
 
