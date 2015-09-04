@@ -89,11 +89,14 @@ import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 const reducers = {
   // ... your other reducers here ...
-  form: formReducer   // it is recommended that you use the key 'form'
+  form: formReducer           // <---- Mounted at 'form'. See note below.
 }
 const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 ```
+
+*NOTE* – If you are not [doing the `connect()`ing yourself](#doing-the-connecting-yourself) (and it is recommended that 
+you do not, unless you have an advanced use case that requires it), _you **must** mount the reducer at `form`_.
 
 __STEP 2:__ Wrap your form component with `connectReduxForm()`.  `connectReduxForm()` wraps your form component in a 
 Higher Order Component that connects to the Redux store and provides functions, as props to your component, for your 
