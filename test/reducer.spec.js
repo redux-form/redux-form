@@ -27,6 +27,7 @@ describe('reducer', () => {
       .toExist()
       .toBeA('object')
       .toEqual({
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       });
@@ -43,6 +44,7 @@ describe('reducer', () => {
           value: 'myValue',
           touched: false
         },
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       });
@@ -60,6 +62,7 @@ describe('reducer', () => {
           value: 'myValue',
           touched: true
         },
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       });
@@ -73,6 +76,7 @@ describe('reducer', () => {
           value: 'initialValue',
           touched: false
         },
+        _active: 'myField',
         _asyncValidating: false,
         _submitting: false
       }
@@ -88,6 +92,7 @@ describe('reducer', () => {
           value: 'myValue',
           touched: true
         },
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       });
@@ -105,6 +110,7 @@ describe('reducer', () => {
           touched: false,
           asyncError: null
         },
+        _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         _submitting: false
       });
@@ -123,6 +129,7 @@ describe('reducer', () => {
           touched: true,
           asyncError: null
         },
+        _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         _submitting: false
       });
@@ -136,6 +143,7 @@ describe('reducer', () => {
           value: 'initialValue',
           touched: false
         },
+        _active: 'myField',
         _asyncValidating: false,
         _submitting: false
       }
@@ -152,6 +160,7 @@ describe('reducer', () => {
           touched: true,
           asyncError: null
         },
+        _active: 'myField',
         _asyncValidating: false,
         _submitting: false
       });
@@ -213,6 +222,7 @@ describe('reducer', () => {
           initial: 'initialValue',
           value: 'initialValue'
         },
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       });
@@ -225,6 +235,7 @@ describe('reducer', () => {
           value: 'dirtyValue',
           touched: true
         },
+        _active: 'myField',
         _asyncValidating: false,
         _submitting: false
       }
@@ -239,6 +250,7 @@ describe('reducer', () => {
           initial: 'initialValue',
           value: 'initialValue'
         },
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       });
@@ -257,6 +269,7 @@ describe('reducer', () => {
           value: 'otherDirtyValue',
           touched: true
         },
+        _active: 'myField',
         _asyncValidating: false,
         _submitting: false
       }
@@ -274,6 +287,7 @@ describe('reducer', () => {
           initial: 'otherInitialValue',
           value: 'otherInitialValue'
         },
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       });

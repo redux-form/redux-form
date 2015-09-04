@@ -4,7 +4,8 @@ import mapValues from './mapValues';
 
 export const initialState = {
   _asyncValidating: false,
-  _submitting: false
+  _submitting: false,
+  _active: undefined
 };
 
 const getValues = (state) =>
@@ -23,7 +24,8 @@ const reducer = (state = initialState, action = {}) => {
           ...state[action.field],
           value: action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched)
-        }
+        },
+        _active: undefined
       };
     case CHANGE:
       return {
@@ -51,7 +53,8 @@ const reducer = (state = initialState, action = {}) => {
           value: value
         })),
         _asyncValidating: false,
-        _submitting: false
+        _submitting: false,
+        _active: undefined
       };
     case RESET:
       return {
@@ -61,6 +64,7 @@ const reducer = (state = initialState, action = {}) => {
             value: field.initial
           };
         }),
+        _active: undefined,
         _asyncValidating: false,
         _submitting: false
       };
