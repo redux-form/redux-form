@@ -1,2 +1,9 @@
 src
 examples
+test
+.babelrc
+.eslint*
+.idea
+.npmignore
+.travis.yml
+webpack.*

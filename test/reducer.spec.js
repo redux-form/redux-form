@@ -1,6 +1,6 @@
 import expect from 'expect';
 import reducer from '../src/reducer';
-import {blur, change, initialize, reset, startAsyncValidation, startSubmit,
+import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, touch, untouch} from '../src/actions';
 
 describe('reducer', () => {
@@ -152,6 +152,51 @@ describe('reducer', () => {
           touched: true,
           asyncError: null
         },
+        _asyncValidating: false,
+        _submitting: false
+      });
+  });
+
+  it('should set visited on focus and update current with no previous state', () => {
+    const state = reducer({}, {
+      ...focus('myField'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          visited: true
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _submitting: false
+      });
+  });
+
+  it('should set visited on focus and update current with previous state', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          initial: 'initialValue',
+          value: 'initialValue',
+          visited: false
+        },
+        _active: 'otherField',
+        _asyncValidating: false,
+        _submitting: false
+      }
+    }, {
+      ...focus('myField'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          initial: 'initialValue',
+          value: 'initialValue',
+          visited: true
+        },
+        _active: 'myField',
         _asyncValidating: false,
         _submitting: false
       });

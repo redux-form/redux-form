@@ -2,8 +2,15 @@ import React, {Component, PropTypes} from 'react';
 import * as formActions from './actions';
 import getDisplayName from './getDisplayName';
 import isPristine from './isPristine';
+import isValid from './isValid';
 import bindActionData from './bindActionData';
 import {initialState} from './reducer';
+
+function isReadonly(prop) {
+  const writeProps = ['asyncValidate', 'handleBlur', 'handleChange', 'handleFocus',
+    'handleSubmit', 'onBlur', 'onChange', 'onFocus'];
+  return !~writeProps.indexOf(prop);
+}
 
 function getSubForm(form, formName, formKey) {
   if (form && form[formName]) {
@@ -43,7 +50,7 @@ function silenceEvents(fn) {
   };
 }
 
-function isValid(errors) {
+function isAsyncValid(errors) {
   if (!errors) {
     return true;
   }
@@ -54,17 +61,27 @@ function isValid(errors) {
 }
 
 export default function reduxForm(config) {
-  const {form: formName, fields, validate: syncValidate, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields} = {
+  const { form: formName, fields, validate: syncValidate, readonly, touchOnBlur, touchOnChange, asyncValidate, asyncBlurFields } = {
     validate: () => ({}),
     touchOnBlur: true,
     touchOnChange: false,
+    readonly: false,
     asyncValidate: null,
     asyncBlurFields: [],
     ...config
   };
   if (!fields || !fields.length) {
-    throw new Error('No fields passed to redux-form');
+    throw new Error('No fields passed to redux-form. Must be passed to ' +
+      'connectReduxForm({fields: ["my", "field", "names"]})');
   }
+
+  const filterProps = props => readonly ?
+    Object.keys(props).reduce((accumulator, prop) =>
+      isReadonly(prop) ? ({
+        ...accumulator,
+        [prop]: props[prop]
+      }) : accumulator, {}) : props;
+
   return DecoratedComponent =>
     class ReduxForm extends Component {
       static displayName = `ReduxForm(${getDisplayName(DecoratedComponent)})`;
@@ -110,7 +127,7 @@ export default function reduxForm(config) {
         }), {});
 
         // Create actions
-        const {blur, change, initialize, reset, startAsyncValidation, startSubmit, stopAsyncValidation,
+        const {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit, stopAsyncValidation,
           stopSubmit, touch, untouch} = formKey ?
           bindActionData(formActions, {form: formName, key: formKey}) :
           bindActionData(formActions, {form: formName});
@@ -123,7 +140,7 @@ export default function reduxForm(config) {
           }
           return promise.then(asyncErrors => {
             dispatch(stopAsyncValidation(asyncErrors));
-            return isValid(asyncErrors);
+            return isAsyncValid(asyncErrors);
           }, (err) => {
             dispatch(stopAsyncValidation({}));
             throw new Error('redux-form: Asynchronous validation failed: ' + err);
@@ -144,6 +161,9 @@ export default function reduxForm(config) {
               runAsyncValidation();
             }
           }
+        };
+        const handleFocus = (name) => () => {
+          dispatch(focus(name));
         };
         const handleChange = (name, value) => (event) => {
           const doChange = bindActionData(change, {touch: touchOnChange});
@@ -195,7 +215,8 @@ export default function reduxForm(config) {
           const field = subForm[name] || {};
           const pristine = isPristine(field.value, field.initial);
           const error = syncErrors[name] || field.asyncError;
-          if (error) {
+          const valid = isValid(error);
+          if (!valid) {
             allValid = false;
           }
           if (!pristine) {
@@ -203,52 +224,59 @@ export default function reduxForm(config) {
           }
           return {
             ...accumulator,
-            [name]: {
+            [name]: filterProps({
+              active: subForm._active === name,
               checked: typeof field.value === 'boolean' ? field.value : undefined,
               dirty: !pristine,
               error,
               handleBlur: handleBlur(name),
               handleChange: handleChange(name),
-              invalid: !!error,
+              handleFocus: handleFocus(name),
+              invalid: !valid,
               name,
               onBlur: handleBlur(name),
               onChange: handleChange(name),
+              onFocus: handleFocus(name),
               pristine,
               touched: field.touched,
-              valid: !error,
-              value: field.value
-            }
+              valid: valid,
+              value: field.value,
+              visited: field.visited
+            })
           };
         }, {});
 
         // Return decorated component
-        return (<DecoratedComponent
+        return (<DecoratedComponent {...{
           // State:
-          asyncValidating={subForm._asyncValidating}
-          dirty={!allPristine}
-          fields={allFields}
-          formKey={formKey}
-          invalid={!allValid}
-          pristine={allPristine}
-          submitting={subForm._submitting}
-          valid={allValid}
-          values={values}
+          active: subForm._active,
+          asyncValidating: subForm._asyncValidating,
+          dirty: !allPristine,
+          fields: allFields,
+          formKey,
+          invalid: !allValid,
+          pristine: allPristine,
+          submitting: subForm._submitting,
+          valid: allValid,
+          values,
 
           // Actions:
-          asyncValidate={silenceEvents(runAsyncValidation)}
-          handleBlur={silenceEvents(handleBlur)}
-          handleChange={silenceEvents(handleChange)}
-          handleSubmit={silenceEvents(handleSubmit)}
-          initializeForm={silenceEvents(initialValues => dispatch(initialize(initialValues)))}
-          resetForm={silenceEvents(() => dispatch(reset()))}
-          touch={silenceEvents((...touchFields) => dispatch(touch(...touchFields)))}
-          touchAll={silenceEvents(() => dispatch(touch(...fields)))}
-          untouch={silenceEvents((...untouchFields) => dispatch(untouch(...untouchFields)))}
-          untouchAll={silenceEvents(() => dispatch(untouchAll(...fields)))}
+          asyncValidate: silenceEvents(runAsyncValidation),
+          handleBlur: silenceEvents(handleBlur),
+          handleChange: silenceEvents(handleChange),
+          handleFocus,
+          handleSubmit: silenceEvents(handleSubmit),
+          initializeForm: silenceEvents(initialValues => dispatch(initialize(initialValues))),
+          resetForm: silenceEvents(() => dispatch(reset())),
+          touch: silenceEvents((...touchFields) => dispatch(touch(...touchFields))),
+          touchAll: silenceEvents(() => dispatch(touch(...fields))),
+          untouch: silenceEvents((...untouchFields) => dispatch(untouch(...untouchFields))),
+          untouchAll: silenceEvents(() => dispatch(untouchAll(...fields))),
 
           // Other:
-          dispatch={dispatch}
-          {...passableProps}/>);
+          dispatch,
+          ...passableProps
+        }}/>);
       }
     };
 }
