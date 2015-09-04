@@ -9,8 +9,8 @@ export function change(field, value) {
   return {type: CHANGE, field, value};
 }
 
-export function focus(data) {
-  return {type: FOCUS, data};
+export function focus(field) {
+  return {type: FOCUS, field};
 }
 
 export function initialize(data) {

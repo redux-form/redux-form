@@ -28,6 +28,7 @@
   * [Normalizing Form Data](#normalizing-form-data)
   * [Editing Multiple Records](#editing-multiple-records)
   * [Calculating `props` from Form Data](#calculating-props-from-form-data)
+  * [Dynamic Forms](#dynamic-forms)
   * [Advanced Usage](#advanced-usage)
     * [Doing the `connect()`ing Yourself](#doing-the-connecting-yourself)
       * [Binding Action Creators](#binding-action-creators)
@@ -466,6 +467,55 @@ export default class ContactForm extends Component {
 ```
 ---
 
+### Dynamic Forms
+
+What if you don't know the shape of your form, i.e. what fields are needed, until runtime, maybe based on some data
+retrieved from the server? No problem! Because of the functional nature of React, Redux and `redux-form`, you can
+define **_and decorate_** your form component at runtime.
+
+```javascript
+import React, {Component, PropTypes} from 'react';
+import {connectReduxForm} from 'redux-form';
+
+class DynamicForm extends Component {
+  static propTypes = {
+    formName: PropTypes.string.isRequired,
+    fieldsNeeded: PropTypes.arrayOf(PropTypes.string).isRequired
+  }
+  
+  render() {
+    const {formName, fieldsNeeded} = this.props;
+    
+    // define form class
+    class Form extends Component {
+      static propTypes = {
+        fields: PropTypes.arrayOf(PropTypes.object).isRequired
+      }
+  
+      render() {
+        const {fields} = this.props;  // passed in by redux-form
+        return (
+          <div>
+            {fields.map(field => <div key={field.name}>
+              <label>{field.name}</label>
+              <input type="text" {...field}/>
+            </div>)}
+          </div>
+        );
+      }
+    }
+    
+    // connect Form to Redux and decorate with redux-form
+    Form = connectReduxForm({ form: formName, fields: fieldsNeed })(Form);
+    
+    // render connected and decorated form
+    return <Form/>;
+  }
+}
+```
+
+---
+
 ## Advanced Usage
 
 #### Doing the `connect()`ing Yourself
@@ -573,6 +623,12 @@ Redux store. If you do not provide this, you must pass it in as a `formName` pro
 
 > your [synchronous validation function](#synchronous-validation). Defaults to `() => ({})`
 
+#### -`config.readonly : boolean` [optional]
+
+> if `true`, the decorated component will not be passed any of the `handleX` or `onX` props that will allow it to
+mutate the state. Useful for decorating another component that is not your form, but that needs to know about the
+state of your form.
+
 #### -`config.touchOnBlur : boolean` [optional]
 
 > marks fields to touched when the blur action is fired. Defaults to `true`
@@ -641,6 +697,10 @@ See [Normalizing Form Data](#normalizing-form-data).
 
 The props passed into your decorated component by `react-form` will be:
 
+#### -`active : String`
+
+> the name of the currently active (with focus) field
+
 #### -`asyncValidate : Function`
 
 > a function that may be called to initiate asynchronous validation if asynchronous validation is enabled
@@ -658,6 +718,10 @@ The props passed into your decorated component by `react-form` will be:
 > The form data, in the form `{ field1: <Object>, field2: <Object> }`, where each field `Object` has the following 
 properties:
 
+##### ---`active : boolean`
+
+> `true` if this field currently has focus. It will only work if you are passing `handleFocus` to your input element.
+
 ##### ---`checked : boolean?`
 
 > An alias for `value` _only when `value` is a boolean_. Provided for convenience of destructuring the whole field
@@ -674,7 +738,7 @@ errors will be reported here.
 
 ##### ---`handleBlur : Function`
 
-> A function to call when the form field is blurred. It expects to receive the 
+> A function to call when the form field loses focus. It expects to receive the 
 [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) and is meant to be passed to the form
 element's `onBlur` prop. _Alternatively: you may pass the value directly into `handleBlur` to set the value on in the
 form._
@@ -685,6 +749,11 @@ form._
 [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) and is meant to be passed to the form
 element's `onChange` prop. _Alternatively: you may pass the value directly into `handleChange` to set the value on in
 the form._
+
+##### ---`handleFocus : Function`
+
+> A function to call when the form field receives focus. It is meant to be passed to the form
+element's `onFocus` prop.
 
 ##### ---`invalid : boolean`
 
@@ -705,6 +774,11 @@ form element.
 > An alias for `handleChange`. Provided for convenience of destructuring the whole field object into the props of a 
 form element.
 
+##### ---`onFocus : Function`
+
+> An alias for `handleFocus`. Provided for convenience of destructuring the whole field object into the props of a 
+form element.
+
 ##### ---`pristine : boolean`
 
 > `true` if the field value is the same as its initialized value. Opposite of `dirty`.
@@ -721,6 +795,10 @@ form element.
 
 > The value of this form field. It will be a boolean for checkboxes, and a string for all other input types.
 
+##### ---`visited: boolean`
+
+> `true` if this field has ever had focus. It will only work if you are passing `handleFocus` to your input element.
+
 #### -`handleBlur(field:string, value:any?) : Function`
 
 > Returns a `handleBlur` function for the field passed. `handleBlur('age')` returns `fields.age.handleBlur`. If you 
@@ -732,6 +810,11 @@ function that will set the value when either given the value or an event from an
 > Returns a `handleChange` function for the field passed. `handleChange('age')` returns `fields.age.handleChange`. If
 you pass it both a field and a value, it will set that value in the form. If you give it just a field, it will return a 
 function that will set the value when either given the value or an event from an input.
+
+#### -`handleFocus(field:string) : Function`
+
+> Returns a `handleFocus` function for the field passed. `handleFocus('age')` returns `fields.age.handleFocus`, a
+function to be passsed to the `onFocus` prop of your input component.
 
 #### -`handleSubmit : Function`
 

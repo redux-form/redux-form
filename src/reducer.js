@@ -1,4 +1,4 @@
-import { BLUR, CHANGE, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
   STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
 
@@ -34,6 +34,15 @@ const reducer = (state = initialState, action = {}) => {
           touched: !!(action.touch || (state[action.field] || {}).touched),
           asyncError: null
         }
+      };
+    case FOCUS:
+      return {
+        ...state,
+        [action.field]: {
+          ...state[action.field],
+          visited: true
+        },
+        _active: action.field
       };
     case INITIALIZE:
       return {
