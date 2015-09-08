@@ -107,7 +107,7 @@ validation `onSubmit`. Let's look at a simple example.
 
 You will need to wrap your form component with `redux-form`'s `connectReduxForm()` function.
 
-> ___IMPORTANT:___ _If you are using `react-form` with `react-native`, you will need to 
+> ___IMPORTANT:___ _If you are using `redux-form` with `react-native`, you will need to 
 [use `reduxForm()` instead of `connectReduxForm()`](#doing-the-connecting-yourself), at least until React 0.14
 is released._
 
@@ -698,7 +698,7 @@ See [Normalizing Form Data](#normalizing-form-data).
   
 ### `props` passed into your decorated component
 
-The props passed into your decorated component by `react-form` will be:
+The props passed into your decorated component by `redux-form` will be:
 
 #### -`active : String`
 
@@ -882,7 +882,7 @@ comparing the current data with these initialized values.
 
 ### `props` you can pass into your decorated component
 
-The props that you can pass into decorated component by `react-form` will be:
+The props that you can pass into decorated component by `redux-form` will be:
 
 #### -`formKey : String` [optional]
 
