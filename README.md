@@ -492,16 +492,16 @@ class DynamicForm extends Component {
     // define form class
     class Form extends Component {
       static propTypes = {
-        fields: PropTypes.arrayOf(PropTypes.object).isRequired
+        fields: PropTypes.object.isRequired
       }
   
       render() {
         const {fields} = this.props;  // passed in by redux-form
         return (
           <div>
-            {fields.map(field => <div key={field.name}>
-              <label>{field.name}</label>
-              <input type="text" {...field}/>
+            {Object.keys(fields).map(fieldName => <div key={fieldName}>
+              <label>{fieldName}</label>
+              <input type="text" {...fields[fieldName]}/>
             </div>)}
           </div>
         );
@@ -509,7 +509,7 @@ class DynamicForm extends Component {
     }
     
     // connect Form to Redux and decorate with redux-form
-    Form = connectReduxForm({ form: formName, fields: fieldsNeed })(Form);
+    Form = connectReduxForm({ form: formName, fields: fieldsNeeded })(Form);
     
     // render connected and decorated form
     return <Form/>;
