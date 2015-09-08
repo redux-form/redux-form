@@ -910,6 +910,11 @@ Redux store. Will overwrite any [`config.form`](#-configform--string-optional) v
 > the function to call with the form data when the `handleSubmit` is fired from within the form component. If you
 do not specify it as a prop here, you must pass it as a parameter to `handleSubmit` inside your form component.
 
+> If your `onSubmit` function returns a promise, the [`submitting`](#-submitting--boolean) property will be set to
+`true` until the promise has been resolved or rejected. If it is rejected with an object matching
+`{ field1: 'error', field2: 'error' }` then the submission errors will be added to each field (to the
+[`error`](#---error--string) prop) just like async validation errors are.
+
 ---
 
 ### Action Creators
