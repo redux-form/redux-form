@@ -282,7 +282,7 @@ class ContactPage extends Component {
   
   handleSubmit(data) {
     console.log('Submission received!', data);
-    this.props.dispatch(initialize('contactForm', {})); // clear form
+    this.props.dispatch(initialize('contact', {})); // clear form
   }
   
   render() {
