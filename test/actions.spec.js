@@ -70,7 +70,18 @@ describe('actions', () => {
   });
 
   it('should create stopSubmit action', () => {
-    expect(stopSubmit()).toEqual({type: STOP_SUBMIT});
+    expect(stopSubmit()).toEqual({
+      type: STOP_SUBMIT,
+      errors: undefined
+    });
+    const errors = {
+      foo: 'Foo error',
+      bar: 'Error for bar',
+    };
+    expect(stopSubmit(errors)).toEqual({
+      type: STOP_SUBMIT,
+      errors
+    });
   });
 
   it('should create touch action', () => {

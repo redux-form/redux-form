@@ -828,6 +828,11 @@ with the contents of the form data.
 > Optionally, you may also pass your `onSubmit` function to `handleSubmit` which will take the place of the 
 `onSubmit` prop. For example: `<form onSubmit={handleSubmit(this.save.bind(this))}>`
 
+> If your `onSubmit` function returns a promise, the [`submitting`](#-submitting--boolean) property will be set to
+`true` until the promise has been resolved or rejected. If it is rejected with an object matching
+`{ field1: 'error', field2: 'error' }` then the submission errors will be added to each field (to the
+[`error`](#---error--string) prop) just like async validation errors are.
+
 #### -`initializeForm(data:Object) : Function`
 
 > Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by

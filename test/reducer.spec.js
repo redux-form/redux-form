@@ -108,7 +108,8 @@ describe('reducer', () => {
         myField: {
           value: 'myValue',
           touched: false,
-          asyncError: null
+          asyncError: null,
+          submitError: null
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
@@ -127,7 +128,8 @@ describe('reducer', () => {
         myField: {
           value: 'myValue',
           touched: true,
-          asyncError: null
+          asyncError: null,
+          submitError: null
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
@@ -158,7 +160,8 @@ describe('reducer', () => {
           initial: 'initialValue',
           value: 'myValue',
           touched: true,
-          asyncError: null
+          asyncError: null,
+          submitError: null
         },
         _active: 'myField',
         _asyncValidating: false,
@@ -398,6 +401,48 @@ describe('reducer', () => {
       });
   });
 
+
+  it('should unset submitting and set submit errors on stopSubmit', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          touched: true
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          touched: true
+        },
+        _asyncValidating: false,
+        _submitting: true
+      }
+    }, {
+      ...stopSubmit({
+        myField: 'Error about myField',
+        myOtherField: 'Error about myOtherField'
+      }),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          touched: true,
+          submitError: 'Error about myField'
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          touched: true,
+          submitError: 'Error about myOtherField'
+        },
+        _asyncValidating: false,
+        _submitting: false
+      });
+  });
 
   it('should mark fields as touched on touch', () => {
     const state = reducer({

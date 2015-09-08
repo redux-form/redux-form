@@ -34,7 +34,8 @@ const reducer = (state = initialState, action = {}) => {
           ...state[action.field],
           value: action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched),
-          asyncError: null
+          asyncError: null,
+          submitError: null
         }
       };
     case FOCUS:
@@ -90,6 +91,10 @@ const reducer = (state = initialState, action = {}) => {
     case STOP_SUBMIT:
       return {
         ...state,
+        ...(action.errors ? mapValues(action.errors, (error, key) => ({
+          ...state[key],
+          submitError: error
+        })) : {}),
         _submitting: false
       };
     case TOUCH:

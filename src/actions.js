@@ -33,8 +33,8 @@ export function stopAsyncValidation(errors) {
   return {type: STOP_ASYNC_VALIDATION, errors};
 }
 
-export function stopSubmit() {
-  return {type: STOP_SUBMIT};
+export function stopSubmit(errors) {
+  return {type: STOP_SUBMIT, errors};
 }
 
 export function touch(...fields) {

@@ -179,12 +179,14 @@ export default function reduxForm(config) {
               const result = submit(values);
               if (result && typeof result.then === 'function') {
                 // you're showing real promise, kid!
-                const stopAndReturn = (x) => {
+                dispatch(startSubmit());
+                return result.then(x => {
                   dispatch(stopSubmit());
                   return x;
-                };
-                dispatch(startSubmit());
-                result.then(stopAndReturn, stopAndReturn);
+                }, x => {
+                  dispatch(stopSubmit(x));
+                  return x;
+                });
               }
             };
             dispatch(touch(...fields));
@@ -214,7 +216,7 @@ export default function reduxForm(config) {
         const allFields = fields.reduce((accumulator, name) => {
           const field = subForm[name] || {};
           const pristine = isPristine(field.value, field.initial);
-          const error = syncErrors[name] || field.asyncError;
+          const error = syncErrors[name] || field.asyncError || field.submitError;
           const valid = isValid(error);
           if (!valid) {
             allValid = false;
