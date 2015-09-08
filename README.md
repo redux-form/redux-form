@@ -479,6 +479,7 @@ define **_and decorate_** your form component at runtime.
 ```javascript
 import React, {Component, PropTypes} from 'react';
 import {connectReduxForm} from 'redux-form';
+import {map} from 'lodash';
 
 class DynamicForm extends Component {
   static propTypes = {
@@ -492,14 +493,14 @@ class DynamicForm extends Component {
     // define form class
     class Form extends Component {
       static propTypes = {
-        fields: PropTypes.arrayOf(PropTypes.object).isRequired
+        fields: PropTypes.object.isRequired
       }
   
       render() {
         const {fields} = this.props;  // passed in by redux-form
         return (
           <div>
-            {fields.map(field => <div key={field.name}>
+            {map(fields, field => <div key={field.name}>
               <label>{field.name}</label>
               <input type="text" {...field}/>
             </div>)}
@@ -509,7 +510,7 @@ class DynamicForm extends Component {
     }
     
     // connect Form to Redux and decorate with redux-form
-    Form = connectReduxForm({ form: formName, fields: fieldsNeed })(Form);
+    Form = connectReduxForm({ form: formName, fields: fieldsNeeded })(Form);
     
     // render connected and decorated form
     return <Form/>;
