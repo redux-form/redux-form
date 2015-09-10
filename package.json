@@ -49,8 +49,8 @@
     "webpack": "^1.10.5"
   },
   "dependencies": {
-    "react-redux": "^1.0.0",
-    "redux": "^1.0.0"
+    "react-redux": "^1.0.0 ^2.0.0",
+    "redux": "^1.0.0 ^2.0.0"
   },
   "npmName": "redux-form",
   "npmFileMap": [
