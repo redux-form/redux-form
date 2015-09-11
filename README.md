@@ -931,6 +931,10 @@ for most of your needs.**
 
 > Saves the value and, if you have `touchOnChange` enabled, marks the field as `touched`.
 
+#### -`focus(form:String, field:String)`
+
+> Marks the given field as `active` and `visited`.
+
 #### -`initialize(form:String, data:Object)`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
@@ -949,9 +953,17 @@ for most of your needs.**
 
 > Flips the `asyncValidating` flag `true`.
 
+#### -`startSubmit(form:String)`
+
+> Flips the `submitting` flag `true`.
+
+#### -`stopSubmit(form:String, errors:Object)`
+
+> Flips the `submitting` flag `false` and populates `submitError` for each field.
+
 #### -`stopAsyncValidation(form:String, errors:Object)`
 
-> Flips the `asyncValidating` flag `false` and populates `asyncErrors`.
+> Flips the `asyncValidating` flag `false` and populates `asyncError` for each field.
 
 #### -`touch(form:String, ...fields:String)`
 

@@ -15,11 +15,14 @@ const boundActions = {
 
 const blur = boundActions.blur;
 const change = boundActions.change;
+const focus = boundActions.focus;
 const initialize = boundActions.initialize;
 const initializeWithKey = boundActions.initializeWithKey;
 const reset = boundActions.reset;
 const startAsyncValidation = boundActions.startAsyncValidation;
+const startSubmit = boundActions.startSubmit;
 const stopAsyncValidation = boundActions.stopAsyncValidation;
+const stopSubmit = boundActions.stopSubmit;
 const touch = boundActions.touch;
 const untouch = boundActions.untouch;
 
@@ -27,12 +30,15 @@ export {
   blur,
   change,
   connectReduxForm,
+  focus,
   reducer,
   initialize,
   initializeWithKey,
   reset,
   startAsyncValidation,
+  startSubmit,
   stopAsyncValidation,
+  stopSubmit,
   touch,
   untouch
 };
