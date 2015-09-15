@@ -1,6 +1,7 @@
 import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
   STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
+import { getIn, setIn } from './getSet';
 
 export const initialState = {
   _asyncValidating: false,
@@ -16,37 +17,36 @@ const getValues = (state) =>
     }, {});
 
 const reducer = (state = initialState, action = {}) => {
+  let path;
   switch (action.type) {
     case BLUR:
+      path = action.field.split('.');
       return {
-        ...state,
-        [action.field]: {
-          ...state[action.field],
+        ...setIn(state, path, {
+          ...getIn(state, path),
           value: action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched)
-        },
+        }),
         _active: undefined
-      };
+      }
     case CHANGE:
-      return {
-        ...state,
-        [action.field]: {
-          ...state[action.field],
-          value: action.value,
-          touched: !!(action.touch || (state[action.field] || {}).touched),
-          asyncError: null,
-          submitError: null
-        }
-      };
+      path = action.field.split('.');
+      return setIn(state, path, {
+        ...getIn(state, path),
+        value: action.value,
+        touched: !!(action.touch || (getIn(state, path) || {}).touched),
+        asyncError: null,
+        submitError: null
+      });
     case FOCUS:
+      path = action.field.split('.');
       return {
-        ...state,
-        [action.field]: {
-          ...state[action.field],
+        ...setIn(state, path, {
+          ...getIn(state, path),
           visited: true
-        },
+        }),
         _active: action.field
-      };
+      }
     case INITIALIZE:
       return {
         ...mapValues(action.data, (value) => ({
