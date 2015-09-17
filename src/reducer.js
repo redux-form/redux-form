@@ -3,9 +3,10 @@ import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_S
 import mapValues from './mapValues';
 
 export const initialState = {
+  _active: undefined,
   _asyncValidating: false,
-  _submitting: false,
-  _active: undefined
+  _error: undefined,
+  _submitting: false
 };
 
 const getValues = (state) =>
@@ -54,8 +55,9 @@ const reducer = (state = initialState, action = {}) => {
           value: value
         })),
         _asyncValidating: false,
-        _submitting: false,
-        _active: undefined
+        _active: undefined,
+        _error: undefined,
+        _submitting: false
       };
     case RESET:
       return {
@@ -67,6 +69,7 @@ const reducer = (state = initialState, action = {}) => {
         }),
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       };
     case START_ASYNC_VALIDATION:
@@ -86,7 +89,8 @@ const reducer = (state = initialState, action = {}) => {
           ...state[key],
           asyncError: error
         })),
-        _asyncValidating: false
+        _asyncValidating: false,
+        _error: action.errors._error
       };
     case STOP_SUBMIT:
       return {
@@ -95,6 +99,7 @@ const reducer = (state = initialState, action = {}) => {
           ...state[key],
           submitError: error
         })) : {}),
+        _error: action.errors && action.errors._error,
         _submitting: false
       };
     case TOUCH:

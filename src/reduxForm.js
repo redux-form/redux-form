@@ -247,6 +247,10 @@ export default function reduxForm(config) {
             })
           };
         }, {});
+        const formError = syncErrors._error || subForm._error;
+        if(formError) {
+          allValid = false;
+        }
 
         // Return decorated component
         return (<DecoratedComponent {...{
@@ -254,6 +258,7 @@ export default function reduxForm(config) {
           active: subForm._active,
           asyncValidating: subForm._asyncValidating,
           dirty: !allPristine,
+          error: formError,
           fields: allFields,
           formKey,
           invalid: !allValid,

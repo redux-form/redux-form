@@ -29,6 +29,7 @@ describe('reducer', () => {
       .toEqual({
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -46,6 +47,7 @@ describe('reducer', () => {
         },
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -64,6 +66,7 @@ describe('reducer', () => {
         },
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -78,6 +81,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -94,6 +98,7 @@ describe('reducer', () => {
         },
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -113,6 +118,7 @@ describe('reducer', () => {
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -133,6 +139,7 @@ describe('reducer', () => {
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -147,6 +154,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -165,6 +173,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -181,6 +190,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -195,6 +205,7 @@ describe('reducer', () => {
         },
         _active: 'otherField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -210,6 +221,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -227,6 +239,7 @@ describe('reducer', () => {
         },
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -240,6 +253,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -255,6 +269,7 @@ describe('reducer', () => {
         },
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -274,6 +289,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -292,6 +308,7 @@ describe('reducer', () => {
         },
         _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -301,7 +318,9 @@ describe('reducer', () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -312,7 +331,9 @@ describe('reducer', () => {
       .toEqual({
         doesnt: 'matter',
         should: 'notchange',
+        _active: undefined,
         _asyncValidating: true,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -322,7 +343,9 @@ describe('reducer', () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -333,10 +356,13 @@ describe('reducer', () => {
       .toEqual({
         doesnt: 'matter',
         should: 'notchange',
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: true
       });
   });
+
 
   it('should unset asyncValidating on stopAsyncValidation', () => {
     const state = reducer({
@@ -351,7 +377,9 @@ describe('reducer', () => {
           value: 'otherDirtyValue',
           touched: true
         },
+        _active: undefined,
         _asyncValidating: true,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -375,7 +403,52 @@ describe('reducer', () => {
           touched: true,
           asyncError: 'Error about myOtherField'
         },
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      });
+  });
+
+  it('should unset asyncValidating on stopAsyncValidation and set global error', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          touched: true
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          touched: true
+        },
+        _active: undefined,
+        _asyncValidating: true,
+        _error: undefined,
+        _submitting: false
+      }
+    }, {
+      ...stopAsyncValidation({
+        _error: 'This is a global error'
+      }),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          touched: true
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          touched: true
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: 'This is a global error',
         _submitting: false
       });
   });
@@ -385,7 +458,9 @@ describe('reducer', () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: true
       }
     }, {
@@ -396,11 +471,12 @@ describe('reducer', () => {
       .toEqual({
         doesnt: 'matter',
         should: 'notchange',
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
-
 
   it('should unset submitting and set submit errors on stopSubmit', () => {
     const state = reducer({
@@ -415,7 +491,9 @@ describe('reducer', () => {
           value: 'otherDirtyValue',
           touched: true
         },
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: true
       }
     }, {
@@ -439,7 +517,52 @@ describe('reducer', () => {
           touched: true,
           submitError: 'Error about myOtherField'
         },
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      });
+  });
+
+  it('should unset submitting and set submit global error on stopSubmit', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          touched: true
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          touched: true
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: true
+      }
+    }, {
+      ...stopSubmit({
+        _error: 'This is a global error'
+      }),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          touched: true
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          touched: true
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: 'This is a global error',
         _submitting: false
       });
   });
@@ -455,7 +578,9 @@ describe('reducer', () => {
           value: 'otherInitialValue',
           touched: false
         },
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -472,7 +597,9 @@ describe('reducer', () => {
           value: 'otherInitialValue',
           touched: true
         },
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });
@@ -488,7 +615,9 @@ describe('reducer', () => {
           value: 'otherInitialValue',
           touched: true
         },
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       }
     }, {
@@ -505,7 +634,9 @@ describe('reducer', () => {
           value: 'otherInitialValue',
           touched: false
         },
+        _active: undefined,
         _asyncValidating: false,
+        _error: undefined,
         _submitting: false
       });
   });

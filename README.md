@@ -716,6 +716,11 @@ The props passed into your decorated component by `redux-form` will be:
 
 > `true` if the form data has changed from its initialized values. Opposite of `pristine`.
 
+#### -`error : String`
+
+> a generic error for the entire form given by the `_error` key in the result from the synchronous validation function,
+the asynchronous validation, or the rejected promise from `handleSubmit`.
+
 #### -`fields : Object`
 
 > The form data, in the form `{ field1: <Object>, field2: <Object> }`, where each field `Object` has the following 
@@ -831,7 +836,9 @@ with the contents of the form data.
 > If your `onSubmit` function returns a promise, the [`submitting`](#-submitting--boolean) property will be set to
 `true` until the promise has been resolved or rejected. If it is rejected with an object matching
 `{ field1: 'error', field2: 'error' }` then the submission errors will be added to each field (to the
-[`error`](#---error--string) prop) just like async validation errors are.
+[`error`](#---error--string) prop) just like async validation errors are. If there is an error that is not specific 
+to any field, but applicable to the entire form, you may pass that as if it were the error for a field called `_error`,
+and it will be given as the `error` prop.
 
 #### -`initializeForm(data:Object) : Function`
 
@@ -913,7 +920,9 @@ do not specify it as a prop here, you must pass it as a parameter to `handleSubm
 > If your `onSubmit` function returns a promise, the [`submitting`](#-submitting--boolean) property will be set to
 `true` until the promise has been resolved or rejected. If it is rejected with an object matching
 `{ field1: 'error', field2: 'error' }` then the submission errors will be added to each field (to the
-[`error`](#---error--string) prop) just like async validation errors are.
+[`error`](#---error--string) prop) just like async validation errors are. If there is an error that is not specific 
+to any field, but applicable to the entire form, you may pass that as if it were the error for a field called `_error`,
+and it will be given as the `error` prop.
 
 ---
 
