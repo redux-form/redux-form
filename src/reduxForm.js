@@ -134,7 +134,7 @@ export default function reduxForm(config) {
 
         function runAsyncValidation() {
           dispatch(startAsyncValidation(formKey));
-          const promise = asyncValidate(values);
+          const promise = asyncValidate(values, dispatch);
           if (!promise || typeof promise.then !== 'function') {
             throw new Error('asyncValidate function passed to reduxForm must return a promise!');
           }

@@ -221,7 +221,7 @@ ContactForm = connectReduxForm({
 ```
 ...changes to this:
 ```javascript
-function validateContactAsync(data) {
+function validateContactAsync(data, dispatch) {
   return new Promise((resolve, reject) => {
     const errors = {};
     // do async validation
@@ -642,8 +642,8 @@ state of your form.
 
 #### -`config.asyncValidate : Function` [optional]
 
-> a function that takes all the form data and returns a Promise that will resolve to an object
-of validation errors in the form `{ field1: <string>, field2: <string>, valid: <boolean> }` just like the
+> a function that takes all the form data, and the `dispatch` function and returns a Promise that will resolve to an 
+object of validation errors in the form `{ field1: <string>, field2: <string>, valid: <boolean> }` just like the
 [synchronous validation function](#synchronous-validation). See 
 [Aynchronous Validation](#asynchronous-validation) for more details.
 
