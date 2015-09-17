@@ -273,7 +273,7 @@ export default function reduxForm(config) {
           touch: silenceEvents((...touchFields) => dispatch(touch(...touchFields))),
           touchAll: silenceEvents(() => dispatch(touch(...fields))),
           untouch: silenceEvents((...untouchFields) => dispatch(untouch(...untouchFields))),
-          untouchAll: silenceEvents(() => dispatch(untouchAll(...fields))),
+          untouchAll: silenceEvents(() => dispatch(untouch(...fields))),
 
           // Other:
           dispatch,
