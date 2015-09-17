@@ -248,7 +248,7 @@ export default function reduxForm(config) {
           };
         }, {});
         const formError = syncErrors._error || subForm._error;
-        if(formError) {
+        if (formError) {
           allValid = false;
         }
 
