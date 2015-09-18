@@ -35,12 +35,12 @@ function getValue(passedValue, event) {
   if (event.target === undefined) {  // is it a value instead of an event?
     return event;
   }
-  const {target: {type, value, checked, files}, dataTransfer: {files: dataTransferFiles}} = event;
+  const {target: {type, value, checked, files}, dataTransfer} = event;
   if (type === 'checkbox') {
     return checked;
   }
   if (type === 'file') {
-    return files || dataTransferFiles;
+    return files || dataTransfer && dataTransfer.files;
   }
   return value;
 }
