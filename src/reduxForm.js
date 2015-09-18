@@ -54,10 +54,7 @@ function isAsyncValid(errors) {
   if (!errors) {
     return true;
   }
-  if (errors.valid === undefined) {
-    return !Object.keys(errors);
-  }
-  return !!errors.valid;
+  return Object.keys(errors).reduce((valid, error) => valid && isValid(errors[error]), true);
 }
 
 export default function reduxForm(config) {
