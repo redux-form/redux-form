@@ -29,7 +29,7 @@ function getValue(passedValue, event) {
   if (passedValue !== undefined || !event) {
     return passedValue;
   }
-  if (event.nativeEvent !== undefined) {
+  if (event.nativeEvent !== undefined && event.nativeEvent.text !== undefined) {
     return event.nativeEvent.text;
   }
   if (event.target === undefined) {  // is it a value instead of an event?
