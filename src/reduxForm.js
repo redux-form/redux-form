@@ -51,13 +51,7 @@ function silenceEvents(fn) {
 }
 
 function isAsyncValid(errors) {
-  if (!errors) {
-    return true;
-  }
-  if (errors.valid === undefined) { // allow short circuiting if validator knows the validation state of the form
-    return Object.keys(errors).reduce((valid, error) => valid && isValid(errors[error]), true);
-  }
-  return !!errors.valid;
+  return !errors || Object.keys(errors).reduce((valid, error) => valid && isValid(errors[error]), true);
 }
 
 export default function reduxForm(config) {
