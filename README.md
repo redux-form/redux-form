@@ -128,15 +128,15 @@ class ContactForm extends Component {
       <form onSubmit={handleSubmit}>
         <label>Name</label>
         <input type="text" {...name}/>     // will pass value, onBlur and onChange
-        {name.error && name.touched ? <div>{name.error}</div>}
+        {name.error && name.touched && <div>{name.error}</div>}
         
         <label>Address</label>
         <input type="text" {...address}/>  // will pass value, onBlur and onChange
-        {address.error && address.touched ? <div>{address.error}</div>}
+        {address.error && address.touched && <div>{address.error}</div>}
         
         <label>Phone</label>
         <input type="text" {...phone}/>    // will pass value, onBlur and onChange
-        {phone.error && phone.touched ? <div>{phone.error}</div>}
+        {phone.error && phone.touched && <div>{phone.error}</div>}
         
         <button onClick={handleSubmit}>Submit</button>
       </form>
