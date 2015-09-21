@@ -135,6 +135,35 @@ describe('reducer', () => {
       });
   });
 
+  it('should not modify value if undefined is passed on blur, even if no value existed (for android react native)', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          value: undefined
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      }
+    }, {
+      ...blur('myField'),
+      form: 'foo',
+      touch: true
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          value: undefined,
+          touched: true
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      });
+  });
+
   it('should set value on change with empty state', () => {
     const state = reducer({}, {
       ...change('myField', 'myValue'),

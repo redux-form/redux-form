@@ -23,7 +23,7 @@ const reducer = (state = initialState, action = {}) => {
         ...state,
         [action.field]: {
           ...state[action.field],
-          value: action.value === undefined ? state[action.field].value : action.value,
+          value: action.value === undefined ? (state[action.field] || {}).value : action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched)
         },
         _active: undefined
