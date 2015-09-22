@@ -206,8 +206,7 @@ You get the idea.
 
 ### Asynchronous Validation
 
-Async validation can be achieved by calling an additional function on the function returned by
-`connectReduxForm()` and passing it an asynchronous function that returns a promise that will resolve
+Async validation can be achieved by passing in an asynchronous function that returns a Promise that will resolve
 to validation errors of the format that the synchronous [validation function](#synchronous-validation)
 generates. So this...
 
@@ -239,8 +238,7 @@ ContactForm = connectReduxForm({
 ```
 
 Optionally, if you want asynchronous validation to be triggered when one or more of your form
-fields is blurred, you may pass those fields to the `async()` function along with the asynchronous
-validation function. Like so:
+fields is blurred, you may specify those fields as `asyncBlurFields`. Like so:
 
 ```javascript
 // will only run async validation when 'name' or 'phone' is blurred
@@ -253,7 +251,6 @@ ContactForm = connectReduxForm({
 })(ContactForm);
 ```
 With that call, the asynchronous validation will be called when either `name` or `phone` is blurred.
-*Assuming that they have their `onBlur={handleBlur('name')}` properties properly set up.*
 
 **NOTE!** If you _only_ want asynchronous validation, you may leave out the synchronous validation function.
 And if you only want it to be run on submit, you may leave out the async blur fields, as well.
