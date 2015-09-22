@@ -37,7 +37,8 @@ const reducer = (state = initialState, action = {}) => {
           touched: !!(action.touch || (state[action.field] || {}).touched),
           asyncError: null,
           submitError: null
-        }
+        },
+        _error: undefined
       };
     case FOCUS:
       return {
