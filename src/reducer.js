@@ -173,7 +173,7 @@ function decorate(target) {
           const formResult = {
             ...initialState,
             ...result[form]
-          }
+          };
           return {
             ...formResult,
             ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
