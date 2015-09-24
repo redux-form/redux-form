@@ -27,7 +27,8 @@ function getSubForm(form, formName, formKey) {
 
 function getValue(passedValue, event) {
   if (passedValue !== undefined || !event) {
-    return passedValue;
+    // extract value from { value: value } structure. https://github.com/nikgraf/belle/issues/58
+    return typeof passedValue === 'object' && passedValue.value ? passedValue.value : passedValue;
   }
   if (event.nativeEvent !== undefined && event.nativeEvent.text !== undefined) {
     return event.nativeEvent.text;
@@ -218,6 +219,9 @@ export default function reduxForm(config) {
           const pristine = isPristine(field.value, field.initial);
           const error = syncErrors[name] || field.asyncError || field.submitError;
           const valid = isValid(error);
+          const fieldBlur = handleBlur(name);
+          const fieldChange = handleChange(name);
+          const fieldFocus = handleFocus(name);
           if (!valid) {
             allValid = false;
           }
@@ -231,14 +235,15 @@ export default function reduxForm(config) {
               checked: typeof field.value === 'boolean' ? field.value : undefined,
               dirty: !pristine,
               error,
-              handleBlur: handleBlur(name),
-              handleChange: handleChange(name),
-              handleFocus: handleFocus(name),
+              handleBlur: fieldBlur,
+              handleChange: fieldChange,
+              handleFocus: fieldFocus,
               invalid: !valid,
               name,
-              onBlur: handleBlur(name),
-              onChange: handleChange(name),
-              onFocus: handleFocus(name),
+              onBlur: fieldBlur,
+              onChange: fieldChange,
+              onFocus: fieldFocus,
+              onUpdate: fieldChange, // alias to support belle. https://github.com/nikgraf/belle/issues/58
               pristine,
               touched: field.touched,
               valid: valid,

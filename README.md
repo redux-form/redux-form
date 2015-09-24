@@ -784,6 +784,12 @@ form element.
 > An alias for `handleFocus`. Provided for convenience of destructuring the whole field object into the props of a 
 form element.
 
+##### ---`onUpdate : Function`
+
+> An alias for `handleChange`. Provided for convenience of destructuring the whole field object into the props of a 
+form element. Added to provide out-of-the-box support for [Belle](http://nikgraf.github.io/belle/) components' 
+[`onUpdate` API](https://github.com/nikgraf/belle/issues/58).
+
 ##### ---`pristine : boolean`
 
 > `true` if the field value is the same as its initialized value. Opposite of `dirty`.
