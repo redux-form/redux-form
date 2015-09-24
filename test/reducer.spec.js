@@ -702,3 +702,52 @@ describe('reducer', () => {
       });
   });
 });
+
+describe('reducer.plugin', () => {
+  it('should initialize form state when there is a reducer plugin', () => {
+    const state = reducer.plugin({
+      foo: (state, action) => {
+        return state;
+      }
+    })();
+    expect(state)
+      .toExist()
+      .toBeA('object');
+    expect(Object.keys(state).length).toBe(1);
+    expect(state.foo)
+      .toExist()
+      .toBeA('object')
+      .toEqual({
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      });
+  });
+});
+
+describe('reducer.normalize', () => {
+  it('should initialize form state when there is a normalizer', () => {
+    const state = reducer.normalize({
+      foo: {
+        myField: (value, previousValue, allValues) => 'normalized'
+      }
+    })();
+    expect(state)
+      .toExist()
+      .toBeA('object');
+    expect(Object.keys(state).length).toBe(1);
+    expect(state.foo)
+      .toExist()
+      .toBeA('object')
+      .toEqual({
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        myField: {
+          value: 'normalized'
+        }
+      });
+  });
+});

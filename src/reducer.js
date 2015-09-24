@@ -169,16 +169,22 @@ function decorate(target) {
       const result = this(state, action);
       return {
         ...result,
-        ...mapValues(normalizers, (formNormalizers, form) => ({
-          ...result[form],
-          ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
-            ...result[form][field],
-            value: fieldNormalizer(
-              result[form][field] ? result[form][field].value : undefined,                // value
-              state[form] && state[form][field] ? state[form][field].value : undefined,   // previous value
-              getValues(result[form]))                                                    // all field values
-          }))
-        }))
+        ...mapValues(normalizers, (formNormalizers, form) => {
+          const formResult = {
+            ...initialState,
+            ...result[form]
+          };
+          return {
+            ...formResult,
+            ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
+              ...formResult[field],
+              value: fieldNormalizer(
+                formResult[field] ? formResult[field].value : undefined,                // value
+                state[form] && state[form][field] ? state[form][field].value : undefined,   // previous value
+                getValues(formResult))                                                    // all field values
+            }))
+          };
+        })
       };
     });
   };
