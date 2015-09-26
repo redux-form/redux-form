@@ -11,6 +11,7 @@
 [React](https://github.com/facebook/react) to use [Redux](https://github.com/gaearon/redux) to store all of its state.
 
 ## Table of Contents
+<img src="logo.png" align="right" height="300" width="300"/>
 
 * [Installation](#installation)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
