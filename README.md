@@ -6,6 +6,7 @@
 [![devDependency Status](https://david-dm.org/erikras/redux-form/dev-status.svg)](https://david-dm.org/erikras/redux-form#info=devDependencies)
 [![redux-form channel on slack](https://img.shields.io/badge/slack-redux--form%40reactiflux-blue.svg)](http://www.reactiflux.com)
 [![PayPal donate button](http://img.shields.io/paypal/donate.png?color=yellowgreen)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
+[![Twitter URL](https://img.shields.io/twitter/url/https/github.com/erikras/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
 
 `redux-form` works with [React Redux](https://github.com/gaearon/react-redux) to enable an html form in
 [React](https://github.com/facebook/react) to use [Redux](https://github.com/gaearon/redux) to store all of its state.
@@ -57,6 +58,8 @@ npm install --save redux-form
 
 This project follows [SemVer](http://semver.org) and each release is posted on the 
 [Release Notes](https://github.com/erikras/redux-form/releases) page.
+
+**New releases will be tweeted by [@ReduxForm](https://twitter.com/ReduxForm). Follow it!**
 
 ## Benefits
 
