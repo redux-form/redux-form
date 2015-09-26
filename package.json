@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "react-redux": "3.0.0",
-    "redux": "3.0.1"
+    "redux": "3.0.2"
   },
   "npmName": "redux-form",
   "npmFileMap": [
