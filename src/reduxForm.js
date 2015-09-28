@@ -181,12 +181,12 @@ export default function reduxForm(config) {
               if (result && typeof result.then === 'function') {
                 // you're showing real promise, kid!
                 dispatch(startSubmit());
-                return result.then(x => {
+                return result.then(submitResult => {
                   dispatch(stopSubmit());
-                  return x;
-                }, x => {
-                  dispatch(stopSubmit(x));
-                  return x;
+                  return submitResult;
+                }, submitError => {
+                  dispatch(stopSubmit(submitError));
+                  return submitError;
                 });
               }
             };

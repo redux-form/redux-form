@@ -7,8 +7,8 @@ export default function isPristine(initial, data) {
       return false;
     }
     const dataKeys = Object.keys(data);
-    for (let i = 0; i < dataKeys.length; i++) {
-      const key = dataKeys[i];
+    for (let index = 0; index < dataKeys.length; index++) {
+      const key = dataKeys[index];
       if (!isPristine(initial[key], data[key])) {
         return false;
       }
