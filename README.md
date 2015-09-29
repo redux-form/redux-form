@@ -23,6 +23,7 @@
 * [Implementation Guide](#implementation-guide) <-------------- **Start here!**
   * [A Simple Form Component](#a-simple-form-component)
   * [ES7 Decorator Sugar](#es7-decorator-sugar) - :warning: Experimental! :warning:
+  * [React Native Support](#react-native-support)
   * [Synchronous Validation](#synchronous-validation) - Client Side
   * [Asynchronous Validation](#asynchronous-validation) - Server Side
   * [Submitting Your Form](#submitting-your-form)
@@ -111,10 +112,6 @@ validation `onSubmit`. Let's look at a simple example.
 
 You will need to wrap your form component with `redux-form`'s `connectReduxForm()` function.
 
-> ___IMPORTANT:___ _If you are using `redux-form` with `react-native`, you will need to 
-[use `reduxForm()` instead of `connectReduxForm()`](#doing-the-connecting-yourself), at least until React 0.14
-is released._
-
 ```javascript
 import React, {Component, PropTypes} from 'react';
 import {connectReduxForm} from 'redux-form';
@@ -182,6 +179,11 @@ Much nicer, don't you think?
 
 You can enable it with [Babel Stage 1](http://babeljs.io/docs/usage/experimental/). Note that decorators
 are experimental, and this syntax might change or be removed later.
+
+### React Native Support
+
+`redux-form` works just fine on React Native. Just like with `react-redux`, the only change you will need to make to 
+use `redux-form` with React Native is to import everything from `redux-form/native`, not from `redux-form`.
 
 ### Synchronous Validation
 
@@ -533,7 +535,7 @@ will need to wrap your form component *both* with
 ```javascript
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import reduxForm from 'redux-form';
+import {reduxForm} from 'redux-form';
 import validateContact from './validateContact';
 
 class ContactForm extends Component {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react-native';
 import createAll from './createAll';
 
 export const {
@@ -17,4 +17,4 @@ export const {
   stopSubmit,
   touch,
   untouch
-} = createAll(false, React);
+} = createAll(true, React);
