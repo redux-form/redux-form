@@ -160,8 +160,9 @@ export default ContactForm;
 ```
 
 Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component.
-`handleSubmit` will call the function passed into `ContactForm`'s [`onSubmit` prop](#onsubmit-function-optional), _if 
-and only if_ the synchronous validation passes. See [Submitting Your Form](#submitting-your-form).
+`handleSubmit` will call the function passed into `ContactForm`'s [`onSubmit` prop](#onsubmit-function-optional) **after** validation (both synchronous and asynchronous) completes successfully.
+
+See [Submitting Your Form](#submitting-your-form).
 
 ### ES7 Decorator Sugar
 

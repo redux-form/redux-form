@@ -49,7 +49,7 @@
     "webpack": "^1.12.2"
   },
   "dependencies": {
-    "react-redux": "3.0.1",
+    "react-redux": "3.1.0",
     "redux": "3.0.2"
   },
   "npmName": "redux-form",
