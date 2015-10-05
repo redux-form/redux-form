@@ -1,9 +1,4 @@
-import {connect} from 'react-redux';
 import createReduxForm from './createReduxForm';
-
-const connector = connect(state => ({
-  form: state.form
-}));
 
 function reduceDecorators(...decorators) {
   return DecoratedComponent =>
@@ -11,8 +6,11 @@ function reduceDecorators(...decorators) {
       decorator(accumulator), DecoratedComponent);
 }
 
-export default function createConnectReduxForm(isReactNative, React) {
+export default function createConnectReduxForm(isReactNative, React, connect) {
   const reduxForm = createReduxForm(isReactNative, React);
+  const connector = connect(state => ({
+    form: state.form
+  }));
   return function connectReduxForm(...args) {
     return reduceDecorators(reduxForm(...args), connector);
   };

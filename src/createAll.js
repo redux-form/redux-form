@@ -26,11 +26,11 @@ const stopSubmit = boundActions.stopSubmit;
 const touch = boundActions.touch;
 const untouch = boundActions.untouch;
 
-export default function createAll(isReactNative, React) {
+export default function createAll(isReactNative, React, connect) {
   return {
     blur,
     change,
-    connectReduxForm: createConnectReduxForm(isReactNative, React),
+    connectReduxForm: createConnectReduxForm(isReactNative, React, connect),
     focus,
     reducer,
     initialize,

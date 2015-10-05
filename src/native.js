@@ -1,4 +1,5 @@
 import React from 'react-native';
+import {connect} from 'react-redux/native';
 import createAll from './createAll';
 
 export const {
@@ -17,4 +18,4 @@ export const {
   stopSubmit,
   touch,
   untouch
-} = createAll(true, React);
+} = createAll(true, React, connect);
