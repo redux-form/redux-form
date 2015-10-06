@@ -120,7 +120,7 @@ import {connectReduxForm} from 'redux-form';
 import validateContact from './validateContact';
 
 class ContactForm extends Component {
-  static propTypes = {
+  static propTypes: {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired
   }
