@@ -225,6 +225,12 @@ export default function createReduxForm(isReactNative, React) {
             const valid = isValid(error);
             const fieldBlur = handleBlur(name);
             const fieldChange = handleChange(name);
+            const fieldDrag = event => {
+              event.dataTransfer.setData('value', field.value);
+            };
+            const fieldDrop = event => {
+              fieldChange(event.dataTransfer.getData('value'));
+            };
             const fieldFocus = handleFocus(name);
             if (!valid) {
               allValid = false;
@@ -246,6 +252,8 @@ export default function createReduxForm(isReactNative, React) {
                 name,
                 onBlur: fieldBlur,
                 onChange: fieldChange,
+                onDrag: fieldDrag,
+                onDrop: fieldDrop,
                 onFocus: fieldFocus,
                 onUpdate: fieldChange, // alias to support belle. https://github.com/nikgraf/belle/issues/58
                 pristine,
