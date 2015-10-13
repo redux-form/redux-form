@@ -4,6 +4,7 @@ import isPristine from './isPristine';
 import isValid from './isValid';
 import bindActionData from './bindActionData';
 import {initialState} from './reducer';
+import lazyCache from 'react-lazy-cache';
 
 function isReadonly(prop) {
   const writeProps = ['asyncValidate', 'handleBlur', 'handleChange', 'handleFocus',
@@ -11,18 +12,6 @@ function isReadonly(prop) {
   return !~writeProps.indexOf(prop);
 }
 
-function getSubForm(form, formName, formKey) {
-  if (form && form[formName]) {
-    if (formKey) {
-      if (form[formName][formKey]) {
-        return form[formName][formKey];
-      }
-    } else {
-      return form[formName];
-    }
-  }
-  return initialState;
-}
 
 function silenceEvents(fn) {
   return (event, ...args) => {
@@ -41,6 +30,7 @@ function isAsyncValid(errors) {
 
 export default function createReduxForm(isReactNative, React) {
   const {Component, PropTypes} = React;
+
   function getValue(passedValue, event) {
     if (passedValue !== undefined || !event) {
       // extract value from { value: value } structure. https://github.com/nikgraf/belle/issues/58
@@ -104,76 +94,123 @@ export default function createReduxForm(isReactNative, React) {
         }
 
         componentWillMount() {
-          const {initialValues, dispatch, formName, formKey} = this.props; // eslint-disable-line no-shadow
+          this.cache = lazyCache(this, {
+            actions: (formName, formKey) => // eslint-disable-line no-shadow
+              formKey ?
+                bindActionData(formActions, {form: formName, key: formKey}) :
+                bindActionData(formActions, {form: formName}),
+
+            handleBlur: (actions, dispatch) => (name, value) => (event) => {
+              const fieldValue = getValue(value, event);
+              const doBlur = bindActionData(actions.blur, {touch: touchOnBlur});
+              dispatch(doBlur(name, fieldValue));
+              if (asyncValidate && ~asyncBlurFields.indexOf(name)) {
+                const values = this.getValues();
+                const syncError = syncValidate({
+                  ...values,
+                  [name]: fieldValue
+                })[name];
+                // only dispatch async call if all synchronous client-side validation passes for this field
+                if (!syncError) {
+                  this.runAsyncValidation(actions, values);
+                }
+              }
+            },
+            handleFocus: (actions, dispatch) => (name) => () => {
+              dispatch(actions.focus(name));
+            },
+            handleChange: (actions, dispatch) => (name, value) => (event) => {
+              const doChange = bindActionData(actions.change, {touch: touchOnChange});
+              dispatch(doChange(name, getValue(value, event)));
+            },
+            fieldActions: (handleBlur, handleChange, handleFocus) =>
+              fields.reduce((accumulator, name) => {
+                const fieldBlur = handleBlur(name);
+                const fieldChange = handleChange(name);
+                const fieldFocus = handleFocus(name);
+                return {
+                  ...accumulator,
+                  [name]: filterProps({
+                    handleBlur: fieldBlur,
+                    handleChange: fieldChange,
+                    handleFocus: fieldFocus,
+                    name,
+                    onBlur: fieldBlur,
+                    onChange: fieldChange,
+                    onDrop: event => {
+                      fieldChange(event.dataTransfer.getData('value'));
+                    },
+                    onFocus: fieldFocus,
+                    onUpdate: fieldChange // alias to support belle. https://github.com/nikgraf/belle/issues/58
+                  })
+                };
+              }, {}),
+
+          });
+
+          const {initialValues, dispatch} = this.props; // eslint-disable-line no-shadow
           if (initialValues) {
-            const {initialize} = formKey ?
-              bindActionData(formActions, {form: formName, key: formKey}) :
-              bindActionData(formActions, {form: formName});
+            const {initialize} = this.cache.actions;
             dispatch(initialize(initialValues));
           }
         }
 
-        render() {
+        runAsyncValidation(actions, values) {
+          const {dispatch, formKey} = this.props; // eslint-disable-line no-shadow
+          dispatch(actions.startAsyncValidation(formKey));
+          const promise = asyncValidate(values, dispatch);
+          if (!promise || typeof promise.then !== 'function') {
+            throw new Error('asyncValidate function passed to reduxForm must return a promise!');
+          }
+          return promise.then(asyncErrors => {
+            dispatch(actions.stopAsyncValidation(asyncErrors));
+            return isAsyncValid(asyncErrors);
+          }, (err) => {
+            dispatch(actions.stopAsyncValidation({}));
+            throw new Error('redux-form: Asynchronous validation failed: ' + err);
+          });
+        }
 
+        getSubForm() {
+          const {formName, form, formKey} = this.props; // eslint-disable-line no-shadow
+          if (form && form[formName]) {
+            if (formKey) {
+              if (form[formName][formKey]) {
+                return form[formName][formKey];
+              }
+            } else {
+              return form[formName];
+            }
+          }
+          return initialState;
+        }
+
+        getValues() {
+          const subForm = this.getSubForm();
+          return fields.reduce((accumulator, field) => ({
+            ...accumulator,
+            [field]: subForm[field] ? subForm[field].value : undefined
+          }), {});
+        }
+
+        componentWillReceiveProps(nextProps) {
+          this.cache.componentWillReceiveProps(nextProps);
+        }
+
+        render() {
           // Read props
           const {formName, form, formKey, dispatch, ...passableProps} = this.props; // eslint-disable-line no-shadow
           if (!formName) {
             throw new Error('No form name given to redux-form. Must be passed to ' +
               'connectReduxForm({form: [form name]}) or as a "formName" prop');
           }
-          const subForm = getSubForm(form, formName, formKey);
+          const { actions, values, fieldActions, handleBlur, handleChange, handleFocus } = this.cache;
+          const subForm = this.getSubForm();
 
           // Calculate calculable state
           let allValid = true;
           let allPristine = true;
-          const values = fields.reduce((accumulator, field) => ({
-            ...accumulator,
-            [field]: subForm[field] ? subForm[field].value : undefined
-          }), {});
 
-          // Create actions
-          const {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit, stopAsyncValidation,
-            stopSubmit, touch, untouch} = formKey ?
-            bindActionData(formActions, {form: formName, key: formKey}) :
-            bindActionData(formActions, {form: formName});
-
-          function runAsyncValidation() {
-            dispatch(startAsyncValidation(formKey));
-            const promise = asyncValidate(values, dispatch);
-            if (!promise || typeof promise.then !== 'function') {
-              throw new Error('asyncValidate function passed to reduxForm must return a promise!');
-            }
-            return promise.then(asyncErrors => {
-              dispatch(stopAsyncValidation(asyncErrors));
-              return isAsyncValid(asyncErrors);
-            }, (err) => {
-              dispatch(stopAsyncValidation({}));
-              throw new Error('redux-form: Asynchronous validation failed: ' + err);
-            });
-          }
-
-          const handleBlur = (name, value) => (event) => {
-            const fieldValue = getValue(value, event);
-            const doBlur = bindActionData(blur, {touch: touchOnBlur});
-            dispatch(doBlur(name, fieldValue));
-            if (asyncValidate && ~asyncBlurFields.indexOf(name)) {
-              const syncError = syncValidate({
-                ...values,
-                [name]: fieldValue
-              })[name];
-              // only dispatch async call if all synchronous client-side validation passes for this field
-              if (!syncError) {
-                runAsyncValidation();
-              }
-            }
-          };
-          const handleFocus = (name) => () => {
-            dispatch(focus(name));
-          };
-          const handleChange = (name, value) => (event) => {
-            const doChange = bindActionData(change, {touch: touchOnChange});
-            dispatch(doChange(name, getValue(value, event)));
-          };
           const handleSubmit = submitOrEvent => {
             const createEventHandler = submit => event => {
               if (event && event.preventDefault) {
@@ -184,20 +221,20 @@ export default function createReduxForm(isReactNative, React) {
                 const result = submit(values);
                 if (result && typeof result.then === 'function') {
                   // you're showing real promise, kid!
-                  dispatch(startSubmit());
+                  dispatch(actions.startSubmit());
                   return result.then(submitResult => {
-                    dispatch(stopSubmit());
+                    dispatch(actions.stopSubmit());
                     return submitResult;
                   }, submitError => {
-                    dispatch(stopSubmit(submitError));
+                    dispatch(actions.stopSubmit(submitError));
                     return submitError;
                   });
                 }
               };
-              dispatch(touch(...fields));
+              dispatch(actions.touch(...fields));
               if (allValid) {
                 if (asyncValidate) {
-                  return runAsyncValidation().then(asyncValid => {
+                  return this.runAsyncValidation(actions, values).then(asyncValid => {
                     if (allValid && asyncValid) {
                       return submitWithPromiseCheck(values);
                     }
@@ -223,15 +260,6 @@ export default function createReduxForm(isReactNative, React) {
             const pristine = isPristine(field.value, field.initial);
             const error = syncErrors[name] || field.asyncError || field.submitError;
             const valid = isValid(error);
-            const fieldBlur = handleBlur(name);
-            const fieldChange = handleChange(name);
-            const fieldDrag = event => {
-              event.dataTransfer.setData('value', field.value);
-            };
-            const fieldDrop = event => {
-              fieldChange(event.dataTransfer.getData('value'));
-            };
-            const fieldFocus = handleFocus(name);
             if (!valid) {
               allValid = false;
             }
@@ -245,17 +273,10 @@ export default function createReduxForm(isReactNative, React) {
                 checked: typeof field.value === 'boolean' ? field.value : undefined,
                 dirty: !pristine,
                 error,
-                handleBlur: fieldBlur,
-                handleChange: fieldChange,
-                handleFocus: fieldFocus,
+                ...fieldActions[name],
                 invalid: !valid,
                 name,
-                onBlur: fieldBlur,
-                onChange: fieldChange,
-                onDrag: fieldDrag,
-                onDrop: fieldDrop,
-                onFocus: fieldFocus,
-                onUpdate: fieldChange, // alias to support belle. https://github.com/nikgraf/belle/issues/58
+                onDrag: event => event.dataTransfer.setData('value', field.value),
                 pristine,
                 touched: field.touched,
                 valid: valid,
@@ -285,17 +306,17 @@ export default function createReduxForm(isReactNative, React) {
             values,
 
             // Actions:
-            asyncValidate: silenceEvents(runAsyncValidation),
+            asyncValidate: silenceEvents(() => this.runAsyncValidation(actions, values)),
             handleBlur: silenceEvents(handleBlur),
             handleChange: silenceEvents(handleChange),
             handleFocus,
             handleSubmit: silenceEvents(handleSubmit),
-            initializeForm: silenceEvents(initialValues => dispatch(initialize(initialValues))),
-            resetForm: silenceEvents(() => dispatch(reset())),
-            touch: silenceEvents((...touchFields) => dispatch(touch(...touchFields))),
-            touchAll: silenceEvents(() => dispatch(touch(...fields))),
-            untouch: silenceEvents((...untouchFields) => dispatch(untouch(...untouchFields))),
-            untouchAll: silenceEvents(() => dispatch(untouch(...fields))),
+            initializeForm: silenceEvents(initialValues => dispatch(actions.initialize(initialValues))),
+            resetForm: silenceEvents(() => dispatch(actions.reset())),
+            touch: silenceEvents((...touchFields) => dispatch(actions.touch(...touchFields))),
+            touchAll: silenceEvents(() => dispatch(actions.touch(...fields))),
+            untouch: silenceEvents((...untouchFields) => dispatch(actions.untouch(...untouchFields))),
+            untouchAll: silenceEvents(() => dispatch(actions.untouch(...fields))),
 
             // Other:
             dispatch,
