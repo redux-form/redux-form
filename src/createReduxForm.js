@@ -96,7 +96,7 @@ export default function createReduxForm(isReactNative, React) {
         constructor(props) {
           super(props);
           this.cache = lazyCache(this, {
-            actions: {
+            _actions: {
               params: ['formName', 'formKey'],
               fn: (formName, formKey) => // eslint-disable-line no-shadow
                 formKey ?
@@ -104,8 +104,8 @@ export default function createReduxForm(isReactNative, React) {
                   bindActionData(formActions, {form: formName})
             },
 
-            handleBlur: {
-              params: ['actions', 'dispatch'],
+            _handleBlur: {
+              params: ['_actions', 'dispatch'],
               fn: (actions, dispatch) => (name, value) => (event) => {
                 const fieldValue = getValue(value, event);
                 const doBlur = bindActionData(actions.blur, {touch: touchOnBlur});
@@ -123,21 +123,21 @@ export default function createReduxForm(isReactNative, React) {
                 }
               }
             },
-            handleFocus: {
-              params: ['actions', 'dispatch'],
+            _handleFocus: {
+              params: ['_actions', 'dispatch'],
               fn: (actions, dispatch) => (name) => () => dispatch(actions.focus(name))
             },
-            handleChange: {
-              params: ['actions', 'dispatch'],
+            _handleChange: {
+              params: ['_actions', 'dispatch'],
               fn: (actions, dispatch) => (name, value) => {
                 const doChange = bindActionData(actions.change, {touch: touchOnChange});
 
                 return value ? dispatch(doChange(name, getValue(value)))
-                : (event) => dispatch(doChange(name, getValue(value, event)));
+                  : (event) => dispatch(doChange(name, getValue(value, event)));
               }
             },
-            fieldActions: {
-              params: ['handleBlur', 'handleChange', 'handleFocus'],
+            _fieldActions: {
+              params: ['_handleBlur', '_handleChange', '_handleFocus'],
               fn: (handleBlur, handleChange, handleFocus) =>
                 fields.reduce((accumulator, name) => {
                   const fieldBlur = handleBlur(name);
@@ -167,7 +167,7 @@ export default function createReduxForm(isReactNative, React) {
         componentWillMount() {
           const {initialValues, dispatch} = this.props; // eslint-disable-line no-shadow
           if (initialValues) {
-            const {initialize} = this.cache.actions;
+            const {initialize} = this.cache._actions;
             dispatch(initialize(initialValues));
           }
         }
@@ -219,7 +219,12 @@ export default function createReduxForm(isReactNative, React) {
             throw new Error('No form name given to redux-form. Must be passed to ' +
               'connectReduxForm({form: [form name]}) or as a "formName" prop');
           }
-          const { actions, fieldActions, handleBlur, handleChange, handleFocus } = this.cache;
+          const {
+            _actions: actions,
+            _fieldActions: fieldActions,
+            _handleBlur: handleBlur,
+            _handleChange: handleChange,
+            _handleFocus: handleFocus } = this.cache;
           const subForm = this.getSubForm();
 
           // Calculate calculable state
