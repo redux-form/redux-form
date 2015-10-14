@@ -96,56 +96,69 @@ export default function createReduxForm(isReactNative, React) {
         constructor(props) {
           super(props);
           this.cache = lazyCache(this, {
-            actions: (formName, formKey) => // eslint-disable-line no-shadow
-              formKey ?
-                bindActionData(formActions, {form: formName, key: formKey}) :
-                bindActionData(formActions, {form: formName}),
+            actions: {
+              params: ['formName', 'formKey'],
+              fn: (formName, formKey) => // eslint-disable-line no-shadow
+                formKey ?
+                  bindActionData(formActions, {form: formName, key: formKey}) :
+                  bindActionData(formActions, {form: formName})
+            },
 
-            handleBlur: (actions, dispatch) => (name, value) => (event) => {
-              const fieldValue = getValue(value, event);
-              const doBlur = bindActionData(actions.blur, {touch: touchOnBlur});
-              dispatch(doBlur(name, fieldValue));
-              if (asyncValidate && ~asyncBlurFields.indexOf(name)) {
-                const values = this.getValues();
-                const syncError = syncValidate({
-                  ...values,
-                  [name]: fieldValue
-                })[name];
-                // only dispatch async call if all synchronous client-side validation passes for this field
-                if (!syncError) {
-                  this.runAsyncValidation(actions, values);
+            handleBlur: {
+              params: ['actions', 'dispatch'],
+              fn: (actions, dispatch) => (name, value) => (event) => {
+                const fieldValue = getValue(value, event);
+                const doBlur = bindActionData(actions.blur, {touch: touchOnBlur});
+                dispatch(doBlur(name, fieldValue));
+                if (asyncValidate && ~asyncBlurFields.indexOf(name)) {
+                  const values = this.getValues();
+                  const syncError = syncValidate({
+                    ...values,
+                    [name]: fieldValue
+                  })[name];
+                  // only dispatch async call if all synchronous client-side validation passes for this field
+                  if (!syncError) {
+                    this.runAsyncValidation(actions, values);
+                  }
                 }
               }
             },
-            handleFocus: (actions, dispatch) => (name) => () => {
-              dispatch(actions.focus(name));
+            handleFocus: {
+              params: ['actions', 'dispatch'],
+              fn: (actions, dispatch) => (name) => () => dispatch(actions.focus(name))
             },
-            handleChange: (actions, dispatch) => (name, value) => (event) => {
-              const doChange = bindActionData(actions.change, {touch: touchOnChange});
-              dispatch(doChange(name, getValue(value, event)));
+            handleChange: {
+              params: ['actions', 'dispatch'],
+              fn: (actions, dispatch) => (name, value) => (event) => {
+                const doChange = bindActionData(actions.change, {touch: touchOnChange});
+                dispatch(doChange(name, getValue(value, event)));
+              }
             },
-            fieldActions: (handleBlur, handleChange, handleFocus) =>
-              fields.reduce((accumulator, name) => {
-                const fieldBlur = handleBlur(name);
-                const fieldChange = handleChange(name);
-                const fieldFocus = handleFocus(name);
-                return {
-                  ...accumulator,
-                  [name]: filterProps({
-                    handleBlur: fieldBlur,
-                    handleChange: fieldChange,
-                    handleFocus: fieldFocus,
-                    name,
-                    onBlur: fieldBlur,
-                    onChange: fieldChange,
-                    onDrop: event => {
-                      fieldChange(event.dataTransfer.getData('value'));
-                    },
-                    onFocus: fieldFocus,
-                    onUpdate: fieldChange // alias to support belle. https://github.com/nikgraf/belle/issues/58
-                  })
-                };
-              }, {}),
+            fieldActions: {
+              params: ['handleBlur', 'handleChange', 'handleFocus'],
+              fn: (handleBlur, handleChange, handleFocus) =>
+                fields.reduce((accumulator, name) => {
+                  const fieldBlur = handleBlur(name);
+                  const fieldChange = handleChange(name);
+                  const fieldFocus = handleFocus(name);
+                  return {
+                    ...accumulator,
+                    [name]: filterProps({
+                      handleBlur: fieldBlur,
+                      handleChange: fieldChange,
+                      handleFocus: fieldFocus,
+                      name,
+                      onBlur: fieldBlur,
+                      onChange: fieldChange,
+                      onDrop: event => {
+                        fieldChange(event.dataTransfer.getData('value'));
+                      },
+                      onFocus: fieldFocus,
+                      onUpdate: fieldChange // alias to support belle. https://github.com/nikgraf/belle/issues/58
+                    })
+                  };
+                }, {})
+            }
           });
         }
 
