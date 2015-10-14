@@ -164,13 +164,11 @@ export default function createReduxForm(isReactNative, React) {
           if (!promise || typeof promise.then !== 'function') {
             throw new Error('asyncValidate function passed to reduxForm must return a promise!');
           }
-          return promise.then(asyncErrors => {
+          const handleErrors = asyncErrors => {
             dispatch(actions.stopAsyncValidation(asyncErrors));
             return isAsyncValid(asyncErrors);
-          }, (err) => {
-            dispatch(actions.stopAsyncValidation({}));
-            throw new Error('redux-form: Asynchronous validation failed: ' + err);
-          });
+          }
+          return promise.then(handleErrors, handleErrors);
         }
 
         getSubForm() {
