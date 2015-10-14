@@ -93,7 +93,8 @@ export default function createReduxForm(isReactNative, React) {
           formName
         }
 
-        componentWillMount() {
+        constructor(props) {
+          super(props);
           this.cache = lazyCache(this, {
             actions: (formName, formKey) => // eslint-disable-line no-shadow
               formKey ?
@@ -145,9 +146,10 @@ export default function createReduxForm(isReactNative, React) {
                   })
                 };
               }, {}),
-
           });
+        }
 
+        componentWillMount() {
           const {initialValues, dispatch} = this.props; // eslint-disable-line no-shadow
           if (initialValues) {
             const {initialize} = this.cache.actions;
@@ -204,7 +206,7 @@ export default function createReduxForm(isReactNative, React) {
             throw new Error('No form name given to redux-form. Must be passed to ' +
               'connectReduxForm({form: [form name]}) or as a "formName" prop');
           }
-          const { actions, values, fieldActions, handleBlur, handleChange, handleFocus } = this.cache;
+          const { actions, fieldActions, handleBlur, handleChange, handleFocus } = this.cache;
           const subForm = this.getSubForm();
 
           // Calculate calculable state
@@ -217,6 +219,7 @@ export default function createReduxForm(isReactNative, React) {
                 event.preventDefault();
                 event.stopPropagation();
               }
+              const values = this.getValues();
               const submitWithPromiseCheck = () => {
                 const result = submit(values);
                 if (result && typeof result.then === 'function') {
@@ -254,6 +257,7 @@ export default function createReduxForm(isReactNative, React) {
           };
 
           // Define fields
+          const values = this.getValues();
           const syncErrors = syncValidate(values);
           const allFields = fields.reduce((accumulator, name) => {
             const field = subForm[name] || {};
