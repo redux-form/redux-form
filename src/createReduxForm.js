@@ -286,6 +286,7 @@ export default function createReduxForm(isReactNative, React) {
             const pristine = isPristine(field.value, field.initial);
             const error = syncErrors[name] || field.asyncError || field.submitError;
             const valid = isValid(error);
+            const initialValue = passableProps.initialValues && passableProps.initialValues[name];
             if (!valid) {
               allValid = false;
             }
@@ -297,6 +298,8 @@ export default function createReduxForm(isReactNative, React) {
               [name]: filterProps({
                 active: subForm._active === name,
                 checked: typeof field.value === 'boolean' ? field.value : undefined,
+                defaultChecked: initialValue,
+                defaultValue: initialValue,
                 dirty: !pristine,
                 error,
                 ...fieldActions[name],
