@@ -190,12 +190,13 @@ use `redux-form` with React Native is to import everything from `redux-form/nati
 
 ### Synchronous Validation
 
-You may optionally supply a validation function, which is in the form `({}) => {}` and takes in all
-your data and spits out error messages. Your error messages may be strings or arrays of strings (if your field data 
-is complex). For example:
+You may optionally supply a validation function, which is in the form `({}, {}) => {}` and takes in all
+your data and spits out error messages. The first parameter is all the values in your form, and the second is the 
+props passed into your form component. Your error messages may be strings or arrays of strings (if your field 
+data is complex). For example:
 
 ```javascript
-function validateContact(data) {
+function validateContact(data, props) {
   const errors = {};
   if(!data.name) {
     errors.name = 'Required';
@@ -630,7 +631,8 @@ Redux store. If you do not provide this, you must pass it in as a `formName` pro
 
 #### -`config.validate : Function` [optional]
 
-> your [synchronous validation function](#synchronous-validation). Defaults to `() => ({})`
+> your [synchronous validation function](#synchronous-validation). Defaults to `() => ({})` THe first parameter will 
+be the form's values, and the second will be the props passed into the form component.
 
 #### -`config.readonly : boolean` [optional]
 

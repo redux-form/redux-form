@@ -112,7 +112,7 @@ export default function createReduxForm(isReactNative, React) {
                 dispatch(doBlur(name, fieldValue));
                 if (asyncValidate && ~asyncBlurFields.indexOf(name)) {
                   const values = this.getValues();
-                  const syncError = syncValidate({
+                  const syncError = this.runSyncValidate({
                     ...values,
                     [name]: fieldValue
                   })[name];
@@ -170,6 +170,10 @@ export default function createReduxForm(isReactNative, React) {
             const {initialize} = this.cache._actions;
             dispatch(initialize(initialValues));
           }
+        }
+
+        runSyncValidation(values) {
+          return syncValidate(values, this.props);
         }
 
         runAsyncValidation(actions, values) {
@@ -276,7 +280,7 @@ export default function createReduxForm(isReactNative, React) {
 
           // Define fields
           const values = this.getValues();
-          const syncErrors = syncValidate(values);
+          const syncErrors = this.runSyncValidation(values);
           const allFields = fields.reduce((accumulator, name) => {
             const field = subForm[name] || {};
             const pristine = isPristine(field.value, field.initial);
