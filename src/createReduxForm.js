@@ -180,7 +180,7 @@ export default function createReduxForm(isReactNative, React) {
           const handleErrors = asyncErrors => {
             dispatch(actions.stopAsyncValidation(asyncErrors));
             return isAsyncValid(asyncErrors);
-          }
+          };
           return promise.then(handleErrors, handleErrors);
         }
 
