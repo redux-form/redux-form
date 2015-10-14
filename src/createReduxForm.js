@@ -129,9 +129,11 @@ export default function createReduxForm(isReactNative, React) {
             },
             handleChange: {
               params: ['actions', 'dispatch'],
-              fn: (actions, dispatch) => (name, value) => (event) => {
+              fn: (actions, dispatch) => (name, value) => {
                 const doChange = bindActionData(actions.change, {touch: touchOnChange});
-                dispatch(doChange(name, getValue(value, event)));
+
+                return value ? dispatch(doChange(name, getValue(value)))
+                : (event) => dispatch(doChange(name, getValue(value, event)));
               }
             },
             fieldActions: {
