@@ -1,5 +1,5 @@
 import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
+  STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from './actionTypes';
 
 export function blur(field, value) {
   return {type: BLUR, field, value};
@@ -43,4 +43,8 @@ export function touch(...fields) {
 
 export function untouch(...fields) {
   return {type: UNTOUCH, fields};
+}
+
+export function destroy() {
+  return {type: DESTROY};
 }

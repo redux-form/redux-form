@@ -1,7 +1,7 @@
 import expect from 'expect';
 import reducer from '../src/reducer';
 import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
-  stopAsyncValidation, stopSubmit, touch, untouch} from '../src/actions';
+  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../src/actions';
 
 describe('reducer', () => {
   it('should initialize state to {}', () => {
@@ -700,6 +700,22 @@ describe('reducer', () => {
         _error: undefined,
         _submitting: false
       });
+  });
+
+  it('should destroy forms on destroy', () => {
+    const state = reducer({
+      foo: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      }
+    }, {
+      ...destroy(),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual(undefined);
   });
 });
 

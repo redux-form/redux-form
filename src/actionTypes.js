@@ -9,3 +9,4 @@ export const STOP_ASYNC_VALIDATION = 'redux-form/STOP_ASYNC_VALIDATION';
 export const STOP_SUBMIT = 'redux-form/STOP_SUBMIT';
 export const TOUCH = 'redux-form/TOUCH';
 export const UNTOUCH = 'redux-form/UNTOUCH';
+export const DESTROY = 'redux-form/DESTROY';

@@ -995,6 +995,10 @@ for most of your needs.**
 
 > Resets the 'touched' flag for all the fields passed in.
 
+#### -`destroy(form:String)`
+
+> Destroys the form, removing all its state.
+
 ---
   
 ## Working Demo
