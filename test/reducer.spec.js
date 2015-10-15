@@ -303,52 +303,6 @@ describe('reducer', () => {
       });
   });
 
-  it('should set value on change and set dirty as needed', () => {
-    const state = reducer({
-      foo: {
-        someField: {
-          initial: 'initialValue',
-          value: 'otherValue',
-          dirty: true
-        },
-        otherField: {
-          initial: 'initialValue',
-          value: 'otherValue',
-          dirty: true
-        },
-        _active: 'myField',
-        _asyncValidating: false,
-        _error: undefined,
-        _submitting: false,
-        _dirty: true
-      }
-    }, {
-      ...change('someField', 'initialValue'),
-      form: 'foo'
-    });
-    expect(state.foo)
-      .toEqual({
-        someField: {
-          initial: 'initialValue',
-          value: 'initialValue',
-          dirty: false,
-          touched: false,
-          asyncError: undefined,
-          submitError: undefined
-        },
-        otherField: {
-          initial: 'initialValue',
-          value: 'otherValue',
-          dirty: true
-        },
-        _active: 'myField',
-        _asyncValidating: false,
-        _error: undefined,
-        _submitting: false,
-        _dirty: true
-      });
-  });
-
   it('should set visited on focus and update current with no previous state', () => {
     const state = reducer({}, {
       ...focus('myField'),
