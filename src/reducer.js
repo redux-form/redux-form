@@ -1,5 +1,5 @@
 import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
+  STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from './actionTypes';
 import mapValues from './mapValues';
 
 export const initialState = {
@@ -125,6 +125,8 @@ const reducer = (state = initialState, action = {}) => {
           }
         }), {})
       };
+    case DESTROY:
+      return undefined;
     default:
       return state;
   }

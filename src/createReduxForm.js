@@ -346,7 +346,7 @@ export default function createReduxForm(isReactNative, React) {
             touchAll: silenceEvents(() => dispatch(actions.touch(...fields))),
             untouch: silenceEvents((...untouchFields) => dispatch(actions.untouch(...untouchFields))),
             untouchAll: silenceEvents(() => dispatch(actions.untouch(...fields))),
-
+            destroyForm: silenceEvents(() => dispatch(actions.destroy())),
             // Other:
             dispatch,
             ...passableProps
