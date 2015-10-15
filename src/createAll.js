@@ -25,6 +25,7 @@ const stopAsyncValidation = boundActions.stopAsyncValidation;
 const stopSubmit = boundActions.stopSubmit;
 const touch = boundActions.touch;
 const untouch = boundActions.untouch;
+const destroy = boundActions.destroy;
 
 export default function createAll(isReactNative, React, connect) {
   return {
@@ -42,6 +43,7 @@ export default function createAll(isReactNative, React, connect) {
     stopAsyncValidation,
     stopSubmit,
     touch,
-    untouch
+    untouch,
+    destroy
   };
 }
