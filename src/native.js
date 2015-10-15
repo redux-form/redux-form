@@ -17,5 +17,6 @@ export const {
   stopAsyncValidation,
   stopSubmit,
   touch,
-  untouch
+  untouch,
+  destroy
 } = createAll(true, React, connect);
