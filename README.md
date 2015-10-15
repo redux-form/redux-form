@@ -422,13 +422,12 @@ export default class ContactsPage extends Component {
     const {contacts} = this.props;
     return (
       <div>
-        {contacts.map(function (contact) {
-          return <ContactForm
-                   key={contact.id}                  // required by react
-                   formKey={String(contact.id)}      // required by redux-form
-                   initialValues={contact}           // initialize form values
-                   onSubmit={this.handleSubmit.bind(this, contact.id)}/>
-        })}
+        {contacts.map(contact =>
+           <ContactForm
+             key={contact.id}                  // required by react
+             formKey={String(contact.id)}      // required by redux-form
+             initialValues={contact}           // initialize form values
+             onSubmit={this.handleSubmit.bind(this, contact.id)}/>)}
       </div>
     );
   }
