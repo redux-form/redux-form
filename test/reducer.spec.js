@@ -825,7 +825,8 @@ describe('reducer', () => {
           _active: undefined,
           _asyncValidating: false,
           _error: undefined,
-          _submitting: false
+          _submitting: false,
+          _dirty: false
         }
       });
   });
