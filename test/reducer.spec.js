@@ -1,5 +1,6 @@
 import expect from 'expect';
 import reducer from '../src/reducer';
+import bindActionData from '../src/bindActionData';
 import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../src/actions';
 
@@ -709,13 +710,73 @@ describe('reducer', () => {
         _asyncValidating: false,
         _error: undefined,
         _submitting: false
+      },
+      bar: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
       }
     }, {
       ...destroy(),
       form: 'foo'
     });
-    expect(state.foo)
-      .toEqual(undefined);
+    expect(state)
+      .toEqual({
+        bar: {
+          _active: undefined,
+          _asyncValidating: false,
+          _error: undefined,
+          _submitting: false
+        }
+      });
+  });
+
+  it('should destroy last form on destroy', () => {
+    const state = reducer({
+      foo: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      }
+    }, {
+      ...destroy(),
+      form: 'foo'
+    });
+    expect(state)
+      .toEqual({});
+  });
+
+  it('should destroy form and formkey on destroy', () => {
+    const destroyWithKey = (key) => bindActionData(destroy, {key})();
+    const state = reducer({
+      fooForm: {
+        barKey: {
+          _active: undefined,
+          _asyncValidating: false,
+          _error: undefined,
+          _submitting: false
+        },
+        bazKey: {
+          _active: undefined,
+          _asyncValidating: false,
+          _error: undefined,
+          _submitting: false
+        }
+      }
+    }, {
+      ...destroyWithKey('barKey'),
+      form: 'fooForm'
+    });
+    expect(state.fooForm).toEqual({
+      bazKey: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      }
+    });
   });
 });
 

@@ -1,5 +1,5 @@
-import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from './actionTypes';
+import { BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+  STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
 
 export const initialState = {
@@ -40,6 +40,8 @@ const reducer = (state = initialState, action = {}) => {
         },
         _error: undefined
       };
+    case DESTROY:
+      return undefined;
     case FOCUS:
       return {
         ...state,
@@ -125,8 +127,6 @@ const reducer = (state = initialState, action = {}) => {
           }
         }), {})
       };
-    case DESTROY:
-      return undefined;
     default:
       return state;
   }
@@ -138,6 +138,16 @@ function formReducer(state = {}, action = {}) {
     return state;
   }
   if (key) {
+    if (action.type === DESTROY) {
+      return {
+        ...state,
+        [form]: Object.keys(state[form]).reduce((accumulator, stateKey) =>
+          stateKey === key ? accumulator : {
+            ...accumulator,
+            [stateKey]: state[form][stateKey]
+          }, {})
+      };
+    }
     return {
       ...state,
       [form]: {
@@ -145,6 +155,13 @@ function formReducer(state = {}, action = {}) {
         [key]: reducer((state[form] || {})[key], rest)
       }
     };
+  }
+  if (action.type === DESTROY) {
+    return Object.keys(state).reduce((accumulator, formName) =>
+      formName === form ? accumulator : {
+        ...accumulator,
+        [formName]: state[formName]
+      }, {});
   }
   return {
     ...state,

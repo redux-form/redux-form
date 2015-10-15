@@ -15,6 +15,7 @@ const boundActions = {
 
 const blur = boundActions.blur;
 const change = boundActions.change;
+const destroy = boundActions.destroy;
 const focus = boundActions.focus;
 const initialize = boundActions.initialize;
 const initializeWithKey = boundActions.initializeWithKey;
@@ -25,13 +26,13 @@ const stopAsyncValidation = boundActions.stopAsyncValidation;
 const stopSubmit = boundActions.stopSubmit;
 const touch = boundActions.touch;
 const untouch = boundActions.untouch;
-const destroy = boundActions.destroy;
 
 export default function createAll(isReactNative, React, connect) {
   return {
     blur,
     change,
     connectReduxForm: createConnectReduxForm(isReactNative, React, connect),
+    destroy,
     focus,
     reducer,
     initialize,
@@ -43,7 +44,6 @@ export default function createAll(isReactNative, React, connect) {
     stopAsyncValidation,
     stopSubmit,
     touch,
-    untouch,
-    destroy
+    untouch
   };
 }

@@ -6,6 +6,7 @@ export const {
   blur,
   change,
   connectReduxForm,
+  destroy,
   focus,
   reducer,
   reduxForm,
@@ -17,6 +18,5 @@ export const {
   stopAsyncValidation,
   stopSubmit,
   touch,
-  untouch,
-  destroy
+  untouch
 } = createAll(true, React, connect);
