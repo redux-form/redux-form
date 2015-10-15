@@ -112,7 +112,7 @@ export default function createReduxForm(isReactNative, React) {
                 dispatch(doBlur(name, fieldValue));
                 if (asyncValidate && ~asyncBlurFields.indexOf(name)) {
                   const values = this.getValues();
-                  const syncError = this.runSyncValidate({
+                  const syncError = this.runSyncValidation({
                     ...values,
                     [name]: fieldValue
                   })[name];
