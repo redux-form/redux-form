@@ -33,6 +33,9 @@
     "url": "https://github.com/erikras/redux-form/issues"
   },
   "homepage": "https://github.com/erikras/redux-form",
+  "dependencies": {
+    "react-lazy-cache": "^3.0.0"
+  },
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-core": "^5.8.25",
@@ -44,14 +47,15 @@
     "expect": "^1.11.1",
     "mocha": "^2.3.3",
     "react": "^0.13.3",
+    "react-redux": "^3.1.0",
+    "redux": "^3.0.2",
     "rifraf": "^2.0.2",
     "rimraf": "^2.4.3",
     "webpack": "^1.12.2"
   },
-  "dependencies": {
-    "react-lazy-cache": "^3.0.0",
-    "react-redux": "3.1.0",
-    "redux": "3.0.2"
+  "peerDependencies": {
+    "react-redux": "^3.0.0 || ^4.0.0",
+    "redux": "^3.0.0"
   },
   "npmName": "redux-form",
   "npmFileMap": [
