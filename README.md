@@ -719,6 +719,11 @@ The props passed into your decorated component by `redux-form` will be:
 
 > `true` if the asynchronous validation function has been called but has not yet returned.
 
+#### -`destroyForm() : Function`
+
+> Destroys the form state in the Redux store. _Should be called in `componentWillUnmount()` for proper memory 
+management._
+
 #### -`dirty : boolean`
 
 > `true` if the form data has changed from its initialized values. Opposite of `pristine`.
