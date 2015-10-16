@@ -10,7 +10,8 @@ import * as actionTypes from './actionTypes';
 const boundActions = {
   ...mapValues({
     ...actions,
-    initializeWithKey: (key, data) => bindActionData(actions.initialize, {key})(data)
+    initializeWithKey: (key, data) => bindActionData(actions.initialize, {key})(data),
+    destroy: (key) => bindActionData(actions.destroy, {key})()
   }, action => (form, ...args) => bindActionData(action, {form})(...args))
 };
 
