@@ -48,6 +48,7 @@
   * [`props` you can pass into your decorated component](#props-you-can-pass-into-your-decorated-component) - extra
   functionality!
   * [Action Creators](#action-creators) - Advanced
+  * [Action Types](#action-types) - Advanced
 * [Working Demo](#working-demo)
 
 ---
@@ -1004,6 +1005,19 @@ for most of your needs.**
 #### -`destroy(form:String)`
 
 > Destroys the form, removing all its state.
+
+---
+
+### Action Types
+
+`redux-form` exports all of its
+[internal action types](https://github.com/erikras/redux-form/blob/master/src/actionTypes.js),
+so that you can listen for them in another reducer if you wish. To import the `FOCUS` action type, for instance, you 
+would do:
+
+```javascript
+import {actionTypes: {FOCUS}} from 'redux-form';
+```
 
 ---
   

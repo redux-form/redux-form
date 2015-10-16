@@ -4,6 +4,7 @@ import createConnectReduxForm from './createConnectReduxForm';
 import mapValues from './mapValues';
 import bindActionData from './bindActionData';
 import * as actions from './actions';
+import * as actionTypes from './actionTypes';
 
 // bind form as first parameter of action creators
 const boundActions = {
@@ -29,6 +30,7 @@ const untouch = boundActions.untouch;
 
 export default function createAll(isReactNative, React, connect) {
   return {
+    actionTypes,
     blur,
     change,
     connectReduxForm: createConnectReduxForm(isReactNative, React, connect),
