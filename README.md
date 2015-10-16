@@ -928,7 +928,8 @@ Redux store. Will overwrite any [`config.form`](#-configform--string-optional) v
 #### -`initialValues : Object` [optional]
 
 > the values with which to initialize your form in `componentWillMount`. Particularly useful when
-[Editing Multiple Records](#editing-multiple-records), but can also be used with single-record forms.
+[Editing Multiple Records](#editing-multiple-records), but can also be used with single-record forms. The values 
+should be in the form `{ field1: 'value1', field2: 'value2' }`.
 
 #### -`onSubmit : Function` [optional]
 
