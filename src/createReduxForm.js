@@ -1,6 +1,5 @@
 import * as formActions from './actions';
 import getDisplayName from './getDisplayName';
-import isPristine from './isPristine';
 import isValid from './isValid';
 import bindActionData from './bindActionData';
 import {initialState} from './reducer';
@@ -233,7 +232,6 @@ export default function createReduxForm(isReactNative, React) {
 
           // Calculate calculable state
           let allValid = true;
-          let allPristine = true;
 
           const handleSubmit = submitOrEvent => {
             const createEventHandler = submit => event => {
@@ -283,15 +281,11 @@ export default function createReduxForm(isReactNative, React) {
           const syncErrors = this.runSyncValidation(values);
           const allFields = fields.reduce((accumulator, name) => {
             const field = subForm[name] || {};
-            const pristine = isPristine(field.value, field.initial);
             const error = syncErrors[name] || field.asyncError || field.submitError;
             const valid = isValid(error);
             const initialValue = passableProps.initialValues && passableProps.initialValues[name];
             if (!valid) {
               allValid = false;
-            }
-            if (!pristine) {
-              allPristine = false;
             }
             return {
               ...accumulator,
@@ -300,13 +294,13 @@ export default function createReduxForm(isReactNative, React) {
                 checked: typeof field.value === 'boolean' ? field.value : undefined,
                 defaultChecked: initialValue,
                 defaultValue: initialValue,
-                dirty: !pristine,
+                dirty: field.dirty,
                 error,
                 ...fieldActions[name],
                 invalid: !valid,
                 name,
                 onDrag: event => event.dataTransfer.setData('value', field.value),
-                pristine,
+                pristine: !field.dirty,
                 touched: field.touched,
                 valid: valid,
                 value: field.value,
@@ -324,12 +318,12 @@ export default function createReduxForm(isReactNative, React) {
             // State:
             active: subForm._active,
             asyncValidating: subForm._asyncValidating,
-            dirty: !allPristine,
+            dirty: subForm._dirty,
             error: formError,
             fields: allFields,
             formKey,
             invalid: !allValid,
-            pristine: allPristine,
+            pristine: !subForm._dirty,
             submitting: subForm._submitting,
             valid: allValid,
             values,

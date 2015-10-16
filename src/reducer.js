@@ -1,12 +1,14 @@
 import { BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
   STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
+import isPristine from './isPristine';
 
 export const initialState = {
   _active: undefined,
   _asyncValidating: false,
   _error: undefined,
-  _submitting: false
+  _submitting: false,
+  _dirty: false
 };
 
 const getValues = (state) =>
@@ -29,15 +31,20 @@ const reducer = (state = initialState, action = {}) => {
         _active: undefined
       };
     case CHANGE:
+      const actionFieldIsDirty = !isPristine(action.value, state[action.field] && state[action.field].initial);
       return {
         ...state,
         [action.field]: {
           ...state[action.field],
           value: action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched),
+          dirty: actionFieldIsDirty,
           asyncError: null,
           submitError: null
         },
+        _dirty: actionFieldIsDirty || Object.keys(state).reduce((accumulator, fieldName) =>
+            accumulator || ((fieldName !== action.field && fieldName[0] !== '_') ? state[fieldName].dirty : false)
+          , false),
         _error: undefined
       };
     case DESTROY:
@@ -55,25 +62,29 @@ const reducer = (state = initialState, action = {}) => {
       return {
         ...mapValues(action.data, (value) => ({
           initial: value,
-          value: value
+          value: value,
+          dirty: false
         })),
         _asyncValidating: false,
         _active: undefined,
         _error: undefined,
-        _submitting: false
+        _submitting: false,
+        _dirty: false
       };
     case RESET:
       return {
         ...mapValues(state, (field, name) => {
           return name[0] === '_' ? field : {
             initial: field.initial,
-            value: field.initial
+            value: field.initial,
+            dirty: false
           };
         }),
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
-        _submitting: false
+        _submitting: false,
+        _dirty: false
       };
     case START_ASYNC_VALIDATION:
       return {
