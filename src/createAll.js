@@ -1,6 +1,5 @@
 import reducer from './reducer';
 import createReduxForm from './createReduxForm';
-import createConnectReduxForm from './createConnectReduxForm';
 import mapValues from './mapValues';
 import bindActionData from './bindActionData';
 import * as actions from './actions';
@@ -28,12 +27,11 @@ const stopSubmit = boundActions.stopSubmit;
 const touch = boundActions.touch;
 const untouch = boundActions.untouch;
 
-export default function createAll(isReactNative, React, connect) {
+export default function createAll(isReactNative, React) {
   return {
     actionTypes,
     blur,
     change,
-    connectReduxForm: createConnectReduxForm(isReactNative, React, connect),
     destroy,
     focus,
     reducer,
