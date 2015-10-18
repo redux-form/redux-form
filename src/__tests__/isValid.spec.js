@@ -1,5 +1,5 @@
 import expect from 'expect';
-import isValid from '../src/isValid';
+import isValid from '../isValid';
 
 describe('isValid', () => {
 

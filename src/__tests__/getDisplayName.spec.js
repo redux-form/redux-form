@@ -1,5 +1,5 @@
 import expect from 'expect';
-import getDisplayName from '../src/getDisplayName';
+import getDisplayName from '../getDisplayName';
 
 describe('getDisplayName', () => {
   it('should return the displayName if set', () => {

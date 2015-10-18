@@ -15,7 +15,7 @@
     "clean": "rimraf dist lib",
     "lint": "eslint src",
     "prepublish": "npm run lint && npm run test && npm run clean && npm run build",
-    "test": "mocha --compilers js:babel/register --recursive"
+    "test": "mocha --compilers js:babel/register --recursive src/**/__tests__/*"
   },
   "keywords": [
     "react",

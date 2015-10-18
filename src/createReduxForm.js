@@ -6,9 +6,15 @@ import createReduxFormConnector from './createReduxFormConnector';
 const createReduxForm =
   (isReactNative, React) => {
     const ReduxFormConnector = createReduxFormConnector(isReactNative, React);
-    return config =>
-      DecoratedComponent =>
-        props => <ReduxFormConnector {...config} {...props} DecoratedComponent={DecoratedComponent}/>;
+    return (config, mapDispatchToProps) =>
+      WrappedComponent =>
+        props => (<ReduxFormConnector
+          {...config}
+          {...props}
+          {...{
+            mapDispatchToProps,
+            WrappedComponent
+          }}/>);
   };
 
 export default createReduxForm;

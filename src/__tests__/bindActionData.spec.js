@@ -1,5 +1,5 @@
 import expect from 'expect';
-import bindActionData from '../src/bindActionData';
+import bindActionData from '../bindActionData';
 
 describe('bindActionData', () => {
   it('should return a function when called with a function', () => {

@@ -1,5 +1,5 @@
 import expect from 'expect';
-import isPristine from '../src/isPristine';
+import isPristine from '../isPristine';
 
 const tryBothWays = (a, b, result) => {
   expect(isPristine(a, b)).toBe(result);

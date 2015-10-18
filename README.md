@@ -616,6 +616,15 @@ ContactForm = connect(
 ```
 
 ---
+## Component Architecture
+
+When you decorate your component with `redux-form`, it will be wrapped two components, created by two factory functions.
+
+1. `reduxForm(config)(WrappedComponent)` creates an anonymous stateless component that lets its props override any of the `config` values and returns a `<ReduxFormConnector/>`
+2. `<ReduxFormConnector/>` examines its `props` (the merged values from `config` and `props` in #1) and uses `react-redux`'s `connect()` to decorate a `<ReduxForm/>` component that will be connected to the right spot of the Redux state.
+3. `<ReduxForm/>` is the higher-order component that provides all the form functionality and renders the `<WrappedComponent/>`.
+
+---
 ## API
 
 ### `connectReduxForm(config:Object)`

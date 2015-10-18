@@ -1,8 +1,8 @@
 import expect from 'expect';
-import reducer from '../src/reducer';
-import bindActionData from '../src/bindActionData';
+import reducer from '../reducer';
+import bindActionData from '../bindActionData';
 import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
-  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../src/actions';
+  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
 
 describe('reducer', () => {
   it('should initialize state to {}', () => {

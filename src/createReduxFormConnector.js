@@ -24,7 +24,7 @@ const createReduxFormConnector = (isReactNative, React) => WrappedComponent => {
     constructor(props) {
       super(props);
       this.cache = lazyCache(this, {
-        hoc: {
+        ReduxForm: {
           params: [
             // props that effect how redux-form connects to the redux store
             'reduxMountPoint',
@@ -41,7 +41,10 @@ const createReduxFormConnector = (isReactNative, React) => WrappedComponent => {
     }
 
     render() {
-      return this.cache.hoc;
+      const {ReduxForm} = this.cache;
+      // remove some redux-form config-only props
+      const {reduxMountPoint, formName, touchOnBlur, touchOnChange, ...passableProps} = this.props;
+      return <ReduxForm {...props}/>;
     }
   };
 };
