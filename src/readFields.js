@@ -5,11 +5,7 @@ import createOnDrop from './events/createOnDrop';
 import createOnFocus from './events/createOnFocus';
 import isPristine from './isPristine';
 import isValid from './isValid';
-
-const getValues = (fields, form) => fields.reduce((accumulator, field) => ({
-  ...accumulator,
-  [field]: form[field] ? form[field].value : undefined
-}), {});
+import getValues from './getValues';
 
 /**
  * Reads props and generates (or updates) field structure
