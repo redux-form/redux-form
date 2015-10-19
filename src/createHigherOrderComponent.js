@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
-import * as unboundActions from './actions';
+import {bindActionCreators} from 'redux';
+import * as importedActions from './actions';
 import getDisplayName from './getDisplayName';
 import {initialState} from './reducer';
 import deepEqual from 'deep-equal';
@@ -13,13 +14,13 @@ import silenceEvents from './events/silenceEvents';
 const createHigherOrderComponent = (config, isReactNative, React, WrappedComponent) => {
   const {Component, PropTypes} = React;
   return (reduxMountPoint, formName, formKey) => {
-    class ReduxFormHOC extends Component {
-      static displayName = `ReduxFormHOC(${getDisplayName(WrappedComponent)})`;
+    class ReduxForm extends Component {
+      static displayName = `ReduxForm(${getDisplayName(WrappedComponent)})`;
       static propTypes = {
         // props:
         dispatch: PropTypes.func.isRequired,
         fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-        form: PropTypes.func,
+        form: PropTypes.object,
         initialValues: PropTypes.object,
         onSubmit: PropTypes.func,
         validate: PropTypes.func,
@@ -41,13 +42,19 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       static defaultProps = {
         form: initialState,
-        validate: () => {
-        }
+        validate: () => ({})
       }
 
       constructor(props) {
         super(props);
         this.fields = readFields(props, {}, isReactNative);
+      }
+
+      componentWillMount() {
+        const {initialize, initialValues} = this.props;
+        if (initialValues) {
+          initialize(initialValues);
+        }
       }
 
       componentWillReceiveProps(nextProps) {
@@ -102,17 +109,34 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       }
     }
 
-
-    unboundActions.blur = bindActionData(unboundActions.blur, {touch: config.touchOnBlur});
-    unboundActions.change = bindActionData(unboundActions.change, {touch: config.touchOnChange});
+    const unboundActions = {
+      ...importedActions,
+      blur: bindActionData(importedActions.blur, {
+        touch: !!config.touchOnBlur
+      }),
+      change: bindActionData(importedActions.change, {
+        touch: !!config.touchOnChange
+      })
+    };
 
     const decorate = formKey ?
-      connect(state => state[reduxMountPoint][formName][formKey],
-        bindActionData(unboundActions, {form: formName, key: formKey})) :
-      connect(state => state[reduxMountPoint][formName],
-        bindActionData(unboundActions, {form: formName}));
+      connect(
+        state => ({form: state[reduxMountPoint][formName][formKey]}),
+        dispatch => ({
+          ...bindActionCreators(bindActionData(unboundActions, {form: formName, key: formKey}), dispatch),
+          dispatch
+        })
+      ) :
+      connect(
+        state => ({form: state[reduxMountPoint][formName]}),
+        dispatch => ({
+          ...
+            bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),
+          dispatch
+        })
+      );
 
-    return decorate(ReduxFormHOC);
+    return decorate(ReduxForm);
   };
 };
 

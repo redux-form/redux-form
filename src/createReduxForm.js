@@ -5,16 +5,20 @@ import createReduxFormConnector from './createReduxFormConnector';
  */
 const createReduxForm =
   (isReactNative, React) => {
-    const ReduxFormConnector = createReduxFormConnector(isReactNative, React);
+    const reduxFormConnector = createReduxFormConnector(isReactNative, React);
     return (config, mapDispatchToProps) =>
-      WrappedComponent =>
-        props => (<ReduxFormConnector
-          {...config}
-          {...props}
-          {...{
-            mapDispatchToProps,
-            WrappedComponent
-          }}/>);
+      WrappedComponent => {
+        const ReduxFormConnector = reduxFormConnector(WrappedComponent, mapDispatchToProps);
+        const configWithDefaults = {
+          touchOnBlur: true,
+          touchOnChange: false,
+          destroyOnUnmount: true,
+          ...config
+        };
+        return props => (<ReduxFormConnector
+          {...configWithDefaults}
+          {...props}/>);
+      };
   };
 
 export default createReduxForm;

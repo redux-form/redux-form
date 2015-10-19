@@ -7,7 +7,7 @@ describe('getValues', () => {
       foo: {value: 'bar'},
       catLives: {value: 9},
       alive: {value: true}
-    }
+    };
     const fields = ['foo', 'catLives', 'alive'];
     expect(getValues(fields, form))
       .toBeA('object')

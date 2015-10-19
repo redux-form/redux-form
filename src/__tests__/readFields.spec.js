@@ -1,8 +1,8 @@
-import expect, {createSpy, restoreSpies} from 'expect';
+import expect, {createSpy} from 'expect';
 import readFields from '../readFields';
 
 const createRestorableSpy = (fn) => {
-  return createSpy(fn, function() {
+  return createSpy(fn, function restore() {
     this.calls = [];
   });
 };
@@ -11,13 +11,9 @@ describe('readFields', () => {
   const blur = createRestorableSpy();
   const change = createRestorableSpy();
   const focus = createRestorableSpy();
-  const restore = () => {
-    blur.restore();
-    change.restore();
-    focus.restore();
-  };
+  const noValidation = () => ({});
 
-  const expectField = (field, name, value, dirty = true, error, initialValue) => {
+  const expectField = ({field, name, value, dirty, touched, visited, error, initialValue}) => {
     expect(field)
       .toExist()
       .toBeA('object');
@@ -37,6 +33,8 @@ describe('readFields', () => {
     expect(field.invalid).toBe(!!error);
     expect(field.dirty).toBe(dirty);
     expect(field.pristine).toBe(!dirty);
+    expect(field.touched).toBe(touched);
+    expect(field.visited).toBe(visited);
 
     // call blur
     expect(blur.calls.length).toBe(0);
@@ -60,7 +58,9 @@ describe('readFields', () => {
     expect(focus.calls.length).toBe(1);
     expect(focus).toHaveBeenCalled();
 
-    restore();
+    blur.restore();
+    change.restore();
+    focus.restore();
   };
 
   it('should initialize fields', () => {
@@ -76,10 +76,29 @@ describe('readFields', () => {
         bar: {
           value: 'barValue'
         }
-      }
+      },
+      validate: noValidation
     }, {});
-    expectField(result.foo, 'foo', 'fooValue');
-    expectField(result.bar, 'bar', 'barValue');
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -103,10 +122,31 @@ describe('readFields', () => {
       initialValues: {
         foo: 'initialFoo',
         bar: 42
-      }
+      },
+      validate: noValidation
     }, {});
-    expectField(result.foo, 'foo', 'fooValue', true, undefined, 'initialFoo');
-    expectField(result.bar, 'bar', 43, true, undefined, 42);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      valid: true,
+      dirty: true,
+      error: undefined,
+      visited: false,
+      touched: false,
+      initialValue: 'initialFoo'
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 43,
+      valid: true,
+      dirty: true,
+      error: undefined,
+      touched: false,
+      visited: false,
+      initialValue: 42
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 43});
@@ -132,8 +172,26 @@ describe('readFields', () => {
         bar: 'barError'
       })
     }, {});
-    expectField(result.foo, 'foo', 'fooValue', true, 'fooError');
-    expectField(result.bar, 'bar', 'barValue', true, 'barError');
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'fooError',
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'barError',
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -153,7 +211,8 @@ describe('readFields', () => {
         bar: {
           value: 'barValue'
         }
-      }
+      },
+      validate: noValidation
     };
     const previous = readFields(props, {});
     const result = readFields({
@@ -165,10 +224,29 @@ describe('readFields', () => {
         bar: {
           value: 'barValue'
         }
-      }
+      },
+      validate: noValidation
     }, previous);
-    expectField(result.foo, 'foo', 'fooValueNew');
-    expectField(result.bar, 'bar', 'barValue');
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValueNew',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValueNew', bar: 'barValue'});
@@ -188,17 +266,54 @@ describe('readFields', () => {
         bar: {
           value: 'barValue'
         }
-      }
+      },
+      validate: noValidation
     };
     const previous = readFields(props, {});
     const result = readFields({
       ...props,
       fields: ['foo', 'bar', 'cat', 'dog']
     }, previous);
-    expectField(result.foo, 'foo', 'fooValue');
-    expectField(result.bar, 'bar', 'barValue');
-    expectField(result.cat, 'cat', undefined, false);
-    expectField(result.dog, 'dog', undefined, false);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.cat,
+      name: 'cat',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.dog,
+      name: 'dog',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue', cat: undefined, dog: undefined});
@@ -215,7 +330,8 @@ describe('readFields', () => {
         bar: {
           value: 'barValue'
         }
-      }
+      },
+      validate: noValidation
     };
     const previous = readFields(props, {});
     const result = readFields({
@@ -223,7 +339,16 @@ describe('readFields', () => {
       fields: ['bar']
     }, previous);
     expect(result._meta.foo).toBe(undefined);
-    expectField(result.bar, 'bar', 'barValue');
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({bar: 'barValue'});
@@ -245,10 +370,29 @@ describe('readFields', () => {
           value: 'barValue',
           initial: 'fooValue'
         }
-      }
+      },
+      validate: noValidation
     }, {});
-    expectField(result.foo, 'foo', 'fooValue', false);
-    expectField(result.bar, 'bar', 'barValue', true);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -270,11 +414,117 @@ describe('readFields', () => {
           value: 'barValue',
           initial: 'barValue'
         }
-      }
+      },
+      validate: noValidation
     }, {});
-    expectField(result.foo, 'foo', 'fooValue', false);
-    expectField(result.bar, 'bar', 'barValue', false);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(true);
+    expect(result._meta.allValid).toBe(true);
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
+    expect(result._meta.errors).toEqual({});
+  });
+
+  it('should handle touched', () => {
+    const result = readFields({
+      blur,
+      change,
+      fields: ['foo', 'bar'],
+      focus,
+      form: {
+        foo: {
+          value: 'fooValue',
+          touched: true
+        },
+        bar: {
+          value: 'barValue'
+        }
+      },
+      validate: noValidation
+    }, {});
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: true,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(true);
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
+    expect(result._meta.errors).toEqual({});
+  });
+
+  it('should handle visited', () => {
+    const result = readFields({
+      blur,
+      change,
+      fields: ['foo', 'bar'],
+      focus,
+      form: {
+        foo: {
+          value: 'fooValue',
+          visited: true
+        },
+        bar: {
+          value: 'barValue',
+          visited: true
+        }
+      },
+      validate: noValidation
+    }, {});
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: true,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: true,
+      error: undefined,
+      initialValue: undefined
+    });
+    expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
     expect(result._meta.errors).toEqual({});
@@ -295,10 +545,29 @@ describe('readFields', () => {
           value: 'barValue',
           asyncError: 'barAsyncError'
         }
-      }
+      },
+      validate: noValidation
     }, {});
-    expectField(result.foo, 'foo', 'fooValue', true, 'fooAsyncError');
-    expectField(result.bar, 'bar', 'barValue', true, 'barAsyncError');
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'fooAsyncError',
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'barAsyncError',
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -320,10 +589,29 @@ describe('readFields', () => {
           value: 'barValue',
           submitError: 'barSubmitError'
         }
-      }
+      },
+      validate: noValidation
     }, {});
-    expectField(result.foo, 'foo', 'fooValue', true, 'fooSubmitError');
-    expectField(result.bar, 'bar', 'barValue', true, 'barSubmitError');
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'fooSubmitError',
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'barSubmitError',
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -347,10 +635,29 @@ describe('readFields', () => {
           asyncError: 'barAsyncError',
           submitError: 'barSubmitError'
         }
-      }
+      },
+      validate: noValidation
     }, {});
-    expectField(result.foo, 'foo', 'fooValue', true, 'fooSubmitError');
-    expectField(result.bar, 'bar', 'barValue', true, 'barSubmitError');
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'fooSubmitError',
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'barSubmitError',
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -379,8 +686,26 @@ describe('readFields', () => {
           bar: 'barSyncError'
         })
       }, {});
-    expectField(result.foo, 'foo', 'fooValue', true, 'fooSyncError');
-    expectField(result.bar, 'bar', 'barValue', true, 'barSyncError');
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'fooSyncError',
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'barSyncError',
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -406,8 +731,26 @@ describe('readFields', () => {
           _error: 'formSyncError'
         })
       }, {});
-    expectField(result.foo, 'foo', 'fooValue', true);
-    expectField(result.bar, 'bar', 'barValue', true);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -430,10 +773,29 @@ describe('readFields', () => {
             value: 'barValue'
           },
           _error: 'formReducerError'
-        }
+        },
+        validate: noValidation
       }, {});
-    expectField(result.foo, 'foo', 'fooValue', true);
-    expectField(result.bar, 'bar', 'barValue', true);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
@@ -461,8 +823,26 @@ describe('readFields', () => {
           _error: 'formSyncError'
         })
       }, {});
-    expectField(result.foo, 'foo', 'fooValue', true);
-    expectField(result.bar, 'bar', 'barValue', true);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});

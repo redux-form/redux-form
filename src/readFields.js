@@ -13,7 +13,7 @@ import getValues from './getValues';
 const readFields = (props, myFields, isReactNative) => {
   const {blur, change, fields, focus, form, initialValues, validate} = props;
   const values = getValues(fields, form);
-  const syncErrors = validate ? validate(values, props) : {};
+  const syncErrors = validate(values, props);
   const errors = {};
   const formError = syncErrors._error || form._error;
   let allValid = !formError;
@@ -61,8 +61,8 @@ const readFields = (props, myFields, isReactNative) => {
       }
 
       field.active = form._active === name;
-      field.touched = formField.touched;
-      field.visited = formField.visited;
+      field.touched = !!formField.touched;
+      field.visited = !!formField.visited;
 
       if (field.invalid) {
         allValid = false;

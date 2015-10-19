@@ -175,8 +175,8 @@ describe('reducer', () => {
         myField: {
           value: 'myValue',
           touched: false,
-          asyncError: null,
-          submitError: null
+          asyncError: undefined,
+          submitError: undefined
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
@@ -782,16 +782,16 @@ describe('reducer', () => {
 
 describe('reducer.plugin', () => {
   it('should initialize form state when there is a reducer plugin', () => {
-    const state = reducer.plugin({
-      foo: (state, action) => {
+    const result = reducer.plugin({
+      foo: (state) => {
         return state;
       }
     })();
-    expect(state)
+    expect(result)
       .toExist()
       .toBeA('object');
-    expect(Object.keys(state).length).toBe(1);
-    expect(state.foo)
+    expect(Object.keys(result).length).toBe(1);
+    expect(result.foo)
       .toExist()
       .toBeA('object')
       .toEqual({
@@ -807,7 +807,7 @@ describe('reducer.normalize', () => {
   it('should initialize form state when there is a normalizer', () => {
     const state = reducer.normalize({
       foo: {
-        myField: (value, previousValue, allValues) => 'normalized'
+        myField: () => 'normalized'
       }
     })();
     expect(state)

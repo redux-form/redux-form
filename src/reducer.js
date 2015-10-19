@@ -35,8 +35,8 @@ const reducer = (state = initialState, action = {}) => {
           ...state[action.field],
           value: action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched),
-          asyncError: null,
-          submitError: null
+          asyncError: undefined,
+          submitError: undefined
         },
         _error: undefined
       };
