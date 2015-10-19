@@ -69,15 +69,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
         const {form, blur, change, destroy, focus, fields, initialValues, initialize, onSubmit, reset,
           startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit, touch, untouch, validate,
           ...passableProps} = this.props;
-        const {allPristine, syncErrors, values} = allFields;
-        let {
-          allValid
-          }
-          = allFields;
-        const formError = syncErrors._error || form._error;
-        if (formError) {
-          allValid = false;
-        }
+        const {allPristine, allValid, errors, formError, values} = allFields._meta;
 
         return (<WrappedComponent {...{
           ...passableProps, // contains dispatch
@@ -87,6 +79,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
           asyncValidating: form._asyncValidating,
           dirty: !allPristine,
           error: formError,
+          errors,
           fields: allFields,
           formKey,
           invalid: !allValid,

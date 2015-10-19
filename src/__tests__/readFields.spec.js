@@ -359,26 +359,26 @@ describe('readFields', () => {
 
   it('should prioritize sync errors over submit errors', () => {
     const result =
-    readFields({
-      blur,
-      change,
-      fields: ['foo', 'bar'],
-      focus,
-      form: {
-        foo: {
-          value: 'fooValue',
-          submitError: 'fooSubmitError'
+      readFields({
+        blur,
+        change,
+        fields: ['foo', 'bar'],
+        focus,
+        form: {
+          foo: {
+            value: 'fooValue',
+            submitError: 'fooSubmitError'
+          },
+          bar: {
+            value: 'barValue',
+            submitError: 'barSubmitError'
+          }
         },
-        bar: {
-          value: 'barValue',
-          submitError: 'barSubmitError'
-        }
-      },
-      validate: () => ({
-        foo: 'fooSyncError',
-        bar: 'barSyncError'
-      })
-    }, {});
+        validate: () => ({
+          foo: 'fooSyncError',
+          bar: 'barSyncError'
+        })
+      }, {});
     expectField(result.foo, 'foo', 'fooValue', true, 'fooSyncError');
     expectField(result.bar, 'bar', 'barValue', true, 'barSyncError');
     expect(result._meta.allPristine).toBe(false);
@@ -387,4 +387,86 @@ describe('readFields', () => {
     expect(result._meta.errors).toEqual({foo: 'fooSyncError', bar: 'barSyncError'});
   });
 
+  it('should handle form error via sync errors', () => {
+    const result =
+      readFields({
+        blur,
+        change,
+        fields: ['foo', 'bar'],
+        focus,
+        form: {
+          foo: {
+            value: 'fooValue'
+          },
+          bar: {
+            value: 'barValue'
+          }
+        },
+        validate: () => ({
+          _error: 'formSyncError'
+        })
+      }, {});
+    expectField(result.foo, 'foo', 'fooValue', true);
+    expectField(result.bar, 'bar', 'barValue', true);
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(false);
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
+    expect(result._meta.errors).toEqual({});
+    expect(result._meta.formError).toEqual('formSyncError');
+  });
+
+  it('should handle form error via reducer state', () => {
+    const result =
+      readFields({
+        blur,
+        change,
+        fields: ['foo', 'bar'],
+        focus,
+        form: {
+          foo: {
+            value: 'fooValue'
+          },
+          bar: {
+            value: 'barValue'
+          },
+          _error: 'formReducerError'
+        }
+      }, {});
+    expectField(result.foo, 'foo', 'fooValue', true);
+    expectField(result.bar, 'bar', 'barValue', true);
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(false);
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
+    expect(result._meta.errors).toEqual({});
+    expect(result._meta.formError).toEqual('formReducerError');
+  });
+
+  it('should prioritize sync form error over reducer form error', () => {
+    const result =
+      readFields({
+        blur,
+        change,
+        fields: ['foo', 'bar'],
+        focus,
+        form: {
+          foo: {
+            value: 'fooValue'
+          },
+          bar: {
+            value: 'barValue'
+          },
+          _error: 'formReducerError'
+        },
+        validate: () => ({
+          _error: 'formSyncError'
+        })
+      }, {});
+    expectField(result.foo, 'foo', 'fooValue', true);
+    expectField(result.bar, 'bar', 'barValue', true);
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(false);
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
+    expect(result._meta.errors).toEqual({});
+    expect(result._meta.formError).toEqual('formSyncError');
+  });
 });

@@ -15,7 +15,8 @@ const readFields = (props, myFields, isReactNative) => {
   const values = getValues(fields, form);
   const syncErrors = validate ? validate(values, props) : {};
   const errors = {};
-  let allValid = true;
+  const formError = syncErrors._error || form._error;
+  let allValid = !formError;
   let allPristine = true;
   return {
     ...fields.reduce((accumulator, name) => {
@@ -79,7 +80,7 @@ const readFields = (props, myFields, isReactNative) => {
       allValid,
       values,
       errors,
-      formError: syncErrors._error || form._error
+      formError
     }
   };
 };
