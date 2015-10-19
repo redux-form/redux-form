@@ -3,17 +3,20 @@ import isValid from '../isValid';
 
 describe('isValid', () => {
 
-  it('should return true if the value is falsey', () => {
-    const a = undefined;
-    const b = false;
-    expect(isValid(a)).toBe(true);
-    expect(isValid(b)).toBe(true);
+  it('should return true if the value is falsy', () => {
+    expect(isValid(undefined)).toBe(true);
+    expect(isValid(null)).toBe(true);
+    expect(isValid(false)).toBe(true);
   });
 
-  it('should return true if the value is an array of falsey values', () => {
-    const a = undefined;
-    const b = false;
-    expect(isValid([a, b])).toBe(true);
+  it('should return false if the value is truthy', () => {
+    expect(isValid({})).toBe(false);
+    expect(isValid('error')).toBe(false);
+    expect(isValid(true)).toBe(false);
+  });
+
+  it('should return true if the value is an array of falsy values', () => {
+    expect(isValid([undefined, null, false])).toBe(true);
   });
 
   it('should return true if the value is an empty array', () => {
@@ -21,9 +24,7 @@ describe('isValid', () => {
   });
 
   it('should return false if the value is an array with one truthy value', () => {
-    const a = undefined;
-    const b = 'Error';
-    expect(isValid([a, b, a])).toBe(false);
+    expect(isValid([undefined, 'error', undefined])).toBe(false);
   });
 
 });

@@ -47,13 +47,18 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       constructor(props) {
         super(props);
-        this.fields = {};
-        readFields(props, this.fields, isReactNative);
+        this.fields = readFields(props, {}, isReactNative);
       }
 
       componentWillReceiveProps(nextProps) {
         if (!deepEqual(this.props.fields, nextProps.fields) || !deepEqual(this.props.form, nextProps.form)) {
-          readFields(nextProps, this.fields, isReactNative);
+          this.fields = readFields(nextProps, this.fields, isReactNative);
+        }
+      }
+
+      componentWillUnmount() {
+        if (config.destroyOnUnmount) {
+          this.props.destroy();
         }
       }
 

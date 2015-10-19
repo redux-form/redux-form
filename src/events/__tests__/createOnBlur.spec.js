@@ -16,6 +16,20 @@ describe('createOnBlur', () => {
       .toHaveBeenCalledWith('foo', 'bar');
   });
 
+  it('should return a function that calls blur with name and value from event', () => {
+    const blur = createSpy();
+    createOnBlur('foo', blur)({
+      target: {
+        value: 'bar'
+      },
+      preventDefault: () => null,
+      stopPropagation: () => null
+    });
+    expect(blur)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('foo', 'bar');
+  });
+
   it('should return a function that calls blur and then afterBlur with name and value', () => {
     const blur = createSpy();
     const afterBlur = createSpy();
