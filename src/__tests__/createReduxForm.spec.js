@@ -495,4 +495,21 @@ describe('createReduxForm', () => {
     expect(after.form[formName].foo).toBeA('object');
     expect(after.form[formName].bar).toBeA('object');
   });
+
+  it('should hoist statics', () => {
+    class FormWithStatics extends Component {
+      static someStatic1 = 'cat';
+      static someStatic2 = 42;
+      render() {
+        return <div />;
+      }
+    }
+    const Decorated = reduxForm({
+      formName: 'testForm',
+      fields: ['foo', 'bar']
+    })(FormWithStatics);
+
+    expect(Decorated.someStatic1).toBe('cat');
+    expect(Decorated.someStatic2).toBe(42);
+  });
 });

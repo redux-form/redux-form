@@ -1,4 +1,5 @@
 import createReduxFormConnector from './createReduxFormConnector';
+import hoistStatics from 'hoist-non-react-statics';
 
 /**
  * The decorator that is the main API to redux-form
@@ -15,9 +16,10 @@ const createReduxForm =
           destroyOnUnmount: true,
           ...config
         };
-        return props => (<ReduxFormConnector
+        const ConnectedForm = props => (<ReduxFormConnector
           {...configWithDefaults}
           {...props}/>);
+        return hoistStatics(ConnectedForm, WrappedComponent);
       };
   };
 
