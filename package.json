@@ -1,0 +1,86 @@
+{
+  "name": "redux-form-examples",
+  "description": "A showcase and testbed for redux-form",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikras/redux-form"
+  },
+  "scripts": {
+    "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
+    "dev": "node ./node_modules/better-npm-run dev",
+    "clean": "rimraf lib",
+    "lint": "eslint src",
+    "prepublish": "npm run lint && npm run clean && npm run build"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "flux",
+    "redux",
+    "react-redux",
+    "redux-form",
+    "form",
+    "decorator",
+    "example",
+    "demo"
+  ],
+  "betterScripts": {
+    "dev": {
+      "command": "node webpack/webpack-dev-server.js",
+      "env": {
+        "UV_THREADPOOL_SIZE": 100,
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src"
+      }
+    }
+  },
+  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erikras/redux-form/issues"
+  },
+  "homepage": "https://github.com/erikras/redux-form",
+  "dependencies": {
+    "babel": "^5.8.23",
+    "babel-plugin-typecheck": "^1.3.0",
+    "eslint-loader": "^1.1.0",
+    "react-router": "^1.0.0-rc3",
+    "react-router-bootstrap": "^0.19.2"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "^3.1.0",
+    "babel": "^5.8.23",
+    "babel-core": "^5.8.25",
+    "babel-eslint": "^4.1.3",
+    "babel-loader": "^5.3.2",
+    "babel-plugin-react-transform": "^1.1.1",
+    "babel-runtime": "^5.8.25",
+    "better-npm-run": "0.0.2",
+    "clean-webpack-plugin": "^0.1.3",
+    "css-loader": "^0.20.1",
+    "eslint": "^1.5.1",
+    "eslint-config-airbnb": "^0.1.0",
+    "eslint-plugin-react": "^3.5.1",
+    "express": "^4.13.3",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "file-loader": "^0.8.4",
+    "less": "^2.5.3",
+    "node-sass": "^3.3.3",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
+    "react-redux": "^3.1.0",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "redbox-react": "^1.1.1",
+    "redux": "^3.0.2",
+    "rifraf": "^2.0.2",
+    "rimraf": "^2.4.3",
+    "sass-loader": "^3.0.0",
+    "strip-loader": "^0.1.0",
+    "style-loader": "^0.12.4",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.12.2",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.4.1"
+  }
+}
