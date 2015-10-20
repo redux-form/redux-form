@@ -8,7 +8,7 @@
   "scripts": {
     "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
     "dev": "node ./node_modules/better-npm-run dev",
-    "clean": "rimraf lib",
+    "clean": "rimraf dist",
     "lint": "eslint src",
     "prepublish": "npm run lint && npm run clean && npm run build",
     "publish": "npm run prepublish && git add -f dist/* && git commit -m \"publishing\" && git push"
