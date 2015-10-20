@@ -5,10 +5,7 @@ import GithubButton from '../components/GithubButton';
 
 export default class Home extends Component {
   componentDidMount() {
-    PR.prettyPrint();
-  }
-
-  componentDidUpdate() {
+    pretty();
     PR.prettyPrint();
   }
 
