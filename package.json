@@ -10,7 +10,8 @@
     "dev": "node ./node_modules/better-npm-run dev",
     "clean": "rimraf lib",
     "lint": "eslint src",
-    "prepublish": "npm run lint && npm run clean && npm run build"
+    "prepublish": "npm run lint && npm run clean && npm run build",
+    "publish": "npm run prepublish && git add -f dist/* && git commit -m \"publishing\" && git push"
   },
   "keywords": [
     "react",
