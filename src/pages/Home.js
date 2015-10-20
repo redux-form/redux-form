@@ -8,6 +8,10 @@ export default class Home extends Component {
     PR.prettyPrint();
   }
 
+  componentDidUpdate() {
+    PR.prettyPrint();
+  }
+
   render() {
     const styles = require('./Home.scss');
     return (<div className={styles.home}>
