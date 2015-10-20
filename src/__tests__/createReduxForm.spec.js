@@ -1,10 +1,10 @@
-import expect, {spyOn} from 'expect';
-import React, {PropTypes, Component} from 'react';
+/* eslint react/no-multi-comp:0*/
+import expect from 'expect';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import {combineReducers, createStore} from 'redux';
 import {Provider} from 'react-redux';
-import bindActionData from '../bindActionData';
 import reducer from '../reducer';
 import createReduxForm from '../createReduxForm';
 
@@ -41,7 +41,7 @@ describe('createReduxForm', () => {
     expect(field.error).toBe(error);
     expect(field.touched).toBe(touched);
     expect(field.visited).toBe(visited);
-  }
+  };
 
   it('should render without error', () => {
     const store = makeStore();
