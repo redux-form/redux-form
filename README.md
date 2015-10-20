@@ -275,7 +275,7 @@ ContactForm = connectReduxForm({
 
 ### Submitting Your Form
 
-The recommended way to submit your form is to create your form component as [shown above](#how-it-works),
+The recommended way to submit your form is to create your form component as [shown above](#a-simple-form-component),
 using the `handleSubmit` prop, and then pass an [`onSubmit` prop](#onsubmit-function-optional) to your form component.
 
 ```javascript
@@ -308,7 +308,7 @@ export default connect()(ContactPage);  // adds dispatch prop
 ```
 
 Or, if you wish to do your submission directly from your decorated form component, you may pass a function
-to `handleSubmit`. To abbreviate the example [shown above](#how-it-works):
+to `handleSubmit`. To abbreviate the example [shown above](#a-simple-form-component):
 
 ```javascript
 class ContactForm extends Component {
