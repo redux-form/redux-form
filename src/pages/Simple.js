@@ -1,15 +1,14 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router';
+import React from 'react';
+import SimpleForm, {fields} from '../examples/SimpleForm';
+import Example from '../components/Example';
+import raw from '!!raw!../examples/SimpleForm';
 
-export default class Simple extends Component {
-  render() {
-    const styles = require('./Home.scss');
-    return (<div className={styles.home}>
-      <div className="container">
-        <h1>Simple Example</h1>
+const Simple = () =>
+  <Example
+    name="Simple Example"
+    formComponent={SimpleForm}
+    form="simple"
+    fields={fields}
+    raw={raw}/>;
 
-
-      </div>
-    </div>);
-  }
-}
+export default Simple;

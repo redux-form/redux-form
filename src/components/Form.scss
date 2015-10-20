@@ -1,0 +1,13 @@
+.label {
+  text-align:right;
+}
+.radio {
+  label {
+    margin: 0 30px 0 5px;
+  }
+}
+.form {
+  :global(.row) {
+    margin: 10px;
+  }
+}

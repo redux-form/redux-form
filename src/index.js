@@ -22,11 +22,11 @@ const component = (
 const dest = document.getElementById('content');
 
 render(
-  <Provider store={store} key="provider">
+  (<Provider store={store}>
     <div>
       {component}
       <DevTools/>
     </div>
-  </Provider>,
+  </Provider>),
   dest
 );
