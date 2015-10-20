@@ -24,16 +24,25 @@ describe('createReduxForm', () => {
     }
   }
 
-  const expectField = ({field, name, value, valid, dirty, error, touched, visited}) => {
+  const expectField = ({field, name, value, valid, dirty, error, touched, visited, readonly}) => {
     expect(field).toBeA('object');
     expect(field.name).toBe(name);
     expect(field.value).toBe(value);
-    expect(field.onBlur).toBeA('function');
-    expect(field.onChange).toBeA('function');
-    expect(field.onDrag).toBeA('function');
-    expect(field.onDrop).toBeA('function');
-    expect(field.onFocus).toBeA('function');
-    expect(field.onUpdate).toBeA('function');
+    if (readonly) {
+      expect(field.onBlur).toNotExist();
+      expect(field.onChange).toNotExist();
+      expect(field.onDrag).toNotExist();
+      expect(field.onDrop).toNotExist();
+      expect(field.onFocus).toNotExist();
+      expect(field.onUpdate).toNotExist();
+    } else {
+      expect(field.onBlur).toBeA('function');
+      expect(field.onChange).toBeA('function');
+      expect(field.onDrag).toBeA('function');
+      expect(field.onDrop).toBeA('function');
+      expect(field.onFocus).toBeA('function');
+      expect(field.onUpdate).toBeA('function');
+    }
     expect(field.valid).toBe(valid);
     expect(field.invalid).toBe(!valid);
     expect(field.dirty).toBe(dirty);
@@ -47,7 +56,7 @@ describe('createReduxForm', () => {
     const store = makeStore();
     expect(() => {
       const Decorated = reduxForm({
-        formName: 'testForm',
+        form: 'testForm',
         fields: ['foo', 'bar']
       })(Form);
       TestUtils.renderIntoDocument(
@@ -61,7 +70,7 @@ describe('createReduxForm', () => {
   it('should pass fields as props', () => {
     const store = makeStore();
     const Decorated = reduxForm({
-      formName: 'testForm',
+      form: 'testForm',
       fields: ['foo', 'bar']
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -79,7 +88,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
@@ -89,14 +99,15 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should initialize field values', () => {
     const store = makeStore();
     const Decorated = reduxForm({
-      formName: 'testForm',
+      form: 'testForm',
       fields: ['foo', 'bar']
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -114,7 +125,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
@@ -124,15 +136,16 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should set value and touch field on blur', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar']
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -153,7 +166,8 @@ describe('createReduxForm', () => {
       dirty: true,
       error: undefined,
       touched: true,
-      visited: false
+      visited: false,
+      readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
@@ -163,15 +177,16 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should set value and NOT touch field on blur if touchOnBlur is disabled', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar'],
       touchOnBlur: false
     })(Form);
@@ -193,7 +208,8 @@ describe('createReduxForm', () => {
       dirty: true,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
@@ -203,15 +219,16 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should set value and NOT touch field on change', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar']
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -232,7 +249,8 @@ describe('createReduxForm', () => {
       dirty: true,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
@@ -242,15 +260,16 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should set value and touch field on change if touchOnChange is enabled', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar'],
       touchOnChange: true
     })(Form);
@@ -272,7 +291,8 @@ describe('createReduxForm', () => {
       dirty: true,
       error: undefined,
       touched: true,
-      visited: false
+      visited: false,
+      readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
@@ -282,15 +302,16 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should set visited field on focus', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar']
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -311,7 +332,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: true
+      visited: true,
+      readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
@@ -321,15 +343,16 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should set dirty when field changes', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar']
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -347,7 +370,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
 
     stub.props.fields.foo.onChange('fooValue!');
@@ -360,15 +384,16 @@ describe('createReduxForm', () => {
       dirty: true,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should trigger sync error on change that invalidates value', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar'],
       validate: values => {
         const errors = {};
@@ -396,7 +421,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
 
     expectField({
@@ -407,7 +433,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
 
     stub.props.fields.foo.onChange('fooValue!');
@@ -420,7 +447,8 @@ describe('createReduxForm', () => {
       dirty: true,
       error: 'Too long',
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
 
     stub.props.fields.bar.onChange('');
@@ -433,15 +461,16 @@ describe('createReduxForm', () => {
       dirty: true,
       error: 'Required',
       touched: false,
-      visited: false
+      visited: false,
+      readonly: false
     });
   });
 
   it('should call destroy on unmount', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar']
     })(Form);
 
@@ -454,22 +483,22 @@ describe('createReduxForm', () => {
     );
     const before = store.getState();
     expect(before.form).toBeA('object');
-    expect(before.form[formName]).toBeA('object');
-    expect(before.form[formName].foo).toBeA('object');
-    expect(before.form[formName].bar).toBeA('object');
+    expect(before.form[form]).toBeA('object');
+    expect(before.form[form].foo).toBeA('object');
+    expect(before.form[form].bar).toBeA('object');
 
     ReactDOM.unmountComponentAtNode(div);
 
     const after = store.getState();
     expect(after.form).toBeA('object');
-    expect(after.form[formName]).toNotExist();
+    expect(after.form[form]).toNotExist();
   });
 
   it('should NOT call destroy on unmount if destroyOnUnmount is disabled', () => {
     const store = makeStore();
-    const formName = 'testForm';
+    const form = 'testForm';
     const Decorated = reduxForm({
-      formName,
+      form,
       fields: ['foo', 'bar'],
       destroyOnUnmount: false
     })(Form);
@@ -483,33 +512,74 @@ describe('createReduxForm', () => {
     );
     const before = store.getState();
     expect(before.form).toBeA('object');
-    expect(before.form[formName]).toBeA('object');
-    expect(before.form[formName].foo).toBeA('object');
-    expect(before.form[formName].bar).toBeA('object');
+    expect(before.form[form]).toBeA('object');
+    expect(before.form[form].foo).toBeA('object');
+    expect(before.form[form].bar).toBeA('object');
 
     ReactDOM.unmountComponentAtNode(div);
 
     const after = store.getState();
     expect(after.form).toBeA('object');
-    expect(after.form[formName]).toBeA('object');
-    expect(after.form[formName].foo).toBeA('object');
-    expect(after.form[formName].bar).toBeA('object');
+    expect(after.form[form]).toBeA('object');
+    expect(after.form[form].foo).toBeA('object');
+    expect(after.form[form].bar).toBeA('object');
   });
 
   it('should hoist statics', () => {
     class FormWithStatics extends Component {
       static someStatic1 = 'cat';
       static someStatic2 = 42;
+
       render() {
         return <div />;
       }
     }
     const Decorated = reduxForm({
-      formName: 'testForm',
+      form: 'testForm',
       fields: ['foo', 'bar']
     })(FormWithStatics);
 
     expect(Decorated.someStatic1).toBe('cat');
     expect(Decorated.someStatic2).toBe(42);
+  });
+
+  it('should not provide mutators when readonly', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo', 'bar'],
+      readonly: true
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expectField({
+      field: stub.props.fields.foo,
+      name: 'foo',
+      value: undefined,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: true
+    });
+
+    expectField({
+      field: stub.props.fields.bar,
+      name: 'bar',
+      value: undefined,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: true
+    });
   });
 });

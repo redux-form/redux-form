@@ -24,6 +24,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
         initialValues: PropTypes.object,
         onSubmit: PropTypes.func,
         validate: PropTypes.func,
+        readonly: PropTypes.bool,
 
         // actions:
         blur: PropTypes.func.isRequired,
@@ -42,6 +43,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       static defaultProps = {
         form: initialState,
+        readonly: false,
         validate: () => ({})
       }
 

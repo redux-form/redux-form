@@ -11,7 +11,7 @@ import getValues from './getValues';
  * Reads props and generates (or updates) field structure
  */
 const readFields = (props, myFields, isReactNative) => {
-  const {blur, change, fields, focus, form, initialValues, validate} = props;
+  const {blur, change, fields, focus, form, initialValues, readonly, validate} = props;
   const values = getValues(fields, form);
   const syncErrors = validate(values, props);
   const errors = {};
@@ -29,12 +29,14 @@ const readFields = (props, myFields, isReactNative) => {
         field.name = name;
         field.defaultChecked = initialValue;
         field.defaultValue = initialValue;
-        field.onBlur = createOnBlur(name, blur, isReactNative);
-        field.onChange = onChange;
-        field.onDrag = createOnDrag(name, () => field.value);
-        field.onDrop = createOnDrop(name, change);
-        field.onFocus = createOnFocus(name, focus);
-        field.onUpdate = onChange; // alias to support belle. https://github.com/nikgraf/belle/issues/58
+        if (!readonly) {
+          field.onBlur = createOnBlur(name, blur, isReactNative);
+          field.onChange = onChange;
+          field.onDrag = createOnDrag(name, () => field.value);
+          field.onDrop = createOnDrop(name, change);
+          field.onFocus = createOnFocus(name, focus);
+          field.onUpdate = onChange; // alias to support belle. https://github.com/nikgraf/belle/issues/58
+        }
         field.valid = true;
         field.invalid = false;
       }
