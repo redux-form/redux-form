@@ -20,5 +20,10 @@
   },
   "plugins": [
     "react"
-  ]
+  ],
+  "globals": {
+    "__DEVELOPMENT__": true,
+    "__DEVTOOLS__": true,
+    "PR": true
+  }
 }

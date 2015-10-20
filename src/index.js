@@ -2,18 +2,31 @@ import 'babel/polyfill';
 import React from 'react';
 import {render} from 'react-dom';
 import {Router, Route} from 'react-router';
+import {Provider} from 'react-redux';
+import store from 'redux/store';
+import DevTools from './components/DevTools';
 
 import App from 'pages/App';
 import Home from 'pages/Home';
 import Simple from 'pages/Simple';
-import NotFound from 'pages/NotFound';
 
-render((
+const component = (
   <Router>
     <Route component={App}>
       <Route path="/" component={Home}/>
       <Route path="/simple" component={Simple}/>
-      <Route path="*" component={NotFound}/>
+      <Route path="*" component={Home}/>
     </Route>
   </Router>
-), document.getElementById('content'));
+);
+const dest = document.getElementById('content');
+
+render(
+  <Provider store={store} key="provider">
+    <div>
+      {component}
+      <DevTools/>
+    </div>
+  </Provider>,
+  dest
+);

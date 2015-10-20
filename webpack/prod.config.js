@@ -24,11 +24,11 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.(jpe?g|png|gif|svg)$/, loader: 'url', query: { limit: 10240 } },
-      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap') },
-      { test: /\.js$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
-      { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" }
+      {test: /\.(jpe?g|png|gif|svg)$/, loader: 'url', query: {limit: 40960}},
+      {test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap')},
+      {test: /\.js$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
+      {test: /\.json$/, loader: 'json-loader'},
+      {test: /\.md/, loaders: ["html-loader", "markdown-loader"]}
     ]
   },
   progress: true,
@@ -65,8 +65,8 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-          warnings: false
-        }
+        warnings: false
+      }
     })
   ]
 };

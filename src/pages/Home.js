@@ -1,14 +1,35 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
+import readme from 'redux-form/README.md';
+import prettify from '../util/prettify';
+import GithubButton from '../components/GithubButton';
 
 export default class Home extends Component {
+  componentDidMount() {
+    PR.prettyPrint();
+  }
+
   render() {
-    const styles = require('./Simple.scss');
-    const logo = require('./logo.svg');
-    return (<div className={styles.simple}>
-      <h1>Home page</h1>
-      <img src={logo} width="500"/>
-      <Link to="/simple">Simple example</Link>
+    const styles = require('./Home.scss');
+    return (<div className={styles.home}>
+      <div className={styles.masthead}>
+        <div className={styles.logo}/>
+        <h1>Redux Form</h1>
+
+        <h2>The best way to manage your form state in Redux.</h2>
+        <GithubButton user="erikras"
+                      repo="redux-form"
+                      type="star"
+                      width={160}
+                      height={30}
+                      count large/>
+        <GithubButton user="erikras"
+                      repo="redux-form"
+                      type="fork"
+                      width={160}
+                      height={30}
+                      count large/>
+      </div>
+      <div className="container markdown" dangerouslySetInnerHTML={{ __html: prettify(readme) }}/>
     </div>);
   }
 }

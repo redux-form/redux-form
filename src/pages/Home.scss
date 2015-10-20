@@ -1,3 +1,34 @@
+@import "constants";
+
 .home {
-  font-size: 2em;
+  .masthead {
+    background: #2d2d2d;
+    padding: 40px 20px;
+    color: white;
+    text-align: center;
+    .logo {
+      background-image: url('./logo.png');
+      background-size: contain;
+      width: 300px;
+      height: 181px;
+      margin: 20px auto;
+      display: block;
+    }
+    h1 {
+      color: #33e0ff;
+      font-size: 8rem;
+      @include insignia;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+    h2 {
+      color: #ddd;
+      font-size: 3rem;
+      margin: 20px;
+      @include insignia;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+    .github {
+      font-size: 1.5em;
+    }
+  }
 }
