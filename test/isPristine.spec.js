@@ -40,6 +40,11 @@ describe('isPristine', () => {
     tryBothWays({foo: 7, bar: 8}, {foo: 7, bar: 9}, false);
   });
 
+  it('should return false when the number of keys is different', () => {
+    tryBothWays({foo: 'bar'}, {}, false);
+    tryBothWays([1], [1, 2], false);
+  });
+
   it('should return true when matching key values are null, undefined, or empty string', () => {
     tryBothWays({foo: ''}, {foo: null}, true);
     tryBothWays({foo: ''}, {foo: undefined}, true);
