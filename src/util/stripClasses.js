@@ -1,3 +1,3 @@
-const stripClasses = html => html.replace(/\ className="[^"]+"/g, '');
+const stripClasses = html => html.replace(/\ className=["{][^"}]+["}]/g, '');
 
 export default stripClasses;

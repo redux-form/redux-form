@@ -9,12 +9,14 @@ import DevTools from './components/DevTools';
 import App from 'pages/App';
 import Home from 'pages/Home';
 import Simple from 'pages/Simple';
+import SynchronousValidation from 'pages/SynchronousValidation';
 
 const component = (
   <Router>
     <Route component={App}>
       <Route path="/" component={Home}/>
       <Route path="/simple" component={Simple}/>
+      <Route path="/synchronous-validation" component={SynchronousValidation}/>
       <Route path="*" component={Home}/>
     </Route>
   </Router>

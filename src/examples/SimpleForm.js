@@ -54,4 +54,7 @@ const SimpleForm = props => {
   );
 };
 
-export default reduxForm({form: 'simple', fields})(SimpleForm);
+export default reduxForm({
+  form: 'simple',
+  fields
+})(SimpleForm);

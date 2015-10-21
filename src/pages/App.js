@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
-import {Navbar, Nav, NavItem, NavBrand} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, NavBrand, NavDropdown, MenuItem} from 'react-bootstrap';
 
 export default class App extends Component {
   static propTypes = {
@@ -17,12 +17,11 @@ export default class App extends Component {
               <img src={require('./brand.png')} className={styles.brand}/> Redux Form
             </NavBrand>
           </IndexLinkContainer>
-          <Nav>
-            <LinkContainer to="/simple">
-              <NavItem>Simple</NavItem>
-            </LinkContainer>
-          </Nav>
           <Nav pullRight>
+            <NavDropdown title="Examples">
+              <LinkContainer to="/simple"><MenuItem>Simple</MenuItem></LinkContainer>
+              <LinkContainer to="/synchronous-validation"><MenuItem>Synchronous Validation</MenuItem></LinkContainer>
+            </NavDropdown>
             <NavItem href="https://github.com/erikras/react-redux-universal-hot-example"
                      className={styles.iconLink}
                      target="_blank" title="View on Github"><i className="fa fa-github"/></NavItem>
