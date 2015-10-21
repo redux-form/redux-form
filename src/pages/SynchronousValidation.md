@@ -7,4 +7,5 @@ example](https://github .com/erikras/react-redux-universal-hot-example/blob/mast
 
 **IMPORTANT:** Synchronous validation happens _on every render_, so, if your field value is invalid, your `field.error` 
 value will always be present. You will probably only want to show validation errors once your field has been `touched`,
-a flag that is set for you by `redux-form` when the `onBlur` event occurs on your field.
+a flag that is set for you by `redux-form` when the `onBlur` event occurs on your field. When you submit the form, all
+the fields are marked as `touched`, allowing any of their validation errors to show.

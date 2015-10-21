@@ -25,8 +25,8 @@ const validate = values => {
 };
 
 const SynchronousValidationForm = props => {
-  const {fields: {username, email, age}} = props;
-  return (<div className="form-horizontal">
+  const {fields: {username, email, age}, resetForm, handleSubmit} = props;
+  return (<form className="form-horizontal" onSubmit={handleSubmit}>
       <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
         <label className="col-xs-4 control-label">Username</label>
         <div className={'col-xs-' + (username.touched && username.error ? '5' : '8')}>
@@ -48,7 +48,11 @@ const SynchronousValidationForm = props => {
         </div>
         {age.touched && age.error && <div className="col-xs-3 help-block">{age.error}</div>}
       </div>
-    </div>
+      <div className="text-center">
+        <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Submit</button>
+        <button className="btn btn-default btn-lg" style={{margin: 10}} onClick={resetForm}>Clear Values</button>
+      </div>
+    </form>
   );
 };
 

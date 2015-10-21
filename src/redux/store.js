@@ -1,5 +1,6 @@
 import {createStore, combineReducers, compose } from 'redux';
 import {reducer as form} from 'redux-form';
+import submission from './modules/submission';
 
 const getCreateStore = () => {
   const {persistState} = require('redux-devtools');
@@ -10,7 +11,7 @@ const getCreateStore = () => {
   )(createStore);
 };
 
-const reducer = combineReducers({form});
+const reducer = combineReducers({form, submission});
 const store = getCreateStore()(reducer);
 
 export default store;

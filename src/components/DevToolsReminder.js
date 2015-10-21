@@ -4,7 +4,7 @@ import styles from './DevToolsReminder.scss';
 
 const DevToolsReminder = () =>
   <div className={styles.reminder}>
-    <i className="fa fa-info-circle"/> Show
+    <i className="fa fa-info-circle"/> Toggle
     redux-devtools at any time with <code>Ctrl-{toggleVisibilityKey}</code>.
     Move with <code>Ctrl-{changePositionKey}</code>.
   </div>;

@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react';
  */
 class Code extends Component {
   static propTypes = {
-    children: PropTypes.string.isRequired,
+    children: PropTypes.any,
     language: PropTypes.string
   }
 

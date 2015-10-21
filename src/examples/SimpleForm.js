@@ -1,10 +1,14 @@
 import React from 'react';
 import {reduxForm} from 'redux-form';
-export const fields = ['firstName', 'lastName', 'email', 'sex', 'favoriteColor', 'employed'];
+export const fields = ['firstName', 'lastName', 'email', 'sex', 'favoriteColor', 'employed', 'notes'];
 
 const SimpleForm = props => {
-  const {fields: {firstName, lastName, email, sex, favoriteColor, employed}} = props;
-  return (<div className="form-horizontal">
+  const {
+    fields: {firstName, lastName, email, sex, favoriteColor, employed, notes},
+    handleSubmit,
+    resetForm
+  } = props;
+  return (<form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="form-group">
         <label className="col-xs-4 control-label">First Name</label>
         <div className="col-xs-8">
@@ -50,7 +54,17 @@ const SimpleForm = props => {
           <input type="checkbox" {...employed}/> Employed
         </label>
       </div>
-    </div>
+      <div className="form-group">
+        <label className="col-xs-4 control-label">Notes</label>
+        <div className="col-xs-8">
+          <textarea className="form-control" {...notes}/>
+        </div>
+      </div>
+      <div className="text-center">
+        <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Submit</button>
+        <button className="btn btn-default btn-lg" style={{margin: 10}} onClick={resetForm}>Clear Values</button>
+      </div>
+    </form>
   );
 };
 

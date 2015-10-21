@@ -18,9 +18,10 @@ export default class App extends Component {
             </NavBrand>
           </IndexLinkContainer>
           <Nav pullRight>
-            <NavDropdown title="Examples">
+            <NavDropdown title="Examples" id="examples-dropdown">
               <LinkContainer to="/simple"><MenuItem>Simple</MenuItem></LinkContainer>
               <LinkContainer to="/synchronous-validation"><MenuItem>Synchronous Validation</MenuItem></LinkContainer>
+              <LinkContainer to="/submit-validation"><MenuItem>Submit Validation</MenuItem></LinkContainer>
             </NavDropdown>
             <NavItem href="https://github.com/erikras/react-redux-universal-hot-example"
                      className={styles.iconLink}

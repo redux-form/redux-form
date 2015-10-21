@@ -10,12 +10,14 @@ import App from 'pages/App';
 import Home from 'pages/Home';
 import Simple from 'pages/Simple';
 import SynchronousValidation from 'pages/SynchronousValidation';
+import SubmitValidation from 'pages/SubmitValidation';
 
 const component = (
   <Router>
     <Route component={App}>
       <Route path="/" component={Home}/>
       <Route path="/simple" component={Simple}/>
+      <Route path="/submit-validation" component={SubmitValidation}/>
       <Route path="/synchronous-validation" component={SynchronousValidation}/>
       <Route path="*" component={Home}/>
     </Route>
