@@ -31,6 +31,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
         onSubmit: PropTypes.func,
         validate: PropTypes.func,
         readonly: PropTypes.bool,
+        returnRejectedSubmitPromise: PropTypes.bool,
 
         // actions:
         blur: PropTypes.func.isRequired,
@@ -51,6 +52,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
         asyncBlurFields: [],
         form: initialState,
         readonly: false,
+        returnRejectedSubmitPromise: false,
         validate: () => ({})
       }
 
@@ -93,11 +95,18 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       handleSubmit(submitOrEvent) {
         const {onSubmit, fields, form} = this.props;
-        const submit = silenceEvent(submitOrEvent) ? onSubmit : submitOrEvent;
-        if (!submit || typeof submit !== 'function') {
-          throw new Error('You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop');
-        }
-        handleSubmit(submit, getValues(fields, form), this.props, this.asyncValidate);
+        const check = submit => {
+          if (!submit || typeof submit !== 'function') {
+            throw new Error('You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop');
+          }
+          return submit;
+        };
+        const values = getValues(fields, form);
+        return silenceEvent(submitOrEvent) ?
+          // submitOrEvent is an event: fire submit
+          handleSubmit(check(onSubmit), values, this.props, this.asyncValidate) :
+          // submitOrEvent is the submit function: return deferred submit thunk
+          silenceEvents(() => handleSubmit(check(submitOrEvent), values, this.props, this.asyncValidate));
       }
 
       render() {
