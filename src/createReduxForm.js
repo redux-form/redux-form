@@ -24,7 +24,7 @@ function silenceEvents(fn) {
   };
 }
 
-function isAsyncValid(errors) {
+function hasErrors(errors) {
   return !errors || Object.keys(errors).reduce((valid, error) => valid && isValid(errors[error]), true);
 }
 
@@ -185,7 +185,7 @@ export default function createReduxForm(isReactNative, React) {
           }
           const handleErrors = asyncErrors => {
             dispatch(actions.stopAsyncValidation(asyncErrors));
-            return isAsyncValid(asyncErrors);
+            return hasErrors(asyncErrors);
           };
           return promise.then(handleErrors, handleErrors);
         }
@@ -242,30 +242,33 @@ export default function createReduxForm(isReactNative, React) {
                 event.stopPropagation();
               }
               const values = this.getValues();
-              const submitWithPromiseCheck = () => {
-                const result = submit(values);
-                if (result && typeof result.then === 'function') {
-                  // you're showing real promise, kid!
-                  dispatch(actions.startSubmit());
-                  return result.then(submitResult => {
-                    dispatch(actions.stopSubmit());
-                    return submitResult;
-                  }, submitError => {
-                    dispatch(actions.stopSubmit(submitError));
-                    return submitError;
-                  });
+              const syncErrors = this.runSyncValidation(values);
+              if (!hasErrors(syncErrors)) {
+                const submitWithPromiseCheck = () => {
+                  const result = submit(values);
+                  if (result && typeof result.then === 'function') {
+                    // you're showing real promise, kid!
+                    dispatch(actions.startSubmit());
+                    return result.then(submitResult => {
+                      dispatch(actions.stopSubmit());
+                      return submitResult;
+                    }, submitError => {
+                      dispatch(actions.stopSubmit(submitError));
+                      return submitError;
+                    });
+                  }
+                };
+                dispatch(actions.touch(...fields));
+                if (allValid) {
+                  if (asyncValidate) {
+                    return this.runAsyncValidation(actions, values).then(asyncValid => {
+                      if (allValid && asyncValid) {
+                        return submitWithPromiseCheck(values);
+                      }
+                    });
+                  }
+                  return submitWithPromiseCheck(values);
                 }
-              };
-              dispatch(actions.touch(...fields));
-              if (allValid) {
-                if (asyncValidate) {
-                  return this.runAsyncValidation(actions, values).then(asyncValid => {
-                    if (allValid && asyncValid) {
-                      return submitWithPromiseCheck(values);
-                    }
-                  });
-                }
-                return submitWithPromiseCheck(values);
               }
             };
             if (typeof submitOrEvent === 'function') {
