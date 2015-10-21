@@ -74,6 +74,7 @@ describe('readFields', () => {
 
   it('should not provide mutators when readonly', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -112,6 +113,7 @@ describe('readFields', () => {
 
   it('should initialize fields', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -156,6 +158,7 @@ describe('readFields', () => {
 
   it('should initialize fields with initial values', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -206,6 +209,7 @@ describe('readFields', () => {
 
   it('should initialize fields with sync errors', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -253,6 +257,7 @@ describe('readFields', () => {
 
   it('should update fields', () => {
     const props = {
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -310,6 +315,7 @@ describe('readFields', () => {
 
   it('should initialize new fields', () => {
     const props = {
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -381,6 +387,7 @@ describe('readFields', () => {
 
   it('should remove fields', () => {
     const props = {
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -417,6 +424,7 @@ describe('readFields', () => {
 
   it('should handle dirty', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -463,6 +471,7 @@ describe('readFields', () => {
 
   it('should handle pristine', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -509,6 +518,7 @@ describe('readFields', () => {
 
   it('should handle touched', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -554,6 +564,7 @@ describe('readFields', () => {
 
   it('should handle visited', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -600,6 +611,7 @@ describe('readFields', () => {
 
   it('should handle async errors', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -646,6 +658,7 @@ describe('readFields', () => {
 
   it('should handle submit errors', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -692,6 +705,7 @@ describe('readFields', () => {
 
   it('should prioritize submit errors over async errors', () => {
     const result = readFields({
+      asyncBlurFields: [],
       blur,
       change,
       fields: ['foo', 'bar'],
@@ -741,6 +755,7 @@ describe('readFields', () => {
   it('should prioritize sync errors over submit errors', () => {
     const result =
       readFields({
+        asyncBlurFields: [],
         blur,
         change,
         fields: ['foo', 'bar'],
@@ -791,6 +806,7 @@ describe('readFields', () => {
   it('should handle form error via sync errors', () => {
     const result =
       readFields({
+        asyncBlurFields: [],
         blur,
         change,
         fields: ['foo', 'bar'],
@@ -839,6 +855,7 @@ describe('readFields', () => {
   it('should handle form error via reducer state', () => {
     const result =
       readFields({
+        asyncBlurFields: [],
         blur,
         change,
         fields: ['foo', 'bar'],
@@ -886,6 +903,7 @@ describe('readFields', () => {
   it('should prioritize sync form error over reducer form error', () => {
     const result =
       readFields({
+        asyncBlurFields: [],
         blur,
         change,
         fields: ['foo', 'bar'],

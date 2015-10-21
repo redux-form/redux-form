@@ -10,7 +10,6 @@ describe('isValid', () => {
   });
 
   it('should return false if the value is truthy', () => {
-    expect(isValid({})).toBe(false);
     expect(isValid('error')).toBe(false);
     expect(isValid(true)).toBe(false);
   });
@@ -27,4 +26,18 @@ describe('isValid', () => {
     expect(isValid([undefined, 'error', undefined])).toBe(false);
   });
 
+  it('should return true if the value is an empty object', () => {
+    expect(isValid({})).toBe(true);
+  });
+
+  it('should return true if the value is an object with a falsy value', () => {
+    expect(isValid({name: undefined})).toBe(true);
+    expect(isValid({name: null})).toBe(true);
+    expect(isValid({name: false})).toBe(true);
+    expect(isValid({name: ''})).toBe(true);
+  });
+
+  it('should return false if the value is an object with a value', () => {
+    expect(isValid({name: 'error'})).toBe(false);
+  });
 });

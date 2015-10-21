@@ -10,8 +10,8 @@ import getValues from './getValues';
 /**
  * Reads props and generates (or updates) field structure
  */
-const readFields = (props, myFields, isReactNative) => {
-  const {blur, change, fields, focus, form, initialValues, readonly, validate} = props;
+const readFields = (props, myFields, asyncValidate, isReactNative) => {
+  const {asyncBlurFields, blur, change, fields, focus, form, initialValues, readonly, validate} = props;
   const values = getValues(fields, form);
   const syncErrors = validate(values, props);
   const errors = {};
@@ -30,7 +30,7 @@ const readFields = (props, myFields, isReactNative) => {
         field.defaultChecked = initialValue;
         field.defaultValue = initialValue;
         if (!readonly) {
-          field.onBlur = createOnBlur(name, blur, isReactNative);
+          field.onBlur = createOnBlur(name, blur, isReactNative, asyncBlurFields.includes(name) && asyncValidate);
           field.onChange = onChange;
           field.onDrag = createOnDrag(name, () => field.value);
           field.onDrop = createOnDrop(name, change);

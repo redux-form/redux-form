@@ -36,6 +36,7 @@
   "dependencies": {
     "deep-equal": "^1.0.1",
     "hoist-non-react-statics": "^1.0.3",
+    "is-promise": "^2.1.0",
     "react-lazy-cache": "^3.0.0"
   },
   "devDependencies": {

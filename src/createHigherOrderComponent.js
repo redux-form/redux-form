@@ -5,8 +5,12 @@ import getDisplayName from './getDisplayName';
 import {initialState} from './reducer';
 import deepEqual from 'deep-equal';
 import bindActionData from './bindActionData';
+import getValues from './getValues';
 import readFields from './readFields';
+import handleSubmit from './handleSubmit';
+import asyncValidation from './asyncValidation';
 import silenceEvents from './events/silenceEvents';
+import silenceEvent from './events/silenceEvent';
 
 /**
  * Creates a HOC that knows how to create redux-connected sub-components.
@@ -42,6 +46,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       }
 
       static defaultProps = {
+        asyncBlurFields: [],
         form: initialState,
         readonly: false,
         validate: () => ({})
@@ -49,7 +54,10 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       constructor(props) {
         super(props);
-        this.fields = readFields(props, {}, isReactNative);
+        // bind functions
+        this.asyncValidate = this.asyncValidate.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.fields = readFields(props, {}, this.asyncValidate, isReactNative);
       }
 
       componentWillMount() {
@@ -61,7 +69,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       componentWillReceiveProps(nextProps) {
         if (!deepEqual(this.props.fields, nextProps.fields) || !deepEqual(this.props.form, nextProps.form)) {
-          this.fields = readFields(nextProps, this.fields, isReactNative);
+          this.fields = readFields(nextProps, this.fields, this.asyncValidate, isReactNative);
         }
       }
 
@@ -73,9 +81,26 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       static WrappedComponent = WrappedComponent;
 
+      asyncValidate(values) {
+        const {asyncValidate, dispatch, fields, form, startAsyncValidation, stopAsyncValidation} = this.props;
+        if (asyncValidate) {
+          return asyncValidation(() =>
+            asyncValidate(values || getValues(fields, form), dispatch), startAsyncValidation, stopAsyncValidation);
+        }
+      }
+
+      handleSubmit(submitOrEvent) {
+        const {onSubmit, fields, form} = this.props;
+        const submit = silenceEvent(submitOrEvent) ? onSubmit : submitOrEvent;
+        if (!submit || typeof submit !== 'function') {
+          throw new Error('You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop');
+        }
+        handleSubmit(submit, getValues(fields, form), this.props, this.asyncValidate);
+      }
+
       render() {
         const allFields = this.fields;
-        const {form, blur, change, destroy, focus, fields, initialValues, initialize, onSubmit, reset,
+        const {asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize, onSubmit, reset,
           startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit, touch, untouch, validate,
           ...passableProps} = this.props;
         const {allPristine, allValid, errors, formError, values} = allFields._meta;
@@ -98,9 +123,10 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
           values,
 
           // Actions:
-          //asyncValidate: silenceEvents(() => this.runAsyncValidation(actions, values)),
+          asyncValidate: silenceEvents(() => this.asyncValidate()),
+          // ^ doesn't just pass this.asyncValidate to disallow values passing
           destroyForm: silenceEvents(destroy),
-          //handleSubmit: silenceEvents(handleSubmit),
+          handleSubmit: this.handleSubmit,
           initializeForm: silenceEvents(initialize),
           resetForm: silenceEvents(reset),
           touch: silenceEvents((...touchFields) => touch(...touchFields)),
@@ -111,6 +137,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       }
     }
 
+    // bind touch flags to blur and change
     const unboundActions = {
       ...importedActions,
       blur: bindActionData(importedActions.blur, {
@@ -121,6 +148,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       })
     };
 
+    // make redux connector with or without form key
     const decorate = formKey ?
       connect(
         state => ({form: state[reduxMountPoint][formName][formKey]}),
@@ -132,8 +160,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       connect(
         state => ({form: state[reduxMountPoint][formName]}),
         dispatch => ({
-          ...
-            bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),
+          ...bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),
           dispatch
         })
       );

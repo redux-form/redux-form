@@ -1,12 +1,7 @@
-import isEvent from './isEvent';
+import silenceEvent from './silenceEvent';
 
 const silenceEvents = fn => (event, ...args) => {
-  if (isEvent(event)) {
-    event.preventDefault();
-    event.stopPropagation();
-    return fn(...args);
-  }
-  return fn(event, ...args);
+  return silenceEvent(event) ? fn(...args) : fn(event, ...args);
 };
 
 export default silenceEvents;
