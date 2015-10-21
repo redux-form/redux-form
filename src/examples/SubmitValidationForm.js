@@ -18,7 +18,7 @@ const submit = (values, dispatch) => {
   });
 };
 
-const SynchronousValidationForm = props => {
+const SubmitValidationForm = props => {
   const {fields: {username, password}, resetForm, handleSubmit, submitting} = props;
   return (<form className="form-horizontal" onSubmit={handleSubmit(submit)}>
       <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
@@ -49,4 +49,4 @@ const SynchronousValidationForm = props => {
 export default reduxForm({
   form: 'submitValidation',
   fields
-})(SynchronousValidationForm);
+})(SubmitValidationForm);
