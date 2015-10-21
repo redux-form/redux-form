@@ -17,7 +17,6 @@ function silenceEvents(fn) {
   return (event, ...args) => {
     if (event && event.preventDefault) {
       event.preventDefault();
-      event.stopPropagation();
       return fn(...args);
     }
     return fn(event, ...args);
