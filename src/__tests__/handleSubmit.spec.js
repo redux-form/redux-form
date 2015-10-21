@@ -1,8 +1,6 @@
 import expect, {createSpy} from 'expect';
 import handleSubmit from '../handleSubmit';
 
-const noop = () => null;
-
 describe('handleSubmit', () => {
 
   it('should stop if sync validation fails', () => {

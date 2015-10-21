@@ -22,6 +22,8 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       static displayName = `ReduxForm(${getDisplayName(WrappedComponent)})`;
       static propTypes = {
         // props:
+        asyncBlurFields: PropTypes.arrayOf(PropTypes.string),
+        asyncValidate: PropTypes.func,
         dispatch: PropTypes.func.isRequired,
         fields: PropTypes.arrayOf(PropTypes.string).isRequired,
         form: PropTypes.object,
