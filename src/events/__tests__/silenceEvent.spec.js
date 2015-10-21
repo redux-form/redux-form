@@ -30,6 +30,6 @@ describe('silenceEvent', () => {
       stopPropagation
     });
     expect(preventDefault).toHaveBeenCalled();
-    expect(stopPropagation).toHaveBeenCalled();
+    expect(stopPropagation).toNotHaveBeenCalled();
   });
 });

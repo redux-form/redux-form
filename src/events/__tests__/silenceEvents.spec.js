@@ -71,7 +71,7 @@ describe('silenceEvents', () => {
 
     silenceEvents(spy)(event);
     expect(preventDefault).toHaveBeenCalled();
-    expect(stopPropagation).toHaveBeenCalled();
+    expect(stopPropagation).toNotHaveBeenCalled();
     expect(spy).toHaveBeenCalled();
   });
 });
