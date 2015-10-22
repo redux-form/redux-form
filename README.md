@@ -1,4 +1,4 @@
-#redux-form
+# redux-form
 ---
 [<img src="http://npm.packagequality.com/badge/redux-form.png" align="right"/>](http://packagequality.com/#?package=redux-form)
 
@@ -103,17 +103,17 @@ const reducer = combineReducers(reducers);
 const store = createStore(reducer);
 ```
 
-*NOTE* – If you are not [doing the `connect()`ing yourself](#doing-the-connecting-yourself) (and it is recommended that 
-you do not, unless you have an advanced use case that requires it), _you **must** mount the reducer at `form`_.
+*NOTE* – You really should mount your `redux-form` reducer at `form`, but if you absolutely must mount it somewhere
+else, you may specify a `reduxMountPoint` parameter to the `reduxForm()` decorator. See below.
 
-__STEP 2:__ Wrap your form component with `connectReduxForm()`.  `connectReduxForm()` wraps your form component in a 
-Higher Order Component that connects to the Redux store and provides functions, as props to your component, for your 
-form elements to use for sending `onChange` and `onBlur` events, as well as a function to handle synchronous
-validation `onSubmit`. Let's look at a simple example.
+__STEP 2:__ Wrap your form component with `reduxForm()`.  `reduxForm()` wraps your form component in a Higher Order
+Component that connects to the Redux store and provides functions, as props to your component, for your form elements
+to use for sending `onChange` and `onBlur` events, as well as a function to handle synchronous
+validation and form submission. Let's look at a simple example.
 
 ### A Simple Form Component
 
-You will need to wrap your form component with `redux-form`'s `connectReduxForm()` function.
+You will need to wrap your form component with `redux-form`'s `reduxForm()` function.
 
 ```javascript
 import React, {Component, PropTypes} from 'react';
@@ -148,8 +148,8 @@ class ContactForm extends Component {
   }
 }
 
-// apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm({
+// apply reduxForm() and include synchronous validation
+ContactForm = reduxForm({
   form: 'contact',                      // the name of your form and the key to
                                         // where your form's state will be mounted
   fields: ['name', 'address', 'phone'], // a list of all your fields in your form
@@ -161,22 +161,41 @@ export default ContactForm;
 ```
 
 Notice that we're just using vanilla `<input>` elements there is no state in the `ContactForm` component.
-`handleSubmit` will call the function passed into `ContactForm`'s [`onSubmit` prop](#onsubmit-function-optional) **after** validation (both synchronous and asynchronous) completes successfully.
+`handleSubmit` will call the function passed into `ContactForm`'s [`onSubmit` prop](#onsubmit-function-optional)
+**after** validation (both synchronous and asynchronous) completes successfully.
 
 See [Submitting Your Form](#submitting-your-form).
 
 ### ES7 Decorator Sugar
 
 Using [ES7 decorator proposal](https://github.com/wycats/javascript-decorators), the example above
-could be written as:
+could be written different. Rather than...
 
 ```javascript
-@connectReduxForm({
+class ContactForm extends Component {
+  // ...
+}
+
+ContactForm reduxForm({
+  form: 'contact',
+  fields: ['name', 'address', 'phone'],
+  validate: validateContact
+})(ContactForm);
+
+export default ContactForm;
+```
+
+...it could just be...
+
+```javascript
+@reduxForm({
   form: 'contact',
   fields: ['name', 'address', 'phone'],
   validate: validateContact
 })
 export default class ContactForm extends Component {
+  // ...
+}
 ```
 
 Much nicer, don't you think?
@@ -215,45 +234,71 @@ function validateContact(data, props) {
 ```
 You get the idea.
 
-### Asynchronous Validation
+This example validation function is purely for simplistic demonstration value. In your application, you will want to 
+build some type of reusable system of validators. [Here is a simple
+example](https://github .com/erikras/react-redux-universal-hot-example/blob/master/src/utils/validation.js).
+
+
+The recommended way to do server-side validation with `redux-form` is to return a rejected promise from the `onSubmit`
+function. There are two ways to give `redux-form` a function to run when your form is submitted:
+
+* Pass it as an `onSubmit` prop to your decorated component. In which case, you would use
+`onClick={this.props.handleSubmit}` inside your decorated component to cause it to fire when the submit button is 
+clicked.
+* Pass it as a parameter to the `this.props.handleSubmit` function _from inside your decorated component_. In which 
+case, you would use `onClick={this.props.handleSubmit(mySubmit)}` inside your decorated component to cause it to fire 
+when the submit button is clicked.
+
+The errors are displayed in the exact same way as validation errors created by
+[Synchronous Validation](#/synchronous-validation).
+
+
+### Asynchronous Blur Validation
 
 Async validation can be achieved by passing in an asynchronous function that returns a Promise that will resolve
 to validation errors of the format that the synchronous [validation function](#synchronous-validation)
 generates. So this...
 
+Ideally, you will specify if you want asynchronous validation to be triggered when one or more of your form
+fields is blurred, you may specify those fields as `asyncBlurFields`. Like so:
+
 ```javascript
-// apply connectReduxForm() and include synchronous validation
-ContactForm = connectReduxForm({
+// apply reduxForm() and include synchronous validation
+ContactForm = reduxForm({
   form: 'contact',
   fields: ['name', 'address', 'phone'],
   validate: validateContact
 })(ContactForm);
 ```
 ...changes to this:
+
 ```javascript
 function validateContactAsync(data, dispatch) {
   return new Promise((resolve, reject) => {
     const errors = {};
-    // do async validation
-    resolve(errors);
+    let valid = true;
+    // do async validation, which sets values in errors and flips valid flag
+    if(valid) {
+      resolve();
+    } else {
+      reject(errors);
+    }
   });
 }
 
-// apply connectReduxForm() and include synchronous AND asynchronous validation
-ContactForm = connectReduxForm({
+// apply reduxForm() and include synchronous AND asynchronous validation
+ContactForm = reduxForm({
   form: 'contact',
   fields: ['name', 'address', 'phone'],
   validate: validateContact,
-  asyncValidate: validateContactAsync
+  asyncValidate: validateContactAsync,
+  asyncBlurFields: ['name', 'phone']
 })(ContactForm);
 ```
 
-Optionally, if you want asynchronous validation to be triggered when one or more of your form
-fields is blurred, you may specify those fields as `asyncBlurFields`. Like so:
-
 ```javascript
 // will only run async validation when 'name' or 'phone' is blurred
-ContactForm = connectReduxForm({
+ContactForm = reduxForm({
   form: 'contact',
   fields: ['name', 'address', 'phone'],
   validate: validateContact,
@@ -528,49 +573,9 @@ class DynamicForm extends Component {
 
 ## Advanced Usage
 
-#### Doing the `connect()`ing Yourself
+#### Specifying a different reducer mount point
 
-If, for some reason, you cannot mount the `redux-form` reducer at `form` in Redux, you may mount it anywhere else and
-do the `connect()` call yourself. Rather than wrap your form component with `redux-form`'s `connectReduxForm()`, you 
-will need to wrap your form component *both* with 
-[React Redux](https://github.com/gaearon/react-redux)'s `connect()` function *and* with `redux-form`'s
-`reduxForm()` function.
-
-```javascript
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {reduxForm} from 'redux-form';
-import validateContact from './validateContact';
-
-class ContactForm extends Component {
-  //...
-}
-
-// apply reduxForm() and include synchronous validation
-// note: we're using reduxForm, not connectReduxForm
-ContactForm = reduxForm({
-  form: 'contact',
-  fields: ['name', 'address', 'phone'],
-  validate: validateContact
-})(ContactForm);
-
-// ------- HERE'S THE IMPORTANT BIT -------
-function mapStateToProps(state, ownProps) {
-  // this is React Redux API: https://github.com/rackt/react-redux
-  // for example, you may use ownProps here to refer to the props passed from parent.
-  return {
-    form: state.placeWhereYouMountedFormReducer[ownProps.something]
-  };
-}
-
-// apply connect() to bind it to Redux state
-ContactForm = connect(mapStateToProps)(ContactForm);
-
-// export the wrapped component
-export default ContactForm;
-```
-
-As you can see, `connectReduxForm()` is a tiny wrapper over `reduxForm()` that applies `connect()` for you.
+If, for some reason, you cannot mount the `redux-form` reducer at `form` in Redux, you may mount it elsewhere by specifying a `reducerMountPoint` configuration option.
 
 ##### Binding Action Creators
 

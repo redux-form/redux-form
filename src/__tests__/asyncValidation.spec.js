@@ -33,7 +33,7 @@ describe('asyncValidation', () => {
     });
   });
 
-  it('should call start, fn, and stop on promise reject', () => {
+  it('should throw when promise rejected with no errors', () => {
     const fn = createSpy().andReturn(Promise.reject());
     const start = createSpy();
     const stop = createSpy();
@@ -44,6 +44,23 @@ describe('asyncValidation', () => {
       expect(false).toBe(true); // should not get into resolve branch
     }, () => {
       expect(stop).toHaveBeenCalled();
+    });
+  });
+
+  it('should call start, fn, and stop on promise reject', () => {
+    const errors = {foo: 'error'};
+    const fn = createSpy().andReturn(Promise.reject(errors));
+    const start = createSpy();
+    const stop = createSpy();
+    const promise = asyncValidation(fn, start, stop);
+    expect(fn).toHaveBeenCalled();
+    expect(start).toHaveBeenCalled();
+    return promise.then(() => {
+      expect(false).toBe(true); // should not get into resolve branch
+    }, () => {
+      expect(stop)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(errors);
     });
   });
 });

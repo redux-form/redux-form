@@ -22,9 +22,11 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
       }
       return result;
     };
-    const asyncValidateResult = asyncValidate(values);
+    const asyncValidateResult = asyncValidate();
     return isPromise(asyncValidateResult) ?
-      asyncValidateResult.then(doSubmit) : // will be rejected if async validation failed
+      // asyncValidateResult will be rejected if async validation failed
+      asyncValidateResult.then(doSubmit, () =>
+        returnRejectedSubmitPromise ? Promise.reject() : Promise.resolve()) :
       doSubmit(); // no async validation, so submit
   }
 };

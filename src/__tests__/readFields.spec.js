@@ -22,14 +22,14 @@ describe('readFields', () => {
     if (readonly) {
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
-      expect(field.onDrag).toNotExist();
+      expect(field.onDragStart).toNotExist();
       expect(field.onDrop).toNotExist();
       expect(field.onFocus).toNotExist();
       expect(field.onUpdate).toNotExist();
     } else {
       expect(field.onBlur).toBeA('function');
       expect(field.onChange).toBeA('function');
-      expect(field.onDrag).toBeA('function');
+      expect(field.onDragStart).toBeA('function');
       expect(field.onDrop).toBeA('function');
       expect(field.onFocus).toBeA('function');
       expect(field.onUpdate).toBeA('function');

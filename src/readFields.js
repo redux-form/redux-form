@@ -1,11 +1,12 @@
 import createOnBlur from './events/createOnBlur';
 import createOnChange from './events/createOnChange';
-import createOnDrag from './events/createOnDrag';
+import createOnDragStart from './events/createOnDragStart';
 import createOnDrop from './events/createOnDrop';
 import createOnFocus from './events/createOnFocus';
 import isPristine from './isPristine';
 import isValid from './isValid';
 import getValues from './getValues';
+import silencePromise from './silencePromise';
 
 /**
  * Reads props and generates (or updates) field structure
@@ -30,9 +31,10 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
         field.defaultChecked = initialValue;
         field.defaultValue = initialValue;
         if (!readonly) {
-          field.onBlur = createOnBlur(name, blur, isReactNative, asyncBlurFields.includes(name) && asyncValidate);
+          field.onBlur = createOnBlur(name, blur, isReactNative,
+            asyncBlurFields.includes(name) && ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
           field.onChange = onChange;
-          field.onDrag = createOnDrag(name, () => field.value);
+          field.onDragStart = createOnDragStart(name, () => field.value);
           field.onDrop = createOnDrop(name, change);
           field.onFocus = createOnFocus(name, focus);
           field.onUpdate = onChange; // alias to support belle. https://github.com/nikgraf/belle/issues/58

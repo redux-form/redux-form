@@ -1,6 +1,6 @@
 import expect, {createSpy} from 'expect';
 import createOnDrop from '../createOnDrop';
-import {dataKey} from '../createOnDrag';
+import {dataKey} from '../createOnDragStart';
 
 describe('createOnDrop', () => {
   it('should return a function', () => {

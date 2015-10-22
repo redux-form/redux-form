@@ -50,7 +50,7 @@ describe('handleSubmit', () => {
       .toHaveBeenCalledWith(values, props);
     expect(asyncValidate)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith(values);
+      .toHaveBeenCalledWith();
     expect(submit)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith(values, dispatch);
@@ -71,6 +71,38 @@ describe('handleSubmit', () => {
     const props = {dispatch, fields, startSubmit, stopSubmit, touch, validate};
 
     return handleSubmit(submit, values, props, asyncValidate)
+      .then(result => {
+        expect(result).toBe(undefined);
+        expect(touch)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith(...fields);
+        expect(validate)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith(values, props);
+        expect(asyncValidate)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith();
+        expect(submit).toNotHaveBeenCalled();
+        expect(startSubmit).toNotHaveBeenCalled();
+        expect(stopSubmit).toNotHaveBeenCalled();
+      }, () => {
+        expect(false).toBe(true); // should not get into reject branch
+      });
+  });
+
+  it('should not submit if async validation fails and return rejected promise', () => {
+    const values = {foo: 'bar', baz: 42};
+    const fields = ['foo', 'baz'];
+    const submit = createSpy().andReturn(69);
+    const dispatch = () => null;
+    const touch = createSpy();
+    const startSubmit = createSpy();
+    const stopSubmit = createSpy();
+    const asyncValidate = createSpy().andReturn(Promise.reject());
+    const validate = createSpy().andReturn({});
+    const props = {dispatch, fields, startSubmit, stopSubmit, touch, validate, returnRejectedSubmitPromise: true};
+
+    return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
         expect(false).toBe(true); // should not get into reject branch
       }, result => {
@@ -83,7 +115,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(values, props);
         expect(asyncValidate)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values);
+          .toHaveBeenCalledWith();
         expect(submit).toNotHaveBeenCalled();
         expect(startSubmit).toNotHaveBeenCalled();
         expect(stopSubmit).toNotHaveBeenCalled();
@@ -113,7 +145,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(values, props);
         expect(asyncValidate)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values);
+          .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith(values, dispatch);
@@ -147,7 +179,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(values, props);
         expect(asyncValidate)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values);
+          .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith(values, dispatch);
@@ -184,7 +216,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(values, props);
         expect(asyncValidate)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values);
+          .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith(values, dispatch);
@@ -223,7 +255,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(values, props);
         expect(asyncValidate)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values);
+          .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith(values, dispatch);

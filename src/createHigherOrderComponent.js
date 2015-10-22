@@ -6,6 +6,7 @@ import {initialState} from './reducer';
 import deepEqual from 'deep-equal';
 import bindActionData from './bindActionData';
 import getValues from './getValues';
+import isValid from './isValid';
 import readFields from './readFields';
 import handleSubmit from './handleSubmit';
 import asyncValidation from './asyncValidation';
@@ -85,11 +86,20 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
 
       static WrappedComponent = WrappedComponent;
 
-      asyncValidate(values) {
-        const {asyncValidate, dispatch, fields, form, startAsyncValidation, stopAsyncValidation} = this.props;
+      asyncValidate(name, value) {
+        const {asyncValidate, dispatch, fields, form, startAsyncValidation, stopAsyncValidation, validate} = this.props;
         if (asyncValidate) {
-          return asyncValidation(() =>
-            asyncValidate(values || getValues(fields, form), dispatch), startAsyncValidation, stopAsyncValidation);
+          const values = getValues(fields, form);
+          if (name) {
+            values[name] = value;
+          }
+          const syncErrors = validate(values, this.props);
+
+          // if blur validating, only run async validate if sync validation passes
+          if (!name || isValid(syncErrors[name])) {
+            return asyncValidation(() =>
+              asyncValidate(values, dispatch), startAsyncValidation, stopAsyncValidation);
+          }
         }
       }
 
@@ -162,14 +172,24 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
     // make redux connector with or without form key
     const decorate = formKey ?
       connect(
-        state => ({form: state[reduxMountPoint][formName][formKey]}),
+        state => {
+          if (!state[reduxMountPoint]) {
+            throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
+          }
+          return {form: state[reduxMountPoint][formName][formKey]};
+        },
         dispatch => ({
           ...bindActionCreators(bindActionData(unboundActions, {form: formName, key: formKey}), dispatch),
           dispatch
         })
       ) :
       connect(
-        state => ({form: state[reduxMountPoint][formName]}),
+        state => {
+          if (!state[reduxMountPoint]) {
+            throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
+          }
+          return {form: state[reduxMountPoint][formName]};
+        },
         dispatch => ({
           ...bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),
           dispatch
