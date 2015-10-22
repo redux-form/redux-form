@@ -8,6 +8,8 @@
     position: relative;
     padding-left: 80px;
     margin: 0 20px 0 0 !important;
+    @include insignia;
+    font-size: 3rem;
     cursor: pointer;
   }
 }
@@ -63,3 +65,46 @@
 * {
   outline: 0;
 }
+
+p {
+  font-size: 17.5px;
+}
+
+a code {
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @include insignia;
+}
+
+h1 {
+  font-size: 4rem;
+  code {
+    font-size: 2.5rem;
+  }
+}
+
+h2 {
+  font-size: 3.5rem;
+  code {
+    font-size: 2.25rem;
+  }
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.75rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+

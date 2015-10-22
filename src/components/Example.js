@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {Breadcrumb, BreadcrumbItem} from 'react-bootstrap';
 import FormValues from './FormValues';
 import Code from './Code';
 import DevToolsReminder from './DevToolsReminder';
@@ -17,17 +18,25 @@ export default class Example extends Component {
     name: PropTypes.string.isRequired,
     passSubmit: PropTypes.bool.isRequired,
     raw: PropTypes.string.isRequired,
+    reduxMountPoint: PropTypes.string.isRequired,
     submit: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    passSubmit: true
+    passSubmit: true,
+    reduxMountPoint: 'form'
   }
 
   render() {
-    const {explanation, fields, form, formComponent, name, passSubmit, raw, submit} = this.props;
+    const {explanation, fields, form, formComponent, name, passSubmit, raw, reduxMountPoint, submit} = this.props;
     const FormComponent = formComponent;
     return (<div className="container">
+      <Breadcrumb>
+        <BreadcrumbItem href="#/">Redux Form</BreadcrumbItem>
+        <BreadcrumbItem href="#/examples">Examples</BreadcrumbItem>
+        <BreadcrumbItem active>{name}</BreadcrumbItem>
+      </Breadcrumb>
+
       <DevToolsReminder/>
 
       <h1>{name}</h1>
@@ -42,7 +51,7 @@ export default class Example extends Component {
 
       <p>Below is a readonly component that is listening to the values in the <code>{form}</code> Redux form.</p>
 
-      <FormValues form={form} fields={fields}/>
+      <FormValues form={form} fields={fields} reduxMountPoint={reduxMountPoint}/>
 
       <h2>Code</h2>
 

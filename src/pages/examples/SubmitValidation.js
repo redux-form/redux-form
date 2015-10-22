@@ -1,8 +1,8 @@
 import React from 'react';
-import SubmitValidationForm, {fields} from '../examples/SubmitValidationForm';
-import Example from '../components/Example';
+import SubmitValidationForm, {fields} from '../../examples/SubmitValidationForm';
+import Example from '../../components/Example';
 import explanation from './SubmitValidation.md';
-import raw from '!!raw!../examples/SubmitValidationForm';
+import raw from '!!raw!../../examples/SubmitValidationForm';
 
 const SubmitValidation = () =>
   <Example
@@ -11,6 +11,7 @@ const SubmitValidation = () =>
     formComponent={SubmitValidationForm}
     form="submitValidation"
     fields={fields}
+    passSubmit={false}
     raw={raw}/>;
 
 export default SubmitValidation;

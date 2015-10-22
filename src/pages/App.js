@@ -18,10 +18,22 @@ export default class App extends Component {
             </NavBrand>
           </IndexLinkContainer>
           <Nav pullRight>
+            <NavDropdown title="API" id="examples-dropdown">
+              <LinkContainer to="/api"><MenuItem>API</MenuItem></LinkContainer>
+              <LinkContainer to="/api/reduxForm"><MenuItem><code>reduxForm()</code></MenuItem></LinkContainer>
+              <LinkContainer to="/api/reducer"><MenuItem><code>reducer</code></MenuItem></LinkContainer>
+              <LinkContainer to="/api/reducer/normalize"><MenuItem><code>reducer.normalize()</code></MenuItem></LinkContainer>
+              <LinkContainer to="/api/reducer/plugin"><MenuItem><code>reducer.plugin()</code></MenuItem></LinkContainer>
+              <LinkContainer to="/api/props"><MenuItem><code>props</code></MenuItem></LinkContainer>
+              <LinkContainer to="/api/action-creators"><MenuItem>Action Creators</MenuItem></LinkContainer>
+            </NavDropdown>
             <NavDropdown title="Examples" id="examples-dropdown">
-              <LinkContainer to="/simple"><MenuItem>Simple</MenuItem></LinkContainer>
-              <LinkContainer to="/synchronous-validation"><MenuItem>Synchronous Validation</MenuItem></LinkContainer>
-              <LinkContainer to="/submit-validation"><MenuItem>Submit Validation</MenuItem></LinkContainer>
+              <LinkContainer to="/examples"><MenuItem>All Examples</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/simple"><MenuItem>Simple</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/synchronous-validation"><MenuItem>Synchronous Validation</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/submit-validation"><MenuItem>Submit Validation</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/asynchronous-blur-validation"><MenuItem>Asynchronous Blur Validation</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/alternate-mount-point"><MenuItem>Alternate Redux Mount Point</MenuItem></LinkContainer>
             </NavDropdown>
             <NavItem href="https://github.com/erikras/react-redux-universal-hot-example"
                      className={styles.iconLink}

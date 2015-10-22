@@ -11,7 +11,11 @@ const getCreateStore = () => {
   )(createStore);
 };
 
-const reducer = combineReducers({form, submission});
+const reducer = combineReducers({
+  alternate: form,  // for alternate mount point example
+  form,
+  submission
+});
 const store = getCreateStore()(reducer);
 
 export default store;

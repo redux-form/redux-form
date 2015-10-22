@@ -9,7 +9,7 @@ case, you would use `onClick={this.props.handleSubmit(mySubmit)}` inside your de
 when the submit button is clicked.
 
 The errors are displayed in the exact same way as validation errors created by
-[Synchronous Validation](#/synchronous-validation).
+[Synchronous Validation](#/examples/synchronous-validation).
 
 ### How to use the form below:
 
