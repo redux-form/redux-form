@@ -24,7 +24,18 @@ function silenceEvents(fn) {
 }
 
 function hasErrors(errors) {
-  return !errors || Object.keys(errors).reduce((valid, error) => valid && isValid(errors[error]), true);
+  if (!errors) {
+    return false;
+  }
+
+  const errorsKeys = Object.keys(errors);
+  const errorCount = errorsKeys.length;
+
+  if (errorCount < 1) {
+    return false;
+  }
+
+  return errorsKeys.reduce((valid, error) => valid && isValid(errors[error]), true);
 }
 
 export default function createReduxForm(isReactNative, React) {
