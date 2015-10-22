@@ -31,13 +31,13 @@ export default class Example extends Component {
     const {explanation, fields, form, formComponent, name, passSubmit, raw, reduxMountPoint, submit} = this.props;
     const FormComponent = formComponent;
     return (<div className="container">
+      <DevToolsReminder/>
+
       <Breadcrumb>
         <BreadcrumbItem href="#/">Redux Form</BreadcrumbItem>
         <BreadcrumbItem href="#/examples">Examples</BreadcrumbItem>
         <BreadcrumbItem active>{name}</BreadcrumbItem>
       </Breadcrumb>
-
-      <DevToolsReminder/>
 
       <h1>{name}</h1>
 
