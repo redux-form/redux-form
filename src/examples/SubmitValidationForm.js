@@ -24,14 +24,14 @@ const SubmitValidationForm = props => {
       <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
         <label className="col-xs-4 control-label">Username</label>
         <div className={'col-xs-' + (username.touched && username.error ? '5' : '8')}>
-          <input type="text" className="col-xs-8 form-control" placeholder="Username" {...username}/>
+          <input type="text" className="form-control" placeholder="Username" {...username}/>
         </div>
         {username.touched && username.error && <div className="col-xs-3 help-block">{username.error}</div>}
       </div>
       <div className={'form-group' + (password.touched && password.error ? ' has-error' : '')}>
         <label className="col-xs-4 control-label">Email</label>
         <div className={'col-xs-' + (password.touched && password.error ? '5' : '8')}>
-          <input type="password" className="col-xs-8 form-control" placeholder="Password" {...password}/>
+          <input type="password" className="form-control" placeholder="Password" {...password}/>
         </div>
         {password.touched && password.error && <div className="col-xs-3 help-block">{password.error}</div>}
       </div>

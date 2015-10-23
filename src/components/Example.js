@@ -8,18 +8,16 @@ import SubmissionResults from './SubmissionResults';
 import stripStyling from '../util/stripStyling';
 import {show as showResults} from '../redux/modules/submission';
 
-@connect( undefined, {submit: showResults})
+@connect(undefined, {submit: showResults})
 export default class Example extends Component {
   static propTypes = {
     explanation: PropTypes.string.isRequired,
-    fields: PropTypes.arrayOf(PropTypes.string).isRequired,
+    fields: PropTypes.arrayOf(PropTypes.string),
     form: PropTypes.string.isRequired,
-    formComponent: PropTypes.any.isRequired,
+    children: PropTypes.any,
     name: PropTypes.string.isRequired,
-    passSubmit: PropTypes.bool.isRequired,
-    raw: PropTypes.string.isRequired,
-    reduxMountPoint: PropTypes.string.isRequired,
-    submit: PropTypes.func.isRequired,
+    files: PropTypes.object.isRequired,
+    reduxMountPoint: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -28,8 +26,7 @@ export default class Example extends Component {
   }
 
   render() {
-    const {explanation, fields, form, formComponent, name, passSubmit, raw, reduxMountPoint, submit} = this.props;
-    const FormComponent = formComponent;
+    const {children, explanation, fields, form, name, files, reduxMountPoint} = this.props;
     return (<div className="container">
       <DevToolsReminder/>
 
@@ -45,19 +42,26 @@ export default class Example extends Component {
 
       <h2>Form</h2>
 
-      {passSubmit ? <FormComponent onSubmit={submit}/> : <FormComponent/>}
+      {children}
 
-      <h2>Values</h2>
+      {fields && <div>
+        <h2>Values</h2>
 
-      <p>Below is a readonly component that is listening to the values in the <code>{form}</code> Redux form.</p>
+        <p>Below is a readonly component that is listening to the values in the <code>{form}</code> Redux form.</p>
 
-      <FormValues form={form} fields={fields} reduxMountPoint={reduxMountPoint}/>
+        <FormValues form={form} fields={fields} reduxMountPoint={reduxMountPoint}/>
+      </div>}
 
       <h2>Code</h2>
 
       <p>Styling has been removed for clarity.</p>
 
-      <Code>{stripStyling(raw)}</Code>
+      {Object.keys(files).map(filename =>
+        <div key={filename}>
+          <h4><code>{filename}</code></h4>
+          <Code>{stripStyling(files[filename])}</Code>
+        </div>
+      )}
 
       <SubmissionResults/>
     </div>);

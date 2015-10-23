@@ -12,13 +12,13 @@ const AlternateMountPointForm = props => {
       <div className="form-group">
         <label className="col-xs-4 control-label">First Name</label>
         <div className="col-xs-8">
-          <input type="text" className="col-xs-8 form-control" placeholder="First Name" {...firstName}/>
+          <input type="text" className="form-control" placeholder="First Name" {...firstName}/>
         </div>
       </div>
       <div className="form-group">
         <label className="col-xs-4 control-label">Last Name</label>
         <div className="col-xs-8">
-          <input type="text" className="col-xs-8 form-control" placeholder="Last Name" {...lastName}/>
+          <input type="text" className="form-control" placeholder="Last Name" {...lastName}/>
         </div>
       </div>
       <div className="text-center">

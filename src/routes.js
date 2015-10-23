@@ -8,6 +8,7 @@ import SynchronousValidation from 'pages/examples/SynchronousValidation';
 import SubmitValidation from 'pages/examples/SubmitValidation';
 import AsynchronousBlurValidation from 'pages/examples/AsynchronousBlurValidation';
 import AlternateMountPoint from 'pages/examples/AlternateMountPoint';
+import Multirecord from 'pages/examples/Multirecord';
 import Examples from 'pages/examples/Examples.md';
 import Api from 'pages/api/Api.md';
 import ApiReduxForm from 'pages/api/ReduxForm.md';
@@ -31,6 +32,7 @@ const routes = (
       <Route path="/examples" component={markdownPage(Examples)}/>
       <Route path="/examples/asynchronous-blur-validation" component={AsynchronousBlurValidation}/>
       <Route path="/examples/alternate-mount-point" component={AlternateMountPoint}/>
+      <Route path="/examples/multirecord" component={Multirecord}/>
       <Route path="/examples/simple" component={Simple}/>
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>

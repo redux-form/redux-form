@@ -8,10 +8,10 @@ const SubmitValidation = () =>
   <Example
     name="Submit Validation"
     explanation={explanation}
-    formComponent={SubmitValidationForm}
     form="submitValidation"
     fields={fields}
-    passSubmit={false}
-    raw={raw}/>;
+    files={{'SubmitValidationForm.js': raw}}>
+    <SubmitValidationForm/>
+  </Example>;
 
 export default SubmitValidation;

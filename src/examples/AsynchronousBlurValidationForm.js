@@ -31,7 +31,7 @@ const AsynchronousBlurValidationForm = props => {
       <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
         <label className="col-xs-4 control-label">Username</label>
         <div className={'col-xs-' + (username.touched && username.error ? '5' : '8')} style={{position: 'relative'}}>
-          <input type="text" className="col-xs-8 form-control" placeholder="Username" {...username}/>
+          <input type="text" className="form-control" placeholder="Username" {...username}/>
           {asyncValidating && <i className="fa fa-cog fa-spin" /* spinning cog */ style={{
             position: 'absolute',
             right: 25,
@@ -43,7 +43,7 @@ const AsynchronousBlurValidationForm = props => {
       <div className={'form-group' + (password.touched && password.error ? ' has-error' : '')}>
         <label className="col-xs-4 control-label">Email</label>
         <div className={'col-xs-' + (password.touched && password.error ? '5' : '8')}>
-          <input type="password" className="col-xs-8 form-control" placeholder="Password" {...password}/>
+          <input type="password" className="form-control" placeholder="Password" {...password}/>
         </div>
         {password.touched && password.error && <div className="col-xs-3 help-block">{password.error}</div>}
       </div>

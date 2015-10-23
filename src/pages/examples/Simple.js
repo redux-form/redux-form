@@ -8,9 +8,10 @@ const Simple = () =>
   <Example
     name="Simple Form"
     explanation={explanation}
-    formComponent={SimpleForm}
     form="simple"
     fields={fields}
-    raw={raw}/>;
+    files={{'SimpleForm.js': raw}}>
+    <SimpleForm/>
+  </Example>;
 
 export default Simple;

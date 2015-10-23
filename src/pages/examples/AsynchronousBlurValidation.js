@@ -8,9 +8,10 @@ const AsynchronousBlurValidation = () =>
   <Example
     name="Asynchronous Blur Validation"
     explanation={explanation}
-    formComponent={AsynchronousBlurValidationForm}
     form="asynchronousBlurValidation"
     fields={fields}
-    raw={raw}/>;
+    files={{'AsynchronousBlurValidationForm.js': raw}}>
+    <AsynchronousBlurValidationForm/>
+  </Example>;
 
 export default AsynchronousBlurValidation;
