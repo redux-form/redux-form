@@ -195,7 +195,7 @@ export default function createReduxForm(isReactNative, React) {
           }
           const handleErrors = asyncErrors => {
             dispatch(actions.stopAsyncValidation(asyncErrors));
-            return hasErrors(asyncErrors);
+            return asyncErrors;
           };
           return promise.then(handleErrors, handleErrors);
         }
@@ -271,8 +271,8 @@ export default function createReduxForm(isReactNative, React) {
                 dispatch(actions.touch(...fields));
                 if (allValid) {
                   if (asyncValidate) {
-                    return this.runAsyncValidation(actions, values).then(asyncValid => {
-                      if (allValid && asyncValid) {
+                    return this.runAsyncValidation(actions, values).then(asyncErrors => {
+                      if (allValid && !hasErrors(asyncErrors)) {
                         return submitWithPromiseCheck(values);
                       }
                     });
