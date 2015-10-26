@@ -32,7 +32,7 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
         field.defaultValue = initialValue;
         if (!readonly) {
           field.onBlur = createOnBlur(name, blur, isReactNative,
-            asyncBlurFields.includes(name) && ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
+            ~asyncBlurFields.indexOf(name) && ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
           field.onChange = onChange;
           field.onDragStart = createOnDragStart(name, () => field.value);
           field.onDrop = createOnDrop(name, change);
