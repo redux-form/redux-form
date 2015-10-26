@@ -213,7 +213,7 @@ describe('readFields', () => {
       asyncBlurFields: [],
       blur,
       change,
-      fields: ['foo', 'bar'],
+      fields: ['foo', 'bar', 'baz.qux'],
       focus,
       form: {
         foo: {
@@ -221,11 +221,15 @@ describe('readFields', () => {
         },
         bar: {
           value: 'barValue'
+        },
+        'baz.qux': {
+          value: 'bazQuxValue'
         }
       },
       validate: () => ({
         foo: 'fooError',
-        bar: 'barError'
+        bar: 'barError',
+        'baz.qux': 'bazQuxError'
       })
     }, {});
     expectField({
@@ -250,10 +254,21 @@ describe('readFields', () => {
       initialValue: undefined,
       readonly: false
     });
+    expectField({
+      field: result['baz.qux'],
+      name: 'baz.qux',
+      value: 'bazQuxValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'bazQuxError',
+      initialValue: undefined,
+      readonly: false
+    });
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(false);
-    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
-    expect(result._meta.errors).toEqual({foo: 'fooError', bar: 'barError'});
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue', baz: {qux: 'bazQuxValue'}});
+    expect(result._meta.errors).toEqual({foo: 'fooError', bar: 'barError', baz: {qux: 'bazQuxError'}});
   });
 
   it('should update fields', () => {

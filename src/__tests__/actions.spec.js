@@ -40,11 +40,13 @@ describe('actions', () => {
 
   it('should create initialize action', () => {
     const data = {a: 8, c: 9};
+    const fields = ['a', 'c'];
     const timestamp = Date.now();
-    expect(initialize(data, timestamp)).toEqual({
+    expect(initialize(data, timestamp, fields)).toEqual({
       type: INITIALIZE,
       data,
-      timestamp
+      timestamp,
+      fields
     });
   });
 

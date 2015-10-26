@@ -1,6 +1,7 @@
 import { BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
   STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
+import get from 'lodash/object/get';
 
 export const initialState = {
   _active: undefined,
@@ -51,8 +52,12 @@ const reducer = (state = initialState, action = {}) => {
         _active: action.field
       };
     case INITIALIZE:
+      const initialData = action.fields.reduce((accumulator, field) => {
+        accumulator[field] = get(action.data, field);
+        return accumulator;
+      }, {});
       return {
-        ...mapValues(action.data, (value) => ({
+        ...mapValues(initialData, (value) => ({
           initial: value,
           value: value
         })),

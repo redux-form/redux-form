@@ -72,9 +72,9 @@ const createHigherOrderComponent = (config,
       }
 
       componentWillMount() {
-        const {initialize, initialValues} = this.props;
+        const {initialize, initialValues, fields} = this.props;
         if (initialValues) {
-          initialize(initialValues);
+          initialize(initialValues, fields);
         }
       }
 

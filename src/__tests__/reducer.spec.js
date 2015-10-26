@@ -5,6 +5,18 @@ import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmi
   stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
 
 describe('reducer', () => {
+  const nestedValues = {
+    name: 'Meck',
+    shipping: {
+      street: 'Yuhang road',
+    },
+    items: [
+      {name: 'Lego', amount: 10},
+    ]
+  };
+
+  const nestedFields = ['name', 'shipping.street', 'items[0].name', 'items[0].amount'];
+
   it('should initialize state to {}', () => {
     const state = reducer();
     expect(state)
@@ -291,14 +303,26 @@ describe('reducer', () => {
   it('should set initialize values on initialize on empty state', () => {
     const timestamp = Date.now();
     const state = reducer({}, {
-      ...initialize({myField: 'initialValue'}, timestamp),
+      ...initialize(nestedValues, timestamp, nestedFields),
       form: 'foo'
     });
     expect(state.foo)
       .toEqual({
-        myField: {
-          initial: 'initialValue',
-          value: 'initialValue'
+        name: {
+          initial: 'Meck',
+          value: 'Meck'
+        },
+        'shipping.street': {
+          initial: 'Yuhang road',
+          value: 'Yuhang road'
+        },
+        'items[0].name': {
+          initial: 'Lego',
+          value: 'Lego'
+        },
+        'items[0].amount': {
+          initial: 10,
+          value: 10
         },
         _active: undefined,
         _asyncValidating: false,
@@ -311,9 +335,21 @@ describe('reducer', () => {
     const timestamp = Date.now();
     const state = reducer({
       foo: {
-        myField: {
-          value: 'dirtyValue',
+        name: {
+          value: 'Ava',
           touched: true
+        },
+        'shipping.street': {
+          initial: 'Yuhang road',
+          value: 'Yuhang road'
+        },
+        'items[0].name': {
+          initial: 'Lego',
+          value: 'Lego'
+        },
+        'items[0].amount': {
+          initial: 10,
+          value: 10
         },
         _active: 'myField',
         _asyncValidating: false,
@@ -321,15 +357,27 @@ describe('reducer', () => {
         _submitting: false
       }
     }, {
-      ...initialize({myField: 'initialValue'}, timestamp),
+      ...initialize(nestedValues, timestamp, nestedFields),
       form: 'foo',
       touch: true
     });
     expect(state.foo)
       .toEqual({
-        myField: {
-          initial: 'initialValue',
-          value: 'initialValue'
+        name: {
+          initial: 'Meck',
+          value: 'Meck'
+        },
+        'shipping.street': {
+          initial: 'Yuhang road',
+          value: 'Yuhang road'
+        },
+        'items[0].name': {
+          initial: 'Lego',
+          value: 'Lego'
+        },
+        'items[0].amount': {
+          initial: 10,
+          value: 10
         },
         _active: undefined,
         _asyncValidating: false,
