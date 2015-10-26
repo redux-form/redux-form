@@ -1,19 +1,19 @@
 import expect from 'expect';
-import isPristine from '../src/isPristine';
+import isPristine from '../isPristine';
 
-const tryBothWays = (a, b, result) => {
-  expect(isPristine(a, b)).toBe(result);
-  expect(isPristine(b, a)).toBe(result);
+const tryBothWays = (aValue, bValue, result) => {
+  expect(isPristine(aValue, bValue)).toBe(result);
+  expect(isPristine(bValue, aValue)).toBe(result);
 };
 
 describe('isPristine', () => {
   it('should return true if the values are ===', () => {
-    const a = {foo: 'bar'};
-    const b = ['foo', 'baz'];
-    const c = 7;
-    expect(isPristine(a, a)).toBe(true);
-    expect(isPristine(b, b)).toBe(true);
-    expect(isPristine(c, c)).toBe(true);
+    const aValue = {foo: 'bar'};
+    const bValue = ['foo', 'baz'];
+    const cValue = 7;
+    expect(isPristine(aValue, aValue)).toBe(true);
+    expect(isPristine(bValue, bValue)).toBe(true);
+    expect(isPristine(cValue, cValue)).toBe(true);
   });
 
   it('should return false if one value is an object and the other is not', () => {
@@ -49,6 +49,11 @@ describe('isPristine', () => {
     tryBothWays({foo: ''}, {foo: null}, true);
     tryBothWays({foo: ''}, {foo: undefined}, true);
     tryBothWays({foo: null}, {foo: undefined}, true);
+  });
+
+  it('should return false when number of keys is different', () => {
+    tryBothWays({foo: 'bar'}, {}, false);
+    tryBothWays([1], [1, 2], false);
   });
 
   it('should return true when key values are equal', () => {

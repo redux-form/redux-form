@@ -35,8 +35,8 @@ const reducer = (state = initialState, action = {}) => {
           ...state[action.field],
           value: action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched),
-          asyncError: null,
-          submitError: null
+          asyncError: undefined,
+          submitError: undefined
         },
         _error: undefined
       };
@@ -93,7 +93,7 @@ const reducer = (state = initialState, action = {}) => {
           asyncError: error
         })),
         _asyncValidating: false,
-        _error: action.errors._error
+        _error: action.errors && action.errors._error
       };
     case STOP_SUBMIT:
       return {
@@ -141,7 +141,7 @@ function formReducer(state = {}, action = {}) {
     if (action.type === DESTROY) {
       return {
         ...state,
-        [form]: Object.keys(state[form]).reduce((accumulator, stateKey) =>
+        [form]: state[form] && Object.keys(state[form]).reduce((accumulator, stateKey) =>
           stateKey === key ? accumulator : {
             ...accumulator,
             [stateKey]: state[form][stateKey]
@@ -178,7 +178,7 @@ function decorate(target) {
       const result = this(state, action);
       return {
         ...result,
-        ...mapValues(reducers, (red, key) => red(result[key] || initialState, action))
+        ...mapValues(reducers, (pluginReducer, key) => pluginReducer(result[key] || initialState, action))
       };
     });
   };

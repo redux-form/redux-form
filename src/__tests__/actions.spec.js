@@ -1,8 +1,8 @@
 import expect from 'expect';
 import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from '../src/actionTypes';
+  STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from '../actionTypes';
 import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
-  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../src/actions';
+  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
 
 describe('actions', () => {
   it('should create blur action', () => {

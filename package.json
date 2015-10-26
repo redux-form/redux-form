@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "2.4.5",
+  "version": "3.0.0-beta-1",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "repository": {
@@ -15,7 +15,7 @@
     "clean": "rimraf dist lib",
     "lint": "eslint src",
     "prepublish": "npm run lint && npm run test && npm run clean && npm run build",
-    "test": "mocha --compilers js:babel/register --recursive"
+    "test": "mocha --compilers js:babel/register --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js"
   },
   "keywords": [
     "react",
@@ -34,6 +34,9 @@
   },
   "homepage": "https://github.com/erikras/redux-form",
   "dependencies": {
+    "deep-equal": "^1.0.1",
+    "hoist-non-react-statics": "^1.0.3",
+    "is-promise": "^2.1.0",
     "react-lazy-cache": "^3.0.0"
   },
   "devDependencies": {
@@ -45,8 +48,11 @@
     "eslint-config-airbnb": "^0.1.0",
     "eslint-plugin-react": "^3.5.1",
     "expect": "^1.11.1",
+    "jsdom": "^7.0.1",
     "mocha": "^2.3.3",
-    "react": "^0.13.3",
+    "react": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-redux": "^3.1.0",
     "redux": "^3.0.2",
     "rifraf": "^2.0.2",

@@ -1,12 +1,10 @@
 import React from 'react-native';
-import {connect} from 'react-redux/native';
 import createAll from './createAll';
 
 export const {
   actionTypes,
   blur,
   change,
-  connectReduxForm,
   destroy,
   focus,
   reducer,
@@ -20,4 +18,4 @@ export const {
   stopSubmit,
   touch,
   untouch
-} = createAll(true, React, connect);
+} = createAll(true, React);
