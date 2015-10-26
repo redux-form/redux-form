@@ -170,13 +170,17 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
     };
 
     // make redux connector with or without form key
-    const decorate = formKey ?
+    const decorate = formKey !== undefined && formKey !== null ?
       connect(
         state => {
           if (!state[reduxMountPoint]) {
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
-          return {form: state[reduxMountPoint][formName][formKey]};
+          return {
+            form: state[reduxMountPoint] &&
+            state[reduxMountPoint][formName] &&
+            state[reduxMountPoint][formName][formKey]
+          };
         },
         dispatch => ({
           ...bindActionCreators(bindActionData(unboundActions, {form: formName, key: formKey}), dispatch),
@@ -188,7 +192,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
           if (!state[reduxMountPoint]) {
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
-          return {form: state[reduxMountPoint][formName]};
+          return {form: state[reduxMountPoint] && state[reduxMountPoint][formName]};
         },
         dispatch => ({
           ...bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),

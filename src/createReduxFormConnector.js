@@ -31,7 +31,8 @@ const createReduxFormConnector =
                 // props that effect how redux-form connects to the redux store
                 'reduxMountPoint',
                 'form',
-                'formKey'
+                'formKey',
+                'initialValues'
               ],
               fn: createHigherOrderComponent(props, isReactNative, React, WrappedComponent, mapDispatchToProps)
             }

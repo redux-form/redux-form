@@ -141,7 +141,7 @@ function formReducer(state = {}, action = {}) {
     if (action.type === DESTROY) {
       return {
         ...state,
-        [form]: Object.keys(state[form]).reduce((accumulator, stateKey) =>
+        [form]: state[form] && Object.keys(state[form]).reduce((accumulator, stateKey) =>
           stateKey === key ? accumulator : {
             ...accumulator,
             [stateKey]: state[form][stateKey]
