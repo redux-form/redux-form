@@ -47,6 +47,11 @@ the validation is passed, or will reject with an object of validation errors in 
 
 > See [Asynchronous Blur Validation Example](#/examples/asynchronous-blur-validation) for more details.
 
+#### `destroyOnUnmount : boolean` [optional]
+
+> Whether or not to automatically destroy your form's state in the Redux store when your component is unmounted. 
+Defaults to `true`.
+
 #### `formKey : String` [optional]
 
 > The key for your sub-form.
