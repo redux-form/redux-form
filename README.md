@@ -450,8 +450,8 @@ import mapProps from 'map-props';
 ...
 // FIRST map props
 ContactForm = mapProps({
-  hasName: props => !!props.name.value
-  hasPhone: props => !!props.phone.value
+  hasName: props => !!props.fields.name.value
+  hasPhone: props => !!props.fields.phone.value
 })(ContactForm);
 
 // THEN apply connectReduxForm() and include synchronous validation
@@ -470,8 +470,8 @@ Or, in ES7 land...
   validate: validateContact
 })
 @mapProps({
-  hasName: props => !!props.name.value
-  hasPhone: props => !!props.phone.value
+  hasName: props => !!props.fields.name.value
+  hasPhone: props => !!props.fields.phone.value
 })
 export default class ContactForm extends Component {
 ```
