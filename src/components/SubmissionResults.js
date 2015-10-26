@@ -7,7 +7,7 @@ import Code from './Code';
 class SubmissionResults extends Component {
   static propTypes = {
     hide: PropTypes.func.isRequired,
-    results: PropTypes.object.isRequired,
+    results: PropTypes.object,
     shown: PropTypes.bool
   }
 
