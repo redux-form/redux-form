@@ -1,16 +1,16 @@
 import React from 'react';
-import SimpleForm, {fields} from '../../examples/SimpleForm';
+import NormalizingForm, {fields} from '../../examples/NormalizingForm';
 import Example from '../../components/Example';
-import explanation from './Simple.md';
-import raw from '!!raw!../../examples/SimpleForm';
+import explanation from './Normalizing.md';
+import raw from '!!raw!../../examples/NormalizingForm';
 
-const Simple = () =>
+const Normalizing = () =>
   <Example
-    name="Simple Form"
+    name="Normalizing Form Data"
     explanation={explanation}
-    component={SimpleForm}
-    form="simple"
+    component={NormalizingForm}
+    form="normalizing"
     fields={fields}
-    files={{'SimpleForm.js': raw}}/>;
+    files={{'NormalizingForm.js': raw}}/>;
 
-export default Simple;
+export default Normalizing;

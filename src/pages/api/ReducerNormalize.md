@@ -51,7 +51,13 @@ const reducers = {
           }
         }
         return value;
-      }
+      },
+      min: (value, previousValue, allValues) =>         // <--- field normalizer
+        // keep min <= max
+        value > allValues.max ? allValues.max : value,
+      max: (value, previousValue, allValues) =>         // <--- field normalizer
+        // keep max >= max
+        value < allValues.min ? allValues.min : value
     }
   })
 }

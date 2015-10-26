@@ -1,24 +1,27 @@
 import React from 'react';
 import {reduxForm} from 'redux-form';
-export const fields = ['firstName', 'lastName', 'email', 'sex', 'favoriteColor', 'employed', 'notes'];
+export const fields = ['name', 'phone', 'email', 'min', 'max'];
+const renderOptions = () =>
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
+    .map(option => <option key={option} value={option}>{option}</option>);
 
-const SimpleForm = props => {
+const NormalizingForm = props => {
   const {
-    fields: {firstName, lastName, email, sex, favoriteColor, employed, notes},
+    fields: {name, phone, email, min, max},
     handleSubmit,
     resetForm
-  } = props;
+    } = props;
   return (<form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="form-group">
-        <label className="col-xs-4 control-label">First Name</label>
+        <label className="col-xs-4 control-label">Name</label>
         <div className="col-xs-8">
-          <input type="text" className="form-control" placeholder="First Name" {...firstName}/>
+          <input type="text" className="form-control" placeholder="Name" {...name}/>
         </div>
       </div>
       <div className="form-group">
-        <label className="col-xs-4 control-label">Last Name</label>
+        <label className="col-xs-4 control-label">Phone</label>
         <div className="col-xs-8">
-          <input type="text" className="form-control" placeholder="Last Name" {...lastName}/>
+          <input type="text" className="form-control" placeholder="999-999-9999" {...phone}/>
         </div>
       </div>
       <div className="form-group">
@@ -28,36 +31,15 @@ const SimpleForm = props => {
         </div>
       </div>
       <div className="form-group">
-        <label className="col-xs-4 control-label">Sex</label>
+        <label className="col-xs-4 control-label">Minimum Emails</label>
         <div className="col-xs-8">
-          <label className="radio-inline">
-            <input type="radio" {...sex} value="male" checked={sex.value === 'male'}/> Male
-          </label>
-          <label className="radio-inline">
-            <input type="radio" {...sex} value="female" checked={sex.value === 'female'}/> Female
-          </label>
+          <select className="form-control" style={{width: 60}} {...min}>{renderOptions()}</select>
         </div>
       </div>
       <div className="form-group">
-        <label className="col-xs-4 control-label">Favorite Color</label>
+        <label className="col-xs-4 control-label">Maximum Emails</label>
         <div className="col-xs-8">
-          <select className="form-control" {...favoriteColor}>
-            <option></option>
-            <option value="ff0000">Red</option>
-            <option value="00ff00">Green</option>
-            <option value="0000ff">Blue</option>
-          </select>
-        </div>
-      </div>
-      <div className="form-group">
-        <label className="col-xs-8 col-xs-offset-4 checkbox-inline">
-          <input type="checkbox" {...employed}/> Employed
-        </label>
-      </div>
-      <div className="form-group">
-        <label className="col-xs-4 control-label">Notes</label>
-        <div className="col-xs-8">
-          <textarea className="form-control" {...notes}/>
+          <select className="form-control" style={{width: 60}} {...max}>{renderOptions()}</select>
         </div>
       </div>
       <div className="text-center">
@@ -69,6 +51,6 @@ const SimpleForm = props => {
 };
 
 export default reduxForm({
-  form: 'simple',
+  form: 'normalizing',
   fields
-})(SimpleForm);
+})(NormalizingForm);

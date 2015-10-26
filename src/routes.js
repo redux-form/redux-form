@@ -9,6 +9,7 @@ import SubmitValidation from 'pages/examples/SubmitValidation';
 import AsynchronousBlurValidation from 'pages/examples/AsynchronousBlurValidation';
 import AlternateMountPoint from 'pages/examples/AlternateMountPoint';
 import Multirecord from 'pages/examples/Multirecord';
+import Normalizing from 'pages/examples/Normalizing';
 import Examples from 'pages/examples/Examples.md';
 import GettingStarted from 'pages/GettingStarted.md';
 import Api from 'pages/api/Api.md';
@@ -35,6 +36,7 @@ const routes = (
       <Route path="/examples/asynchronous-blur-validation" component={AsynchronousBlurValidation}/>
       <Route path="/examples/alternate-mount-point" component={AlternateMountPoint}/>
       <Route path="/examples/multirecord" component={Multirecord}/>
+      <Route path="/examples/normalizing" component={Normalizing}/>
       <Route path="/examples/simple" component={Simple}/>
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>

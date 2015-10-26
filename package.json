@@ -10,8 +10,9 @@
     "dev": "node ./node_modules/better-npm-run dev",
     "clean": "rimraf dist",
     "lint": "eslint src",
-    "prepublish": "npm run lint && npm run clean && npm run build",
-    "publish": "npm run prepublish && git add -f dist/* && git commit -m \"publishing\" && git push"
+    "prepublish": "npm run lint && npm run clean && npm test && npm run build",
+    "publish": "npm run prepublish && git add -f dist/* && git commit -m \"publishing\" && git push",
+    "test": "mocha --compilers js:babel/register --recursive 'src/**/__tests__/*'"
   },
   "keywords": [
     "react",
@@ -67,10 +68,12 @@
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "^0.1.0",
     "eslint-plugin-react": "^3.5.1",
+    "expect": "^1.12.2",
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
     "less": "^2.5.3",
+    "mocha": "^2.3.3",
     "node-sass": "^3.3.3",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
