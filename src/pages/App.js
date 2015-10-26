@@ -37,7 +37,7 @@ export default class App extends Component {
               <LinkContainer to="/examples/multirecord"><MenuItem>Multirecord Forms</MenuItem></LinkContainer>
               <LinkContainer to="/examples/alternate-mount-point"><MenuItem>Alternate Redux Mount Point</MenuItem></LinkContainer>
             </NavDropdown>
-            <NavItem href="https://github.com/erikras/react-redux-universal-hot-example"
+            <NavItem href="https://github.com/erikras/redux-form"
                      className={styles.iconLink}
                      target="_blank" title="View on Github"><i className="fa fa-github"/></NavItem>
           </Nav>
