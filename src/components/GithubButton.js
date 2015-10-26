@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-export default class GithubButton extends Component {
+class GithubButton extends Component {
   static propTypes = {
     user: PropTypes.string.isRequired,
     repo: PropTypes.string.isRequired,
@@ -31,3 +31,5 @@ export default class GithubButton extends Component {
     );
   }
 }
+
+export default GithubButton;

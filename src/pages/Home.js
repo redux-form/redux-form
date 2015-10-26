@@ -3,7 +3,7 @@ import readme from 'redux-form/README.md';
 import prettify from '../util/prettify';
 import GithubButton from '../components/GithubButton';
 
-export default class Home extends Component {
+class Home extends Component {
   componentDidMount() {
     PR.prettyPrint();
   }
@@ -33,3 +33,5 @@ export default class Home extends Component {
     </div>);
   }
 }
+
+export default Home;

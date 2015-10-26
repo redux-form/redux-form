@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 export const fields = ['username', 'email', 'age'];
 
@@ -24,37 +24,45 @@ const validate = values => {
   return errors;
 };
 
-const SynchronousValidationForm = props => {
-  const {fields: {username, email, age}, resetForm, handleSubmit} = props;
-  return (<form className="form-horizontal" onSubmit={handleSubmit}>
-      <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
-        <label className="col-xs-4 control-label">Username</label>
-        <div className={'col-xs-' + (username.touched && username.error ? '5' : '8')}>
-          <input type="text" className="col-xs-8 form-control" placeholder="Username" {...username}/>
+class SynchronousValidationForm extends Component {
+  static propTypes = {
+    fields: PropTypes.object.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    resetForm: PropTypes.func.isRequired
+  };
+
+  render() {
+    const {fields: {username, email, age}, resetForm, handleSubmit} = this.props;
+    return (<form className="form-horizontal" onSubmit={handleSubmit}>
+        <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
+          <label className="col-xs-4 control-label">Username</label>
+          <div className={'col-xs-' + (username.touched && username.error ? '5' : '8')}>
+            <input type="text" className="col-xs-8 form-control" placeholder="Username" {...username}/>
+          </div>
+          {username.touched && username.error && <div className="col-xs-3 help-block">{username.error}</div>}
         </div>
-        {username.touched && username.error && <div className="col-xs-3 help-block">{username.error}</div>}
-      </div>
-      <div className={'form-group' + (email.touched && email.error ? ' has-error' : '')}>
-        <label className="col-xs-4 control-label">Email</label>
-        <div className={'col-xs-' + (email.touched && email.error ? '5' : '8')}>
-          <input type="text" className="col-xs-8 form-control" placeholder="Email" {...email}/>
+        <div className={'form-group' + (email.touched && email.error ? ' has-error' : '')}>
+          <label className="col-xs-4 control-label">Email</label>
+          <div className={'col-xs-' + (email.touched && email.error ? '5' : '8')}>
+            <input type="text" className="col-xs-8 form-control" placeholder="Email" {...email}/>
+          </div>
+          {email.touched && email.error && <div className="col-xs-3 help-block">{email.error}</div>}
         </div>
-        {email.touched && email.error && <div className="col-xs-3 help-block">{email.error}</div>}
-      </div>
-      <div className={'form-group' + (age.touched && age.error ? ' has-error' : '')}>
-        <label className="col-xs-4 control-label">Age</label>
-        <div className={'col-xs-' + (age.touched && age.error ? '5' : '8')}>
-          <input type="text" className="col-xs-8 form-control" placeholder="Age" {...age}/>
+        <div className={'form-group' + (age.touched && age.error ? ' has-error' : '')}>
+          <label className="col-xs-4 control-label">Age</label>
+          <div className={'col-xs-' + (age.touched && age.error ? '5' : '8')}>
+            <input type="text" className="col-xs-8 form-control" placeholder="Age" {...age}/>
+          </div>
+          {age.touched && age.error && <div className="col-xs-3 help-block">{age.error}</div>}
         </div>
-        {age.touched && age.error && <div className="col-xs-3 help-block">{age.error}</div>}
-      </div>
-      <div className="text-center">
-        <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Submit</button>
-        <button className="btn btn-default btn-lg" style={{margin: 10}} onClick={resetForm}>Clear Values</button>
-      </div>
-    </form>
-  );
-};
+        <div className="text-center">
+          <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Submit</button>
+          <button className="btn btn-default btn-lg" style={{margin: 10}} onClick={resetForm}>Clear Values</button>
+        </div>
+      </form>
+    );
+  }
+}
 
 export default reduxForm({
   form: 'synchronousValidation',
