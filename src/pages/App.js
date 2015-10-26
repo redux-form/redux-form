@@ -34,8 +34,8 @@ export default class App extends Component {
               <LinkContainer to="/examples/synchronous-validation"><MenuItem>Synchronous Validation</MenuItem></LinkContainer>
               <LinkContainer to="/examples/submit-validation"><MenuItem>Submit Validation</MenuItem></LinkContainer>
               <LinkContainer to="/examples/asynchronous-blur-validation"><MenuItem>Asynchronous Blur Validation</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/multirecord"><MenuItem>Multirecord Forms</MenuItem></LinkContainer>
               <LinkContainer to="/examples/alternate-mount-point"><MenuItem>Alternate Redux Mount Point</MenuItem></LinkContainer>
-              <LinkContainer to="/examples/multirecord"><MenuItem>Multirecord</MenuItem></LinkContainer>
             </NavDropdown>
             <NavItem href="https://github.com/erikras/react-redux-universal-hot-example"
                      className={styles.iconLink}

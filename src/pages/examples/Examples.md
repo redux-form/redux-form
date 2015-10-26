@@ -6,7 +6,9 @@
 # Examples
 
 Below are a list of examples that demonstrate the capabilities of `redux-form` for testing and learning
-purposes. To download and run these examples locally, you should clone the 
+purposes.
+
+To download and run these examples locally, you should clone the 
 [`gh-pages`](https://github.com/erikras/redux-form/tree/gh-pages) branch of the `redux-form` repository, run
 `npm install` and `npm run dev`. This will run a `webpack-dev-server` instance on 
 [`localhost:3030`](http://localhost:3030) for you to play around with.
