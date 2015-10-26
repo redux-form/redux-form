@@ -25,3 +25,5 @@ with `v2.x.x` for now.**
 ## [Examples](http://erikras.github.io/redux-form/#/examples)
 
 ## [API](http://erikras.github.io/redux-form/#/api)
+
+## [Release Notes](https://github.com/erikras/redux-form/releases)
