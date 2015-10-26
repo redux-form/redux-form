@@ -5,7 +5,7 @@
 
 # Examples
 
-Below are a list of examples that demonstrate the capabilities of `redux-form` provided here for testing and learning
+Below are a list of examples that demonstrate the capabilities of `redux-form` for testing and learning
 purposes. To download and run these examples locally, you should clone the 
 [`gh-pages`](https://github.com/erikras/redux-form/tree/gh-pages) branch of the `redux-form` repository, run
 `npm install` and `npm run dev`. This will run a `webpack-dev-server` instance on 
@@ -37,7 +37,17 @@ purposes. To download and run these examples locally, you should clone the
 
 ---
   
-## [Alternate Mount Point](#/examples/alternate-mount-point) - ADVANCED
+## [Multirecord Forms](#/examples/multirecord)
+
+> How to reuse the same form multiple times on a page with different values.
+
+---
+  
+# Advanced Examples
+
+---
+
+## [Alternate Mount Point](#/examples/alternate-mount-point)
 
 > How to mount your `redux-form` reducer at a non-standard place in the Redux state.
 

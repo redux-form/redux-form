@@ -24,7 +24,7 @@ const SimpleForm = props => {
       <div className="form-group">
         <label className="col-xs-4 control-label">Email</label>
         <div className="col-xs-8">
-          <input type="text" className="form-control" placeholder="Email" {...email}/>
+          <input type="email" className="form-control" placeholder="Email" {...email}/>
         </div>
       </div>
       <div className="form-group">

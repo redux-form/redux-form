@@ -8,11 +8,10 @@ const AlternateMountPoint = () =>
   <Example
     name="Alternate Redux Mount Point"
     explanation={explanation}
+    component={AlternateMountPointForm}
     form="alternateMountPoint"
     fields={fields}
     files={{'AlternateMountPointForm.js': raw}}
-    reduxMountPoint="alternate">
-    <AlternateMountPointForm/>
-  </Example>;
+    reduxMountPoint="alternate"/>;
 
 export default AlternateMountPoint;

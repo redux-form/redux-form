@@ -1,101 +1,65 @@
 import React, {Component, PropTypes} from 'react';
-import generateBandName from '../util/generateBandName';
+import generateBands from '../util/generateBands';
 import BandForm from './BandForm';
-
-const generateBands = num => {
-  const result = [];
-  for (let index = 0; index < num; index++) {
-    result.push({
-      name: generateBandName(),
-      color: Math.floor(Math.random() * 0xffffff).toString(16).toUpperCase()
-    });
-  }
-  return result;
-};
+const options = [5, 10, 20, 50];
 
 class BandsForm extends Component {
   static propTypes = {
-    num: PropTypes.number.isRequired
+    onSubmit: PropTypes.func.isRequired
   }
 
   state = {
-    bands: [],
-    editing: []
+    bands: []
   }
 
   componentWillMount() {
-    this.updateData(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.updateData(nextProps);
+    this.updateBands(options[0]);
   }
 
   onSubmit(index) {
     return data => {
       const bands = this.state.bands.slice();
-      const editing = this.state.editing.slice();
       bands[index] = data;
-      editing[index] = false;
-      this.setState({bands, editing});
+      this.setState({bands});
+      this.props.onSubmit(data);
     };
   }
 
-  onEdit(index) {
-    return () => this.setEditing(index, true);
+  updateBands(num) {
+    const {bands} = this.state;
+    this.setState({
+      num,
+      bands: bands.length < num ? bands.concat(generateBands(num - bands.length)) : bands.slice(0, num)
+    });
   }
 
-  onCancel(index) {
-    return () => this.setEditing(index, false);
-  }
-
-  setEditing(index, value) {
-    const editing = this.state.editing.slice();
-    editing[index] = value;
-    this.setState({editing});
-  }
-
-  updateData({num}) {
-    const {bands, editing} = this.state;
-    if (bands.length < num) {
-      this.setState({bands: bands.concat(generateBands(num - bands.length))});
-    } else if (bands.length > num) {
-      this.setState({
-        bands: bands.slice(0, num),
-        editing: editing.slice(0, num)
-      });
-    }
+  handleChange(event) {
+    this.updateBands(event.target.value);
   }
 
   render() {
-    const {bands, editing} = this.state;
+    const {num, bands} = this.state;
     return (
       <div>
-        <div className="row">
-          <div className="col-xs-5" style={{fontWeight: 'bold'}}>Band Name</div>
-          <div className="col-xs-5" style={{fontWeight: 'bold'}}>Favorite Color</div>
+        <div style={{width: 200, margin: '10px auto'}} className="form-inline">
+          <div className="form-group">
+            <label htmlFor="numRecords">Number of records</label>
+            <select className="form-control" style={{marginLeft: 15, width: 50}} value={num} id="numRecords" onChange={::this.handleChange}>
+              {options.map(option => <option key={option} value={option}>{option}</option>)}
+            </select>
+          </div>
+        </div>
+        <div style={{display: 'flex'}}>
+          <div style={{flex: 1, fontWeight: 'bold', padding: '5px 13px'}}>Band Name</div>
+          <div style={{flex: 1, fontWeight: 'bold', padding: '5px 13px'}}>Favorite Color</div>
+          <div style={{width: 144}}></div>
         </div>
         {bands.map((band, index) =>
-          <div className="row" key={index} style={{margin: 10}}>
-            {editing[index] && <BandForm
-              formKey={index}
-              initialValues={band}
-              onSubmit={this.onSubmit(index)}
-              onCancel={this.onCancel(index)}/>}
-            {!editing[index] && <div>
-              <div className="col-xs-5">{band.name}</div>
-              <div className="col-xs-5" style={{
-                border: '1px solid #666',
-                height: 34,
-                backgroundColor: '#' + band.color
-              }}></div>
-              <div className="col-xs-2">
-                <button className="btn btn-primary" onClick={this.onEdit(index)}>
-                  <i className="fa fa-pencil"/> {/* pencil icon */} Edit
-                </button>
-              </div>
-            </div>}
-          </div>
+          <BandForm
+            style={{marginTop: 10}} key={index} // required by React
+            formKey={index.toString()}          // formKey should be a string
+            initialValues={band}
+            onSubmit={this.onSubmit(index)}/>
         )}
       </div>
     );

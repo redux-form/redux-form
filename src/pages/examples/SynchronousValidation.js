@@ -8,10 +8,9 @@ const SynchronousValidation = () =>
   <Example
     name="Synchronous Validation"
     explanation={explanation}
+    component={SynchronousValidationForm}
     form="synchronousValidation"
     fields={fields}
-    files={{'SynchronousValidationForm.js': raw}}>
-    <SynchronousValidationForm/>
-  </Example>;
+    files={{'SynchronousValidationForm.js': raw}}/>;
 
 export default SynchronousValidation;

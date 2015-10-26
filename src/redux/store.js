@@ -13,7 +13,7 @@ const getCreateStore = () => {
 
 const reducer = combineReducers({
   alternate: form,  // for alternate mount point example
-  form,
+  form: form.normalize({}),
   submission
 });
 const store = getCreateStore()(reducer);

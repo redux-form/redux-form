@@ -25,7 +25,7 @@ props to your component at runtime.**
 
 #### `fields : Array<String>` [required]
 
-> a list of all your fields in your form.
+> a list of all your fields in your form. You may change these dynamically at runtime.
 
 #### `form : String` [required]
 

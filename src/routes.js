@@ -10,6 +10,7 @@ import AsynchronousBlurValidation from 'pages/examples/AsynchronousBlurValidatio
 import AlternateMountPoint from 'pages/examples/AlternateMountPoint';
 import Multirecord from 'pages/examples/Multirecord';
 import Examples from 'pages/examples/Examples.md';
+import GettingStarted from 'pages/GettingStarted.md';
 import Api from 'pages/api/Api.md';
 import ApiReduxForm from 'pages/api/ReduxForm.md';
 import ApiReducer from 'pages/api/Reducer.md';
@@ -29,6 +30,7 @@ const routes = (
       <Route path="/api/reducer" component={markdownPage(ApiReducer)}/>
       <Route path="/api/reducer/normalize" component={markdownPage(ApiReducerNormalize)}/>
       <Route path="/api/reducer/plugin" component={markdownPage(ApiReducerPlugin)}/>
+      <Route path="/getting-started" component={markdownPage(GettingStarted)}/>
       <Route path="/examples" component={markdownPage(Examples)}/>
       <Route path="/examples/asynchronous-blur-validation" component={AsynchronousBlurValidation}/>
       <Route path="/examples/alternate-mount-point" component={AlternateMountPoint}/>

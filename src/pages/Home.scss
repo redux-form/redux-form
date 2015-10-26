@@ -31,4 +31,7 @@
       font-size: 1.5em;
     }
   }
+  :global(.markdown img.logo) {
+    display: none; // hide logo in readme
+  }
 }
