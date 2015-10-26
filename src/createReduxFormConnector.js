@@ -46,7 +46,7 @@ const createReduxFormConnector =
         render() {
           const {ReduxForm} = this.cache;
           // remove some redux-form config-only props
-          const {reduxMountPoint, form, touchOnBlur, touchOnChange, ...passableProps} = this.props;
+          const {reduxMountPoint, destroyOnUnmount, form, touchOnBlur, touchOnChange, ...passableProps} = this.props;
           return <ReduxForm {...passableProps}/>;
         }
       };

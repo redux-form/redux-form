@@ -6,6 +6,7 @@ import hoistStatics from 'hoist-non-react-statics';
  */
 const createReduxForm =
   (isReactNative, React) => {
+    const {Component} = React;
     const reduxFormConnector = createReduxFormConnector(isReactNative, React);
     return (config, mapDispatchToProps) =>
       WrappedComponent => {
@@ -16,9 +17,13 @@ const createReduxForm =
           destroyOnUnmount: true,
           ...config
         };
-        const ConnectedForm = props => (<ReduxFormConnector
-          {...configWithDefaults}
-          {...props}/>);
+        class ConnectedForm extends Component {
+          render() {
+            return (<ReduxFormConnector
+              {...configWithDefaults}
+              {...this.props}/>);
+          }
+        }
         return hoistStatics(ConnectedForm, WrappedComponent);
       };
   };
