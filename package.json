@@ -28,6 +28,7 @@
     "decorator"
   ],
   "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "contributors": ["Akshaya Kumar Sharma <akshayakrsh@gmail.com> (http://www.lordakshaya.com)"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/erikras/redux-form/issues"
