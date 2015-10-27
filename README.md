@@ -20,6 +20,10 @@ with `v2.x.x` for now.**
 
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
+## Installation
+
+```npm install --save redux-form@3.0.0-beta-2```
+
 ## [Getting Started](http://erikras.github.io/redux-form/#/getting-started)
 
 ## [Examples](http://erikras.github.io/redux-form/#/examples)
