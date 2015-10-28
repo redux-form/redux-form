@@ -949,4 +949,44 @@ describe('readFields', () => {
     expect(result._meta.errors).toEqual({});
     expect(result._meta.formError).toEqual('formSyncError');
   });
+
+  it('should not modify existing field object on change', () => {
+    const result1 =
+      readFields({
+        asyncBlurFields: [],
+        blur,
+        change,
+        fields: ['foo', 'bar'],
+        focus,
+        form: {
+          foo: {
+            value: 'fooValue'
+          },
+          bar: {
+            value: 'barValue'
+          }
+        },
+        validate: noValidation
+      }, {});
+    expect(result1.foo.value).toBe('fooValue');
+    const result2 =
+      readFields({
+        asyncBlurFields: [],
+        blur,
+        change,
+        fields: ['foo', 'bar'],
+        focus,
+        form: {
+          foo: {
+            value: 'newValue'
+          },
+          bar: {
+            value: 'barValue'
+          }
+        },
+        validate: noValidation
+      }, result1);
+    expect(result1.foo.value).toBe('fooValue');
+    expect(result2.foo.value).toBe('newValue');
+  });
 });

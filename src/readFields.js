@@ -22,6 +22,7 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
   return {
     ...fields.reduce((accumulator, name) => {
       const field = myFields[name] || {};
+      const diff = {};
 
       // create field if it does not exist
       if (field.name !== name) {
@@ -46,37 +47,57 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
       // update field value
       const formField = form[name] || {};
       if (field.value !== formField.value) {
-        field.value = formField.value;
+        diff.value = formField.value;
       }
 
       // update dirty/pristine
       const pristine = isPristine(formField.value, formField.initial);
-      field.dirty = !pristine;
-      field.pristine = pristine;
+      if (field.pristine !== pristine) {
+        diff.dirty = !pristine;
+        diff.pristine = pristine;
+      }
 
       // update field error
       const error = syncErrors[name] || formField.submitError || formField.asyncError;
+      if (error !== field.error) {
+        diff.error = error;
+      }
       const valid = isValid(error);
-      field.invalid = !valid;
-      field.error = error;
-      field.valid = valid;
+      if (field.valid !== valid) {
+        diff.invalid = !valid;
+        diff.valid = valid;
+      }
       if (error) {
         errors[name] = error;
       }
 
-      field.active = form._active === name;
-      field.touched = !!formField.touched;
-      field.visited = !!formField.visited;
+      const active = form._active === name;
+      if (active !== field.active) {
+        diff.active = active;
+      }
+      const touched = !!formField.touched;
+      if (touched !== field.touched) {
+        diff.touched = touched;
+      }
+      const visited = !!formField.visited;
+      if (visited !== field.visited) {
+        diff.visited = visited;
+      }
 
-      if (field.invalid) {
+      const result = Object.keys(diff).length ? {
+        ...field,
+        ...diff
+      } : field;
+
+      if (result.invalid) {
         allValid = false;
       }
-      if (field.dirty) {
+      if (result.dirty) {
         allPristine = false;
       }
       return {
         ...accumulator,
-        [name]: field
+        [name]: result
       };
     }, {}),
     _meta: {
