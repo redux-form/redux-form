@@ -3,12 +3,16 @@ import getValue from '../getValue';
 
 describe('getValue', () => {
   it('should return value if non-event value is passed', () => {
-    expect(getValue(5), true).toBe(5);
-    expect(getValue(5), false).toBe(5);
-    expect(getValue(true), true).toBe(true);
-    expect(getValue(true), false).toBe(true);
-    expect(getValue(false), true).toBe(false);
-    expect(getValue(false), false).toBe(false);
+    expect(getValue(undefined, true)).toBe(undefined);
+    expect(getValue(undefined, false)).toBe(undefined);
+    expect(getValue(null, true)).toBe(null);
+    expect(getValue(null, false)).toBe(null);
+    expect(getValue(5, true)).toBe(5);
+    expect(getValue(5, false)).toBe(5);
+    expect(getValue(true, true)).toBe(true);
+    expect(getValue(true, false)).toBe(true);
+    expect(getValue(false, true)).toBe(false);
+    expect(getValue(false, false)).toBe(false);
   });
 
   it('should unwrap value if non-event object containing value key is passed', () => {
