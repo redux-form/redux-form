@@ -15,14 +15,14 @@
 
 ## This documentation is for v3.0.0! [Click here for `v2.x.x` documentation](https://github.com/erikras/redux-form/tree/v2.4.5).
 
-**Dynamic forms are not yet fully supported by `v3.0.0-beta-2`. If you need that functionality, stick 
+**Dynamic forms are not yet fully supported by `v3.0.0-beta-4`. If you need that functionality, stick 
 with `v2.x.x` for now.**
 
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
 ## Installation
 
-```npm install --save redux-form@3.0.0-beta-2```
+```npm install --save redux-form@3.0.0-beta-4```
 
 ## [Getting Started](http://erikras.github.io/redux-form/#/getting-started)
 
