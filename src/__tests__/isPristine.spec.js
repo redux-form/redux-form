@@ -51,6 +51,12 @@ describe('isPristine', () => {
     tryBothWays({foo: null}, {foo: undefined}, true);
   });
 
+  it('should return false when comparing false to other falsy values', () => {
+    tryBothWays(false, null, false);
+    tryBothWays(false, undefined, false);
+    tryBothWays(false, '', false);
+  });
+
   it('should return false when number of keys is different', () => {
     tryBothWays({foo: 'bar'}, {}, false);
     tryBothWays([1], [1, 2], false);

@@ -315,11 +315,11 @@ describe('readFields', () => {
   });
 
   it('should set checked for checkbox', () => {
-    const props = {
+    const result = readFields({
       asyncBlurFields: [],
       blur,
       change,
-      fields: ['foo', 'bar'],
+      fields: ['foo', 'bar', 'another', 'stringField'],
       focus,
       form: {
         foo: {
@@ -327,34 +327,28 @@ describe('readFields', () => {
         },
         bar: {
           value: true
-        }
-      },
-      validate: noValidation
-    };
-    const previous = readFields(props, {});
-    const result = readFields({
-      ...props,
-      form: {
-        foo: {
-          value: true
         },
-        bar: {
-          value: true
+        another: {
+          value: undefined
+        },
+        stringField: {
+          value: 'baz'
         }
       },
       validate: noValidation
-    }, previous);
+    }, {});
+    console.info(result.foo);
     expectField({
       field: result.foo,
       name: 'foo',
-      value: true,
+      value: false,
       dirty: true,
       touched: false,
       visited: false,
       error: undefined,
       initialValue: undefined,
       readonly: false,
-      checked: true
+      checked: false
     });
     expectField({
       field: result.bar,
@@ -368,10 +362,30 @@ describe('readFields', () => {
       readonly: false,
       checked: true
     });
-    expect(result._meta.allPristine).toBe(false);
-    expect(result._meta.allValid).toBe(true);
-    expect(result._meta.values).toEqual({foo: true, bar: true});
-    expect(result._meta.errors).toEqual({});
+    expectField({
+      field: result.another,
+      name: 'another',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false,
+      checked: undefined
+    });
+    expectField({
+      field: result.stringField,
+      name: 'stringField',
+      value: 'baz',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false,
+      checked: undefined
+    });
   });
 
   it('should initialize new fields', () => {

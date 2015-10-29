@@ -2,7 +2,9 @@ export default function isPristine(initial, data) {
   if (initial === data) {
     return true;
   }
-  if (initial && typeof initial === 'object') {
+  if (typeof initial === 'boolean' || typeof data === 'boolean') {
+    return initial === data;
+  } else if (initial && typeof initial === 'object') {
     if (!data || typeof data !== 'object') {
       return false;
     }
