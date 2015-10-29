@@ -48,6 +48,7 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
       const formField = form[name] || {};
       if (field.value !== formField.value) {
         diff.value = formField.value;
+        diff.checked = typeof formField.value === 'boolean' ? formField.value : undefined;
       }
 
       // update dirty/pristine
