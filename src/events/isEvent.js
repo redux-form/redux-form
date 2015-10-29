@@ -1,3 +1,3 @@
-const isEvent = candidate => !!(candidate && candidate.target && candidate.stopPropagation && candidate.preventDefault);
+const isEvent = candidate => !!(candidate && candidate.stopPropagation && candidate.preventDefault);
 
 export default isEvent;

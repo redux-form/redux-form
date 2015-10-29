@@ -17,30 +17,20 @@ describe('isEvent', () => {
     expect(isEvent('not an event')).toBe(false);
   });
 
-  it('should return false if event has no target', () => {
-    expect(isEvent({
-      stopPropagation: () => null,
-      preventDefault: () => null
-    })).toBe(false);
-  });
-
   it('should return false if event has no stopPropagation', () => {
     expect(isEvent({
-      target: 'foo',
       preventDefault: () => null
     })).toBe(false);
   });
 
   it('should return false if event has no preventDefault', () => {
     expect(isEvent({
-      target: 'foo',
       stopPropagation: () => null
     })).toBe(false);
   });
 
-  it('should return true if event has target, stopPropagation, and preventDefault', () => {
+  it('should return true if event has stopPropagation, and preventDefault', () => {
     expect(isEvent({
-      target: 'foo',
       stopPropagation: () => null,
       preventDefault: () => null
     })).toBe(true);

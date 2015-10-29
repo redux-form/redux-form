@@ -35,7 +35,6 @@ describe('silenceEvents', () => {
     const spy = createSpy();
     const silenced = silenceEvents(spy);
     const event = {
-      target: 'foo',
       preventDefault: () => null,
       stopPropagation: () => null
     };
@@ -64,7 +63,6 @@ describe('silenceEvents', () => {
     const preventDefault = createSpy();
     const stopPropagation = createSpy();
     const event = {
-      target: 'foo',
       preventDefault,
       stopPropagation
     };

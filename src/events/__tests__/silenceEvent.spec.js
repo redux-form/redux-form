@@ -14,7 +14,6 @@ describe('silenceEvent', () => {
 
   it('should return true if an event', () => {
     expect(silenceEvent({
-      target: 'foo',
       preventDefault: () => null,
       stopPropagation: () => null
     })).toBe(true);
@@ -25,7 +24,6 @@ describe('silenceEvent', () => {
     const stopPropagation = createSpy();
 
     silenceEvent({
-      target: 'foo',
       preventDefault,
       stopPropagation
     });

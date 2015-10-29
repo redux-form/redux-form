@@ -33,7 +33,6 @@ describe('getValue', () => {
     expect(getValue({
       preventDefault: () => null,
       stopPropagation: () => null,
-      target: 'target',
       nativeEvent: {
         text: 'foo'
       }
@@ -44,7 +43,6 @@ describe('getValue', () => {
     expect(getValue({
       preventDefault: () => null,
       stopPropagation: () => null,
-      target: 'target',
       nativeEvent: {
         text: 'foo'
       }
@@ -52,7 +50,6 @@ describe('getValue', () => {
     expect(getValue({
       preventDefault: () => null,
       stopPropagation: () => null,
-      target: 'target',
       nativeEvent: {
         text: undefined
       }
@@ -60,7 +57,6 @@ describe('getValue', () => {
     expect(getValue({
       preventDefault: () => null,
       stopPropagation: () => null,
-      target: 'target',
       nativeEvent: {
         text: null
       }
