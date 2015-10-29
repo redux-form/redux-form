@@ -337,7 +337,6 @@ describe('readFields', () => {
       },
       validate: noValidation
     }, {});
-    console.info(result.foo);
     expectField({
       field: result.foo,
       name: 'foo',

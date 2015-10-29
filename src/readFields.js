@@ -53,7 +53,6 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
 
       // update dirty/pristine
       const pristine = isPristine(formField.value, formField.initial);
-      console.info('pristine', formField.value, formField.initial, pristine);
       if (field.pristine !== pristine) {
         diff.dirty = !pristine;
         diff.pristine = pristine;
