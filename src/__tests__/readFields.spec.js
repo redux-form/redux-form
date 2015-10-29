@@ -13,7 +13,7 @@ describe('readFields', () => {
   const focus = createRestorableSpy();
   const noValidation = () => ({});
 
-  const expectField = ({field, name, value, dirty, touched, visited, error, initialValue, readonly}) => {
+  const expectField = ({field, name, value, dirty, touched, visited, error, initialValue, readonly, checked}) => {
     expect(field)
       .toExist()
       .toBeA('object');
@@ -66,6 +66,7 @@ describe('readFields', () => {
     expect(field.pristine).toBe(!dirty);
     expect(field.touched).toBe(touched);
     expect(field.visited).toBe(visited);
+    expect(field.checked).toBe(checked);
 
     blur.restore();
     change.restore();
@@ -310,6 +311,66 @@ describe('readFields', () => {
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValueNew', bar: 'barValue'});
+    expect(result._meta.errors).toEqual({});
+  });
+
+  it('should set checked for checkbox', () => {
+    const props = {
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo', 'bar'],
+      focus,
+      form: {
+        foo: {
+          value: false
+        },
+        bar: {
+          value: true
+        }
+      },
+      validate: noValidation
+    };
+    const previous = readFields(props, {});
+    const result = readFields({
+      ...props,
+      form: {
+        foo: {
+          value: true
+        },
+        bar: {
+          value: true
+        }
+      },
+      validate: noValidation
+    }, previous);
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: true,
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false,
+      checked: true
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: true,
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false,
+      checked: true
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(true);
+    expect(result._meta.values).toEqual({foo: true, bar: true});
     expect(result._meta.errors).toEqual({});
   });
 
