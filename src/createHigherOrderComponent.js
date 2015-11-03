@@ -68,7 +68,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       componentWillMount() {
         const {initialize, initialValues} = this.props;
         if (initialValues) {
-          initialize(initialValues);
+          initialize(typeof initialValues === 'function' ? initialValues(this.props) : initialValues);
         }
       }
 
