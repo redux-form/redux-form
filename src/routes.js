@@ -10,6 +10,7 @@ import AsynchronousBlurValidation from 'pages/examples/AsynchronousBlurValidatio
 import AlternateMountPoint from 'pages/examples/AlternateMountPoint';
 import Multirecord from 'pages/examples/Multirecord';
 import Normalizing from 'pages/examples/Normalizing';
+import Dynamic from 'pages/examples/Dynamic';
 import InitializingFromState from 'pages/examples/InitializingFromState';
 import Examples from 'pages/examples/Examples.md';
 import GettingStarted from 'pages/GettingStarted.md';
@@ -36,9 +37,10 @@ const routes = (
       <Route path="/examples" component={markdownPage(Examples)}/>
       <Route path="/examples/asynchronous-blur-validation" component={AsynchronousBlurValidation}/>
       <Route path="/examples/alternate-mount-point" component={AlternateMountPoint}/>
+      <Route path="/examples/initializing-from-state" component={InitializingFromState}/>
+      <Route path="/examples/dynamic" component={Dynamic}/>
       <Route path="/examples/multirecord" component={Multirecord}/>
       <Route path="/examples/normalizing" component={Normalizing}/>
-      <Route path="/examples/initializing-from-state" component={InitializingFromState}/>
       <Route path="/examples/simple" component={Simple}/>
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>

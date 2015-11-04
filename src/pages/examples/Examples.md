@@ -45,6 +45,12 @@ To download and run these examples locally, you should clone the
 
 ---
   
+## [Dynamic Forms](#/examples/dynamic)
+
+> How to define your form's fields at runtime.
+
+---
+  
 ## [Multirecord Forms](#/examples/multirecord)
 
 > How to reuse the same form multiple times on a page with different values.
