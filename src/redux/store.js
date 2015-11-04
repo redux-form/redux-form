@@ -1,5 +1,6 @@
 import {createStore, combineReducers, compose } from 'redux';
 import {reducer as form} from 'redux-form';
+import account from './modules/account';
 import submission from './modules/submission';
 import normalizePhone from './normalizers/normalizePhone';
 import normalizeMax from './normalizers/normalizeMax';
@@ -24,6 +25,7 @@ const reducer = combineReducers({
       max: normalizeMax
     }
   }),
+  account,
   submission
 });
 const store = getCreateStore()(reducer);

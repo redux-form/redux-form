@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
-import prettify from '../util/prettify';
+import Markdown from './Markdown';
 
 const markdownPage = markdown =>
   class MarkdownPage extends Component {
-    componentDidMount() {
-      PR.prettyPrint();
-    }
-
     render() {
-      return <div className="container markdown" dangerouslySetInnerHTML={{__html: prettify(markdown)}}/>;
+      return <div className="container"><Markdown value={markdown}/></div>;
     }
   };
 

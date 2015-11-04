@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Breadcrumb, BreadcrumbItem} from 'react-bootstrap';
-import markdownPage from './markdownPage';
+import Markdown from './Markdown';
 import FormValues from './FormValues';
 import Code from './Code';
 import DevToolsReminder from './DevToolsReminder';
@@ -30,7 +30,6 @@ export default class Example extends Component {
   render() {
     const {explanation, fields, form, name, files, reduxMountPoint, submit} = this.props;
     const Form = this.props.component;
-    const Explanation = markdownPage(explanation);
     return (<div className="container">
       <DevToolsReminder/>
 
@@ -42,7 +41,7 @@ export default class Example extends Component {
 
       <h1>{name}</h1>
 
-      <Explanation/>
+      <Markdown value={explanation}/>
 
       <h2>Form</h2>
 

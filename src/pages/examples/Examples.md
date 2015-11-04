@@ -39,6 +39,12 @@ To download and run these examples locally, you should clone the
 
 ---
   
+## [Initializing From State](#/examples/initializing-from-state)
+
+> How to initialize your form data from any slice of the Redux state.
+
+---
+  
 ## [Multirecord Forms](#/examples/multirecord)
 
 > How to reuse the same form multiple times on a page with different values.
