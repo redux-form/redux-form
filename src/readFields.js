@@ -19,95 +19,106 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
   const formError = syncErrors._error || form._error;
   let allValid = !formError;
   let allPristine = true;
-  return {
-    ...fields.reduce((accumulator, name) => {
-      const field = myFields[name] || {};
-      const diff = {};
+  const fieldObjects = fields.reduce((accumulator, name) => {
+    const field = myFields[name] || {};
+    const diff = {};
 
-      // create field if it does not exist
-      if (field.name !== name) {
-        const onChange = createOnChange(name, change, isReactNative);
-        const initialValue = initialValues && initialValues[name];
-        field.name = name;
-        field.defaultChecked = initialValue;
-        field.defaultValue = initialValue;
-        if (!readonly) {
-          field.onBlur = createOnBlur(name, blur, isReactNative,
-            ~asyncBlurFields.indexOf(name) && ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
-          field.onChange = onChange;
-          field.onDragStart = createOnDragStart(name, () => field.value);
-          field.onDrop = createOnDrop(name, change);
-          field.onFocus = createOnFocus(name, focus);
-          field.onUpdate = onChange; // alias to support belle. https://github.com/nikgraf/belle/issues/58
-        }
-        field.valid = true;
-        field.invalid = false;
+    // create field if it does not exist
+    if (field.name !== name) {
+      const onChange = createOnChange(name, change, isReactNative);
+      const initialValue = initialValues && initialValues[name];
+      field.name = name;
+      field.defaultChecked = initialValue === true;
+      field.defaultValue = initialValue;
+      if (!readonly) {
+        field.onBlur = createOnBlur(name, blur, isReactNative,
+          ~asyncBlurFields.indexOf(name) && ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
+        field.onChange = onChange;
+        field.onDragStart = createOnDragStart(name, () => field.value);
+        field.onDrop = createOnDrop(name, change);
+        field.onFocus = createOnFocus(name, focus);
+        field.onUpdate = onChange; // alias to support belle. https://github.com/nikgraf/belle/issues/58
       }
+      field.valid = true;
+      field.invalid = false;
+    }
 
-      // update field value
-      const formField = form[name] || {};
-      if (field.value !== formField.value) {
-        diff.value = formField.value;
-        diff.checked = typeof formField.value === 'boolean' ? formField.value : undefined;
-      }
+    // update field value
+    const formField = form[name] || {};
+    if (field.value !== formField.value) {
+      diff.value = formField.value;
+      diff.checked = typeof formField.value === 'boolean' ? formField.value : undefined;
+    }
 
-      // update dirty/pristine
-      const pristine = isPristine(formField.value, formField.initial);
-      if (field.pristine !== pristine) {
-        diff.dirty = !pristine;
-        diff.pristine = pristine;
+    // update field key
+    if (form._initializedAt) {
+      // https://github.com/facebook/react/issues/2533
+      // https://stackoverflow.com/questions/26358144/how-to-reset-a-reactjs-element
+      const key = name + form._initializedAt;
+      if (field.key !== key) {
+        diff.key = key;
       }
+    }
 
-      // update field error
-      const error = syncErrors[name] || formField.submitError || formField.asyncError;
-      if (error !== field.error) {
-        diff.error = error;
-      }
-      const valid = isValid(error);
-      if (field.valid !== valid) {
-        diff.invalid = !valid;
-        diff.valid = valid;
-      }
-      if (error) {
-        errors[name] = error;
-      }
+    // update dirty/pristine
+    const pristine = isPristine(formField.value, formField.initial);
+    if (field.pristine !== pristine) {
+      diff.dirty = !pristine;
+      diff.pristine = pristine;
+    }
 
-      const active = form._active === name;
-      if (active !== field.active) {
-        diff.active = active;
-      }
-      const touched = !!formField.touched;
-      if (touched !== field.touched) {
-        diff.touched = touched;
-      }
-      const visited = !!formField.visited;
-      if (visited !== field.visited) {
-        diff.visited = visited;
-      }
+    // update field error
+    const error = syncErrors[name] || formField.submitError || formField.asyncError;
+    if (error !== field.error) {
+      diff.error = error;
+    }
+    const valid = isValid(error);
+    if (field.valid !== valid) {
+      diff.invalid = !valid;
+      diff.valid = valid;
+    }
+    if (error) {
+      errors[name] = error;
+    }
 
-      const result = Object.keys(diff).length ? {
-        ...field,
-        ...diff
-      } : field;
+    const active = form._active === name;
+    if (active !== field.active) {
+      diff.active = active;
+    }
+    const touched = !!formField.touched;
+    if (touched !== field.touched) {
+      diff.touched = touched;
+    }
+    const visited = !!formField.visited;
+    if (visited !== field.visited) {
+      diff.visited = visited;
+    }
 
-      if (result.invalid) {
-        allValid = false;
-      }
-      if (result.dirty) {
-        allPristine = false;
-      }
-      return {
-        ...accumulator,
-        [name]: result
-      };
-    }, {}),
-    _meta: {
+    const result = Object.keys(diff).length ? {
+      ...field,
+      ...diff
+    } : field;
+
+    if (result.invalid) {
+      allValid = false;
+    }
+    if (result.dirty) {
+      allPristine = false;
+    }
+    return {
+      ...accumulator,
+      [name]: result
+    };
+  }, {});
+  Object.defineProperty(fieldObjects, '_meta', {
+    value: {
       allPristine,
       allValid,
       values,
       errors,
       formError
     }
-  };
+  });
+  return fieldObjects;
 };
 export default readFields;

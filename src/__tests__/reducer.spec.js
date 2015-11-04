@@ -289,8 +289,9 @@ describe('reducer', () => {
   });
 
   it('should set initialize values on initialize on empty state', () => {
+    const timestamp = Date.now();
     const state = reducer({}, {
-      ...initialize({myField: 'initialValue'}),
+      ...initialize({myField: 'initialValue'}, timestamp),
       form: 'foo'
     });
     expect(state.foo)
@@ -302,11 +303,13 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initializedAt: timestamp,
         _submitting: false
       });
   });
 
   it('should set initialize values on initialize on with previous state', () => {
+    const timestamp = Date.now();
     const state = reducer({
       foo: {
         myField: {
@@ -319,7 +322,7 @@ describe('reducer', () => {
         _submitting: false
       }
     }, {
-      ...initialize({myField: 'initialValue'}),
+      ...initialize({myField: 'initialValue'}, timestamp),
       form: 'foo',
       touch: true
     });
@@ -332,6 +335,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initializedAt: timestamp,
         _submitting: false
       });
   });
