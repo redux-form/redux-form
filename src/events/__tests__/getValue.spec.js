@@ -141,7 +141,30 @@ describe('getValue', () => {
       }
     }, false)).toBe(myFiles);
   });
-
+  it('should return selected options if is a multiselect', () => {
+    const options = [
+      {selected: true, value: 'foo'},
+      {selected: true, value: 'bar'},
+      {selected: false, value: 'baz'},
+    ];
+    const expected = options.filter(o => o.selected).map(o => o.value);
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'select-multiple',
+        options
+      },
+    }, true)).toEqual(expected);
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'select-multiple',
+        options
+      },
+    }, true)).toEqual(expected);
+  });
   it('should return event.target.value if not file or checkbox', () => {
     expect(getValue({
       preventDefault: () => null,
