@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
-export const fields = ['name', 'phone', 'email', 'min', 'max'];
+export const fields = ['upper', 'phone', 'min', 'max'];
 const renderOptions = () =>
   [0, 1, 2, 3, 4, 5, 6, 7, 8, 10]
     .map(option => <option key={option} value={option}>{option}</option>);
@@ -14,15 +14,15 @@ class NormalizingForm extends Component {
 
   render() {
     const {
-      fields: {name, phone, email, min, max},
+      fields: {upper, phone, min, max},
       handleSubmit,
       resetForm
       } = this.props;
     return (<form className="form-horizontal" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label className="col-xs-4 control-label">Name</label>
+          <label className="col-xs-4 control-label">Uppercase</label>
           <div className="col-xs-8">
-            <input type="text" className="form-control" placeholder="Name" {...name}/>
+            <input type="text" className="form-control" placeholder="UPPERCASE" {...upper}/>
           </div>
         </div>
         <div className="form-group">
@@ -32,21 +32,21 @@ class NormalizingForm extends Component {
           </div>
         </div>
         <div className="form-group">
-          <label className="col-xs-4 control-label">Email</label>
+          <label className="col-xs-4 control-label">Minimum Widgets</label>
           <div className="col-xs-8">
-            <input type="email" className="form-control" placeholder="Email" {...email}/>
+            <select className="form-control" style={{width: 60}} {...min}>
+              <option/> // empty option for when value is undefined
+              {renderOptions()}
+            </select>
           </div>
         </div>
         <div className="form-group">
-          <label className="col-xs-4 control-label">Minimum Emails</label>
+          <label className="col-xs-4 control-label">Maximum Widgets</label>
           <div className="col-xs-8">
-            <select className="form-control" style={{width: 60}} {...min}>{renderOptions()}</select>
-          </div>
-        </div>
-        <div className="form-group">
-          <label className="col-xs-4 control-label">Maximum Emails</label>
-          <div className="col-xs-8">
-            <select className="form-control" style={{width: 60}} {...max}>{renderOptions()}</select>
+            <select className="form-control" style={{width: 60}} {...max}>
+              <option/> // empty option for when value is undefined
+              {renderOptions()}
+            </select>
           </div>
         </div>
         <div className="text-center">

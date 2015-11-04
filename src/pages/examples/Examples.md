@@ -45,6 +45,12 @@ To download and run these examples locally, you should clone the
 
 ---
   
+## [Normalizing Form Values](#/examples/normalizing)
+
+> How to use a normalizing function to control form values in realtime as they are being entered.
+
+---
+  
 # Advanced Examples
 
 ---

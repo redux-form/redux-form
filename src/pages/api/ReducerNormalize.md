@@ -25,6 +25,10 @@ normalizer function is given three parameters and expected to return the normali
 
 > All the values of the current form.
 
+#### `previousAllValues : Object<String, String>`
+
+> All the values of the form before the current change. Useful to change one field based on a change in another.
+
 ## Explanation
 
 Let's say that you have a form field that only accepts uppercase letters and another one where you want the value to 
@@ -33,34 +37,5 @@ data on every action to the reducer by calling the `normalize()` function on the
 
 ## Example
 
-```javascript
-import {createStore, combineReducers} from 'redux';
-import {reducer as formReducer} from 'redux-form';
+See [Normalizing Form Values](#/examples/normalizing) example for more information.
 
-const reducers = {
-  // ... your other reducers here ...
-  form: formReducer.normalize({
-    contact: {                                           // <--- the form name
-      licensePlate: (value, previousValue, allValues) => // <--- field normalizer
-        value && value.toUpperCase(),
-      phone: (value, previousValue, allValues) => {      // <--- field normalizer
-        if (value) {
-          const match = value.match(/(\d{3})-?(\d{3})-?(\d{4})/);
-          if (match) {
-            return `${match[1]}-${match[2]}-${match[3]}`;
-          }
-        }
-        return value;
-      },
-      min: (value, previousValue, allValues) =>         // <--- field normalizer
-        // keep min <= max
-        value > allValues.max ? allValues.max : value,
-      max: (value, previousValue, allValues) =>         // <--- field normalizer
-        // keep max >= max
-        value < allValues.min ? allValues.min : value
-    }
-  })
-}
-const reducer = combineReducers(reducers);
-const store = createStore(reducer);
-```

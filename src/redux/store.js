@@ -2,6 +2,8 @@ import {createStore, combineReducers, compose } from 'redux';
 import {reducer as form} from 'redux-form';
 import submission from './modules/submission';
 import normalizePhone from './normalizers/normalizePhone';
+import normalizeMax from './normalizers/normalizeMax';
+import normalizeMin from './normalizers/normalizeMin';
 
 const getCreateStore = () => {
   const {persistState} = require('redux-devtools');
@@ -16,7 +18,10 @@ const reducer = combineReducers({
   alternate: form,  // for alternate mount point example
   form: form.normalize({
     normalizing: {
-      phone: normalizePhone
+      upper: value => value && value.toUpperCase(),
+      phone: normalizePhone,
+      min: normalizeMin,
+      max: normalizeMax
     }
   }),
   submission
