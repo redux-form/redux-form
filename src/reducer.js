@@ -189,6 +189,7 @@ function decorate(target) {
       return {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
+          const previousValues = getValues({...initialState, ...state[form]});
           const formResult = {
             ...initialState,
             ...result[form]
@@ -198,9 +199,10 @@ function decorate(target) {
             ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
               ...formResult[field],
               value: fieldNormalizer(
-                formResult[field] ? formResult[field].value : undefined,                // value
-                state[form] && state[form][field] ? state[form][field].value : undefined,   // previous value
-                getValues(formResult))                                                    // all field values
+                formResult[field] ? formResult[field].value : undefined,                  // value
+                state[form] && state[form][field] ? state[form][field].value : undefined, // previous value
+                getValues(formResult),                                                    // all field values
+                previousValues)                                                           // all previous field values
             }))
           };
         })
