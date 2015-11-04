@@ -16,7 +16,12 @@ import silenceEvent from './events/silenceEvent';
 /**
  * Creates a HOC that knows how to create redux-connected sub-components.
  */
-const createHigherOrderComponent = (config, isReactNative, React, WrappedComponent) => {
+const createHigherOrderComponent = (config,
+                                    isReactNative,
+                                    React,
+                                    WrappedComponent,
+                                    mapStateToProps = () => ({}),
+                                    mapDispatchToProps = () => ({})) => {
   const {Component, PropTypes} = React;
   return (reduxMountPoint, formName, formKey) => {
     class ReduxForm extends Component {
@@ -28,7 +33,7 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
         dispatch: PropTypes.func.isRequired,
         fields: PropTypes.arrayOf(PropTypes.string).isRequired,
         form: PropTypes.object,
-        initialValues: PropTypes.object,
+        initialValues: PropTypes.any,
         onSubmit: PropTypes.func,
         validate: PropTypes.func,
         readonly: PropTypes.bool,
@@ -68,13 +73,16 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
       componentWillMount() {
         const {initialize, initialValues} = this.props;
         if (initialValues) {
-          initialize(typeof initialValues === 'function' ? initialValues(this.props) : initialValues);
+          initialize(initialValues);
         }
       }
 
       componentWillReceiveProps(nextProps) {
         if (!deepEqual(this.props.fields, nextProps.fields) || !deepEqual(this.props.form, nextProps.form)) {
           this.fields = readFields(nextProps, this.fields, this.asyncValidate, isReactNative);
+        }
+        if (!deepEqual(this.props.initialValues, nextProps.initialValues)) {
+          this.props.initialize(nextProps.initialValues);
         }
       }
 
@@ -177,12 +185,16 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
           return {
+            ...mapStateToProps(state),
             form: state[reduxMountPoint] &&
             state[reduxMountPoint][formName] &&
             state[reduxMountPoint][formName][formKey]
           };
         },
         dispatch => ({
+          ...(typeof mapDispatchToProps === 'function' ?
+            mapDispatchToProps(dispatch) :
+            bindActionCreators(mapDispatchToProps, dispatch)),
           ...bindActionCreators(bindActionData(unboundActions, {form: formName, key: formKey}), dispatch),
           dispatch
         })
@@ -192,9 +204,15 @@ const createHigherOrderComponent = (config, isReactNative, React, WrappedCompone
           if (!state[reduxMountPoint]) {
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
-          return {form: state[reduxMountPoint] && state[reduxMountPoint][formName]};
+          return {
+            ...mapStateToProps(state),
+            form: state[reduxMountPoint] && state[reduxMountPoint][formName]
+          };
         },
         dispatch => ({
+          ...(typeof mapDispatchToProps === 'function' ?
+            mapDispatchToProps(dispatch) :
+            bindActionCreators(mapDispatchToProps, dispatch)),
           ...bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),
           dispatch
         })

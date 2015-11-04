@@ -8,7 +8,7 @@ import createHigherOrderComponent from './createHigherOrderComponent';
  */
 const createReduxFormConnector =
   (isReactNative, React) =>
-    (WrappedComponent, mapDispatchToProps) => {
+    (WrappedComponent, mapStateToProps, mapDispatchToProps) => {
       const {Component, PropTypes} = React;
       return class ReduxFormConnector extends Component {
         static displayName = `ReduxFormConnector(${getDisplayName(WrappedComponent)})`;
@@ -31,10 +31,10 @@ const createReduxFormConnector =
                 // props that effect how redux-form connects to the redux store
                 'reduxMountPoint',
                 'form',
-                'formKey',
-                'initialValues'
+                'formKey'
               ],
-              fn: createHigherOrderComponent(props, isReactNative, React, WrappedComponent, mapDispatchToProps)
+              fn: createHigherOrderComponent(props, isReactNative, React, WrappedComponent,
+                mapStateToProps, mapDispatchToProps)
             }
           });
         }

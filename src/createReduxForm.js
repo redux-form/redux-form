@@ -8,9 +8,9 @@ const createReduxForm =
   (isReactNative, React) => {
     const {Component} = React;
     const reduxFormConnector = createReduxFormConnector(isReactNative, React);
-    return (config, mapDispatchToProps) =>
+    return (config, mapStateToProps, mapDispatchToProps) =>
       WrappedComponent => {
-        const ReduxFormConnector = reduxFormConnector(WrappedComponent, mapDispatchToProps);
+        const ReduxFormConnector = reduxFormConnector(WrappedComponent, mapStateToProps, mapDispatchToProps);
         const configWithDefaults = {
           touchOnBlur: true,
           touchOnChange: false,
