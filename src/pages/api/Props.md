@@ -149,6 +149,19 @@ called `_error`, and it will be given as the `error` prop.
 }}/>
 ```
 
+> With [the ability to `mapDispatchToProps` using `reduxForm()`](#/api/reduxForm), you could use Option #2 and 
+bind your submission action creator directly to `onSubmit` with `mapDispatchToProps`. For example:
+```javascript
+export default reduxForm({
+  form: signup,
+  fields: ['email', 'password']
+},
+undefined, // or mapping some state to props
+{
+  onSubmit: signup  // action creator to run submit form mapped to onSubmit
+})(SignupForm);
+```
+
 #### `initializeForm(data:Object) : Function`
 
 > Initializes the form data to the given values. All `dirty` and `pristine` state will be determined by
