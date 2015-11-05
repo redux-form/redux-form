@@ -13,6 +13,7 @@ import Normalizing from 'pages/examples/Normalizing';
 import Dynamic from 'pages/examples/Dynamic';
 import InitializingFromState from 'pages/examples/InitializingFromState';
 import Examples from 'pages/examples/Examples.md';
+import Faq from 'pages/Faq.md';
 import GettingStarted from 'pages/GettingStarted.md';
 import Api from 'pages/api/Api.md';
 import ApiReduxForm from 'pages/api/ReduxForm.md';
@@ -44,6 +45,7 @@ const routes = (
       <Route path="/examples/simple" component={Simple}/>
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>
+      <Route path="/faq" component={markdownPage(Faq)}/>
       <Route path="*" component={Home}/>
     </Route>
   </Router>

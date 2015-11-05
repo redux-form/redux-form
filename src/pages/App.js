@@ -19,6 +19,7 @@ export default class App extends Component {
           </IndexLinkContainer>
           <Nav pullRight>
             <LinkContainer to="/getting-started"><MenuItem>Getting Started</MenuItem></LinkContainer>
+            <LinkContainer to="/faq"><MenuItem>FAQ</MenuItem></LinkContainer>
             <NavDropdown title="API" id="examples-dropdown">
               <LinkContainer to="/api"><MenuItem>API</MenuItem></LinkContainer>
               <LinkContainer to="/api/reduxForm"><MenuItem><code>reduxForm()</code></MenuItem></LinkContainer>
