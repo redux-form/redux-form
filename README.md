@@ -13,10 +13,6 @@
 `redux-form` works with [React Redux](https://github.com/rackt/react-redux) to enable an html form in
 [React](https://github.com/facebook/react) to use [Redux](https://github.com/rackt/redux) to store all of its state.
 
-## This documentation is for v3.0.0! [Click here for `v2.x.x` documentation](https://github.com/erikras/redux-form/tree/v2.4.5).
-
-**Dynamic forms are not yet fully supported by `v3.0.0-beta-4`. If you need that functionality, stick 
-with `v2.x.x` for now.**
 
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
@@ -29,3 +25,4 @@ with `v2.x.x` for now.**
 * [Examples](http://erikras.github.io/redux-form/#/examples)
 * [API](http://erikras.github.io/redux-form/#/api)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
+* [`v2.x.x` documentation](https://github.com/erikras/redux-form/tree/v2.4.5)

@@ -14,9 +14,12 @@ const createReduxFormConnector =
         static displayName = `ReduxFormConnector(${getDisplayName(WrappedComponent)})`;
         static WrappedComponent = WrappedComponent;
         static propTypes = {
+          destroyOnUnmount: PropTypes.func,
           reduxMountPoint: PropTypes.string,
           form: PropTypes.string.isRequired,
-          formKey: PropTypes.string
+          formKey: PropTypes.string,
+          touchOnBlur: PropTypes.bool,
+          touchOnChange: PropTypes.bool
         }
 
         static defaultProps = {
