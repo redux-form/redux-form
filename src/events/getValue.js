@@ -1,5 +1,18 @@
 import isEvent from './isEvent';
 
+const getSelectedValues = options => {
+  const result = [];
+  if (options) {
+    for (let index = 0; index < options.length; index++) {
+      const option = options[index];
+      if (option.selected) {
+        result.push(option.value);
+      }
+    }
+  }
+  return result;
+};
+
 const getValue = (event, isReactNative) => {
   if (isEvent(event)) {
     if (!isReactNative && event.nativeEvent !== undefined && event.nativeEvent.text !== undefined) {
@@ -16,8 +29,7 @@ const getValue = (event, isReactNative) => {
       return files || dataTransfer && dataTransfer.files;
     }
     if (type === 'select-multiple') {
-      return (event.target.options || []).reduce((accumulator, option) =>
-        option.selected ? accumulator.concat(option.value) : accumulator, []);
+      return getSelectedValues(event.target.options);
     }
     return value;
   }
