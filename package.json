@@ -14,8 +14,8 @@
     "build:umd:min": "webpack src/index.js dist/redux-form.min.js --config webpack.config.production.js",
     "clean": "rimraf dist lib",
     "lint": "eslint src",
-    "prepublish": "npm run lint && npm run test && npm run clean && npm run build",
-    "test": "mocha --compilers js:babel/register --recursive src/**/__tests__/* --require src/__tests__/setup.js"
+    "prepublish": "npm run test && npm run clean && npm run build",
+    "test": "npm run lint && mocha --compilers js:babel/register --recursive src/**/__tests__/* --require src/__tests__/setup.js"
   },
   "keywords": [
     "react",

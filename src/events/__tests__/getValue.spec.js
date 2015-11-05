@@ -147,7 +147,7 @@ describe('getValue', () => {
       {selected: true, value: 'bar'},
       {selected: false, value: 'baz'},
     ];
-    const expected = options.filter(o => o.selected).map(o => o.value);
+    const expected = options.filter(option => option.selected).map(option => option.value);
     expect(getValue({
       preventDefault: () => null,
       stopPropagation: () => null,
@@ -163,7 +163,7 @@ describe('getValue', () => {
         type: 'select-multiple',
         options
       },
-    }, true)).toEqual(expected);
+    }, false)).toEqual(expected);
   });
   it('should return event.target.value if not file or checkbox', () => {
     expect(getValue({

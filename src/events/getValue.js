@@ -15,15 +15,9 @@ const getValue = (event, isReactNative) => {
     if (type === 'file') {
       return files || dataTransfer && dataTransfer.files;
     }
-    if(type === 'select-multiple') {
-      var options = event.target.options;
-      var values = [];
-      for (var i = 0, l = options.length; i < l; i++) {
-        if (options[i].selected) {
-          values.push(options[i].value);
-        }
-      }
-      return values;
+    if (type === 'select-multiple') {
+      return (event.target.options || []).reduce((accumulator, option) =>
+        option.selected ? accumulator.concat(option.value) : accumulator, []);
     }
     return value;
   }
