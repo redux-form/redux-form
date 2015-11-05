@@ -13,7 +13,7 @@ Possible causes:
 
 ## 2) What's the difference between `handleSubmit` and `onSubmit`?
 
-From what I can tell from every example I have seen, there is an unwritten (until now!) rule in the React community:
+From what I can tell from every example I have seen, there is an unwritten – until now! – rule in the React community:
 
 > **handleX is what you name the function that you pass to the onX prop.**
 
