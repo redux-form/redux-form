@@ -17,7 +17,7 @@
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
 ## Installation
-  ```npm install --save redux-form@3.0.0-beta-4```
+  ```npm install --save redux-form@3.0.0```
 
 ## Documentation
 
