@@ -13,7 +13,6 @@
 `redux-form` works with [React Redux](https://github.com/rackt/react-redux) to enable an html form in
 [React](https://github.com/facebook/react) to use [Redux](https://github.com/rackt/redux) to store all of its state.
 
-
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
 ## Installation
@@ -24,5 +23,6 @@
 * [Getting Started](http://erikras.github.io/redux-form/#/getting-started)
 * [Examples](http://erikras.github.io/redux-form/#/examples)
 * [API](http://erikras.github.io/redux-form/#/api)
+* [FAQ](http://erikras.github.io/redux-form/#/faq)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
 * [`v2.x.x` documentation](https://github.com/erikras/redux-form/tree/v2.4.5)
