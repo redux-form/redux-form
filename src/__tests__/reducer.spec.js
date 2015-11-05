@@ -235,7 +235,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
-        _error: undefined,
+        _error: 'Some global error',
         _submitting: false
       });
   });
