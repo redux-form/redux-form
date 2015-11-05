@@ -161,6 +161,10 @@ undefined, // or mapping some state to props
   onSubmit: signup  // action creator to run submit form mapped to onSubmit
 })(SignupForm);
 ```
+> and then, in your component:
+```javascript
+<form onSubmit={this.props.handleSubmit}/>
+```
 
 #### `initializeForm(data:Object) : Function`
 
