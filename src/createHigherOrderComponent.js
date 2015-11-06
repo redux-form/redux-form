@@ -191,9 +191,9 @@ const createHigherOrderComponent = (config,
             state[reduxMountPoint][formName][formKey]
           };
         },
-        dispatch => ({
+        (dispatch, ownProps) => ({
           ...(typeof mapDispatchToProps === 'function' ?
-            mapDispatchToProps(dispatch) :
+            mapDispatchToProps(dispatch, ownProps) :
             bindActionCreators(mapDispatchToProps, dispatch)),
           ...bindActionCreators(bindActionData(unboundActions, {form: formName, key: formKey}), dispatch),
           dispatch
@@ -209,9 +209,9 @@ const createHigherOrderComponent = (config,
             form: state[reduxMountPoint] && state[reduxMountPoint][formName]
           };
         },
-        dispatch => ({
+        (dispatch, ownProps) => ({
           ...(typeof mapDispatchToProps === 'function' ?
-            mapDispatchToProps(dispatch) :
+            mapDispatchToProps(dispatch, ownProps) :
             bindActionCreators(mapDispatchToProps, dispatch)),
           ...bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),
           dispatch
