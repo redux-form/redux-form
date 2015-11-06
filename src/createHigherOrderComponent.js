@@ -1,5 +1,4 @@
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import * as importedActions from './actions';
 import getDisplayName from './getDisplayName';
 import {initialState} from './reducer';
@@ -12,6 +11,8 @@ import handleSubmit from './handleSubmit';
 import asyncValidation from './asyncValidation';
 import silenceEvents from './events/silenceEvents';
 import silenceEvent from './events/silenceEvent';
+import wrapMapDispatchToProps from './wrapMapDispatchToProps';
+import wrapMapStateToProps from './wrapMapStateToProps';
 
 /**
  * Creates a HOC that knows how to create redux-connected sub-components.
@@ -20,8 +21,8 @@ const createHigherOrderComponent = (config,
                                     isReactNative,
                                     React,
                                     WrappedComponent,
-                                    mapStateToProps = () => ({}),
-                                    mapDispatchToProps = () => ({})) => {
+                                    mapStateToProps,
+                                    mapDispatchToProps) => {
   const {Component, PropTypes} = React;
   return (reduxMountPoint, formName, formKey) => {
     class ReduxForm extends Component {
@@ -180,42 +181,24 @@ const createHigherOrderComponent = (config,
     // make redux connector with or without form key
     const decorate = formKey !== undefined && formKey !== null ?
       connect(
-        state => {
+        wrapMapStateToProps(mapStateToProps, state => {
           if (!state[reduxMountPoint]) {
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
-          return {
-            ...mapStateToProps(state),
-            form: state[reduxMountPoint] &&
+          return state[reduxMountPoint] &&
             state[reduxMountPoint][formName] &&
-            state[reduxMountPoint][formName][formKey]
-          };
-        },
-        (dispatch, ownProps) => ({
-          ...(typeof mapDispatchToProps === 'function' ?
-            mapDispatchToProps(dispatch, ownProps) :
-            bindActionCreators(mapDispatchToProps, dispatch)),
-          ...bindActionCreators(bindActionData(unboundActions, {form: formName, key: formKey}), dispatch),
-          dispatch
-        })
+            state[reduxMountPoint][formName][formKey];
+        }),
+        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName, key: formKey}))
       ) :
       connect(
-        state => {
+        wrapMapStateToProps(mapStateToProps, state => {
           if (!state[reduxMountPoint]) {
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
-          return {
-            ...mapStateToProps(state),
-            form: state[reduxMountPoint] && state[reduxMountPoint][formName]
-          };
-        },
-        (dispatch, ownProps) => ({
-          ...(typeof mapDispatchToProps === 'function' ?
-            mapDispatchToProps(dispatch, ownProps) :
-            bindActionCreators(mapDispatchToProps, dispatch)),
-          ...bindActionCreators(bindActionData(unboundActions, {form: formName}), dispatch),
-          dispatch
-        })
+          return state[reduxMountPoint] && state[reduxMountPoint][formName];
+        }),
+        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName}))
       );
 
     return decorate(ReduxForm);
