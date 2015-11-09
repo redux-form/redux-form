@@ -50,16 +50,6 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
       diff.checked = typeof formField.value === 'boolean' ? formField.value : undefined;
     }
 
-    // update field key
-    if (form._initializedAt) {
-      // https://github.com/facebook/react/issues/2533
-      // https://stackoverflow.com/questions/26358144/how-to-reset-a-reactjs-element
-      const key = name + form._initializedAt;
-      if (field.key !== key) {
-        diff.key = key;
-      }
-    }
-
     // update dirty/pristine
     const pristine = isPristine(formField.value, formField.initial);
     if (field.pristine !== pristine) {

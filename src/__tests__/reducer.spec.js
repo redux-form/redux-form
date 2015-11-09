@@ -303,7 +303,6 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
-        _initializedAt: timestamp,
         _submitting: false
       });
   });
@@ -335,7 +334,6 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
-        _initializedAt: timestamp,
         _submitting: false
       });
   });

@@ -59,7 +59,6 @@ const reducer = (state = initialState, action = {}) => {
         _asyncValidating: false,
         _active: undefined,
         _error: undefined,
-        _initializedAt: action.timestamp,
         _submitting: false
       };
     case RESET:
