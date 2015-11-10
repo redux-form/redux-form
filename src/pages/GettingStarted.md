@@ -45,7 +45,7 @@ import {reduxForm} from 'redux-form';
 
 class ContactForm extends Component {
   render() {
-    const {fields: {firstName, lastName, email}, handleSubmit} = props;
+    const {fields: {firstName, lastName, email}, handleSubmit} = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <div>
