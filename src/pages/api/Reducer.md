@@ -49,7 +49,7 @@ the Redux state.
 
 > Returns a form reducer that will also pass each form value through the normalizing functions provided. The 
 parameter is an object mapping from `formName` to an object mapping from `fieldName` to a normalizer function. The 
-normalizer function is given three parameters and expected to return the normalized value of the field.
+normalizer function is given four parameters and expected to return the normalized value of the field.
 [See details](#/api/reducer/normalize).
 
 ### [`reducer.plugin(Object<String, Function>)`](#/api/reducer/plugin)
