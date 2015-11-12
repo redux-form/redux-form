@@ -2,9 +2,10 @@ import React from 'react-native';
 import createAll from './createAll';
 
 export const {
+  actionTypes,
   blur,
   change,
-  connectReduxForm,
+  destroy,
   focus,
   reducer,
   reduxForm,

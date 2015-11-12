@@ -1,5 +1,6 @@
 export const BLUR = 'redux-form/BLUR';
 export const CHANGE = 'redux-form/CHANGE';
+export const DESTROY = 'redux-form/DESTROY';
 export const FOCUS = 'redux-form/FOCUS';
 export const INITIALIZE = 'redux-form/INITIALIZE';
 export const RESET = 'redux-form/RESET';

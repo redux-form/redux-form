@@ -1,4 +1,4 @@
-import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+import { BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
   STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
 
@@ -35,11 +35,12 @@ const reducer = (state = initialState, action = {}) => {
           ...state[action.field],
           value: action.value,
           touched: !!(action.touch || (state[action.field] || {}).touched),
-          asyncError: null,
-          submitError: null
-        },
-        _error: undefined
+          asyncError: undefined,
+          submitError: undefined
+        }
       };
+    case DESTROY:
+      return undefined;
     case FOCUS:
       return {
         ...state,
@@ -91,7 +92,7 @@ const reducer = (state = initialState, action = {}) => {
           asyncError: error
         })),
         _asyncValidating: false,
-        _error: action.errors._error
+        _error: action.errors && action.errors._error
       };
     case STOP_SUBMIT:
       return {
@@ -136,6 +137,16 @@ function formReducer(state = {}, action = {}) {
     return state;
   }
   if (key) {
+    if (action.type === DESTROY) {
+      return {
+        ...state,
+        [form]: state[form] && Object.keys(state[form]).reduce((accumulator, stateKey) =>
+          stateKey === key ? accumulator : {
+            ...accumulator,
+            [stateKey]: state[form][stateKey]
+          }, {})
+      };
+    }
     return {
       ...state,
       [form]: {
@@ -143,6 +154,13 @@ function formReducer(state = {}, action = {}) {
         [key]: reducer((state[form] || {})[key], rest)
       }
     };
+  }
+  if (action.type === DESTROY) {
+    return Object.keys(state).reduce((accumulator, formName) =>
+      formName === form ? accumulator : {
+        ...accumulator,
+        [formName]: state[formName]
+      }, {});
   }
   return {
     ...state,
@@ -159,7 +177,7 @@ function decorate(target) {
       const result = this(state, action);
       return {
         ...result,
-        ...mapValues(reducers, (red, key) => red(result[key] || initialState, action))
+        ...mapValues(reducers, (pluginReducer, key) => pluginReducer(result[key] || initialState, action))
       };
     });
   };
@@ -170,6 +188,7 @@ function decorate(target) {
       return {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
+          const previousValues = getValues({...initialState, ...state[form]});
           const formResult = {
             ...initialState,
             ...result[form]
@@ -179,9 +198,10 @@ function decorate(target) {
             ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
               ...formResult[field],
               value: fieldNormalizer(
-                formResult[field] ? formResult[field].value : undefined,                // value
-                state[form] && state[form][field] ? state[form][field].value : undefined,   // previous value
-                getValues(formResult))                                                    // all field values
+                formResult[field] ? formResult[field].value : undefined,                  // value
+                state[form] && state[form][field] ? state[form][field].value : undefined, // previous value
+                getValues(formResult),                                                    // all field values
+                previousValues)                                                           // all previous field values
             }))
           };
         })

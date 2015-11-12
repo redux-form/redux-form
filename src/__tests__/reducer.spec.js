@@ -1,7 +1,8 @@
 import expect from 'expect';
-import reducer from '../src/reducer';
+import reducer from '../reducer';
+import bindActionData from '../bindActionData';
 import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
-  stopAsyncValidation, stopSubmit, touch, untouch} from '../src/actions';
+  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
 
 describe('reducer', () => {
   it('should initialize state to {}', () => {
@@ -174,8 +175,8 @@ describe('reducer', () => {
         myField: {
           value: 'myValue',
           touched: false,
-          asyncError: null,
-          submitError: null
+          asyncError: undefined,
+          submitError: undefined
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
@@ -234,7 +235,7 @@ describe('reducer', () => {
         },
         _active: 'myField',
         _asyncValidating: false,
-        _error: undefined,
+        _error: 'Some global error',
         _submitting: false
       });
   });
@@ -288,8 +289,9 @@ describe('reducer', () => {
   });
 
   it('should set initialize values on initialize on empty state', () => {
+    const timestamp = Date.now();
     const state = reducer({}, {
-      ...initialize({myField: 'initialValue'}),
+      ...initialize({myField: 'initialValue'}, timestamp),
       form: 'foo'
     });
     expect(state.foo)
@@ -306,6 +308,7 @@ describe('reducer', () => {
   });
 
   it('should set initialize values on initialize on with previous state', () => {
+    const timestamp = Date.now();
     const state = reducer({
       foo: {
         myField: {
@@ -318,7 +321,7 @@ describe('reducer', () => {
         _submitting: false
       }
     }, {
-      ...initialize({myField: 'initialValue'}),
+      ...initialize({myField: 'initialValue'}, timestamp),
       form: 'foo',
       touch: true
     });
@@ -701,20 +704,96 @@ describe('reducer', () => {
         _submitting: false
       });
   });
+
+  it('should destroy forms on destroy', () => {
+    const state = reducer({
+      foo: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      },
+      bar: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      }
+    }, {
+      ...destroy(),
+      form: 'foo'
+    });
+    expect(state)
+      .toEqual({
+        bar: {
+          _active: undefined,
+          _asyncValidating: false,
+          _error: undefined,
+          _submitting: false
+        }
+      });
+  });
+
+  it('should destroy last form on destroy', () => {
+    const state = reducer({
+      foo: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      }
+    }, {
+      ...destroy(),
+      form: 'foo'
+    });
+    expect(state)
+      .toEqual({});
+  });
+
+  it('should destroy form and formkey on destroy', () => {
+    const destroyWithKey = (key) => bindActionData(destroy, {key})();
+    const state = reducer({
+      fooForm: {
+        barKey: {
+          _active: undefined,
+          _asyncValidating: false,
+          _error: undefined,
+          _submitting: false
+        },
+        bazKey: {
+          _active: undefined,
+          _asyncValidating: false,
+          _error: undefined,
+          _submitting: false
+        }
+      }
+    }, {
+      ...destroyWithKey('barKey'),
+      form: 'fooForm'
+    });
+    expect(state.fooForm).toEqual({
+      bazKey: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      }
+    });
+  });
 });
 
 describe('reducer.plugin', () => {
   it('should initialize form state when there is a reducer plugin', () => {
-    const state = reducer.plugin({
-      foo: (state, action) => {
+    const result = reducer.plugin({
+      foo: (state) => {
         return state;
       }
     })();
-    expect(state)
+    expect(result)
       .toExist()
       .toBeA('object');
-    expect(Object.keys(state).length).toBe(1);
-    expect(state.foo)
+    expect(Object.keys(result).length).toBe(1);
+    expect(result.foo)
       .toExist()
       .toBeA('object')
       .toEqual({
@@ -730,7 +809,7 @@ describe('reducer.normalize', () => {
   it('should initialize form state when there is a normalizer', () => {
     const state = reducer.normalize({
       foo: {
-        myField: (value, previousValue, allValues) => 'normalized'
+        myField: () => 'normalized'
       }
     })();
     expect(state)

@@ -2,11 +2,17 @@ export default function isPristine(initial, data) {
   if (initial === data) {
     return true;
   }
-  if (initial && typeof initial === 'object') {
+  if (typeof initial === 'boolean' || typeof data === 'boolean') {
+    return initial === data;
+  } else if (initial && typeof initial === 'object') {
     if (!data || typeof data !== 'object') {
       return false;
     }
+    const initialKeys = Object.keys(initial);
     const dataKeys = Object.keys(data);
+    if (initialKeys.length !== dataKeys.length) {
+      return false;
+    }
     for (let index = 0; index < dataKeys.length; index++) {
       const key = dataKeys[index];
       if (!isPristine(initial[key], data[key])) {
