@@ -10,6 +10,7 @@ const createReduxFormConnector =
   (isReactNative, React) =>
     (WrappedComponent, mapStateToProps, mapDispatchToProps) => {
       const {Component, PropTypes} = React;
+
       class ReduxFormConnector extends Component {
 
         constructor(props) {
@@ -20,7 +21,8 @@ const createReduxFormConnector =
                 // props that effect how redux-form connects to the redux store
                 'reduxMountPoint',
                 'form',
-                'formKey'
+                'formKey',
+                'getFormState'
               ],
               fn: createHigherOrderComponent(props, isReactNative, React, WrappedComponent,
                 mapStateToProps, mapDispatchToProps)
@@ -35,7 +37,8 @@ const createReduxFormConnector =
         render() {
           const {ReduxForm} = this.cache;
           // remove some redux-form config-only props
-          const {reduxMountPoint, destroyOnUnmount, form, touchOnBlur, touchOnChange, ...passableProps} = this.props;
+          const {reduxMountPoint, destroyOnUnmount, form, getFormState, touchOnBlur, touchOnChange,
+            ...passableProps } = this.props;
           return <ReduxForm {...passableProps}/>;
         }
       }
@@ -46,12 +49,14 @@ const createReduxFormConnector =
         reduxMountPoint: PropTypes.string,
         form: PropTypes.string.isRequired,
         formKey: PropTypes.string,
+        getFormState: PropTypes.func,
         touchOnBlur: PropTypes.bool,
         touchOnChange: PropTypes.bool
       };
 
       ReduxFormConnector.defaultProps = {
-        reduxMountPoint: 'form'
+        reduxMountPoint: 'form',
+        getFormState: (state, reduxMountPoint) => state[reduxMountPoint]
       };
       return ReduxFormConnector;
     };

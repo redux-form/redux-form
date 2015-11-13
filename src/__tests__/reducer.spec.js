@@ -474,6 +474,51 @@ describe('reducer', () => {
       });
   });
 
+  it('should unset field async errors on stopAsyncValidation', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          asyncError: 'myFieldError',
+          touched: true
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          asyncError: 'myOtherFieldError',
+          touched: true
+        },
+        _active: undefined,
+        _asyncValidating: true,
+        _error: undefined,
+        _submitting: false
+      }
+    }, {
+      ...stopAsyncValidation(),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          initial: 'initialValue',
+          value: 'dirtyValue',
+          asyncError: undefined,
+          touched: true
+        },
+        myOtherField: {
+          initial: 'otherInitialValue',
+          value: 'otherDirtyValue',
+          asyncError: undefined,
+          touched: true
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false
+      });
+  });
+
   it('should unset asyncValidating on stopAsyncValidation and set global error', () => {
     const state = reducer({
       foo: {
