@@ -44,11 +44,11 @@ props to your component at runtime.**
 
 > See [Asynchronous Blur Validation Example](#/examples/asynchronous-blur-validation) for more details.
 
-#### `asyncValidate : (values:Object, dispatch:Function) => Promise<undefined, errors:Object>` [optional]
+#### `asyncValidate : (values:Object, dispatch:Function, props:Object) => Promise<undefined, errors:Object>` [optional]
 
-> a function that takes all the form values and the `dispatch` function, and returns a Promise that will resolve if
-the validation is passed, or will reject with an object of validation errors in the form
-`{ field1: <String>, field2: <String> }`.
+> a function that takes all the form values, the `dispatch` function, and the `props` given to your component, and 
+returns a Promise that will resolve if the validation is passed, or will reject with an object of validation errors
+in the form `{ field1: <String>, field2: <String> }`.
 
 > See [Asynchronous Blur Validation Example](#/examples/asynchronous-blur-validation) for more details.
 
