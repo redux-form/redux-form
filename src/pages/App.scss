@@ -74,8 +74,14 @@ a code {
   text-decoration: underline;
 }
 
+code {
+  color: #063;
+}
+
 h1, h2, h3, h4, h5, h6 {
-  @include insignia;
+  code {
+    font-weight: bold;
+  }
 }
 
 h1 {
