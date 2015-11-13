@@ -63,6 +63,13 @@ Defaults to `true`.
 
 > See [Multirecord Example](#/examples/multirecord) for more details.
 
+#### `getFormState : Function` [optional]
+
+> A function that takes the entire Redux state and the `reduxMountPoint` (which defaults to `"form"`). It defaults to:
+`(state, reduxMountPoint) => state[reduxMountPoint]`. The only reason you should provide this is if you are keeping 
+your Redux state as something other than plain javascript objects, e.g. an
+[`Immutable.Map`](https://github.com/facebook/immutable-js).
+
 #### `initialValues : Object<String, String>` [optional]
 
 > The values with which to initialize your form in `componentWillMount()`. Particularly useful when
