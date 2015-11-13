@@ -107,7 +107,7 @@ const createHigherOrderComponent = (config,
           // if blur validating, only run async validate if sync validation passes
           if (!name || isValid(syncErrors[name])) {
             return asyncValidation(() =>
-              asyncValidate(values, dispatch), startAsyncValidation, stopAsyncValidation);
+              asyncValidate(values, dispatch, this.props), startAsyncValidation, stopAsyncValidation);
           }
         }
       }
