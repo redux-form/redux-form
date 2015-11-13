@@ -24,7 +24,7 @@ const createHigherOrderComponent = (config,
                                     mapStateToProps,
                                     mapDispatchToProps) => {
   const {Component, PropTypes} = React;
-  return (reduxMountPoint, formName, formKey) => {
+  return (reduxMountPoint, formName, formKey, getFormState) => {
     class ReduxForm extends Component {
       static displayName = `ReduxForm(${getDisplayName(WrappedComponent)})`;
       static propTypes = {
@@ -182,21 +182,21 @@ const createHigherOrderComponent = (config,
     const decorate = formKey !== undefined && formKey !== null ?
       connect(
         wrapMapStateToProps(mapStateToProps, state => {
-          if (!state[reduxMountPoint]) {
+          const formState = getFormState(state, reduxMountPoint);
+          if (!formState) {
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
-          return state[reduxMountPoint] &&
-            state[reduxMountPoint][formName] &&
-            state[reduxMountPoint][formName][formKey];
+          return formState && formState[formName] && formState[formName][formKey];
         }),
         wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName, key: formKey}))
       ) :
       connect(
         wrapMapStateToProps(mapStateToProps, state => {
-          if (!state[reduxMountPoint]) {
+          const formState = getFormState(state, reduxMountPoint);
+          if (!formState) {
             throw new Error(`You need to mount the redux-form reducer at "${reduxMountPoint}"`);
           }
-          return state[reduxMountPoint] && state[reduxMountPoint][formName];
+          return formState && formState[formName];
         }),
         wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName}))
       );
