@@ -76,41 +76,6 @@ describe('handleSubmit', () => {
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
     return handleSubmit(submit, values, props, asyncValidate)
-      .then(result => {
-        expect(result).toBe(undefined);
-        expect(touch)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith(...fields);
-        expect(validate)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, props);
-        expect(asyncValidate)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith();
-        expect(submit).toNotHaveBeenCalled();
-        expect(startSubmit).toNotHaveBeenCalled();
-        expect(stopSubmit).toNotHaveBeenCalled();
-        expect(submitFailed).toHaveBeenCalled();
-      }, () => {
-        expect(false).toBe(true); // should not get into reject branch
-      });
-  });
-
-  it('should not submit if async validation fails and return rejected promise', () => {
-    const values = {foo: 'bar', baz: 42};
-    const fields = ['foo', 'baz'];
-    const submit = createSpy().andReturn(69);
-    const dispatch = () => null;
-    const touch = createSpy();
-    const startSubmit = createSpy();
-    const stopSubmit = createSpy();
-    const submitFailed = createSpy();
-    const asyncValidate = createSpy().andReturn(Promise.reject());
-    const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
-      returnRejectedSubmitPromise: true};
-
-    return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
         expect(false).toBe(true); // should not get into resolve branch
       }, result => {
@@ -218,46 +183,6 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-
-    return handleSubmit(submit, values, props, asyncValidate)
-      .then(result => {
-        expect(result).toBe(undefined);
-        expect(touch)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith(...fields);
-        expect(validate)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, props);
-        expect(asyncValidate)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith();
-        expect(submit)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, dispatch);
-        expect(startSubmit).toHaveBeenCalled();
-        expect(stopSubmit)
-          .toHaveBeenCalled()
-          .toHaveBeenCalledWith(submitErrors);
-        expect(submitFailed).toNotHaveBeenCalled();
-      }, () => {
-        expect(false).toBe(true); // should not get into reject branch
-      });
-  });
-
-  it('should set submit errors if async submit fails and return rejected promise', () => {
-    const values = {foo: 'bar', baz: 42};
-    const fields = ['foo', 'baz'];
-    const submitErrors = {foo: 'error'};
-    const submit = createSpy().andReturn(Promise.reject(submitErrors));
-    const dispatch = () => null;
-    const touch = createSpy();
-    const startSubmit = createSpy();
-    const stopSubmit = createSpy();
-    const submitFailed = createSpy();
-    const asyncValidate = createSpy().andReturn(Promise.resolve());
-    const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
-      returnRejectedSubmitPromise: true};
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
