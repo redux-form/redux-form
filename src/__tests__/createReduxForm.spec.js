@@ -531,13 +531,13 @@ describe('createReduxForm', () => {
 
   it('should hoist statics', () => {
     class FormWithStatics extends Component {
-      static someStatic1 = 'cat';
-      static someStatic2 = 42;
-
       render() {
-        return <div />;
+        return <div/>;
       }
     }
+    FormWithStatics.someStatic1 = 'cat';
+    FormWithStatics.someStatic2 = 42;
+
     const Decorated = reduxForm({
       form: 'testForm',
       fields: ['foo', 'bar']

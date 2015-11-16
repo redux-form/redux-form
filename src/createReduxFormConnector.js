@@ -10,24 +10,7 @@ const createReduxFormConnector =
   (isReactNative, React) =>
     (WrappedComponent, mapStateToProps, mapDispatchToProps) => {
       const {Component, PropTypes} = React;
-      return class ReduxFormConnector extends Component {
-        static displayName = `ReduxFormConnector(${getDisplayName(WrappedComponent)})`;
-        static WrappedComponent = WrappedComponent;
-        static propTypes = {
-          destroyOnUnmount: PropTypes.bool,
-          reduxMountPoint: PropTypes.string,
-          form: PropTypes.string.isRequired,
-          formKey: PropTypes.string,
-          getFormState: PropTypes.func,
-          touchOnBlur: PropTypes.bool,
-          touchOnChange: PropTypes.bool
-        }
-
-        static defaultProps = {
-          reduxMountPoint: 'form',
-          getFormState: (state, reduxMountPoint) => state[reduxMountPoint]
-        }
-
+      class ReduxFormConnector extends Component {
         constructor(props) {
           super(props);
           this.cache = lazyCache(this, {
@@ -56,7 +39,23 @@ const createReduxFormConnector =
             ...passableProps } = this.props;
           return <ReduxForm {...passableProps}/>;
         }
+      }
+      ReduxFormConnector.displayName = `ReduxFormConnector(${getDisplayName(WrappedComponent)})`;
+      ReduxFormConnector.WrappedComponent = WrappedComponent;
+      ReduxFormConnector.propTypes = {
+        destroyOnUnmount: PropTypes.bool,
+        reduxMountPoint: PropTypes.string,
+        form: PropTypes.string.isRequired,
+        formKey: PropTypes.string,
+        getFormState: PropTypes.func,
+        touchOnBlur: PropTypes.bool,
+        touchOnChange: PropTypes.bool
       };
+      ReduxFormConnector.defaultProps = {
+        reduxMountPoint: 'form',
+        getFormState: (state, reduxMountPoint) => state[reduxMountPoint]
+      };
+      return ReduxFormConnector;
     };
 
 export default createReduxFormConnector;
