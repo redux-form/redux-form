@@ -126,7 +126,10 @@ const createHigherOrderComponent = (config,
           // submitOrEvent is an event: fire submit
           handleSubmit(check(onSubmit), values, this.props, this.asyncValidate) :
           // submitOrEvent is the submit function: return deferred submit thunk
-          silenceEvents(() => handleSubmit(check(submitOrEvent), values, this.props, this.asyncValidate));
+          silenceEvents(event => {
+            silenceEvent(event);
+            handleSubmit(check(submitOrEvent), values, this.props, this.asyncValidate);
+          });
       }
 
       render() {
