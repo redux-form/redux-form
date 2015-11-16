@@ -15,7 +15,10 @@ import Normalizing from 'pages/examples/Normalizing';
 import Dynamic from 'pages/examples/Dynamic';
 import InitializingFromState from 'pages/examples/InitializingFromState';
 import Examples from 'pages/examples/Examples.md';
-import Faq from 'pages/Faq.md';
+import Faq from 'pages/faq/Faq.md';
+import FaqSubmitFunction from 'pages/faq/SubmitFunction.md';
+import FaqHandleVsOn from 'pages/faq/HandleVsOn.md';
+import FaqHowToClear from 'pages/faq/HowToClear.md';
 import GettingStarted from 'pages/GettingStarted.md';
 import Api from 'pages/api/Api.md';
 import ApiReduxForm from 'pages/api/ReduxForm.md';
@@ -49,6 +52,9 @@ const routes = (
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>
       <Route path="/faq" component={markdownPage(Faq)}/>
+      <Route path="/faq/submit-function" component={markdownPage(FaqSubmitFunction)}/>
+      <Route path="/faq/handle-vs-on" component={markdownPage(FaqHandleVsOn)}/>
+      <Route path="/faq/how-to-clear" component={markdownPage(FaqHowToClear)}/>
       <Route path="*" component={Home}/>
     </Route>
   </Router>
