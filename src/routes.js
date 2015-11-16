@@ -1,6 +1,8 @@
 import React from 'react';
 import {Router, Route} from 'react-router';
 import markdownPage from 'components/markdownPage';
+import createHistory from 'history/lib/createHashHistory';
+import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import App from 'pages/App';
 import Home from 'pages/Home';
 import Simple from 'pages/examples/Simple';
@@ -22,9 +24,10 @@ import ApiReducerNormalize from 'pages/api/ReducerNormalize.md';
 import ApiReducerPlugin from 'pages/api/ReducerPlugin.md';
 import ApiProps from 'pages/api/Props.md';
 import ApiActionCreators from 'pages/api/ActionCreators.md';
+const scrollableHistory = useScroll(createHistory);
 
 const routes = (
-  <Router>
+  <Router history={scrollableHistory()}>
     <Route component={App}>
       <Route path="/" component={Home}/>
       <Route path="/api" component={markdownPage(Api)}/>
