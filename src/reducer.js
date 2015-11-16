@@ -1,12 +1,13 @@
 import { BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNTOUCH } from './actionTypes';
+  STOP_SUBMIT, SUBMIT_FAILED, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
 
 export const initialState = {
   _active: undefined,
   _asyncValidating: false,
   _error: undefined,
-  _submitting: false
+  _submitting: false,
+  _submitFailed: false
 };
 
 const getValues = (state) =>
@@ -59,7 +60,8 @@ const reducer = (state = initialState, action = {}) => {
         _asyncValidating: false,
         _active: undefined,
         _error: undefined,
-        _submitting: false
+        _submitting: false,
+        _submitFailed: false
       };
     case RESET:
       return {
@@ -72,7 +74,8 @@ const reducer = (state = initialState, action = {}) => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
-        _submitting: false
+        _submitting: false,
+        _submitFailed: false
       };
     case START_ASYNC_VALIDATION:
       return {
@@ -104,7 +107,13 @@ const reducer = (state = initialState, action = {}) => {
           submitError: error
         })) : {}),
         _error: action.errors && action.errors._error,
-        _submitting: false
+        _submitting: false,
+        _submitFailed: !!(action.errors && Object.keys(action.errors).length)
+      };
+    case SUBMIT_FAILED:
+      return {
+        ...state,
+        _submitFailed: true
       };
     case TOUCH:
       return {

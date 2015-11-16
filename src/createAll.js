@@ -25,6 +25,7 @@ const startAsyncValidation = boundActions.startAsyncValidation;
 const startSubmit = boundActions.startSubmit;
 const stopAsyncValidation = boundActions.stopAsyncValidation;
 const stopSubmit = boundActions.stopSubmit;
+const submitFailed = boundActions.submitFailed;
 const touch = boundActions.touch;
 const untouch = boundActions.untouch;
 
@@ -44,6 +45,7 @@ export default function createAll(isReactNative, React) {
     startSubmit,
     stopAsyncValidation,
     stopSubmit,
+    submitFailed,
     touch,
     untouch
   };

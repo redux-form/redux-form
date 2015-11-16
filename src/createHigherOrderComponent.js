@@ -51,6 +51,7 @@ const createHigherOrderComponent = (config,
         startSubmit: PropTypes.func.isRequired,
         stopAsyncValidation: PropTypes.func.isRequired,
         stopSubmit: PropTypes.func.isRequired,
+        submitFailed: PropTypes.func.isRequired,
         touch: PropTypes.func.isRequired,
         untouch: PropTypes.func.isRequired
       }
@@ -131,7 +132,7 @@ const createHigherOrderComponent = (config,
       render() {
         const allFields = this.fields;
         const {asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize, onSubmit, reset,
-          startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit, touch, untouch, validate,
+          startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit, submitFailed, touch, untouch, validate,
           ...passableProps} = this.props;
         const {allPristine, allValid, errors, formError, values} = allFields._meta;
 
@@ -149,6 +150,7 @@ const createHigherOrderComponent = (config,
           invalid: !allValid,
           pristine: allPristine,
           submitting: form._submitting,
+          submitFailed: form._submitFailed,
           valid: allValid,
           values,
 

@@ -40,12 +40,7 @@ describe('actions', () => {
 
   it('should create initialize action', () => {
     const data = {a: 8, c: 9};
-    const timestamp = Date.now();
-    expect(initialize(data, timestamp)).toEqual({
-      type: INITIALIZE,
-      data,
-      timestamp
-    });
+    expect(initialize(data)).toEqual({type: INITIALIZE, data});
   });
 
   it('should create reset action', () => {
