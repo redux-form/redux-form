@@ -7,9 +7,9 @@ const submit = (values, dispatch) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (!['john', 'paul', 'george', 'ringo'].includes(values.username)) {
-        reject({username: 'User does not exist'});
+        reject({username: 'User does not exist', _error: 'Login failed!'});
       } else if (values.password !== 'redux-form') {
-        reject({password: 'Wrong password'});
+        reject({password: 'Wrong password', _error: 'Login failed!'});
       } else {
         dispatch(showResults(values));
         resolve();
@@ -22,12 +22,13 @@ class SubmitValidationForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    error: PropTypes.string,
     resetForm: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired
   };
 
   render() {
-    const {fields: {username, password}, resetForm, handleSubmit, submitting} = this.props;
+    const {fields: {username, password}, error, resetForm, handleSubmit, submitting} = this.props;
     return (<form className="form-horizontal" onSubmit={handleSubmit(submit)}>
         <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
           <label className="col-xs-4 control-label">Username</label>
@@ -43,6 +44,7 @@ class SubmitValidationForm extends Component {
           </div>
           {password.touched && password.error && <div className="col-xs-3 help-block">{password.error}</div>}
         </div>
+        {error && <div className="text-center text-danger">{error}</div>}
         <div className="text-center">
           <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit(submit)}>
             {!submitting && <i className="fa fa-key"/> /* key icon */}
