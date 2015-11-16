@@ -192,6 +192,11 @@ comparing the current data with these initialized values.
 > Whether or not your form is currently submitting. This prop will only work if you have passed an
 `onSubmit` function that returns a promise. It will be `true` until the promise is resolved or rejected.
 
+#### `submitFailed : boolean`
+
+> Starts as `false. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to 
+`true`. A subsequent successful submit will set it back to `false`.
+
 #### `touch(...field:string) : Function`
 
 > Marks the given fields as "touched" to show errors.
