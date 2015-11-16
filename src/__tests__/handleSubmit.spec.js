@@ -112,7 +112,7 @@ describe('handleSubmit', () => {
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
-        expect(false).toBe(true); // should not get into reject branch
+        expect(false).toBe(true); // should not get into resolve branch
       }, result => {
         expect(result).toBe(undefined);
         expect(touch)
@@ -261,7 +261,7 @@ describe('handleSubmit', () => {
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
-        expect(false).toBe(true); // should not get into reject branch
+        expect(false).toBe(true); // should not get into resolve branch
       }, result => {
         expect(result).toBe(submitErrors);
         expect(touch)
