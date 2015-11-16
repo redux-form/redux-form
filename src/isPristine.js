@@ -4,6 +4,8 @@ export default function isPristine(initial, data) {
   }
   if (typeof initial === 'boolean' || typeof data === 'boolean') {
     return initial === data;
+  } else if (initial instanceof Date && data instanceof Date) {
+    return initial.getDate() === data.getDate();
   } else if (initial && typeof initial === 'object') {
     if (!data || typeof data !== 'object') {
       return false;
