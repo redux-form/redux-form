@@ -25,4 +25,5 @@
 * [API](http://erikras.github.io/redux-form/#/api)
 * [FAQ](http://erikras.github.io/redux-form/#/faq)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
+* [Tools](https://github.com/erikras/redux-form/blob/master/tools.md)
 * [`v2.x.x` documentation](https://github.com/erikras/redux-form/tree/v2.4.5)
