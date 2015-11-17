@@ -32,6 +32,7 @@ export default class App extends Component {
             <NavDropdown title="Examples" id="examples-dropdown">
               <LinkContainer to="/examples"><MenuItem>All Examples</MenuItem></LinkContainer>
               <LinkContainer to="/examples/simple"><MenuItem>Simple</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/file"><MenuItem>File Inputs</MenuItem></LinkContainer>
               <LinkContainer to="/examples/synchronous-validation"><MenuItem>Synchronous Validation</MenuItem></LinkContainer>
               <LinkContainer to="/examples/submit-validation"><MenuItem>Submit Validation</MenuItem></LinkContainer>
               <LinkContainer to="/examples/asynchronous-blur-validation"><MenuItem>Asynchronous Blur Validation</MenuItem></LinkContainer>

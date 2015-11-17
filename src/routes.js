@@ -6,6 +6,7 @@ import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import App from 'pages/App';
 import Home from 'pages/Home';
 import Simple from 'pages/examples/Simple';
+import File from 'pages/examples/File';
 import SynchronousValidation from 'pages/examples/SynchronousValidation';
 import SubmitValidation from 'pages/examples/SubmitValidation';
 import AsynchronousBlurValidation from 'pages/examples/AsynchronousBlurValidation';
@@ -49,6 +50,7 @@ const routes = (
       <Route path="/examples/multirecord" component={Multirecord}/>
       <Route path="/examples/normalizing" component={Normalizing}/>
       <Route path="/examples/simple" component={Simple}/>
+      <Route path="/examples/file" component={File}/>
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>
       <Route path="/faq" component={markdownPage(Faq)}/>
