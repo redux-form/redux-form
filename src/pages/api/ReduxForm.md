@@ -102,6 +102,11 @@ property. Defaults to `'form'`.
 
 > See [Alternate Mount Point Example](#/examples/alternate-mount-point) for more details.
 
+#### `returnRejectedSubmitPromise : boolean` [optional]
+
+> If set to `true`, a failed submit will return a rejected promise. Defaults to `false`. Only use this if you need to
+detect submit failures and run some code when a submit fails.
+
 #### `touchOnBlur : boolean` [optional]
 
 > marks fields as `touched` when the blur action is fired. Defaults to `true`.
