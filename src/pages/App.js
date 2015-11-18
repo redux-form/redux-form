@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import {LinkContainer, IndexLinkContainer} from 'react-router-bootstrap';
-import {Navbar, Nav, NavItem, NavBrand, NavDropdown, MenuItem} from 'react-bootstrap';
+import {Navbar, Nav, NavItem, NavbarBrand, NavDropdown, MenuItem} from 'react-bootstrap';
 
 export default class App extends Component {
   static propTypes = {
@@ -13,9 +13,9 @@ export default class App extends Component {
       <div>
         <Navbar fixedTop>
           <IndexLinkContainer to="/">
-            <NavBrand>
+            <NavbarBrand>
               <img src={require('./brand.png')} className={styles.brand}/> Redux Form
-            </NavBrand>
+            </NavbarBrand>
           </IndexLinkContainer>
           <Nav pullRight>
             <LinkContainer to="/getting-started"><MenuItem>Getting Started</MenuItem></LinkContainer>
