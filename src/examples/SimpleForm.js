@@ -64,7 +64,11 @@ class SimpleForm extends Component {
         <div className="form-group">
           <label className="col-xs-4 control-label">Notes</label>
           <div className="col-xs-8">
-            <textarea className="form-control" {...notes}/>
+            <textarea className="form-control"
+              {...notes}
+              value={notes.value || ''} // required for reset form to work
+                                        // see: https://github.com/facebook/react/issues/2533
+            />
           </div>
         </div>
         <div className="text-center">
