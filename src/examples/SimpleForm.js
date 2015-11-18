@@ -66,7 +66,7 @@ class SimpleForm extends Component {
           <div className="col-xs-8">
             <textarea className="form-control"
               {...notes}
-              value={notes.value || ''} // required for reset form to work
+              value={notes.value || ''} // required for reset form to work (only on textarea's)
                                         // see: https://github.com/facebook/react/issues/2533
             />
           </div>
