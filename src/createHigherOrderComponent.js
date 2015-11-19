@@ -31,6 +31,7 @@ const createHigherOrderComponent = (config,
         // bind functions
         this.asyncValidate = this.asyncValidate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.getFieldNames = this.getFieldNames.bind(this);
         this.fields = readFields(props, {}, this.asyncValidate, isReactNative);
       }
 
@@ -56,8 +57,13 @@ const createHigherOrderComponent = (config,
         }
       }
 
+      getFieldNames() {
+        return Object.keys(this.fields).filter(f => (f[0] !== '_'));
+      }
+
       asyncValidate(name, value) {
-        const {asyncValidate, dispatch, fields, form, startAsyncValidation, stopAsyncValidation, validate} = this.props;
+        const {asyncValidate, dispatch, form, startAsyncValidation, stopAsyncValidation, validate} = this.props;
+        const fields = this.getFieldNames();
         if (asyncValidate) {
           const values = getValues(fields, form);
           if (name) {
@@ -74,7 +80,8 @@ const createHigherOrderComponent = (config,
       }
 
       handleSubmit(submitOrEvent) {
-        const {onSubmit, fields, form} = this.props;
+        const {onSubmit, form} = this.props;
+        const fields = this.getFieldNames();
         const check = submit => {
           if (!submit || typeof submit !== 'function') {
             throw new Error('You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop');
@@ -94,7 +101,8 @@ const createHigherOrderComponent = (config,
 
       render() {
         const allFields = this.fields;
-        const {asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize, onSubmit, reset,
+        const fields = this.getFieldNames();
+        const {asyncBlurFields, blur, change, destroy, focus, form, initialValues, initialize, onSubmit, reset,
           returnRejectedSubmitPromise, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
           submitFailed, touch, untouch, validate, ...passableProps} = this.props; // eslint-disable-line no-redeclare
         const {allPristine, allValid, errors, formError, values} = allFields._meta;
@@ -138,7 +146,10 @@ const createHigherOrderComponent = (config,
       asyncBlurFields: PropTypes.arrayOf(PropTypes.string),
       asyncValidate: PropTypes.func,
       dispatch: PropTypes.func.isRequired,
-      fields: PropTypes.arrayOf(PropTypes.string).isRequired,
+      fields: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.func
+      ]).isRequired,
       form: PropTypes.object,
       initialValues: PropTypes.any,
       onSubmit: PropTypes.func,

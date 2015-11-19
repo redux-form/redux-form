@@ -1,3 +1,4 @@
+import isFunction from 'is-function';
 import createOnBlur from './events/createOnBlur';
 import createOnChange from './events/createOnChange';
 import createOnDragStart from './events/createOnDragStart';
@@ -8,10 +9,11 @@ import isValid from './isValid';
 import getValues from './getValues';
 import silencePromise from './silencePromise';
 
+
 /**
  * Reads props and generates (or updates) field structure
  */
-const readFields = (props, myFields, asyncValidate, isReactNative) => {
+const doReadFields = (props, oldFields, asyncValidate, isReactNative) => {
   const {asyncBlurFields, blur, change, fields, focus, form, initialValues, readonly, validate} = props;
   const values = getValues(fields, form);
   const syncErrors = validate(values, props);
@@ -20,7 +22,7 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
   let allValid = !formError;
   let allPristine = true;
   const fieldObjects = fields.reduce((accumulator, name) => {
-    const field = myFields[name] || {};
+    const field = oldFields[name] || {};
     const diff = {};
 
     // create field if it does not exist
@@ -109,4 +111,18 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
   });
   return fieldObjects;
 };
+
+const readFields = (props, myFields, asyncValidate, isReactNative) => {
+  const {fields} = props;
+  if (isFunction(fields)) {
+    // We want to run an iteration to update field values before calculating new
+    // fields. A cleaner solution probably involves refactoring the above method.
+    const oldFields = Object.keys(myFields).length === 0 ?
+      doReadFields({...props, fields: fields({})}, {}, asyncValidate, isReactNative) :
+      doReadFields({...props, fields: Object.keys(myFields).filter(f => (f[0] !== '_'))}, myFields, asyncValidate, isReactNative);
+    return doReadFields({...props, fields: fields(oldFields)}, myFields, asyncValidate, isReactNative);
+  }
+  return doReadFields(props, myFields, asyncValidate, isReactNative);
+};
+
 export default readFields;
