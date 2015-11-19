@@ -15,7 +15,7 @@ const getSelectedValues = options => {
 
 const getValue = (event, isReactNative) => {
   if (isEvent(event)) {
-    if (!isReactNative && event.nativeEvent !== undefined && event.nativeEvent.text !== undefined) {
+    if (!isReactNative && event.nativeEvent && event.nativeEvent.text !== undefined) {
       return event.nativeEvent.text;
     }
     if (isReactNative && event.nativeEvent !== undefined) {
