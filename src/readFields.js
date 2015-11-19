@@ -95,10 +95,8 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
     if (result.dirty) {
       allPristine = false;
     }
-    return {
-      ...accumulator,
-      [name]: result
-    };
+    accumulator[name] = result;
+    return accumulator;
   }, {});
   Object.defineProperty(fieldObjects, '_meta', {
     value: {
