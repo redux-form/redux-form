@@ -10,12 +10,15 @@ export const initialState = {
   _submitFailed: false
 };
 
-const getValues = (state) =>
-  Object.keys(state).reduce((accumulator, name) =>
-    name[0] === '_' ? accumulator : {
-      ...accumulator,
-      [name]: state[name].value
-    }, {});
+const getValues = (state) => {
+  Object.keys(state).reduce((accumulator, name) => {
+    if (name[0] === '_') {
+      return accumulator;
+    }
+    accumulator[name] = state[name].value;
+    return accumulator;
+  }, {});
+};
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
@@ -118,24 +121,24 @@ const reducer = (state = initialState, action = {}) => {
     case TOUCH:
       return {
         ...state,
-        ...action.fields.reduce((accumulator, field) => ({
-          ...accumulator,
-          [field]: {
+        ...action.fields.reduce((accumulator, field) => {
+          accumulator[field] = {
             ...state[field],
             touched: true
-          }
-        }), {})
+          };
+          return accumulator;
+        }, {})
       };
     case UNTOUCH:
       return {
         ...state,
-        ...action.fields.reduce((accumulator, field) => ({
-          ...accumulator,
-          [field]: {
+        ...action.fields.reduce((accumulator, field) => {
+          accumulator[field] = {
             ...state[field],
             touched: false
-          }
-        }), {})
+          };
+          return accumulator;
+        }, {})
       };
     default:
       return state;
