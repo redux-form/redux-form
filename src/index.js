@@ -12,7 +12,7 @@ render(
   (<Provider store={store}>
     <div>
       {component}
-      <DevTools/>
+      {!window.devToolsExtension && <DevTools/>}
     </div>
   </Provider>),
   dest

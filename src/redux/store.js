@@ -10,7 +10,7 @@ const getCreateStore = () => {
   const {persistState} = require('redux-devtools');
   const DevTools = require('../components/DevTools');
   return compose(
-    DevTools.instrument(),
+    window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
     persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
   )(createStore);
 };

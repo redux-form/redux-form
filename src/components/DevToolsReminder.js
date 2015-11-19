@@ -6,9 +6,14 @@ class DevToolsReminder extends Component {
   render() {
     return (
       <div className={styles.reminder}>
-        <i className="fa fa-info-circle"/> Toggle
-        redux-devtools at any time with <code>Ctrl-{toggleVisibilityKey}</code>.
-        Move with <code>Ctrl-{changePositionKey}</code>.
+        {window.devToolsExtension && <div>
+          <i className="fa fa-info-circle"/> Try opening your Redux DevTools extension
+        </div>}
+        {!window.devToolsExtension && <div>
+          <i className="fa fa-info-circle"/> Toggle
+          redux-devtools with <code>Ctrl-{toggleVisibilityKey}</code>.
+          Move with <code>Ctrl-{changePositionKey}</code>.
+        </div>}
       </div>
     );
   }
