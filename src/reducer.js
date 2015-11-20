@@ -10,7 +10,7 @@ export const initialState = {
   _submitFailed: false
 };
 
-const getValues = (state) => {
+export const getValues = (state) => {
   return Object.keys(state).reduce((accumulator, name) => {
     if (name[0] !== '_') {
       accumulator[name] = state[name].value;
