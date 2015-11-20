@@ -58,7 +58,7 @@
     "redux": "^3.0.2",
     "rifraf": "^2.0.2",
     "rimraf": "^2.4.3",
-    "webpack": "^1.12.3"
+    "webpack": "^1.12.7"
   },
   "peerDependencies": {
     "react-redux": "^3.0.0 || ^4.0.0",
