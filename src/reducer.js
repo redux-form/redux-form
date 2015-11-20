@@ -204,9 +204,10 @@ function decorate(target) {
         ...mapValues(normalizers, (formNormalizers, form) => {
           const previousValues = getValues({...initialState, ...(state[form] && action.key ? state[form][action.key] : state[form])
           });
+          const useKey = action.key && action.form && form === action.form;
           const formResult = {
             ...initialState,
-            ...(result[form] && action.key ? result[form][action.key] : result[form])
+            ...(result[form] && useKey ? result[form][action.key] : result[form])
           };
           if (action.form && form !== action.form) {
             return formResult;
