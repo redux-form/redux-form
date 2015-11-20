@@ -13,6 +13,7 @@ import AlternateMountPoint from 'pages/examples/AlternateMountPoint';
 import Multirecord from 'pages/examples/Multirecord';
 import Normalizing from 'pages/examples/Normalizing';
 import Dynamic from 'pages/examples/Dynamic';
+import FunctionalFields from 'pages/examples/FunctionalFields';
 import InitializingFromState from 'pages/examples/InitializingFromState';
 import Examples from 'pages/examples/Examples.md';
 import Faq from 'pages/faq/Faq.md';
@@ -46,6 +47,7 @@ const routes = (
       <Route path="/examples/alternate-mount-point" component={AlternateMountPoint}/>
       <Route path="/examples/initializing-from-state" component={InitializingFromState}/>
       <Route path="/examples/dynamic" component={Dynamic}/>
+      <Route path="/examples/functional-fields" component={FunctionalFields}/>
       <Route path="/examples/multirecord" component={Multirecord}/>
       <Route path="/examples/normalizing" component={Normalizing}/>
       <Route path="/examples/simple" component={Simple}/>

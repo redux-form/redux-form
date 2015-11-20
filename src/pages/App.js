@@ -37,6 +37,7 @@ export default class App extends Component {
               <LinkContainer to="/examples/asynchronous-blur-validation"><MenuItem>Asynchronous Blur Validation</MenuItem></LinkContainer>
               <LinkContainer to="/examples/initializing-from-state"><MenuItem>Initializing From State</MenuItem></LinkContainer>
               <LinkContainer to="/examples/dynamic"><MenuItem>Dynamic Forms</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/functional-fields"><MenuItem>Fields as a Function</MenuItem></LinkContainer>
               <LinkContainer to="/examples/multirecord"><MenuItem>Multirecord Forms</MenuItem></LinkContainer>
               <LinkContainer to="/examples/normalizing"><MenuItem>Normalizing Form Values</MenuItem></LinkContainer>
               <LinkContainer to="/examples/alternate-mount-point"><MenuItem>Alternate Redux Mount Point</MenuItem></LinkContainer>

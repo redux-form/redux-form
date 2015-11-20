@@ -20,49 +20,56 @@ To download and run these examples locally, you should clone the
 > The simplest form.
 
 ---
-  
+
 ## [Synchronous Validation](#/examples/synchronous-validation)
 
 > How to add synchronous client-side validation to your form.
 
 ---
-  
+
 ## [Submit Validation](#/examples/submit-validation)
 
 > How to return server-side validation errors back from your submit function.
 
 ---
-  
+
 ## [Aynchronous Blur Validation](#/examples/asynchronous-blur-validation)
 
 > How to run asynchronous server-side validation on your form when certain fields lose focus.
 
 ---
-  
+
 ## [Initializing From State](#/examples/initializing-from-state)
 
 > How to initialize your form data from any slice of the Redux state.
 
 ---
-  
+
 ## [Dynamic Forms](#/examples/dynamic)
 
 > How to define your form's fields at runtime.
 
 ---
-  
+
+## [Fields as a Function](#/examples/functional-fields)
+
+> Defining a form's fields based on the present state of the form.
+
+---
+
+
 ## [Multirecord Forms](#/examples/multirecord)
 
 > How to reuse the same form multiple times on a page with different values.
 
 ---
-  
+
 ## [Normalizing Form Values](#/examples/normalizing)
 
 > How to use a normalizing function to control form values in realtime as they are being entered.
 
 ---
-  
+
 # Advanced Examples
 
 ---
