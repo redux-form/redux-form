@@ -11,7 +11,7 @@ export const initialState = {
 };
 
 const getValues = (state) => {
-  Object.keys(state).reduce((accumulator, name) => {
+  return Object.keys(state).reduce((accumulator, name) => {
     if (name[0] === '_') {
       return accumulator;
     }
@@ -202,22 +202,28 @@ function decorate(target) {
       return {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
-          const previousValues = getValues({...initialState, ...state[form]});
+          const previousValues = getValues({...initialState, ...(state[form] && action.key ? state[form][action.key] : state[form])
+          });
           const formResult = {
             ...initialState,
-            ...result[form]
+            ...(result[form] && action.key ? result[form][action.key] : result[form])
           };
-          return {
-            ...formResult,
+          if (action.form && form !== action.form) {
+            return formResult;
+          }
+          const normalizedResult = {...formResult,
             ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
               ...formResult[field],
               value: fieldNormalizer(
-                formResult[field] ? formResult[field].value : undefined,                  // value
-                state[form] && state[form][field] ? state[form][field].value : undefined, // previous value
-                getValues(formResult),                                                    // all field values
-                previousValues)                                                           // all previous field values
+                  formResult[field] ? formResult[field].value : undefined, // value
+                  previousValues[field] ? previousValues[field].value : undefined, // previous value
+                  getValues(formResult), // all field values
+                  previousValues) // all previous field values
             }))
           };
+          return action.key ? {
+            [action.key]: normalizedResult
+          } : normalizedResult;
         })
       };
     });
