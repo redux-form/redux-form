@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import Code from './Code';
+import stringify from '../util/stringify';
 
 class FormValues extends Component {
   static propTypes = {
@@ -8,7 +9,7 @@ class FormValues extends Component {
   }
 
   render() {
-    return <Code language="json">{JSON.stringify(this.props.values, null, 2)}</Code>;
+    return <Code language="json">{stringify(this.props.values)}</Code>;
   }
 }
 
