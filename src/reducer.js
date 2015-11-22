@@ -202,29 +202,31 @@ function decorate(target) {
       return {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
-          const previousValues = getValues({...initialState, ...(state[form] && action.key ? state[form][action.key] : state[form])
-          });
-          const useKey = action.key && action.form && form === action.form;
-          const formResult = {
-            ...initialState,
-            ...(result[form] && useKey ? result[form][action.key] : result[form])
+          const runNormalize = (previous, currentResult) => {
+            const previousValues = getValues({...initialState, ...previous
+            });
+            const formResult = {
+              ...initialState,
+              ...currentResult
+            };
+            return {
+              ...formResult,
+              ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
+                ...formResult[field],
+                value: fieldNormalizer(
+                    formResult[field] ? formResult[field].value : undefined,         // value
+                    previous && previous[field] ? previous[field].value : undefined, // previous value
+                    getValues(formResult),                                           // all field values
+                    previousValues)                                                  // all previous field values
+              }))
+            };
           };
-          if (action.form && form !== action.form) {
-            return formResult;
+          if (action.key) {
+            return {
+              ...result[form], [action.key]: runNormalize(state[form][action.key], result[form][action.key])
+            };
           }
-          const normalizedResult = {...formResult,
-            ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
-              ...formResult[field],
-              value: fieldNormalizer(
-                  formResult[field] ? formResult[field].value : undefined, // value
-                  previousValues[field] ? previousValues[field].value : undefined, // previous value
-                  getValues(formResult), // all field values
-                  previousValues) // all previous field values
-            }))
-          };
-          return action.key ? {
-            [action.key]: normalizedResult
-          } : normalizedResult;
+          return runNormalize(state[form], result[form]);
         })
       };
     });
