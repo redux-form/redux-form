@@ -1,10 +1,7 @@
-export function replacer(key, value) {
-  if (value instanceof FileList) {
-    return Array.from(value).map(file => file.name).join(', ') || 'No Files Selected';
-  }
-
-  return value;
-}
+const replacer = (key, value) =>
+  value instanceof FileList ?
+  Array.from(value).map(file => file.name).join(', ') || 'No Files Selected' :
+    value;
 
 export default function stringify(values) {
   return JSON.stringify(values, replacer, 2);

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Modal, Button} from 'react-bootstrap';
 import {hide as hideResults} from '../redux/modules/submission';
 import Code from './Code';
+import stringify from '../util/stringify';
 
 class SubmissionResults extends Component {
   static propTypes = {
@@ -19,7 +20,7 @@ class SubmissionResults extends Component {
           <Modal.Title>Values Submitted</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Code language="json">{JSON.stringify(results, null, 2)}</Code>
+          <Code language="json">{stringify(results)}</Code>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={hide}>Close</Button>
