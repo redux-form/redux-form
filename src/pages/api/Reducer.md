@@ -16,7 +16,7 @@ See [Alternate Mount Point Example](#/examples/alternate-mount-point) for more d
 
 ```javascript
 var redux = require('redux');
-var formReducer = require('redux-form).reducer;
+var formReducer = require('redux-form').reducer;
 
 var reducers = {
   // ... your other reducers here ...
