@@ -20,12 +20,6 @@ To download and run these examples locally, you should clone the
 > The simplest form.
 
 ---
-
-## [File Input Form](#/examples/file)
-
-> How to handle File inputs.
-
----
   
 ## [Synchronous Validation](#/examples/synchronous-validation)
 
@@ -48,6 +42,12 @@ To download and run these examples locally, you should clone the
 ## [Initializing From State](#/examples/initializing-from-state)
 
 > How to initialize your form data from any slice of the Redux state.
+
+---
+
+## [File Input Form](#/examples/file)
+
+> How to handle File inputs.
 
 ---
   
