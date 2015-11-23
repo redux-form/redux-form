@@ -1,5 +1,5 @@
 import expect from 'expect';
-import reducer from '../reducer';
+import reducer, {getValues} from '../reducer';
 import bindActionData from '../bindActionData';
 import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
@@ -975,5 +975,28 @@ describe('reducer.normalize', () => {
           value: 'normalized'
         }
       });
+  });
+});
+
+describe('reducer.getValues', () => {
+  it('should extract field values from state', () => {
+    const state = {
+      _active: undefined,
+      _asyncValidating: false,
+      _error: undefined,
+      _submitting: false,
+      _submitFailed: false,
+      myField: {
+        value: 'myValue'
+      },
+      myOtherField: {
+        value: 'myOtherValue'
+      }
+    };
+
+    expect(getValues(state)).toEqual({
+      myField: 'myValue',
+      myOtherField: 'myOtherValue'
+    });
   });
 });
