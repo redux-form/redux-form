@@ -13,8 +13,7 @@ class InitializingFromStateForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    load: PropTypes.func.isRequired,
-    initializeForm: PropTypes.func.isRequired
+    load: PropTypes.func.isRequired
   };
 
   render() {
