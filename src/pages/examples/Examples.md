@@ -20,6 +20,12 @@ To download and run these examples locally, you should clone the
 > The simplest form.
 
 ---
+
+## [File Input Form](#/examples/file)
+
+> How to handle File inputs.
+
+---
   
 ## [Synchronous Validation](#/examples/synchronous-validation)
 
