@@ -144,7 +144,7 @@ const reducer = (state = initialState, action = {}) => {
 };
 
 function formReducer(state = {}, action = {}) {
-  const {form, key, ...rest} = action;
+  const {form, key, ...rest} = action; // eslint-disable-line no-redeclare
   if (!form) {
     return state;
   }

@@ -96,7 +96,7 @@ const createHigherOrderComponent = (config,
         const allFields = this.fields;
         const {asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize, onSubmit, reset,
           returnRejectedSubmitPromise, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
-          submitFailed, touch, untouch, validate, ...passableProps} = this.props;
+          submitFailed, touch, untouch, validate, ...passableProps} = this.props; // eslint-disable-line no-redeclare
         const {allPristine, allValid, errors, formError, values} = allFields._meta;
 
         return (<WrappedComponent {...{
