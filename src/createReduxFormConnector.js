@@ -36,7 +36,7 @@ const createReduxFormConnector =
           const {ReduxForm} = this.cache;
           // remove some redux-form config-only props
           const {reduxMountPoint, destroyOnUnmount, form, getFormState, touchOnBlur, touchOnChange,
-            ...passableProps } = this.props;
+            ...passableProps } = this.props; // eslint-disable-line no-redeclare
           return <ReduxForm {...passableProps}/>;
         }
       }
