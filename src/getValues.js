@@ -1,5 +1,7 @@
+import write from './write';
+
 const getValues = (fields, form) => fields.reduce((accumulator, field) => {
-  accumulator[field] = form[field] ? form[field].value : undefined;
+  write(field, form[field] ? form[field].value : undefined, accumulator);
   return accumulator;
 }, {});
 

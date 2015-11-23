@@ -3,6 +3,9 @@ import createOnChange from './events/createOnChange';
 import createOnDragStart from './events/createOnDragStart';
 import createOnDrop from './events/createOnDrop';
 import createOnFocus from './events/createOnFocus';
+import read from './read';
+import readField from './readField';
+import write from './write';
 import isPristine from './isPristine';
 import isValid from './isValid';
 import getValues from './getValues';
@@ -45,49 +48,8 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
 
     // update field value
     const formField = form[name] || {};
-    if (field.value !== formField.value) {
-      diff.value = formField.value;
-      diff.checked = typeof formField.value === 'boolean' ? formField.value : undefined;
-    }
 
-    // update dirty/pristine
-    const pristine = isPristine(formField.value, formField.initial);
-    if (field.pristine !== pristine) {
-      diff.dirty = !pristine;
-      diff.pristine = pristine;
-    }
-
-    // update field error
-    const error = syncErrors[name] || formField.submitError || formField.asyncError;
-    if (error !== field.error) {
-      diff.error = error;
-    }
-    const valid = isValid(error);
-    if (field.valid !== valid) {
-      diff.invalid = !valid;
-      diff.valid = valid;
-    }
-    if (error) {
-      errors[name] = error;
-    }
-
-    const active = form._active === name;
-    if (active !== field.active) {
-      diff.active = active;
-    }
-    const touched = !!formField.touched;
-    if (touched !== field.touched) {
-      diff.touched = touched;
-    }
-    const visited = !!formField.visited;
-    if (visited !== field.visited) {
-      diff.visited = visited;
-    }
-
-    const result = Object.keys(diff).length ? {
-      ...field,
-      ...diff
-    } : field;
+    const result = readField(field, formField, form._active === name, syncError);
 
     if (result.invalid) {
       allValid = false;
@@ -95,7 +57,7 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
     if (result.dirty) {
       allPristine = false;
     }
-    accumulator[name] = result;
+    write(name, result, accumulator);
     return accumulator;
   }, {});
   Object.defineProperty(fieldObjects, '_meta', {

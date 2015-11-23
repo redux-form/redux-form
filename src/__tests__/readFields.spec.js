@@ -1063,4 +1063,19 @@ describe('readFields', () => {
     expect(result1.foo.value).toBe('fooValue');
     expect(result2.foo.value).toBe('newValue');
   });
+
+  it('should init deep fields', () => {
+    const result =
+      readFields({
+        asyncBlurFields: [],
+        blur,
+        change,
+        fields: ['foo.dog', 'foo.cat', 'bar.rat', 'bar.ram'],
+        focus,
+        form: {},
+        validate: noValidation
+      }, {});
+    expect(result.foo).toEqual({});
+    expect(result.bar).toEqual({});
+  });
 });

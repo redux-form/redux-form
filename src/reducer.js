@@ -10,7 +10,7 @@ export const initialState = {
   _submitFailed: false
 };
 
-const getValues = (state) => {
+const getValues = (state) =>
   Object.keys(state).reduce((accumulator, name) => {
     if (name[0] === '_') {
       return accumulator;
@@ -18,7 +18,6 @@ const getValues = (state) => {
     accumulator[name] = state[name].value;
     return accumulator;
   }, {});
-};
 
 const reducer = (state = initialState, action = {}) => {
   switch (action.type) {
