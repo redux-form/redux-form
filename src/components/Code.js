@@ -26,7 +26,9 @@ class Code extends Component {
     // DOM node must be removed, or it won't re-prettify on component update.
     const {props: {language}, refs: {code}} = this;
     code.className = `prettyprint lang-${language}`;
-    PR.prettyPrint();
+    if (typeof window.PR !== 'undefined') {
+      window.PR.prettyPrint();
+    }
   }
 
   render() {

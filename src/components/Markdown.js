@@ -7,7 +7,9 @@ class Markdown extends Component {
   }
 
   componentDidMount() {
-    PR.prettyPrint();
+    if (typeof window.PR !== 'undefined') {
+      window.PR.prettyPrint();
+    }
   }
 
   render() {

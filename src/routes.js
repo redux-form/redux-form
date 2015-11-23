@@ -6,6 +6,7 @@ import useScroll from 'scroll-behavior/lib/useStandardScroll';
 import App from 'pages/App';
 import Home from 'pages/Home';
 import Simple from 'pages/examples/Simple';
+import Deep from 'pages/examples/Deep';
 import SynchronousValidation from 'pages/examples/SynchronousValidation';
 import SubmitValidation from 'pages/examples/SubmitValidation';
 import AsynchronousBlurValidation from 'pages/examples/AsynchronousBlurValidation';
@@ -44,6 +45,7 @@ const routes = (
       <Route path="/examples" component={markdownPage(Examples)}/>
       <Route path="/examples/asynchronous-blur-validation" component={AsynchronousBlurValidation}/>
       <Route path="/examples/alternate-mount-point" component={AlternateMountPoint}/>
+      <Route path="/examples/deep" component={Deep}/>
       <Route path="/examples/initializing-from-state" component={InitializingFromState}/>
       <Route path="/examples/dynamic" component={Dynamic}/>
       <Route path="/examples/multirecord" component={Multirecord}/>
