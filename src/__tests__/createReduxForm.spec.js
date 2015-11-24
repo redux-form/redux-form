@@ -1,6 +1,6 @@
 /* eslint react/no-multi-comp:0*/
 import expect from 'expect';
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import {combineReducers, createStore} from 'redux';
@@ -585,5 +585,80 @@ describe('createReduxForm', () => {
       visited: false,
       readonly: true
     });
+  });
+
+  it('should call onSubmit prop', (done) => {
+    const submit = (values) => {
+      expect(values).toEqual({
+        foo: undefined,
+        bar: undefined
+      });
+      done();
+    };
+
+    class FormComponent extends Component {
+      render() {
+        return (
+          <form onSubmit={this.props.handleSubmit} />
+        );
+      }
+    }
+    FormComponent.propTypes = {
+      handleSubmit: PropTypes.func.isRequired
+    };
+
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo', 'bar'],
+      readonly: true
+    })(FormComponent);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated onSubmit={submit} />
+      </Provider>
+    );
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+
+    TestUtils.Simulate.submit(button);
+  });
+
+  it('should call submit function passed to handleSubmit', (done) => {
+    const submit = (values) => {
+      expect(values).toEqual({
+        foo: undefined,
+        bar: undefined
+      });
+      done();
+    };
+
+    class FormComponent extends Component {
+      render() {
+        return (
+          <form onSubmit={this.props.handleSubmit(submit)} />
+        );
+      }
+    }
+
+    FormComponent.propTypes = {
+      handleSubmit: PropTypes.func.isRequired
+    };
+
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo', 'bar'],
+      readonly: true
+    })(FormComponent);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated />
+      </Provider>
+    );
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+
+    TestUtils.Simulate.submit(button);
   });
 });
