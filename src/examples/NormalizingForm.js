@@ -35,7 +35,7 @@ class NormalizingForm extends Component {
           <label className="col-xs-4 control-label">Minimum Widgets</label>
           <div className="col-xs-8">
             <select className="form-control" style={{width: 60}} {...min}>
-              <option/> // empty option for when value is undefined
+              <option/>
               {renderOptions()}
             </select>
           </div>
@@ -44,7 +44,7 @@ class NormalizingForm extends Component {
           <label className="col-xs-4 control-label">Maximum Widgets</label>
           <div className="col-xs-8">
             <select className="form-control" style={{width: 60}} {...max}>
-              <option/> // empty option for when value is undefined
+              <option/>
               {renderOptions()}
             </select>
           </div>
