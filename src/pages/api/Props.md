@@ -194,7 +194,7 @@ comparing the current data with these initialized values.
 
 #### `submitFailed : boolean`
 
-> Starts as `false. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to 
+> Starts as `false`. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to 
 `true`. A subsequent successful submit will set it back to `false`.
 
 #### `touch(...field:string) : Function`
