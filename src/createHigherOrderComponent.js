@@ -94,9 +94,10 @@ const createHigherOrderComponent = (config,
 
       render() {
         const allFields = this.fields;
-        const {asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize, onSubmit, reset,
-          returnRejectedSubmitPromise, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
-          submitFailed, touch, untouch, validate, ...passableProps} = this.props; // eslint-disable-line no-redeclare
+        const {addArrayValue, asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize,
+          onSubmit, reset, removeArrayValue, returnRejectedSubmitPromise, startAsyncValidation, startSubmit,
+          stopAsyncValidation, stopSubmit, submitFailed, touch, untouch, validate,
+          ...passableProps} = this.props; // eslint-disable-line no-redeclare
         const {allPristine, allValid, errors, formError, values} = allFields._meta;
 
         return (<WrappedComponent {...{
@@ -147,11 +148,13 @@ const createHigherOrderComponent = (config,
       returnRejectedSubmitPromise: PropTypes.bool,
 
       // actions:
+      addArrayValue: PropTypes.func.isRequired,
       blur: PropTypes.func.isRequired,
       change: PropTypes.func.isRequired,
       destroy: PropTypes.func.isRequired,
       focus: PropTypes.func.isRequired,
       initialize: PropTypes.func.isRequired,
+      removeArrayValue: PropTypes.func.isRequired,
       reset: PropTypes.func.isRequired,
       startAsyncValidation: PropTypes.func.isRequired,
       startSubmit: PropTypes.func.isRequired,

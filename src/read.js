@@ -1,3 +1,6 @@
+/**
+ * Reads any potentially deep value from an object using dot and array syntax
+ */
 const read = (path, object) => {
   if (!path || !object) {
     return object;
@@ -19,6 +22,9 @@ const read = (path, object) => {
     const index = path.substring(openIndex + 1, closeIndex);
     if (openIndex === 0) {
       return read(path.substring(closeIndex + 1), object[index]);
+    }
+    if (!object[key]) {
+      return undefined;
     }
     return read(path.substring(closeIndex + 1), object[key][index]);
   }

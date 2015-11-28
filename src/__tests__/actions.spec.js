@@ -1,10 +1,31 @@
 import expect from 'expect';
-import { BLUR, CHANGE, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from '../actionTypes';
-import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
+import { ADD_ARRAY_VALUE, BLUR, CHANGE, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
+  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from '../actionTypes';
+import {addArrayValue, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
 
 describe('actions', () => {
+  it('should create add array value action', () => {
+    expect(addArrayValue('foo', undefined, 1)).toEqual({
+      type: ADD_ARRAY_VALUE,
+      path: 'foo',
+      index: 1,
+      value: undefined
+    });
+    expect(addArrayValue('bar.baz')).toEqual({
+      type: ADD_ARRAY_VALUE,
+      path: 'bar.baz',
+      index: undefined,
+      value: undefined
+    });
+    expect(addArrayValue('bar.baz', 'foo', 2)).toEqual({
+      type: ADD_ARRAY_VALUE,
+      path: 'bar.baz',
+      index: 2,
+      value: 'foo'
+    });
+  });
+
   it('should create blur action', () => {
     expect(blur('foo', 'bar')).toEqual({
       type: BLUR,
@@ -41,6 +62,19 @@ describe('actions', () => {
   it('should create initialize action', () => {
     const data = {a: 8, c: 9};
     expect(initialize(data)).toEqual({type: INITIALIZE, data});
+  });
+
+  it('should create remove array value action', () => {
+    expect(removeArrayValue('foo', 3)).toEqual({
+      type: REMOVE_ARRAY_VALUE,
+      path: 'foo',
+      index: 3
+    });
+    expect(removeArrayValue('bar.baz')).toEqual({
+      type: REMOVE_ARRAY_VALUE,
+      path: 'bar.baz',
+      index: undefined
+    });
   });
 
   it('should create reset action', () => {

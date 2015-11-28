@@ -1042,7 +1042,8 @@ describe('readFields', () => {
         },
         validate: noValidation
       }, {});
-    expect(result1.foo.value).toBe('fooValue');
+    const foo1 = result1.foo;
+    expect(foo1.value).toBe('fooValue');
     const result2 =
       readFields({
         asyncBlurFields: [],
@@ -1060,8 +1061,9 @@ describe('readFields', () => {
         },
         validate: noValidation
       }, result1);
-    expect(result1.foo.value).toBe('fooValue');
-    expect(result2.foo.value).toBe('newValue');
+    const foo2 = result2.foo;
+    expect(foo1.value).toBe('fooValue');
+    expect(foo2.value).toBe('newValue');
   });
 
   it('should init deep fields', () => {
@@ -1075,7 +1077,49 @@ describe('readFields', () => {
         form: {},
         validate: noValidation
       }, {});
-    expect(result.foo).toEqual({});
-    expect(result.bar).toEqual({});
+    expectField({
+      field: result.foo.dog,
+      name: 'foo.dog',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expectField({
+      field: result.foo.cat,
+      name: 'foo.cat',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expectField({
+      field: result.bar.rat,
+      name: 'bar.rat',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expectField({
+      field: result.bar.ram,
+      name: 'bar.ram',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
   });
 });

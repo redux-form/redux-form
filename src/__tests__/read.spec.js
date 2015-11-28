@@ -45,6 +45,13 @@ describe('read', () => {
     expect(read('cat[2]', data)).toBe('baz');
   });
 
+  it('should get return undefined when array is not there', () => {
+    const data = {
+      cat: undefined
+    };
+    expect(read('cat[0]', data)).toBe(undefined);
+  });
+
   it('should get complex array values', () => {
     const data = {
       rat: {
