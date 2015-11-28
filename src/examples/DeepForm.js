@@ -62,15 +62,15 @@ class DeepForm extends Component {
             </div>
             <div className="col-xs-2">
               <button className="btn btn-success" onClick={event => {
-                event.preventDefault();
-                child.awards.addField();
+                event.preventDefault();   // prevent form submission
+                child.awards.addField();  // pushes award field onto the end of the array
               }}><i className="fa fa-trophy"/> Add Award
               </button>
             </div>
             <div className="col-xs-2">
               <button className="btn btn-danger" onClick={event => {
-                event.preventDefault();
-                children.removeField(index);
+                event.preventDefault();       // prevent form submission
+                children.removeField(index);  // remove from index
               }}><i className="fa fa-trash"/> Remove</button>
             </div>
           </div>
@@ -82,8 +82,8 @@ class DeepForm extends Component {
               </div>
               <div className="col-xs-2">
                 <button className="btn btn-danger" onClick={event => {
-                  event.preventDefault();
-                  child.awards.removeField(awardIndex);
+                  event.preventDefault();               // prevent form submission
+                  child.awards.removeField(awardIndex); // remove from awardIndex
                 }}><i className="fa fa-trash"/></button>
               </div>
             </div>
