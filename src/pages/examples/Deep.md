@@ -4,3 +4,6 @@ corresponds to an input must still be enumerated in the `fields` array, but fiel
 turned into arrays in the `fields` prop given to the decorated form.
 
 Also demonstrated here is how a common component, `<Address/>`, can be used to render a group of fields.
+
+The array fields can be modified by calling `addField(value?, index?)` and `removeField(index?)` _on the array_ 
+inside the `fields` prop.
