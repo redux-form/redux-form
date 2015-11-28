@@ -58,6 +58,10 @@ object into the props of a form element.
 > > The error for this field if its value is not passing validation. Both synchronous and asynchronous validation 
 errors will be reported here.
 
+> #### `initialValue : any`
+
+> > The value for this field as supplied in `initialValues` to the form.
+
 > #### `invalid : boolean`
 
 > > `true` if the field value fails validation (has a validation error). Opposite of `valid`.
