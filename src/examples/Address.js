@@ -24,8 +24,8 @@ class Address extends Component {
         </div>
         <div style={{textAlign: 'center', margin: 10}}>
           <button className="btn btn-success" onClick={event => {
-            event.preventDefault();
-            phones.addField();
+            event.preventDefault();  // prevent form submission
+            phones.addField();       // pushes phone field onto the end of the array
           }}><i className="fa fa-phone"/> Add Phone</button>
         </div>
         {phones.map((phone, index) =>
