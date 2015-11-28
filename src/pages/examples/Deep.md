@@ -1,1 +1,6 @@
-Deep form
+Here we demonstrate how `redux-form` can manage deep forms with arbitrarily deeply nested objects as well as arrays, 
+or any combination of the two. The only difference is that the `fields` array has `[]` or `.` syntax. Each field that
+corresponds to an input must still be enumerated in the `fields` array, but fields with a `[]` after them will be 
+turned into arrays in the `fields` prop given to the decorated form.
+
+Also demonstrated here is how a common component, `<Address/>`, can be used to render a group of fields.

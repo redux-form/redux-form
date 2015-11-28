@@ -5,10 +5,13 @@ export const fields = [
   'name',
   'shipping.street',
   'shipping.city',
+  'shipping.phones[]',
   'billing.street',
   'billing.city',
+  'billing.phones[]',
   'children[].name',
-  'children[].age'
+  'children[].age',
+  'children[].awards[]'
 ];
 
 class DeepForm extends Component {
@@ -26,22 +29,65 @@ class DeepForm extends Component {
       } = this.props;
     return (<form className="form-horizontal" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label className="col-xs-4 control-label">Name</label>
-          <div className="col-xs-8">
+          <label className="col-xs-2 control-label">Name</label>
+          <div className="col-xs-10">
             <input type="text" className="form-control" placeholder="Name" {...name}/>
           </div>
         </div>
-        <h4>Shipping</h4>
-        <Address {...shipping}/>
-        <h4>Billing</h4>
-        <Address {...billing}/>
-        {!children.length && <div>No Children</div>}
-        <button onClick={() => children.push()}>Add Child</button>
-        {children.forEach((child, index) => <div className="form-group" key={index}>
-          <label className="col-xs-4 control-label">Child #{index + 1}</label>
-          <div className="col-xs-8">
-            <input type="text" className="form-control" placeholder="Child" {...child}/>
+        <div className="row">
+          <fieldset className="col-xs-12 col-sm-6">
+            <legend>Shipping</legend>
+            <Address {...shipping}/>
+          </fieldset>
+          <fieldset className="col-xs-12 col-sm-6">
+            <legend>Billing</legend>
+            <Address {...billing}/>
+          </fieldset>
+        </div>
+        <div style={{textAlign: 'center', margin: 10}}>
+          <button className="btn btn-success" onClick={event => {
+            event.preventDefault();
+            children.addField();
+          }}><i className="fa fa-child"/> Add Child</button>
+        </div>
+        {!children.length && <div style={{textAlign: 'center', margin: 10}}>No Children</div>}
+        {children.map((child, index) => <div key={index}>
+          <div className="form-group">
+            <label className="col-xs-2 control-label">Child #{index + 1}</label>
+            <div className="col-xs-4">
+              <input type="text" className="form-control" placeholder="Child Name" {...child.name}/>
+            </div>
+            <div className="col-xs-2">
+              <input type="text" className="form-control" placeholder="Child Age" {...child.age}/>
+            </div>
+            <div className="col-xs-2">
+              <button className="btn btn-success" onClick={event => {
+                event.preventDefault();
+                child.awards.addField();
+              }}><i className="fa fa-trophy"/> Add Award
+              </button>
+            </div>
+            <div className="col-xs-2">
+              <button className="btn btn-danger" onClick={event => {
+                event.preventDefault();
+                children.removeField(index);
+              }}><i className="fa fa-trash"/> Remove</button>
+            </div>
           </div>
+          {child.awards.map((award, awardIndex) => <div key={awardIndex}>
+            <div className="form-group">
+              <label className="col-xs-2 col-xs-offset-2 control-label">Award #{awardIndex + 1}</label>
+              <div className="col-xs-6">
+                <input type="text" className="form-control" placeholder="Award" {...award}/>
+              </div>
+              <div className="col-xs-2">
+                <button className="btn btn-danger" onClick={event => {
+                  event.preventDefault();
+                  child.awards.removeField(awardIndex);
+                }}><i className="fa fa-trash"/></button>
+              </div>
+            </div>
+          </div>)}
         </div>)}
         <div className="text-center">
           <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Submit</button>

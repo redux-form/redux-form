@@ -45,6 +45,12 @@ To download and run these examples locally, you should clone the
 
 ---
 
+## [Deep Forms](#/examples/deep)
+
+> How to handle deep nested and array field structures.
+
+---
+
 ## [File Input Form](#/examples/file)
 
 > How to handle File inputs.
