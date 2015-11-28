@@ -46,8 +46,8 @@ class DeepForm extends Component {
         </div>
         <div style={{textAlign: 'center', margin: 10}}>
           <button className="btn btn-success" onClick={event => {
-            event.preventDefault();
-            children.addField();
+            event.preventDefault(); // prevent form submission
+            children.addField();    // pushes empty child field onto the end of the array
           }}><i className="fa fa-child"/> Add Child</button>
         </div>
         {!children.length && <div style={{textAlign: 'center', margin: 10}}>No Children</div>}
@@ -63,7 +63,7 @@ class DeepForm extends Component {
             <div className="col-xs-2">
               <button className="btn btn-success" onClick={event => {
                 event.preventDefault();   // prevent form submission
-                child.awards.addField();  // pushes award field onto the end of the array
+                child.awards.addField();  // pushes empty award field onto the end of the array
               }}><i className="fa fa-trophy"/> Add Award
               </button>
             </div>
