@@ -4,6 +4,7 @@ import Example from '../../components/Example';
 import explanation from './Deep.md';
 import raw from '!!raw!../../examples/DeepForm';
 import rawAddress from '!!raw!../../examples/Address';
+import rawValidate from '!!raw!../../examples/validateDeepForm';
 
 class Deep extends Component {
   render() {
@@ -16,7 +17,8 @@ class Deep extends Component {
         fields={fields}
         files={{
           'DeepForm.js': raw,
-          'Address.js': rawAddress
+          'Address.js': rawAddress,
+          'validateDeepForm.js': rawValidate
         }}/>
     );
   }

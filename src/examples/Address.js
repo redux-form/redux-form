@@ -13,13 +13,13 @@ class Address extends Component {
         <div className="form-group">
           <label className="col-xs-4 control-label">Street</label>
           <div className="col-xs-8">
-            <input type="text" className="form-control" placeholder="Street" {...street}/>
+            <input type="text" className="form-control" placeholder="Street" {...street} title={street.error}/>
           </div>
         </div>
         <div className="form-group">
           <label className="col-xs-4 control-label">City</label>
           <div className="col-xs-8">
-            <input type="text" className="form-control" placeholder="City" {...city}/>
+            <input type="text" className="form-control" placeholder="City" {...city} title={city.error}/>
           </div>
         </div>
         <div style={{textAlign: 'center', margin: 10}}>
@@ -32,7 +32,7 @@ class Address extends Component {
           <div className="form-group">
             <label className="col-xs-4 control-label">Phone #{index + 1}</label>
             <div className="col-xs-8">
-              <input type="text" className="form-control" placeholder="Phone" {...phone}/>
+              <input type="text" className="form-control" placeholder="Phone" {...phone} title={phone.error}/>
             </div>
           </div>
         )}
