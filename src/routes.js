@@ -22,6 +22,7 @@ import FaqSubmitFunction from 'pages/faq/SubmitFunction.md';
 import FaqHandleVsOn from 'pages/faq/HandleVsOn.md';
 import FaqHowToClear from 'pages/faq/HowToClear.md';
 import FaqReactNative from 'pages/faq/ReactNative.md';
+import FaqImmutableJs from 'pages/faq/ImmutableJs.md';
 import FaqCustomComponent from 'pages/faq/CustomComponent.md';
 import GettingStarted from 'pages/GettingStarted.md';
 import Api from 'pages/api/Api.md';
@@ -61,6 +62,7 @@ const routes = (
       <Route path="/faq/submit-function" component={markdownPage(FaqSubmitFunction)}/>
       <Route path="/faq/handle-vs-on" component={markdownPage(FaqHandleVsOn)}/>
       <Route path="/faq/how-to-clear" component={markdownPage(FaqHowToClear)}/>
+      <Route path="/faq/immutable-js" component={markdownPage(FaqImmutableJs)}/>
       <Route path="/faq/react-native" component={markdownPage(FaqReactNative)}/>
       <Route path="/faq/custom-component" component={markdownPage(FaqCustomComponent)}/>
       <Route path="*" component={Home}/>

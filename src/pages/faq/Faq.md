@@ -16,3 +16,5 @@ Below is a list of common problems that people have using `redux-form`.
 4. [How can I clear my form after my submission succeeds?](#/faq/how-to-clear)
 
 5. [Does `redux-form` work with React Native?](#/faq/react-native)
+
+6. [Does `redux-form` work ImmutableJS?](#/faq/immutable-js)
