@@ -18,6 +18,11 @@ for most of your needs.**
 
 > Saves the value to the field.
 
+### `changeWithKey(form:String, formKey, field:String, value:String)`
+
+> Saves the value to the field in the form under the specified `formKey`. For use when using
+[multirecord forms](#/examples/multirecord).
+
 ### `focus(form:String, field:String)`
 
 > Marks the given field as `active` and `visited`.
@@ -56,9 +61,19 @@ for most of your needs.**
 
 > Marks all the fields passed in as `touched`.
 
+### `touchWithKey(form:String, formKey, ...fields:String)`
+
+> Marks all the fields passed in as `touched` in the form at the specified `formKey`. For use with
+[multirecord forms](#/examples/multirecord).
+
 ### `untouch(form:String, ...fields:String)`
 
 > Resets the 'touched' flag for all the fields passed in.
+
+### `untouchWithKey(form:String, formKey, ...fields:String)`
+
+> Resets the `touched` flag for  all the fields passed in on the form at the specified `formKey`. For use 
+with [multirecord forms](#/examples/multirecord).
 
 ### `destroy(form:String)`
 
