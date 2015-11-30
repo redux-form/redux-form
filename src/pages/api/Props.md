@@ -6,7 +6,25 @@
 
 # `props`
 
-> The props passed into your decorated form component will be:
+> The `props` listed on this page are are the `props` that `redux-form` generates to give
+to your decorated form component. The `props` that _you pass into your wrapped component_ are listed
+[here](#/api/reduxForm).
+
+> If you are a strict `PropTypes` completionist, `redux-form` exports all of these
+[`propTypes`](https://github.com/erikras/redux-form/blob/master/src/propTypes.js), 
+so you may import them, like so:
+
+```javascript
+import {reduxForm, propTypes} from 'redux-form';
+
+class SimpleForm extends Component {
+  static propTypes = {
+    ...propTypes,
+    // other props you might be using
+  }
+  // ...
+}
+```
 
 ### `active : String`
 
