@@ -1,4 +1,3 @@
-import {connect} from 'react-redux';
 import * as importedActions from './actions';
 import getDisplayName from './getDisplayName';
 import {initialState} from './reducer';
@@ -20,6 +19,7 @@ import wrapMapStateToProps from './wrapMapStateToProps';
 const createHigherOrderComponent = (config,
                                     isReactNative,
                                     React,
+                                    connect,
                                     WrappedComponent,
                                     mapStateToProps,
                                     mapDispatchToProps) => {

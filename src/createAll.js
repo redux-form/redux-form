@@ -29,7 +29,7 @@ const submitFailed = boundActions.submitFailed;
 const touch = boundActions.touch;
 const untouch = boundActions.untouch;
 
-export default function createAll(isReactNative, React) {
+export default function createAll(isReactNative, React, connect) {
   return {
     actionTypes,
     blur,
@@ -39,7 +39,7 @@ export default function createAll(isReactNative, React) {
     reducer,
     initialize,
     initializeWithKey,
-    reduxForm: createReduxForm(isReactNative, React),
+    reduxForm: createReduxForm(isReactNative, React, connect),
     reset,
     startAsyncValidation,
     startSubmit,
