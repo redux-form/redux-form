@@ -1,8 +1,8 @@
 import isPromise from 'is-promise';
 import isValid from './isValid';
 
-const handleSubmit = (submit, values, props, asyncValidate) => {
-  const {dispatch, fields, startSubmit, stopSubmit, submitFailed, returnRejectedSubmitPromise, touch, validate} = props;
+const handleSubmit = (submit, fields, values, props, asyncValidate) => {
+  const {dispatch, startSubmit, stopSubmit, submitFailed, returnRejectedSubmitPromise, touch, validate} = props;
   const syncErrors = validate(values, props);
   touch(...fields); // touch all fields
   if (isValid(syncErrors)) {

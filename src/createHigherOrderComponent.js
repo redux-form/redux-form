@@ -91,11 +91,11 @@ const createHigherOrderComponent = (config,
         const values = getValues(fields, form);
         return !submitOrEvent || silenceEvent(submitOrEvent) ?
           // submitOrEvent is an event: fire submit
-          handleSubmit(check(onSubmit), values, this.props, this.asyncValidate) :
+          handleSubmit(check(onSubmit), fields, values, this.props, this.asyncValidate) :
           // submitOrEvent is the submit function: return deferred submit thunk
           silenceEvents(event => {
             silenceEvent(event);
-            handleSubmit(check(submitOrEvent), values, this.props, this.asyncValidate);
+            handleSubmit(check(submitOrEvent), fields, values, this.props, this.asyncValidate);
           });
       }
 

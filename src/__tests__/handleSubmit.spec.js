@@ -15,7 +15,7 @@ describe('handleSubmit', () => {
     const validate = createSpy().andReturn({foo: 'error'});
     const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
-    expect(handleSubmit(submit, values, props, asyncValidate)).toBe(undefined);
+    expect(handleSubmit(submit, fields, values, props, asyncValidate)).toBe(undefined);
 
     expect(touch)
       .toHaveBeenCalled()
@@ -43,7 +43,7 @@ describe('handleSubmit', () => {
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
-    expect(handleSubmit(submit, values, props, asyncValidate)).toBe(69);
+    expect(handleSubmit(submit, fields, values, props, asyncValidate)).toBe(69);
 
     expect(touch)
       .toHaveBeenCalled()
@@ -75,7 +75,7 @@ describe('handleSubmit', () => {
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
-    return handleSubmit(submit, values, props, asyncValidate)
+    return handleSubmit(submit, fields, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(undefined);
         expect(touch)
@@ -110,7 +110,7 @@ describe('handleSubmit', () => {
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
       returnRejectedSubmitPromise: true};
 
-    return handleSubmit(submit, values, props, asyncValidate)
+    return handleSubmit(submit, fields, values, props, asyncValidate)
       .then(() => {
         expect(false).toBe(true); // should not get into resolve branch
       }, result => {
@@ -144,7 +144,7 @@ describe('handleSubmit', () => {
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
-    return handleSubmit(submit, values, props, asyncValidate)
+    return handleSubmit(submit, fields, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(69);
         expect(touch)
@@ -180,7 +180,7 @@ describe('handleSubmit', () => {
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
-    return handleSubmit(submit, values, props, asyncValidate)
+    return handleSubmit(submit, fields, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(69);
         expect(touch)
@@ -219,7 +219,7 @@ describe('handleSubmit', () => {
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
-    return handleSubmit(submit, values, props, asyncValidate)
+    return handleSubmit(submit, fields, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(undefined);
         expect(touch)
@@ -259,7 +259,7 @@ describe('handleSubmit', () => {
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
       returnRejectedSubmitPromise: true};
 
-    return handleSubmit(submit, values, props, asyncValidate)
+    return handleSubmit(submit, fields, values, props, asyncValidate)
       .then(() => {
         expect(false).toBe(true); // should not get into resolve branch
       }, result => {
