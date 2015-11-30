@@ -256,6 +256,108 @@ describe('readFields', () => {
     expect(result._meta.errors).toEqual({foo: 'fooError', bar: 'barError'});
   });
 
+  it('should initialize fields with a function', () => {
+    const result = readFields({
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: () => ['foo', 'bar'],
+      focus,
+      form: {
+        foo: {
+          value: 'fooValue'
+        },
+        bar: {
+          value: 'barValue'
+        }
+      },
+      validate: noValidation
+    }, {});
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(true);
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue'});
+    expect(result._meta.errors).toEqual({});
+  });
+
+  it('should initialize dependent fields', () => {
+    const result = readFields({
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: (fields) => ['foo', 'bar', fields.foo && fields.foo.value === 'fooValue' && 'dependentFoo'].filter(e => e),
+      focus,
+      form: {
+        foo: {
+          value: 'fooValue'
+        },
+        bar: {
+          value: 'barValue'
+        }
+      },
+      validate: noValidation
+    }, {});
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expectField({
+      field: result.dependentFoo,
+      name: 'dependentFoo',
+      value: undefined,
+      dirty: false,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(true);
+    expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue', dependentFoo: undefined});
+    expect(result._meta.errors).toEqual({});
+  });
+
+
   it('should update fields', () => {
     const props = {
       asyncBlurFields: [],
@@ -456,6 +558,47 @@ describe('readFields', () => {
     expect(result._meta.allPristine).toBe(false);
     expect(result._meta.allValid).toBe(true);
     expect(result._meta.values).toEqual({foo: 'fooValue', bar: 'barValue', cat: undefined, dog: undefined});
+    expect(result._meta.errors).toEqual({});
+  });
+
+  it('should remove dependent fields', () => {
+    const props = {
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: (fields) => ['foo', 'bar', fields.bar && fields.bar.value === 'barValue' && 'dependentFoo'].filter(e => e),
+      focus,
+      form: {
+        bar: {
+          value: 'barValue'
+        }
+      },
+      validate: noValidation
+    };
+    const previous = readFields(props, {});
+    const result = readFields({
+      ...props,
+      form: {
+        bar: {
+          value: 'somethingElse'
+        }
+      },
+    }, previous);
+    expect(result._meta.dependentFoo).toBe(undefined);
+    expectField({
+      field: result.bar,
+      name: 'bar',
+      value: 'somethingElse',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      initialValue: undefined,
+      readonly: false
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(true);
+    expect(result._meta.values).toEqual({foo: undefined, bar: 'somethingElse'});
     expect(result._meta.errors).toEqual({});
   });
 
