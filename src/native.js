@@ -6,6 +6,7 @@ export const {
   actionTypes,
   blur,
   change,
+  changeWithKey,
   destroy,
   focus,
   reducer,
@@ -18,5 +19,7 @@ export const {
   stopAsyncValidation,
   stopSubmit,
   touch,
-  untouch
+  touchWithKey,
+  untouch,
+  untouchWithKey
 } = createAll(true, React, connect);
