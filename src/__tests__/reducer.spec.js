@@ -453,6 +453,39 @@ describe('reducer', () => {
       });
   });
 
+  it('should set value on change and remove field-level submit and async errors', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          value: 'initial',
+          submitError: 'submit error',
+          asyncError: 'async error'
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: 'Some global error',
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...change('myField', 'different'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          value: 'different',
+          submitError: undefined,
+          asyncError: undefined
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: 'Some global error',
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should set nested value on change with empty state', () => {
     const state = reducer({}, {
       ...change('myField.mySubField', 'myValue'),

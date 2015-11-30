@@ -44,8 +44,8 @@ const behaviors = {
     if (touch) {
       stateCopy = write(`${field}.touched`, true, stateCopy);
     }
-    delete stateCopy.asyncError;
-    delete stateCopy.submitError;
+    stateCopy = write(`${field}.asyncError`, undefined, stateCopy);
+    stateCopy = write(`${field}.submitError`, undefined, stateCopy);
     return stateCopy;
   },
   [DESTROY]() {
