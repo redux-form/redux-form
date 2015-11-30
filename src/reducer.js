@@ -1,6 +1,10 @@
-import { BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, SUBMIT_FAILED, TOUCH, UNTOUCH } from './actionTypes';
+import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
+  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT_FAILED, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
+import read from './read';
+import write from './write';
+import getValuesFromState from './getValuesFromState';
+import initializeState from './initializeState';
 
 export const initialState = {
   _active: undefined,
@@ -10,137 +14,160 @@ export const initialState = {
   _submitFailed: false
 };
 
-export const getValues = (state) =>
-  Object.keys(state).reduce((accumulator, name) => {
-    if (name[0] !== '_') {
-      accumulator[name] = state[name].value;
+const behaviors = {
+  [ADD_ARRAY_VALUE](state, {path, index, value}) {
+    const array = read(path, state);
+    const stateCopy = {...state};
+    const arrayCopy = array ? [...array] : [];
+    const newValue = {value};
+    if (index === undefined) {
+      arrayCopy.push(newValue);
+    } else {
+      arrayCopy.splice(index, 0, newValue);
     }
-    return accumulator;
-  }, {});
+    return write(path, arrayCopy, stateCopy);
+  },
+  [BLUR](state, {field, value, touch}) {
+    // remove _active from state
+    const {_active, ...stateCopy} = state;  // eslint-disable-line prefer-const
+    return write(field, previous => {
+      const result = {...previous};
+      if (value !== undefined) {
+        result.value = value;
+      }
+      if (touch) {
+        result.touched = true;
+      }
+      return result;
+    }, stateCopy);
+  },
+  [CHANGE](state, {field, value, touch}) {
+    return write(field, previous => {
+      const {asyncError, submitError, ...result} = {...previous, value};
+      if (touch) {
+        result.touched = true;
+      }
+      return result;
+    }, state);
+  },
+  [DESTROY]() {
+    return undefined;
+  },
+  [FOCUS](state, {field}) {
+    const stateCopy = write(field + '.visited', true, state);
+    stateCopy._active = field;
+    return stateCopy;
+  },
+  [INITIALIZE](state, {data}) {
+    return {
+      ...initializeState(data),
+      _asyncValidating: false,
+      _active: undefined,
+      _error: undefined,
+      _submitting: false,
+      _submitFailed: false
+    };
+  },
+  [REMOVE_ARRAY_VALUE](state, {path, index}) {
+    const array = read(path, state);
+    const stateCopy = {...state};
+    const arrayCopy = array ? [...array] : [];
+    if (index === undefined) {
+      arrayCopy.pop();
+    } else if (isNaN(index)) {
+      delete arrayCopy[index];
+    } else {
+      arrayCopy.splice(index, 1);
+    }
+    return write(path, arrayCopy, stateCopy);
+  },
+  [RESET](state) {
+    return {
+      ...mapValues(state, (field, name) => {
+        return name[0] === '_' ? field : {
+          initial: field.initial,
+          value: field.initial
+        };
+      }),
+      _active: undefined,
+      _asyncValidating: false,
+      _error: undefined,
+      _submitting: false,
+      _submitFailed: false
+    };
+  },
+  [START_ASYNC_VALIDATION](state) {
+    return {
+      ...state,
+      _asyncValidating: true
+    };
+  },
+  [START_SUBMIT](state) {
+    return {
+      ...state,
+      _submitting: true
+    };
+  },
+  [STOP_ASYNC_VALIDATION](state, {errors}) {
+    return {
+      ...mapValues(state, value =>
+        value && value.asyncError ? {...value, asyncError: undefined} : value
+      ),
+      ...mapValues(errors, (error, key) => ({
+        ...state[key],
+        asyncError: error
+      })),
+      _asyncValidating: false,
+      _error: errors && errors._error
+    };
+  },
+  [STOP_SUBMIT](state, {errors}) {
+    return {
+      ...state,
+      ...(errors ? mapValues(errors, (error, key) => ({
+        ...state[key],
+        submitError: error
+      })) : {}),
+      _error: errors && errors._error,
+      _submitting: false,
+      _submitFailed: !!(errors && Object.keys(errors).length)
+    };
+  },
+  [SUBMIT_FAILED](state) {
+    return {
+      ...state,
+      _submitFailed: true
+    };
+  },
+  [TOUCH](state, {fields}) {
+    return {
+      ...state,
+      ...fields.reduce((accumulator, field) => {
+        accumulator[field] = {
+          ...state[field],
+          touched: true
+        };
+        return accumulator;
+      }, {})
+    };
+  },
+  [UNTOUCH](state, {fields}) {
+    return {
+      ...state,
+      ...fields.reduce((accumulator, field) => {
+        accumulator[field] = {
+          ...state[field],
+          touched: false
+        };
+        return accumulator;
+      }, {})
+    };
+  }
+};
 
 const reducer = (state = initialState, action = {}) => {
-  switch (action.type) {
-    case BLUR:
-      return {
-        ...state,
-        [action.field]: {
-          ...state[action.field],
-          value: action.value === undefined ? (state[action.field] || {}).value : action.value,
-          touched: !!(action.touch || (state[action.field] || {}).touched)
-        },
-        _active: undefined
-      };
-    case CHANGE:
-      return {
-        ...state,
-        [action.field]: {
-          ...state[action.field],
-          value: action.value,
-          touched: !!(action.touch || (state[action.field] || {}).touched),
-          asyncError: undefined,
-          submitError: undefined
-        }
-      };
-    case DESTROY:
-      return undefined;
-    case FOCUS:
-      return {
-        ...state,
-        [action.field]: {
-          ...state[action.field],
-          visited: true
-        },
-        _active: action.field
-      };
-    case INITIALIZE:
-      return {
-        ...mapValues(action.data, (value) => ({
-          initial: value,
-          value: value
-        })),
-        _asyncValidating: false,
-        _active: undefined,
-        _error: undefined,
-        _submitting: false,
-        _submitFailed: false
-      };
-    case RESET:
-      return {
-        ...mapValues(state, (field, name) => {
-          return name[0] === '_' ? field : {
-            initial: field.initial,
-            value: field.initial
-          };
-        }),
-        _active: undefined,
-        _asyncValidating: false,
-        _error: undefined,
-        _submitting: false,
-        _submitFailed: false
-      };
-    case START_ASYNC_VALIDATION:
-      return {
-        ...state,
-        _asyncValidating: true
-      };
-    case START_SUBMIT:
-      return {
-        ...state,
-        _submitting: true
-      };
-    case STOP_ASYNC_VALIDATION:
-      return {
-        ...mapValues(state, value =>
-          value && value.asyncError ? {...value, asyncError: undefined} : value
-        ),
-        ...mapValues(action.errors, (error, key) => ({
-          ...state[key],
-          asyncError: error
-        })),
-        _asyncValidating: false,
-        _error: action.errors && action.errors._error
-      };
-    case STOP_SUBMIT:
-      return {
-        ...state,
-        ...(action.errors ? mapValues(action.errors, (error, key) => ({
-          ...state[key],
-          submitError: error
-        })) : {}),
-        _error: action.errors && action.errors._error,
-        _submitting: false,
-        _submitFailed: !!(action.errors && Object.keys(action.errors).length)
-      };
-    case SUBMIT_FAILED:
-      return {
-        ...state,
-        _submitFailed: true
-      };
-    case TOUCH:
-      return {
-        ...state,
-        ...action.fields.reduce((accumulator, field) => {
-          accumulator[field] = {
-            ...state[field],
-            touched: true
-          };
-          return accumulator;
-        }, {})
-      };
-    case UNTOUCH:
-      return {
-        ...state,
-        ...action.fields.reduce((accumulator, field) => {
-          accumulator[field] = {
-            ...state[field],
-            touched: false
-          };
-          return accumulator;
-        }, {})
-      };
-    default:
-      return state;
-  }
+  const behavior = behaviors[action.type];
+  return behavior ? behavior(state, action) : state;
 };
 
 function formReducer(state = {}, action = {}) {
@@ -184,7 +211,7 @@ function formReducer(state = {}, action = {}) {
  * Adds additional functionality to the reducer
  */
 function decorate(target) {
-  target.plugin = function plugin(reducers) {
+  target.plugin = function plugin(reducers) { // use 'function' keyword to enable 'this'
     return decorate((state = {}, action = {}) => {
       const result = this(state, action);
       return {
@@ -194,14 +221,14 @@ function decorate(target) {
     });
   };
 
-  target.normalize = function normalize(normalizers) {
+  target.normalize = function normalize(normalizers) { // use 'function' keyword to enable 'this'
     return decorate((state = {}, action = {}) => {
       const result = this(state, action);
       return {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
           const runNormalize = (previous, currentResult) => {
-            const previousValues = getValues({...initialState, ...previous
+            const previousValues = getValuesFromState({...initialState, ...previous
             });
             const formResult = {
               ...initialState,
@@ -214,7 +241,7 @@ function decorate(target) {
                 value: fieldNormalizer(
                     formResult[field] ? formResult[field].value : undefined,         // value
                     previous && previous[field] ? previous[field].value : undefined, // previous value
-                    getValues(formResult),                                           // all field values
+                    getValuesFromState(formResult),                                           // all field values
                     previousValues)                                                  // all previous field values
               }))
             };

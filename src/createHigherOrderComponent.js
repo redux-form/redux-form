@@ -1,4 +1,3 @@
-import {connect} from 'react-redux';
 import * as importedActions from './actions';
 import getDisplayName from './getDisplayName';
 import {initialState} from './reducer';
@@ -20,6 +19,7 @@ import wrapMapStateToProps from './wrapMapStateToProps';
 const createHigherOrderComponent = (config,
                                     isReactNative,
                                     React,
+                                    connect,
                                     WrappedComponent,
                                     mapStateToProps,
                                     mapDispatchToProps) => {
@@ -94,14 +94,13 @@ const createHigherOrderComponent = (config,
 
       render() {
         const allFields = this.fields;
-        const {asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize, onSubmit, reset,
-          returnRejectedSubmitPromise, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
-          submitFailed, touch, untouch, validate, ...passableProps} = this.props; // eslint-disable-line no-redeclare
+        const {addArrayValue, asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize,
+          onSubmit, propNamespace, reset, removeArrayValue, returnRejectedSubmitPromise, startAsyncValidation,
+          startSubmit, stopAsyncValidation, stopSubmit, submitFailed, touch, untouch, validate,
+          ...passableProps} = this.props; // eslint-disable-line no-redeclare
         const {allPristine, allValid, errors, formError, values} = allFields._meta;
 
-        return (<WrappedComponent {...{
-          ...passableProps, // contains dispatch
-
+        const props = {
           // State:
           active: form._active,
           asyncValidating: form._asyncValidating,
@@ -128,6 +127,11 @@ const createHigherOrderComponent = (config,
           touchAll: silenceEvents(() => touch(...fields)),
           untouch: silenceEvents((...untouchFields) => untouch(...untouchFields)),
           untouchAll: silenceEvents(() => untouch(...fields))
+        };
+        const passedProps = propNamespace ? {[propNamespace]: props} : props;
+        return (<WrappedComponent {...{
+          ...passableProps, // contains dispatch
+          ...passedProps
         }}/>);
       }
     }
@@ -142,16 +146,19 @@ const createHigherOrderComponent = (config,
       form: PropTypes.object,
       initialValues: PropTypes.any,
       onSubmit: PropTypes.func,
-      validate: PropTypes.func,
+      propNamespace: PropTypes.string,
       readonly: PropTypes.bool,
       returnRejectedSubmitPromise: PropTypes.bool,
+      validate: PropTypes.func,
 
       // actions:
+      addArrayValue: PropTypes.func.isRequired,
       blur: PropTypes.func.isRequired,
       change: PropTypes.func.isRequired,
       destroy: PropTypes.func.isRequired,
       focus: PropTypes.func.isRequired,
       initialize: PropTypes.func.isRequired,
+      removeArrayValue: PropTypes.func.isRequired,
       reset: PropTypes.func.isRequired,
       startAsyncValidation: PropTypes.func.isRequired,
       startSubmit: PropTypes.func.isRequired,

@@ -1,15 +1,14 @@
 import expect from 'expect';
-import getValues from '../getValues';
+import getValuesFromState from '../getValuesFromState';
 
-describe('getValues', () => {
-  it('should get values from form', () => {
-    const form = {
+describe('getValuesFromState', () => {
+  it('should get simple values from state', () => {
+    const state = {
       foo: {value: 'bar'},
       catLives: {value: 9},
       alive: {value: true}
     };
-    const fields = ['foo', 'catLives', 'alive'];
-    expect(getValues(fields, form))
+    expect(getValuesFromState(state))
       .toBeA('object')
       .toEqual({
         foo: 'bar',
@@ -18,21 +17,8 @@ describe('getValues', () => {
       });
   });
 
-  it('should allow undefined values', () => {
-    const form = {
-      foo: {value: 'bar'}
-    };
-    const fields = ['foo', 'missing'];
-    expect(getValues(fields, form))
-      .toBeA('object')
-      .toEqual({
-        foo: 'bar',
-        missing: undefined
-      });
-  });
-
-  it('should get values from deep form', () => {
-    const form = {
+  it('should get deep values from state', () => {
+    const state = {
       foo: {
         bar: {value: 'baz'}
       },
@@ -41,8 +27,7 @@ describe('getValues', () => {
       },
       alive: {value: true}
     };
-    const fields = ['foo.bar', 'lives.cat', 'alive'];
-    expect(getValues(fields, form))
+    expect(getValuesFromState(state))
       .toBeA('object')
       .toEqual({
         foo: {
@@ -55,8 +40,8 @@ describe('getValues', () => {
       });
   });
 
-  it('should get values from array form', () => {
-    const form = {
+  it('should get array values from state', () => {
+    const state = {
       foo: [
         {value: 'bar'},
         {value: 'baz'},
@@ -64,8 +49,7 @@ describe('getValues', () => {
       ],
       alive: {value: true}
     };
-    const fields = ['foo[]', 'alive'];
-    expect(getValues(fields, form))
+    expect(getValuesFromState(state))
       .toBeA('object')
       .toEqual({
         foo: ['bar', 'baz', undefined],
@@ -74,17 +58,16 @@ describe('getValues', () => {
   });
 
   it('should allow an array to be empty', () => {
-    const form = {
+    const state = {
       foo: []
     };
-    const fields = ['foo[]'];
-    expect(getValues(fields, form))
+    expect(getValuesFromState(state))
       .toBeA('object')
       .toEqual({foo: []});
   });
 
-  it('should get values from deep array form', () => {
-    const form = {
+  it('should get deep array values from state', () => {
+    const state = {
       foo: {
         animals: [
           {value: 'cat'},
@@ -100,8 +83,7 @@ describe('getValues', () => {
         }
       ]
     };
-    const fields = ['foo.animals[]', 'bar[].deeper'];
-    expect(getValues(fields, form))
+    expect(getValuesFromState(state))
       .toBeA('object')
       .toEqual({
         foo: {

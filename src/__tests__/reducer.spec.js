@@ -1,7 +1,7 @@
 import expect from 'expect';
-import reducer, {getValues} from '../reducer';
+import reducer from '../reducer';
 import bindActionData from '../bindActionData';
-import {blur, change, focus, initialize, reset, startAsyncValidation, startSubmit,
+import {addArrayValue, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
 
 describe('reducer', () => {
@@ -36,6 +36,154 @@ describe('reducer', () => {
       });
   });
 
+  it('should add an empty array value with empty state', () => {
+    const state = reducer({}, {
+      ...addArrayValue('myField'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: [
+          {
+            value: undefined
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should add an empty deep array value with empty state', () => {
+    const state = reducer({}, {
+      ...addArrayValue('myField.myArray'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          myArray: [
+            {
+              value: undefined
+            }
+          ]
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should add a deep array value with empty state', () => {
+    const state = reducer({}, {
+      ...addArrayValue('myField.myArray', 20, undefined),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          myArray: [
+            {
+              value: 20
+            }
+          ]
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should push an array value', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...addArrayValue('myField', 'baz'),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          },
+          {
+            value: 'baz'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should insert an array value', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...addArrayValue('myField', 'baz', 1),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'baz'
+          },
+          {
+            value: 'bar'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should set value on blur with empty state', () => {
     const state = reducer({}, {
       ...blur('myField', 'myValue'),
@@ -44,10 +192,8 @@ describe('reducer', () => {
     expect(state.foo)
       .toEqual({
         myField: {
-          value: 'myValue',
-          touched: false
+          value: 'myValue'
         },
-        _active: undefined,
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -67,7 +213,6 @@ describe('reducer', () => {
           value: 'myValue',
           touched: true
         },
-        _active: undefined,
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -83,7 +228,6 @@ describe('reducer', () => {
           value: 'initialValue',
           touched: false
         },
-        _active: 'myField',
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -101,7 +245,6 @@ describe('reducer', () => {
           value: 'myValue',
           touched: true
         },
-        _active: undefined,
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -135,7 +278,6 @@ describe('reducer', () => {
           value: 'myValue',
           touched: true
         },
-        _active: undefined,
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -166,7 +308,72 @@ describe('reducer', () => {
           value: undefined,
           touched: true
         },
-        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should set nested value on blur', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          mySubField: {
+            value: undefined
+          }
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...blur('myField.mySubField', 'hello'),
+      form: 'foo',
+      touch: true
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          mySubField: {
+            value: 'hello',
+            touched: true
+          }
+        },
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should set array value on blur', () => {
+    const state = reducer({
+      foo: {
+        myArray: [
+          {value: undefined}
+        ],
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...blur('myArray[0]', 'hello'),
+      form: 'foo',
+      touch: true
+    });
+    expect(state.foo)
+      .toEqual({
+        myArray: [
+          {
+            value: 'hello',
+            touched: true
+          }
+        ],
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -182,10 +389,7 @@ describe('reducer', () => {
     expect(state.foo)
       .toEqual({
         myField: {
-          value: 'myValue',
-          touched: false,
-          asyncError: undefined,
-          submitError: undefined
+          value: 'myValue'
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
@@ -205,9 +409,7 @@ describe('reducer', () => {
       .toEqual({
         myField: {
           value: 'myValue',
-          touched: true,
-          asyncError: null,
-          submitError: null
+          touched: true
         },
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
@@ -241,9 +443,7 @@ describe('reducer', () => {
         myField: {
           initial: 'initialValue',
           value: 'myValue',
-          touched: true,
-          asyncError: null,
-          submitError: null
+          touched: true
         },
         _active: 'myField',
         _asyncValidating: false,
@@ -253,7 +453,58 @@ describe('reducer', () => {
       });
   });
 
-  it('should set visited on focus and update current with no previous state', () => {
+  it('should set value on change and remove field-level submit and async errors', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          value: 'initial',
+          submitError: 'submit error',
+          asyncError: 'async error'
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: 'Some global error',
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...change('myField', 'different'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          value: 'different'
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: 'Some global error',
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should set nested value on change with empty state', () => {
+    const state = reducer({}, {
+      ...change('myField.mySubField', 'myValue'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          mySubField: {
+            value: 'myValue'
+          }
+        },
+        _active: undefined, // CHANGE doesn't touch _active
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should set visited on focus and update active with no previous state', () => {
     const state = reducer({}, {
       ...focus('myField'),
       form: 'foo'
@@ -264,6 +515,26 @@ describe('reducer', () => {
           visited: true
         },
         _active: 'myField',
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should set visited on focus and update active on deep field with no previous state', () => {
+    const state = reducer({}, {
+      ...focus('myField.subField'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          subField: {
+            visited: true
+          }
+        },
+        _active: 'myField.subField',
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -323,6 +594,48 @@ describe('reducer', () => {
       });
   });
 
+  it('should initialize nested values on initialize on empty state', () => {
+    const state = reducer({}, {
+      ...initialize({myField: {subField: 'initialValue'}}),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          subField: {
+            initial: 'initialValue',
+            value: 'initialValue'
+          }
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should initialize array values on initialize on empty state', () => {
+    const state = reducer({}, {
+      ...initialize({myField: ['initialValue']}),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: [
+          {
+            initial: 'initialValue',
+            value: 'initialValue'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should set initialize values on initialize on with previous state', () => {
     const state = reducer({
       foo: {
@@ -347,6 +660,151 @@ describe('reducer', () => {
           initial: 'initialValue',
           value: 'initialValue'
         },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should pop an array value', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...removeArrayValue('myField'),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            value: 'foo'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should not change empty array value on remove', () => {
+    const state = reducer({
+      testForm: {
+        myField: [],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...removeArrayValue('myField'),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should remove an array value from start of array', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          },
+          {
+            value: 'baz'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...removeArrayValue('myField', 0),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            value: 'bar'
+          },
+          {
+            value: 'baz'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should remove an array value from middle of array', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          },
+          {
+            value: 'baz'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...removeArrayValue('myField', 1),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'baz'
+          }
+        ],
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -930,9 +1388,7 @@ describe('reducer', () => {
 describe('reducer.plugin', () => {
   it('should initialize form state when there is a reducer plugin', () => {
     const result = reducer.plugin({
-      foo: (state) => {
-        return state;
-      }
+      foo: (state) => state
     })();
     expect(result)
       .toExist()
@@ -1032,28 +1488,5 @@ describe('reducer.normalize', () => {
         }
       });
 
-  });
-});
-
-describe('reducer.getValues', () => {
-  it('should extract field values from state', () => {
-    const state = {
-      _active: undefined,
-      _asyncValidating: false,
-      _error: undefined,
-      _submitting: false,
-      _submitFailed: false,
-      myField: {
-        value: 'myValue'
-      },
-      myOtherField: {
-        value: 'myOtherValue'
-      }
-    };
-
-    expect(getValues(state)).toEqual({
-      myField: 'myValue',
-      myOtherField: 'myOtherValue'
-    });
   });
 });

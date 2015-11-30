@@ -5,9 +5,9 @@ import hoistStatics from 'hoist-non-react-statics';
  * The decorator that is the main API to redux-form
  */
 const createReduxForm =
-  (isReactNative, React) => {
+  (isReactNative, React, connect) => {
     const {Component} = React;
-    const reduxFormConnector = createReduxFormConnector(isReactNative, React);
+    const reduxFormConnector = createReduxFormConnector(isReactNative, React, connect);
     return (config, mapStateToProps, mapDispatchToProps) =>
       WrappedComponent => {
         const ReduxFormConnector = reduxFormConnector(WrappedComponent, mapStateToProps, mapDispatchToProps);
