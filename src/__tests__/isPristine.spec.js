@@ -39,8 +39,9 @@ describe('isPristine', () => {
     tryBothWays({foo: 'bar'}, {foo: 'baz'}, false);
     tryBothWays({foo: 7, bar: 8}, {foo: 7, bar: 9}, false);
     const date1 = new Date();
-    const date2 = new Date(date1.getTime());
-    tryBothWays({date: date1}, {date: date2}, true);
+    const date2 = new Date(date1.getTime() + 1);
+    tryBothWays({date: date1}, {date: date2}, false);
+
   });
 
   it('should return false when the number of keys is different', () => {

@@ -594,6 +594,29 @@ describe('reducer', () => {
       });
   });
 
+  it('should allow initializing null values', () => {
+    const state = reducer({}, {
+      ...initialize({bar: 'baz', dog: null}),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        bar: {
+          initial: 'baz',
+          value: 'baz'
+        },
+        dog: {
+          initial: null,
+          value: null
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should initialize nested values on initialize on empty state', () => {
     const state = reducer({}, {
       ...initialize({myField: {subField: 'initialValue'}}),
