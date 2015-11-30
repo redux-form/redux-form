@@ -4,6 +4,7 @@ import mapValues from './mapValues';
 import bindActionData from './bindActionData';
 import * as actions from './actions';
 import * as actionTypes from './actionTypes';
+import propTypes from './propTypes';
 
 // bind form as first parameter of action creators
 const boundActions = {
@@ -47,6 +48,7 @@ export default function createAll(isReactNative, React, connect) {
     reducer,
     initialize,
     initializeWithKey,
+    propTypes,
     reduxForm: createReduxForm(isReactNative, React, connect),
     reset,
     startAsyncValidation,

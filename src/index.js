@@ -13,6 +13,7 @@ export const {
   reduxForm,
   initialize,
   initializeWithKey,
+  propTypes,
   reset,
   startAsyncValidation,
   startSubmit,
