@@ -474,9 +474,7 @@ describe('reducer', () => {
     expect(state.foo)
       .toEqual({
         myField: {
-          value: 'different',
-          submitError: undefined,
-          asyncError: undefined
+          value: 'different'
         },
         _active: 'myField',
         _asyncValidating: false,
@@ -1390,9 +1388,7 @@ describe('reducer', () => {
 describe('reducer.plugin', () => {
   it('should initialize form state when there is a reducer plugin', () => {
     const result = reducer.plugin({
-      foo: (state) => {
-        return state;
-      }
+      foo: (state) => state
     })();
     expect(result)
       .toExist()

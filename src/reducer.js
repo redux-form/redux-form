@@ -29,31 +29,32 @@ const behaviors = {
   },
   [BLUR](state, {field, value, touch}) {
     // remove _active from state
-    let {_active, ...stateCopy} = state;  // eslint-disable-line prefer-const
-    if (value !== undefined) {
-      stateCopy = write(`${field}.value`, value, stateCopy);
-    }
-    if (touch) {
-      stateCopy = write(`${field}.touched`, true, stateCopy);
-    }
-    return stateCopy;
+    const {_active, ...stateCopy} = state;  // eslint-disable-line prefer-const
+    return write(field, previous => {
+      const result = {...previous};
+      if (value !== undefined) {
+        result.value = value;
+      }
+      if (touch) {
+        result.touched = true;
+      }
+      return result;
+    }, stateCopy);
   },
   [CHANGE](state, {field, value, touch}) {
-    let stateCopy = {...state};
-    stateCopy = write(`${field}.value`, value, stateCopy);
-    if (touch) {
-      stateCopy = write(`${field}.touched`, true, stateCopy);
-    }
-    stateCopy = write(`${field}.asyncError`, undefined, stateCopy);
-    stateCopy = write(`${field}.submitError`, undefined, stateCopy);
-    return stateCopy;
+    return write(field, previous => {
+      const {asyncError, submitError, ...result} = {...previous, value};
+      if (touch) {
+        result.touched = true;
+      }
+      return result;
+    }, state);
   },
   [DESTROY]() {
     return undefined;
   },
   [FOCUS](state, {field}) {
-    let stateCopy = {...state};
-    stateCopy = write(field + '.visited', true, stateCopy);
+    const stateCopy = write(field + '.visited', true, state);
     stateCopy._active = field;
     return stateCopy;
   },
@@ -210,7 +211,7 @@ function formReducer(state = {}, action = {}) {
  * Adds additional functionality to the reducer
  */
 function decorate(target) {
-  target.plugin = function plugin(reducers) {
+  target.plugin = function plugin(reducers) { // use 'function' keyword to enable 'this'
     return decorate((state = {}, action = {}) => {
       const result = this(state, action);
       return {
@@ -220,7 +221,7 @@ function decorate(target) {
     });
   };
 
-  target.normalize = function normalize(normalizers) {
+  target.normalize = function normalize(normalizers) { // use 'function' keyword to enable 'this'
     return decorate((state = {}, action = {}) => {
       const result = this(state, action);
       return {

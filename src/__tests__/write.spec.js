@@ -108,4 +108,34 @@ describe('write', () => {
     expect(result3.j[1]).toNotBe(initial.j[1]);
     expect(result3.j[1].l).toBe('dog');
   });
+
+  it('should use mutator if value is function', () => {
+    const result1 = write('foo', value => value + 'bar', {foo: 'candy'});
+    expect(result1.foo).toBe('candybar');
+
+    const result2 = write('foo.bar.dog', value => value * 2, {
+      foo: {
+        bar: {
+          'dog': 4
+        }
+      }
+    });
+    expect(result2.foo.bar.dog).toBe(8);
+
+    const result3 = write('foo.bar', value => ({...value, cat: 5, rat: 6}), {
+      foo: {
+        bar: {
+          dog: 4
+        }
+      }
+    });
+    expect(result3.foo.bar).toEqual({
+      dog: 4,
+      cat: 5,
+      rat: 6
+    });
+
+    const result4 = write('foo', value => value.map(num => num * 2), {foo: [1, 2, 3, 4, 5]});
+    expect(result4.foo).toEqual([2, 4, 6, 8, 10]);
+  });
 });

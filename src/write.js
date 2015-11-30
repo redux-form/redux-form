@@ -12,12 +12,9 @@ const write = (path, value, object) => {
   if (dotIndex >= 0 && (openIndex < 0 || dotIndex < openIndex)) {
     // is dot notation
     const key = path.substring(0, dotIndex);
-    if (!object[key]) {
-      object[key] = {};
-    }
     return {
       ...object,
-      [key]: write(path.substring(dotIndex + 1), value, object[key])
+      [key]: write(path.substring(dotIndex + 1), value, object[key] || {})
     };
   }
   if (openIndex >= 0 && (dotIndex < 0 || openIndex < dotIndex)) {
@@ -43,7 +40,7 @@ const write = (path, value, object) => {
       return objectArrayCopy;
     }
     const copy = [...(object[key] || [])];
-    copy[index] = value;
+    copy[index] = typeof value === 'function' ? value(copy[index]) : value;
     return {
       ...(object || {}),
       [key]: copy
@@ -51,7 +48,7 @@ const write = (path, value, object) => {
   }
   return {
     ...object,
-    [path]: value
+    [path]: typeof value === 'function' ? value(object[path]) : value
   };
 };
 
