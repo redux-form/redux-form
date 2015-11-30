@@ -1,5 +1,5 @@
 import expect from 'expect';
-import reducer, {getValues} from '../reducer';
+import reducer from '../reducer';
 import bindActionData from '../bindActionData';
 import {addArrayValue, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
