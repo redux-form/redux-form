@@ -13,6 +13,6 @@ const initializeState = values =>
       accumulator[key] = makeEntry(value);
     }
     return accumulator;
-  }, {}) : values
+  }, {}) : values;
 
 export default initializeState;
