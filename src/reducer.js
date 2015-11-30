@@ -3,6 +3,8 @@ import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY
 import mapValues from './mapValues';
 import read from './read';
 import write from './write';
+import getValuesFromState from './getValuesFromState';
+import initializeState from './initializeState';
 
 export const initialState = {
   _active: undefined,
@@ -11,14 +13,6 @@ export const initialState = {
   _submitting: false,
   _submitFailed: false
 };
-
-export const getValues = (state) =>
-  Object.keys(state).reduce((accumulator, name) => {
-    if (name[0] !== '_') {
-      accumulator[name] = state[name].value;
-    }
-    return accumulator;
-  }, {});
 
 const behaviors = {
   [ADD_ARRAY_VALUE](state, {path, index, value}) {
@@ -65,10 +59,7 @@ const behaviors = {
   },
   [INITIALIZE](state, {data}) {
     return {
-      ...mapValues(data, (value) => ({
-        initial: value,
-        value: value
-      })),
+      ...initializeState(data),
       _asyncValidating: false,
       _active: undefined,
       _error: undefined,
@@ -235,7 +226,7 @@ function decorate(target) {
       return {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
-          const previousValues = getValues({...initialState, ...state[form]});
+          const previousValues = getValuesFromState({...initialState, ...state[form]});
           const formResult = {
             ...initialState,
             ...result[form]
@@ -247,7 +238,7 @@ function decorate(target) {
               value: fieldNormalizer(
                 formResult[field] ? formResult[field].value : undefined,                  // value
                 state[form] && state[form][field] ? state[form][field].value : undefined, // previous value
-                getValues(formResult),                                                    // all field values
+                getValuesFromState(formResult),                                           // all field values
                 previousValues)                                                           // all previous field values
             }))
           };

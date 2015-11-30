@@ -563,6 +563,48 @@ describe('reducer', () => {
       });
   });
 
+  it('should initialize nested values on initialize on empty state', () => {
+    const state = reducer({}, {
+      ...initialize({myField: {subField: 'initialValue'}}),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          subField: {
+            initial: 'initialValue',
+            value: 'initialValue'
+          }
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should initialize array values on initialize on empty state', () => {
+    const state = reducer({}, {
+      ...initialize({myField: ['initialValue']}),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: [
+          {
+            initial: 'initialValue',
+            value: 'initialValue'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should set initialize values on initialize on with previous state', () => {
     const state = reducer({
       foo: {
@@ -1360,28 +1402,5 @@ describe('reducer.normalize', () => {
           value: 'normalized'
         }
       });
-  });
-});
-
-describe('reducer.getValues', () => {
-  it('should extract field values from state', () => {
-    const state = {
-      _active: undefined,
-      _asyncValidating: false,
-      _error: undefined,
-      _submitting: false,
-      _submitFailed: false,
-      myField: {
-        value: 'myValue'
-      },
-      myOtherField: {
-        value: 'myOtherValue'
-      }
-    };
-
-    expect(getValues(state)).toEqual({
-      myField: 'myValue',
-      myOtherField: 'myOtherValue'
-    });
   });
 });

@@ -1,6 +1,7 @@
 /* eslint react/no-multi-comp:0*/
 import expect from 'expect';
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 import {combineReducers, createStore} from 'redux';
@@ -9,7 +10,7 @@ import reducer from '../reducer';
 import createReduxForm from '../createReduxForm';
 
 describe('createReduxForm', () => {
-  const reduxForm = createReduxForm(false, React);
+  const reduxForm = createReduxForm(false, React, connect);
   const makeStore = () => createStore(combineReducers({
     form: reducer
   }));
@@ -584,6 +585,46 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false,
       readonly: true
+    });
+  });
+
+  it('should initialize an array field', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['children[].name'],
+      initialValues: {
+        children: [{name: 'Tom'}, {name: 'Jerry'}]
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expectField({
+      field: stub.props.fields.children[0].name,
+      name: 'children[0].name',
+      value: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+
+    expectField({
+      field: stub.props.fields.children[1].name,
+      name: 'children[1].name',
+      value: 'Jerry',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
     });
   });
 });
