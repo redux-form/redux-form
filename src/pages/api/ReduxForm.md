@@ -88,6 +88,11 @@ do not specify it as a prop here, you must pass it as a parameter to `handleSubm
 to any field, but applicable to the entire form, you may pass that as if it were the error for a field
 called `_error`, and it will be given as the `error` prop.
 
+#### `propNamespace : string` [optional]
+
+> If specified, all the props normally passed into your decorated component directly will be passed under the key 
+specified. Useful if using other decorator libraries on the same component to avoid prop namespace collisions.
+
 #### `readonly : boolean` [optional]
 
 > if `true`, the decorated component will not be passed any of the `onX` functions as props that will allow 
