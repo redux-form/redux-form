@@ -6,6 +6,8 @@
 
 # Does `redux-form` work ImmutableJS?
   
+Yes!
+
 In an attempt to be both as light and unopinionated as possible, `redux-form` uses standard javascript data 
 structures in its reducer. However, if your project is using
 [redux-immutablejs](https://github.com/indexiatech/redux-immutablejs) to maintain your entire Redux store as an 
