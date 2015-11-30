@@ -11,4 +11,3 @@ end of the array.
 
 Your synchronous validation function will be given the deep data structure and should return a deep data structure of
 errors.
-d
