@@ -95,14 +95,12 @@ const createHigherOrderComponent = (config,
       render() {
         const allFields = this.fields;
         const {addArrayValue, asyncBlurFields, blur, change, destroy, focus, fields, form, initialValues, initialize,
-          onSubmit, reset, removeArrayValue, returnRejectedSubmitPromise, startAsyncValidation, startSubmit,
-          stopAsyncValidation, stopSubmit, submitFailed, touch, untouch, validate,
+          onSubmit, propNamespace, reset, removeArrayValue, returnRejectedSubmitPromise, startAsyncValidation,
+          startSubmit, stopAsyncValidation, stopSubmit, submitFailed, touch, untouch, validate,
           ...passableProps} = this.props; // eslint-disable-line no-redeclare
         const {allPristine, allValid, errors, formError, values} = allFields._meta;
 
-        return (<WrappedComponent {...{
-          ...passableProps, // contains dispatch
-
+        const props = {
           // State:
           active: form._active,
           asyncValidating: form._asyncValidating,
@@ -129,6 +127,11 @@ const createHigherOrderComponent = (config,
           touchAll: silenceEvents(() => touch(...fields)),
           untouch: silenceEvents((...untouchFields) => untouch(...untouchFields)),
           untouchAll: silenceEvents(() => untouch(...fields))
+        };
+        const passedProps = propNamespace ? {[propNamespace]: props} : props;
+        return (<WrappedComponent {...{
+          ...passableProps, // contains dispatch
+          ...passedProps
         }}/>);
       }
     }
@@ -143,9 +146,10 @@ const createHigherOrderComponent = (config,
       form: PropTypes.object,
       initialValues: PropTypes.any,
       onSubmit: PropTypes.func,
-      validate: PropTypes.func,
+      propNamespace: PropTypes.string,
       readonly: PropTypes.bool,
       returnRejectedSubmitPromise: PropTypes.bool,
+      validate: PropTypes.func,
 
       // actions:
       addArrayValue: PropTypes.func.isRequired,
