@@ -1,6 +1,4 @@
-import {PropTypes} from 'react';
-const {any, bool, string, func, object} = PropTypes;
-const propTypes = {
+const createPropTypes = ({PropTypes: {any, bool, string, func, object}}) => ({
   // State:
   active: string,                     // currently active field
   asyncValidating: bool.isRequired,   // true if async validation is running
@@ -26,6 +24,6 @@ const propTypes = {
   touchAll: func.isRequired,          // action to mark ALL fields as touched
   untouch: func.isRequired,           // action to mark fields as untouched
   untouchAll: func.isRequired         // action to mark ALL fields as untouched
-};
+});
 
-export default propTypes;
+export default createPropTypes;
