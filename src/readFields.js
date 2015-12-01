@@ -16,14 +16,21 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
   const fieldObjects = {...myFields};
   fields.forEach(name => {
     const result = readField(form, name, undefined, fieldObjects, syncErrors, asyncValidate, isReactNative, props);
-    if (result.invalid) {
-      allValid = false;
-    }
-    if (result.dirty) {
-      allPristine = false;
-    }
-    if (result.error) {
-      errors = write(name, result.error, errors);
+    if (Array.isArray(result)) {
+      allValid = result.every(res => !res.invalid);
+      allPristine = result.every(res => !res.dirty);
+      errors = result.filter(res => res.error).map(res => res.error);
+      console.info('errors', result, '----', errors);
+    } else {
+      if (result.invalid) {
+        allValid = false;
+      }
+      if (result.dirty) {
+        allPristine = false;
+      }
+      if (result.error) {
+        errors = write(name, result.error, errors);
+      }
     }
   });
   Object.defineProperty(fieldObjects, '_meta', {

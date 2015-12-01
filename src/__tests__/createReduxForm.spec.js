@@ -394,6 +394,69 @@ describe('createReduxForm', () => {
     });
   });
 
+  it('should set dirty when and array field changes', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['children[].name'],
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{children: [{name: 'Tom'}, {name: 'Jerry'}]}}/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expectField({
+      field: stub.props.fields.children[0].name,
+      name: 'children[0].name',
+      value: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+    expectField({
+      field: stub.props.fields.children[1].name,
+      name: 'children[1].name',
+      value: 'Jerry',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+
+    stub.props.fields.children[0].name.onChange('Tim');
+
+    expectField({
+      field: stub.props.fields.children[0].name,
+      name: 'children[0].name',
+      value: 'Tim',
+      valid: true,
+      dirty: true,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+    expectField({
+      field: stub.props.fields.children[1].name,
+      name: 'children[1].name',
+      value: 'Jerry',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+  });
+
   it('should trigger sync error on change that invalidates value', () => {
     const store = makeStore();
     const form = 'testForm';
@@ -465,6 +528,131 @@ describe('createReduxForm', () => {
       valid: false,
       dirty: true,
       error: 'Required',
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+  });
+
+  it('should trigger sync error on change that invalidates nested value', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo.bar'],
+      validate: values => {
+        const errors = {};
+        if (values.foo.bar && values.foo.bar.length > 8) {
+          errors.foo = {bar: 'Too long'};
+        }
+        return errors;
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{foo: {bar: 'fooBar'}}}/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expectField({
+      field: stub.props.fields.foo.bar,
+      name: 'foo.bar',
+      value: 'fooBar',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+
+    stub.props.fields.foo.bar.onChange('fooBarBaz');
+
+    expectField({
+      field: stub.props.fields.foo.bar,
+      name: 'foo.bar',
+      value: 'fooBarBaz',
+      valid: false,
+      dirty: true,
+      error: 'Too long',
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+  });
+
+  it('should trigger sync error on change that invalidates array value', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo[]', 'bar[].name'],
+      validate: values => {
+        const errors = {};
+        if (values.foo && values.foo.length && values.foo[0] && values.foo[0].length > 8) {
+          errors.foo = ['Too long'];
+        }
+        if (values.bar && values.bar.length && values.bar[0] && values.bar[0].name === 'Ralphie') {
+          errors.bar = [{name: `You'll shoot your eye out, kid!`}];
+        }
+        return errors;
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{foo: ['fooBar'], bar: [{name: ''}]}}/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expectField({
+      field: stub.props.fields.foo[0],
+      name: 'foo[0]',
+      value: 'fooBar',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+
+    expectField({
+      field: stub.props.fields.bar[0].name,
+      name: 'bar[0].name',
+      value: '',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+
+    stub.props.fields.foo[0].onChange('fooBarBaz');
+
+    expectField({
+      field: stub.props.fields.foo[0],
+      name: 'foo[0]',
+      value: 'fooBarBaz',
+      valid: false,
+      dirty: true,
+      error: 'Too long',
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+
+    stub.props.fields.bar[0].name.onChange('Ralphie');
+
+    expectField({
+      field: stub.props.fields.bar[0].name,
+      name: 'bar[0].name',
+      value: 'Ralphie',
+      valid: false,
+      dirty: true,
+      error: `You'll shoot your eye out, kid!`,
       touched: false,
       visited: false,
       readonly: false
@@ -640,7 +828,7 @@ describe('createReduxForm', () => {
     class FormComponent extends Component {
       render() {
         return (
-          <form onSubmit={this.props.handleSubmit} />
+          <form onSubmit={this.props.handleSubmit}/>
         );
       }
     }
@@ -657,7 +845,7 @@ describe('createReduxForm', () => {
     })(FormComponent);
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
-        <Decorated onSubmit={submit} />
+        <Decorated onSubmit={submit}/>
       </Provider>
     );
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
@@ -677,7 +865,7 @@ describe('createReduxForm', () => {
     class FormComponent extends Component {
       render() {
         return (
-          <form onSubmit={this.props.handleSubmit(submit)} />
+          <form onSubmit={this.props.handleSubmit(submit)}/>
         );
       }
     }
