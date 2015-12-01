@@ -5,6 +5,7 @@ import read from './read';
 import write from './write';
 import getValuesFromState from './getValuesFromState';
 import initializeState from './initializeState';
+import resetState from './resetState';
 
 export const initialState = {
   _active: undefined,
@@ -83,12 +84,7 @@ const behaviors = {
   },
   [RESET](state) {
     return {
-      ...mapValues(state, (field, name) => {
-        return name[0] === '_' ? field : {
-          initial: field.initial,
-          value: field.initial
-        };
-      }),
+      ...resetState(state),
       _active: undefined,
       _asyncValidating: false,
       _error: undefined,

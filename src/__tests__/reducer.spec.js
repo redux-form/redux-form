@@ -877,6 +877,51 @@ describe('reducer', () => {
       });
   });
 
+  it('should reset deep values on reset on with previous state', () => {
+    const state = reducer({
+      foo: {
+        subField: {
+          myField: {
+            initial: 'initialValue',
+            value: 'dirtyValue',
+            touched: true
+          },
+          myOtherField: {
+            initial: 'otherInitialValue',
+            value: 'otherDirtyValue',
+            touched: true
+          }
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...reset(),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        subField: {
+          myField: {
+            initial: 'initialValue',
+            value: 'initialValue'
+          },
+          myOtherField: {
+            initial: 'otherInitialValue',
+            value: 'otherInitialValue'
+          }
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should set asyncValidating on startAsyncValidation', () => {
     const state = reducer({
       foo: {
