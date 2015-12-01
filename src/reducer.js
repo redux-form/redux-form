@@ -138,25 +138,21 @@ const behaviors = {
   [TOUCH](state, {fields}) {
     return {
       ...state,
-      ...fields.reduce((accumulator, field) => {
-        accumulator[field] = {
-          ...state[field],
-          touched: true
-        };
-        return accumulator;
-      }, {})
+      ...fields.reduce((accumulator, field) =>
+        write(field, value => ({...value, touched: true}), accumulator), state)
     };
   },
   [UNTOUCH](state, {fields}) {
     return {
       ...state,
-      ...fields.reduce((accumulator, field) => {
-        accumulator[field] = {
-          ...state[field],
-          touched: false
-        };
-        return accumulator;
-      }, {})
+      ...fields.reduce((accumulator, field) =>
+        write(field, value => {
+          if (value) {
+            const {touched, ...rest} = value;
+            return rest;
+          }
+          return value;
+        }, accumulator), state)
     };
   }
 };
