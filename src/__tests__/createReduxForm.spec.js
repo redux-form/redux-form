@@ -394,6 +394,69 @@ describe('createReduxForm', () => {
     });
   });
 
+  it('should set dirty when and array field changes', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['children[].name'],
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{children: [{name: 'Tom'}, {name: 'Jerry'}]}}/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expectField({
+      field: stub.props.fields.children[0].name,
+      name: 'children[0].name',
+      value: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+    expectField({
+      field: stub.props.fields.children[1].name,
+      name: 'children[1].name',
+      value: 'Jerry',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+
+    stub.props.fields.children[0].name.onChange('Tim');
+
+    expectField({
+      field: stub.props.fields.children[0].name,
+      name: 'children[0].name',
+      value: 'Tim',
+      valid: true,
+      dirty: true,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+    expectField({
+      field: stub.props.fields.children[1].name,
+      name: 'children[1].name',
+      value: 'Jerry',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+  });
+
   it('should trigger sync error on change that invalidates value', () => {
     const store = makeStore();
     const form = 'testForm';
