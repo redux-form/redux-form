@@ -19,7 +19,8 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
     if (Array.isArray(result)) {
       allValid = result.every(res => !res.invalid);
       allPristine = result.every(res => !res.dirty);
-      errors = result.every(res => write(name, res.error, errors));
+      errors = result.filter(res => res.error).map(res => res.error);
+      console.info('errors', result, '----', errors);
     } else {
       if (result.invalid) {
         allValid = false;
