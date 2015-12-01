@@ -256,6 +256,99 @@ describe('readFields', () => {
     expect(result._meta.errors).toEqual({foo: 'fooError', bar: 'barError'});
   });
 
+
+  it('should initialize nested fields with sync errors', () => {
+    const result = readFields({
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo.bar'],
+      focus,
+      form: {
+        foo: {
+          bar: {
+            value: 'barValue'
+          }
+        }
+      },
+      validate: () => ({
+        foo: {
+          bar: 'barError'
+        }
+      })
+    }, {});
+    expectField({
+      field: result.foo.bar,
+      name: 'foo.bar',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'barError',
+      initialValue: undefined,
+      readonly: false
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(false);
+    expect(result._meta.values).toEqual({foo: {bar: 'barValue'}});
+    expect(result._meta.errors).toEqual({foo: {bar: 'barError'}});
+  });
+
+
+  it('should initialize array fields with sync errors', () => {
+    const result = readFields({
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo[]', 'bar[].age'],
+      focus,
+      form: {
+        foo: [
+          {
+            value: 'fooValue'
+          }
+        ],
+        bar: [
+          {
+            age: {
+              value: 'barValue'
+            }
+          }
+        ]
+      },
+      validate: () => ({
+        foo: ['fooError'],
+        bar: [{age: 'barError'}]
+      })
+    }, {});
+    expectField({
+      field: result.foo[0],
+      name: 'foo[0]',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'fooError',
+      initialValue: undefined,
+      readonly: false
+    });
+    expectField({
+      field: result.bar[0].age,
+      name: 'bar[0].age',
+      value: 'barValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: 'barError',
+      initialValue: undefined,
+      readonly: false
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(false);
+    expect(result._meta.values).toEqual({foo: ['fooValue'], bar: [{age: 'barValue'}]});
+    expect(result._meta.errors).toEqual({foo: ['fooError'], bar: [{age: 'barError'}]});
+  });
+
   it('should update fields', () => {
     const props = {
       asyncBlurFields: [],

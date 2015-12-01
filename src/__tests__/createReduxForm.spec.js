@@ -504,6 +504,9 @@ describe('createReduxForm', () => {
       visited: false,
       readonly: false
     });
+    expect(stub.props.valid).toBe(true);
+    expect(stub.props.invalid).toBe(false);
+    expect(stub.props.errors).toEqual({});
 
     stub.props.fields.foo.onChange('fooValue!');
 
@@ -531,6 +534,13 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false,
       readonly: false
+    });
+
+    expect(stub.props.valid).toBe(false);
+    expect(stub.props.invalid).toBe(true);
+    expect(stub.props.errors).toEqual({
+      foo: 'Too long',
+      bar: 'Required'
     });
   });
 
@@ -566,6 +576,9 @@ describe('createReduxForm', () => {
       visited: false,
       readonly: false
     });
+    expect(stub.props.valid).toBe(true);
+    expect(stub.props.invalid).toBe(false);
+    expect(stub.props.errors).toEqual({});
 
     stub.props.fields.foo.bar.onChange('fooBarBaz');
 
@@ -579,6 +592,14 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false,
       readonly: false
+    });
+
+    expect(stub.props.valid).toBe(false);
+    expect(stub.props.invalid).toBe(true);
+    expect(stub.props.errors).toEqual({
+      foo: {
+        bar: 'Too long'
+      }
     });
   });
 
@@ -629,6 +650,9 @@ describe('createReduxForm', () => {
       visited: false,
       readonly: false
     });
+    expect(stub.props.valid).toBe(true);
+    expect(stub.props.invalid).toBe(false);
+    expect(stub.props.errors).toEqual({});
 
     stub.props.fields.foo[0].onChange('fooBarBaz');
 
@@ -656,6 +680,13 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false,
       readonly: false
+    });
+
+    expect(stub.props.valid).toBe(false);
+    expect(stub.props.invalid).toBe(true);
+    expect(stub.props.errors).toEqual({
+      foo: ['Too long'],
+      bar: [{name: `You'll shoot your eye out, kid!`}]
     });
   });
 

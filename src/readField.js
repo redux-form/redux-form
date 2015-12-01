@@ -7,8 +7,9 @@ import silencePromise from './silencePromise';
 import read from './read';
 import updateField from './updateField';
 
-const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props) => {
-  const {asyncBlurFields, blur, change, focus, form, initialValues, readonly, addArrayValue, removeArrayValue} = props;
+const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props, callback = () => null) => {
+  const {asyncBlurFields, blur, change, focus, form, initialValues, readonly, addArrayValue,
+    removeArrayValue} = props;
   const dotIndex = fieldName.indexOf('.');
   const openIndex = fieldName.indexOf('[');
   const closeIndex = fieldName.indexOf(']');
@@ -39,7 +40,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       }
       const dest = rest ? fieldArray[index] : {};
       const result = readField(fieldState, rest, `${pathToHere}${key}[${index}]${rest ? '.' : ''}`, dest, syncErrors,
-        asyncValidate, isReactNative, props);
+        asyncValidate, isReactNative, props, callback);
       if (!rest) { // if nothing after [] in field name, assign directly to array
         fieldArray[index] = result;
       }
@@ -58,7 +59,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       fields[key] = {};
     }
     return readField(state[key] || {}, rest, pathToHere + key + '.', fields[key], syncErrors, asyncValidate,
-      isReactNative, props);
+      isReactNative, props, callback);
   }
   const name = pathToHere + fieldName;
   const field = fields[fieldName] || {};
@@ -88,6 +89,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
   if (fieldName || fields[fieldName] !== updated) {
     fields[fieldName] = updated;
   }
+  callback(updated);
   return updated;
 };
 
