@@ -650,7 +650,7 @@ describe('readField', () => {
               cat: [
                 {
                   rat: {
-                    value: 'hello'
+                    value: 'hello'  // that's deep, baby!
                   }
                 }
               ]
