@@ -28,6 +28,7 @@ export default class App extends Component {
               <LinkContainer to="/api/reducer/plugin"><MenuItem><code>reducer.plugin()</code></MenuItem></LinkContainer>
               <LinkContainer to="/api/props"><MenuItem><code>props</code></MenuItem></LinkContainer>
               <LinkContainer to="/api/action-creators"><MenuItem>Action Creators</MenuItem></LinkContainer>
+              <LinkContainer to="/api/get-values"><MenuItem><code>getValues()</code></MenuItem></LinkContainer>
             </NavDropdown>
             <NavDropdown title="Examples" id="examples-dropdown">
               <LinkContainer to="/examples"><MenuItem>All Examples</MenuItem></LinkContainer>

@@ -37,3 +37,9 @@
 `redux-form` exports all of its internal action creators.
 
 ---
+  
+## [`getValues()`](#/api/get-values)
+
+`redux-form` exports a `getValues(state)` function to let you read the values directly from the Redux state
+
+---

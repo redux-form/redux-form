@@ -32,6 +32,7 @@ import ApiReducerNormalize from 'pages/api/ReducerNormalize.md';
 import ApiReducerPlugin from 'pages/api/ReducerPlugin.md';
 import ApiProps from 'pages/api/Props.md';
 import ApiActionCreators from 'pages/api/ActionCreators.md';
+import ApiGetValues from 'pages/api/GetValues.md';
 const scrollableHistory = useScroll(createHistory);
 
 const routes = (
@@ -40,6 +41,7 @@ const routes = (
       <Route path="/" component={Home}/>
       <Route path="/api" component={markdownPage(Api)}/>
       <Route path="/api/action-creators" component={markdownPage(ApiActionCreators)}/>
+      <Route path="/api/get-values" component={markdownPage(ApiGetValues)}/>
       <Route path="/api/props" component={markdownPage(ApiProps)}/>
       <Route path="/api/reduxForm" component={markdownPage(ApiReduxForm)}/>
       <Route path="/api/reducer" component={markdownPage(ApiReducer)}/>
