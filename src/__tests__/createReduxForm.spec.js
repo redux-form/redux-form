@@ -127,6 +127,7 @@ describe('createReduxForm', () => {
       error: undefined,
       touched: false,
       visited: false,
+      isInitialized: true,
       readonly: false
     });
     expectField({
@@ -138,6 +139,47 @@ describe('createReduxForm', () => {
       error: undefined,
       touched: false,
       visited: false,
+      isInitialized: true,
+      readonly: false
+    });
+  });
+
+  it('should NOT initialize field values if form has already been initialized', () => {
+    const store = makeStore();
+    const Decorated = reduxForm({
+      form: 'testForm',
+      fields: ['foo', 'bar'],
+      isInitialized: true
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{foo: 'fooValue', bar: 'barValue'}}/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+    expect(stub.props.fields).toBeA('object');
+    expectField({
+      field: stub.props.fields.foo,
+      name: 'foo',
+      value: undefined,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      isInitialized: true,
+      readonly: false
+    });
+    expectField({
+      field: stub.props.fields.bar,
+      name: 'bar',
+      value: undefined,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      isInitialized: true,
       readonly: false
     });
   });
@@ -832,7 +874,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      isInitialized: true
     });
 
     expectField({
@@ -843,7 +886,8 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false
+      visited: false,
+      isInitialized: true
     });
   });
 

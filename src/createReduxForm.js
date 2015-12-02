@@ -15,6 +15,7 @@ const createReduxForm =
           touchOnBlur: true,
           touchOnChange: false,
           destroyOnUnmount: true,
+          isInitialized: false,
           ...config
         };
         class ConnectedForm extends Component {
