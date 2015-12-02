@@ -121,6 +121,7 @@ const createHigherOrderComponent = (config,
           // ^ doesn't just pass this.asyncValidate to disallow values passing
           destroyForm: silenceEvents(destroy),
           handleSubmit: this.handleSubmit,
+          onSubmit,
           initializeForm: silenceEvents(initialize),
           resetForm: silenceEvents(reset),
           touch: silenceEvents((...touchFields) => touch(...touchFields)),
