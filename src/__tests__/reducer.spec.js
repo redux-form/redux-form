@@ -1665,4 +1665,61 @@ describe('reducer.normalize', () => {
         }
       });
   });
+  it('should normalize keyed forms depending on action form key', () => {
+    const defaultFields = {
+      _active: undefined,
+      _asyncValidating: false,
+      _error: undefined,
+      _submitting: false,
+      _submitFailed: false,
+    };
+    const normalize = reducer.normalize({
+      foo: {
+        myField: () => 'normalized'
+      }
+    });
+    const state = normalize({
+      foo: {
+        firstSubform: {}
+      }
+    }, {
+      form: 'foo',
+      key: 'firstSubform'
+    });
+    const nextState = normalize(state, {
+      form: 'foo',
+      key: 'secondSubForm'
+    });
+    expect(state)
+      .toExist()
+      .toBeA('object');
+    expect(Object.keys(state).length).toBe(1);
+    expect(state.foo)
+      .toExist()
+      .toBeA('object')
+      .toEqual({
+        firstSubform: {
+          ...defaultFields,
+          myField: {
+            value: 'normalized'
+          }
+        }
+      });
+    expect(nextState.foo)
+      .toEqual({
+        firstSubform: {
+          ...defaultFields,
+          myField: {
+            value: 'normalized'
+          }
+        },
+        secondSubForm: {
+          ...defaultFields,
+          myField: {
+            value: 'normalized'
+          }
+        }
+      });
+
+  });
 });
