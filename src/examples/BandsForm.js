@@ -18,10 +18,12 @@ class BandsForm extends Component {
 
   onSubmit(index) {
     return data => {
-      const bands = this.state.bands.slice();
-      bands[index] = data;
-      this.setState({bands});
-      this.props.onSubmit(data);
+      return this.props.onSubmit(data)
+        .then(() => {
+          const bands = this.state.bands.slice();
+          bands[index] = data;
+          this.setState({bands});
+        });
     };
   }
 
@@ -44,7 +46,8 @@ class BandsForm extends Component {
         <div style={{width: 200, margin: '10px auto'}} className="form-inline">
           <div className="form-group">
             <label htmlFor="numRecords">Number of records</label>
-            <select className="form-control" style={{marginLeft: 15, width: 50}} value={num} id="numRecords" onChange={::this.handleChange}>
+            <select className="form-control" style={{marginLeft: 15, width: 50}} value={num} id="numRecords"
+                    onChange={this.handleChange.bind(this)}>
               {options.map(option => <option key={option} value={option}>{option}</option>)}
             </select>
           </div>

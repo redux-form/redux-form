@@ -12,11 +12,12 @@ export const labels = {
 class DynamicForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
   render() {
-    const { fields, handleSubmit } = this.props;
+    const { fields, handleSubmit, submitting } = this.props;
     return (
       <form className="form-horizontal" onSubmit={handleSubmit}>
         {Object.keys(fields).map(name => {
@@ -29,7 +30,9 @@ class DynamicForm extends Component {
           </div>);
         })}
         <div className="text-center">
-          <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Submit</button>
+          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit}>
+            {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
+          </button>
         </div>
       </form>
     );

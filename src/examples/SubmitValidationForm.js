@@ -46,11 +46,12 @@ class SubmitValidationForm extends Component {
         </div>
         {error && <div className="text-center text-danger">{error}</div>}
         <div className="text-center">
-          <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit(submit)}>
-            {!submitting && <i className="fa fa-key"/> /* key icon */}
-            {submitting && <i className="fa fa-cog fa-spin"/> /* spinning cog icon */} Log In
+          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit}>
+            {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Log In
           </button>
-          <button className="btn btn-default btn-lg" style={{margin: 10}} onClick={resetForm}>Clear Values</button>
+          <button className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
+            Clear Values
+          </button>
         </div>
       </form>
     );

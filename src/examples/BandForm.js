@@ -20,7 +20,8 @@ class BandForm extends Component {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
-    resetForm: PropTypes.func.isRequired
+    resetForm: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
   render() {
@@ -28,7 +29,8 @@ class BandForm extends Component {
       fields: {name, color},
       handleSubmit,
       pristine,
-      resetForm
+      resetForm,
+      submitting
       } = this.props;
     return (<form style={{display: 'flex'}} onSubmit={handleSubmit}>
         <div style={{flex: 1}} className={'form-group' + (name.touched && name.error ? ' has-error' : '')}>
@@ -45,10 +47,10 @@ class BandForm extends Component {
           {color.touched && color.error &&
           <div style={{width: '50%', display: 'inline', paddingLeft: 10}} className="help-block">{color.error}</div>}
         </div>
-        <button style={{width: 72, height: 34}} className="btn btn-primary" disabled={pristine} onClick={handleSubmit}>
-          Submit
+        <button style={{width: 92, height: 34}} className="btn btn-primary" disabled={pristine || submitting} onClick={handleSubmit}>
+          {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
         </button>
-        <button style={{width: 72, height: 34}} className="btn btn-default" disabled={pristine} onClick={resetForm}>
+        <button style={{width: 72, height: 34}} className="btn btn-default" disabled={pristine || submitting} onClick={resetForm}>
           Cancel
         </button>
       </form>

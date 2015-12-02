@@ -13,11 +13,12 @@ class InitializingFromStateForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    load: PropTypes.func.isRequired
+    load: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
   render() {
-    const {fields: {firstName, lastName, age, bio}, handleSubmit, load} = this.props;
+    const {fields: {firstName, lastName, age, bio}, handleSubmit, load, submitting} = this.props;
     return (
       <div>
         <div style={{textAlign: 'center', marginBottom: 20}}>
@@ -49,7 +50,9 @@ class InitializingFromStateForm extends Component {
             </div>
           </div>
           <div className="text-center">
-            <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Submit</button>
+            <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit}>
+              {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
+            </button>
           </div>
         </form>
       </div>

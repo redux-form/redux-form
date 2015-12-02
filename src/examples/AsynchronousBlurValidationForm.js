@@ -30,11 +30,12 @@ class AsynchronousBlurValidationForm extends Component {
     asyncValidating: PropTypes.bool.isRequired,
     fields: PropTypes.object.isRequired,
     resetForm: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
   render() {
-    const {asyncValidating, fields: {username, password}, resetForm, handleSubmit} = this.props;
+    const {asyncValidating, fields: {username, password}, resetForm, handleSubmit, submitting} = this.props;
     return (<form className="form-horizontal" onSubmit={handleSubmit}>
         <div className={'form-group' + (username.touched && username.error ? ' has-error' : '')}>
           <label className="col-xs-4 control-label">Username</label>
@@ -56,8 +57,12 @@ class AsynchronousBlurValidationForm extends Component {
           {password.touched && password.error && <div className="col-xs-3 help-block">{password.error}</div>}
         </div>
         <div className="text-center">
-          <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit}>Sign Up</button>
-          <button className="btn btn-default btn-lg" style={{margin: 10}} onClick={resetForm}>Clear Values</button>
+          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit}>
+            {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Sign Up
+          </button>
+          <button className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
+            Clear Values
+          </button>
         </div>
       </form>
     );

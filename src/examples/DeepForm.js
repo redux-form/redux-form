@@ -20,7 +20,8 @@ class DeepForm extends Component {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
-    invalid: PropTypes.bool.isRequired
+    invalid: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
   render() {
@@ -28,7 +29,8 @@ class DeepForm extends Component {
       fields: {name, shipping, billing, children},
       handleSubmit,
       resetForm,
-      invalid
+      invalid,
+      submitting
       } = this.props;
     return (<form className="form-horizontal" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -95,8 +97,12 @@ class DeepForm extends Component {
           </div>)}
         </div>)}
         <div className="text-center">
-          <button className="btn btn-primary btn-lg" style={{margin: 10}} onClick={handleSubmit} disabled={invalid}>Submit</button>
-          <button className="btn btn-default btn-lg" style={{margin: 10}} onClick={resetForm}>Clear Values</button>
+          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting || invalid} onClick={handleSubmit}>
+            {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
+          </button>
+          <button className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
+            Clear Values
+          </button>
         </div>
       </form>
     );

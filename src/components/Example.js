@@ -45,7 +45,8 @@ export default class Example extends Component {
 
       <h2>Form</h2>
 
-      <Form onSubmit={submit}/>
+      <Form onSubmit={values => new Promise(resolve =>
+        setTimeout(() => resolve(submit(values)), 500))}/>
 
       {fields && <div>
         <h2>Values</h2>
