@@ -18,6 +18,7 @@ const write = (path, value, object) => {
     };
   }
   if (openIndex >= 0 && (dotIndex < 0 || openIndex < dotIndex)) {
+    // is array notation
     if (closeIndex < 0) {
       throw new Error('found [ but no ]');
     }
@@ -25,25 +26,37 @@ const write = (path, value, object) => {
     const index = path.substring(openIndex + 1, closeIndex);
     const array = object[key] || [];
     const rest = path.substring(closeIndex + 1);
+    if (index) {
+      // indexed array
+      if (rest.length) {
+        // need to keep recursing
+        const dest = array[index] || {};
+        const arrayCopy = [...array];
+        arrayCopy[index] = write(rest, value, dest);
+        return {
+          ...(object || {}),
+          [key]: arrayCopy
+        };
+      }
+      const copy = [...array];
+      copy[index] = typeof value === 'function' ? value(copy[index]) : value;
+      return {
+        ...(object || {}),
+        [key]: copy
+      };
+    }
+    // indexless array
     if (rest.length) {
-      const dest = array[index] || {};
-      const arrayCopy = [...array];
-      arrayCopy[index] = write(rest, value, dest);
+      // need to keep recursing
+      const arrayCopy = array.map(dest => write(rest, value, dest));
       return {
         ...(object || {}),
         [key]: arrayCopy
       };
     }
-    if (openIndex === 0) {   // object is an array
-      const objectArrayCopy = [...object];
-      objectArrayCopy[index] = write(rest, value, object[index]);
-      return objectArrayCopy;
-    }
-    const copy = [...(object[key] || [])];
-    copy[index] = typeof value === 'function' ? value(copy[index]) : value;
     return {
       ...(object || {}),
-      [key]: copy
+      [key]: array.map(dest => typeof value === 'function' ? value(dest) : value)
     };
   }
   return {

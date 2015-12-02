@@ -36,6 +36,16 @@ describe('write', () => {
     expect(data2.dog[2]).toBe('rabbit');
   });
 
+  it('should put simple indexless array values', () => {
+    const data = write('cat[]', 'meow', {
+      cat: [1, 2, 3, 4]
+    });
+    console.info('data', data);
+    expect(data.cat)
+      .toBeA('array')
+      .toEqual(['meow', 'meow', 'meow', 'meow']);
+  });
+
   it('should put properties on array values', () => {
     const data1 = write('cat[0].name', 'foo', {});
     expect(data1.cat).toBeA('array');
@@ -45,6 +55,20 @@ describe('write', () => {
     expect(data2.dog).toBeA('array');
     expect(data2.dog[2]).toBeA('object');
     expect(data2.dog[2].friend).toBe('rabbit');
+  });
+
+  it('should put properties on array values for index-less paths', () => {
+    const data1 = write('cat[].name', 'foo', {
+      cat: [
+        {name: 'fido'},
+        {name: 'whiskers'}
+      ]
+    });
+    expect(data1.cat).toBeA('array');
+    expect(data1.cat[0]).toBeA('object');
+    expect(data1.cat[0].name).toBe('foo');
+    expect(data1.cat[1]).toBeA('object');
+    expect(data1.cat[1].name).toBe('foo');
   });
 
   it('should put complex array values', () => {

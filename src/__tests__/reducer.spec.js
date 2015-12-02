@@ -1416,6 +1416,100 @@ describe('reducer', () => {
       });
   });
 
+  it('should mark index-less array fields as touched on touch', () => {
+    const state = reducer({
+      foo: {
+        myFields: [
+          {
+            value: 'initialValue',
+            touched: false
+          },
+          {
+            value: 'otherInitialValue',
+            touched: false
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...touch('myFields[]'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myFields: [
+          {
+            value: 'initialValue',
+            touched: true
+          },
+          {
+            value: 'otherInitialValue',
+            touched: true
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should mark index-less array subfields as touched on touch', () => {
+    const state = reducer({
+      foo: {
+        myFields: [
+          {
+            name: {
+              value: 'initialValue',
+              touched: false
+            }
+          },
+          {
+            name: {
+              value: 'otherInitialValue',
+              touched: false
+            }
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...touch('myFields[].name'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myFields: [
+          {
+            name: {
+              value: 'initialValue',
+              touched: true
+            }
+          },
+          {
+            name: {
+              value: 'otherInitialValue',
+              touched: true
+            }
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should unmark fields as touched on untouch', () => {
     const state = reducer({
       foo: {
@@ -1452,6 +1546,7 @@ describe('reducer', () => {
         _submitFailed: false
       });
   });
+
   it('should unmark deep fields as touched on untouch', () => {
     const state = reducer({
       foo: {
@@ -1524,6 +1619,96 @@ describe('reducer', () => {
           },
           {
             value: 'otherInitialValue'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should mark index-less array fields as touched on touch', () => {
+    const state = reducer({
+      foo: {
+        myFields: [
+          {
+            value: 'initialValue',
+            touched: true
+          },
+          {
+            value: 'otherInitialValue',
+            touched: true
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...untouch('myFields[]'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myFields: [
+          {
+            value: 'initialValue'
+          },
+          {
+            value: 'otherInitialValue'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should mark index-less array subfields as touched on touch', () => {
+    const state = reducer({
+      foo: {
+        myFields: [
+          {
+            name: {
+              value: 'initialValue',
+              touched: true
+            }
+          },
+          {
+            name: {
+              value: 'otherInitialValue',
+              touched: true
+            }
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...untouch('myFields[].name'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myFields: [
+          {
+            name: {
+              value: 'initialValue'
+            }
+          },
+          {
+            name: {
+              value: 'otherInitialValue'
+            }
           }
         ],
         _active: undefined,
