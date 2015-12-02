@@ -41,6 +41,7 @@ describe('isPristine', () => {
     const date1 = new Date();
     const date2 = new Date(date1.getTime() + 1);
     tryBothWays({date: date1}, {date: date2}, false);
+
   });
 
   it('should return false when the number of keys is different', () => {

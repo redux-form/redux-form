@@ -219,22 +219,31 @@ function decorate(target) {
       return {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
-          const previousValues = getValuesFromState({...initialState, ...state[form]});
-          const formResult = {
-            ...initialState,
-            ...result[form]
+          const runNormalize = (previous, currentResult) => {
+            const previousValues = getValuesFromState({...initialState, ...previous
+            });
+            const formResult = {
+              ...initialState,
+              ...currentResult
+            };
+            return {
+              ...formResult,
+              ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
+                ...formResult[field],
+                value: fieldNormalizer(
+                    formResult[field] ? formResult[field].value : undefined,         // value
+                    previous && previous[field] ? previous[field].value : undefined, // previous value
+                    getValuesFromState(formResult),                                           // all field values
+                    previousValues)                                                  // all previous field values
+              }))
+            };
           };
-          return {
-            ...formResult,
-            ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
-              ...formResult[field],
-              value: fieldNormalizer(
-                formResult[field] ? formResult[field].value : undefined,                  // value
-                state[form] && state[form][field] ? state[form][field].value : undefined, // previous value
-                getValuesFromState(formResult),                                           // all field values
-                previousValues)                                                           // all previous field values
-            }))
-          };
+          if (action.key) {
+            return {
+              ...result[form], [action.key]: runNormalize(state[form][action.key], result[form][action.key])
+            };
+          }
+          return runNormalize(state[form], result[form]);
         })
       };
     });
