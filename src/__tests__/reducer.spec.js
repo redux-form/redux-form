@@ -659,6 +659,54 @@ describe('reducer', () => {
       });
   });
 
+  it('should initialize array values with subvalues on initialize on empty state', () => {
+    const state = reducer({}, {
+      ...initialize({
+        accounts: [
+          {
+            name: 'Bobby Tables',
+            email: 'bobby@gmail.com'
+          },
+          {
+            name: 'Sammy Tables',
+            email: 'sammy@gmail.com'
+          }
+        ]
+      }),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        accounts: [
+          {
+            name: {
+              initial: 'Bobby Tables',
+              value: 'Bobby Tables'
+            },
+            email: {
+              initial: 'bobby@gmail.com',
+              value: 'bobby@gmail.com'
+            }
+          },
+          {
+            name: {
+              initial: 'Sammy Tables',
+              value: 'Sammy Tables'
+            },
+            email: {
+              initial: 'sammy@gmail.com',
+              value: 'sammy@gmail.com'
+            }
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should set initialize values on initialize on with previous state', () => {
     const state = reducer({
       foo: {
