@@ -30,7 +30,8 @@ for most of your needs.**
 ### `initialize(form:String, data:Object)`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
-`dirty` and `pristine`. The `data` parameter should only contain `String` values.
+`dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of 
+your form fields.
 
 ### `initializeWithKey(form:String, formKey, data:Object)`
 
