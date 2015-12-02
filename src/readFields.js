@@ -14,11 +14,11 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
   let allValid = !formError;
   let allPristine = true;
   const tally = field => {
-    if(field.error) {
+    if (field.error) {
       errors = write(field.name, field.error, errors);
       allValid = false;
     }
-    if(field.dirty) {
+    if (field.dirty) {
       allPristine = false;
     }
   };

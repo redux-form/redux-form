@@ -28,7 +28,7 @@ describe('createReduxForm', () => {
   const expectField = ({field, name, value, valid, dirty, error, touched, visited, readonly}) => {
     expect(field).toBeA('object');
     expect(field.name).toBe(name);
-    expect(field.value).toBe(value);
+    expect(field.value).toEqual(value);
     if (readonly) {
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
@@ -921,4 +921,35 @@ describe('createReduxForm', () => {
 
     TestUtils.Simulate.submit(button);
   });
+
+  // todo: find a way to get this to pass:
+
+  //it('should initialize a non-array field with an array value and let it read it back', () => {
+  //  const store = makeStore();
+  //  const form = 'testForm';
+  //  const Decorated = reduxForm({
+  //    form,
+  //    fields: ['children'],
+  //    initialValues: {
+  //      children: [1, 2]
+  //    }
+  //  })(Form);
+  //  const dom = TestUtils.renderIntoDocument(
+  //    <Provider store={store}>
+  //      <Decorated/>
+  //    </Provider>
+  //  );
+  //  const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+  //
+  //  expectField({
+  //    field: stub.props.fields.children,
+  //    name: 'children',
+  //    value: [1, 2],
+  //    valid: true,
+  //    dirty: false,
+  //    error: undefined,
+  //    touched: false,
+  //    visited: false
+  //  });
+  //});
 });

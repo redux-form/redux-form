@@ -29,7 +29,7 @@ describe('readField', () => {
       .toExist()
       .toBeA('object');
     expect(field.name).toBe(name);
-    expect(field.value).toBe(value);
+    expect(field.value).toEqual(value);
     if (readonly) {
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
@@ -764,6 +764,26 @@ describe('readField', () => {
       touched: false,
       visited: false,
       error: 'syncError',
+      initialValue: undefined,
+      readonly: false
+    });
+  });
+
+  it('should allow an array value', () => {
+    const fields = {};
+    readField({
+      foo: {
+        value: [1, 2]
+      }
+    }, 'foo', undefined, fields, {}, undefined, false, defaultProps);
+    expectField({
+      field: fields.foo,
+      name: 'foo',
+      value: [1, 2],
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
       initialValue: undefined,
       readonly: false
     });
