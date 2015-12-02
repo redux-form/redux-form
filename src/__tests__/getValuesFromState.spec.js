@@ -159,4 +159,22 @@ describe('getValuesFromState', () => {
         bar: [{deeper: 42}]
       });
   });
+
+  it('should ignore values starting with _', () => {
+    const state = {
+      foo: {
+        value: 'dog'
+      },
+      bar: {
+        value: 'cat'
+      },
+      _someMetaValue: 'rat'
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({
+        foo: 'dog',
+        bar: 'cat'
+      });
+  });
 });
