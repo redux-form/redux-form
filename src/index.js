@@ -11,6 +11,7 @@ export const {
   focus,
   reducer,
   reduxForm,
+  getValues,
   initialize,
   initializeWithKey,
   propTypes,
