@@ -40,7 +40,6 @@ describe('write', () => {
     const data = write('cat[]', 'meow', {
       cat: [1, 2, 3, 4]
     });
-    console.info('data', data);
     expect(data.cat)
       .toBeA('array')
       .toEqual(['meow', 'meow', 'meow', 'meow']);
