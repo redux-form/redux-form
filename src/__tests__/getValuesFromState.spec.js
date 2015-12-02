@@ -40,6 +40,73 @@ describe('getValuesFromState', () => {
       });
   });
 
+  it('should get date values from state', () => {
+    const date1 = new Date();
+    const date2 = new Date(date1.getTime() + 1);
+    const state = {
+      time1: {
+        value: date1
+      },
+      time2: {
+        value: date2
+      }
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({
+        time1: date1,
+        time2: date2
+      });
+  });
+
+  it('should get undefined values from state', () => {
+    const state = {
+      foo: {
+        value: undefined
+      },
+      bar: {
+        value: undefined
+      }
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({});
+  });
+
+  it('should get null values from state', () => {
+    const state = {
+      foo: {
+        value: null
+      },
+      bar: {
+        value: null
+      }
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({
+        foo: null,
+        bar: null
+      });
+  });
+
+  it('should get empty string values from state', () => {
+    const state = {
+      foo: {
+        value: ''
+      },
+      bar: {
+        value: ''
+      }
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({
+        foo: '',
+        bar: ''
+      });
+  });
+
   it('should get array values from state', () => {
     const state = {
       foo: [
