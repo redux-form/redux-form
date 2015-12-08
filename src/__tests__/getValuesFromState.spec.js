@@ -177,4 +177,20 @@ describe('getValuesFromState', () => {
         bar: 'cat'
       });
   });
+
+  it('should ignore visited fields without values', () => {
+    const state = {
+      foo: {
+        value: 'dog'
+      },
+      bar: {
+        visited: true
+      }
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({
+        foo: 'dog'
+      });
+  });
 });
