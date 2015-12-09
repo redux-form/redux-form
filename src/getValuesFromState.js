@@ -5,6 +5,10 @@ const getValuesFromState = state => {
   if (!state) {
     return state;
   }
+   if (typeof state != "object"){
+    return undefined;
+  }
+  
   const keys = Object.keys(state);
   if (!keys.length) {
     return undefined;
