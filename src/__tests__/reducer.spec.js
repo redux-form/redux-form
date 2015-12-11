@@ -78,7 +78,7 @@ describe('reducer', () => {
       });
   });
 
-  it('should add a deep array value with empty state', () => {
+  it('should add a deep array value with initial value', () => {
     const state = reducer({}, {
       ...addArrayValue('myField.myArray', 20, undefined),
       form: 'foo'
@@ -175,6 +175,83 @@ describe('reducer', () => {
           {
             value: 'bar'
           }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should push a deep array value which is an object', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            foo: {
+              initial: 'foo-1',
+              value: 'foo-1'
+            },
+            bar: {
+              initial: 'bar-1',
+              value: 'bar-1'
+            }
+          },
+          {
+            foo: {
+              initial: 'foo-2',
+              value: 'foo-2'
+            },
+            bar: {
+              initial: 'bar-2',
+              value: 'bar-2'
+            }
+          },
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...addArrayValue('myField', {foo: 'foo-3', bar: 'bar-3'}, undefined),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            foo: {
+              initial: 'foo-1',
+              value: 'foo-1'
+            },
+            bar: {
+              initial: 'bar-1',
+              value: 'bar-1'
+            }
+          },
+          {
+            foo: {
+              initial: 'foo-2',
+              value: 'foo-2'
+            },
+            bar: {
+              initial: 'bar-2',
+              value: 'bar-2'
+            }
+          },
+          {
+            foo: {
+              initial: 'foo-3',
+              value: 'foo-3'
+            },
+            bar: {
+              initial: 'bar-3',
+              value: 'bar-3'
+            }
+          },
         ],
         _active: undefined,
         _asyncValidating: false,
