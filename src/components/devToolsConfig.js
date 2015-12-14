@@ -1,2 +1,2 @@
-export const toggleVisibilityKey = 'H';
-export const changePositionKey = 'Q';
+export const toggleVisibilityKey = 'Ctrl-H';
+export const changePositionKey = 'Ctrl-Q';

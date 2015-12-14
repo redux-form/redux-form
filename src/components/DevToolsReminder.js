@@ -17,8 +17,8 @@ class DevToolsReminder extends Component {
     return (
       <div className={styles.reminder}>
         <i className="fa fa-info-circle"/> Toggle
-        redux-devtools with <code>Ctrl-{toggleVisibilityKey}</code>.
-        Move with <code>Ctrl-{changePositionKey}</code>.
+        redux-devtools with <code>{toggleVisibilityKey}</code>.
+        Move with <code>{changePositionKey}</code>.
       </div>
     );
   }
