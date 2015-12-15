@@ -35,8 +35,9 @@ const createHigherOrderComponent = (config,
       }
 
       componentWillMount() {
-        const {initialize, initialValues} = this.props;
-        if (initialValues) {
+        const {initialize, initialValues, fields} = this.props;
+        const isInitialized = fields.filter((field) => field.defaultValue !== undefined).length > 0;
+        if ((isInitialized === false) && initialValues) {
           initialize(initialValues);
         }
       }

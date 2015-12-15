@@ -142,6 +142,46 @@ describe('createReduxForm', () => {
     });
   });
 
+  it('should NOT initialize field values if form has already been initialized', () => {
+    const store = makeStore();
+    const Decorated = reduxForm({
+      form: 'testForm',
+      fields: ['foo', 'bar']
+    }, () => ({
+      initialValues: {foo: 'fooInitialValue', bar: 'barInitialValue'}
+    })
+    )(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{foo: 'fooNewValue', bar: 'barNewValue'}}/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+    expect(stub.props.fields).toBeA('object');
+    expectField({
+      field: stub.props.fields.foo,
+      name: 'foo',
+      value: 'fooInitialValue',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+    expectField({
+      field: stub.props.fields.bar,
+      name: 'bar',
+      value: 'barInitialValue',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+  });
+
   it('should set value and touch field on blur', () => {
     const store = makeStore();
     const form = 'testForm';
