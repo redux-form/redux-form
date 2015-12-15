@@ -2,16 +2,24 @@ import expect from 'expect';
 import initializeState from '../initializeState';
 
 describe('initializeState', () => {
-  it('should return empty if no values', () => {
-    expect(initializeState({})).toEqual({});
+  it('should throw error when no fields passed', () => {
+    expect(() => initializeState({}, undefined, {})).toThrow(/fields must be passed/);
   });
 
-  it('should initialize simple values to state', () => {
+  it('should return empty if no fields', () => {
+    expect(initializeState({}, [], {})).toEqual({});
+  });
+
+  it('should return empty field entries for each field', () => {
+    expect(initializeState({}, ['foo', 'bar'], {})).toEqual({foo: {}, bar: {}});
+  });
+
+  it('should initialize simple field values to state', () => {
     expect(initializeState({
       foo: 'bar',
       catLives: 9,
       alive: true
-    }))
+    }, ['foo', 'catLives', 'alive'], {}))
       .toBeA('object')
       .toEqual({
         foo: {
@@ -29,7 +37,7 @@ describe('initializeState', () => {
       });
   });
 
-  it('should initialize deep values to state', () => {
+  it('should initialize deep field values to state', () => {
     expect(initializeState({
       foo: {
         bar: 'baz'
@@ -38,7 +46,7 @@ describe('initializeState', () => {
         cat: 9
       },
       alive: true
-    }))
+    }, ['foo.bar', 'lives.cat', 'alive'], {}))
       .toBeA('object')
       .toEqual({
         foo: {
@@ -60,11 +68,11 @@ describe('initializeState', () => {
       });
   });
 
-  it('should initialize array values to state', () => {
+  it('should initialize array field values to state', () => {
     expect(initializeState({
       foo: ['bar', 'baz', undefined],
       alive: true
-    }))
+    }, ['foo[]', 'alive'], {}))
       .toBeA('object')
       .toEqual({
         foo: [
@@ -85,47 +93,48 @@ describe('initializeState', () => {
       });
   });
 
-  it('should allow an array to be empty', () => {
+  it('should allow an array field to be empty', () => {
     expect(initializeState({
       foo: []
-    }))
+    }, ['foo[]'], {}))
       .toBeA('object')
       .toEqual({foo: []});
   });
 
-  it('should initialize deep array values to state', () => {
+  it('should initialize array values to state', () => {
     expect(initializeState({
-      foo: {
-        animals: ['cat', 'dog', 'rat']
-      },
+      animals: ['cat', 'dog', 'rat'],
       bar: [{deeper: 42}]
-    }))
+    }, ['animals', 'bar'], {}))
+      .toBeA('object')
+      .toEqual({
+        animals: {
+          initial: ['cat', 'dog', 'rat'],
+          value: ['cat', 'dog', 'rat']
+        },
+        bar: {
+          initial: [{deeper: 42}],
+          value: [{deeper: 42}]
+        }
+      });
+  });
+
+  it('should initialize object values to state', () => {
+    expect(initializeState({
+      foo: {bar: 'baz'},
+      lives: {cat: 9},
+      alive: true
+    }, ['foo', 'lives'], {}))
       .toBeA('object')
       .toEqual({
         foo: {
-          animals: [
-            {
-              initial: 'cat',
-              value: 'cat'
-            },
-            {
-              initial: 'dog',
-              value: 'dog'
-            },
-            {
-              initial: 'rat',
-              value: 'rat'
-            }
-          ]
+          initial: {bar: 'baz'},
+          value: {bar: 'baz'}
         },
-        bar: [
-          {
-            deeper: {
-              initial: 42,
-              value: 42
-            }
-          }
-        ]
+        lives: {
+          initial: {cat: 9},
+          value: {cat: 9}
+        }
       });
   });
 });

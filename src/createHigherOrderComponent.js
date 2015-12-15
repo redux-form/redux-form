@@ -35,9 +35,9 @@ const createHigherOrderComponent = (config,
       }
 
       componentWillMount() {
-        const {initialize, initialValues} = this.props;
+        const {fields, initialize, initialValues} = this.props;
         if (initialValues) {
-          initialize(initialValues);
+          initialize(initialValues, fields);
         }
       }
 
@@ -121,7 +121,7 @@ const createHigherOrderComponent = (config,
           // ^ doesn't just pass this.asyncValidate to disallow values passing
           destroyForm: silenceEvents(destroy),
           handleSubmit: this.handleSubmit,
-          initializeForm: silenceEvents(initialize),
+          initializeForm: silenceEvents(initValues => initialize(initValues, fields)),
           resetForm: silenceEvents(reset),
           touch: silenceEvents((...touchFields) => touch(...touchFields)),
           touchAll: silenceEvents(() => touch(...fields)),

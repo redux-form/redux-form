@@ -59,9 +59,9 @@ const behaviors = {
     stateCopy._active = field;
     return stateCopy;
   },
-  [INITIALIZE](state, {data}) {
+  [INITIALIZE](state, {data, fields}) {
     return {
-      ...initializeState(data),
+      ...initializeState(data, fields, state),
       _asyncValidating: false,
       _active: undefined,
       _error: undefined,
@@ -220,7 +220,8 @@ function decorate(target) {
         ...result,
         ...mapValues(normalizers, (formNormalizers, form) => {
           const runNormalize = (previous, currentResult) => {
-            const previousValues = getValuesFromState({...initialState, ...previous
+            const previousValues = getValuesFromState({
+              ...initialState, ...previous
             });
             const formResult = {
               ...initialState,
@@ -231,10 +232,10 @@ function decorate(target) {
               ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
                 ...formResult[field],
                 value: fieldNormalizer(
-                    formResult[field] ? formResult[field].value : undefined,         // value
-                    previous && previous[field] ? previous[field].value : undefined, // previous value
-                    getValuesFromState(formResult),                                           // all field values
-                    previousValues)                                                  // all previous field values
+                  formResult[field] ? formResult[field].value : undefined,         // value
+                  previous && previous[field] ? previous[field].value : undefined, // previous value
+                  getValuesFromState(formResult),                                           // all field values
+                  previousValues)                                                  // all previous field values
               }))
             };
           };

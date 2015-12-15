@@ -12,6 +12,7 @@ const read = (path, object) => {
   const openIndex = path.indexOf('[');
   const closeIndex = path.indexOf(']');
   if (dotIndex >= 0 && (openIndex < 0 || dotIndex < openIndex)) {
+    // iterate down object tree
     return read(path.substring(dotIndex + 1), object[path.substring(0, dotIndex)]);
   }
   if (openIndex >= 0 && (dotIndex < 0 || openIndex < dotIndex)) {
@@ -20,6 +21,9 @@ const read = (path, object) => {
     }
     const key = path.substring(0, openIndex);
     const index = path.substring(openIndex + 1, closeIndex);
+    if (!index.length) {
+      return object[key];
+    }
     if (openIndex === 0) {
       return read(path.substring(closeIndex + 1), object[index]);
     }

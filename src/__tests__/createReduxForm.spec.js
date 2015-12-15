@@ -407,6 +407,8 @@ describe('createReduxForm', () => {
       </Provider>
     );
     const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+    expect(stub.props.fields.children).toBeA('array');
+    expect(stub.props.fields.children.length).toBe(2);
 
     expectField({
       field: stub.props.fields.children[0].name,

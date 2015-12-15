@@ -48,15 +48,28 @@ const write = (path, value, object) => {
     // indexless array
     if (rest.length) {
       // need to keep recursing
+      if ((!array || !array.length) && typeof value === 'function') {
+        return object;  // don't even set a value under [key]
+      }
       const arrayCopy = array.map(dest => write(rest, value, dest));
       return {
         ...(object || {}),
         [key]: arrayCopy
       };
     }
+    let result;
+    if (Array.isArray(value)) {
+      result = value;
+    } else if (object[key]) {
+      result = array.map(dest => typeof value === 'function' ? value(dest) : value);
+    } else if (typeof value === 'function') {
+      return object;  // don't even set a value under [key]
+    } else {
+      result = value;
+    }
     return {
       ...(object || {}),
-      [key]: array.map(dest => typeof value === 'function' ? value(dest) : value)
+      [key]: result
     };
   }
   return {

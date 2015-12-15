@@ -1,8 +1,8 @@
 import expect from 'expect';
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from '../actionTypes';
-import {addArrayValue, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
-  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
+import {addArrayValue, blur, change, destroy, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
+  stopAsyncValidation, stopSubmit, touch, untouch} from '../actions';
 
 describe('actions', () => {
   it('should create add array value action', () => {
@@ -61,7 +61,14 @@ describe('actions', () => {
 
   it('should create initialize action', () => {
     const data = {a: 8, c: 9};
-    expect(initialize(data)).toEqual({type: INITIALIZE, data});
+    const fields = ['a', 'c'];
+    expect(initialize(data, fields)).toEqual({type: INITIALIZE, data, fields});
+  });
+
+  it('should throw an error if initialize is not given a fields array', () => {
+    expect(() => initialize({a: 1, b: 2}, undefined)).toThrow(/must provide fields array/);
+    expect(() => initialize({a: 1, b: 2}, 'not an array')).toThrow(/must provide fields array/);
+    expect(() => initialize({a: 1, b: 2}, {also: 'not an array'})).toThrow(/must provide fields array/);
   });
 
   it('should create remove array value action', () => {

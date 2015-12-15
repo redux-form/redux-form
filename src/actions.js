@@ -1,62 +1,51 @@
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT_FAILED, TOUCH, UNTOUCH } from './actionTypes';
 
-export function addArrayValue(path, value, index) {
-  return {type: ADD_ARRAY_VALUE, path, value, index};
-}
+export const addArrayValue = (path, value, index) =>
+  ({type: ADD_ARRAY_VALUE, path, value, index});
 
-export function blur(field, value) {
-  return {type: BLUR, field, value};
-}
+export const blur = (field, value) =>
+  ({type: BLUR, field, value});
 
-export function change(field, value) {
-  return {type: CHANGE, field, value};
-}
+export const change = (field, value) =>
+  ({type: CHANGE, field, value});
 
-export function destroy() {
-  return {type: DESTROY};
-}
+export const destroy = () =>
+  ({type: DESTROY});
 
-export function focus(field) {
-  return {type: FOCUS, field};
-}
+export const focus = field =>
+  ({type: FOCUS, field});
 
-export function initialize(data) {
-  return {type: INITIALIZE, data};
-}
+export const initialize = (data, fields) => {
+  if (!Array.isArray(fields)) {
+    throw new Error('must provide fields array to initialize() action creator');
+  }
+  return {type: INITIALIZE, data, fields};
+};
 
-export function removeArrayValue(path, index) {
-  return {type: REMOVE_ARRAY_VALUE, path, index};
-}
+export const removeArrayValue = (path, index) =>
+  ({type: REMOVE_ARRAY_VALUE, path, index});
 
-export function reset() {
-  return {type: RESET};
-}
+export const reset = () =>
+  ({type: RESET});
 
-export function startAsyncValidation() {
-  return {type: START_ASYNC_VALIDATION};
-}
+export const startAsyncValidation = () =>
+  ({type: START_ASYNC_VALIDATION});
 
-export function startSubmit() {
-  return {type: START_SUBMIT};
-}
+export const startSubmit = () =>
+  ({type: START_SUBMIT});
 
-export function stopAsyncValidation(errors) {
-  return {type: STOP_ASYNC_VALIDATION, errors};
-}
+export const stopAsyncValidation = errors =>
+  ({type: STOP_ASYNC_VALIDATION, errors});
 
-export function stopSubmit(errors) {
-  return {type: STOP_SUBMIT, errors};
-}
+export const stopSubmit = errors =>
+  ({type: STOP_SUBMIT, errors});
 
-export function submitFailed() {
-  return {type: SUBMIT_FAILED};
-}
+export const submitFailed = () =>
+  ({type: SUBMIT_FAILED});
 
-export function touch(...fields) {
-  return {type: TOUCH, fields};
-}
+export const touch = (...fields) =>
+  ({type: TOUCH, fields});
 
-export function untouch(...fields) {
-  return {type: UNTOUCH, fields};
-}
+export const untouch = (...fields) =>
+  ({type: UNTOUCH, fields});

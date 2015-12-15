@@ -27,6 +27,55 @@ describe('write', () => {
     }).toThrow(/found/);
   });
 
+  it('should put simple arrays', () => {
+    const data1 = write('cat', ['foo', 'bar'], {});
+    expect(data1.cat)
+      .toBeA('array')
+      .toEqual(['foo', 'bar']);
+    const data2 = write('dog', ['rabbit', 42], {});
+    expect(data2.dog)
+      .toBeA('array')
+      .toEqual(['rabbit', 42]);
+  });
+
+  it('should put simple indexless array values', () => {
+    const data = write('cat[]', 'meow', {
+      cat: [1, 2, 3, 4]
+    });
+    expect(data.cat)
+      .toBeA('array')
+      .toEqual(['meow', 'meow', 'meow', 'meow']);
+  });
+
+  it('should put arrays as indexless array values', () => {
+    const data = write('cat[]', ['meow', 'woof'], {
+      cat: [1, 2, 3, 4]
+    });
+    expect(data.cat)
+      .toBeA('array')
+      .toEqual(['meow', 'woof']);
+  });
+
+  it('should put simple indexless array values', () => {
+    const data = write('cat[]', 'meow', {
+      cat: [1, 2, 3, 4]
+    });
+    expect(data.cat)
+      .toBeA('array')
+      .toEqual(['meow', 'meow', 'meow', 'meow']);
+  });
+
+  it('should put properties on array values', () => {
+    const data1 = write('cat[0].name', 'foo', {});
+    expect(data1.cat).toBeA('array');
+    expect(data1.cat[0]).toBeA('object');
+    expect(data1.cat[0].name).toBe('foo');
+    const data2 = write('dog[2].friend', 'rabbit', {});
+    expect(data2.dog).toBeA('array');
+    expect(data2.dog[2]).toBeA('object');
+    expect(data2.dog[2].friend).toBe('rabbit');
+  });
+
   it('should put simple array values', () => {
     const data1 = write('cat[0]', 'foo', {});
     expect(data1.cat).toBeA('array');

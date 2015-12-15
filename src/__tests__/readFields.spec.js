@@ -1136,6 +1136,7 @@ describe('readFields', () => {
         validate: noValidation
       }, {});
     const foo1 = result1.foo;
+    const bar1 = result1.bar;
     expect(foo1.value).toBe('fooValue');
     const result2 =
       readFields({
@@ -1155,8 +1156,11 @@ describe('readFields', () => {
         validate: noValidation
       }, result1);
     const foo2 = result2.foo;
+    const bar2 = result2.bar;
     expect(foo1.value).toBe('fooValue');
     expect(foo2.value).toBe('newValue');
+    expect(foo1).toNotBe(foo2);
+    expect(bar1).toBe(bar2);
   });
 
   it('should init deep fields', () => {

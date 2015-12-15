@@ -577,7 +577,7 @@ describe('reducer', () => {
 
   it('should set initialize values on initialize on empty state', () => {
     const state = reducer({}, {
-      ...initialize({myField: 'initialValue'}),
+      ...initialize({myField: 'initialValue'}, ['myField']),
       form: 'foo'
     });
     expect(state.foo)
@@ -596,7 +596,7 @@ describe('reducer', () => {
 
   it('should allow initializing null values', () => {
     const state = reducer({}, {
-      ...initialize({bar: 'baz', dog: null}),
+      ...initialize({bar: 'baz', dog: null}, ['bar', 'dog']),
       form: 'foo'
     });
     expect(state.foo)
@@ -619,7 +619,7 @@ describe('reducer', () => {
 
   it('should initialize nested values on initialize on empty state', () => {
     const state = reducer({}, {
-      ...initialize({myField: {subField: 'initialValue'}}),
+      ...initialize({myField: {subField: 'initialValue'}}, ['myField.subField'], {}),
       form: 'foo'
     });
     expect(state.foo)
@@ -640,7 +640,7 @@ describe('reducer', () => {
 
   it('should initialize array values on initialize on empty state', () => {
     const state = reducer({}, {
-      ...initialize({myField: ['initialValue']}),
+      ...initialize({myField: ['initialValue']}, ['myField[]'], {}),
       form: 'foo'
     });
     expect(state.foo)
@@ -672,7 +672,7 @@ describe('reducer', () => {
             email: 'sammy@gmail.com'
           }
         ]
-      }),
+      }, ['accounts[].name', 'accounts[].email'], {}),
       form: 'foo'
     });
     expect(state.foo)
@@ -707,7 +707,7 @@ describe('reducer', () => {
       });
   });
 
-  it('should set initialize values on initialize on with previous state', () => {
+  it('should set initialize values, but not change dirty value when initializing', () => {
     const state = reducer({
       foo: {
         myField: {
@@ -721,7 +721,7 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...initialize({myField: 'initialValue'}),
+      ...initialize({myField: 'initialValue'}, ['myField']),
       form: 'foo',
       touch: true
     });
@@ -729,7 +729,7 @@ describe('reducer', () => {
       .toEqual({
         myField: {
           initial: 'initialValue',
-          value: 'initialValue'
+          value: 'dirtyValue'
         },
         _active: undefined,
         _asyncValidating: false,
@@ -1550,6 +1550,52 @@ describe('reducer', () => {
             }
           }
         ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should ignore empty index-less array fields on touch', () => {
+    const state = reducer({
+      foo: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...touch('myFields[]'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should ignore empty index-less array subfields on touch', () => {
+    const state = reducer({
+      foo: {
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...touch('myFields[].name'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
