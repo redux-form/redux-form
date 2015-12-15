@@ -12,8 +12,7 @@ export const initialState = {
   _asyncValidating: false,
   _error: undefined,
   _submitting: false,
-  _submitFailed: false,
-  _isInitialized: false
+  _submitFailed: false
 };
 
 const behaviors = {
@@ -63,7 +62,6 @@ const behaviors = {
   [INITIALIZE](state, {data}) {
     return {
       ...initializeState(data),
-      _isInitialized: true,
       _asyncValidating: false,
       _active: undefined,
       _error: undefined,
@@ -91,7 +89,6 @@ const behaviors = {
       _asyncValidating: false,
       _error: undefined,
       _submitting: false,
-      _isInitialized: false,
       _submitFailed: false
     };
   },

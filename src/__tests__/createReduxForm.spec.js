@@ -127,7 +127,6 @@ describe('createReduxForm', () => {
       error: undefined,
       touched: false,
       visited: false,
-      isInitialized: true,
       readonly: false
     });
     expectField({
@@ -139,7 +138,6 @@ describe('createReduxForm', () => {
       error: undefined,
       touched: false,
       visited: false,
-      isInitialized: true,
       readonly: false
     });
   });
@@ -148,12 +146,14 @@ describe('createReduxForm', () => {
     const store = makeStore();
     const Decorated = reduxForm({
       form: 'testForm',
-      fields: ['foo', 'bar'],
-      isInitialized: true
-    })(Form);
+      fields: ['foo', 'bar']
+    }, () => ({
+      initialValues: {foo: 'fooInitialValue', bar: 'barInitialValue'}
+    })
+    )(Form);
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
-        <Decorated initialValues={{foo: 'fooValue', bar: 'barValue'}}/>
+        <Decorated initialValues={{foo: 'fooNewValue', bar: 'barNewValue'}}/>
       </Provider>
     );
     const stub = TestUtils.findRenderedComponentWithType(dom, Form);
@@ -161,25 +161,23 @@ describe('createReduxForm', () => {
     expectField({
       field: stub.props.fields.foo,
       name: 'foo',
-      value: undefined,
+      value: 'fooInitialValue',
       valid: true,
       dirty: false,
       error: undefined,
       touched: false,
       visited: false,
-      isInitialized: true,
       readonly: false
     });
     expectField({
       field: stub.props.fields.bar,
       name: 'bar',
-      value: undefined,
+      value: 'barInitialValue',
       valid: true,
       dirty: false,
       error: undefined,
       touched: false,
       visited: false,
-      isInitialized: true,
       readonly: false
     });
   });
@@ -874,8 +872,7 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false,
-      isInitialized: true
+      visited: false
     });
 
     expectField({
@@ -886,8 +883,7 @@ describe('createReduxForm', () => {
       dirty: false,
       error: undefined,
       touched: false,
-      visited: false,
-      isInitialized: true
+      visited: false
     });
   });
 

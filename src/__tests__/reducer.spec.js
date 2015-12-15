@@ -28,7 +28,6 @@ describe('reducer', () => {
       .toExist()
       .toBeA('object')
       .toEqual({
-        _isInitialized: false,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -49,7 +48,6 @@ describe('reducer', () => {
             value: undefined
           }
         ],
-        _isInitialized: false,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -72,7 +70,6 @@ describe('reducer', () => {
             }
           ]
         },
-        _isInitialized: false,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -95,7 +92,6 @@ describe('reducer', () => {
             }
           ]
         },
-        _isInitialized: false,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -198,7 +194,6 @@ describe('reducer', () => {
         myField: {
           value: 'myValue'
         },
-        _isInitialized: false,
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -218,7 +213,6 @@ describe('reducer', () => {
           value: 'myValue',
           touched: true
         },
-        _isInitialized: false,
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
@@ -397,7 +391,6 @@ describe('reducer', () => {
         myField: {
           value: 'myValue'
         },
-        _isInitialized: false,
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         _error: undefined,
@@ -418,7 +411,6 @@ describe('reducer', () => {
           value: 'myValue',
           touched: true
         },
-        _isInitialized: false,
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         _error: undefined,
@@ -504,7 +496,6 @@ describe('reducer', () => {
             value: 'myValue'
           }
         },
-        _isInitialized: false,
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         _error: undefined,
@@ -523,7 +514,6 @@ describe('reducer', () => {
         myField: {
           visited: true
         },
-        _isInitialized: false,
         _active: 'myField',
         _asyncValidating: false,
         _error: undefined,
@@ -544,7 +534,6 @@ describe('reducer', () => {
             visited: true
           }
         },
-        _isInitialized: false,
         _active: 'myField.subField',
         _asyncValidating: false,
         _error: undefined,
@@ -597,7 +586,6 @@ describe('reducer', () => {
           initial: 'initialValue',
           value: 'initialValue'
         },
-        _isInitialized: true,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -621,7 +609,6 @@ describe('reducer', () => {
           initial: null,
           value: null
         },
-        _isInitialized: true,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -643,7 +630,6 @@ describe('reducer', () => {
             value: 'initialValue'
           }
         },
-        _isInitialized: true,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -665,7 +651,6 @@ describe('reducer', () => {
             value: 'initialValue'
           }
         ],
-        _isInitialized: true,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -714,7 +699,6 @@ describe('reducer', () => {
             }
           }
         ],
-        _isInitialized: true,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -747,7 +731,6 @@ describe('reducer', () => {
           initial: 'initialValue',
           value: 'initialValue'
         },
-        _isInitialized: true,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -938,7 +921,6 @@ describe('reducer', () => {
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
-        _isInitialized: false,
         _submitFailed: false
       });
   });
@@ -984,7 +966,6 @@ describe('reducer', () => {
         _asyncValidating: false,
         _error: undefined,
         _submitting: false,
-        _isInitialized: false,
         _submitFailed: false
       });
   });
@@ -1883,7 +1864,6 @@ describe('reducer.plugin', () => {
       .toExist()
       .toBeA('object')
       .toEqual({
-        _isInitialized: false,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -1908,7 +1888,6 @@ describe('reducer.normalize', () => {
       .toExist()
       .toBeA('object')
       .toEqual({
-        _isInitialized: false,
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
@@ -1921,7 +1900,6 @@ describe('reducer.normalize', () => {
   });
   it('should normalize keyed forms depending on action form key', () => {
     const defaultFields = {
-      _isInitialized: false,
       _active: undefined,
       _asyncValidating: false,
       _error: undefined,

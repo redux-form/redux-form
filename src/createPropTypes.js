@@ -10,7 +10,6 @@ const createPropTypes = ({PropTypes: {any, bool, string, func, object}}) => ({
   invalid: bool.isRequired,           // true if there are any validation errors
   pristine: bool.isRequired,          // true if the values are the same as initialValues
   submitting: bool.isRequired,        // true if the form is in the process of being submitted
-  isInitialized: bool.isRequired,     // true if the form has been initialized
   submitFailed: bool.isRequired,      // true if the form was submitted and failed for any reason
   valid: bool.isRequired,             // true if there are no validation errors
   values: object.isRequired,          // the values of the form as they will be submitted

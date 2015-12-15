@@ -35,7 +35,8 @@ const createHigherOrderComponent = (config,
       }
 
       componentWillMount() {
-        const {initialize, initialValues, isInitialized} = this.props;
+        const {initialize, initialValues, fields} = this.props;
+        const isInitialized = fields.filter((field) => field.defaultValue !== undefined).length > 0;
         if ((isInitialized === false) && initialValues) {
           initialize(initialValues);
         }
@@ -113,7 +114,6 @@ const createHigherOrderComponent = (config,
           pristine: allPristine,
           submitting: form._submitting,
           submitFailed: form._submitFailed,
-          isInitialized: form._isInitialized,
           valid: allValid,
           values,
 
@@ -150,7 +150,6 @@ const createHigherOrderComponent = (config,
       propNamespace: PropTypes.string,
       readonly: PropTypes.bool,
       returnRejectedSubmitPromise: PropTypes.bool,
-      isInitialized: PropTypes.bool.isRequired,
       validate: PropTypes.func,
 
       // actions:
