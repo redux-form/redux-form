@@ -29,7 +29,7 @@ class Address extends Component {
           }}><i className="fa fa-phone"/> Add Phone</button>
         </div>
         {phones.map((phone, index) =>
-          <div className="form-group">
+          <div className="form-group" key={index}>
             <label className="col-xs-4 control-label">Phone #{index + 1}</label>
             <div className="col-xs-8">
               <input type="text" className="form-control" placeholder="Phone" {...phone} title={phone.error}/>

@@ -15,61 +15,67 @@ To download and run these examples locally, you should clone the
 
 ---
 
-## [Simple Form](#/examples/simple)
+### [Simple Form](#/examples/simple)
 
 > The simplest form.
 
 ---
   
-## [Synchronous Validation](#/examples/synchronous-validation)
+### [Synchronous Validation](#/examples/synchronous-validation)
 
 > How to add synchronous client-side validation to your form.
 
 ---
   
-## [Submit Validation](#/examples/submit-validation)
+### [Submit Validation](#/examples/submit-validation)
 
 > How to return server-side validation errors back from your submit function.
 
 ---
   
-## [Aynchronous Blur Validation](#/examples/asynchronous-blur-validation)
+### [Aynchronous Blur Validation](#/examples/asynchronous-blur-validation)
 
 > How to run asynchronous server-side validation on your form when certain fields lose focus.
 
 ---
   
-## [Initializing From State](#/examples/initializing-from-state)
+### [Initializing From State](#/examples/initializing-from-state)
 
 > How to initialize your form data from any slice of the Redux state.
 
 ---
 
-## [Deep Forms](#/examples/deep)
+### [Deep Forms](#/examples/deep)
 
 > How to handle deep nested and array field structures.
 
 ---
 
-## [File Input Form](#/examples/file)
+### [Complex Values](#/examples/complex)
+
+> How to edit complex values, like arrays and objects.
+
+---
+
+### [File Input Form](#/examples/file)
 
 > How to handle File inputs.
 
 ---
   
-## [Dynamic Forms](#/examples/dynamic)
+### [Dynamic Forms](#/examples/dynamic)
 
 > How to define your form's fields at runtime.
 
 ---
   
-## [Multirecord Forms](#/examples/multirecord)
+### [Multirecord Forms](#/examples/multirecord)
 
 > How to reuse the same form multiple times on a page with different values.
 
 ---
   
-## [Normalizing Form Values](#/examples/normalizing)
+### [Normalizing Form Values](#/examples/normalizing)
 
 > How to use a normalizing function to control form values in realtime as they are being entered.
 
@@ -79,7 +85,7 @@ To download and run these examples locally, you should clone the
 
 ---
 
-## [Alternate Mount Point](#/examples/alternate-mount-point)
+### [Alternate Mount Point](#/examples/alternate-mount-point)
 
 > How to mount your `redux-form` reducer at a non-standard place in the Redux state.
 
