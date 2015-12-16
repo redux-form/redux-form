@@ -6,11 +6,14 @@ import write from './write';
 import getValuesFromState from './getValuesFromState';
 import initializeState from './initializeState';
 import resetState from './resetState';
+import setErrors from './setErrors';
+
+export const globalErrorKey = '_error';
 
 export const initialState = {
   _active: undefined,
   _asyncValidating: false,
-  _error: undefined,
+  [globalErrorKey]: undefined,
   _submitting: false,
   _submitFailed: false
 };
@@ -64,7 +67,7 @@ const behaviors = {
       ...initializeState(data, fields, state),
       _asyncValidating: false,
       _active: undefined,
-      _error: undefined,
+      [globalErrorKey]: undefined,
       _submitting: false,
       _submitFailed: false
     };
@@ -87,7 +90,7 @@ const behaviors = {
       ...resetState(state),
       _active: undefined,
       _asyncValidating: false,
-      _error: undefined,
+      [globalErrorKey]: undefined,
       _submitting: false,
       _submitFailed: false
     };
@@ -106,25 +109,15 @@ const behaviors = {
   },
   [STOP_ASYNC_VALIDATION](state, {errors}) {
     return {
-      ...mapValues(state, value =>
-        value && value.asyncError ? {...value, asyncError: undefined} : value
-      ),
-      ...mapValues(errors, (error, key) => ({
-        ...state[key],
-        asyncError: error
-      })),
+      ...setErrors(state, errors, 'asyncError'),
       _asyncValidating: false,
-      _error: errors && errors._error
+      [globalErrorKey]: errors && errors[globalErrorKey]
     };
   },
   [STOP_SUBMIT](state, {errors}) {
     return {
-      ...state,
-      ...(errors ? mapValues(errors, (error, key) => ({
-        ...state[key],
-        submitError: error
-      })) : {}),
-      _error: errors && errors._error,
+      ...setErrors(state, errors, 'submitError'),
+      [globalErrorKey]: errors && errors[globalErrorKey],
       _submitting: false,
       _submitFailed: !!(errors && Object.keys(errors).length)
     };
