@@ -4,14 +4,21 @@ const isMetaKey = key => key[0] === '_';
  * Sets an error on a field deep in the tree, returning a new copy of the state
  */
 const setErrors = (state, errors, destKey) => {
-  const clear = () =>
-    typeof state === 'object' ? Object.keys(state)
-      .reduce((accumulator, key) =>
-          isMetaKey(key) ? accumulator : {
-            ...accumulator,
-            [key]: setErrors(state[key], errors && errors[key], destKey)
-          },
-        state) : state;
+  const clear = () => {
+    if (Array.isArray(state)) {
+      return state.map((stateItem, index) => setErrors(stateItem, errors && errors[index], destKey));
+    }
+    if (typeof state === 'object') {
+      return Object.keys(state)
+        .reduce((accumulator, key) =>
+            isMetaKey(key) ? accumulator : {
+              ...accumulator,
+              [key]: setErrors(state[key], errors && errors[key], destKey)
+            },
+          state);
+    }
+    return state;
+  };
   if (!errors) {
     if (state[destKey]) {
       const copy = {...state};
