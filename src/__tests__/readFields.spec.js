@@ -83,7 +83,7 @@ describe('readFields', () => {
       form: {},
       readonly: true,
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -128,7 +128,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -177,7 +177,7 @@ describe('readFields', () => {
         bar: 42
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -227,7 +227,7 @@ describe('readFields', () => {
         foo: 'fooError',
         bar: 'barError'
       })
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -276,7 +276,7 @@ describe('readFields', () => {
           bar: 'barError'
         }
       })
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo.bar,
       name: 'foo.bar',
@@ -320,7 +320,7 @@ describe('readFields', () => {
         foo: ['fooError'],
         bar: [{age: 'barError'}]
       })
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo[0],
       name: 'foo[0]',
@@ -366,8 +366,19 @@ describe('readFields', () => {
       },
       validate: noValidation
     };
-    const previous = readFields(props, {});
+    const previous = readFields(props, {}, {});
     const result = readFields({
+      ...props,
+      form: {
+        foo: {
+          value: 'fooValueNew'
+        },
+        bar: {
+          value: 'barValue'
+        }
+      },
+      validate: noValidation
+    }, {
       ...props,
       form: {
         foo: {
@@ -429,7 +440,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -497,8 +508,11 @@ describe('readFields', () => {
       },
       validate: noValidation
     };
-    const previous = readFields(props, {});
+    const previous = readFields(props, {}, {});
     const result = readFields({
+      ...props,
+      fields: ['foo', 'bar', 'cat', 'dog']
+    }, {
       ...props,
       fields: ['foo', 'bar', 'cat', 'dog']
     }, previous);
@@ -566,12 +580,13 @@ describe('readFields', () => {
       },
       validate: noValidation
     };
-    const previous = readFields(props, {});
+    const previous = readFields(props, {}, {});
     const result = readFields({
       ...props,
       fields: ['bar']
-    }, previous);
-    expect(result._meta.foo).toBe(undefined);
+    }, props, previous);
+    expect(Object.keys(result).length).toBe(1);
+    expect(result.foo).toBe(undefined);
     expectField({
       field: result.bar,
       name: 'bar',
@@ -607,7 +622,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -654,7 +669,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -700,7 +715,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -747,7 +762,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -794,7 +809,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -841,7 +856,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -890,7 +905,7 @@ describe('readFields', () => {
         }
       },
       validate: noValidation
-    }, {});
+    }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -941,7 +956,7 @@ describe('readFields', () => {
           foo: 'fooSyncError',
           bar: 'barSyncError'
         })
-      }, {});
+      }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -989,7 +1004,7 @@ describe('readFields', () => {
         validate: () => ({
           _error: 'formSyncError'
         })
-      }, {});
+      }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -1037,7 +1052,7 @@ describe('readFields', () => {
           _error: 'formReducerError'
         },
         validate: noValidation
-      }, {});
+      }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -1087,7 +1102,7 @@ describe('readFields', () => {
         validate: () => ({
           _error: 'formSyncError'
         })
-      }, {});
+      }, {}, {});
     expectField({
       field: result.foo,
       name: 'foo',
@@ -1118,28 +1133,27 @@ describe('readFields', () => {
   });
 
   it('should not modify existing field object on change', () => {
-    const result1 =
-      readFields({
-        asyncBlurFields: [],
-        blur,
-        change,
-        fields: ['foo', 'bar'],
-        focus,
-        form: {
-          foo: {
-            value: 'fooValue'
-          },
-          bar: {
-            value: 'barValue'
-          }
+    const props1 = {
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo', 'bar'],
+      focus,
+      form: {
+        foo: {
+          value: 'fooValue'
         },
-        validate: noValidation
-      }, {});
+        bar: {
+          value: 'barValue'
+        }
+      },
+      validate: noValidation
+    };
+    const result1 = readFields(props1, {}, {});
     const foo1 = result1.foo;
     const bar1 = result1.bar;
     expect(foo1.value).toBe('fooValue');
-    const result2 =
-      readFields({
+    const props2 = {
         asyncBlurFields: [],
         blur,
         change,
@@ -1154,7 +1168,9 @@ describe('readFields', () => {
           }
         },
         validate: noValidation
-      }, result1);
+      };
+    const result2 =
+      readFields(props2, props1, result1);
     const foo2 = result2.foo;
     const bar2 = result2.bar;
     expect(foo1.value).toBe('fooValue');
@@ -1173,7 +1189,7 @@ describe('readFields', () => {
         focus,
         form: {},
         validate: noValidation
-      }, {});
+      }, {}, {});
     expectField({
       field: result.foo.dog,
       name: 'foo.dog',

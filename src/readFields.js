@@ -1,12 +1,14 @@
 import readField from './readField';
 import write from './write';
 import getValues from './getValues';
+import removeField from './removeField';
 
 /**
  * Reads props and generates (or updates) field structure
  */
-const readFields = (props, myFields, asyncValidate, isReactNative) => {
+const readFields = (props, previousProps, myFields, asyncValidate, isReactNative) => {
   const {fields, form, validate} = props;
+  const previousFields = previousProps.fields;
   const values = getValues(fields, form);
   const syncErrors = validate(values, props);
   let errors = {};
@@ -22,7 +24,9 @@ const readFields = (props, myFields, asyncValidate, isReactNative) => {
       allPristine = false;
     }
   };
-  const fieldObjects = {...myFields};
+  const fieldObjects = previousFields ? previousFields.reduce((accumulator, previousField) =>
+    ~fields.indexOf(previousField) ? accumulator : removeField(accumulator, previousField),
+    {...myFields}) : {...myFields};
   fields.forEach(name => {
     readField(form, name, undefined, fieldObjects, syncErrors, asyncValidate, isReactNative, props, tally);
   });

@@ -81,6 +81,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     }
     field.valid = true;
     field.invalid = false;
+    Object.defineProperty(field, '_isField', {value: true});
   }
 
   const fieldState = (fieldName ? state[fieldName] : state) || {};

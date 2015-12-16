@@ -31,7 +31,7 @@ const createHigherOrderComponent = (config,
         // bind functions
         this.asyncValidate = this.asyncValidate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.fields = readFields(props, {}, this.asyncValidate, isReactNative);
+        this.fields = readFields(props, {}, {}, this.asyncValidate, isReactNative);
       }
 
       componentWillMount() {
@@ -43,7 +43,7 @@ const createHigherOrderComponent = (config,
 
       componentWillReceiveProps(nextProps) {
         if (!deepEqual(this.props.fields, nextProps.fields) || !deepEqual(this.props.form, nextProps.form)) {
-          this.fields = readFields(nextProps, this.fields, this.asyncValidate, isReactNative);
+          this.fields = readFields(nextProps, this.props, this.fields, this.asyncValidate, isReactNative);
         }
         if (!deepEqual(this.props.initialValues, nextProps.initialValues)) {
           this.props.initialize(nextProps.initialValues);
