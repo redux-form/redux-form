@@ -25,7 +25,7 @@ const removeField = (fields, path) => {
       const copy = [];
       fields[key].forEach((item, index) => {
         const result = removeField(item, rest);
-        if(Object.keys(result).length) {
+        if (Object.keys(result).length) {
           copy[index] = result;
         }
       });
@@ -43,7 +43,7 @@ const removeField = (fields, path) => {
     if (!fields[key]) {
       return fields;
     }
-    const result = removeField(fields[key], rest)
+    const result = removeField(fields[key], rest);
     return Object.keys(result).length ? {
       ...fields,
       [key]: removeField(fields[key], rest)

@@ -1,4 +1,4 @@
-import expect, {createSpy} from 'expect';
+import expect from 'expect';
 import removeField from '../removeField';
 
 describe('removeField', () => {

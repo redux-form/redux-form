@@ -1154,21 +1154,21 @@ describe('readFields', () => {
     const bar1 = result1.bar;
     expect(foo1.value).toBe('fooValue');
     const props2 = {
-        asyncBlurFields: [],
-        blur,
-        change,
-        fields: ['foo', 'bar'],
-        focus,
-        form: {
-          foo: {
-            value: 'newValue'
-          },
-          bar: {
-            value: 'barValue'
-          }
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo', 'bar'],
+      focus,
+      form: {
+        foo: {
+          value: 'newValue'
         },
-        validate: noValidation
-      };
+        bar: {
+          value: 'barValue'
+        }
+      },
+      validate: noValidation
+    };
     const result2 =
       readFields(props2, props1, result1);
     const foo2 = result2.foo;
