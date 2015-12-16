@@ -46,7 +46,7 @@ const createHigherOrderComponent = (config,
           this.fields = readFields(nextProps, this.props, this.fields, this.asyncValidate, isReactNative);
         }
         if (!deepEqual(this.props.initialValues, nextProps.initialValues)) {
-          this.props.initialize(nextProps.initialValues);
+          this.props.initialize(nextProps.initialValues, nextProps.fields);
         }
       }
 
