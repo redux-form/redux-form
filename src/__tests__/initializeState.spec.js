@@ -125,7 +125,7 @@ describe('initializeState', () => {
       bar: []
     }, ['animals', 'bar'], {
       bar: {
-        value: [{deeper: 42}] // <---------- array would be under value key
+        value: [{deeper: 42}]
       }
     }))
       .toBeA('object')
