@@ -119,6 +119,28 @@ describe('initializeState', () => {
       });
   });
 
+  it('should initialize array values to state, not changing existing values', () => {
+    expect(initializeState({
+      animals: ['cat', 'dog', 'rat'],
+      bar: []
+    }, ['animals', 'bar'], {
+      bar: {
+        value: [{deeper: 42}] // <---------- array would be under value key
+      }
+    }))
+      .toBeA('object')
+      .toEqual({
+        animals: {
+          initial: ['cat', 'dog', 'rat'],
+          value: ['cat', 'dog', 'rat']
+        },
+        bar: {
+          initial: [],
+          value: [{deeper: 42}]
+        }
+      });
+  });
+
   it('should initialize object values to state', () => {
     expect(initializeState({
       foo: {bar: 'baz'},
