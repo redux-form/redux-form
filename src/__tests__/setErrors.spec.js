@@ -7,6 +7,11 @@ describe('setErrors', () => {
       .toEqual({foo: 42, bar: true});
   });
 
+  it('should add { asyncValidating: false } for the passed field', () => {
+    expect(setErrors({foo: {value: 42}, bar: true}, {}, '__err', 'foo'))
+      .toEqual({foo: {value: 42, asyncValidating: false}, bar: true});
+  });
+
   it('should set errors even when no state', () => {
     expect(setErrors({}, {
       foo: 'fooError',
@@ -78,11 +83,12 @@ describe('setErrors', () => {
     }, {
       foo: 'fooError',
       cat: 'meow'
-    }, '__err'))
+    }, '__err', 'foo'))
       .toEqual({
         foo: {
           value: 'bar',
-          __err: 'fooError'
+          __err: 'fooError',
+          asyncValidating: false
         },
         cat: {
           value: 'rat',
@@ -101,10 +107,11 @@ describe('setErrors', () => {
         value: 'rat',
         __err: 'meow'
       }
-    }, {}, '__err'))
+    }, {}, '__err', 'foo'))
       .toEqual({
         foo: {
-          value: 'bar'
+          value: 'bar',
+          asyncValidating: false
         },
         cat: {
           value: 'rat'
@@ -139,12 +146,13 @@ describe('setErrors', () => {
       dog: {
         foo: 'fooError'
       }
-    }, '__err'))
+    }, '__err', 'foo'))
       .toEqual({
         dog: {
           foo: {
             value: 'bar',
-            __err: 'fooError'
+            __err: 'fooError',
+            asyncValidating: false
           }
         }
       });
@@ -158,11 +166,12 @@ describe('setErrors', () => {
           __err: 'fooError'
         }
       }
-    }, {}, '__err'))
+    }, {}, '__err', 'foo'))
       .toEqual({
         dog: {
           foo: {
-            value: 'bar'
+            value: 'bar',
+            asyncValidating: false
           }
         }
       });

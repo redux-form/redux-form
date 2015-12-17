@@ -95,11 +95,10 @@ const behaviors = {
       _submitFailed: false
     };
   },
-  [START_ASYNC_VALIDATION](state) {
-    return {
-      ...state,
-      _asyncValidating: true
-    };
+  [START_ASYNC_VALIDATION](state, {field}) {
+    const stateCopy = write(field + '.asyncValidating', true, state);
+    stateCopy._asyncValidating = true;
+    return stateCopy;
   },
   [START_SUBMIT](state) {
     return {
@@ -107,9 +106,9 @@ const behaviors = {
       _submitting: true
     };
   },
-  [STOP_ASYNC_VALIDATION](state, {errors}) {
+  [STOP_ASYNC_VALIDATION](state, {field, errors}) {
     return {
-      ...setErrors(state, errors, 'asyncError'),
+      ...setErrors(state, errors, 'asyncError', field),
       _asyncValidating: false,
       [globalErrorKey]: errors && errors[globalErrorKey]
     };

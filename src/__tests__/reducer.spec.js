@@ -973,6 +973,10 @@ describe('reducer', () => {
   it('should set asyncValidating on startAsyncValidation', () => {
     const state = reducer({
       foo: {
+        myField: {
+          initial: 'initialValue',
+          value: 'initialValue',
+        },
         doesnt: 'matter',
         should: 'notchange',
         _active: undefined,
@@ -982,11 +986,16 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...startAsyncValidation(),
+      ...startAsyncValidation('myField'),
       form: 'foo'
     });
     expect(state.foo)
       .toEqual({
+        myField: {
+          initial: 'initialValue',
+          value: 'initialValue',
+          asyncValidating: true,
+        },
         doesnt: 'matter',
         should: 'notchange',
         _active: undefined,
@@ -1073,12 +1082,15 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...stopAsyncValidation({
-        bar: {
-          myField: 'Error about myField',
-          myOtherField: 'Error about myOtherField'
+      ...stopAsyncValidation(
+        'myField',
+        {
+          bar: {
+            myField: 'Error about myField',
+            myOtherField: 'Error about myOtherField'
+          }
         }
-      }),
+      ),
       form: 'foo'
     });
     expect(state.foo)
@@ -1088,7 +1100,8 @@ describe('reducer', () => {
             initial: 'initialValue',
             value: 'dirtyValue',
             touched: true,
-            asyncError: 'Error about myField'
+            asyncError: 'Error about myField',
+            asyncValidating: false
           },
           myOtherField: {
             initial: 'otherInitialValue',
@@ -1127,12 +1140,15 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...stopAsyncValidation({
-        bar: [
-          'Error about myField',
-          'Error about myOtherField'
-        ]
-      }),
+      ...stopAsyncValidation(
+        'bar',
+        {
+          bar: [
+            'Error about myField',
+            'Error about myOtherField'
+          ]
+        }
+      ),
       form: 'foo'
     });
     expect(state.foo)
@@ -1179,10 +1195,13 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...stopAsyncValidation({
-        myField: 'Error about myField',
-        myOtherField: 'Error about myOtherField'
-      }),
+      ...stopAsyncValidation(
+        'myField',
+        {
+          myField: 'Error about myField',
+          myOtherField: 'Error about myOtherField'
+        }
+      ),
       form: 'foo'
     });
     expect(state.foo)
@@ -1191,7 +1210,8 @@ describe('reducer', () => {
           initial: 'initialValue',
           value: 'dirtyValue',
           touched: true,
-          asyncError: 'Error about myField'
+          asyncError: 'Error about myField',
+          asyncValidating: false
         },
         myOtherField: {
           initial: 'otherInitialValue',
@@ -1229,7 +1249,7 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...stopAsyncValidation(),
+      ...stopAsyncValidation('myField'),
       form: 'foo'
     });
     expect(state.foo)
@@ -1237,7 +1257,8 @@ describe('reducer', () => {
         myField: {
           initial: 'initialValue',
           value: 'dirtyValue',
-          touched: true
+          touched: true,
+          asyncValidating: false
         },
         myOtherField: {
           initial: 'otherInitialValue',
@@ -1272,9 +1293,10 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...stopAsyncValidation({
-        [globalErrorKey]: 'This is a global error'
-      }),
+      ...stopAsyncValidation(
+        'myField',
+        {[globalErrorKey]: 'This is a global error'}
+      ),
       form: 'foo'
     });
     expect(state.foo)
@@ -1282,7 +1304,8 @@ describe('reducer', () => {
         myField: {
           initial: 'initialValue',
           value: 'dirtyValue',
-          touched: true
+          touched: true,
+          asyncValidating: false
         },
         myOtherField: {
           initial: 'otherInitialValue',

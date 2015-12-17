@@ -116,4 +116,15 @@ describe('updateField', () => {
     expect(updateField({visited: true}, {visited: false}, false, undefined).visited).toBe(false);
     expect(updateField({visited: true}, {}, false, undefined).visited).toBe(false);
   });
+
+  it('should set asyncValidating', () => {
+    // init
+    expect(updateField({}, {asyncValidating: true}, false, undefined).asyncValidating).toBe(true);
+    expect(updateField({}, {asyncValidating: false}, false, undefined).asyncValidating).toBe(false);
+    expect(updateField({}, {}, false, undefined).asyncValidating).toBe(false);
+    // update
+    expect(updateField({asyncValidating: false}, {asyncValidating: true}, false, undefined).asyncValidating).toBe(true);
+    expect(updateField({asyncValidating: true}, {asyncValidating: false}, false, undefined).asyncValidating).toBe(false);
+    expect(updateField({asyncValidating: true}, {}, false, undefined).asyncValidating).toBe(false);
+  });
 });
