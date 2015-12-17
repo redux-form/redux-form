@@ -29,14 +29,14 @@ export const removeArrayValue = (path, index) =>
 export const reset = () =>
   ({type: RESET});
 
-export const startAsyncValidation = () =>
-  ({type: START_ASYNC_VALIDATION});
+export const startAsyncValidation = field =>
+  ({type: START_ASYNC_VALIDATION, field});
 
 export const startSubmit = () =>
   ({type: START_SUBMIT});
 
-export const stopAsyncValidation = errors =>
-  ({type: STOP_ASYNC_VALIDATION, errors});
+export const stopAsyncValidation = (field, errors) =>
+  ({type: STOP_ASYNC_VALIDATION, field, errors});
 
 export const stopSubmit = errors =>
   ({type: STOP_SUBMIT, errors});

@@ -42,6 +42,10 @@ const updateField = (field, formField, active, syncError) => {
   if (visited !== field.visited) {
     diff.visited = visited;
   }
+  const asyncValidating = !!formField.asyncValidating;
+  if (asyncValidating !== field.asyncValidating) {
+    diff.asyncValidating = asyncValidating;
+  }
 
   return Object.keys(diff).length ? {
     ...field,
