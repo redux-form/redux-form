@@ -185,117 +185,117 @@ describe('reducer', () => {
   });
 
   it('should push an array value which is a deep object', () => {
-     const state = reducer({
-       testForm: {
-         friends: [
-           {
-             name: {
-               initial: 'name-1',
-               value: 'name-1'
-             },
-             address: {
-               street: {
-                 initial: 'street-1',
-                 value: 'street-1'
-               },
-               postalCode: {
-                 initial: 'postalCode-1',
-                 value: 'postalCode-1'
-               }
-             }
-           },
-           {
-             name: {
-               initial: 'name-2',
-               value: 'name-2'
-             },
-             address: {
-               street: {
-                 initial: 'street-2',
-                 value: 'street-2'
-               },
-               postalCode: {
-                 initial: 'postalCode-2',
-                 value: 'postalCode-2'
-               }
-             }
-           }
-         ],
-         _active: undefined,
-         _asyncValidating: false,
-         _error: undefined,
-         _submitting: false,
-         _submitFailed: false
-       }
-     }, {
-       ...addArrayValue('friends', {
-         name: 'name-3',
-         address: {
-           street: 'street-3',
-           postalCode: 'postalCode-3'
-         }
-       }, undefined),
-       form: 'testForm'
-     });
-     expect(state.testForm)
-       .toEqual({
-         friends: [
-           {
-             name: {
-               initial: 'name-1',
-               value: 'name-1'
-             },
-             address: {
-               street: {
-                 initial: 'street-1',
-                 value: 'street-1'
-               },
-               postalCode: {
-                 initial: 'postalCode-1',
-                 value: 'postalCode-1'
-               }
-             }
-           },
-           {
-             name: {
-               initial: 'name-2',
-               value: 'name-2'
-             },
-             address: {
-               street: {
-                 initial: 'street-2',
-                 value: 'street-2'
-               },
-               postalCode: {
-                 initial: 'postalCode-2',
-                 value: 'postalCode-2'
-               }
-             }
-           },
-           {
-             name: {
-               initial: 'name-3',
-               value: 'name-3'
-             },
-             address: {
-               street: {
-                 initial: 'street-3',
-                 value: 'street-3'
-               },
-               postalCode: {
-                 initial: 'postalCode-3',
-                 value: 'postalCode-3'
-               }
-             }
-           }
-         ],
-         _active: undefined,
-         _asyncValidating: false,
-         _error: undefined,
-         _submitting: false,
-         _submitFailed: false
-       });
-   });
+    const state = reducer({
+      testForm: {
+        friends: [
+          {
+            name: {
+              initial: 'name-1',
+              value: 'name-1'
+            },
+            address: {
+              street: {
+                initial: 'street-1',
+                value: 'street-1'
+              },
+              postalCode: {
+                initial: 'postalCode-1',
+                value: 'postalCode-1'
+              }
+            }
+          },
+          {
+            name: {
+              initial: 'name-2',
+              value: 'name-2'
+            },
+            address: {
+              street: {
+                initial: 'street-2',
+                value: 'street-2'
+              },
+              postalCode: {
+                initial: 'postalCode-2',
+                value: 'postalCode-2'
+              }
+            }
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...addArrayValue('friends', {
+        name: 'name-3',
+        address: {
+          street: 'street-3',
+          postalCode: 'postalCode-3'
+        }
+      }, undefined),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        friends: [
+          {
+            name: {
+              initial: 'name-1',
+              value: 'name-1'
+            },
+            address: {
+              street: {
+                initial: 'street-1',
+                value: 'street-1'
+              },
+              postalCode: {
+                initial: 'postalCode-1',
+                value: 'postalCode-1'
+              }
+            }
+          },
+          {
+            name: {
+              initial: 'name-2',
+              value: 'name-2'
+            },
+            address: {
+              street: {
+                initial: 'street-2',
+                value: 'street-2'
+              },
+              postalCode: {
+                initial: 'postalCode-2',
+                value: 'postalCode-2'
+              }
+            }
+          },
+          {
+            name: {
+              initial: 'name-3',
+              value: 'name-3'
+            },
+            address: {
+              street: {
+                initial: 'street-3',
+                value: 'street-3'
+              },
+              postalCode: {
+                initial: 'postalCode-3',
+                value: 'postalCode-3'
+              }
+            }
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
 
   it('should push a deep array value which is a nested object', () => {
     const state = reducer({
