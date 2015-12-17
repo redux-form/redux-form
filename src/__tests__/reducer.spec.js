@@ -184,82 +184,118 @@ describe('reducer', () => {
       });
   });
 
-  it('should push a deep array value which is an object', () => {
-    const state = reducer({
-      testForm: {
-        myField: [
-          {
-            foo: {
-              initial: 'foo-1',
-              value: 'foo-1'
-            },
-            bar: {
-              initial: 'bar-1',
-              value: 'bar-1'
-            }
-          },
-          {
-            foo: {
-              initial: 'foo-2',
-              value: 'foo-2'
-            },
-            bar: {
-              initial: 'bar-2',
-              value: 'bar-2'
-            }
-          },
-        ],
-        _active: undefined,
-        _asyncValidating: false,
-        _error: undefined,
-        _submitting: false,
-        _submitFailed: false
-      }
-    }, {
-      ...addArrayValue('myField', {foo: 'foo-3', bar: 'bar-3'}, undefined),
-      form: 'testForm'
-    });
-    expect(state.testForm)
-      .toEqual({
-        myField: [
-          {
-            foo: {
-              initial: 'foo-1',
-              value: 'foo-1'
-            },
-            bar: {
-              initial: 'bar-1',
-              value: 'bar-1'
-            }
-          },
-          {
-            foo: {
-              initial: 'foo-2',
-              value: 'foo-2'
-            },
-            bar: {
-              initial: 'bar-2',
-              value: 'bar-2'
-            }
-          },
-          {
-            foo: {
-              initial: 'foo-3',
-              value: 'foo-3'
-            },
-            bar: {
-              initial: 'bar-3',
-              value: 'bar-3'
-            }
-          },
-        ],
-        _active: undefined,
-        _asyncValidating: false,
-        _error: undefined,
-        _submitting: false,
-        _submitFailed: false
-      });
-  });
+  it('should push an array value which is a deep object', () => {
+     const state = reducer({
+       testForm: {
+         friends: [
+           {
+             name: {
+               initial: 'name-1',
+               value: 'name-1'
+             },
+             address: {
+               street: {
+                 initial: 'street-1',
+                 value: 'street-1'
+               },
+               postalCode: {
+                 initial: 'postalCode-1',
+                 value: 'postalCode-1'
+               }
+             }
+           },
+           {
+             name: {
+               initial: 'name-2',
+               value: 'name-2'
+             },
+             address: {
+               street: {
+                 initial: 'street-2',
+                 value: 'street-2'
+               },
+               postalCode: {
+                 initial: 'postalCode-2',
+                 value: 'postalCode-2'
+               }
+             }
+           }
+         ],
+         _active: undefined,
+         _asyncValidating: false,
+         _error: undefined,
+         _submitting: false,
+         _submitFailed: false
+       }
+     }, {
+       ...addArrayValue('friends', {
+         name: 'name-3',
+         address: {
+           street: 'street-3',
+           postalCode: 'postalCode-3'
+         }
+       }, undefined),
+       form: 'testForm'
+     });
+     expect(state.testForm)
+       .toEqual({
+         friends: [
+           {
+             name: {
+               initial: 'name-1',
+               value: 'name-1'
+             },
+             address: {
+               street: {
+                 initial: 'street-1',
+                 value: 'street-1'
+               },
+               postalCode: {
+                 initial: 'postalCode-1',
+                 value: 'postalCode-1'
+               }
+             }
+           },
+           {
+             name: {
+               initial: 'name-2',
+               value: 'name-2'
+             },
+             address: {
+               street: {
+                 initial: 'street-2',
+                 value: 'street-2'
+               },
+               postalCode: {
+                 initial: 'postalCode-2',
+                 value: 'postalCode-2'
+               }
+             }
+           },
+           {
+             name: {
+               initial: 'name-3',
+               value: 'name-3'
+             },
+             address: {
+               street: {
+                 initial: 'street-3',
+                 value: 'street-3'
+               },
+               postalCode: {
+                 initial: 'postalCode-3',
+                 value: 'postalCode-3'
+               }
+             }
+           }
+         ],
+         _active: undefined,
+         _asyncValidating: false,
+         _error: undefined,
+         _submitting: false,
+         _submitFailed: false
+       });
+   });
 
   it('should push a deep array value which is a nested object', () => {
     const state = reducer({
