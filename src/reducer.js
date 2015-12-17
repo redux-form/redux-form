@@ -23,7 +23,7 @@ const behaviors = {
     const array = read(path, state);
     const stateCopy = {...state};
     const arrayCopy = array ? [...array] : [];
-    const newValue = {value};
+    const newValue = value !== null && typeof value === 'object' ? initializeState(value, Object.keys(value)) : {value};
     if (index === undefined) {
       arrayCopy.push(newValue);
     } else {

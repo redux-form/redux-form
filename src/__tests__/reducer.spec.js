@@ -78,7 +78,7 @@ describe('reducer', () => {
       });
   });
 
-  it('should add a deep array value with empty state', () => {
+  it('should add a deep array value with initial value', () => {
     const state = reducer({}, {
       ...addArrayValue('myField.myArray', 20, undefined),
       form: 'foo'
@@ -179,6 +179,293 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should push a deep array value which is an object', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            foo: {
+              initial: 'foo-1',
+              value: 'foo-1'
+            },
+            bar: {
+              initial: 'bar-1',
+              value: 'bar-1'
+            }
+          },
+          {
+            foo: {
+              initial: 'foo-2',
+              value: 'foo-2'
+            },
+            bar: {
+              initial: 'bar-2',
+              value: 'bar-2'
+            }
+          },
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...addArrayValue('myField', {foo: 'foo-3', bar: 'bar-3'}, undefined),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            foo: {
+              initial: 'foo-1',
+              value: 'foo-1'
+            },
+            bar: {
+              initial: 'bar-1',
+              value: 'bar-1'
+            }
+          },
+          {
+            foo: {
+              initial: 'foo-2',
+              value: 'foo-2'
+            },
+            bar: {
+              initial: 'bar-2',
+              value: 'bar-2'
+            }
+          },
+          {
+            foo: {
+              initial: 'foo-3',
+              value: 'foo-3'
+            },
+            bar: {
+              initial: 'bar-3',
+              value: 'bar-3'
+            }
+          },
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should push a deep array value which is a nested object', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            foo: {
+              initial: {a: 'foo-a1', b: 'foo-b1'},
+              value: {a: 'foo-a1', b: 'foo-b1'},
+            },
+            bar: {
+              initial: {a: 'bar-a1', b: 'bar-b1'},
+              value: {a: 'bar-a1', b: 'bar-b1'},
+            }
+          },
+          {
+            foo: {
+              initial: {a: 'foo-a2', b: 'foo-b2'},
+              value: {a: 'foo-a2', b: 'foo-b2'},
+            },
+            bar: {
+              initial: {a: 'bar-a2', b: 'bar-b2'},
+              value: {a: 'bar-a2', b: 'bar-b2'},
+            }
+          },
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...addArrayValue('myField', {foo: {a: 'foo-a3', b: 'foo-b3'}, bar: {a: 'bar-a3', b: 'bar-b3'}}, undefined),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            foo: {
+              initial: {a: 'foo-a1', b: 'foo-b1'},
+              value: {a: 'foo-a1', b: 'foo-b1'},
+            },
+            bar: {
+              initial: {a: 'bar-a1', b: 'bar-b1'},
+              value: {a: 'bar-a1', b: 'bar-b1'},
+            }
+          },
+          {
+            foo: {
+              initial: {a: 'foo-a2', b: 'foo-b2'},
+              value: {a: 'foo-a2', b: 'foo-b2'},
+            },
+            bar: {
+              initial: {a: 'bar-a2', b: 'bar-b2'},
+              value: {a: 'bar-a2', b: 'bar-b2'},
+            }
+          },
+          {
+            foo: {
+              initial: {a: 'foo-a3', b: 'foo-b3'},
+              value: {a: 'foo-a3', b: 'foo-b3'},
+            },
+            bar: {
+              initial: {a: 'bar-a3', b: 'bar-b3'},
+              value: {a: 'bar-a3', b: 'bar-b3'},
+            }
+          },
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
+  it('should push a subarray value which is an object', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          {
+            myField2: [
+              {
+                foo: {
+                  initial: 'foo-1-1',
+                  value: 'foo-1-1'
+                },
+                bar: {
+                  initial: 'bar-1-1',
+                  value: 'bar-1-1'
+                }
+              },
+              {
+                foo: {
+                  initial: 'foo-1-2',
+                  value: 'foo-1-2'
+                },
+                bar: {
+                  initial: 'bar-1-2',
+                  value: 'bar-1-2'
+                }
+              },
+            ],
+          },
+          {
+            myField2: [
+              {
+                foo: {
+                  initial: 'foo-2-1',
+                  value: 'foo-2-1'
+                },
+                bar: {
+                  initial: 'bar-2-1',
+                  value: 'bar-2-1'
+                }
+              },
+              {
+                foo: {
+                  initial: 'foo-2-2',
+                  value: 'foo-2-2'
+                },
+                bar: {
+                  initial: 'bar-2-2',
+                  value: 'bar-2-2'
+                }
+              },
+            ],
+          },
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...addArrayValue('myField[1].myField2', {foo: 'foo-2-3', bar: 'bar-2-3'}, undefined),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            myField2: [
+              {
+                foo: {
+                  initial: 'foo-1-1',
+                  value: 'foo-1-1'
+                },
+                bar: {
+                  initial: 'bar-1-1',
+                  value: 'bar-1-1'
+                }
+              },
+              {
+                foo: {
+                  initial: 'foo-1-2',
+                  value: 'foo-1-2'
+                },
+                bar: {
+                  initial: 'bar-1-2',
+                  value: 'bar-1-2'
+                }
+              },
+            ],
+          },
+          {
+            myField2: [
+              {
+                foo: {
+                  initial: 'foo-2-1',
+                  value: 'foo-2-1'
+                },
+                bar: {
+                  initial: 'bar-2-1',
+                  value: 'bar-2-1'
+                }
+              },
+              {
+                foo: {
+                  initial: 'foo-2-2',
+                  value: 'foo-2-2'
+                },
+                bar: {
+                  initial: 'bar-2-2',
+                  value: 'bar-2-2'
+                }
+              },
+              {
+                foo: {
+                  initial: 'foo-2-3',
+                  value: 'foo-2-3'
+                },
+                bar: {
+                  initial: 'bar-2-3',
+                  value: 'bar-2-3'
+                }
+              },
+            ],
+          },
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        _error: undefined,
         _submitting: false,
         _submitFailed: false
       });
