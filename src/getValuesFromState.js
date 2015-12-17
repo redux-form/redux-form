@@ -18,7 +18,7 @@ const getValuesFromState = state => {
         }
       } else if (Array.isArray(field)) {
         accumulator[key] = field.map(arrayField => arrayField.value || getValuesFromState(arrayField));
-      } else if (typeof field !== 'string') {
+      } else if (typeof field === 'object') {
         accumulator[key] = getValuesFromState(field);
       }
     }
