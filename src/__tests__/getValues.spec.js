@@ -110,4 +110,22 @@ describe('getValues', () => {
         bar: [{deeper: 42}]
       });
   });
+
+  it('should ignore visited fields without values', () => {
+    const form = {
+      foo: {
+        value: 'dog'
+      },
+      bar: {
+        visited: true
+      }
+    };
+    const fields = ['foo', 'bar'];
+    expect(getValues(fields, form))
+      .toBeA('object')
+      .toEqual({
+        foo: 'dog',
+        bar: undefined
+      });
+  });
 });
