@@ -1,8 +1,8 @@
 import isPromise from 'is-promise';
 import isValid from './isValid';
 
-const asyncValidation = (fn, start, stop) => {
-  start();
+const asyncValidation = (fn, start, stop, field) => {
+  start(field);
   const promise = fn();
   if (!isPromise(promise)) {
     throw new Error('asyncValidate function passed to reduxForm must return a promise');
