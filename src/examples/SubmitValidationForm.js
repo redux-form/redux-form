@@ -46,7 +46,7 @@ class SubmitValidationForm extends Component {
         </div>
         {error && <div className="text-center text-danger">{error}</div>}
         <div className="text-center">
-          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit}>
+          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit(submit)}>
             {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Log In
           </button>
           <button className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
