@@ -7,7 +7,7 @@ describe('setErrors', () => {
       .toEqual({foo: 42, bar: true});
   });
 
-  it('should set errors even when no state', () => {
+  it('should set errors even when state is empty', () => {
     expect(setErrors({}, {
       foo: 'fooError',
       bar: 'barError'
@@ -19,6 +19,17 @@ describe('setErrors', () => {
         bar: {
           __err: 'barError'
         }
+      });
+  });
+
+  it('should set errors even when state is null', () => {
+    expect(setErrors(null, {
+      foo: 'fooError',
+    }, '__err'))
+      .toEqual({
+        foo: {
+          __err: 'fooError'
+        },
       });
   });
 

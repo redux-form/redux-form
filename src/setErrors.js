@@ -8,7 +8,7 @@ const setErrors = (state, errors, destKey) => {
     if (Array.isArray(state)) {
       return state.map((stateItem, index) => setErrors(stateItem, errors && errors[index], destKey));
     }
-    if (typeof state === 'object') {
+    if (state && typeof state === 'object') {
       return Object.keys(state)
         .reduce((accumulator, key) =>
             isMetaKey(key) ? accumulator : {
