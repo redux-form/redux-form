@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "jsnext:main": "./src/index.js",
@@ -9,7 +9,7 @@
     "url": "https://github.com/erikras/redux-form"
   },
   "scripts": {
-    "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
+rrrr    "build": "npm run build:lib && npm run buildrrrr:umd && npm run build:umd:min",
     "build:lib": "babel src --out-dir lib",
     "build:umd": "webpack src/index.js dist/redux-form.js --config webpack.config.development.js",
     "build:umd:min": "webpack src/index.js dist/redux-form.min.js --config webpack.config.production.js",
