@@ -20,6 +20,9 @@ const setErrors = (state, errors, destKey) => {
     return state;
   };
   if (!errors) {
+    if (!state) {
+      return state;
+    }
     if (state[destKey]) {
       const copy = {...state};
       delete copy[destKey];
@@ -39,9 +42,13 @@ const setErrors = (state, errors, destKey) => {
       errors.forEach((errorItem, index) => copy[index] = setErrors(copy[index], errorItem, destKey));
       return copy;
     }
-    return setErrors(state, errors[0], destKey);
+    return setErrors(state, errors[0], destKey);  // use first error
   }
-  return Object.keys(errors).reduce((accumulator, key) =>
+  const errorKeys = Object.keys(errors);
+  if (!errorKeys.length && !state) {
+    return state;
+  }
+  return errorKeys.reduce((accumulator, key) =>
       isMetaKey(key) ? accumulator : {
         ...accumulator,
         [key]: setErrors(state && state[key], errors[key], destKey)
