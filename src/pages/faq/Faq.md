@@ -18,3 +18,5 @@ Below is a list of common problems that people have using `redux-form`.
 5. [Does `redux-form` work with React Native?](#/faq/react-native)
 
 6. [Does `redux-form` work ImmutableJS?](#/faq/immutable-js)
+
+7. [Can I submit my form using websockets?](#/faq/websockets)

@@ -25,6 +25,7 @@ import FaqHowToClear from 'pages/faq/HowToClear.md';
 import FaqReactNative from 'pages/faq/ReactNative.md';
 import FaqImmutableJs from 'pages/faq/ImmutableJs.md';
 import FaqCustomComponent from 'pages/faq/CustomComponent.md';
+import FaqWebsockets from 'pages/faq/WebsocketSubmit.md';
 import GettingStarted from 'pages/GettingStarted.md';
 import Api from 'pages/api/Api.md';
 import ApiReduxForm from 'pages/api/ReduxForm.md';
@@ -69,6 +70,7 @@ const routes = (
       <Route path="/faq/immutable-js" component={markdownPage(FaqImmutableJs)}/>
       <Route path="/faq/react-native" component={markdownPage(FaqReactNative)}/>
       <Route path="/faq/custom-component" component={markdownPage(FaqCustomComponent)}/>
+      <Route path="/faq/websockets" component={markdownPage(FaqWebsockets)}/>
       <Route path="*" component={Home}/>
     </Route>
   </Router>
