@@ -5,26 +5,26 @@ const wrapMapDispatchToProps = (mapDispatchToProps, actionCreators) => {
     if (typeof mapDispatchToProps === 'function') {
       if (mapDispatchToProps.length > 1) {
         return (dispatch, ownProps) => ({
+          dispatch,
           ...mapDispatchToProps(dispatch, ownProps),
-          ...bindActionCreators(actionCreators, dispatch),
-          dispatch
+          ...bindActionCreators(actionCreators, dispatch)
         });
       }
       return dispatch => ({
+        dispatch,
         ...mapDispatchToProps(dispatch),
-        ...bindActionCreators(actionCreators, dispatch),
-        dispatch
+        ...bindActionCreators(actionCreators, dispatch)
       });
     }
     return dispatch => ({
+      dispatch,
       ...bindActionCreators(mapDispatchToProps, dispatch),
-      ...bindActionCreators(actionCreators, dispatch),
-      dispatch
+      ...bindActionCreators(actionCreators, dispatch)
     });
   }
   return dispatch => ({
-    ...bindActionCreators(actionCreators, dispatch),
-    dispatch
+    dispatch,
+    ...bindActionCreators(actionCreators, dispatch)
   });
 };
 
