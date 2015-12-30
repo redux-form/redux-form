@@ -3,12 +3,13 @@ import isPromise from 'is-promise';
 import asyncValidation from '../asyncValidation';
 
 describe('asyncValidation', () => {
+  const field = 'myField';
 
   it('should throw an error if fn does not return a promise', () => {
     const fn = () => null;
     const start = () => null;
     const stop = () => null;
-    expect(() => asyncValidation(fn, start, stop))
+    expect(() => asyncValidation(fn, start, stop, field))
       .toThrow(/promise/);
   });
 
@@ -16,16 +17,18 @@ describe('asyncValidation', () => {
     const fn = () => Promise.resolve();
     const start = () => null;
     const stop = () => null;
-    expect(isPromise(asyncValidation(fn, start, stop))).toBe(true);
+    expect(isPromise(asyncValidation(fn, start, stop, field))).toBe(true);
   });
 
   it('should call start, fn, and stop on promise resolve', () => {
     const fn = createSpy().andReturn(Promise.resolve());
     const start = createSpy();
     const stop = createSpy();
-    const promise = asyncValidation(fn, start, stop);
+    const promise = asyncValidation(fn, start, stop, field);
     expect(fn).toHaveBeenCalled();
-    expect(start).toHaveBeenCalled();
+    expect(start)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith(field);
     return promise.then(() => {
       expect(stop).toHaveBeenCalled();
     }, () => {
@@ -37,9 +40,11 @@ describe('asyncValidation', () => {
     const fn = createSpy().andReturn(Promise.reject());
     const start = createSpy();
     const stop = createSpy();
-    const promise = asyncValidation(fn, start, stop);
+    const promise = asyncValidation(fn, start, stop, field);
     expect(fn).toHaveBeenCalled();
-    expect(start).toHaveBeenCalled();
+    expect(start)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith(field);
     return promise.then(() => {
       expect(false).toBe(true); // should not get into resolve branch
     }, () => {
@@ -52,9 +57,11 @@ describe('asyncValidation', () => {
     const fn = createSpy().andReturn(Promise.reject(errors));
     const start = createSpy();
     const stop = createSpy();
-    const promise = asyncValidation(fn, start, stop);
+    const promise = asyncValidation(fn, start, stop, field);
     expect(fn).toHaveBeenCalled();
-    expect(start).toHaveBeenCalled();
+    expect(start)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith(field);
     return promise.then(() => {
       expect(false).toBe(true); // should not get into resolve branch
     }, () => {

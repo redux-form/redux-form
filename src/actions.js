@@ -29,8 +29,8 @@ export const removeArrayValue = (path, index) =>
 export const reset = () =>
   ({type: RESET});
 
-export const startAsyncValidation = () =>
-  ({type: START_ASYNC_VALIDATION});
+export const startAsyncValidation = field =>
+  ({type: START_ASYNC_VALIDATION, field});
 
 export const startSubmit = () =>
   ({type: START_SUBMIT});

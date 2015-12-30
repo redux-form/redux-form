@@ -93,7 +93,10 @@ describe('actions', () => {
   });
 
   it('should create startAsyncValidation action', () => {
-    expect(startAsyncValidation()).toEqual({type: START_ASYNC_VALIDATION});
+    expect(startAsyncValidation('myField')).toEqual({
+      type: START_ASYNC_VALIDATION,
+      field: 'myField'
+    });
   });
 
   it('should create startSubmit action', () => {

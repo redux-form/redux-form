@@ -1323,6 +1323,41 @@ describe('reducer', () => {
       });
   });
 
+  it('should set asyncValidating with field name on startAsyncValidation', () => {
+    const state = reducer({
+      foo: {
+        myField: {
+          initial: 'initialValue',
+          value: 'initialValue'
+        },
+        doesnt: 'matter',
+        should: 'notchange',
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...startAsyncValidation('myField'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          initial: 'initialValue',
+          value: 'initialValue'
+        },
+        doesnt: 'matter',
+        should: 'notchange',
+        _active: undefined,
+        _asyncValidating: 'myField',
+        [globalErrorKey]: undefined,
+        _submitting: false,
+        _submitFailed: false
+      });
+  });
+
   it('should set submitting on startSubmit', () => {
     const state = reducer({
       foo: {

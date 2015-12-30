@@ -95,10 +95,10 @@ const behaviors = {
       _submitFailed: false
     };
   },
-  [START_ASYNC_VALIDATION](state) {
+  [START_ASYNC_VALIDATION](state, {field}) {
     return {
       ...state,
-      _asyncValidating: true
+      _asyncValidating: field || true
     };
   },
   [START_SUBMIT](state) {
