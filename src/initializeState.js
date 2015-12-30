@@ -1,8 +1,10 @@
+import {makeFieldValue} from './fieldValue';
+
 const updateEntry = (entry, value) => {
   if (entry && entry.value !== undefined) {
-    return {initial: value, value: entry.value};
+    return makeFieldValue({initial: value, value: entry.value});
   }
-  return value === undefined ? {} : {initial: value, value};
+  return makeFieldValue(value === undefined ? {} : {initial: value, value});
 };
 
 /**

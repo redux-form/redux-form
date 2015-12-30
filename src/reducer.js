@@ -7,6 +7,7 @@ import getValuesFromState from './getValuesFromState';
 import initializeState from './initializeState';
 import resetState from './resetState';
 import setErrors from './setErrors';
+import {makeFieldValue} from './fieldValue';
 
 export const globalErrorKey = '_error';
 
@@ -23,7 +24,8 @@ const behaviors = {
     const array = read(path, state);
     const stateCopy = {...state};
     const arrayCopy = array ? [...array] : [];
-    const newValue = value !== null && typeof value === 'object' ? initializeState(value, Object.keys(value)) : {value};
+    const newValue = value !== null && typeof value === 'object' ?
+      initializeState(value, Object.keys(value)) : makeFieldValue({value});
     if (index === undefined) {
       arrayCopy.push(newValue);
     } else {
@@ -42,7 +44,7 @@ const behaviors = {
       if (touch) {
         result.touched = true;
       }
-      return result;
+      return makeFieldValue(result);
     }, stateCopy);
   },
   [CHANGE](state, {field, value, touch}) {
@@ -51,14 +53,14 @@ const behaviors = {
       if (touch) {
         result.touched = true;
       }
-      return result;
+      return makeFieldValue(result);
     }, state);
   },
   [DESTROY]() {
     return undefined;
   },
   [FOCUS](state, {field}) {
-    const stateCopy = write(field + '.visited', true, state);
+    const stateCopy = write(field, previous => makeFieldValue({...previous, visited: true}), state);
     stateCopy._active = field;
     return stateCopy;
   },
@@ -132,7 +134,7 @@ const behaviors = {
     return {
       ...state,
       ...fields.reduce((accumulator, field) =>
-        write(field, value => ({...value, touched: true}), accumulator), state)
+        write(field, value => makeFieldValue({...value, touched: true}), accumulator), state)
     };
   },
   [UNTOUCH](state, {fields}) {
@@ -142,9 +144,9 @@ const behaviors = {
         write(field, value => {
           if (value) {
             const {touched, ...rest} = value;
-            return rest;
+            return makeFieldValue(rest);
           }
-          return value;
+          return makeFieldValue(value);
         }, accumulator), state)
     };
   }
@@ -224,11 +226,11 @@ function decorate(target) {
               ...formResult,
               ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
                 ...formResult[field],
-                value: fieldNormalizer(
+                value: makeFieldValue(fieldNormalizer(
                   formResult[field] ? formResult[field].value : undefined,         // value
                   previous && previous[field] ? previous[field].value : undefined, // previous value
-                  getValuesFromState(formResult),                                           // all field values
-                  previousValues)                                                  // all previous field values
+                  getValuesFromState(formResult),                                  // all field values
+                  previousValues))                                                 // all previous field values
               }))
             };
           };
