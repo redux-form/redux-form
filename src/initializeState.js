@@ -48,7 +48,7 @@ const initializeState = (values, fields, state = {}) => {
             updateEntry(destArray && destArray[srcIndex], srcValue));
         }
       } else {
-        result[key] = updateEntry(destArray, srcArray);
+        result[key] = [];
       }
     } else {
       result[path] = updateEntry(result[path], src && src[path]);

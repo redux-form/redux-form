@@ -113,6 +113,23 @@ describe('initializeState', () => {
     expect(isFieldValue(result.alive)).toBe(true);
   });
 
+  it('should be okay with no array value given', () => {
+    const result = initializeState({
+      bar: 42
+    }, ['foo[]', 'bar'], {});
+    expect(result)
+      .toBeA('object')
+      .toEqual({
+        foo: [],
+        bar: {
+          initial: 42,
+          value: 42
+        }
+      });
+    expect(isFieldValue(result.foo)).toBe(false);
+    expect(isFieldValue(result.bar)).toBe(true);
+  });
+
   it('should allow an array field to be empty', () => {
     const result = initializeState({
       foo: []
