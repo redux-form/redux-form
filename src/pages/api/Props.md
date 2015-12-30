@@ -34,9 +34,12 @@ class SimpleForm extends Component {
 
 > A function that may be called to initiate asynchronous validation if asynchronous validation is enabled.
 
-### `asyncValidating : boolean`
+### `asyncValidating : String | boolean`
 
-> `true` if the asynchronous validation function has been called but has not yet returned.
+> This value will be either: 
+> * `false` - No asynchronous validation is currently happening
+> * `true` - Asynchronous validation is currently running in preparation to submit a form
+> * a `string` - The name of the field that just blurred to trigger asynchronous validation
 
 ### `destroyForm() : Function`
 

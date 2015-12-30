@@ -27,7 +27,7 @@ const asyncValidate = (values/*, dispatch */) => {
 
 class AsynchronousBlurValidationForm extends Component {
   static propTypes = {
-    asyncValidating: PropTypes.bool.isRequired,
+    asyncValidating: PropTypes.string.isRequired,
     fields: PropTypes.object.isRequired,
     resetForm: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -41,7 +41,7 @@ class AsynchronousBlurValidationForm extends Component {
           <label className="col-xs-4 control-label">Username</label>
           <div className={'col-xs-' + (username.touched && username.error ? '5' : '8')} style={{position: 'relative'}}>
             <input type="text" className="form-control" placeholder="Username" {...username}/>
-            {asyncValidating && <i className="fa fa-cog fa-spin" /* spinning cog */ style={{
+            {asyncValidating === 'username' && <i className="fa fa-cog fa-spin" /* spinning cog */ style={{
               position: 'absolute',
               right: 25,
               top: 10
