@@ -41,7 +41,7 @@ const initializeState = (values, fields, state = {}) => {
           result[key] = srcArray.map((srcValue, srcIndex) =>
             initializeField(rest, srcValue, destArray && destArray[srcIndex]));
         } else {
-          result[key] = srcArray.map((srcValue, srcIndex) =>
+          result[key] = srcArray.map(srcValue =>
             makeEntry(srcValue));
         }
       } else {
