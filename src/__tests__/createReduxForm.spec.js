@@ -1036,6 +1036,47 @@ describe('createReduxForm', () => {
     });
   });
 
+  it('should initialize an array field with an array value', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['colors[]'],
+      initialValues: {
+        colors: ['red', 'blue']
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expect(stub.props.fields.colors).toBeA('array');
+    expect(stub.props.fields.colors.length).toBe(2);
+    expectField({
+      field: stub.props.fields.colors[0],
+      name: 'colors[0]',
+      value: 'red',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.colors[1],
+      name: 'colors[1]',
+      value: 'blue',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+  });
+
   it('should initialize an array field without blowing away existing value', () => {
     const store = makeStore();
     const form = 'testForm';
