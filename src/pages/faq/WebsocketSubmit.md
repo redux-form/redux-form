@@ -11,9 +11,7 @@ replicate its behavior using any other asynchronous paradigm. All you need do is
 `STOP_SUBMIT` actions yourself using the exported [Action Creators](#/api/action-creators).
 
 ```javascript
-import {actionCreators} from 'redux-form';
-
-const {startSubmit, stopSubmit} = actionCreators;
+import {startSubmit, stopSubmit} from 'redux-form';
 
 function submitForm(data, dispatch) {
   // tell redux-form that the submission has started
