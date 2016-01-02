@@ -15,6 +15,7 @@ export const initialState = {
   _active: undefined,
   _asyncValidating: false,
   [globalErrorKey]: undefined,
+  _initialized: false,
   _submitting: false,
   _submitFailed: false
 };
@@ -70,6 +71,7 @@ const behaviors = {
       _asyncValidating: false,
       _active: undefined,
       [globalErrorKey]: undefined,
+      _initialized: true,
       _submitting: false,
       _submitFailed: false
     };
@@ -93,6 +95,7 @@ const behaviors = {
       _active: undefined,
       _asyncValidating: false,
       [globalErrorKey]: undefined,
+      _initialized: state._initialized,
       _submitting: false,
       _submitFailed: false
     };

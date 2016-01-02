@@ -35,8 +35,8 @@ const createHigherOrderComponent = (config,
       }
 
       componentWillMount() {
-        const {fields, initialize, initialValues} = this.props;
-        if (initialValues) {
+        const {fields, form, initialize, initialValues} = this.props;
+        if (initialValues && !form._initialized) {
           initialize(initialValues, fields);
         }
       }

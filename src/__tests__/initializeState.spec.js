@@ -161,11 +161,14 @@ describe('initializeState', () => {
     expect(isFieldValue(result.bar)).toBe(true);
   });
 
-  it('should initialize array values to state, not changing existing values', () => {
+  it('should initialize array values to state, changing existing values', () => {
     const result = initializeState({
       animals: ['cat', 'dog', 'rat'],
       bar: []
     }, ['animals', 'bar'], {
+      animals: {
+        value: ['hog', 'pig', 'doe']
+      },
       bar: {
         value: [{deeper: 42}]
       }
@@ -179,7 +182,7 @@ describe('initializeState', () => {
         },
         bar: {
           initial: [],
-          value: [{deeper: 42}]
+          value: []
         }
       });
     expect(isFieldValue(result.animals)).toBe(true);

@@ -32,6 +32,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -52,6 +53,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -76,6 +78,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -101,6 +104,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -123,6 +127,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -146,6 +151,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -169,6 +175,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -192,6 +199,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -243,6 +251,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -311,6 +320,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -345,6 +355,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -389,6 +400,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -460,6 +472,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -532,6 +545,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         _error: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -569,6 +583,7 @@ describe('reducer', () => {
         },
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -589,6 +604,7 @@ describe('reducer', () => {
         },
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -605,6 +621,7 @@ describe('reducer', () => {
         }),
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -622,6 +639,7 @@ describe('reducer', () => {
         },
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -639,6 +657,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -656,6 +675,7 @@ describe('reducer', () => {
         },
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -671,6 +691,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -687,6 +708,7 @@ describe('reducer', () => {
         },
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -704,6 +726,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -722,6 +745,7 @@ describe('reducer', () => {
         },
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -738,6 +762,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -756,6 +781,7 @@ describe('reducer', () => {
         ],
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -775,6 +801,7 @@ describe('reducer', () => {
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -796,6 +823,7 @@ describe('reducer', () => {
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -813,6 +841,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: 'Some global error',
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -831,6 +860,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: 'Some global error',
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -848,6 +878,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: 'Some global error',
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -863,6 +894,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: 'Some global error',
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -884,6 +916,7 @@ describe('reducer', () => {
         _active: undefined, // CHANGE doesn't touch _active
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -904,6 +937,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -925,6 +959,7 @@ describe('reducer', () => {
         _active: 'myField.subField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -943,6 +978,7 @@ describe('reducer', () => {
         _active: 'otherField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -960,6 +996,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -980,6 +1017,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: true,
         _submitting: false,
         _submitFailed: false
       });
@@ -1004,6 +1042,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: true,
         _submitting: false,
         _submitFailed: false
       });
@@ -1027,6 +1066,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: true,
         _submitting: false,
         _submitFailed: false
       });
@@ -1050,6 +1090,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: true,
         _submitting: false,
         _submitFailed: false
       });
@@ -1100,6 +1141,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: true,
         _submitting: false,
         _submitFailed: false
       });
@@ -1112,7 +1154,7 @@ describe('reducer', () => {
     expect(isFieldValue(state.foo.accounts[1].email)).toBe(true);
   });
 
-  it('should set initialize values, but not change dirty value when initializing', () => {
+  it('should set initialize values, making form pristine when initializing', () => {
     const state = reducer({
       foo: {
         myField: makeFieldValue({
@@ -1122,23 +1164,25 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
     }, {
-      ...initialize({myField: 'initialValue'}, ['myField']),
+      ...initialize({myField: 'cleanValue'}, ['myField']),
       form: 'foo',
       touch: true
     });
     expect(state.foo)
       .toEqual({
         myField: {
-          initial: 'initialValue',
-          value: 'dirtyValue'
+          initial: 'cleanValue',
+          value: 'cleanValue'
         },
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: true,
         _submitting: false,
         _submitFailed: false
       });
@@ -1159,6 +1203,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1176,6 +1221,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1190,6 +1236,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1203,6 +1250,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1225,6 +1273,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1245,6 +1294,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1270,6 +1320,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1290,6 +1341,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1314,6 +1366,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1334,6 +1387,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1359,6 +1413,7 @@ describe('reducer', () => {
         _active: 'myField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1381,6 +1436,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1397,6 +1453,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1411,6 +1468,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: true,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1428,6 +1486,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1446,6 +1505,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: 'myField',
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1460,6 +1520,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1474,6 +1535,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: false
       });
@@ -1487,6 +1549,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: true
       }
@@ -1501,6 +1564,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: true
       });
@@ -1524,6 +1588,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: true,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1555,6 +1620,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1581,6 +1647,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: true,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1612,6 +1679,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1636,6 +1704,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: true,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1663,6 +1732,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1688,6 +1758,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: true,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1710,6 +1781,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1733,6 +1805,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: true,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -1757,6 +1830,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: 'This is a global error',
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1772,6 +1846,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: false
       }
@@ -1786,6 +1861,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1809,6 +1885,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: false
       }
@@ -1840,6 +1917,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: true
       });
@@ -1866,6 +1944,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: false
       }
@@ -1897,6 +1976,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: true
       });
@@ -1913,6 +1993,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: true
       }
@@ -1927,6 +2008,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -1948,6 +2030,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: false
       }
@@ -1975,6 +2058,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: true
       });
@@ -1998,6 +2082,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: true,
         _submitFailed: false
       }
@@ -2022,6 +2107,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: 'This is a global error',
+        _initialized: false,
         _submitting: false,
         _submitFailed: true
       });
@@ -2043,6 +2129,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2063,6 +2150,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2086,6 +2174,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2108,6 +2197,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2132,6 +2222,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2154,6 +2245,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2178,6 +2270,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2200,6 +2293,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2228,6 +2322,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2254,6 +2349,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2270,6 +2366,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2282,6 +2379,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2293,6 +2391,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2305,6 +2404,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2324,6 +2424,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2342,6 +2443,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2365,6 +2467,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2385,6 +2488,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2409,6 +2513,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2429,6 +2534,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2453,6 +2559,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2473,6 +2580,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2501,6 +2609,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2525,6 +2634,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2541,6 +2651,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       },
@@ -2548,6 +2659,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2561,6 +2673,7 @@ describe('reducer', () => {
           _active: undefined,
           _asyncValidating: false,
           [globalErrorKey]: undefined,
+          _initialized: false,
           _submitting: false,
           _submitFailed: false
         }
@@ -2573,6 +2686,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2592,6 +2706,7 @@ describe('reducer', () => {
           _active: undefined,
           _asyncValidating: false,
           [globalErrorKey]: undefined,
+          _initialized: false,
           _submitting: false,
           _submitFailed: false
         },
@@ -2599,6 +2714,7 @@ describe('reducer', () => {
           _active: undefined,
           _asyncValidating: false,
           [globalErrorKey]: undefined,
+          _initialized: false,
           _submitting: false,
           _submitFailed: false
         }
@@ -2612,6 +2728,7 @@ describe('reducer', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       }
@@ -2635,6 +2752,7 @@ describe('reducer.plugin', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false
       });
@@ -2659,6 +2777,7 @@ describe('reducer.normalize', () => {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
+        _initialized: false,
         _submitting: false,
         _submitFailed: false,
         myField: {
@@ -2671,6 +2790,7 @@ describe('reducer.normalize', () => {
       _active: undefined,
       _asyncValidating: false,
       [globalErrorKey]: undefined,
+      _initialized: false,
       _submitting: false,
       _submitFailed: false,
     };

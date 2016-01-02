@@ -1077,7 +1077,7 @@ describe('createReduxForm', () => {
     });
   });
 
-  it('should initialize an array field without blowing away existing value', () => {
+  it('should initialize an array field, blowing away existing value', () => {
     const store = makeStore();
     const form = 'testForm';
     const Decorated = reduxForm({
@@ -1110,9 +1110,9 @@ describe('createReduxForm', () => {
     expectField({
       field: stub.props.fields.children,
       name: 'children',
-      value: [1, 2],
+      value: [3, 4],
       valid: true,
-      dirty: true,
+      dirty: false,
       error: undefined,
       touched: false,
       visited: false
@@ -1121,7 +1121,7 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.children)
       .toEqual({
         initial: [3, 4],
-        value: [1, 2]
+        value: [3, 4]
       });
     // reset form to newly initialized values
     stub.props.resetForm();
@@ -1136,5 +1136,102 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false
     });
+  });
+
+  it('should only initialize on mount once', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['name']
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{name: 'Bob'}}/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    // check value
+    expectField({
+      field: stub.props.fields.name,
+      name: 'name',
+      value: 'Bob',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    // check state
+    expect(store.getState().form.testForm.name)
+      .toEqual({
+        initial: 'Bob',
+        value: 'Bob'
+      });
+    // set value
+    stub.props.fields.name.onChange('Dan');
+    // check value
+    expectField({
+      field: stub.props.fields.name,
+      name: 'name',
+      value: 'Dan',
+      valid: true,
+      dirty: true,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    // check state
+    expect(store.getState().form.testForm.name)
+      .toEqual({
+        initial: 'Bob',
+        value: 'Dan'
+      });
+
+    // should NOT dispatch INITIALIZE this time
+    const dom2 = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{name: 'Bob'}}/>
+      </Provider>
+    );
+    const stub2 = TestUtils.findRenderedComponentWithType(dom2, Form);
+    // check that value is unchanged
+    expectField({
+      field: stub2.props.fields.name,
+      name: 'name',
+      value: 'Dan',
+      valid: true,
+      dirty: true,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    // check state
+    expect(store.getState().form.testForm.name)
+      .toEqual({
+        initial: 'Bob',
+        value: 'Dan'
+      });
+
+    // manually initialize new values
+    stub.props.initializeForm({name: 'Tom'});
+    // check value
+    expectField({
+      field: stub2.props.fields.name,
+      name: 'name',
+      value: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    // check state
+    expect(store.getState().form.testForm.name)
+      .toEqual({
+        initial: 'Tom',
+        value: 'Tom'
+      });
   });
 });

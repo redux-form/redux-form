@@ -1,9 +1,6 @@
 import {makeFieldValue} from './fieldValue';
 
-const updateEntry = (entry, value) => {
-  if (entry && entry.value !== undefined) {
-    return makeFieldValue({initial: value, value: entry.value});
-  }
+const makeEntry = (value) => {
   return makeFieldValue(value === undefined ? {} : {initial: value, value});
 };
 
@@ -45,13 +42,13 @@ const initializeState = (values, fields, state = {}) => {
             initializeField(rest, srcValue, destArray && destArray[srcIndex]));
         } else {
           result[key] = srcArray.map((srcValue, srcIndex) =>
-            updateEntry(destArray && destArray[srcIndex], srcValue));
+            makeEntry(srcValue));
         }
       } else {
         result[key] = [];
       }
     } else {
-      result[path] = updateEntry(result[path], src && src[path]);
+      result[path] = makeEntry(src && src[path]);
     }
     return result;
   };
