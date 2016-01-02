@@ -1,13 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {reduxForm} from 'redux-form';
 import {load as loadAccount} from '../redux/modules/account';
-export const fields = ['firstName', 'lastName', 'age', 'bio'];
+export const fields = ['firstName', 'lastName', 'age', 'color', 'bio'];
 const data = {  // used to populate "account" reducer when "Load" is clicked
   firstName: 'John',
   lastName: 'Doe',
   age: '42',
+  color: 'Blue',
   bio: 'Born to write amazing Redux code.'
 };
+const colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet'];
 
 class InitializingFromStateForm extends Component {
   static propTypes = {
@@ -18,7 +20,7 @@ class InitializingFromStateForm extends Component {
   };
 
   render() {
-    const {fields: {firstName, lastName, age, bio}, handleSubmit, load, submitting} = this.props;
+    const {fields: {firstName, lastName, age, color, bio}, handleSubmit, load, submitting} = this.props;
     return (
       <div>
         <div style={{textAlign: 'center', marginBottom: 20}}>
@@ -41,6 +43,15 @@ class InitializingFromStateForm extends Component {
             <label className="col-xs-4 control-label">Age</label>
             <div className="col-xs-8">
               <input type="number" className="form-control" placeholder="Age" {...age}/>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="col-xs-4 control-label">Favorite Color</label>
+            <div className="col-xs-8">
+              <select className="form-control" {...color}>
+                <option value="">Select a color...</option>
+                {colors.map(colorOption => <option value={colorOption} key={colorOption}>{colorOption}</option>)}
+              </select>
             </div>
           </div>
           <div className="form-group">
