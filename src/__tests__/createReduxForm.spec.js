@@ -1124,6 +1124,66 @@ describe('createReduxForm', () => {
     });
   });
 
+  it('should add array values with defaults', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['users[].name', 'users[].age']
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expect(stub.props.fields.users).toBeA('array');
+    expect(stub.props.fields.users.length).toBe(0);
+    expect(stub.props.fields.users.addField).toBeA('function');
+
+    // add field
+    stub.props.fields.users.addField({name: 'Bob', age: 27});
+
+    // check field
+    expect(stub.props.fields.users.length).toBe(1);
+    expect(stub.props.fields.users[0]).toBeA('object');
+    expectField({
+      field: stub.props.fields.users[0].name,
+      name: 'users[0].name',
+      value: 'Bob',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.users[0].age,
+      name: 'users[0].age',
+      value: 27,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+
+    // check state
+    expect(store.getState().form.testForm.users).toBeA('array');
+    expect(store.getState().form.testForm.users.length).toBe(1);
+    expect(store.getState().form.testForm.users[0].name)
+      .toEqual({
+        initial: 'Bob',
+        value: 'Bob'
+      });
+    expect(store.getState().form.testForm.users[0].age)
+      .toEqual({
+        initial: 27,
+        value: 27
+      });
+  });
+
   it('should initialize an array field, blowing away existing value', () => {
     const store = makeStore();
     const form = 'testForm';
