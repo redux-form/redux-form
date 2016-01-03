@@ -1077,6 +1077,53 @@ describe('createReduxForm', () => {
     });
   });
 
+  it('should initialize a deep array field with values', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['users[].name', 'users[].age'],
+      initialValues: {
+        users: [
+          {
+            name: 'Bob',
+            age: 27
+          }
+        ]
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expect(stub.props.fields.users).toBeA('array');
+    expect(stub.props.fields.users.length).toBe(1);
+    expect(stub.props.fields.users[0]).toBeA('object');
+    expectField({
+      field: stub.props.fields.users[0].name,
+      name: 'users[0].name',
+      value: 'Bob',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.users[0].age,
+      name: 'users[0].age',
+      value: 27,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+  });
+
   it('should initialize an array field, blowing away existing value', () => {
     const store = makeStore();
     const form = 'testForm';
