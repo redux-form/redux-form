@@ -1,3 +1,5 @@
+import {isFieldValue} from './fieldValue';
+
 /**
  * A different version of getValues() that does not need the fields array
  */
@@ -17,7 +19,8 @@ const getValuesFromState = state => {
           accumulator[key] = field.value;
         }
       } else if (Array.isArray(field)) {
-        accumulator[key] = field.map(arrayField => arrayField.value || getValuesFromState(arrayField));
+        accumulator[key] = field.map(arrayField =>
+          isFieldValue(arrayField) ? arrayField.value : getValuesFromState(arrayField));
       } else if (typeof field === 'object') {
         const result = getValuesFromState(field);
 

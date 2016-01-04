@@ -1,27 +1,30 @@
 import expect from 'expect';
+import {makeFieldValue} from '../fieldValue';
 import getValuesFromState from '../getValuesFromState';
 
 describe('getValuesFromState', () => {
   it('should get simple values from state', () => {
     const state = {
-      foo: {value: 'bar'},
-      catLives: {value: 9},
-      alive: {value: true}
+      foo: makeFieldValue({value: 'bar'}),
+      catLives: makeFieldValue({value: 9}),
+      alive: makeFieldValue({value: true}),
+      value: makeFieldValue({value: 'value'})
     };
     expect(getValuesFromState(state))
       .toBeA('object')
       .toEqual({
         foo: 'bar',
         catLives: 9,
-        alive: true
+        alive: true,
+        value: 'value'
       });
   });
 
   it('should understand undefined values that have only been touched', () => {
     const state = {
-      foo: {value: 'dog', touched: true},
-      bar: {touched: true},
-      baz: {touched: true}
+      foo: makeFieldValue({value: 'dog', touched: true}),
+      bar: makeFieldValue({touched: true}),
+      baz: makeFieldValue({touched: true})
     };
     expect(getValuesFromState(state))
       .toBeA('object')
@@ -33,12 +36,12 @@ describe('getValuesFromState', () => {
   it('should get deep values from state', () => {
     const state = {
       foo: {
-        bar: {value: 'baz'}
+        bar: makeFieldValue({value: 'baz'})
       },
       lives: {
-        cat: {value: 9}
+        cat: makeFieldValue({value: 9})
       },
-      alive: {value: true}
+      alive: makeFieldValue({value: true})
     };
     expect(getValuesFromState(state))
       .toBeA('object')
@@ -123,11 +126,11 @@ describe('getValuesFromState', () => {
   it('should get array values from state', () => {
     const state = {
       foo: [
-        {value: 'bar'},
-        {value: 'baz'},
+        makeFieldValue({value: 'bar'}),
+        makeFieldValue({value: 'baz'}),
         {}
       ],
-      alive: {value: true}
+      alive: makeFieldValue({value: true})
     };
     expect(getValuesFromState(state))
       .toBeA('object')
@@ -150,9 +153,9 @@ describe('getValuesFromState', () => {
     const state = {
       foo: {
         animals: [
-          {value: 'cat'},
-          {value: 'dog'},
-          {value: 'rat'}
+          makeFieldValue({value: 'cat'}),
+          makeFieldValue({value: 'dog'}),
+          makeFieldValue({value: 'rat'})
         ]
       },
       bar: [
@@ -204,6 +207,24 @@ describe('getValuesFromState', () => {
       .toBeA('object')
       .toEqual({
         foo: 'dog'
+      });
+  });
+
+  it('should get deep array of objects from state', () => {
+    const state = {
+      foo: {
+        animals: [
+          {key: makeFieldValue({value: 'k1'}), value: makeFieldValue({value: 'v1'})},
+          {key: makeFieldValue({value: 'k2'}), value: makeFieldValue({value: 'v2'})},
+        ]
+      }
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({
+        foo: {
+          animals: [{key: 'k1', value: 'v1'}, {key: 'k2', value: 'v2'}]
+        }
       });
   });
 });
