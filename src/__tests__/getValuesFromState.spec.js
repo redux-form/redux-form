@@ -6,14 +6,16 @@ describe('getValuesFromState', () => {
     const state = {
       foo: {value: 'bar'},
       catLives: {value: 9},
-      alive: {value: true}
+      alive: {value: true},
+      value: {value: 'value'}
     };
     expect(getValuesFromState(state))
       .toBeA('object')
       .toEqual({
         foo: 'bar',
         catLives: 9,
-        alive: true
+        alive: true,
+        value: 'value'
       });
   });
 
@@ -170,6 +172,24 @@ describe('getValuesFromState', () => {
           animals: ['cat', 'dog', 'rat']
         },
         bar: [{deeper: 42}]
+      });
+  });
+
+  it('should get deep array of objects from state', () => {
+    const state = {
+      foo: {
+        animals: [
+          { key: { value: 'k1'}, value: { value: 'v1' } },
+          { key: { value: 'k2'}, value: { value: 'v2' } },
+        ]
+      }
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({
+        foo: {
+          animals: [{key: 'k1', value: 'v1'}, {key: 'k2', value: 'v2'}]
+        }
       });
   });
 
