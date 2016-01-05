@@ -50,7 +50,7 @@ class AsynchronousBlurValidationForm extends Component {
           {username.touched && username.error && <div className="col-xs-3 help-block">{username.error}</div>}
         </div>
         <div className={'form-group' + (password.touched && password.error ? ' has-error' : '')}>
-          <label className="col-xs-4 control-label">Email</label>
+          <label className="col-xs-4 control-label">Password</label>
           <div className={'col-xs-' + (password.touched && password.error ? '5' : '8')}>
             <input type="password" className="form-control" placeholder="Password" {...password}/>
           </div>
