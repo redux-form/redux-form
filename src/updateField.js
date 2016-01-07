@@ -44,7 +44,6 @@ const updateField = (field, formField, active, syncError) => {
   }
 
   if (formField.initial && formField.initial !== field.initialValue) {
-    console.info('setting from', field.initialValue, 'to', formField.initial);
     field.defaultChecked = formField.initial === true;
     field.defaultValue = formField.initial;
     field.initialValue = formField.initial;
