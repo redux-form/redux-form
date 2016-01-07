@@ -140,7 +140,7 @@ describe('readField', () => {
       touched: false,
       visited: false,
       error: undefined,
-      initialValue: 'cat', // should match initialValue prop, not state.initial
+      initialValue: 'dog', // state.initial should override prop
       readonly: false
     });
   });
@@ -307,7 +307,7 @@ describe('readField', () => {
       touched: false,
       visited: false,
       error: undefined,
-      initialValue: 'cat', // should match initialValue prop, not state.initial
+      initialValue: 'dog', // state.initial should override prop
       readonly: false
     });
   });

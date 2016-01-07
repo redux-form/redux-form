@@ -631,7 +631,7 @@ describe('readFields', () => {
       touched: false,
       visited: false,
       error: undefined,
-      initialValue: undefined,
+      initialValue: 'fooValue',
       readonly: false
     });
     expectField({
@@ -642,7 +642,7 @@ describe('readFields', () => {
       touched: false,
       visited: false,
       error: undefined,
-      initialValue: undefined,
+      initialValue: 'fooValue',
       readonly: false
     });
     expect(result._meta.allPristine).toBe(false);
@@ -678,7 +678,7 @@ describe('readFields', () => {
       touched: false,
       visited: false,
       error: undefined,
-      initialValue: undefined,
+      initialValue: 'fooValue',
       readonly: false
     });
     expectField({
@@ -689,7 +689,7 @@ describe('readFields', () => {
       touched: false,
       visited: false,
       error: undefined,
-      initialValue: undefined,
+      initialValue: 'barValue',
       readonly: false
     });
     expect(result._meta.allPristine).toBe(true);
