@@ -51,7 +51,7 @@ describe('createReduxForm', () => {
     expect(field.invalid).toBe(!valid);
     expect(field.dirty).toBe(dirty);
     expect(field.pristine).toBe(!dirty);
-    expect(field.error).toBe(error);
+    expect(field.error).toEqual(error);
     expect(field.touched).toBe(touched);
     expect(field.visited).toBe(visited);
   };
@@ -1393,8 +1393,7 @@ describe('createReduxForm', () => {
       });
   });
 
-
-  it('should allow initialization from action', (done) => {
+  it('should allow initialization from action', () => {
     const store = makeStore();
     const form = 'testForm';
     const Decorated = reduxForm({
@@ -1428,20 +1427,164 @@ describe('createReduxForm', () => {
         initial: 'Tom',
         value: 'Tom'
       });
-    setTimeout(() => {
-      // check value
-      expectField({
-        field: stub.props.fields.name,
-        name: 'name',
-        value: 'Tom',
-        initial: 'Tom',
-        valid: true,
-        dirty: false,
-        error: undefined,
-        touched: false,
-        visited: false
+    // check value
+    expectField({
+      field: stub.props.fields.name,
+      name: 'name',
+      value: 'Tom',
+      initial: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+  });
+
+  it('should allow deep sync validation error values', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const deepError = {
+      some: 'object with',
+      deep: 'values'
+    };
+    const Decorated = reduxForm({
+      form,
+      fields: ['name'],
+      validate: () => ({name: deepError})
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expectField({
+      field: stub.props.fields.name,
+      name: 'name',
+      value: undefined,
+      initial: undefined,
+      valid: false,
+      dirty: false,
+      error: deepError,
+      touched: false,
+      visited: false
+    });
+  });
+
+  it('should allow deep async validation error values', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const deepError = {
+      some: 'object with',
+      deep: 'values'
+    };
+    const Decorated = reduxForm({
+      form,
+      fields: ['name'],
+      initialValues: {name: 'Tom'},
+      asyncValidate: () => Promise.reject({name: deepError})
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    // check field before validation
+    expectField({
+      field: stub.props.fields.name,
+      name: 'name',
+      value: 'Tom',
+      initial: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    return stub.props.asyncValidate()
+      .then(() => {
+        expect(true).toBe(false); // should not be in success block
+      }, () => {
+        // check state
+        expect(store.getState().form.testForm.name)
+          .toEqual({
+            initial: 'Tom',
+            value: 'Tom',
+            asyncError: deepError
+          });
+        // check field
+        expectField({
+          field: stub.props.fields.name,
+          name: 'name',
+          value: 'Tom',
+          initial: 'Tom',
+          valid: false,
+          dirty: false,
+          error: deepError,
+          touched: false,
+          visited: false
+        });
       });
-      done();
-    }, 100);
+  });
+
+  it('should allow deep submit validation error values', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const deepError = {
+      some: 'object with',
+      deep: 'values'
+    };
+    const Decorated = reduxForm({
+      form,
+      fields: ['name'],
+      initialValues: {name: 'Tom'},
+      onSubmit: () => Promise.reject({name: deepError})
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    // check before validation
+    expectField({
+      field: stub.props.fields.name,
+      name: 'name',
+      value: 'Tom',
+      initial: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    return stub.props.handleSubmit()
+      .then(() => {
+        // check state
+        expect(store.getState().form.testForm.name)
+          .toEqual({
+            initial: 'Tom',
+            value: 'Tom',
+            submitError: deepError,
+            touched: true
+          });
+        // check field
+        expectField({
+          field: stub.props.fields.name,
+          name: 'name',
+          value: 'Tom',
+          initial: 'Tom',
+          valid: false,
+          dirty: false,
+          error: deepError,
+          touched: true,
+          visited: false
+        });
+      });
   });
 });

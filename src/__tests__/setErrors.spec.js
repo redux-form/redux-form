@@ -1,5 +1,6 @@
 import expect from 'expect';
 import setErrors from '../setErrors';
+import {makeFieldValue} from '../fieldValue';
 
 describe('setErrors', () => {
   it('should not change if no errors', () => {
@@ -85,12 +86,12 @@ describe('setErrors', () => {
 
   it('should set simple error', () => {
     expect(setErrors({
-      foo: {
+      foo: makeFieldValue({
         value: 'bar'
-      },
-      cat: {
+      }),
+      cat: makeFieldValue({
         value: 'rat'
-      }
+      })
     }, {
       foo: 'fooError',
       cat: 'meow'
@@ -109,14 +110,14 @@ describe('setErrors', () => {
 
   it('should unset simple error', () => {
     expect(setErrors({
-      foo: {
+      foo: makeFieldValue({
         value: 'bar',
         __err: 'fooError'
-      },
-      cat: {
+      }),
+      cat: makeFieldValue({
         value: 'rat',
         __err: 'meow'
-      }
+      })
     }, {}, '__err'))
       .toEqual({
         foo: {
@@ -130,9 +131,9 @@ describe('setErrors', () => {
 
   it('should set simple error with first error if given an array', () => {
     expect(setErrors({
-      foo: {
+      foo: makeFieldValue({
         value: 'bar'
-      }
+      })
     }, {
       foo: ['fooError1', 'fooError2']
     }, '__err'))
@@ -147,9 +148,9 @@ describe('setErrors', () => {
   it('should set nested error', () => {
     expect(setErrors({
       dog: {
-        foo: {
+        foo: makeFieldValue({
           value: 'bar'
-        }
+        })
       }
     }, {
       dog: {
@@ -169,10 +170,10 @@ describe('setErrors', () => {
   it('should unset nested error', () => {
     expect(setErrors({
       dog: {
-        foo: {
+        foo: makeFieldValue({
           value: 'bar',
           __err: 'fooError'
-        }
+        })
       }
     }, {}, '__err'))
       .toEqual({
@@ -184,12 +185,34 @@ describe('setErrors', () => {
       });
   });
 
+  it('should set deep object error', () => {
+    expect(setErrors({
+      foo: makeFieldValue({
+        value: 'bar'
+      })
+    }, {
+      foo: {
+        some: 'complex',
+        error: 'value'
+      }
+    }, '__err'))
+      .toEqual({
+        foo: {
+          value: 'bar',
+          __err: {
+            some: 'complex',
+            error: 'value'
+          }
+        }
+      });
+  });
+
   it('should set nested error with first error if given an array', () => {
     expect(setErrors({
       dog: {
-        foo: {
+        foo: makeFieldValue({
           value: 'bar'
-        }
+        })
       }
     }, {
       dog: {
@@ -209,9 +232,9 @@ describe('setErrors', () => {
   it('should set array error when state is array', () => {
     expect(setErrors({
       foo: [
-        {
+        makeFieldValue({
           value: 'bar'
-        }
+        })
       ]
     }, {
       foo: [
@@ -235,10 +258,10 @@ describe('setErrors', () => {
   it('should unset array error when state is array', () => {
     expect(setErrors({
       foo: [
-        {
+        makeFieldValue({
           value: 'bar',
           __err: 'fooError'
-        }
+        })
       ]
     }, {
       foo: []
@@ -252,10 +275,10 @@ describe('setErrors', () => {
       });
     expect(setErrors({
       foo: [
-        {
+        makeFieldValue({
           value: 'bar',
           __err: 'fooError'
-        }
+        })
       ]
     }, {}, '__err'))
       .toEqual({

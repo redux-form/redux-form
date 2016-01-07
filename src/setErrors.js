@@ -39,7 +39,7 @@ const setErrors = (state, errors, destKey) => {
   if (typeof errors === 'string') {
     return makeFieldValue({
       ...state,
-      [destKey]: errors // must be actual error
+      [destKey]: errors
     });
   }
   if (Array.isArray(errors)) {
@@ -49,6 +49,12 @@ const setErrors = (state, errors, destKey) => {
       return copy;
     }
     return setErrors(state, errors[0], destKey);  // use first error
+  }
+  if (isFieldValue(state)) {
+    return makeFieldValue({
+      ...state,
+      [destKey]: errors
+    });
   }
   const errorKeys = Object.keys(errors);
   if (!errorKeys.length && !state) {
