@@ -1,5 +1,5 @@
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
-  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT_FAILED, TOUCH, UNTOUCH } from './actionTypes';
+  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT_FAILED, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes';
 import mapValues from './mapValues';
 import read from './read';
 import write from './write';
@@ -132,6 +132,18 @@ const behaviors = {
       ...state,
       _submitFailed: true
     };
+  },
+  [SWAP_ARRAY_VALUES](state, {path, indexA, indexB}) {
+    const array = read(path, state);
+    const arrayLength = array.length;
+    if (indexA === indexB || isNaN(indexA) || isNaN(indexB) || indexA >= arrayLength || indexB >= arrayLength ) {
+      return state; // do nothing
+    }
+    const stateCopy = {...state};
+    const arrayCopy = [...array];
+    arrayCopy[indexA] = array[indexB];
+    arrayCopy[indexB] = array[indexA];
+    return write(path, arrayCopy, stateCopy);
   },
   [TOUCH](state, {fields}) {
     return {

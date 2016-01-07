@@ -11,5 +11,6 @@ export const START_SUBMIT = 'redux-form/START_SUBMIT';
 export const STOP_ASYNC_VALIDATION = 'redux-form/STOP_ASYNC_VALIDATION';
 export const STOP_SUBMIT = 'redux-form/STOP_SUBMIT';
 export const SUBMIT_FAILED = 'redux-form/SUBMIT_FAILED';
+export const SWAP_ARRAY_VALUES = 'redux-form/SWAP_ARRAY_VALUES';
 export const TOUCH = 'redux-form/TOUCH';
 export const UNTOUCH = 'redux-form/UNTOUCH';

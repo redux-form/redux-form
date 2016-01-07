@@ -1,8 +1,8 @@
 import expect from 'expect';
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
-  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH, DESTROY } from '../actionTypes';
+  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH, DESTROY } from '../actionTypes';
 import {addArrayValue, blur, change, destroy, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
-  stopAsyncValidation, stopSubmit, touch, untouch} from '../actions';
+  stopAsyncValidation, stopSubmit, swapArrayValues, touch, untouch} from '../actions';
 
 describe('actions', () => {
   it('should create add array value action', () => {
@@ -126,6 +126,27 @@ describe('actions', () => {
     expect(stopSubmit(errors)).toEqual({
       type: STOP_SUBMIT,
       errors
+    });
+  });
+
+  it('should create swap array value action', () => {
+    expect(swapArrayValues('foo', 3, 6)).toEqual({
+      type: SWAP_ARRAY_VALUES,
+      path: 'foo',
+      indexA: 3,
+      indexB: 6
+    });
+    expect(swapArrayValues('foo', 3)).toEqual({
+      type: SWAP_ARRAY_VALUES,
+      path: 'foo',
+      indexA: 3,
+      indexB: undefined
+    });
+    expect(swapArrayValues('bar.baz')).toEqual({
+      type: SWAP_ARRAY_VALUES,
+      path: 'bar.baz',
+      indexA: undefined,
+      indexB: undefined
     });
   });
 

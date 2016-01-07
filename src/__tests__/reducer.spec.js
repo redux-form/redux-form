@@ -2,7 +2,7 @@ import expect from 'expect';
 import reducer, {globalErrorKey} from '../reducer';
 import bindActionData from '../bindActionData';
 import {addArrayValue, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
-  stopAsyncValidation, stopSubmit, touch, untouch, destroy} from '../actions';
+  stopAsyncValidation, stopSubmit, swapArrayValues, touch, untouch, destroy} from '../actions';
 import {isFieldValue, makeFieldValue} from '../fieldValue';
 
 describe('reducer', () => {
@@ -1348,6 +1348,189 @@ describe('reducer', () => {
     expect(isFieldValue(state.testForm.myField)).toBe(false);
     expect(isFieldValue(state.testForm.myField[0])).toBe(true);
     expect(isFieldValue(state.testForm.myField[1])).toBe(true);
+  });
+
+  it('should not change empty array value on swap', () => {
+    const state = reducer({
+      testForm: {
+        myField: [],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...swapArrayValues('myField'),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+        .toEqual({
+          myField: [],
+          _active: undefined,
+          _asyncValidating: false,
+          [globalErrorKey]: undefined,
+          _initialized: false,
+          _submitting: false,
+          _submitFailed: false
+        });
+  });
+
+  it('should should swap two array values at different indexes', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          makeFieldValue({
+            value: 'foo'
+          }),
+          makeFieldValue({
+            value: 'bar'
+          }),
+          makeFieldValue({
+            value: 'baz'
+          })
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...swapArrayValues('myField', 0, 2),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+        .toEqual({
+          myField: [
+            {
+              value: 'baz'
+            },
+            {
+              value: 'bar'
+            },
+            {
+              value: 'foo'
+            }
+          ],
+          _active: undefined,
+          _asyncValidating: false,
+          [globalErrorKey]: undefined,
+          _initialized: false,
+          _submitting: false,
+          _submitFailed: false
+        });
+    expect(isFieldValue(state.testForm.myField)).toBe(false);
+    expect(isFieldValue(state.testForm.myField[0])).toBe(true);
+    expect(isFieldValue(state.testForm.myField[1])).toBe(true);
+    expect(isFieldValue(state.testForm.myField[2])).toBe(true);
+
+  });
+
+  it('should not change array on swap with the same index', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          makeFieldValue({
+            value: 'foo'
+          }),
+          makeFieldValue({
+            value: 'bar'
+          }),
+          makeFieldValue({
+            value: 'baz'
+          })
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...swapArrayValues('myField', 1, 1),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+        .toEqual({
+          myField: [
+            {
+              value: 'foo'
+            },
+            {
+              value: 'bar'
+            },
+            {
+              value: 'baz'
+            }
+          ],
+          _active: undefined,
+          _asyncValidating: false,
+          [globalErrorKey]: undefined,
+          _initialized: false,
+          _submitting: false,
+          _submitFailed: false
+        });
+    expect(isFieldValue(state.testForm.myField)).toBe(false);
+    expect(isFieldValue(state.testForm.myField[0])).toBe(true);
+    expect(isFieldValue(state.testForm.myField[1])).toBe(true);
+    expect(isFieldValue(state.testForm.myField[2])).toBe(true);
+
+  });
+
+  it('should not change array on swap with out of bounds index', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          makeFieldValue({
+            value: 'foo'
+          }),
+          makeFieldValue({
+            value: 'bar'
+          }),
+          makeFieldValue({
+            value: 'baz'
+          })
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...swapArrayValues('myField', 1, 4),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+        .toEqual({
+          myField: [
+            {
+              value: 'foo'
+            },
+            {
+              value: 'bar'
+            },
+            {
+              value: 'baz'
+            }
+          ],
+          _active: undefined,
+          _asyncValidating: false,
+          [globalErrorKey]: undefined,
+          _initialized: false,
+          _submitting: false,
+          _submitFailed: false
+        });
+    expect(isFieldValue(state.testForm.myField)).toBe(false);
+    expect(isFieldValue(state.testForm.myField[0])).toBe(true);
+    expect(isFieldValue(state.testForm.myField[1])).toBe(true);
+    expect(isFieldValue(state.testForm.myField[2])).toBe(true);
+
   });
 
   it('should reset values on reset on with previous state', () => {
