@@ -9,7 +9,7 @@ import updateField from './updateField';
 
 const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props, callback = () => null) => {
   const {asyncBlurFields, blur, change, focus, form, initialValues, readonly, addArrayValue,
-    removeArrayValue} = props;
+    removeArrayValue, swapArrayValues} = props;
   const dotIndex = fieldName.indexOf('.');
   const openIndex = fieldName.indexOf('[');
   const closeIndex = fieldName.indexOf(']');
@@ -31,6 +31,9 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       });
       Object.defineProperty(fields[key], 'removeField', {
         value: index => removeArrayValue(pathToHere + key, index)
+      });
+      Object.defineProperty(fields[key], 'swapFields', {
+        value: (indexA, indexB) => swapArrayValues(pathToHere + key, indexA, indexB)
       });
     }
     const fieldArray = fields[key];
