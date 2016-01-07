@@ -2793,7 +2793,7 @@ describe('reducer.normalize', () => {
       [globalErrorKey]: undefined,
       _initialized: false,
       _submitting: false,
-      _submitFailed: false,
+      _submitFailed: false
     };
     const normalize = reducer.normalize({
       foo: {
@@ -2851,7 +2851,7 @@ describe('reducer.normalize', () => {
       [globalErrorKey]: undefined,
       _initialized: false,
       _submitting: false,
-      _submitFailed: false,
+      _submitFailed: false
     };
     const normalize = reducer.normalize({
       foo: {
