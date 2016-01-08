@@ -5,9 +5,10 @@ turned into arrays in the `fields` prop given to the decorated form.
 
 Also demonstrated here is how a common component, `<Address/>`, can be used to render a group of fields.
 
-The array fields can be modified by calling `addField(value?, index?)` and `removeField(index?)` _on the array_ 
-inside the `fields` prop. If you do not specify an `index`, they will act like `push()` and `pop()`, modifying the 
-end of the array.
+The array fields can be modified by calling `addField(value?, index?)`, `removeField(index?)` and `swapFields(indexA?, indexB?)` _on the array_
+inside the `fields` prop. If you do not specify an `index` in `addField(value?, index?)` or `removeField(index?)`,
+they will act like `push()` and `pop()`, modifying the end of the array. Calling `swapFields(indexA?, indexB?)` with invalid indexes does not
+modify the array.
 
 Your synchronous validation function will be given the deep data structure and should return a deep data structure of
 errors.
