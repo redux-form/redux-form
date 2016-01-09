@@ -4,10 +4,10 @@
   <li class="active">`reduxForm(config:Object)`</li>
 </ol>
 
-# `reduxForm(config:Object, mapStateToProps?, mapDispatchToProps?)`
+# `reduxForm(config:Object, mapStateToProps?, mapDispatchToProps?, mergeProps?, options?)`
 
 Creates a decorator with which you use `redux-form` to connect your form component to Redux. It takes a `config` 
-parameter and then optionally `mapStateToProps` and `mapDispatchToProps` parameters which 
+parameter and then optionally `mapStateToProps`, `mapDispatchToProps`, `mergeProps` and `options` parameters which 
 [correspond exactly to the parameters taken by `react-redux`'s `connect()`
 function](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options),
 allowing you to connect your form component to other state in Redux.
