@@ -8,7 +8,7 @@ import createHigherOrderComponent from './createHigherOrderComponent';
  */
 const createReduxFormConnector =
   (isReactNative, React, connect) =>
-    (WrappedComponent, mapStateToProps, mapDispatchToProps) => {
+    (WrappedComponent, mapStateToProps, mapDispatchToProps, mergeProps, options) => {
       const {Component, PropTypes} = React;
       class ReduxFormConnector extends Component {
         constructor(props) {
@@ -23,7 +23,7 @@ const createReduxFormConnector =
                 'getFormState'
               ],
               fn: createHigherOrderComponent(props, isReactNative, React, connect, WrappedComponent,
-                mapStateToProps, mapDispatchToProps)
+                mapStateToProps, mapDispatchToProps, mergeProps, options)
             }
           });
         }

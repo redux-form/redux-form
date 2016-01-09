@@ -22,7 +22,9 @@ const createHigherOrderComponent = (config,
                                     connect,
                                     WrappedComponent,
                                     mapStateToProps,
-                                    mapDispatchToProps) => {
+                                    mapDispatchToProps,
+                                    mergeProps,
+                                    options) => {
   const {Component, PropTypes} = React;
   return (reduxMountPoint, formName, formKey, getFormState) => {
     class ReduxForm extends Component {
@@ -197,7 +199,9 @@ const createHigherOrderComponent = (config,
           }
           return formState && formState[formName] && formState[formName][formKey];
         }),
-        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName, key: formKey}))
+        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName, key: formKey})),
+        mergeProps,
+        options
       ) :
       connect(
         wrapMapStateToProps(mapStateToProps, state => {
@@ -207,7 +211,9 @@ const createHigherOrderComponent = (config,
           }
           return formState && formState[formName];
         }),
-        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName}))
+        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName})),
+        mergeProps,
+        options
       );
 
     return decorate(ReduxForm);
