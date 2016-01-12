@@ -66,14 +66,24 @@ class DeepForm extends Component {
             <div className="col-xs-2">
               <input type="text" className="form-control" placeholder="Child Age" {...child.age}/>
             </div>
-            <div className="col-xs-2">
+            <div className="col-xs-4 btn-toolbar">
               <button className="btn btn-success" onClick={event => {
                 event.preventDefault();   // prevent form submission
                 child.awards.addField();  // pushes empty award field onto the end of the array
               }}><i className="fa fa-trophy"/> Add Award
               </button>
-            </div>
-            <div className="col-xs-2">
+              <div className="btn-group">
+                <button className="btn btn-success" disabled={index === 0} onClick={event => {
+                  event.preventDefault();                 // prevent form submission
+                  children.swapFields(index, index - 1);  // swap field with it's predecessor
+                }}><i className="fa fa-caret-up"/>
+                </button>
+                <button className="btn btn-success" disabled={index === children.length - 1} onClick={event => {
+                  event.preventDefault();                 // prevent form submission
+                  children.swapFields(index, index + 1);  // swap field with it's successor
+                }}><i className="fa fa-caret-down"/>
+                </button>
+              </div>
               <button className="btn btn-danger" onClick={event => {
                 event.preventDefault();       // prevent form submission
                 children.removeField(index);  // remove from index
