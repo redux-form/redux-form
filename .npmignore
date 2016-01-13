@@ -3,6 +3,7 @@ test
 .babelrc
 .eslint*
 .idea
+.editorconfig
 .npmignore
 .travis.yml
 webpack.*
