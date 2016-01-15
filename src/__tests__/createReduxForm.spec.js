@@ -1,5 +1,5 @@
-/* eslint react/no-multi-comp:0*/
-import expect, {createSpy} from 'expect';
+/* eslint react/no-multi-comp:0 */
+import expect from 'expect';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
