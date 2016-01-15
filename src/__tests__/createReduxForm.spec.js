@@ -1,5 +1,5 @@
 /* eslint react/no-multi-comp:0*/
-import expect from 'expect';
+import expect, {createSpy} from 'expect';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
@@ -1697,4 +1697,34 @@ describe('createReduxForm', () => {
         });
       });
   });
+
+  // Test to show bug https://github.com/erikras/redux-form/issues/550
+  // ---
+  // It's caused by the fact that we're no longer using the same field instance
+  // throughout the lifetime of the component. Since the fields are immutable now,
+  // the field.value given to createOnDragStart() no longer refers to the current
+  // value.
+  // ---
+  //it('should drag the current value', () => {
+  //  const store = makeStore();
+  //  const form = 'testForm';
+  //  const Decorated = reduxForm({
+  //    form,
+  //    fields: ['name']
+  //  })(Form);
+  //  const dom = TestUtils.renderIntoDocument(
+  //    <Provider store={store}>
+  //      <Decorated/>
+  //    </Provider>
+  //  );
+  //  const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+  //
+  //  stub.props.fields.name.onChange('FOO');
+  //  const setData = createSpy();
+  //  stub.props.fields.name.onDragStart({dataTransfer: {setData}});
+  //
+  //  expect(setData)
+  //    .toHaveBeenCalled()
+  //    .toHaveBeenCalledWith('value', 'FOO');
+  //});
 });
