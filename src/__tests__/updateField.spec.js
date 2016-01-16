@@ -116,4 +116,11 @@ describe('updateField', () => {
     expect(updateField({visited: true}, {visited: false}, false, undefined).visited).toBe(false);
     expect(updateField({visited: true}, {}, false, undefined).visited).toBe(false);
   });
+
+  it('should change initial and default values when initial changes', () => {
+    expect(updateField({ initialValue: 1, defaultValue: 1 }, { initial: 2 }, false, undefined).initialValue).toBe(2);
+    expect(updateField({ initialValue: 1, defaultValue: 1 }, { initial: 2 }, false, undefined).defaultValue).toBe(2);
+    expect(updateField({ initialValue: 1, defaultValue: 1 }, { initial: undefined }, false, undefined).initialValue).toBe(undefined);
+    expect(updateField({ initialValue: 1, defaultValue: 1 }, { initial: undefined }, false, undefined).defaultValue).toBe(undefined);
+  });
 });
