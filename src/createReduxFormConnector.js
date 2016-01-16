@@ -1,4 +1,4 @@
-import lazyCache from 'react-lazy-cache';
+import LazyCache from 'react-lazy-cache/noGetters';
 import getDisplayName from './getDisplayName';
 import createHigherOrderComponent from './createHigherOrderComponent';
 
@@ -13,7 +13,7 @@ const createReduxFormConnector =
       class ReduxFormConnector extends Component {
         constructor(props) {
           super(props);
-          this.cache = lazyCache(this, {
+          this.cache = new LazyCache(this, {
             ReduxForm: {
               params: [
                 // props that effect how redux-form connects to the redux store
@@ -33,7 +33,7 @@ const createReduxFormConnector =
         }
 
         render() {
-          const {ReduxForm} = this.cache;
+          const ReduxForm = this.cache.get('ReduxForm');
           // remove some redux-form config-only props
           const {reduxMountPoint, destroyOnUnmount, form, getFormState, touchOnBlur, touchOnChange,
             ...passableProps } = this.props; // eslint-disable-line no-redeclare
