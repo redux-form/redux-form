@@ -1,5 +1,5 @@
 /* eslint react/no-multi-comp:0 */
-import expect from 'expect';
+import expect, {createSpy} from 'expect';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
@@ -8,6 +8,12 @@ import {combineReducers, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from '../reducer';
 import createReduxForm from '../createReduxForm';
+
+const createRestorableSpy = (fn) => {
+  return createSpy(fn, function restore() {
+    this.calls = [];
+  });
+};
 
 describe('createReduxForm', () => {
   const reduxForm = createReduxForm(false, React, connect);
@@ -1696,6 +1702,59 @@ describe('createReduxForm', () => {
           visited: false
         });
       });
+  });
+
+  it('should only rerender the form that changed', () => {
+    const store = makeStore();
+    const fooRender = createRestorableSpy().andReturn(<div/>);
+    const barRender = createRestorableSpy().andReturn(<div/>);
+
+    class FooForm extends Component {
+      render() {
+        return fooRender();
+      }
+    }
+
+    class BarForm extends Component {
+      render() {
+        return barRender();
+      }
+    }
+
+    const DecoratedFooForm = reduxForm({
+      form: 'foo',
+      fields: ['name']
+    })(FooForm);
+    const DecoratedBarForm = reduxForm({
+      form: 'bar',
+      fields: ['name']
+    })(BarForm);
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <div>
+          <DecoratedFooForm/>
+          <DecoratedBarForm/>
+        </div>
+      </Provider>
+    );
+    const fooStub = TestUtils.findRenderedComponentWithType(dom, FooForm);
+    const barStub = TestUtils.findRenderedComponentWithType(dom, BarForm);
+
+    // first render
+    expect(fooRender).toHaveBeenCalled();
+    expect(barRender).toHaveBeenCalled();
+
+    // restore spies
+    fooRender.restore();
+    barRender.restore();
+
+    // change field on foo
+    fooStub.props.fields.name.onChange('Tom');
+
+    // second render: only foo form
+    expect(fooRender).toHaveBeenCalled();
+    expect(barRender).toNotHaveBeenCalled();
   });
 
   // Test to show bug https://github.com/erikras/redux-form/issues/550
