@@ -1781,6 +1781,76 @@ describe('createReduxForm', () => {
     expect(barRender).toNotHaveBeenCalled();
   });
 
+  it('should only rerender the field components that change', () => {
+    const store = makeStore();
+    let fooRenders = 0;
+    let barRenders = 0;
+
+    class FooInput extends Component {
+      shouldComponentUpdate(nextProps) {
+        return this.props.field !== nextProps.field;
+      }
+
+      render() {
+        fooRenders++;
+        const {field} = this.props;
+        return <input type="text" {...field}/>;
+      }
+    }
+
+    class BarInput extends Component {
+      shouldComponentUpdate(nextProps) {
+        return this.props.field !== nextProps.field;
+      }
+
+      render() {
+        barRenders++;
+        const {field} = this.props;
+        return <input type="password" {...field}/>;
+      }
+    }
+
+    class FieldTestForm extends Component {
+      render() {
+        const {fields: {foo, bar}} = this.props;
+        return (<div>
+          <FooInput field={foo}/>
+          <BarInput field={bar}/>
+        </div>);
+      }
+    }
+
+    const DecoratedForm = reduxForm({
+      form: 'fieldTest',
+      fields: ['foo', 'bar']
+    })(FieldTestForm);
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <DecoratedForm/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, FieldTestForm);
+
+    // first render
+    expect(fooRenders).toBe(1);
+    expect(barRenders).toBe(1);
+
+    // change field foo
+    stub.props.fields.foo.onChange('Tom');
+
+    // second render, only foo should rerender
+    expect(fooRenders).toBe(2);
+    expect(barRenders).toBe(1);
+
+    // change field bar
+    stub.props.fields.bar.onChange('Jerry');
+
+    // third render, only bar should rerender
+    expect(fooRenders).toBe(2);
+    expect(barRenders).toBe(2);
+  });
+
   // Test to show bug https://github.com/erikras/redux-form/issues/550
   // ---
   // It's caused by the fact that we're no longer using the same field instance
