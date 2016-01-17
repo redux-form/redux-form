@@ -1739,7 +1739,6 @@ describe('createReduxForm', () => {
       </Provider>
     );
     const fooStub = TestUtils.findRenderedComponentWithType(dom, FooForm);
-    const barStub = TestUtils.findRenderedComponentWithType(dom, BarForm);
 
     // first render
     expect(fooRender).toHaveBeenCalled();
