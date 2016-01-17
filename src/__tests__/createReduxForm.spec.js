@@ -1797,6 +1797,9 @@ describe('createReduxForm', () => {
         return <input type="text" {...field}/>;
       }
     }
+    FooInput.propTypes = {
+      field: PropTypes.object.isRequired
+    };
 
     class BarInput extends Component {
       shouldComponentUpdate(nextProps) {
@@ -1809,6 +1812,9 @@ describe('createReduxForm', () => {
         return <input type="password" {...field}/>;
       }
     }
+    BarInput.propTypes = {
+      field: PropTypes.object.isRequired
+    };
 
     class FieldTestForm extends Component {
       render() {
@@ -1819,6 +1825,9 @@ describe('createReduxForm', () => {
         </div>);
       }
     }
+    FieldTestForm.propTypes = {
+      fields: PropTypes.object.isRequired
+    };
 
     const DecoratedForm = reduxForm({
       form: 'fieldTest',
