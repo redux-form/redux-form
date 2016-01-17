@@ -43,7 +43,7 @@ const updateField = (field, formField, active, syncError) => {
     diff.visited = visited;
   }
 
-  if (formField.initial && formField.initial !== field.initialValue) {
+  if ('initial' in formField && formField.initial !== field.initialValue) {
     field.defaultChecked = formField.initial === true;
     field.defaultValue = formField.initial;
     field.initialValue = formField.initial;
