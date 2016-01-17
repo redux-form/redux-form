@@ -1704,6 +1704,31 @@ describe('createReduxForm', () => {
       });
   });
 
+  it('should only mutate the field that changed', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['larry', 'moe', 'curly']
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    const larry = stub.props.fields.larry;
+    const moe = stub.props.fields.moe;
+    const curly = stub.props.fields.curly;
+
+    moe.onChange('BONK!');
+
+    expect(stub.props.fields.larry).toBe(larry);
+    expect(stub.props.fields.moe).toNotBe(moe);
+    expect(stub.props.fields.curly).toBe(curly);
+  });
+
   it('should only rerender the form that changed', () => {
     const store = makeStore();
     const fooRender = createRestorableSpy().andReturn(<div/>);
