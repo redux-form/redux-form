@@ -10,11 +10,13 @@ import Perf from 'react-addons-perf';
 const dest = document.getElementById('content');
 window.Perf = Perf;
 
+window.DEVTOOLS = !/noDevTools/.test(location.search);
+
 render(
   (<Provider store={store}>
     <div>
       {component}
-      {!window.devToolsExtension && <DevTools/>}
+      {window.DEVTOOLS && !window.devToolsExtension && <DevTools/>}
     </div>
   </Provider>),
   dest

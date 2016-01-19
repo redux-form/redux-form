@@ -7,12 +7,15 @@ import normalizeMax from './normalizers/normalizeMax';
 import normalizeMin from './normalizers/normalizeMin';
 
 const getCreateStore = () => {
-  const {persistState} = require('redux-devtools');
-  const DevTools = require('../components/DevTools');
-  return compose(
-    window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
-    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-  )(createStore);
+  if (window.DEVTOOLS) {
+    const {persistState} = require('redux-devtools');
+    const DevTools = require('../components/DevTools');
+    return compose(
+      window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
+      persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+    )(createStore);
+  }
+  return createStore;
 };
 
 const reducer = combineReducers({

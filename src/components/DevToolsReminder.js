@@ -4,21 +4,28 @@ import styles from './DevToolsReminder.scss';
 
 class DevToolsReminder extends Component {
   render() {
-    if (window.devToolsExtension) {
+    if (window.DEVTOOLS) {
+      if (window.devToolsExtension) {
+        return (
+          <a className={styles.reminder} href="#" onClick={event => {
+            event.preventDefault();
+            window.devToolsExtension.open();
+          }}>
+            <i className="fa fa-info-circle"/> Click here to open Redux DevTools
+          </a>
+        );
+      }
       return (
-        <a className={styles.reminder} href="#" onClick={event => {
-          event.preventDefault();
-          window.devToolsExtension.open();
-        }}>
-          <i className="fa fa-info-circle"/> Click here to open Redux DevTools
-        </a>
+        <div className={styles.reminder}>
+          <i className="fa fa-info-circle"/> Toggle
+          redux-devtools with <code>{toggleVisibilityKey}</code>.
+          Move with <code>{changePositionKey}</code>.
+        </div>
       );
     }
     return (
       <div className={styles.reminder}>
-        <i className="fa fa-info-circle"/> Toggle
-        redux-devtools with <code>{toggleVisibilityKey}</code>.
-        Move with <code>{changePositionKey}</code>.
+        <i className="fa fa-ban"/> DevTools Disabled
       </div>
     );
   }
