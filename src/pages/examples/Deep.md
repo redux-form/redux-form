@@ -15,3 +15,7 @@ errors.
 
 To learn how to have your actual field values to be arrays or objects, check the [Complex Values 
 example](#/examples/complex).
+
+This example also includes a "Make Form Enormous" button to the right to facilitate performance testing. To test 
+without Redux DevTools, [place a `noDevTools` parameter in the
+url](http://erikras.github.io/redux-form/?noDevTools#/examples/deep).

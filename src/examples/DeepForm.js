@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import {reduxForm} from 'redux-form';
+import {reduxForm, addArrayValue} from 'redux-form';
 import Address from './Address';
+import PureInput from '../components/PureInput';
 import validate from './validateDeepForm';
 export const fields = [
   'name',
@@ -17,6 +18,7 @@ export const fields = [
 
 class DeepForm extends Component {
   static propTypes = {
+    addValue: PropTypes.func.isRequired,
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
@@ -26,6 +28,7 @@ class DeepForm extends Component {
 
   render() {
     const {
+      addValue,
       fields: {name, shipping, billing, children},
       handleSubmit,
       resetForm,
@@ -33,10 +36,21 @@ class DeepForm extends Component {
       submitting
       } = this.props;
     return (<form className="form-horizontal" onSubmit={handleSubmit}>
+        <div style={{ textAlign: 'right', marginBottom: 10 }}>
+          <button className="btn btn-danger" onClick={event => {
+            event.preventDefault();
+            for (let childIndex = 0; childIndex < 30; childIndex++) {
+              addValue('deep', 'children');
+              for (let awardIndex = 0; awardIndex < 10; awardIndex++) {
+                addValue('deep', `children[${childIndex}].awards`);
+              }
+            }
+          }}><i className="fa fa-bomb"/> Make Form Enormous!</button>
+        </div>
         <div className="form-group">
           <label className="col-xs-2 control-label">Name</label>
           <div className="col-xs-10">
-            <input type="text" className="form-control" placeholder="Name" {...name} title={name.error}/>
+            <PureInput type="text" className="form-control" placeholder="Name" field={name} title={name.error}/>
           </div>
         </div>
         <div className="row">
@@ -61,10 +75,10 @@ class DeepForm extends Component {
           <div className="form-group">
             <label className="col-xs-2 control-label">Child #{index + 1}</label>
             <div className="col-xs-4">
-              <input type="text" className="form-control" placeholder="Child Name" {...child.name}/>
+              <PureInput type="text" className="form-control" placeholder="Child Name" field={child.name}/>
             </div>
             <div className="col-xs-2">
-              <input type="text" className="form-control" placeholder="Child Age" {...child.age}/>
+              <PureInput type="text" className="form-control" placeholder="Child Age" field={child.age}/>
             </div>
             <div className="col-xs-4 btn-toolbar">
               <button className="btn btn-success" onClick={event => {
@@ -95,7 +109,7 @@ class DeepForm extends Component {
             <div className="form-group">
               <label className="col-xs-2 col-xs-offset-2 control-label">Award #{awardIndex + 1}</label>
               <div className="col-xs-6">
-                <input type="text" className="form-control" placeholder="Award" {...award}/>
+                <PureInput type="text" className="form-control" placeholder="Award" field={award}/>
               </div>
               <div className="col-xs-2">
                 <button className="btn btn-danger" onClick={event => {
@@ -123,4 +137,6 @@ export default reduxForm({
   form: 'deep',
   fields,
   validate
+}, undefined, {
+  addValue: addArrayValue // mapDispatchToProps (will bind action creator to dispatch)
 })(DeepForm);
