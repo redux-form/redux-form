@@ -4,6 +4,7 @@ import createAll from './createAll';
 
 export const {
   actionTypes,
+  addArrayValue,
   blur,
   change,
   changeWithKey,
@@ -11,6 +12,7 @@ export const {
   focus,
   reducer,
   reduxForm,
+  removeArrayValue,
   getValues,
   initialize,
   initializeWithKey,
@@ -20,6 +22,7 @@ export const {
   startSubmit,
   stopAsyncValidation,
   stopSubmit,
+  swapArrayValues,
   touch,
   touchWithKey,
   untouch,

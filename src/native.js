@@ -4,6 +4,7 @@ import createAll from './createAll';
 
 export const {
   actionTypes,
+  addArrayValue,
   blur,
   change,
   changeWithKey,
@@ -15,11 +16,13 @@ export const {
   initialize,
   initializeWithKey,
   propTypes,
+  removeArrayValue,
   reset,
   startAsyncValidation,
   startSubmit,
   stopAsyncValidation,
   stopSubmit,
+  swapArrayValues,
   touch,
   touchWithKey,
   untouch,
