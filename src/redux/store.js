@@ -5,9 +5,10 @@ import submission from './modules/submission';
 import normalizePhone from './normalizers/normalizePhone';
 import normalizeMax from './normalizers/normalizeMax';
 import normalizeMin from './normalizers/normalizeMin';
+import devToolsEnabled from '../devToolsEnabled';
 
 const getCreateStore = () => {
-  if (window.DEVTOOLS) {
+  if (devToolsEnabled) {
     const {persistState} = require('redux-devtools');
     const DevTools = require('../components/DevTools');
     return compose(
