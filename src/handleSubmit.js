@@ -32,6 +32,10 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
       doSubmit(); // no async validation, so submit
   }
   submitFailed();
+
+  if (returnRejectedSubmitPromise) {
+    return Promise.reject();
+  }
 };
 
 export default handleSubmit;

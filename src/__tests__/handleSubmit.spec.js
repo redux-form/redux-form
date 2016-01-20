@@ -1,4 +1,5 @@
 import expect, {createSpy} from 'expect';
+import isPromise from 'is-promise';
 import handleSubmit from '../handleSubmit';
 
 describe('handleSubmit', () => {
@@ -28,6 +29,37 @@ describe('handleSubmit', () => {
     expect(startSubmit).toNotHaveBeenCalled();
     expect(stopSubmit).toNotHaveBeenCalled();
     expect(submitFailed).toHaveBeenCalled();
+  });
+
+  it('should stop and return rejected promise if sync validation fails and returnRejectedSubmitPromise', (done) => {
+    const values = {foo: 'bar', baz: 42};
+    const fields = ['foo', 'baz'];
+    const submit = createSpy().andReturn(69);
+    const touch = createSpy();
+    const startSubmit = createSpy();
+    const stopSubmit = createSpy();
+    const submitFailed = createSpy();
+    const asyncValidate = createSpy();
+    const validate = createSpy().andReturn({foo: 'error'});
+    const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate, returnRejectedSubmitPromise: true};
+
+    const result = handleSubmit(submit, values, props, asyncValidate);
+    expect(isPromise(result)).toBe(true);
+
+    expect(touch)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith(...fields);
+    expect(validate)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith(values, props);
+    expect(asyncValidate).toNotHaveBeenCalled();
+    expect(submit).toNotHaveBeenCalled();
+    expect(startSubmit).toNotHaveBeenCalled();
+    expect(stopSubmit).toNotHaveBeenCalled();
+    expect(submitFailed).toHaveBeenCalled();
+    result.then(() => {
+      expect(false).toBe(true); // should not be in resolve branch
+    }, done);
   });
 
   it('should return result of sync submit', () => {
