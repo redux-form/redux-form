@@ -1,10 +1,10 @@
 <ol class="breadcrumb">
   <li><a href="#/">Redux Form</a></li>
   <li><a href="#/faq">FAQ</a></li>
-  <li class="active">Will `react-form` work with a my custom input component?</li>
+  <li class="active">Will `redux-form` work with a my custom input component?</li>
 </ol>
 
-# Will `react-form` work with a my custom input component?
+# Will `redux-form` work with a my custom input component?
   
 The minimum interface needed for a custom component to work with `redux-form` is to make sure that `value` and 
 `onChange` are passed properly. These are pretty standard prop names, so it's possible that your component will work 

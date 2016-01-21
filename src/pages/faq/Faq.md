@@ -9,7 +9,7 @@ Below is a list of common problems that people have using `redux-form`.
 
 1. [My submit function isn't being called! Help?](#/faq/submit-function)
 
-2. [Will `react-form` work with a my custom input component?](#/faq/custom-component)
+2. [Will `redux-form` work with a my custom input component?](#/faq/custom-component)
 
 3. [What's the difference between `handleSubmit` and `onSubmit`?](#/faq/handle-vs-on)
 
