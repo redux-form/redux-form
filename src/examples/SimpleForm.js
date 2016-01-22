@@ -50,7 +50,13 @@ class SimpleForm extends Component {
         <div className="form-group">
           <label className="col-xs-4 control-label">Favorite Color</label>
           <div className="col-xs-8">
-            <select className="form-control" {...favoriteColor}>
+            <select
+              className="form-control"
+              {...favoriteColor}
+              value={favoriteColor.value || ''}  // required syntax for reset form to work
+                                                 // undefined will not change value to first empty option
+                                                 // when resetting
+              >
               <option></option>
               <option value="ff0000">Red</option>
               <option value="00ff00">Green</option>
