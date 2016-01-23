@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {toggleVisibilityKey, changePositionKey} from './devToolsConfig';
 import styles from './DevToolsReminder.scss';
+import devToolsEnabled from '../devToolsEnabled';
 
 class DevToolsReminder extends Component {
   render() {
-    if (window.DEVTOOLS) {
+    if (devToolsEnabled) {
       if (window.devToolsExtension) {
         return (
           <a className={styles.reminder} href="#" onClick={event => {
