@@ -1589,6 +1589,40 @@ describe('createReduxForm', () => {
     });
   });
 
+  it('should disallow async validation when form is pristine', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const asyncValidate = createSpy(() => Promise.resolve());
+    const Decorated = reduxForm({
+      form,
+      fields: ['name'],
+      initialValues: {name: 'Tom'},
+      asyncValidate
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    // check field before validation
+    expectField({
+      field: stub.props.fields.name,
+      name: 'name',
+      value: 'Tom',
+      initial: 'Tom',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+
+    stub.props.asyncValidate();
+    expect(asyncValidate).toNotHaveBeenCalled();
+  });
+
   it('should allow deep async validation error values', () => {
     const store = makeStore();
     const form = 'testForm';
@@ -1621,6 +1655,10 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false
     });
+
+    // form must be dirty for asyncValidate()
+    stub.props.fields.name.onChange('Moe');
+
     return stub.props.asyncValidate()
       .then(() => {
         expect(true).toBe(false); // should not be in success block
@@ -1629,17 +1667,17 @@ describe('createReduxForm', () => {
         expect(store.getState().form.testForm.name)
           .toEqual({
             initial: 'Tom',
-            value: 'Tom',
+            value: 'Moe',
             asyncError: deepError
           });
         // check field
         expectField({
           field: stub.props.fields.name,
           name: 'name',
-          value: 'Tom',
+          value: 'Moe',
           initial: 'Tom',
           valid: false,
-          dirty: false,
+          dirty: true,
           error: deepError,
           touched: false,
           visited: false
