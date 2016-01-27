@@ -1,9 +1,11 @@
 import isPromise from 'is-promise';
 import isValid from './isValid';
+import SubmissionError from './submissionError';
 
 const handleSubmit = (submit, values, props, asyncValidate) => {
   const {dispatch, fields, startSubmit, stopSubmit, submitFailed, returnRejectedSubmitPromise, touch, validate} = props;
   const syncErrors = validate(values, props);
+  const isSubmissionError = err => (err instanceof SubmissionError);
   touch(...fields); // touch all fields
   if (isValid(syncErrors)) {
     const doSubmit = () => {
@@ -15,7 +17,7 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
           return submitResult;
         }, submitError => {
           stopSubmit(submitError);
-          if (returnRejectedSubmitPromise) {
+          if (returnRejectedSubmitPromise || !isSubmissionError(submitError)) {
             return Promise.reject(submitError);
           }
         });
@@ -25,9 +27,9 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
     const asyncValidateResult = asyncValidate();
     return isPromise(asyncValidateResult) ?
       // asyncValidateResult will be rejected if async validation failed
-      asyncValidateResult.then(doSubmit, () => {
+      asyncValidateResult.then(doSubmit, err => {
         submitFailed();
-        return returnRejectedSubmitPromise ? Promise.reject() : Promise.resolve();
+        return (returnRejectedSubmitPromise || !isSubmissionError(err)) ? Promise.reject(err) : Promise.resolve();
       }) :
       doSubmit(); // no async validation, so submit
   }

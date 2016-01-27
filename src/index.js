@@ -26,5 +26,6 @@ export const {
   touch,
   touchWithKey,
   untouch,
-  untouchWithKey
+  untouchWithKey,
+  SubmissionError
 } = createAll(false, React, connect);
