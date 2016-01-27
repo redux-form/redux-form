@@ -60,7 +60,7 @@ class ContactForm extends Component {
           <label>Email</label>
           <input type="email" placeholder="Email" {...email}/>
         </div>
-        <button onClick={handleSubmit}>Submit</button>
+        <button type="submit">Submit</button>
       </form>
     );
   }

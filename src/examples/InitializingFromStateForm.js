@@ -24,7 +24,7 @@ class InitializingFromStateForm extends Component {
     return (
       <div>
         <div style={{textAlign: 'center', marginBottom: 20}}>
-          <button onClick={() => load(data)} className="btn btn-success btn-lg">Load Account</button>
+          <button type="button" onClick={() => load(data)} className="btn btn-success btn-lg">Load Account</button>
         </div>
         <form className="form-horizontal" onSubmit={handleSubmit}>
           <div className="form-group">
@@ -61,7 +61,7 @@ class InitializingFromStateForm extends Component {
             </div>
           </div>
           <div className="text-center">
-            <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit}>
+            <button type="submit" className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting}>
               {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
             </button>
           </div>

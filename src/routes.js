@@ -19,6 +19,7 @@ import Dynamic from 'pages/examples/Dynamic';
 import InitializingFromState from 'pages/examples/InitializingFromState';
 import Examples from 'pages/examples/Examples.md';
 import Faq from 'pages/faq/Faq.md';
+import FaqEnterToSubmit from 'pages/faq/EnterToSubmit.md';
 import FaqSubmitFunction from 'pages/faq/SubmitFunction.md';
 import FaqHandleVsOn from 'pages/faq/HandleVsOn.md';
 import FaqHowToClear from 'pages/faq/HowToClear.md';
@@ -67,6 +68,7 @@ const routes = (
       <Route path="/faq/submit-function" component={markdownPage(FaqSubmitFunction)}/>
       <Route path="/faq/handle-vs-on" component={markdownPage(FaqHandleVsOn)}/>
       <Route path="/faq/how-to-clear" component={markdownPage(FaqHowToClear)}/>
+      <Route path="/faq/enter-to-submit" component={markdownPage(FaqEnterToSubmit)}/>
       <Route path="/faq/immutable-js" component={markdownPage(FaqImmutableJs)}/>
       <Route path="/faq/react-native" component={markdownPage(FaqReactNative)}/>
       <Route path="/faq/custom-component" component={markdownPage(FaqCustomComponent)}/>

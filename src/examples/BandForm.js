@@ -47,10 +47,10 @@ class BandForm extends Component {
           {color.touched && color.error &&
           <div style={{width: '50%', display: 'inline', paddingLeft: 10}} className="help-block">{color.error}</div>}
         </div>
-        <button style={{width: 92, height: 34}} className="btn btn-primary" disabled={pristine || submitting} onClick={handleSubmit}>
+        <button type="submit" style={{width: 92, height: 34}} className="btn btn-primary" disabled={pristine || submitting}>
           {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
         </button>
-        <button style={{width: 72, height: 34}} className="btn btn-default" disabled={pristine || submitting} onClick={resetForm}>
+        <button type="button" style={{width: 72, height: 34}} className="btn btn-default" disabled={pristine || submitting} onClick={resetForm}>
           Cancel
         </button>
       </form>

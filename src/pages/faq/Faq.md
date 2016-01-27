@@ -15,8 +15,10 @@ Below is a list of common problems that people have using `redux-form`.
 
 4. [How can I clear my form after my submission succeeds?](#/faq/how-to-clear)
 
-5. [Does `redux-form` work with React Native?](#/faq/react-native)
+5. [How can I submit my form when the users presses Enter?](#/faq/enter-to-submit)
 
-6. [Does `redux-form` work ImmutableJS?](#/faq/immutable-js)
+6. [Does `redux-form` work with React Native?](#/faq/react-native)
 
-7. [Can I submit my form using websockets?](#/faq/websockets)
+7. [Does `redux-form` work ImmutableJS?](#/faq/immutable-js)
+
+8. [Can I submit my form using websockets?](#/faq/websockets)

@@ -57,10 +57,10 @@ class SynchronousValidationForm extends Component {
           {age.touched && age.error && <div className="col-xs-3 help-block">{age.error}</div>}
         </div>
         <div className="text-center">
-          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting} onClick={handleSubmit}>
+          <button type="submit" className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting}>
             {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
           </button>
-          <button className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
+          <button type="button" className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
             Clear Values
           </button>
         </div>

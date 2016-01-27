@@ -37,8 +37,7 @@ class DeepForm extends Component {
       } = this.props;
     return (<form className="form-horizontal" onSubmit={handleSubmit}>
         <div style={{ textAlign: 'right', marginBottom: 10 }}>
-          <button className="btn btn-danger" onClick={event => {
-            event.preventDefault();
+          <button type="button" className="btn btn-danger" onClick={() => {
             for (let childIndex = 0; childIndex < 30; childIndex++) {
               addValue('deep', 'children');
               for (let awardIndex = 0; awardIndex < 10; awardIndex++) {
@@ -64,8 +63,7 @@ class DeepForm extends Component {
           </fieldset>
         </div>
         <div style={{textAlign: 'center', margin: 10}}>
-          <button className="btn btn-success" onClick={event => {
-            event.preventDefault(); // prevent form submission
+          <button type="button" className="btn btn-success" onClick={() => {
             children.addField();    // pushes empty child field onto the end of the array
           }}><i className="fa fa-child"/> Add Child
           </button>
@@ -81,25 +79,21 @@ class DeepForm extends Component {
               <PureInput type="text" className="form-control" placeholder="Child Age" field={child.age}/>
             </div>
             <div className="col-xs-4 btn-toolbar">
-              <button className="btn btn-success" onClick={event => {
-                event.preventDefault();   // prevent form submission
+              <button type="button" className="btn btn-success" onClick={() => {
                 child.awards.addField();  // pushes empty award field onto the end of the array
               }}><i className="fa fa-trophy"/> Add Award
               </button>
               <div className="btn-group">
-                <button className="btn btn-success" disabled={index === 0} onClick={event => {
-                  event.preventDefault();                 // prevent form submission
+                <button type="button" className="btn btn-success" disabled={index === 0} onClick={() => {
                   children.swapFields(index, index - 1);  // swap field with it's predecessor
                 }}><i className="fa fa-caret-up"/>
                 </button>
-                <button className="btn btn-success" disabled={index === children.length - 1} onClick={event => {
-                  event.preventDefault();                 // prevent form submission
+                <button type="button" className="btn btn-success" disabled={index === children.length - 1} onClick={() => {
                   children.swapFields(index, index + 1);  // swap field with it's successor
                 }}><i className="fa fa-caret-down"/>
                 </button>
               </div>
-              <button className="btn btn-danger" onClick={event => {
-                event.preventDefault();       // prevent form submission
+              <button type="button" className="btn btn-danger" onClick={() => {
                 children.removeField(index);  // remove from index
               }}><i className="fa fa-trash"/> Remove
               </button>
@@ -112,8 +106,7 @@ class DeepForm extends Component {
                 <PureInput type="text" className="form-control" placeholder="Award" field={award}/>
               </div>
               <div className="col-xs-2">
-                <button className="btn btn-danger" onClick={event => {
-                  event.preventDefault();               // prevent form submission
+                <button type="button" className="btn btn-danger" onClick={() => {
                   child.awards.removeField(awardIndex); // remove from awardIndex
                 }}><i className="fa fa-trash"/></button>
               </div>
@@ -121,10 +114,10 @@ class DeepForm extends Component {
           </div>)}
         </div>)}
         <div className="text-center">
-          <button className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting || invalid} onClick={handleSubmit}>
+          <button type="submit" className="btn btn-primary btn-lg" style={{margin: 10}} disabled={submitting || invalid}>
             {submitting ? <i className="fa fa-cog fa-spin"/> : <i className="fa fa-paper-plane"/>} Submit
           </button>
-          <button className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
+          <button type="button" className="btn btn-default btn-lg" style={{margin: 10}} disabled={submitting} onClick={resetForm}>
             Clear Values
           </button>
         </div>

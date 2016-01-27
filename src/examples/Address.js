@@ -30,7 +30,7 @@ class Address extends Component {
           </div>
         </div>
         <div style={{textAlign: 'center', margin: 10}}>
-          <button className="btn btn-success" onClick={event => {
+          <button type="button" className="btn btn-success" onClick={event => {
             event.preventDefault();  // prevent form submission
             phones.addField();       // pushes empty phone field onto the end of the array
           }}><i className="fa fa-phone"/> Add Phone
