@@ -4,9 +4,9 @@
 
 The reducer listens to dispatched actions from the component to maintain your state in Redux.
 
-Next, you should decorate your component with your form inputs with the `reduxForm` decorator. This will create two 
-nested Higher Order Components (HOCs) that will wrap your component: `ReduxFormConnector` connects to Redux and 
-`ReduxForm` handles all the dispatching and provides information to your component.
+The `reduxForm()` decorator decorates a component to enable it as a form. This will 
+create two nested Higher Order Components (HOCs) that will wrap your component: `ReduxFormConnector`
+connects to Redux and `ReduxForm` handles all the dispatching and provides information to your component.
 
 ## Implementation Guide
 
@@ -76,6 +76,5 @@ export default ContactForm;
 
 That's it! There is no Step #3!
 
-If you're starting out with `redux-form`, a good place to continue learning
-about how to connect up the inputs to `redux-form` would be the
-[Simple Form Example](#/examples/simple).
+If you're starting out with `redux-form`, a good place to continue learning about how to connect up the
+inputs to `redux-form` would be the [Simple Form Example](#/examples/simple).
