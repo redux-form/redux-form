@@ -69,6 +69,11 @@ To download and run these examples locally, you should clone the
 
 ---
   
+### [Multi-Page "Wizard" Forms](#/examples/wizard)
+
+> How to create forms that span multiple pages using the common "Wizard" UI design pattern.
+
+---
 ### [Multirecord Forms](#/examples/multirecord)
 
 > How to reuse the same form multiple times on a page with different values.

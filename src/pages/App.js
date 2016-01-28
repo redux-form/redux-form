@@ -42,6 +42,7 @@ export default class App extends Component {
               <LinkContainer to="/examples/file"><MenuItem>File Inputs</MenuItem></LinkContainer>
               <LinkContainer to="/examples/dynamic"><MenuItem>Dynamic Forms</MenuItem></LinkContainer>
               <LinkContainer to="/examples/multirecord"><MenuItem>Multirecord Forms</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/wizard"><MenuItem>Multi-Page "Wizard" Forms</MenuItem></LinkContainer>
               <LinkContainer to="/examples/normalizing"><MenuItem>Normalizing Form Values</MenuItem></LinkContainer>
               <LinkContainer to="/examples/alternate-mount-point"><MenuItem>Alternate Redux Mount Point</MenuItem></LinkContainer>
             </NavDropdown>

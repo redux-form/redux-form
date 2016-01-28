@@ -8,6 +8,7 @@ import Home from 'pages/Home';
 import Simple from 'pages/examples/Simple';
 import ComplexValues from 'pages/examples/ComplexValues';
 import File from 'pages/examples/File';
+import Wizard from 'pages/examples/Wizard';
 import Deep from 'pages/examples/Deep';
 import SynchronousValidation from 'pages/examples/SynchronousValidation';
 import SubmitValidation from 'pages/examples/SubmitValidation';
@@ -62,6 +63,7 @@ const routes = (
       <Route path="/examples/simple" component={Simple}/>
       <Route path="/examples/complex" component={ComplexValues}/>
       <Route path="/examples/file" component={File}/>
+      <Route path="/examples/wizard" component={Wizard}/>
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>
       <Route path="/faq" component={markdownPage(Faq)}/>
