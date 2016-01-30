@@ -239,13 +239,13 @@ function decorate(target) {
             };
             return {
               ...formResult,
-              ...mapValues(formNormalizers, (fieldNormalizer, field) => ({
+              ...mapValues(formNormalizers, (fieldNormalizer, field) => makeFieldValue({
                 ...formResult[field],
-                value: makeFieldValue(fieldNormalizer(
+                value: fieldNormalizer(
                   formResult[field] ? formResult[field].value : undefined,         // value
                   previous && previous[field] ? previous[field].value : undefined, // previous value
                   getValuesFromState(formResult),                                  // all field values
-                  previousValues))                                                 // all previous field values
+                  previousValues)                                                  // all previous field values
               }))
             };
           };

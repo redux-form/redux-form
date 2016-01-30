@@ -1366,15 +1366,15 @@ describe('reducer', () => {
       form: 'testForm'
     });
     expect(state.testForm)
-        .toEqual({
-          myField: [],
-          _active: undefined,
-          _asyncValidating: false,
-          [globalErrorKey]: undefined,
-          _initialized: false,
-          _submitting: false,
-          _submitFailed: false
-        });
+      .toEqual({
+        myField: [],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
   });
 
   it('should should swap two array values at different indexes', () => {
@@ -1403,25 +1403,25 @@ describe('reducer', () => {
       form: 'testForm'
     });
     expect(state.testForm)
-        .toEqual({
-          myField: [
-            {
-              value: 'baz'
-            },
-            {
-              value: 'bar'
-            },
-            {
-              value: 'foo'
-            }
-          ],
-          _active: undefined,
-          _asyncValidating: false,
-          [globalErrorKey]: undefined,
-          _initialized: false,
-          _submitting: false,
-          _submitFailed: false
-        });
+      .toEqual({
+        myField: [
+          {
+            value: 'baz'
+          },
+          {
+            value: 'bar'
+          },
+          {
+            value: 'foo'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
     expect(isFieldValue(state.testForm.myField)).toBe(false);
     expect(isFieldValue(state.testForm.myField[0])).toBe(true);
     expect(isFieldValue(state.testForm.myField[1])).toBe(true);
@@ -1455,25 +1455,25 @@ describe('reducer', () => {
       form: 'testForm'
     });
     expect(state.testForm)
-        .toEqual({
-          myField: [
-            {
-              value: 'foo'
-            },
-            {
-              value: 'bar'
-            },
-            {
-              value: 'baz'
-            }
-          ],
-          _active: undefined,
-          _asyncValidating: false,
-          [globalErrorKey]: undefined,
-          _initialized: false,
-          _submitting: false,
-          _submitFailed: false
-        });
+      .toEqual({
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          },
+          {
+            value: 'baz'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
     expect(isFieldValue(state.testForm.myField)).toBe(false);
     expect(isFieldValue(state.testForm.myField[0])).toBe(true);
     expect(isFieldValue(state.testForm.myField[1])).toBe(true);
@@ -1507,25 +1507,25 @@ describe('reducer', () => {
       form: 'testForm'
     });
     expect(state.testForm)
-        .toEqual({
-          myField: [
-            {
-              value: 'foo'
-            },
-            {
-              value: 'bar'
-            },
-            {
-              value: 'baz'
-            }
-          ],
-          _active: undefined,
-          _asyncValidating: false,
-          [globalErrorKey]: undefined,
-          _initialized: false,
-          _submitting: false,
-          _submitFailed: false
-        });
+      .toEqual({
+        myField: [
+          {
+            value: 'foo'
+          },
+          {
+            value: 'bar'
+          },
+          {
+            value: 'baz'
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
     expect(isFieldValue(state.testForm.myField)).toBe(false);
     expect(isFieldValue(state.testForm.myField[0])).toBe(true);
     expect(isFieldValue(state.testForm.myField[1])).toBe(true);
@@ -2917,148 +2917,197 @@ describe('reducer', () => {
       }
     });
   });
-});
 
-describe('reducer.plugin', () => {
-  it('should initialize form state when there is a reducer plugin', () => {
-    const result = reducer.plugin({
-      foo: (state) => state
-    })();
-    expect(result)
-      .toExist()
-      .toBeA('object');
-    expect(Object.keys(result).length).toBe(1);
-    expect(result.foo)
-      .toExist()
-      .toBeA('object')
-      .toEqual({
+  describe('reducer.plugin', () => {
+    it('should initialize form state when there is a reducer plugin', () => {
+      const result = reducer.plugin({
+        foo: (state) => state
+      })();
+      expect(result)
+        .toExist()
+        .toBeA('object');
+      expect(Object.keys(result).length).toBe(1);
+      expect(result.foo)
+        .toExist()
+        .toBeA('object')
+        .toEqual({
+          _active: undefined,
+          _asyncValidating: false,
+          [globalErrorKey]: undefined,
+          _initialized: false,
+          _submitting: false,
+          _submitFailed: false
+        });
+    });
+  });
+
+  describe('reducer.normalize', () => {
+    it('should initialize form state when there is a normalizer', () => {
+      const state = reducer.normalize({
+        foo: {
+          myField: () => 'normalized'
+        }
+      })();
+      expect(state)
+        .toExist()
+        .toBeA('object');
+      expect(Object.keys(state).length).toBe(1);
+      expect(state.foo)
+        .toExist()
+        .toBeA('object')
+        .toEqual({
+          _active: undefined,
+          _asyncValidating: false,
+          [globalErrorKey]: undefined,
+          _initialized: false,
+          _submitting: false,
+          _submitFailed: false,
+          myField: {
+            value: 'normalized'
+          }
+        });
+    });
+
+    it('should normalize keyed forms depending on action form key', () => {
+      const defaultFields = {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
         _initialized: false,
         _submitting: false,
         _submitFailed: false
+      };
+      const normalize = reducer.normalize({
+        foo: {
+          myField: () => 'normalized'
+        }
       });
-  });
-});
+      const state = normalize({
+        foo: {
+          firstSubform: {}
+        }
+      }, {
+        form: 'foo',
+        key: 'firstSubform'
+      });
+      const nextState = normalize(state, {
+        form: 'foo',
+        key: 'secondSubForm'
+      });
+      expect(state)
+        .toExist()
+        .toBeA('object');
+      expect(Object.keys(state).length).toBe(1);
+      expect(state.foo)
+        .toExist()
+        .toBeA('object')
+        .toEqual({
+          firstSubform: {
+            ...defaultFields,
+            myField: {
+              value: 'normalized'
+            }
+          }
+        });
+      expect(nextState.foo)
+        .toEqual({
+          firstSubform: {
+            ...defaultFields,
+            myField: {
+              value: 'normalized'
+            }
+          },
+          secondSubForm: {
+            ...defaultFields,
+            myField: {
+              value: 'normalized'
+            }
+          }
+        });
+    });
 
-describe('reducer.normalize', () => {
-  it('should initialize form state when there is a normalizer', () => {
-    const state = reducer.normalize({
-      foo: {
-        myField: () => 'normalized'
-      }
-    })();
-    expect(state)
-      .toExist()
-      .toBeA('object');
-    expect(Object.keys(state).length).toBe(1);
-    expect(state.foo)
-      .toExist()
-      .toBeA('object')
-      .toEqual({
+    it('should normalize simple form values', () => {
+      const defaultFields = {
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
         _initialized: false,
         _submitting: false,
-        _submitFailed: false,
-        myField: {
-          value: 'normalized'
+        _submitFailed: false
+      };
+      const normalize = reducer.normalize({
+        foo: {
+          name: () => 'normalized'
         }
       });
-  });
+      const state = normalize({
+        foo: {
+          name: {
+            value: 'dog'
+          }
+        }
+      });
+      expect(state)
+        .toExist()
+        .toBeA('object');
+      expect(state.foo)
+        .toExist()
+        .toBeA('object')
+        .toEqual({
+          ...defaultFields,
+          name: {
+            value: 'normalized'
+          }
+        });
+    });
 
-  it('should normalize keyed forms depending on action form key', () => {
-    const defaultFields = {
-      _active: undefined,
-      _asyncValidating: false,
-      [globalErrorKey]: undefined,
-      _initialized: false,
-      _submitting: false,
-      _submitFailed: false
-    };
-    const normalize = reducer.normalize({
-      foo: {
-        myField: () => 'normalized'
-      }
-    });
-    const state = normalize({
-      foo: {
-        firstSubform: {}
-      }
-    }, {
-      form: 'foo',
-      key: 'firstSubform'
-    });
-    const nextState = normalize(state, {
-      form: 'foo',
-      key: 'secondSubForm'
-    });
-    expect(state)
-      .toExist()
-      .toBeA('object');
-    expect(Object.keys(state).length).toBe(1);
-    expect(state.foo)
-      .toExist()
-      .toBeA('object')
-      .toEqual({
-        firstSubform: {
-          ...defaultFields,
-          myField: {
-            value: 'normalized'
-          }
+    it('should allow resetForm to work on a normalized form', () => {
+      const defaultFields = {
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      };
+      const normalizingReducer = reducer.normalize({
+        foo: {
+          name: value => value && value.toUpperCase()
         }
       });
-    expect(nextState.foo)
-      .toEqual({
-        firstSubform: {
-          ...defaultFields,
-          myField: {
-            value: 'normalized'
-          }
-        },
-        secondSubForm: {
-          ...defaultFields,
-          myField: {
-            value: 'normalized'
-          }
-        }
+      const empty = normalizingReducer();
+      const state = normalizingReducer(empty, {
+        form: 'foo',
+        ...change('name', 'dog')
       });
-  });
-
-  it('should normalize simple form values', () => {
-    const defaultFields = {
-      _active: undefined,
-      _asyncValidating: false,
-      [globalErrorKey]: undefined,
-      _initialized: false,
-      _submitting: false,
-      _submitFailed: false
-    };
-    const normalize = reducer.normalize({
-      foo: {
-        name: () => 'normalized'
-      }
-    });
-    const state = normalize({
-      foo: {
-        name: {
-          value: 'dog'
-        }
-      }
-    });
-    expect(state)
-      .toExist()
-      .toBeA('object');
-    expect(state.foo)
-      .toExist()
-      .toBeA('object')
-      .toEqual({
-        ...defaultFields,
-        name: {
-          value: 'normalized'
-        }
+      expect(state)
+        .toExist()
+        .toBeA('object');
+      expect(state.foo)
+        .toExist()
+        .toBeA('object')
+        .toEqual({
+          ...defaultFields,
+          name: {
+            value: 'DOG'
+          }
+        });
+      const result = normalizingReducer(state, {
+        form: 'foo',
+        ...reset()
       });
+      expect(result)
+        .toExist()
+        .toBeA('object');
+      expect(result.foo)
+        .toExist()
+        .toBeA('object')
+        .toEqual({
+          ...defaultFields,
+          name: {
+            value: undefined
+          }
+        });
+    });
   });
 });
