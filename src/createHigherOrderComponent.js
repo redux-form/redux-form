@@ -66,9 +66,10 @@ const createHigherOrderComponent = (config,
             values[name] = value;
           }
           const syncErrors = validate(values, this.props);
+          const { allPristine } = this.fields._meta;
 
-          // if blur validating, only run async validate if sync validation passes
-          if (!name || isValid(syncErrors[name])) {
+          // if blur validating, only run async validate if the form is dirty and sync validation passes
+          if (!allPristine && (!name || isValid(syncErrors[name]))) {
             return asyncValidation(() =>
               asyncValidate(values, dispatch, this.props), startAsyncValidation, stopAsyncValidation, name);
           }
