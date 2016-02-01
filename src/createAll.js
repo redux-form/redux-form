@@ -6,6 +6,7 @@ import * as actions from './actions';
 import * as actionTypes from './actionTypes';
 import createPropTypes from './createPropTypes';
 import getValues from './getValuesFromState';
+import SubmissionError from './submissionError';
 
 // bind form as first parameter of action creators
 const boundActions = {
@@ -67,6 +68,7 @@ export default function createAll(isReactNative, React, connect) {
     touch,
     touchWithKey,
     untouch,
-    untouchWithKey
+    untouchWithKey,
+    SubmissionError
   };
 }

@@ -1,6 +1,7 @@
 import expect, {createSpy} from 'expect';
 import isPromise from 'is-promise';
 import handleSubmit from '../handleSubmit';
+import SubmissionError from '../submissionError';
 
 describe('handleSubmit', () => {
 
@@ -97,13 +98,14 @@ describe('handleSubmit', () => {
   it('should not submit if async validation fails', () => {
     const values = {foo: 'bar', baz: 42};
     const fields = ['foo', 'baz'];
+    const validationError = new SubmissionError({_error: 'async validation failed'});
     const submit = createSpy().andReturn(69);
     const dispatch = () => null;
     const touch = createSpy();
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
-    const asyncValidate = createSpy().andReturn(Promise.reject());
+    const asyncValidate = createSpy().andReturn(Promise.reject(validationError));
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
 
@@ -160,6 +162,29 @@ describe('handleSubmit', () => {
         expect(startSubmit).toNotHaveBeenCalled();
         expect(stopSubmit).toNotHaveBeenCalled();
         expect(submitFailed).toHaveBeenCalled();
+      });
+  });
+
+  it('should return `reject` on async validation if unhandledException/unhandledRejection occurs', () => {
+    const values = {foo: 'bar'};
+    const fields = ['foo'];
+    const applicationError = new ReferenceError('applicationError');
+    const submit = createSpy().andReturn(69);
+    const dispatch = () => null;
+    const touch = () => null;
+    const startSubmit = () => null;
+    const stopSubmit = () => null;
+    const submitFailed = () => null;
+    const asyncValidate = createSpy().andReturn(Promise.reject(applicationError));
+    const validate = createSpy().andReturn({});
+    const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
+      returnRejectedSubmitPromise: false};
+
+    return handleSubmit(submit, values, props, asyncValidate)
+      .then(() => {
+        expect(false).toBe(true); // should not get into resolve branch
+      }, err => {
+        expect(err).toBe(applicationError);
       });
   });
 
@@ -240,8 +265,8 @@ describe('handleSubmit', () => {
   it('should set submit errors if async submit fails', () => {
     const values = {foo: 'bar', baz: 42};
     const fields = ['foo', 'baz'];
-    const submitErrors = {foo: 'error'};
-    const submit = createSpy().andReturn(Promise.reject(submitErrors));
+    const submitError = new SubmissionError({foo: 'error'});
+    const submit = createSpy().andReturn(Promise.reject(submitError));
     const dispatch = () => null;
     const touch = createSpy();
     const startSubmit = createSpy();
@@ -269,7 +294,7 @@ describe('handleSubmit', () => {
         expect(startSubmit).toHaveBeenCalled();
         expect(stopSubmit)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(submitErrors);
+          .toHaveBeenCalledWith(submitError);
         expect(submitFailed).toNotHaveBeenCalled();
       }, () => {
         expect(false).toBe(true); // should not get into reject branch

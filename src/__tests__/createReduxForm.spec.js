@@ -8,6 +8,7 @@ import {combineReducers, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from '../reducer';
 import createReduxForm from '../createReduxForm';
+import SubmissionError from '../submissionError';
 
 const createRestorableSpy = (fn) => {
   return createSpy(fn, function restore() {
@@ -1696,7 +1697,7 @@ describe('createReduxForm', () => {
       form,
       fields: ['name'],
       initialValues: {name: 'Tom'},
-      onSubmit: () => Promise.reject({name: deepError})
+      onSubmit: () => Promise.reject(new SubmissionError({name: deepError}))
     })(Form);
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
