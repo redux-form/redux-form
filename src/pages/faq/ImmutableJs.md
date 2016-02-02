@@ -23,7 +23,7 @@ import Immutable from 'immutable';
 
 export const reducer = combineReducers({
   // ...your other reducers
-  form: (state, action) => Immutable.fromJS(formReducer(state, action));  // <--- IMPORTANT PART
+  form: (state = Immutable.fromJS({}), action) => Immutable.fromJS(formReducer(state.toJS(), action));  // <--- IMPORTANT PART
 });
 ```
 
