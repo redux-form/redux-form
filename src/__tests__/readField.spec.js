@@ -21,7 +21,8 @@ describe('readField', () => {
     initialValues: {},
     readonly: false,
     addArrayValue: noop,
-    removeArrayValue: noop
+    removeArrayValue: noop,
+    fields: []
   };
 
   const expectField = ({field, name, value, dirty, touched, visited, error, initialValue, readonly, checked}) => {
@@ -591,7 +592,38 @@ describe('readField', () => {
     fields.foo.addField('rabbit');
     expect(spy)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'rabbit', undefined, undefined);
+      .toHaveBeenCalledWith('foo', 'rabbit', undefined, []);
+  });
+
+  it('should allow an array field to add a deeply nested value', () => {
+    const spy = createSpy();
+    const fields = {};
+    readField({
+      foo: [
+        {
+          bar: [
+            { baz: 'foo[0].bar[0].baz' },
+            { baz: 'foo[0].bar[1].baz' }
+          ]
+        },
+        {
+          bar: [
+            { baz: 'foo[1].bar[0].baz' },
+            { baz: 'foo[1].bar[1].baz' }
+          ]
+        }
+      ]
+    }, 'foo[]', undefined, fields, {}, undefined, false, {
+      ...defaultProps,
+      addArrayValue: spy,
+      fields: [
+        'foo[].bar[].baz'
+      ]
+    });
+    fields.foo.addField('rabbit');
+    expect(spy)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('foo', 'rabbit', undefined, ['bar[].baz']);
   });
 
   it('should allow an array field to remove a value', () => {

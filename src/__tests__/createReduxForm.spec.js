@@ -1271,14 +1271,13 @@ describe('createReduxForm', () => {
         adults: 2,
         children: 0
       }]
-    }, undefined, [
-      'arrival',
-      'departure',
-      'note',
-      'rooms[].name',
-      'rooms[].adults',
-      'rooms[].children'
-    ]);
+    });
+
+    stub.props.fields.proposals[0].rooms.addField({
+      name: 'Room 2',
+      adults: 0,
+      children: 2
+    });
 
     // check field
     expect(stub.props.fields.proposals.length).toBe(1);
@@ -1343,6 +1342,39 @@ describe('createReduxForm', () => {
       name: 'proposals[0].rooms[0].children',
       value: 0,
       initial: 0,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].rooms[1].name,
+      name: 'proposals[0].rooms[1].name',
+      value: 'Room 2',
+      initial: 'Room 2',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].rooms[1].adults,
+      name: 'proposals[0].rooms[1].adults',
+      value: 0,
+      initial: 0,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].rooms[1].children,
+      name: 'proposals[0].rooms[1].children',
+      value: 2,
+      initial: 2,
       valid: true,
       dirty: false,
       error: undefined,
