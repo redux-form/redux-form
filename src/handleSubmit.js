@@ -34,7 +34,7 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
   submitFailed();
 
   if (returnRejectedSubmitPromise) {
-    return Promise.reject();
+    return Promise.reject(syncErrors);
   }
 };
 
