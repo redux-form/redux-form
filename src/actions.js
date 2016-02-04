@@ -1,8 +1,8 @@
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT_FAILED, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes';
 
-export const addArrayValue = (path, value, index) =>
-  ({type: ADD_ARRAY_VALUE, path, value, index});
+export const addArrayValue = (path, value, index, fields) =>
+  ({type: ADD_ARRAY_VALUE, path, value, index, fields});
 
 export const blur = (field, value) =>
   ({type: BLUR, field, value});

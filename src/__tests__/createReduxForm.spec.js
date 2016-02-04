@@ -1235,114 +1235,121 @@ describe('createReduxForm', () => {
   });
 
   // Test to demonstrate bug: https://github.com/erikras/redux-form/issues/468
-  //it('should add array values with DEEP defaults', () => {
-  //  const store = makeStore();
-  //  const form = 'testForm';
-  //  const Decorated = reduxForm({
-  //    form,
-  //    fields: [
-  //      'proposals[].arrival',
-  //      'proposals[].departure',
-  //      'proposals[].note',
-  //      'proposals[].rooms[].name',
-  //      'proposals[].rooms[].adults',
-  //      'proposals[].rooms[].children'
-  //    ]
-  //  })(Form);
-  //  const dom = TestUtils.renderIntoDocument(
-  //    <Provider store={store}>
-  //      <Decorated/>
-  //    </Provider>
-  //  );
-  //  const stub = TestUtils.findRenderedComponentWithType(dom, Form);
-  //
-  //  expect(stub.props.fields.proposals).toBeA('array');
-  //  expect(stub.props.fields.proposals.length).toBe(0);
-  //  expect(stub.props.fields.proposals.addField).toBeA('function');
-  //
-  //  // add field
-  //  const today = new Date();
-  //  stub.props.fields.proposals.addField({
-  //    arrival: today,
-  //    departure: today,
-  //    note: '',
-  //    rooms: [{
-  //      name: 'Room 1',
-  //      adults: 2,
-  //      children: 0
-  //    }]
-  //  });
-  //
-  //  // check field
-  //  expect(stub.props.fields.proposals.length).toBe(1);
-  //  expect(stub.props.fields.proposals[0]).toBeA('object');
-  //  expectField({
-  //    field: stub.props.fields.proposals[0].arrival,
-  //    name: 'proposals[0].arrival',
-  //    value: today,
-  //    initial: today,
-  //    valid: true,
-  //    dirty: false,
-  //    error: undefined,
-  //    touched: false,
-  //    visited: false
-  //  });
-  //  expectField({
-  //    field: stub.props.fields.proposals[0].departure,
-  //    name: 'proposals[0].departure',
-  //    value: today,
-  //    initial: today,
-  //    valid: true,
-  //    dirty: false,
-  //    error: undefined,
-  //    touched: false,
-  //    visited: false
-  //  });
-  //  expectField({
-  //    field: stub.props.fields.proposals[0].note,
-  //    name: 'proposals[0].note',
-  //    value: '',
-  //    initial: '',
-  //    valid: true,
-  //    dirty: false,
-  //    error: undefined,
-  //    touched: false,
-  //    visited: false
-  //  });
-  //  expectField({
-  //    field: stub.props.fields.proposals[0].rooms[0].name,
-  //    name: 'proposals[0].rooms[0].name',
-  //    value: 'Room 1',
-  //    initial: 'Room 1',
-  //    valid: true,
-  //    dirty: false,
-  //    error: undefined,
-  //    touched: false,
-  //    visited: false
-  //  });
-  //  expectField({
-  //    field: stub.props.fields.proposals[0].rooms[0].adults,
-  //    name: 'proposals[0].rooms[0].adults',
-  //    value: 2,
-  //    initial: 2,
-  //    valid: true,
-  //    dirty: false,
-  //    error: undefined,
-  //    touched: false,
-  //    visited: false
-  //  });
-  //  expectField({
-  //    field: stub.props.fields.proposals[0].rooms[0].children,
-  //    name: 'proposals[0].rooms[0].children',
-  //    value: 0,
-  //    initial: 0,
-  //    valid: true,
-  //    dirty: false,
-  //    error: undefined,
-  //    touched: false,
-  //    visited: false
-  //  });
-  //});
+  it('should add array values with DEEP defaults', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: [
+        'proposals[].arrival',
+        'proposals[].departure',
+        'proposals[].note',
+        'proposals[].rooms[].name',
+        'proposals[].rooms[].adults',
+        'proposals[].rooms[].children'
+      ]
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expect(stub.props.fields.proposals).toBeA('array');
+    expect(stub.props.fields.proposals.length).toBe(0);
+    expect(stub.props.fields.proposals.addField).toBeA('function');
+
+    // add field
+    const today = new Date();
+    stub.props.fields.proposals.addField({
+      arrival: today,
+      departure: today,
+      note: '',
+      rooms: [{
+        name: 'Room 1',
+        adults: 2,
+        children: 0
+      }]
+    }, undefined, [
+      'arrival',
+      'departure',
+      'note',
+      'rooms[].name',
+      'rooms[].adults',
+      'rooms[].children'
+    ]);
+
+    // check field
+    expect(stub.props.fields.proposals.length).toBe(1);
+    expect(stub.props.fields.proposals[0]).toBeA('object');
+    expectField({
+      field: stub.props.fields.proposals[0].arrival,
+      name: 'proposals[0].arrival',
+      value: today,
+      initial: today,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].departure,
+      name: 'proposals[0].departure',
+      value: today,
+      initial: today,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].note,
+      name: 'proposals[0].note',
+      value: '',
+      initial: '',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].rooms[0].name,
+      name: 'proposals[0].rooms[0].name',
+      value: 'Room 1',
+      initial: 'Room 1',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].rooms[0].adults,
+      name: 'proposals[0].rooms[0].adults',
+      value: 2,
+      initial: 2,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.proposals[0].rooms[0].children,
+      name: 'proposals[0].rooms[0].children',
+      value: 0,
+      initial: 0,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+  });
 
   it('should initialize an array field, blowing away existing value', () => {
     const store = makeStore();

@@ -591,7 +591,7 @@ describe('readField', () => {
     fields.foo.addField('rabbit');
     expect(spy)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'rabbit', undefined);
+      .toHaveBeenCalledWith('foo', 'rabbit', undefined, undefined);
   });
 
   it('should allow an array field to remove a value', () => {

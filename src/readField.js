@@ -27,7 +27,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     if (!fields[key]) {
       fields[key] = [];
       Object.defineProperty(fields[key], 'addField', {
-        value: (value, index) => addArrayValue(pathToHere + key, value, index)
+        value: (value, index, subfields) => addArrayValue(pathToHere + key, value, index, subfields)
       });
       Object.defineProperty(fields[key], 'removeField', {
         value: index => removeArrayValue(pathToHere + key, index)

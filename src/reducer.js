@@ -21,12 +21,12 @@ export const initialState = {
 };
 
 const behaviors = {
-  [ADD_ARRAY_VALUE](state, {path, index, value}) {
+  [ADD_ARRAY_VALUE](state, {path, index, value, fields}) {
     const array = read(path, state);
     const stateCopy = {...state};
     const arrayCopy = array ? [...array] : [];
     const newValue = value !== null && typeof value === 'object' ?
-      initializeState(value, Object.keys(value)) : makeFieldValue({value});
+      initializeState(value, fields || Object.keys(value)) : makeFieldValue({value});
     if (index === undefined) {
       arrayCopy.push(newValue);
     } else {
