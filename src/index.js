@@ -2,7 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import createAll from './createAll';
 
-const isNative = window.navigator && window.navigator.product && window.navigator.product === 'ReactNative';
+const isNative =
+  typeof window !== 'undefined' &&
+  window.navigator &&
+  window.navigator.product &&
+  window.navigator.product === 'ReactNative';
 
 export const {
   actionTypes,
