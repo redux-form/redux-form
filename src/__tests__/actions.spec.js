@@ -10,19 +10,29 @@ describe('actions', () => {
       type: ADD_ARRAY_VALUE,
       path: 'foo',
       index: 1,
-      value: undefined
+      value: undefined,
+      fields: undefined
     });
     expect(addArrayValue('bar.baz')).toEqual({
       type: ADD_ARRAY_VALUE,
       path: 'bar.baz',
       index: undefined,
-      value: undefined
+      value: undefined,
+      fields: undefined
     });
     expect(addArrayValue('bar.baz', 'foo', 2)).toEqual({
       type: ADD_ARRAY_VALUE,
       path: 'bar.baz',
       index: 2,
-      value: 'foo'
+      value: 'foo',
+      fields: undefined
+    });
+    expect(addArrayValue('bar.baz', 'foo', 2, ['x', 'y'])).toEqual({
+      type: ADD_ARRAY_VALUE,
+      path: 'bar.baz',
+      index: 2,
+      value: 'foo',
+      fields: [ 'x', 'y' ]
     });
   });
 

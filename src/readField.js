@@ -7,7 +7,15 @@ import silencePromise from './silencePromise';
 import read from './read';
 import updateField from './updateField';
 
-const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props, callback = () => null) => {
+function getSuffix(input, closeIndex) {
+  let suffix = input.substring(closeIndex + 1);
+  if (suffix[0] === '.') {
+    suffix = suffix.substring(1);
+  }
+  return suffix;
+}
+
+const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props, callback = () => null, prefix = '') => {
   const {asyncBlurFields, blur, change, focus, form, initialValues, readonly, addArrayValue,
     removeArrayValue, swapArrayValues} = props;
   const dotIndex = fieldName.indexOf('.');
@@ -19,15 +27,21 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
   if (openIndex > 0 && (dotIndex < 0 || openIndex < dotIndex)) {
     // array field
     const key = fieldName.substring(0, openIndex);
-    let rest = fieldName.substring(closeIndex + 1);
-    if (rest[0] === '.') {
-      rest = rest.substring(1);
-    }
+    const rest = getSuffix(fieldName, closeIndex);
     const stateArray = state && state[key] || [];
+    const fullPrefix = prefix + fieldName.substring(0, closeIndex + 1);
+    const subfields = props.fields
+      .reduce((accumulator, field) => {
+        if (field.indexOf(fullPrefix) === 0) {
+          accumulator.push(field);
+        }
+        return accumulator;
+      }, [])
+      .map(field => getSuffix(field, prefix.length + closeIndex));
     if (!fields[key]) {
       fields[key] = [];
       Object.defineProperty(fields[key], 'addField', {
-        value: (value, index) => addArrayValue(pathToHere + key, value, index)
+        value: (value, index) => addArrayValue(pathToHere + key, value, index, subfields)
       });
       Object.defineProperty(fields[key], 'removeField', {
         value: index => removeArrayValue(pathToHere + key, index)
@@ -42,8 +56,10 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
         fieldArray[index] = {};
       }
       const dest = rest ? fieldArray[index] : {};
-      const result = readField(fieldState, rest, `${pathToHere}${key}[${index}]${rest ? '.' : ''}`, dest, syncErrors,
-        asyncValidate, isReactNative, props, callback);
+      const nextPath = `${pathToHere}${key}[${index}]${rest ? '.' : ''}`;
+      const nextPrefix = `${prefix}${key}[]${rest ? '.' : ''}`;
+      const result = readField(fieldState, rest, nextPath, dest, syncErrors,
+        asyncValidate, isReactNative, props, callback, nextPrefix);
       if (!rest) { // if nothing after [] in field name, assign directly to array
         fieldArray[index] = result;
       }
