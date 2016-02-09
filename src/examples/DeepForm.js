@@ -67,6 +67,14 @@ class DeepForm extends Component {
             children.addField();    // pushes empty child field onto the end of the array
           }}><i className="fa fa-child"/> Add Child
           </button>
+          <button type="button" style={{marginLeft: 15}} className="btn btn-success" onClick={() => {
+            children.addField({     // pushes child field with initial values onto the end of the array
+              name: 'Bobby Tables',
+              age: 13,
+              awards: ['Input Sanitation', 'Best XKCD Meme']
+            });
+          }}><i className="fa fa-child"/> Add Bobby
+          </button>
         </div>
         {!children.length && <div style={{textAlign: 'center', margin: 10}}>No Children</div>}
         {children.map((child, index) => <div key={index}>
