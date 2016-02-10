@@ -24,6 +24,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
   if (openIndex > 0 && closeIndex !== openIndex + 1) {
     throw new Error('found [ not followed by ]');
   }
+
   if (openIndex > 0 && (dotIndex < 0 || openIndex < dotIndex)) {
     // array field
     const key = fieldName.substring(0, openIndex);
@@ -58,6 +59,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       const dest = rest ? fieldArray[index] : {};
       const nextPath = `${pathToHere}${key}[${index}]${rest ? '.' : ''}`;
       const nextPrefix = `${prefix}${key}[]${rest ? '.' : ''}`;
+
       const result = readField(fieldState, rest, nextPath, dest, syncErrors,
         asyncValidate, isReactNative, props, callback, nextPrefix);
       if (!rest) { // if nothing after [] in field name, assign directly to array
@@ -77,8 +79,9 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     if (!fields[key]) {
       fields[key] = {};
     }
-    return readField(state[key] || {}, rest, pathToHere + key + '.', fields[key], syncErrors, asyncValidate,
-      isReactNative, props, callback);
+    const nextPath = pathToHere + key + '.';
+    return readField(state[key] || {}, rest, nextPath, fields[key], syncErrors, asyncValidate,
+      isReactNative, props, callback, nextPath);
   }
   const name = pathToHere + fieldName;
   const field = fields[fieldName] || {};

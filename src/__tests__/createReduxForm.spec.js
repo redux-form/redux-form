@@ -1235,6 +1235,63 @@ describe('createReduxForm', () => {
   });
 
   // Test to demonstrate bug: https://github.com/erikras/redux-form/issues/468
+  it('should add array values when root is not an array', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: [
+        'acknowledgements.items[].number',
+        'acknowledgements.items[].name',
+        'acknowledgements.show'
+      ]
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expect(stub.props.fields.acknowledgements).toBeA('object');
+    expect(stub.props.fields.acknowledgements.items).toBeA('array');
+    expect(stub.props.fields.acknowledgements.items.length).toBe(0);
+    expect(stub.props.fields.acknowledgements.items.addField).toBeA('function');
+
+    // add field
+    stub.props.fields.acknowledgements.items.addField({
+      number: 1,
+      name: 'foo'
+    });
+
+    // check field
+    expect(stub.props.fields.acknowledgements.items.length).toBe(1);
+    expect(stub.props.fields.acknowledgements.items[0]).toBeA('object');
+    expectField({
+      field: stub.props.fields.acknowledgements.items[0].number,
+      name: 'acknowledgements.items[0].number',
+      value: 1,
+      initial: 1,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+    expectField({
+      field: stub.props.fields.acknowledgements.items[0].name,
+      name: 'acknowledgements.items[0].name',
+      value: 'foo',
+      initial: 'foo',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+  });
+
+  // Test to demonstrate bug: https://github.com/erikras/redux-form/issues/630
   it('should add array values with DEEP defaults', () => {
     const store = makeStore();
     const form = 'testForm';
