@@ -1234,7 +1234,7 @@ describe('createReduxForm', () => {
       });
   });
 
-  // Test to demonstrate bug: https://github.com/erikras/redux-form/issues/468
+  // Test to demonstrate bug: https://github.com/erikras/redux-form/issues/630
   it('should add array values when root is not an array', () => {
     const store = makeStore();
     const form = 'testForm';
@@ -1291,7 +1291,7 @@ describe('createReduxForm', () => {
     });
   });
 
-  // Test to demonstrate bug: https://github.com/erikras/redux-form/issues/630
+  // Test to demonstrate bug: https://github.com/erikras/redux-form/issues/468
   it('should add array values with DEEP defaults', () => {
     const store = makeStore();
     const form = 'testForm';
