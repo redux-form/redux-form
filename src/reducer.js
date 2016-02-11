@@ -239,14 +239,15 @@ function decorate(target) {
             };
             return {
               ...formResult,
-              ...mapValues(formNormalizers, (fieldNormalizer, field) => makeFieldValue({
-                ...formResult[field],
-                value: fieldNormalizer(
+              ...mapValues(formNormalizers, (fieldNormalizer, field) => {
+                const newValue = makeFieldValue(fieldNormalizer(
                   formResult[field] ? formResult[field].value : undefined,         // value
                   previous && previous[field] ? previous[field].value : undefined, // previous value
                   getValuesFromState(formResult),                                  // all field values
-                  previousValues)                                                  // all previous field values
-              }))
+                  previousValues));                                                // all previous field values
+
+                return Object.assign(formResult[field] || {}, { value: newValue });
+              })
             };
           };
           if (action.key) {
