@@ -2061,4 +2061,35 @@ describe('createReduxForm', () => {
   //
   //  expect(stub.props.fields.dogs.length).toBe(3);
   //});
+
+  // Test to show bug https://github.com/erikras/redux-form/issues/621
+  // ---
+  // It's caused by the fact that we are letting the initialValues prop override
+  // the data from the store for the initialValue and defaultValue props, but NOT for
+  // value. So the value prop does not get populated until the second render.
+  // ---
+  //it('initial values should be present on first render', () => {
+  //  const store = makeStore();
+  //  const form = 'testForm';
+  //  class InitialValuesTestForm extends Component {
+  //    render() {
+  //      const {fields: {name}} = this.props;
+  //      expect(name.initialValue).toBe('Bob');
+  //      expect(name.defaultValue).toBe('Bob');
+  //      expect(name.value).toBe('Bob');
+  //      return (<div>
+  //        <input {...name}/>
+  //      </div>);
+  //    }
+  //  }
+  //  const Decorated = reduxForm({
+  //    form,
+  //    fields: ['name']
+  //  })(InitialValuesTestForm);
+  //  TestUtils.renderIntoDocument(
+  //    <Provider store={store}>
+  //      <Decorated initialValues={{name: 'Bob'}}/>
+  //    </Provider>
+  //  );
+  //});
 });
