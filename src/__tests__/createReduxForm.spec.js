@@ -2023,4 +2023,42 @@ describe('createReduxForm', () => {
   //    .toHaveBeenCalled()
   //    .toHaveBeenCalledWith('value', 'FOO');
   //});
+
+  // Test to show bug https://github.com/erikras/redux-form/issues/629
+  // ---
+  // It's caused by the fact that RESET is just copying values from initial to value,
+  // but what it needs to do is blow away the whole state tree and re-initialize it
+  // with the initial values.
+  // ---
+  //it('resetting the form should reset array fields', () => {
+  //  const store = makeStore();
+  //  const form = 'testForm';
+  //  const Decorated = reduxForm({
+  //    form,
+  //    fields: ['kennel', 'dogs[].name', 'dogs[].breed']
+  //  })(Form);
+  //  const dom = TestUtils.renderIntoDocument(
+  //    <Provider store={store}>
+  //      <Decorated initialValues={{
+  //        kennel: 'Bob\'s Dog House',
+  //        dogs: [
+  //          {name: 'Fido', breed: 'Pit Bull'},
+  //          {name: 'Snoopy', breed: 'Beagle'},
+  //          {name: 'Scooby Doo', breed: 'Great Dane'}
+  //        ]
+  //      }}/>
+  //    </Provider>
+  //  );
+  //  const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+  //
+  //  expect(stub.props.fields.dogs.length).toBe(3);
+  //
+  //  stub.props.fields.dogs.addField({name: 'Lassie', breed: 'Collie'});
+  //
+  //  expect(stub.props.fields.dogs.length).toBe(4);
+  //
+  //  stub.props.resetForm();
+  //
+  //  expect(stub.props.fields.dogs.length).toBe(3);
+  //});
 });
