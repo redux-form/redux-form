@@ -6,6 +6,7 @@ class SimpleForm extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired
   };
@@ -17,7 +18,9 @@ class SimpleForm extends Component {
       resetForm,
       submitting
       } = this.props;
-    return (<form className="form-horizontal" onSubmit={handleSubmit}>
+    return (<form className="form-horizontal" onSubmit={handleSubmit(() => {
+      this.props.onSubmit();
+    })}>
         <div className="form-group">
           <label className="col-xs-4 control-label">First Name</label>
           <div className="col-xs-8">
@@ -50,8 +53,7 @@ class SimpleForm extends Component {
         <div className="form-group">
           <label className="col-xs-4 control-label">Favorite Color</label>
           <div className="col-xs-8">
-            <select
-              className="form-control"
+            <select className="form-control"
               {...favoriteColor}
               value={favoriteColor.value || ''}  // required syntax for reset form to work
                                                  // undefined will not change value to first empty option
