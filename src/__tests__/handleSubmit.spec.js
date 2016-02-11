@@ -34,13 +34,14 @@ describe('handleSubmit', () => {
   it('should stop and return rejected promise if sync validation fails and returnRejectedSubmitPromise', (done) => {
     const values = {foo: 'bar', baz: 42};
     const fields = ['foo', 'baz'];
+    const errorValue = {foo: 'error'};
     const submit = createSpy().andReturn(69);
     const touch = createSpy();
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
     const asyncValidate = createSpy();
-    const validate = createSpy().andReturn({foo: 'error'});
+    const validate = createSpy().andReturn(errorValue);
     const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate, returnRejectedSubmitPromise: true};
 
     const result = handleSubmit(submit, values, props, asyncValidate);
@@ -59,7 +60,10 @@ describe('handleSubmit', () => {
     expect(submitFailed).toHaveBeenCalled();
     result.then(() => {
       expect(false).toBe(true); // should not be in resolve branch
-    }, done);
+    }, (error) => {
+      expect(error).toBe(errorValue);
+      done();
+    });
   });
 
   it('should return result of sync submit', () => {
