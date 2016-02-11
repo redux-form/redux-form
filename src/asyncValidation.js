@@ -8,7 +8,7 @@ const asyncValidation = (fn, start, stop, field) => {
     throw new Error('asyncValidate function passed to reduxForm must return a promise');
   }
   const handleErrors = rejected => errors => {
-    if (!isValid(errors)) {
+    if (!isValid(errors) && rejected) {
       stop(errors);
       return Promise.reject();
     } else if (rejected) {

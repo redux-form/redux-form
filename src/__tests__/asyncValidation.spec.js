@@ -20,7 +20,7 @@ describe('asyncValidation', () => {
     expect(isPromise(asyncValidation(fn, start, stop, field))).toBe(true);
   });
 
-  it('should call start, fn, and stop on promise resolve', () => {
+  it('should call start, fn, and stop on promise resolve with no arguments', () => {
     const fn = createSpy().andReturn(Promise.resolve());
     const start = createSpy();
     const stop = createSpy();
@@ -29,6 +29,20 @@ describe('asyncValidation', () => {
     expect(start)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith(field);
+    return promise.then(() => {
+      expect(stop).toHaveBeenCalled();
+    }, () => {
+      expect(false).toBe(true); // should not get into reject branch
+    });
+  });
+
+  it('should call start, fn, and stop on promise resolve with arguments', () => {
+    const fn = createSpy().andReturn(Promise.resolve({foo: 'success'}));
+    const start = createSpy();
+    const stop = createSpy();
+    const promise = asyncValidation(fn, start, stop);
+    expect(fn).toHaveBeenCalled();
+    expect(start).toHaveBeenCalled();
     return promise.then(() => {
       expect(stop).toHaveBeenCalled();
     }, () => {
