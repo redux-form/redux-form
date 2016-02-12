@@ -15,10 +15,8 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy();
     const validate = createSpy().andReturn({foo: 'error'});
     const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = false;
-    const initialized = false;
 
-    expect(handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)).toBe(undefined);
+    expect(handleSubmit(submit, values, props, asyncValidate)).toBe(undefined);
 
     expect(touch)
       .toHaveBeenCalled()
@@ -45,10 +43,8 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy();
     const validate = createSpy().andReturn(errorValue);
     const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate, returnRejectedSubmitPromise: true};
-    const allPristine = false;
-    const initialized = false;
 
-    const result = handleSubmit(submit, values, props, asyncValidate, allPristine, initialized);
+    const result = handleSubmit(submit, values, props, asyncValidate);
     expect(isPromise(result)).toBe(true);
 
     expect(touch)
@@ -82,10 +78,8 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy();
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = false;
-    const initialized = false;
 
-    expect(handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)).toBe(69);
+    expect(handleSubmit(submit, values, props, asyncValidate)).toBe(69);
 
     expect(touch)
       .toHaveBeenCalled()
@@ -116,10 +110,8 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy().andReturn(Promise.reject());
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = false;
-    const initialized = false;
 
-    return handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)
+    return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(undefined);
         expect(touch)
@@ -151,14 +143,10 @@ describe('handleSubmit', () => {
     const submitFailed = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.reject());
     const validate = createSpy().andReturn({});
-    const props = {
-      dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
-      returnRejectedSubmitPromise: true
-    };
-    const allPristine = false;
-    const initialized = false;
+    const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
+      returnRejectedSubmitPromise: true};
 
-    return handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)
+    return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
         expect(false).toBe(true); // should not get into resolve branch
       }, result => {
@@ -191,10 +179,8 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = false;
-    const initialized = false;
 
-    return handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)
+    return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(69);
         expect(touch)
@@ -229,10 +215,8 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = false;
-    const initialized = false;
 
-    return handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)
+    return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(69);
         expect(touch)
@@ -270,10 +254,8 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
     const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = false;
-    const initialized = false;
 
-    return handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)
+    return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
         expect(result).toBe(undefined);
         expect(touch)
@@ -310,14 +292,10 @@ describe('handleSubmit', () => {
     const submitFailed = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
-    const props = {
-      dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
-      returnRejectedSubmitPromise: true
-    };
-    const allPristine = false;
-    const initialized = false;
+    const props = {dispatch, fields, startSubmit, stopSubmit, submitFailed, touch, validate,
+      returnRejectedSubmitPromise: true};
 
-    return handleSubmit(submit, values, props, asyncValidate, allPristine, initialized)
+    return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
         expect(false).toBe(true); // should not get into resolve branch
       }, result => {
@@ -340,109 +318,5 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(submitErrors);
         expect(submitFailed).toNotHaveBeenCalled();
       });
-  });
-
-  it('should fire async validation if sync validation passes and form is dirty', (done) => {
-    const values = {foo: 'bar', baz: 42};
-    const fields = ['foo', 'baz'];
-    const errorValue = {foo: 'error'};
-    const submit = createSpy().andReturn(69);
-    const touch = createSpy();
-    const startSubmit = createSpy();
-    const stopSubmit = createSpy();
-    const submitFailed = createSpy();
-    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
-    const validate = createSpy().andReturn({});  // sync validation passes
-    const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = false;
-    const initialized = true;
-
-    const result = handleSubmit(submit, values, props, asyncValidate, allPristine, initialized);
-    expect(isPromise(result)).toBe(true);
-
-    expect(touch)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(...fields);
-    expect(validate)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(values, props);
-    expect(asyncValidate).toHaveBeenCalled();
-    expect(submit).toNotHaveBeenCalled();
-    expect(startSubmit).toNotHaveBeenCalled();
-    expect(stopSubmit).toNotHaveBeenCalled();
-    result
-      .then(() => {
-        expect(submitFailed).toHaveBeenCalled();
-      }, () => {
-        expect(false).toBe(true); // should not be in resolve branch
-      })
-      .then(done, done);
-  });
-
-  it('should fire async validation if sync validation passes and has not been initialized', (done) => {
-    const values = {foo: 'bar', baz: 42};
-    const fields = ['foo', 'baz'];
-    const errorValue = {foo: 'error'};
-    const submit = createSpy().andReturn(69);
-    const touch = createSpy();
-    const startSubmit = createSpy();
-    const stopSubmit = createSpy();
-    const submitFailed = createSpy();
-    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
-    const validate = createSpy().andReturn({});  // sync validation passes
-    const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = true;
-    const initialized = false;
-
-    const result = handleSubmit(submit, values, props, asyncValidate, allPristine, initialized);
-    expect(isPromise(result)).toBe(true);
-
-    expect(touch)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(...fields);
-    expect(validate)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(values, props);
-    expect(asyncValidate).toHaveBeenCalled();
-    expect(submit).toNotHaveBeenCalled();
-    expect(startSubmit).toNotHaveBeenCalled();
-    expect(stopSubmit).toNotHaveBeenCalled();
-    result
-      .then(() => {
-        expect(submitFailed).toHaveBeenCalled();
-      }, () => {
-        expect(false).toBe(true); // should not be in resolve branch
-      })
-      .then(done, done);
-  });
-
-  it('should NOT fire async validation if form has been initialized and is pristine', () => {
-    const values = {foo: 'bar', baz: 42};
-    const fields = ['foo', 'baz'];
-    const submit = createSpy().andReturn(69);
-    const touch = createSpy();
-    const startSubmit = createSpy();
-    const stopSubmit = createSpy();
-    const submitFailed = createSpy();
-    const asyncValidate = createSpy();
-    const validate = createSpy().andReturn({});  // sync validation passes
-    const props = {fields, startSubmit, stopSubmit, submitFailed, touch, validate};
-    const allPristine = true;
-    const initialized = true;
-
-    const result = handleSubmit(submit, values, props, asyncValidate, allPristine, initialized);
-    expect(result).toBe(69);
-
-    expect(touch)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(...fields);
-    expect(validate)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(values, props);
-    expect(asyncValidate).toNotHaveBeenCalled();
-    expect(submit).toHaveBeenCalled();
-    expect(startSubmit).toNotHaveBeenCalled();
-    expect(stopSubmit).toNotHaveBeenCalled();
-    expect(submitFailed).toNotHaveBeenCalled();
   });
 });

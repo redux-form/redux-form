@@ -970,6 +970,120 @@ describe('createReduxForm', () => {
     TestUtils.Simulate.submit(button);
   });
 
+  it('should NOT call async validation if form is pristine and initialized', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const errorValue = {foo: 'no bears allowed'};
+    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo', 'bar'],
+      asyncValidate,
+      asyncBlurFields: ['foo'],
+      initialValues: {
+        foo: 'dog',
+        bar: 'cat'
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    stub.props.fields.foo.onBlur('dog');
+    expect(asyncValidate).toNotHaveBeenCalled();
+  });
+
+  it('should call async validation if form is dirty and initialized', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const errorValue = {foo: 'no bears allowed'};
+    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo', 'bar'],
+      asyncValidate,
+      asyncBlurFields: ['foo'],
+      initialValues: {
+        foo: 'dog',
+        bar: 'cat'
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    stub.props.fields.foo.onBlur('bear');
+    expect(asyncValidate).toHaveBeenCalled();
+  });
+
+  it('should call async validation if form is pristine and NOT initialized', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const errorValue = {foo: 'no bears allowed'};
+    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo', 'bar'],
+      asyncValidate,
+      asyncBlurFields: ['foo']
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    stub.props.fields.foo.onBlur();
+    expect(asyncValidate).toHaveBeenCalled();
+  });
+
+  it('should call async validation on submit even if pristine and initialized', () => {
+    const submit = createSpy();
+    class FormComponent extends Component {
+      render() {
+        return (
+          <form onSubmit={this.props.handleSubmit(submit)}/>
+        );
+      }
+    }
+    FormComponent.propTypes = {
+      handleSubmit: PropTypes.func.isRequired
+    };
+
+    const store = makeStore();
+    const form = 'testForm';
+    const errorValue = {foo: 'no dogs allowed'};
+    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
+    const Decorated = reduxForm({
+      form,
+      fields: ['foo', 'bar'],
+      asyncValidate,
+      asyncBlurFields: ['foo'],
+      initialValues: {
+        foo: 'dog',
+        bar: 'cat'
+      }
+    })(FormComponent);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+
+    TestUtils.Simulate.submit(button);
+
+    expect(asyncValidate).toHaveBeenCalled();
+    expect(submit).toNotHaveBeenCalled();
+  });
+
   it('should call submit function passed to handleSubmit', (done) => {
     const submit = (values) => {
       expect(values).toEqual({
@@ -1683,40 +1797,6 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false
     });
-  });
-
-  it('should disallow async validation when form is pristine', () => {
-    const store = makeStore();
-    const form = 'testForm';
-    const asyncValidate = createSpy(() => Promise.resolve());
-    const Decorated = reduxForm({
-      form,
-      fields: ['name'],
-      initialValues: {name: 'Tom'},
-      asyncValidate
-    })(Form);
-    const dom = TestUtils.renderIntoDocument(
-      <Provider store={store}>
-        <Decorated/>
-      </Provider>
-    );
-    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
-
-    // check field before validation
-    expectField({
-      field: stub.props.fields.name,
-      name: 'name',
-      value: 'Tom',
-      initial: 'Tom',
-      valid: true,
-      dirty: false,
-      error: undefined,
-      touched: false,
-      visited: false
-    });
-
-    stub.props.asyncValidate();
-    expect(asyncValidate).toNotHaveBeenCalled();
   });
 
   it('should allow deep async validation error values', () => {

@@ -1,7 +1,7 @@
 import isPromise from 'is-promise';
 import isValid from './isValid';
 
-const handleSubmit = (submit, values, props, asyncValidate, allPristine, initialized) => {
+const handleSubmit = (submit, values, props, asyncValidate) => {
   const {dispatch, fields, startSubmit, stopSubmit, submitFailed, returnRejectedSubmitPromise, touch, validate} = props;
   const syncErrors = validate(values, props);
   touch(...fields); // touch all fields
@@ -22,8 +22,7 @@ const handleSubmit = (submit, values, props, asyncValidate, allPristine, initial
       }
       return result;
     };
-    const runAsyncValidate = !allPristine || !initialized;
-    const asyncValidateResult = runAsyncValidate ? asyncValidate() : undefined;
+    const asyncValidateResult = asyncValidate();
     return isPromise(asyncValidateResult) ?
       // asyncValidateResult will be rejected if async validation failed
       asyncValidateResult.then(doSubmit, () => {
