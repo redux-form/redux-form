@@ -73,7 +73,6 @@ const createHigherOrderComponent = (config,
           // if blur validating, only run async validate if sync validation passes
           // and submitting (not blur validation) or form is dirty or form was never initialized
           const syncValidationPasses = isSubmitting || isValid(syncErrors[name]);
-          console.info(allPristine, initialized, syncValidationPasses, syncValidationPasses && (!allPristine || !initialized));;
           if (syncValidationPasses && (isSubmitting || !allPristine || !initialized)) {
             return asyncValidation(() =>
               asyncValidate(values, dispatch, this.props), startAsyncValidation, stopAsyncValidation, name);
