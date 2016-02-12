@@ -21,7 +21,7 @@ const initializeState = (values, fields, state = {}) => {
     }
     const openIndex = path.indexOf('[');
     const closeIndex = path.indexOf(']');
-    const result = dest || {};
+    const result = {...dest} || {};
     if (dotIndex >= 0 && (openIndex < 0 || dotIndex < openIndex)) {
       // is dot notation
       const key = path.substring(0, dotIndex);
