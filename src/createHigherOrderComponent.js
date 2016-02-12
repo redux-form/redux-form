@@ -44,7 +44,7 @@ const createHigherOrderComponent = (config,
       }
 
       componentWillReceiveProps(nextProps) {
-        if (!deepEqual(this.props.fields, nextProps.fields) || !deepEqual(this.props.form, nextProps.form, { strict: true })) {
+        if (!deepEqual(this.props.fields, nextProps.fields) || !deepEqual(this.props.form, nextProps.form, {strict: true})) {
           this.fields = readFields(nextProps, this.props, this.fields, this.asyncValidate, isReactNative);
         }
         if (!deepEqual(this.props.initialValues, nextProps.initialValues)) {
@@ -60,16 +60,20 @@ const createHigherOrderComponent = (config,
 
       asyncValidate(name, value) {
         const {asyncValidate, dispatch, fields, form, startAsyncValidation, stopAsyncValidation, validate} = this.props;
+        const isSubmitting = !name;
         if (asyncValidate) {
           const values = getValues(fields, form);
           if (name) {
             values[name] = value;
           }
           const syncErrors = validate(values, this.props);
-          const { allPristine } = this.fields._meta;
+          const {allPristine} = this.fields._meta;
+          const initialized = form._initialized;
 
-          // if blur validating, only run async validate if the form is dirty and sync validation passes
-          if (!allPristine && (!name || isValid(syncErrors[name]))) {
+          // if blur validating, only run async validate if sync validation passes
+          // and submitting (not blur validation) or form is dirty or form was never initialized
+          const syncValidationPasses = isSubmitting || isValid(syncErrors[name]);
+          if (syncValidationPasses && (isSubmitting || !allPristine || !initialized)) {
             return asyncValidation(() =>
               asyncValidate(values, dispatch, this.props), startAsyncValidation, stopAsyncValidation, name);
           }
