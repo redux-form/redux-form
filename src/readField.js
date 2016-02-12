@@ -39,8 +39,8 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
         return accumulator;
       }, [])
       .map(field => getSuffix(field, prefix.length + closeIndex));
-    if (!fields[key]) {
-      fields[key] = [];
+    if (!fields[key] || fields[key].length !== stateArray.length) {
+      fields[key] = fields[key] ? [...fields[key]] : [];
       Object.defineProperty(fields[key], 'addField', {
         value: (value, index) => addArrayValue(pathToHere + key, value, index, subfields)
       });
