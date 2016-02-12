@@ -2945,7 +2945,9 @@ describe('reducer', () => {
     it('should initialize form state when there is a normalizer', () => {
       const state = reducer.normalize({
         foo: {
-          myField: () => 'normalized'
+          'myField': () => 'normalized',
+          'person.name': () => 'John Doe',
+          'pets[].name': () => 'Fido'
         }
       })();
       expect(state)
@@ -2964,7 +2966,13 @@ describe('reducer', () => {
           _submitFailed: false,
           myField: {
             value: 'normalized'
-          }
+          },
+          person: {
+            name: {
+              value: 'John Doe'
+            }
+          },
+          pets: []
         });
     });
 
@@ -2979,7 +2987,9 @@ describe('reducer', () => {
       };
       const normalize = reducer.normalize({
         foo: {
-          myField: () => 'normalized'
+          'myField': () => 'normalized',
+          'person.name': () => 'John Doe',
+          'pets[].name': () => 'Fido'
         }
       });
       const state = normalize({
@@ -3006,7 +3016,13 @@ describe('reducer', () => {
             ...defaultFields,
             myField: {
               value: 'normalized'
-            }
+            },
+            person: {
+              name: {
+                value: 'John Doe'
+              }
+            },
+            pets: []
           }
         });
       expect(nextState.foo)
@@ -3015,13 +3031,25 @@ describe('reducer', () => {
             ...defaultFields,
             myField: {
               value: 'normalized'
-            }
+            },
+            person: {
+              name: {
+                value: 'John Doe'
+              }
+            },
+            pets: []
           },
           secondSubForm: {
             ...defaultFields,
             myField: {
               value: 'normalized'
-            }
+            },
+            person: {
+              name: {
+                value: 'John Doe'
+              }
+            },
+            pets: []
           }
         });
     });
@@ -3037,14 +3065,25 @@ describe('reducer', () => {
       };
       const normalize = reducer.normalize({
         foo: {
-          name: () => 'normalized'
+          'name': () => 'normalized',
+          'person.name': (name) => name && name.toUpperCase(),
+          'pets[].name': (name) => name && name.toLowerCase()
         }
       });
       const state = normalize({
         foo: {
           name: {
             value: 'dog'
-          }
+          },
+          person: {
+            name: {
+              value: 'John Doe',
+            }
+          },
+          pets: [
+            { name: { value: 'Fido' } },
+            { name: { value: 'Tucker' } }
+          ]
         }
       });
       expect(state)
@@ -3057,7 +3096,16 @@ describe('reducer', () => {
           ...defaultFields,
           name: {
             value: 'normalized'
-          }
+          },
+          person: {
+            name: {
+              value: 'JOHN DOE'
+            }
+          },
+          pets: [
+            { name: { value: 'fido' } },
+            { name: { value: 'tucker' } }
+          ]
         });
     });
 
@@ -3072,13 +3120,23 @@ describe('reducer', () => {
       };
       const normalizingReducer = reducer.normalize({
         foo: {
-          name: value => value && value.toUpperCase()
+          'name': value => value && value.toUpperCase(),
+          'person.name': (name) => name && name.toUpperCase(),
+          'pets[].name': (name) => name && name.toLowerCase()
         }
       });
       const empty = normalizingReducer();
-      const state = normalizingReducer(empty, {
+      let state = normalizingReducer(empty, {
         form: 'foo',
-        ...change('name', 'dog')
+        ...change('name', 'dog'),
+      });
+      state = normalizingReducer(state, {
+        form: 'foo',
+        ...change('person.name', 'John Doe'),
+      });
+      state = normalizingReducer(state, {
+        form: 'foo',
+        ...addArrayValue('pets', { name: 'Fido' })
       });
       expect(state)
         .toExist()
@@ -3090,7 +3148,18 @@ describe('reducer', () => {
           ...defaultFields,
           name: {
             value: 'DOG'
-          }
+          },
+          person: {
+            name: {
+              value: 'JOHN DOE'
+            }
+          },
+          pets: [{
+            name: {
+              initial: 'Fido',
+              value: 'fido'
+            }
+          }]
         });
       const result = normalizingReducer(state, {
         form: 'foo',
@@ -3106,7 +3175,152 @@ describe('reducer', () => {
           ...defaultFields,
           name: {
             value: undefined
-          }
+          },
+          person: {
+            name: {
+              value: undefined
+            }
+          },
+          pets: [{
+            name: {
+              initial: 'Fido',
+              value: 'fido'
+            }
+          }]
+        });
+    });
+
+    it('should normalize arbitrarily deeply nested fields', () => {
+      const defaultFields = {
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      };
+      const normalize = reducer.normalize({
+        foo: {
+          'name': () => 'normalized',
+          'person.name': (name) => name && name.toUpperCase(),
+          'pets[].name': (name) => name && name.toLowerCase(),
+          'a.very.deep.object.property': (value) => value && value.toUpperCase(),
+          'my[].deeply[].nested.arrayItem': (value) => value && value.toUpperCase()
+        }
+      });
+      const state = normalize({
+        foo: {
+          person: {
+            name: {
+              value: 'John Doe',
+            }
+          },
+          pets: [
+            { name: { value: 'Fido' } },
+            { name: { value: 'Tucker' } }
+          ],
+          a: {
+            very: {
+              deep: {
+                object: {
+                  property: { value: 'test' }
+                }
+              }
+            }
+          },
+          my: [{
+            deeply: [{
+              nested: {
+                arrayItem: { value: 'hello' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Goodbye' }
+            }, {
+              nested: {
+                arrayItem: { value: 'hola' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Adios' }
+            }],
+            stays: 'intact'
+          }, {
+            deeply: [{
+              nested: {
+                arrayItem: { value: 'world' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Later' }
+            }, {
+              nested: {
+                arrayItem: { value: 'mundo' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Hasta luego' }
+            }],
+            stays: 'intact'
+          }]
+        }
+      });
+      expect(state)
+        .toExist()
+        .toBeA('object');
+      expect(state.foo)
+        .toExist()
+        .toBeA('object')
+        .toEqual({
+          ...defaultFields,
+          name: {
+            value: 'normalized'
+          },
+          person: {
+            name: {
+              value: 'JOHN DOE'
+            }
+          },
+          pets: [
+            { name: { value: 'fido' } },
+            { name: { value: 'tucker' } }
+          ],
+          a: {
+            very: {
+              deep: {
+                object: {
+                  property: { value: 'TEST' }
+                }
+              }
+            }
+          },
+          my: [{
+            deeply: [{
+              nested: {
+                arrayItem: { value: 'HELLO' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Goodbye' }
+            }, {
+              nested: {
+                arrayItem: { value: 'HOLA' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Adios' }
+            }],
+            stays: 'intact'
+          }, {
+            deeply: [{
+              nested: {
+                arrayItem: { value: 'WORLD' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Later' }
+            }, {
+              nested: {
+                arrayItem: { value: 'MUNDO' },
+                not: 'lost'
+              },
+              otherKey: { value: 'Hasta luego' }
+            }],
+            stays: 'intact'
+          }]
         });
     });
   });

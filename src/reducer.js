@@ -8,6 +8,7 @@ import initializeState from './initializeState';
 import resetState from './resetState';
 import setErrors from './setErrors';
 import {makeFieldValue} from './fieldValue';
+import normalizeFields from './normalizeFields';
 
 export const globalErrorKey = '_error';
 
@@ -237,18 +238,8 @@ function decorate(target) {
               ...initialState,
               ...currentResult
             };
-            return {
-              ...formResult,
-              ...mapValues(formNormalizers, (fieldNormalizer, field) => {
-                const newValue = makeFieldValue(fieldNormalizer(
-                  formResult[field] ? formResult[field].value : undefined,         // value
-                  previous && previous[field] ? previous[field].value : undefined, // previous value
-                  getValuesFromState(formResult),                                  // all field values
-                  previousValues));                                                // all previous field values
-
-                return Object.assign(formResult[field] || {}, { value: newValue });
-              })
-            };
+            const values = getValuesFromState(formResult);
+            return normalizeFields(formNormalizers, formResult, previous, values, previousValues);
           };
           if (action.key) {
             return {
