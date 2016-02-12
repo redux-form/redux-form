@@ -1304,6 +1304,8 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.users.length).toBe(0);
     expect(stub.props.fields.users.addField).toBeA('function');
 
+    const before = stub.props.fields.users;
+
     // add field
     stub.props.fields.users.addField({name: 'Bob', age: 27});
 
@@ -1332,6 +1334,8 @@ describe('createReduxForm', () => {
       touched: false,
       visited: false
     });
+    const after = stub.props.fields.users;
+    expect(after).toNotBe(before);  // should be a new instance
 
     // check state
     expect(store.getState().form.testForm.users).toBeA('array');
