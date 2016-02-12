@@ -3204,6 +3204,7 @@ describe('reducer', () => {
           'name': () => 'normalized',
           'person.name': (name) => name && name.toUpperCase(),
           'pets[].name': (name) => name && name.toLowerCase(),
+          'cats[]': (array) => array && array.map(value => value.toUpperCase()),
           'a.very.deep.object.property': (value) => value && value.toUpperCase(),
           'my[].deeply[].nested.arrayItem': (value) => value && value.toUpperCase()
         }
@@ -3218,6 +3219,12 @@ describe('reducer', () => {
           pets: [
             { name: { value: 'Fido' } },
             { name: { value: 'Tucker' } }
+          ],
+          cats: [
+            'lion',
+            'panther',
+            'garfield',
+            'whiskers'
           ],
           a: {
             very: {
@@ -3280,6 +3287,12 @@ describe('reducer', () => {
           pets: [
             { name: { value: 'fido' } },
             { name: { value: 'tucker' } }
+          ],
+          cats: [
+            'LION',
+            'PANTHER',
+            'GARFIELD',
+            'WHISKERS'
           ],
           a: {
             very: {
