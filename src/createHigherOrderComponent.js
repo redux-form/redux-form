@@ -84,12 +84,14 @@ const createHigherOrderComponent = (config,
           }
           return submit;
         };
+        const {allPristine} = this.fields._meta;
+        const initialized = form._initialized;
         return !submitOrEvent || silenceEvent(submitOrEvent) ?
           // submitOrEvent is an event: fire submit
-          handleSubmit(check(onSubmit), getValues(fields, form), this.props, this.asyncValidate) :
+          handleSubmit(check(onSubmit), getValues(fields, form), this.props, this.asyncValidate, allPristine, initialized) :
           // submitOrEvent is the submit function: return deferred submit thunk
           silenceEvents(() =>
-            handleSubmit(check(submitOrEvent), getValues(fields, form), this.props, this.asyncValidate));
+            handleSubmit(check(submitOrEvent), getValues(fields, form), this.props, this.asyncValidate, allPristine, initialized));
       }
 
       render() {
