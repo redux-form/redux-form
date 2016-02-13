@@ -3205,6 +3205,8 @@ describe('reducer', () => {
           'person.name': (name) => name && name.toUpperCase(),
           'pets[].name': (name) => name && name.toLowerCase(),
           'cats[]': (array) => array && array.map(value => value.toUpperCase()),
+          'programming[].langs[]': (array) => array && array.slice(0).sort(),
+          'some.numbers[]': (array) => array && array.filter(n => n % 2 === 0),
           'a.very.deep.object.property': (value) => value && value.toUpperCase(),
           'my[].deeply[].nested.arrayItem': (value) => value && value.toUpperCase()
         }
@@ -3226,6 +3228,14 @@ describe('reducer', () => {
             'garfield',
             'whiskers'
           ],
+          programming: [{
+            langs: ['ml', 'ocaml', 'lisp', 'haskell', 'f#']
+          }, {
+            langs: ['smalltalk', 'ruby', 'java', 'c#', 'c++']
+          }],
+          some: {
+            numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+          },
           a: {
             very: {
               deep: {
@@ -3294,6 +3304,14 @@ describe('reducer', () => {
             'GARFIELD',
             'WHISKERS'
           ],
+          programming: [{
+            langs: ['f#', 'haskell', 'lisp', 'ml', 'ocaml']
+          }, {
+            langs: ['c#', 'c++', 'java', 'ruby', 'smalltalk']
+          }],
+          some: {
+            numbers: [2, 4, 6, 8, 10]
+          },
           a: {
             very: {
               deep: {

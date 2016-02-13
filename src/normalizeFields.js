@@ -31,24 +31,35 @@ function extractKey(field) {
 }
 
 function normalizeField(field, fullFieldPath, state, previousState, values, previousValues, normalizers) {
-  if (field.isArray && field.nestedPath) {
-    const array = state && state[field.key] || [];
-    const previousArray = previousState && previousState[field.key] || [];
-    const nestedField = extractKey(field.nestedPath);
+  if (field.isArray) {
+    if (field.nestedPath) {
+      const array = state && state[field.key] || [];
+      const previousArray = previousState && previousState[field.key] || [];
+      const nestedField = extractKey(field.nestedPath);
 
-    return array.map((nestedState, i) => {
-      nestedState[nestedField.key] = normalizeField(
-        nestedField,
-        fullFieldPath,
-        nestedState,
-        previousArray[i],
-        values,
-        previousValues,
-        normalizers
-      );
+      return array.map((nestedState, i) => {
+        nestedState[nestedField.key] = normalizeField(
+          nestedField,
+          fullFieldPath,
+          nestedState,
+          previousArray[i],
+          values,
+          previousValues,
+          normalizers
+        );
 
-      return nestedState;
-    });
+        return nestedState;
+      });
+    }
+
+    const normalizer = normalizers[fullFieldPath];
+
+    return normalizer(
+      state && state[field.key],
+      previousState && previousState[field.key],
+      values,
+      previousValues
+    );
   } else if (field.nestedPath) {
     const nestedState = state && state[field.key] || {};
     const nestedField = extractKey(field.nestedPath);
