@@ -1947,6 +1947,29 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.curly).toBe(curly);
   });
 
+  it('should only mutate the deep field that changed', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['address.street', 'address.postalCode']
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    const street = stub.props.fields.address.street;
+    const postalCode = stub.props.fields.address.postalCode;
+
+    postalCode.onChange('90210');
+
+    expect(stub.props.fields.address.street).toBe(street);
+    expect(stub.props.fields.address.postalCode).toNotBe(postalCode);
+  });
+
   it('should only rerender the form that changed', () => {
     const store = makeStore();
     const fooRender = createRestorableSpy().andReturn(<div/>);
