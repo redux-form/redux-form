@@ -1235,4 +1235,62 @@ describe('readFields', () => {
       readonly: false
     });
   });
+
+  it('should not modify existing field deep object on change', () => {
+    const props1 = {
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo.car', 'bar.far'],
+      focus,
+      form: {
+        foo: {
+          car: {
+            value: 'fooValue'
+          },
+        },
+        bar: {
+          far: {
+            value: 'barValue'
+          }
+        }
+      },
+      validate: noValidation
+    };
+    const result1 = readFields(props1, {}, {});
+    const foo1 = result1.foo;
+    const foocar1 = result1.foo.car;
+    const barfar1 = result1.bar.far;
+    expect(foocar1.value).toBe('fooValue');
+    const props2 = {
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo.car', 'bar.far'],
+      focus,
+      form: {
+        foo: {
+          car: {
+            value: 'newValue'
+          },
+        },
+        bar: {
+          far: {
+            value: 'barValue'
+          }
+        }
+      },
+      validate: noValidation
+    };
+    const result2 =
+      readFields(props2, props1, result1);
+    const foo2 = result2.foo;
+    const foocar2 = result2.foo.car;
+    const barfar2 = result2.bar.far;
+    expect(foocar1.value).toBe('fooValue');
+    expect(foocar2.value).toBe('newValue');
+    expect(foocar1).toNotBe(foocar2);
+    expect(barfar1).toBe(barfar2);
+    expect(foo1).toNotBe(foo2);
+  });
 });
