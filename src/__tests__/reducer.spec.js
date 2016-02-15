@@ -5,6 +5,16 @@ import {addArrayValue, blur, change, focus, initialize, removeArrayValue, reset,
   stopAsyncValidation, stopSubmit, swapArrayValues, touch, untouch, destroy} from '../actions';
 import {isFieldValue, makeFieldValue} from '../fieldValue';
 
+const compare = (a, b) => {
+  if (a.value > b.value) {
+    return 1;
+  }
+  if (a.value < b.value) {
+    return -1;
+  }
+  return 0;
+};
+
 describe('reducer', () => {
   it('should initialize state to {}', () => {
     const state = reducer();
@@ -3207,9 +3217,9 @@ describe('reducer', () => {
           'name': () => 'normalized',
           'person.name': (name) => name && name.toUpperCase(),
           'pets[].name': (name) => name && name.toLowerCase(),
-          'cats[]': (array) => array && array.map(value => value.toUpperCase()),
-          'programming[].langs[]': (array) => array && array.slice(0).sort(),
-          'some.numbers[]': (array) => array && array.filter(n => n % 2 === 0),
+          'cats[]': (array) => array && array.map(({value}) => ({value: value.toUpperCase()})),
+          'programming[].langs[]': (array) => array && array.slice(0).sort(compare),
+          'some.numbers[]': (array) => array && array.filter(({value}) => value % 2 === 0),
           'a.very.deep.object.property': (value) => value && value.toUpperCase(),
           'my[].deeply[].nested.item': (value) => value && value.toUpperCase()
         }
@@ -3310,9 +3320,9 @@ describe('reducer', () => {
         .toBeA('object')
         .toEqual({
           ...defaultFields,
-          name: { value: 'normalized' },
+          name: {value: 'normalized'},
           person: {
-            name: { value: 'JOHN DOE' }
+            name: {value: 'JOHN DOE'}
           },
           pets: [
             {name: {value: 'fido'}},
@@ -3377,13 +3387,13 @@ describe('reducer', () => {
           }, {
             deeply: [{
               nested: {
-                arrayItem: {value: 'WORLD'},
+                item: {value: 'WORLD'},
                 not: {value: 'lost'}
               },
               otherKey: {value: 'Later'}
             }, {
               nested: {
-                arrayItem: {value: 'MUNDO'},
+                item: {value: 'MUNDO'},
                 not: {value: 'lost'}
               },
               otherKey: {value: 'Hasta luego'}
