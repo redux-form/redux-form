@@ -6,6 +6,7 @@ import createOnFocus from './events/createOnFocus';
 import silencePromise from './silencePromise';
 import read from './read';
 import updateField from './updateField';
+import deepEqual from 'deep-equal';
 
 function getSuffix(input, closeIndex) {
   let suffix = input.substring(closeIndex + 1);
@@ -80,8 +81,16 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       fields[key] = {};
     }
     const nextPath = pathToHere + key + '.';
-    return readField(state[key] || {}, rest, nextPath, fields[key], syncErrors, asyncValidate,
+    const previous = fields[key];
+    const result = readField(state[key] || {}, rest, nextPath, fields[key], syncErrors, asyncValidate,
       isReactNative, props, callback, nextPath);
+    if (result !== previous) {
+      fields[key] = {
+        ...fields[key],
+        [key]: result
+      }
+    }
+    return result;
   }
   const name = pathToHere + fieldName;
   const field = fields[fieldName] || {};

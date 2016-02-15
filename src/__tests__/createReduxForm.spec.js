@@ -1961,11 +1961,13 @@ describe('createReduxForm', () => {
     );
     const stub = TestUtils.findRenderedComponentWithType(dom, Form);
 
+    const address = stub.props.fields.address;
     const street = stub.props.fields.address.street;
     const postalCode = stub.props.fields.address.postalCode;
 
     postalCode.onChange('90210');
 
+    expect(stub.props.fields.address).toNotBe(address);
     expect(stub.props.fields.address.street).toBe(street);
     expect(stub.props.fields.address.postalCode).toNotBe(postalCode);
   });
