@@ -6,7 +6,6 @@ import createOnFocus from './events/createOnFocus';
 import silencePromise from './silencePromise';
 import read from './read';
 import updateField from './updateField';
-import deepEqual from 'deep-equal';
 
 function getSuffix(input, closeIndex) {
   let suffix = input.substring(closeIndex + 1);
@@ -88,7 +87,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       fields[key] = {
         ...fields[key],
         [key]: result
-      }
+      };
     }
     return result;
   }

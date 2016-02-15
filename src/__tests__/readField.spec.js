@@ -389,7 +389,7 @@ describe('readField', () => {
     });
     const afterFoo = fields.foo;
     const afterField = fields.foo.baz;
-    expect(beforeFoo).toBe(afterFoo);         // field container instance should be same
+    expect(beforeFoo).toNotBe(afterFoo);         // field container instance should be same
     expect(beforeField).toNotBe(afterField);  // field instance should be different
   });
 
