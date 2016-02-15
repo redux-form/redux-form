@@ -7,6 +7,14 @@ import normalizeMax from './normalizers/normalizeMax';
 import normalizeMin from './normalizers/normalizeMin';
 import devToolsEnabled from '../devToolsEnabled';
 
+const normalizePhoneArray = (array, previousArray) => {
+  return array && array.map((item, index) =>
+    item && {
+      ...item,
+      value: normalizePhone(item.value, previousArray && previousArray[index] && previousArray[index].value)
+    });
+};
+
 const getCreateStore = () => {
   if (devToolsEnabled) {
     const {persistState} = require('redux-devtools');
@@ -22,6 +30,10 @@ const getCreateStore = () => {
 const reducer = combineReducers({
   alternate: form,  // for alternate mount point example
   form: form.normalize({
+    deep: {
+      'billing.phones[]': normalizePhoneArray,
+      'shipping.phones[]': normalizePhoneArray
+    },
     normalizing: {
       upper: value => value && value.toUpperCase(),
       phone: normalizePhone,

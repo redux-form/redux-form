@@ -48,7 +48,7 @@ export default class Example extends Component {
       <Form onSubmit={values => new Promise(resolve =>
         setTimeout(() => resolve(submit(values)), 500))}/>
 
-      {fields && <div>
+      {fields && false && <div>
         <h2>Values</h2>
 
         <p>Below is a readonly component that is listening to the values in the <code>{form}</code> Redux form.</p>
