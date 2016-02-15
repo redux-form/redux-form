@@ -360,7 +360,10 @@ describe('reducer', () => {
         _submitFailed: false
       }
     }, {
-      ...addArrayValue('myField', {foo: {a: 'foo-a3', b: 'foo-b3'}, bar: {a: 'bar-a3', b: 'bar-b3'}}, undefined),
+      ...addArrayValue('myField', {
+        foo: {a: 'foo-a3', b: 'foo-b3'},
+        bar: {a: 'bar-a3', b: 'bar-b3'}
+      }, undefined),
       form: 'testForm'
     });
     expect(state.testForm)
@@ -3081,8 +3084,8 @@ describe('reducer', () => {
             }
           },
           pets: [
-            { name: { value: 'Fido' } },
-            { name: { value: 'Tucker' } }
+            {name: {value: 'Fido'}},
+            {name: {value: 'Tucker'}}
           ]
         }
       });
@@ -3103,8 +3106,8 @@ describe('reducer', () => {
             }
           },
           pets: [
-            { name: { value: 'fido' } },
-            { name: { value: 'tucker' } }
+            {name: {value: 'fido'}},
+            {name: {value: 'tucker'}}
           ]
         });
     });
@@ -3136,7 +3139,7 @@ describe('reducer', () => {
       });
       state = normalizingReducer(state, {
         form: 'foo',
-        ...addArrayValue('pets', { name: 'Fido' })
+        ...addArrayValue('pets', {name: 'Fido'})
       });
       expect(state)
         .toExist()
@@ -3208,39 +3211,60 @@ describe('reducer', () => {
           'programming[].langs[]': (array) => array && array.slice(0).sort(),
           'some.numbers[]': (array) => array && array.filter(n => n % 2 === 0),
           'a.very.deep.object.property': (value) => value && value.toUpperCase(),
-          'my[].deeply[].nested.arrayItem': (value) => value && value.toUpperCase()
+          'my[].deeply[].nested.item': (value) => value && value.toUpperCase()
         }
       });
       const state = normalize({
         foo: {
           person: {
-            name: {
-              value: 'John Doe',
-            }
+            name: makeFieldValue({value: 'John Doe'})
           },
           pets: [
-            { name: { value: 'Fido' } },
-            { name: { value: 'Tucker' } }
+            {name: makeFieldValue({value: 'Fido'})},
+            {name: makeFieldValue({value: 'Tucker'})}
           ],
           cats: [
-            'lion',
-            'panther',
-            'garfield',
-            'whiskers'
+            makeFieldValue({value: 'lion'}),
+            makeFieldValue({value: 'panther'}),
+            makeFieldValue({value: 'garfield'}),
+            makeFieldValue({value: 'whiskers'})
           ],
           programming: [{
-            langs: ['ml', 'ocaml', 'lisp', 'haskell', 'f#']
+            langs: [
+              makeFieldValue({value: 'ml'}),
+              makeFieldValue({value: 'ocaml'}),
+              makeFieldValue({value: 'lisp'}),
+              makeFieldValue({value: 'haskell'}),
+              makeFieldValue({value: 'f#'})
+            ]
           }, {
-            langs: ['smalltalk', 'ruby', 'java', 'c#', 'c++']
+            langs: [
+              makeFieldValue({value: 'smalltalk'}),
+              makeFieldValue({value: 'ruby'}),
+              makeFieldValue({value: 'java'}),
+              makeFieldValue({value: 'c#'}),
+              makeFieldValue({value: 'c++'})
+            ]
           }],
           some: {
-            numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            numbers: [
+              makeFieldValue({value: 1}),
+              makeFieldValue({value: 2}),
+              makeFieldValue({value: 3}),
+              makeFieldValue({value: 4}),
+              makeFieldValue({value: 5}),
+              makeFieldValue({value: 6}),
+              makeFieldValue({value: 7}),
+              makeFieldValue({value: 8}),
+              makeFieldValue({value: 9}),
+              makeFieldValue({value: 10})
+            ]
           },
           a: {
             very: {
               deep: {
                 object: {
-                  property: { value: 'test' }
+                  property: makeFieldValue({value: 'test'})
                 }
               }
             }
@@ -3248,33 +3272,33 @@ describe('reducer', () => {
           my: [{
             deeply: [{
               nested: {
-                arrayItem: { value: 'hello' },
-                not: 'lost'
+                item: makeFieldValue({value: 'hello'}),
+                not: makeFieldValue({value: 'lost'})
               },
-              otherKey: { value: 'Goodbye' }
+              otherKey: makeFieldValue({value: 'Goodbye'})
             }, {
               nested: {
-                arrayItem: { value: 'hola' },
-                not: 'lost'
+                item: makeFieldValue({value: 'hola'}),
+                not: makeFieldValue({value: 'lost'})
               },
-              otherKey: { value: 'Adios' }
+              otherKey: makeFieldValue({value: 'Adios'})
             }],
-            stays: 'intact'
+            stays: makeFieldValue({value: 'intact'})
           }, {
             deeply: [{
               nested: {
-                arrayItem: { value: 'world' },
-                not: 'lost'
+                item: makeFieldValue({value: 'world'}),
+                not: makeFieldValue({value: 'lost'})
               },
-              otherKey: { value: 'Later' }
+              otherKey: makeFieldValue({value: 'Later'})
             }, {
               nested: {
-                arrayItem: { value: 'mundo' },
-                not: 'lost'
+                item: makeFieldValue({value: 'mundo'}),
+                not: makeFieldValue({value: 'lost'})
               },
-              otherKey: { value: 'Hasta luego' }
+              otherKey: makeFieldValue({value: 'Hasta luego'})
             }],
-            stays: 'intact'
+            stays: makeFieldValue({value: 'intact'})
           }]
         }
       });
@@ -3286,37 +3310,51 @@ describe('reducer', () => {
         .toBeA('object')
         .toEqual({
           ...defaultFields,
-          name: {
-            value: 'normalized'
-          },
+          name: { value: 'normalized' },
           person: {
-            name: {
-              value: 'JOHN DOE'
-            }
+            name: { value: 'JOHN DOE' }
           },
           pets: [
-            { name: { value: 'fido' } },
-            { name: { value: 'tucker' } }
+            {name: {value: 'fido'}},
+            {name: {value: 'tucker'}}
           ],
           cats: [
-            'LION',
-            'PANTHER',
-            'GARFIELD',
-            'WHISKERS'
+            {value: 'LION'},
+            {value: 'PANTHER'},
+            {value: 'GARFIELD'},
+            {value: 'WHISKERS'}
           ],
           programming: [{
-            langs: ['f#', 'haskell', 'lisp', 'ml', 'ocaml']
+            langs: [
+              {value: 'f#'},
+              {value: 'haskell'},
+              {value: 'lisp'},
+              {value: 'ml'},
+              {value: 'ocaml'}
+            ]
           }, {
-            langs: ['c#', 'c++', 'java', 'ruby', 'smalltalk']
+            langs: [
+              {value: 'c#'},
+              {value: 'c++'},
+              {value: 'java'},
+              {value: 'ruby'},
+              {value: 'smalltalk'}
+            ]
           }],
           some: {
-            numbers: [2, 4, 6, 8, 10]
+            numbers: [
+              {value: 2},
+              {value: 4},
+              {value: 6},
+              {value: 8},
+              {value: 10}
+            ]
           },
           a: {
             very: {
               deep: {
                 object: {
-                  property: { value: 'TEST' }
+                  property: {value: 'TEST'}
                 }
               }
             }
@@ -3324,35 +3362,73 @@ describe('reducer', () => {
           my: [{
             deeply: [{
               nested: {
-                arrayItem: { value: 'HELLO' },
-                not: 'lost'
+                item: {value: 'HELLO'},
+                not: {value: 'lost'}
               },
-              otherKey: { value: 'Goodbye' }
+              otherKey: {value: 'Goodbye'}
             }, {
               nested: {
-                arrayItem: { value: 'HOLA' },
-                not: 'lost'
+                item: {value: 'HOLA'},
+                not: {value: 'lost'}
               },
-              otherKey: { value: 'Adios' }
+              otherKey: {value: 'Adios'}
             }],
-            stays: 'intact'
+            stays: {value: 'intact'}
           }, {
             deeply: [{
               nested: {
-                arrayItem: { value: 'WORLD' },
-                not: 'lost'
+                arrayItem: {value: 'WORLD'},
+                not: {value: 'lost'}
               },
-              otherKey: { value: 'Later' }
+              otherKey: {value: 'Later'}
             }, {
               nested: {
-                arrayItem: { value: 'MUNDO' },
-                not: 'lost'
+                arrayItem: {value: 'MUNDO'},
+                not: {value: 'lost'}
               },
-              otherKey: { value: 'Hasta luego' }
+              otherKey: {value: 'Hasta luego'}
             }],
-            stays: 'intact'
+            stays: {value: 'intact'}
           }]
         });
+      expect(isFieldValue(state.foo.name)).toBe(true);
+      expect(isFieldValue(state.foo.person.name)).toBe(true);
+      expect(isFieldValue(state.foo.pets[0].name)).toBe(true);
+      expect(isFieldValue(state.foo.pets[1].name)).toBe(true);
+      expect(isFieldValue(state.foo.cats[0])).toBe(true);
+      expect(isFieldValue(state.foo.cats[1])).toBe(true);
+      expect(isFieldValue(state.foo.cats[2])).toBe(true);
+      expect(isFieldValue(state.foo.cats[3])).toBe(true);
+      expect(isFieldValue(state.foo.programming[0].langs[0])).toBe(true);
+      expect(isFieldValue(state.foo.programming[0].langs[1])).toBe(true);
+      expect(isFieldValue(state.foo.programming[0].langs[2])).toBe(true);
+      expect(isFieldValue(state.foo.programming[0].langs[3])).toBe(true);
+      expect(isFieldValue(state.foo.programming[0].langs[4])).toBe(true);
+      expect(isFieldValue(state.foo.programming[1].langs[0])).toBe(true);
+      expect(isFieldValue(state.foo.programming[1].langs[1])).toBe(true);
+      expect(isFieldValue(state.foo.programming[1].langs[2])).toBe(true);
+      expect(isFieldValue(state.foo.programming[1].langs[3])).toBe(true);
+      expect(isFieldValue(state.foo.programming[1].langs[4])).toBe(true);
+      expect(isFieldValue(state.foo.some.numbers[0])).toBe(true);
+      expect(isFieldValue(state.foo.some.numbers[1])).toBe(true);
+      expect(isFieldValue(state.foo.some.numbers[2])).toBe(true);
+      expect(isFieldValue(state.foo.some.numbers[3])).toBe(true);
+      expect(isFieldValue(state.foo.some.numbers[4])).toBe(true);
+      expect(isFieldValue(state.foo.a.very.deep.object.property)).toBe(true);
+      expect(isFieldValue(state.foo.my[0].deeply[0].nested.item)).toBe(true);
+      expect(isFieldValue(state.foo.my[0].deeply[0].nested.not)).toBe(true);
+      expect(isFieldValue(state.foo.my[0].deeply[0].otherKey)).toBe(true);
+      expect(isFieldValue(state.foo.my[0].deeply[1].nested.item)).toBe(true);
+      expect(isFieldValue(state.foo.my[0].deeply[1].nested.not)).toBe(true);
+      expect(isFieldValue(state.foo.my[0].deeply[1].otherKey)).toBe(true);
+      expect(isFieldValue(state.foo.my[0].stays)).toBe(true);
+      expect(isFieldValue(state.foo.my[1].deeply[0].nested.item)).toBe(true);
+      expect(isFieldValue(state.foo.my[1].deeply[0].nested.not)).toBe(true);
+      expect(isFieldValue(state.foo.my[1].deeply[0].otherKey)).toBe(true);
+      expect(isFieldValue(state.foo.my[1].deeply[1].nested.item)).toBe(true);
+      expect(isFieldValue(state.foo.my[1].deeply[1].nested.not)).toBe(true);
+      expect(isFieldValue(state.foo.my[1].deeply[1].otherKey)).toBe(true);
+      expect(isFieldValue(state.foo.my[1].stays)).toBe(true);
     });
   });
 });
