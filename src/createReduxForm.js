@@ -21,7 +21,8 @@ const createReduxForm =
           render() {
             return (<ReduxFormConnector
               {...configWithDefaults}
-              {...this.props}/>);
+              {...this.props}
+              submitPassback={submit => this.submit = submit}/>);
           }
         }
         return hoistStatics(ConnectedForm, WrappedComponent);

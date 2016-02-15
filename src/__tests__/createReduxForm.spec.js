@@ -924,9 +924,9 @@ describe('createReduxForm', () => {
         <Decorated onSubmit={submit}/>
       </Provider>
     );
-    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+    const formElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
 
-    TestUtils.Simulate.submit(button);
+    TestUtils.Simulate.submit(formElement);
   });
 
   it('should call async onSubmit prop', (done) => {
@@ -965,9 +965,9 @@ describe('createReduxForm', () => {
         <Decorated onSubmit={submit}/>
       </Provider>
     );
-    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+    const formElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
 
-    TestUtils.Simulate.submit(button);
+    TestUtils.Simulate.submit(formElement);
   });
 
   it('should NOT call async validation if form is pristine and initialized', () => {
@@ -1076,9 +1076,9 @@ describe('createReduxForm', () => {
         <Decorated/>
       </Provider>
     );
-    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+    const formElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
 
-    TestUtils.Simulate.submit(button);
+    TestUtils.Simulate.submit(formElement);
 
     expect(asyncValidate).toHaveBeenCalled();
     expect(submit).toNotHaveBeenCalled();
@@ -1117,9 +1117,9 @@ describe('createReduxForm', () => {
         <Decorated />
       </Provider>
     );
-    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+    const formElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
 
-    TestUtils.Simulate.submit(button);
+    TestUtils.Simulate.submit(formElement);
   });
 
   it('should call submit function passed to async handleSubmit', (done) => {
@@ -1159,9 +1159,9 @@ describe('createReduxForm', () => {
         <Decorated />
       </Provider>
     );
-    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
+    const formElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'form');
 
-    TestUtils.Simulate.submit(button);
+    TestUtils.Simulate.submit(formElement);
   });
 
   it('should initialize a non-array field with an array value and let it read it back', () => {
@@ -2013,6 +2013,105 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.contact).toNotBe(contact);
     expect(stub.props.fields.contact.billing).toBe(billing);
     expect(stub.props.fields.contact.billing.phones).toBe(billingPhones);
+  });
+
+  it('should provide a submit() method to submit the form', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const initialValues = {firstName: 'Bobby', lastName: 'Tables', age: 12};
+    const onSubmit = createSpy().andReturn(Promise.resolve());
+    const Decorated = reduxForm({
+      form,
+      fields: ['firstName', 'lastName', 'age'],
+      initialValues,
+      onSubmit
+    })(Form);
+
+    class Container extends Component {
+      constructor(props) {
+        super(props);
+        this.submitFromParent = this.submitFromParent.bind(this);
+      }
+
+      submitFromParent() {
+        this.refs.myForm.submit();
+      }
+
+      render() {
+        return (
+          <div>
+            <Decorated ref="myForm"/>
+            <button type="button" onClick={this.submitFromParent}>Submit From Parent</button>
+          </div>
+        );
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Container/>
+      </Provider>
+    );
+
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button');
+
+    expect(onSubmit).toNotHaveBeenCalled();
+
+    TestUtils.Simulate.click(button);
+
+    expect(onSubmit)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith(initialValues, store.dispatch);
+  });
+
+  it('submitting from parent should fail if sync validation errors', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const initialValues = {firstName: 'Bobby', lastName: 'Tables', age: 12};
+    const onSubmit = createSpy().andReturn(Promise.resolve());
+    const validate = createSpy().andReturn({firstName: 'Go to your room, Bobby.'});
+    const Decorated = reduxForm({
+      form,
+      fields: ['firstName', 'lastName', 'age'],
+      initialValues,
+      onSubmit,
+      validate
+    })(Form);
+
+    class Container extends Component {
+      constructor(props) {
+        super(props);
+        this.submitFromParent = this.submitFromParent.bind(this);
+      }
+
+      submitFromParent() {
+        this.refs.myForm.submit();
+      }
+
+      render() {
+        return (
+          <div>
+            <Decorated ref="myForm"/>
+            <button type="button" onClick={this.submitFromParent}>Submit From Parent</button>
+          </div>
+        );
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Container/>
+      </Provider>
+    );
+
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button');
+
+    expect(onSubmit).toNotHaveBeenCalled();
+
+    TestUtils.Simulate.click(button);
+
+    expect(validate).toHaveBeenCalled();
+    expect(onSubmit).toNotHaveBeenCalled();
   });
 
   it('should only rerender the form that changed', () => {

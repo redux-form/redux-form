@@ -34,6 +34,8 @@ const createHigherOrderComponent = (config,
         this.asyncValidate = this.asyncValidate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.fields = readFields(props, {}, {}, this.asyncValidate, isReactNative);
+        const {submitPassback} = this.props;
+        submitPassback(() => this.handleSubmit());  // wrapped in function to disallow params
       }
 
       componentWillMount() {
@@ -153,6 +155,7 @@ const createHigherOrderComponent = (config,
       propNamespace: PropTypes.string,
       readonly: PropTypes.bool,
       returnRejectedSubmitPromise: PropTypes.bool,
+      submitPassback: PropTypes.func.isRequired,
       validate: PropTypes.func,
 
       // actions:
@@ -202,7 +205,10 @@ const createHigherOrderComponent = (config,
           }
           return formState && formState[formName] && formState[formName][formKey];
         }),
-        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {form: formName, key: formKey})),
+        wrapMapDispatchToProps(mapDispatchToProps, bindActionData(unboundActions, {
+          form: formName,
+          key: formKey
+        })),
         mergeProps,
         options
       ) :
