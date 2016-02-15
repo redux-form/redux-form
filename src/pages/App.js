@@ -44,6 +44,7 @@ export default class App extends Component {
               <LinkContainer to="/examples/multirecord"><MenuItem>Multirecord Forms</MenuItem></LinkContainer>
               <LinkContainer to="/examples/wizard"><MenuItem>Multi-Page "Wizard" Forms</MenuItem></LinkContainer>
               <LinkContainer to="/examples/normalizing"><MenuItem>Normalizing Form Values</MenuItem></LinkContainer>
+              <LinkContainer to="/examples/submit-from-parent"><MenuItem>Submit From Parent</MenuItem></LinkContainer>
               <LinkContainer to="/examples/alternate-mount-point"><MenuItem>Alternate Redux Mount Point</MenuItem></LinkContainer>
             </NavDropdown>
             <NavItem href="https://github.com/erikras/redux-form"

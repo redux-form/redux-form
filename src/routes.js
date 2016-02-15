@@ -11,6 +11,7 @@ import File from 'pages/examples/File';
 import Wizard from 'pages/examples/Wizard';
 import Deep from 'pages/examples/Deep';
 import SynchronousValidation from 'pages/examples/SynchronousValidation';
+import SubmitFromParent from 'pages/examples/SubmitFromParent';
 import SubmitValidation from 'pages/examples/SubmitValidation';
 import AsynchronousBlurValidation from 'pages/examples/AsynchronousBlurValidation';
 import AlternateMountPoint from 'pages/examples/AlternateMountPoint';
@@ -66,6 +67,7 @@ const routes = (
       <Route path="/examples/wizard" component={Wizard}/>
       <Route path="/examples/submit-validation" component={SubmitValidation}/>
       <Route path="/examples/synchronous-validation" component={SynchronousValidation}/>
+      <Route path="/examples/submit-from-parent" component={SubmitFromParent}/>
       <Route path="/faq" component={markdownPage(Faq)}/>
       <Route path="/faq/submit-function" component={markdownPage(FaqSubmitFunction)}/>
       <Route path="/faq/handle-vs-on" component={markdownPage(FaqHandleVsOn)}/>

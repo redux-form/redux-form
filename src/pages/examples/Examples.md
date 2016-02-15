@@ -86,6 +86,12 @@ To download and run these examples locally, you should clone the
 
 ---
   
+### [Submit From Parent](#/examples/submit-from-parent)
+
+> How to submit your form from its parent component.
+
+---
+  
 # Advanced Examples
 
 ---
