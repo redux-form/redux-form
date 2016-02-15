@@ -60,7 +60,7 @@ function normalizeField(field, fullFieldPath, state, previousState, values, prev
       values,
       previousValues
     );
-    return field.isArray ? result.map(makeFieldValue) : result;
+    return field.isArray ? result && result.map(makeFieldValue) : result;
   } else if (field.nestedPath) {
     const nestedState = state && state[field.key] || {};
     const nestedField = extractKey(field.nestedPath);

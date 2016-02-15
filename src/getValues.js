@@ -24,7 +24,7 @@ const getValue = (field, state, dest) => {
         getValue(rest, item, dest[key][index]);
       });
     } else {
-      dest[key] = array.map(item => item.value);
+      dest[key] = array.map(item => item && item.value);
     }
   } else if (dotIndex > 0) {
     // subobject field
