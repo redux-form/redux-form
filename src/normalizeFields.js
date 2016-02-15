@@ -54,12 +54,13 @@ function normalizeField(field, fullFieldPath, state, previousState, values, prev
 
     const normalizer = normalizers[fullFieldPath];
 
-    return normalizer(
+    const result = normalizer(
       state && state[field.key],
       previousState && previousState[field.key],
       values,
       previousValues
     );
+    return field.isArray ? result && result.map(makeFieldValue) : result;
   } else if (field.nestedPath) {
     const nestedState = state && state[field.key] || {};
     const nestedField = extractKey(field.nestedPath);

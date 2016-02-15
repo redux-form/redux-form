@@ -15,6 +15,15 @@ function getSuffix(input, closeIndex) {
   return suffix;
 }
 
+const getNextKey = path => {
+  const dotIndex = path.indexOf('.');
+  const openIndex = path.indexOf('[');
+  if (openIndex > 0 && (dotIndex < 0 || openIndex < dotIndex)) {
+    return path.substring(0, openIndex);
+  }
+  return dotIndex > 0 ? path.substring(0, dotIndex) : path;
+};
+
 const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props, callback = () => null, prefix = '') => {
   const {asyncBlurFields, blur, change, focus, form, initialValues, readonly, addArrayValue,
     removeArrayValue, swapArrayValues} = props;
@@ -39,22 +48,28 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
         return accumulator;
       }, [])
       .map(field => getSuffix(field, prefix.length + closeIndex));
-    if (!fields[key] || fields[key].length !== stateArray.length) {
-      fields[key] = fields[key] ? [...fields[key]] : [];
-      Object.defineProperty(fields[key], 'addField', {
+    const addMethods = dest => {
+      Object.defineProperty(dest, 'addField', {
         value: (value, index) => addArrayValue(pathToHere + key, value, index, subfields)
       });
-      Object.defineProperty(fields[key], 'removeField', {
+      Object.defineProperty(dest, 'removeField', {
         value: index => removeArrayValue(pathToHere + key, index)
       });
-      Object.defineProperty(fields[key], 'swapFields', {
+      Object.defineProperty(dest, 'swapFields', {
         value: (indexA, indexB) => swapArrayValues(pathToHere + key, indexA, indexB)
       });
+      return dest;
+    };
+    if (!fields[key] || fields[key].length !== stateArray.length) {
+      fields[key] = fields[key] ? [...fields[key]] : [];
+      addMethods(fields[key]);
     }
     const fieldArray = fields[key];
+    let changed = false;
     stateArray.forEach((fieldState, index) => {
       if (rest && !fieldArray[index]) {
         fieldArray[index] = {};
+        changed = true;
       }
       const dest = rest ? fieldArray[index] : {};
       const nextPath = `${pathToHere}${key}[${index}]${rest ? '.' : ''}`;
@@ -62,34 +77,36 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
 
       const result = readField(fieldState, rest, nextPath, dest, syncErrors,
         asyncValidate, isReactNative, props, callback, nextPrefix);
-      if (!rest) { // if nothing after [] in field name, assign directly to array
+      if (!rest && fieldArray[index] !== result) {
+        // if nothing after [] in field name, assign directly to array
         fieldArray[index] = result;
+        changed = true;
       }
     });
     if (fieldArray.length > stateArray.length) {
       // remove extra items that aren't in state array
       fieldArray.splice(stateArray.length, fieldArray.length - stateArray.length);
     }
-    return fieldArray;
+    return changed ? addMethods([...fieldArray]) : fieldArray;
   }
   if (dotIndex > 0) {
     // subobject field
     const key = fieldName.substring(0, dotIndex);
     const rest = fieldName.substring(dotIndex + 1);
-    if (!fields[key]) {
-      fields[key] = {};
-    }
+    let subobject = fields[key] || {};
     const nextPath = pathToHere + key + '.';
-    const previous = fields[key];
-    const result = readField(state[key] || {}, rest, nextPath, fields[key], syncErrors, asyncValidate,
+    const nextKey = getNextKey(rest);
+    const previous = subobject[nextKey];
+    const result = readField(state[key] || {}, rest, nextPath, subobject, syncErrors, asyncValidate,
       isReactNative, props, callback, nextPath);
     if (result !== previous) {
-      fields[key] = {
-        ...fields[key],
-        [key]: result
+      subobject = {
+        ...subobject,
+        [nextKey]: result
       };
     }
-    return result;
+    fields[key] = subobject;
+    return subobject;
   }
   const name = pathToHere + fieldName;
   const field = fields[fieldName] || {};

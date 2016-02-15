@@ -1947,7 +1947,7 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.curly).toBe(curly);
   });
 
-  it('should only mutate the deep field that changed', () => {
+  it('should only change the deep field that changed', () => {
     const store = makeStore();
     const form = 'testForm';
     const Decorated = reduxForm({
@@ -1970,6 +1970,49 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.address).toNotBe(address);
     expect(stub.props.fields.address.street).toBe(street);
     expect(stub.props.fields.address.postalCode).toNotBe(postalCode);
+  });
+
+  it('should change field tree up to array that changed', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: ['contact.shipping.phones[]', 'contact.billing.phones[]']
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    let contact = stub.props.fields.contact;
+    let shipping = stub.props.fields.contact.shipping;
+    let shippingPhones = stub.props.fields.contact.shipping.phones;
+    const billing = stub.props.fields.contact.billing;
+    const billingPhones = stub.props.fields.contact.billing.phones;
+
+    shippingPhones.addField();
+
+    expect(stub.props.fields.contact.shipping.phones).toNotBe(shippingPhones);
+    expect(stub.props.fields.contact.shipping).toNotBe(shipping);
+    expect(stub.props.fields.contact).toNotBe(contact);
+    expect(stub.props.fields.contact.billing).toBe(billing);
+    expect(stub.props.fields.contact.billing.phones).toBe(billingPhones);
+
+    contact = stub.props.fields.contact;
+    shipping = stub.props.fields.contact.shipping;
+    shippingPhones = stub.props.fields.contact.shipping.phones;
+    const shippingPhones0 = stub.props.fields.contact.shipping.phones[0];
+
+    shippingPhones[0].onChange('555-1234');
+
+    expect(stub.props.fields.contact.shipping.phones[0]).toNotBe(shippingPhones0);
+    expect(stub.props.fields.contact.shipping.phones).toNotBe(shippingPhones);
+    expect(stub.props.fields.contact.shipping).toNotBe(shipping);
+    expect(stub.props.fields.contact).toNotBe(contact);
+    expect(stub.props.fields.contact.billing).toBe(billing);
+    expect(stub.props.fields.contact.billing.phones).toBe(billingPhones);
   });
 
   it('should only rerender the form that changed', () => {
