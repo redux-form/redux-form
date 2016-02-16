@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route, browserHistory} from 'react-router';
+import {Router, Route, hashHistory} from 'react-router';
 import markdownPage from 'components/markdownPage';
 import App from 'pages/App';
 import Home from 'pages/Home';
@@ -38,7 +38,7 @@ import ApiActionCreators from 'pages/api/ActionCreators.md';
 import ApiGetValues from 'pages/api/GetValues.md';
 
 const routes = (
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route component={App}>
       <Route path="/" component={Home}/>
       <Route path="/api" component={markdownPage(Api)}/>
