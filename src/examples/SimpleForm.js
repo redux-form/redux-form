@@ -18,9 +18,7 @@ class SimpleForm extends Component {
       resetForm,
       submitting
       } = this.props;
-    return (<form className="form-horizontal" onSubmit={handleSubmit(() => {
-      this.props.onSubmit();
-    })}>
+    return (<form className="form-horizontal" onSubmit={handleSubmit}>
         <div className="form-group">
           <label className="col-xs-4 control-label">First Name</label>
           <div className="col-xs-8">
