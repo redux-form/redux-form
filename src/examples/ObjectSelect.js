@@ -24,18 +24,18 @@ class ObjectSelect extends Component {
         const result = [];
         // event.target.selectedOptions is a NodeList, not an array. Gross.
         for (let index = 0; index < event.target.selectedOptions.length; index++) {
-          result.push(JSON.parse(event.target.selectedOptions[index].value));
+          result.push(event.target.selectedOptions[index].value);
         }
         return result;
       }
-      return JSON.parse(event.target.value);
+      return event.target.value;
     };
     return (
       <select
         multiple={multiple}
         onBlur={event => onBlur(parse(event))}
         onChange={event => onChange(parse(event))}
-        value={multiple ? value.map(JSON.stringify) : JSON.stringify(value)}
+        value={value}
         {...rest}>
         {options.map(option =>
           <option key={option.id} value={JSON.stringify(option)}>{option.label}</option>)}
