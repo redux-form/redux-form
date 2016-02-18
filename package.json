@@ -19,7 +19,8 @@
     "prepublish": "npm run test && npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js",
     "test:watch": "npm test -- --watch",
-    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js"
+    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js",
+    "test:codecov": "cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "keywords": [
     "react",
@@ -72,6 +73,7 @@
     "babel-plugin-transform-react-display-name": "^6.4.0",
     "babel-plugin-transform-react-jsx": "^6.4.0",
     "babel-register": "^6.3.13",
+    "codecov.io": "^0.1.6",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^0.1.0",
     "eslint-plugin-react": "^3.16.1",
@@ -79,6 +81,7 @@
     "isparta": "^4.0.0",
     "jsdom": "~5.4.3",
     "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.1.0",
     "react": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-dom": "^0.14.7",

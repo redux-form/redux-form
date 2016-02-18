@@ -9,8 +9,6 @@ script:
   - npm run lint
   - npm test
 
-before_install:
-  - pip install codecov
-
 after_success:
-  - codecov
+  - npm run test:cov
+  - npm run test:codecov
