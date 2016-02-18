@@ -17,7 +17,9 @@
     "coverage": "istanbul cover src/__tests__/setup.js",
     "lint": "eslint src",
     "prepublish": "npm run test && npm run clean && npm run build",
-    "test": "npm run lint && mocha --compilers js:babel-register --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js"
+    "test": "mocha --compilers js:babel-register --recursive --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js",
+    "test:watch": "npm test -- --watch",
+    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js"
   },
   "keywords": [
     "react",
@@ -42,11 +44,13 @@
     "react-lazy-cache": "^3.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.3.15",
-    "babel-core": "^6.3.15",
-    "babel-eslint": "^4.1.6",
+    "babel-cli": "^6.3.17",
+    "babel-core": "^6.3.26",
+    "babel-eslint": "^5.0.0-beta9",
     "babel-loader": "^6.2.0",
     "babel-plugin-check-es2015-constants": "^6.3.13",
+    "babel-plugin-syntax-jsx": "^6.3.13",
+    "babel-plugin-transform-decorators-legacy": "^1.2.0",
     "babel-plugin-transform-es2015-arrow-functions": "^6.3.13",
     "babel-plugin-transform-es2015-block-scoped-functions": "^6.3.13",
     "babel-plugin-transform-es2015-block-scoping": "^6.3.13",

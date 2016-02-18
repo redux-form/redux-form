@@ -1,5 +1,6 @@
 {
-  "plugins": [
+  plugins: [
+    "transform-decorators-legacy",
     ["transform-es2015-template-literals", { "loose": true }],
     "transform-es2015-literals",
     "transform-es2015-function-name",
@@ -17,18 +18,9 @@
     "transform-es2015-parameters",
     ["transform-es2015-destructuring", { "loose": true }],
     "transform-es2015-block-scoping",
-    "transform-object-rest-spread"
-  ],
-  "env": {
-    "commonjs": {
-      "plugins": [
-        ["transform-es2015-modules-commonjs", { "loose": true }]
-      ]
-    },
-    "es": {
-      "plugins": [
-        "./build/use-lodash-es"
-      ]
-    }
-  }
+    ["transform-es2015-modules-commonjs", { "loose": true }],
+    "transform-object-rest-spread",
+    "transform-react-jsx",
+    "syntax-jsx"
+  ]
 }
