@@ -1,4 +1,5 @@
 .idea
+coverage
 node_modules
 dist
 lib

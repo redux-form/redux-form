@@ -8,3 +8,9 @@ node_js:
 script:
   - npm run lint
   - npm test
+
+before_install:
+  - pip install codecov
+
+after_success:
+  - codecov
