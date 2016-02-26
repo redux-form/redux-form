@@ -25,7 +25,7 @@ render() {
       
       <button type="submit">Submit</button>
       <button type="button">Do Something Else</button>
-    </div>
+    </form>
   );
 }
 ```
