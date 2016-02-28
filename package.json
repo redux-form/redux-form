@@ -11,8 +11,8 @@
   "scripts": {
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
     "build:lib": "babel src --out-dir lib",
-    "build:umd": "webpack src/index.js dist/redux-form.js --config webpack.config.development.js",
-    "build:umd:min": "webpack src/index.js dist/redux-form.min.js --config webpack.config.production.js",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/redux-form.js",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
     "clean": "rimraf dist lib",
     "coverage": "istanbul cover src/__tests__/setup.js",
     "lint": "eslint src",
@@ -74,6 +74,7 @@
     "babel-plugin-transform-react-jsx": "^6.4.0",
     "babel-register": "^6.3.13",
     "codecov.io": "^0.1.6",
+    "cross-env": "^1.0.7",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^0.1.0",
     "eslint-plugin-react": "^3.16.1",
