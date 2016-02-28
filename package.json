@@ -11,13 +11,13 @@
   "scripts": {
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
     "build:lib": "babel src --out-dir lib",
-    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/redux-form.js",
-    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
     "clean": "rimraf dist lib",
     "coverage": "istanbul cover src/__tests__/setup.js",
     "lint": "eslint src",
     "prepublish": "npm run test && npm run clean && npm run build",
-    "test": "mocha --compilers js:babel-register --recursive --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js",
+    "test": "mocha --compilers js:babel-register --recursive --recursive src/**/__tests__/* --require src/__tests__/setup.js",
     "test:watch": "npm test -- --watch",
     "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js",
     "test:codecov": "cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js"
