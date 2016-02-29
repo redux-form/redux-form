@@ -588,7 +588,7 @@ describe('createReduxForm', () => {
       validate: values => {
         const errors = {};
         if (values.foo.bar && values.foo.bar.length > 8) {
-          errors.foo = {bar: 'Too long'};
+          errors.foo = { bar: 'Too long' };
         }
         return errors;
       }
@@ -652,7 +652,7 @@ describe('createReduxForm', () => {
           errors.foo = ['Too long'];
         }
         if (values.bar && values.bar.length && values.bar[0] && values.bar[0].name === 'Ralphie') {
-          errors.bar = [{name: `You'll shoot your eye out, kid!`}];
+          errors.bar = [{ name: `You'll shoot your eye out, kid!` }];
         }
         return errors;
       }
@@ -727,7 +727,7 @@ describe('createReduxForm', () => {
     expect(stub.props.invalid).toBe(true);
     expect(stub.props.errors).toEqual({
       foo: ['Too long'],
-      bar: [{name: `You'll shoot your eye out, kid!`}]
+      bar: [{ name: `You'll shoot your eye out, kid!` }]
     });
   });
 
@@ -857,7 +857,7 @@ describe('createReduxForm', () => {
       form,
       fields: ['children[].name'],
       initialValues: {
-        children: [{name: 'Tom'}, {name: 'Jerry'}]
+        children: [{ name: 'Tom' }, { name: 'Jerry' }]
       }
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -973,7 +973,7 @@ describe('createReduxForm', () => {
   it('should NOT call async validation if form is pristine and initialized', () => {
     const store = makeStore();
     const form = 'testForm';
-    const errorValue = {foo: 'no bears allowed'};
+    const errorValue = { foo: 'no bears allowed' };
     const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
     const Decorated = reduxForm({
       form,
@@ -999,7 +999,7 @@ describe('createReduxForm', () => {
   it('should call async validation if form is dirty and initialized', () => {
     const store = makeStore();
     const form = 'testForm';
-    const errorValue = {foo: 'no bears allowed'};
+    const errorValue = { foo: 'no bears allowed' };
     const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
     const Decorated = reduxForm({
       form,
@@ -1025,7 +1025,7 @@ describe('createReduxForm', () => {
   it('should call async validation if form is pristine and NOT initialized', () => {
     const store = makeStore();
     const form = 'testForm';
-    const errorValue = {foo: 'no bears allowed'};
+    const errorValue = { foo: 'no bears allowed' };
     const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
     const Decorated = reduxForm({
       form,
@@ -1059,7 +1059,7 @@ describe('createReduxForm', () => {
 
     const store = makeStore();
     const form = 'testForm';
-    const errorValue = {foo: 'no dogs allowed'};
+    const errorValue = { foo: 'no dogs allowed' };
     const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
     const Decorated = reduxForm({
       form,
@@ -1307,7 +1307,7 @@ describe('createReduxForm', () => {
     const before = stub.props.fields.users;
 
     // add field
-    stub.props.fields.users.addField({name: 'Bob', age: 27});
+    stub.props.fields.users.addField({ name: 'Bob', age: 27 });
 
     // check field
     expect(stub.props.fields.users.length).toBe(1);
@@ -1558,6 +1558,44 @@ describe('createReduxForm', () => {
     });
   });
 
+  // Test to demonstrate https://github.com/erikras/redux-form/issues/612
+  //it('should work with a root-level array field', () => {
+  //  const store = makeStore();
+  //  const form = 'testForm';
+  //  const Decorated = reduxForm({
+  //    form,
+  //    fields: ['tags[]']
+  //  })(Form);
+  //  const dom = TestUtils.renderIntoDocument(
+  //    <Provider store={store}>
+  //      <Decorated/>
+  //    </Provider>
+  //  );
+  //  const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+  //
+  //  expect(stub.props.fields.tags).toBeA('array');
+  //  expect(stub.props.fields.tags.length).toBe(0);
+  //  expect(stub.props.fields.tags.addField).toBeA('function');
+  //
+  //  // add field
+  //  stub.props.fields.proposals.addField('foo');
+  //
+  //  // check field
+  //  expect(stub.props.fields.tags.length).toBe(1);
+  //  expect(stub.props.fields.tags[0]).toBeA('object');
+  //  expectField({
+  //    field: stub.props.fields.tags[0],
+  //    name: 'tags[0]',
+  //    value: 'foo',
+  //    initial: 'foo',
+  //    valid: true,
+  //    dirty: false,
+  //    error: undefined,
+  //    touched: false,
+  //    visited: false
+  //  });
+  //});
+
   it('should initialize an array field, blowing away existing value', () => {
     const store = makeStore();
     const form = 'testForm';
@@ -1587,7 +1625,7 @@ describe('createReduxForm', () => {
       visited: false
     });
     // initialize new values
-    stub.props.initializeForm({children: [3, 4]});
+    stub.props.initializeForm({ children: [3, 4] });
     // check value
     expectField({
       field: stub.props.fields.children,
@@ -1702,7 +1740,7 @@ describe('createReduxForm', () => {
       });
 
     // manually initialize new values
-    stub2.props.initializeForm({name: 'Tom'});
+    stub2.props.initializeForm({ name: 'Tom' });
     // check value
     expectField({
       field: stub2.props.fields.name,
@@ -1750,7 +1788,7 @@ describe('createReduxForm', () => {
       visited: false
     });
     // manually initialize new values
-    stub.props.initializeForm({name: 'Tom'});
+    stub.props.initializeForm({ name: 'Tom' });
     // check state
     expect(store.getState().form.testForm.name)
       .toEqual({
@@ -1781,7 +1819,7 @@ describe('createReduxForm', () => {
     const Decorated = reduxForm({
       form,
       fields: ['name'],
-      validate: () => ({name: deepError})
+      validate: () => ({ name: deepError })
     })(Form);
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
@@ -1813,8 +1851,8 @@ describe('createReduxForm', () => {
     const Decorated = reduxForm({
       form,
       fields: ['name'],
-      initialValues: {name: 'Tom'},
-      asyncValidate: () => Promise.reject({name: deepError})
+      initialValues: { name: 'Tom' },
+      asyncValidate: () => Promise.reject({ name: deepError })
     })(Form);
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
@@ -1875,8 +1913,8 @@ describe('createReduxForm', () => {
     const Decorated = reduxForm({
       form,
       fields: ['name'],
-      initialValues: {name: 'Tom'},
-      onSubmit: () => Promise.reject({name: deepError})
+      initialValues: { name: 'Tom' },
+      onSubmit: () => Promise.reject({ name: deepError })
     })(Form);
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
@@ -2018,7 +2056,7 @@ describe('createReduxForm', () => {
   it('should provide a submit() method to submit the form', () => {
     const store = makeStore();
     const form = 'testForm';
-    const initialValues = {firstName: 'Bobby', lastName: 'Tables', age: 12};
+    const initialValues = { firstName: 'Bobby', lastName: 'Tables', age: 12 };
     const onSubmit = createSpy().andReturn(Promise.resolve());
     const Decorated = reduxForm({
       form,
@@ -2067,9 +2105,9 @@ describe('createReduxForm', () => {
   it('submitting from parent should fail if sync validation errors', () => {
     const store = makeStore();
     const form = 'testForm';
-    const initialValues = {firstName: 'Bobby', lastName: 'Tables', age: 12};
+    const initialValues = { firstName: 'Bobby', lastName: 'Tables', age: 12 };
     const onSubmit = createSpy().andReturn(Promise.resolve());
-    const validate = createSpy().andReturn({firstName: 'Go to your room, Bobby.'});
+    const validate = createSpy().andReturn({ firstName: 'Go to your room, Bobby.' });
     const Decorated = reduxForm({
       form,
       fields: ['firstName', 'lastName', 'age'],
