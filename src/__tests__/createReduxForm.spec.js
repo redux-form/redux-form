@@ -2351,9 +2351,10 @@ describe('createReduxForm', () => {
           return;
         }
 
-        expect(nextProps.fields.addresses[0].postalCode)
-          .toNotBe(this.props.fields.addresses[0].postalCode);
-        done();
+        if (nextProps.fields.addresses[0].postalCode !==
+          this.props.fields.addresses[0].postalCode) {
+          done();
+        }
       }
 
       render() {
