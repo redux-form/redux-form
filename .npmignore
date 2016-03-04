@@ -1,5 +1,6 @@
 examples
-test
+scripts
+docs
 .babelrc
 .eslint*
 .idea
