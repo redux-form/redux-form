@@ -1,7 +1,5 @@
 .idea
-coverage
 node_modules
-dist
-lib
+dist/*
 npm-debug.log
 .DS_Store

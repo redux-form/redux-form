@@ -1,0 +1,11 @@
+@import "constants";
+@import "../prism";
+
+.app {
+  color: blue;
+  .content {
+    border: 1px solid red;
+    border-radius: 10px;
+    padding: 100px;
+  }
+}

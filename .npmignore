@@ -1,10 +1,8 @@
+src
 examples
-scripts
-docs
+test
 .babelrc
 .eslint*
 .idea
-.editorconfig
 .npmignore
-.travis.yml
 webpack.*

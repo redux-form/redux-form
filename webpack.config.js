@@ -1,46 +1,58 @@
-'use strict';
+var path = require('path');
 var webpack = require('webpack');
-var env = process.env.NODE_ENV;
-var plugins = [
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(env)
-  }),
-  new webpack.optimize.OccurenceOrderPlugin()
-];
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-if (env === 'production') {
-  plugins.push(
+module.exports = {
+  target: 'node',
+  entry: {
+    index: './src/index',
+    prism: './src/prism.js'
+  },
+  node: {
+    console: true
+  },
+  output: {
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].js',
+    publicPath: '/dist/'
+  },
+  plugins: [
+    new ExtractTextPlugin('bundle.css', { allChunks: true }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
-        screw_ie8: true,
         warnings: false
       }
     })
-  );
-}
-
-var reactExternal = {
-  root: 'React',
-  commonjs2: 'react',
-  commonjs: 'react',
-  amd: 'react'
-};
-
-module.exports = {
-  externals: {
-    'react': reactExternal
+  ],
+  resolve: {
+    modulesDirectories: [
+      'src',
+      'node_modules'
+    ],
+    extensions: [ '', '.json', '.js' ]
   },
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
+      {
+        test: /\.jsx?/,
+        loaders: [ 'babel' ],
+        include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        loader: 'url',
+        query: { limit: 40960 }
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap')
+      }
     ]
-  },
-  output: {
-    library: 'ReduxForm',
-    libraryTarget: 'umd'
-  },
-  plugins: plugins,
-  resolve: {
-    extensions: ['', '.js']
   }
 };
