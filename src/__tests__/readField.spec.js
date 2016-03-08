@@ -30,7 +30,7 @@ describe('readField', () => {
       .toExist()
       .toBeA('object');
     expect(field.name).toBe(name);
-    expect(field.value).toEqual(value);
+    expect(field.value).toEqual(value === undefined ? '' : value);
     if (readonly) {
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
