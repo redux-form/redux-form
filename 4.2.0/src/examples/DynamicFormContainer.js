@@ -30,8 +30,7 @@ class DynamicFormContainer extends Component {
           onSubmit={this.props.onSubmit}
           fields={Object
             .keys(this.state)
-            .reduce((accumulator, field) =>
-              this.state[field] ? accumulator.concat(field) : accumulator, [])}/>
+            .filter(field => this.state[field])}/>
       </div>
     );
   }
