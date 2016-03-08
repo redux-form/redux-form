@@ -19,7 +19,7 @@
 
 ## Documentation
 
-* [Getting Started](http://erikras.github.io/redux-form/#/getting-started)
+* [Getting Started](docs/getting-started)
 * [Examples](http://erikras.github.io/redux-form/#/examples)
 * [API](http://erikras.github.io/redux-form/#/api)
 * [FAQ](http://erikras.github.io/redux-form/#/faq)
