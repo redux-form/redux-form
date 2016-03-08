@@ -1,9 +1,3 @@
-<ol class="breadcrumb">
-  <li><a href="#/">Redux Form</a></li>
-  <li><a href="#/faq">FAQ</a></li>
-  <li class="active">Does `redux-form` work ImmutableJS?</li>
-</ol>
-
 # Does `redux-form` work ImmutableJS?
   
 Yes!

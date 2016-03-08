@@ -1,9 +1,3 @@
-<ol class="breadcrumb">
-  <li><a href="#/">Redux Form</a></li>
-  <li><a href="#/faq">FAQ</a></li>
-  <li class="active">Will `redux-form` work with a my custom input component?</li>
-</ol>
-
 # Will `redux-form` work with a my custom input component?
   
 The minimum interface needed for a custom component to work with `redux-form` is to make sure that `value` and 

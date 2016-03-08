@@ -1,9 +1,3 @@
-<ol class="breadcrumb">
-  <li><a href="#/">Redux Form</a></li>
-  <li><a href="#/faq">FAQ</a></li>
-  <li class="active">How can I submit my form when the users presses Enter?</li>
-</ol>
-
 # How can I submit my form when the users presses Enter?
   
 The default browser behavior for `text` and `password` inputs when ↵ is pressed is to activate the first `<button>`

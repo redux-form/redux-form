@@ -1,9 +1,3 @@
-<ol class="breadcrumb">
-  <li><a href="#/">Redux Form</a></li>
-  <li><a href="#/faq">FAQ</a></li>
-  <li class="active">My submit function isn't being called! Help?</li>
-</ol>
-
 # My submit function isn't being called! Help?
 
 Possible causes:

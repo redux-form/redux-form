@@ -1,9 +1,3 @@
-<ol class="breadcrumb">
-  <li><a href="#/">Redux Form</a></li>
-  <li><a href="#/faq">FAQ</a></li>
-  <li class="active">Can I submit my form using websockets?</li>
-</ol>
-
 # Can I submit my form using websockets?
   
 Yes. `redux-form` has built-in support for managing `submitting` state and errors using promises, but you can easily 

@@ -1,9 +1,3 @@
-<ol class="breadcrumb">
-  <li><a href="#/">Redux Form</a></li>
-  <li><a href="#/faq">FAQ</a></li>
-  <li class="active">How can I clear my form after my submission succeeds?</li>
-</ol>
-
 # How can I clear my form after my submission succeeds?
   
 Excellent question. You have several options:
