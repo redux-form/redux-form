@@ -6,6 +6,7 @@
     "url": "https://github.com/erikras/redux-form"
   },
   "scripts": {
+    "start": "npm run dev",
     "build": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
     "dev": "node ./node_modules/better-npm-run dev",
     "clean": "rimraf dist",
