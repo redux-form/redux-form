@@ -51,7 +51,7 @@ describe('createReduxForm', () => {
       expect(field.onUpdate).toBeA('function');
     }
     expect(field.initialValue).toEqual(initial);
-    expect(field.defaultValue).toEqual(initial);
+    expect(field.defaultValue).toEqual(value === undefined ? initial : undefined);
     expect(field.defaultChecked).toBe(initial === true);
     expect(field.valid).toBe(valid);
     expect(field.invalid).toBe(!valid);

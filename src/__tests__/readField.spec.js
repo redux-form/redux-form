@@ -70,7 +70,7 @@ describe('readField', () => {
       expect(focus).toHaveBeenCalled();
     }
     expect(field.defaultChecked).toBe(initialValue === true);
-    expect(field.defaultValue).toBe(initialValue);
+    expect(field.defaultValue).toEqual(value === undefined ? initial : undefined);
     expect(field.initialValue).toBe(initialValue);
     expect(field.error).toBe(error);
     expect(field.valid).toBe(!error);
