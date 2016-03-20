@@ -112,6 +112,62 @@ describe('readFields', () => {
     expect(result._meta.errors).toEqual({});
   });
 
+  it('should mutate each node in the field tree up to the one that changed', () => {
+    const props = {
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: ['foo.bar' ],
+      focus,
+      validate: noValidation
+    };
+    const previousFields = readFields({
+      ...props,
+      form: {
+        foo: {
+          bar: {
+            value: 'previous'
+          }
+        }
+      }
+    }, {}, {});
+
+    const previousFoo = previousFields.foo;
+    const previousFooBar = previousFields.foo.bar;
+    const previousFooBarValue = previousFields.foo.bar.value;
+
+    expect(previousFooBarValue).toBe('previous');
+
+    const nextFields = readFields({
+      ...props,
+      form: {
+        foo: {
+          bar: {
+            value: 'next'
+          }
+        }
+      }
+    }, {
+      ...props,
+      form: {
+        foo: {
+          bar: {
+            value: 'previous'
+          }
+        }
+      }
+    }, previousFields);
+
+    const nextFoo = nextFields.foo;
+    const nextFooBar = nextFields.foo.bar;
+    const nextFooBarValue = nextFields.foo.bar.value;
+
+    expect(nextFooBarValue).toBe('next');
+    expect(nextFooBarValue).toNotBe(previousFooBarValue);
+    expect(nextFooBar).toNotBe(previousFooBar);
+    expect(nextFoo).toNotBe(previousFoo);
+  });
+
   it('should initialize fields', () => {
     const result = readFields({
       asyncBlurFields: [],
