@@ -2382,8 +2382,8 @@ describe('createReduxForm', () => {
   //  );
   //});
   it('should change nested fields', () => {
-    let lastPrevBarValue;
-    let lastNextBarValue;
+    let lastPrevBarValue; // eslint-disable-line
+    let lastNextBarValue; // eslint-disable-line
 
     class FormComponent extends Component {
       componentWillReceiveProps(nextProps) {
