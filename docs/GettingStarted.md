@@ -77,4 +77,4 @@ export default ContactForm;
 That's it! There is no Step #3!
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect up the
-inputs to `redux-form` would be the [Simple Form Example](../examples/simple).
+inputs to `redux-form` would be the [Simple Form Example](https://gist.github.com/insin/bbf116e8ea10ef38447b).
