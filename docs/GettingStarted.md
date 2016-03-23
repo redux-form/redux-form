@@ -32,7 +32,7 @@ __NOTE:__ The default mount point for `redux-form` is at `form`. The only good r
 if you already have a reducer mounted at `form` that you cannot move. Since Redux is still so young, it seems 
 unlikely that you have a legacy Redux application that has fixed reducer mount points, but if you absolutely must 
 move it, `redux-form` will let you do that. See the 
-[Alternate Redux Mount Point Example](../examples/alternate-mount-point) for details.
+[Alternate Redux Mount Point Example](http://redux-form.com/4.2.0/#/examples/alternate-mount-point) for details.
 
 ### Step #2
 
@@ -77,4 +77,4 @@ export default ContactForm;
 That's it! There is no Step #3!
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect up the
-inputs to `redux-form` would be the [Simple Form Example](../examples/simple).
+inputs to `redux-form` would be the [Simple Form Example](http://redux-form.com/4.2.0/#/examples/simple).
