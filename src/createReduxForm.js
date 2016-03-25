@@ -18,11 +18,21 @@ const createReduxForm =
           ...config
         };
         class ConnectedForm extends Component {
+          constructor(props) {
+            super(props);
+
+            this.handleSubmitPassback = this.handleSubmitPassback.bind(this);
+          }
+
+          handleSubmitPassback(submit) {
+            this.submit = submit;
+          }
+
           render() {
             return (<ReduxFormConnector
               {...configWithDefaults}
               {...this.props}
-              submitPassback={submit => this.submit = submit}/>);
+              submitPassback={this.handleSubmitPassback}/>);
           }
         }
         return hoistStatics(ConnectedForm, WrappedComponent);
