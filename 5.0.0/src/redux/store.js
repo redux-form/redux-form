@@ -18,7 +18,7 @@ const normalizePhoneArray = (array, previousArray) => {
 const getCreateStore = () => {
   if (devToolsEnabled) {
     const { persistState } = require('redux-devtools')
-    const DevTools = require('../components/DevTools')
+    const DevTools = require('../components/DevTools').default
     return compose(
       window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
       persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
