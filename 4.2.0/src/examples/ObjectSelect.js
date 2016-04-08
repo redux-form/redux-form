@@ -17,9 +17,9 @@ class ObjectSelect extends Component {
         }
         return result
       }
-      return event.target.value;
-    };
-    const val = Array.isArray(value) ? value.map(JSON.stringify) : JSON.stringify(value);
+      return event.target.value
+    }
+    const val = Array.isArray(value) ? value.map(JSON.stringify) : JSON.stringify(value)
     return (
       <select
         multiple={multiple}
