@@ -115,8 +115,8 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     const initialFormValue = read(`${name}.initial`, form);
     const initialValue = initialFormValue || read(name, initialValues);
     field.name = name;
-    field.defaultChecked = initialValue === true;
-    field.defaultValue = initialValue;
+    field.checked = initialValue === true || undefined;
+    field.value = initialValue;
     field.initialValue = initialValue;
     if (!readonly) {
       field.onBlur = createOnBlur(name, blur, isReactNative,

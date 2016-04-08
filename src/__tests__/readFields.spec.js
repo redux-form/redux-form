@@ -18,7 +18,7 @@ describe('readFields', () => {
       .toExist()
       .toBeA('object');
     expect(field.name).toBe(name);
-    expect(field.value).toEqual(value);
+    expect(field.value).toEqual(value === undefined ? '' : value);
     if (readonly) {
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
@@ -57,8 +57,6 @@ describe('readFields', () => {
       expect(focus.calls.length).toBe(1);
       expect(focus).toHaveBeenCalled();
     }
-    expect(field.defaultChecked).toBe(initialValue === true);
-    expect(field.defaultValue).toBe(initialValue);
     expect(field.error).toBe(error);
     expect(field.valid).toBe(!error);
     expect(field.invalid).toBe(!!error);

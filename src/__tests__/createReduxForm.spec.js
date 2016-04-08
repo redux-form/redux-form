@@ -34,7 +34,7 @@ describe('createReduxForm', () => {
   const expectField = ({field, name, value, initial, valid, dirty, error, touched, visited, readonly}) => {
     expect(field).toBeA('object');
     expect(field.name).toBe(name);
-    expect(field.value).toEqual(value);
+    expect(field.value).toEqual(value === undefined ? '' : value);
     if (readonly) {
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
@@ -51,8 +51,6 @@ describe('createReduxForm', () => {
       expect(field.onUpdate).toBeA('function');
     }
     expect(field.initialValue).toEqual(initial);
-    expect(field.defaultValue).toEqual(initial);
-    expect(field.defaultChecked).toBe(initial === true);
     expect(field.valid).toBe(valid);
     expect(field.invalid).toBe(!valid);
     expect(field.dirty).toBe(dirty);

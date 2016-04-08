@@ -6,15 +6,16 @@ import isValid from './isValid';
  */
 const updateField = (field, formField, active, syncError) => {
   const diff = {};
+  const formFieldValue = formField.value === undefined ? '' : formField.value;
 
   // update field value
-  if (field.value !== formField.value) {
-    diff.value = formField.value;
-    diff.checked = typeof formField.value === 'boolean' ? formField.value : undefined;
+  if (field.value !== formFieldValue) {
+    diff.value = formFieldValue;
+    diff.checked = typeof formFieldValue === 'boolean' ? formFieldValue : undefined;
   }
 
   // update dirty/pristine
-  const pristine = isPristine(formField.value, formField.initial);
+  const pristine = isPristine(formFieldValue, formField.initial);
   if (field.pristine !== pristine) {
     diff.dirty = !pristine;
     diff.pristine = pristine;
@@ -44,8 +45,6 @@ const updateField = (field, formField, active, syncError) => {
   }
 
   if ('initial' in formField && formField.initial !== field.initialValue) {
-    field.defaultChecked = formField.initial === true;
-    field.defaultValue = formField.initial;
     field.initialValue = formField.initial;
   }
 
