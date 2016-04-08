@@ -14,7 +14,7 @@
 
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
-## [Read `v5` API Proposal](https://github.com/erikras/redux-form/issues/726)
+## [Read `v6` API Proposal](https://github.com/erikras/redux-form/issues/726)
 
 ## Installation
 ```npm install --save redux-form```
