@@ -1,0 +1,55 @@
+{
+  "name": "redux-form.com",
+  "version": "0.0.1",
+  "description": "The generator for the redux-form website",
+  "main": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikras/redux-form"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "clean": "rimraf dist",
+    "lint": "eslint src",
+    "prepublish": "npm run clean && npm run lint && npm run build",
+    "publish": "node lib/publish.js"
+  },
+  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erikras/redux-form/issues"
+  },
+  "homepage": "https://redux-form.com",
+  "dependencies": {
+    "http-client": "^2.2.0",
+    "lodash.forin": "^4.0.1",
+    "mkdirp": "^0.5.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "redux-form-website-template": "^0.0.12"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.6.4",
+    "babel-core": "^6.3.15",
+    "babel-eslint": "^5.0.0-beta4",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "cross-env": "^1.0.7",
+    "eslint": "^1.6.0",
+    "eslint-config-rackt": "^1.1.1",
+    "eslint-plugin-babel": "^3.0.0",
+    "eslint-plugin-react": "^3.11.3",
+    "rimraf": "^2.4.3",
+    "webpack": "^1.12.9"
+  },
+  "npmName": "redux-form-website-generator",
+  "npmFileMap": [
+    {
+      "basePath": "/dist/",
+      "files": [
+        "*.js"
+      ]
+    }
+  ]
+}

@@ -1,10 +1,2 @@
-# [erikras.github.io/redux-form](http://erikras.github.io/redux-form)
+# Website for [redux-form.com](http://redux-form.com)
 
-## To run locally
-
-```
-npm install
-npm run dev
-```
-
-Then open [`http://localhost:3030/`](http://localhost:3030/).
