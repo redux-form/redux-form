@@ -19,10 +19,10 @@
 
 ## Documentation
 
-* [Getting Started](docs/GettingStarted.md)
-* [Examples](http://erikras.github.io/redux-form/#/examples)
-* [API](http://erikras.github.io/redux-form/#/api)
-* [FAQ](http://erikras.github.io/redux-form/#/faq)
+* [Getting Started](http://redux-form.com/#/docs/GettingStarted.md)
+* [Examples](http://redux-form.com/#/examples)
+* [API](http://redux-form.com/#/api)
+* [FAQ](http://redux-form.com/#/faq)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
 * [Tools](https://github.com/erikras/redux-form/blob/master/tools.md)
 
