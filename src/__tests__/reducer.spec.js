@@ -30,7 +30,7 @@ describe('reducer', () => {
   });
 
   it('should initialize form state when action has form', () => {
-    const state = reducer(undefined, {form: 'foo'});
+    const state = reducer(undefined, {payload: {form: 'foo'}});
     expect(state)
       .toExist()
       .toBeA('object');
@@ -72,10 +72,9 @@ describe('reducer', () => {
   });
 
   it('should add an empty deep array value with empty state', () => {
-    const state = reducer({}, {
-      ...addArrayValue('myField.myArray'),
-      form: 'foo'
-    });
+    const {type, payload} = addArrayValue('myField.myArray');
+    const action = {type, payload: {...payload, form: 'foo'}};
+    const state = reducer({}, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -98,10 +97,9 @@ describe('reducer', () => {
   });
 
   it('should add a deep array value with initial value', () => {
-    const state = reducer({}, {
-      ...addArrayValue('myField.myArray', 20, undefined),
-      form: 'foo'
-    });
+    const {type, payload} = addArrayValue('myField.myArray', 20, undefined);
+    const action = {type, payload: {...payload, form: 'foo'}};
+    const state = reducer({}, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -124,6 +122,8 @@ describe('reducer', () => {
   });
 
   it('should push an array value', () => {
+    const {type, payload} = addArrayValue('myField', 'baz');
+    const action = {type, payload: {...payload, form: 'testForm'}};
     const state = reducer({
       testForm: {
         myField: [
@@ -141,10 +141,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...addArrayValue('myField', 'baz'),
-      form: 'testForm'
-    });
+    }, action);
     expect(state.testForm)
       .toEqual({
         myField: [
@@ -172,6 +169,8 @@ describe('reducer', () => {
   });
 
   it('should insert an array value', () => {
+    const {type, payload} = addArrayValue('myField', 'baz', 1);
+    const action = {type, payload: {...payload, form: 'testForm'}};
     const state = reducer({
       testForm: {
         myField: [
@@ -189,10 +188,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...addArrayValue('myField', 'baz', 1),
-      form: 'testForm'
-    });
+    }, action);
     expect(state.testForm)
       .toEqual({
         myField: [
@@ -338,6 +334,11 @@ describe('reducer', () => {
    */
 
   it('should push a deep array value which is a nested object', () => {
+    const {type, payload} = addArrayValue('myField', {
+        foo: {a: 'foo-a3', b: 'foo-b3'},
+        bar: {a: 'bar-a3', b: 'bar-b3'}
+      }, undefined);
+    const action = {type, payload: {...payload, form: 'testForm'}};
     const state = reducer({
       testForm: {
         myField: [
@@ -369,13 +370,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...addArrayValue('myField', {
-        foo: {a: 'foo-a3', b: 'foo-b3'},
-        bar: {a: 'bar-a3', b: 'bar-b3'}
-      }, undefined),
-      form: 'testForm'
-    });
+    }, action);
     expect(state.testForm)
       .toEqual({
         myField: [
@@ -430,6 +425,8 @@ describe('reducer', () => {
   });
 
   it('should push a subarray value which is an object', () => {
+    const {type, payload} = addArrayValue('myField[1].myField2', {foo: 'foo-2-3', bar: 'bar-2-3'}, undefined);
+    const action = {type, payload: {...payload, form: 'testForm'}};
     const state = reducer({
       testForm: {
         myField: [
@@ -489,10 +486,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...addArrayValue('myField[1].myField2', {foo: 'foo-2-3', bar: 'bar-2-3'}, undefined),
-      form: 'testForm'
-    });
+    }, action);
     expect(state.testForm)
       .toEqual({
         myField: [
@@ -585,10 +579,9 @@ describe('reducer', () => {
   });
 
   it('should set value on blur with empty state', () => {
-    const state = reducer({}, {
-      ...blur('myField', 'myValue'),
-      form: 'foo'
-    });
+    const {type, payload} = blur('myField', 'myValue');
+    const action = {type, payload: {...payload, form: 'foo'}};
+    const state = reducer({}, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -604,11 +597,9 @@ describe('reducer', () => {
   });
 
   it('should set value on blur and touch with empty state', () => {
-    const state = reducer({}, {
-      ...blur('myField', 'myValue'),
-      form: 'foo',
-      touch: true
-    });
+    const {type, payload} = blur('myField', 'myValue');
+    const action = {type, payload: {...payload, form: 'foo', touch: true}};
+    const state = reducer({}, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -625,6 +616,8 @@ describe('reducer', () => {
   });
 
   it('should set value on blur and touch with initial value', () => {
+    const {type, payload} = blur('myField', 'myValue');
+    const action = {type, payload: {...payload, form: 'foo', touch: true}};
     const state = reducer({
       foo: {
         myField: makeFieldValue({
@@ -638,11 +631,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...blur('myField', 'myValue'),
-      form: 'foo',
-      touch: true
-    });
+    }, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -660,6 +649,8 @@ describe('reducer', () => {
   });
 
   it('should not modify value if undefined is passed on blur (for android react native)', () => {
+    const {type, payload} = blur('myField');
+    const action = {type, payload: {...payload, form: 'foo', touch: true}};
     const state = reducer({
       foo: {
         myField: makeFieldValue({
@@ -674,11 +665,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...blur('myField'),
-      form: 'foo',
-      touch: true
-    });
+    }, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -696,6 +683,8 @@ describe('reducer', () => {
   });
 
   it('should not modify value if undefined is passed on blur, even if no value existed (for android react native)', () => {
+    const {type, payload} = blur('myField');
+    const action = {type, payload: {...payload, form: 'foo', touch: true}};
     const state = reducer({
       foo: {
         myField: makeFieldValue({
@@ -708,11 +697,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...blur('myField'),
-      form: 'foo',
-      touch: true
-    });
+    }, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -729,6 +714,8 @@ describe('reducer', () => {
   });
 
   it('should set nested value on blur', () => {
+    const {type, payload} = blur('myField.mySubField', 'hello');
+    const action = {type, payload: {...payload, form: 'foo', touch: true}};
     const state = reducer({
       foo: {
         myField: {
@@ -743,11 +730,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...blur('myField.mySubField', 'hello'),
-      form: 'foo',
-      touch: true
-    });
+    }, action);
     expect(state.foo)
       .toEqual({
         myField: {
@@ -767,6 +750,8 @@ describe('reducer', () => {
   });
 
   it('should set array value on blur', () => {
+    const {type, payload} = blur('myArray[0]', 'hello');
+    const action = {type, payload: {...payload, form: 'foo', touch: true}};
     const state = reducer({
       foo: {
         myArray: [
@@ -779,11 +764,7 @@ describe('reducer', () => {
         _submitting: false,
         _submitFailed: false
       }
-    }, {
-      ...blur('myArray[0]', 'hello'),
-      form: 'foo',
-      touch: true
-    });
+    }, action);
     expect(state.foo)
       .toEqual({
         myArray: [
