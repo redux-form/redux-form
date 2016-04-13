@@ -19,7 +19,7 @@
 
 ## Documentation
 
-* [Getting Started](http://redux-form.com/#/docs/GettingStarted.md)
+* [Getting Started](http://redux-form.com/#/getting-started)
 * [Examples](http://redux-form.com/#/examples)
 * [API](http://redux-form.com/#/api)
 * [FAQ](http://redux-form.com/#/faq)
