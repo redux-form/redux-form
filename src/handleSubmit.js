@@ -15,9 +15,6 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
           return submitResult;
         }, submitError => {
           stopSubmit(submitError);
-          if (onSubmitFail) {
-            onSubmitFail(submitError);
-          }
           if (returnRejectedSubmitPromise) {
             return Promise.reject(submitError);
           }
@@ -30,11 +27,17 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
       // asyncValidateResult will be rejected if async validation failed
       asyncValidateResult.then(doSubmit, () => {
         submitFailed();
+        if (onSubmitFail) {
+          onSubmitFail();
+        }
         return returnRejectedSubmitPromise ? Promise.reject() : Promise.resolve();
       }) :
       doSubmit(); // no async validation, so submit
   }
   submitFailed();
+  if (onSubmitFail) {
+    onSubmitFail();
+  }
 
   if (returnRejectedSubmitPromise) {
     return Promise.reject(syncErrors);
