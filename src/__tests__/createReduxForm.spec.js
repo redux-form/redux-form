@@ -2105,12 +2105,14 @@ describe('createReduxForm', () => {
     const form = 'testForm';
     const initialValues = { firstName: 'Bobby', lastName: 'Tables', age: 12 };
     const onSubmit = createSpy().andReturn(Promise.resolve());
+    const onSubmitFail = createSpy();
     const validate = createSpy().andReturn({ firstName: 'Go to your room, Bobby.' });
     const Decorated = reduxForm({
       form,
       fields: [ 'firstName', 'lastName', 'age' ],
       initialValues,
       onSubmit,
+      onSubmitFail,
       validate
     })(Form);
 
@@ -2143,11 +2145,13 @@ describe('createReduxForm', () => {
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button');
 
     expect(onSubmit).toNotHaveBeenCalled();
+    expect(onSubmitFail).toNotHaveBeenCalled();
 
     TestUtils.Simulate.click(button);
 
     expect(validate).toHaveBeenCalled();
     expect(onSubmit).toNotHaveBeenCalled();
+    expect(onSubmitFail).toHaveBeenCalled();
   });
 
   it('should only rerender the form that changed', () => {
