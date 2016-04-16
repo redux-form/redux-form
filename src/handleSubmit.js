@@ -35,8 +35,9 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
       doSubmit(); // no async validation, so submit
   }
   submitFailed();
+
   if (onSubmitFail) {
-    onSubmitFail();
+    onSubmitFail(syncErrors);
   }
 
   if (returnRejectedSubmitPromise) {
