@@ -12,10 +12,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy();
     const validate = createSpy().andReturn({foo: 'error'});
-    const props = {fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate};
+    const props = {
+      fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate
+    };
 
     expect(handleSubmit(submit, values, props, asyncValidate)).toBe(undefined);
 
@@ -30,6 +34,7 @@ describe('handleSubmit', () => {
     expect(startSubmit).toNotHaveBeenCalled();
     expect(stopSubmit).toNotHaveBeenCalled();
     expect(submitFailed).toHaveBeenCalled();
+    expect(onSubmitSuccess).toNotHaveBeenCalled();
     expect(onSubmitFail).toHaveBeenCalled();
   });
 
@@ -42,10 +47,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy();
     const validate = createSpy().andReturn(errorValue);
-    const props = {fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate, returnRejectedSubmitPromise: true};
+    const props = {
+      fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate, returnRejectedSubmitPromise: true
+    };
 
     const result = handleSubmit(submit, values, props, asyncValidate);
     expect(isPromise(result)).toBe(true);
@@ -61,6 +70,7 @@ describe('handleSubmit', () => {
     expect(startSubmit).toNotHaveBeenCalled();
     expect(stopSubmit).toNotHaveBeenCalled();
     expect(submitFailed).toHaveBeenCalled();
+    expect(onSubmitSuccess).toNotHaveBeenCalled();
     expect(onSubmitFail).toHaveBeenCalled();
     result.then(() => {
       expect(false).toBe(true); // should not be in resolve branch
@@ -79,10 +89,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy();
     const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate};
+    const props = {
+      dispatch, fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate
+    };
 
     expect(handleSubmit(submit, values, props, asyncValidate)).toBe(69);
 
@@ -101,6 +115,7 @@ describe('handleSubmit', () => {
     expect(startSubmit).toNotHaveBeenCalled();
     expect(stopSubmit).toNotHaveBeenCalled();
     expect(submitFailed).toNotHaveBeenCalled();
+    expect(onSubmitSuccess).toHaveBeenCalled();
     expect(onSubmitFail).toNotHaveBeenCalled();
   });
 
@@ -113,10 +128,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.reject());
     const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate};
+    const props = {
+      dispatch, fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate
+    };
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
@@ -134,6 +153,7 @@ describe('handleSubmit', () => {
         expect(startSubmit).toNotHaveBeenCalled();
         expect(stopSubmit).toNotHaveBeenCalled();
         expect(submitFailed).toHaveBeenCalled();
+        expect(onSubmitSuccess).toNotHaveBeenCalled();
         expect(onSubmitFail).toHaveBeenCalled();
       }, () => {
         expect(false).toBe(true); // should not get into reject branch
@@ -149,11 +169,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.reject());
     const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate,
-      returnRejectedSubmitPromise: true};
+    const props = {
+      dispatch, fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate, returnRejectedSubmitPromise: true
+    };
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
@@ -173,6 +196,7 @@ describe('handleSubmit', () => {
         expect(startSubmit).toNotHaveBeenCalled();
         expect(stopSubmit).toNotHaveBeenCalled();
         expect(submitFailed).toHaveBeenCalled();
+        expect(onSubmitSuccess).toNotHaveBeenCalled();
         expect(onSubmitFail).toHaveBeenCalled();
       });
   });
@@ -186,10 +210,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate};
+    const props = {
+      dispatch, fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate
+    };
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
@@ -209,6 +237,7 @@ describe('handleSubmit', () => {
         expect(startSubmit).toNotHaveBeenCalled();
         expect(stopSubmit).toNotHaveBeenCalled();
         expect(submitFailed).toNotHaveBeenCalled();
+        expect(onSubmitSuccess).toHaveBeenCalled();
         expect(onSubmitFail).toNotHaveBeenCalled();
       }, () => {
         expect(false).toBe(true); // should not get into reject branch
@@ -224,10 +253,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate};
+    const props = {
+      dispatch, fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate
+    };
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
@@ -249,6 +282,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalled()
           .toHaveBeenCalledWith();
         expect(submitFailed).toNotHaveBeenCalled();
+        expect(onSubmitSuccess).toHaveBeenCalled();
         expect(onSubmitFail).toNotHaveBeenCalled();
       }, () => {
         expect(false).toBe(true); // should not get into reject branch
@@ -265,10 +299,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate};
+    const props = {
+      dispatch, fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate
+    };
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(result => {
@@ -290,6 +328,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalled()
           .toHaveBeenCalledWith(submitErrors);
         expect(submitFailed).toNotHaveBeenCalled();
+        expect(onSubmitSuccess).toNotHaveBeenCalled();
         expect(onSubmitFail).toNotHaveBeenCalled();
       }, () => {
         expect(false).toBe(true); // should not get into reject branch
@@ -306,11 +345,14 @@ describe('handleSubmit', () => {
     const startSubmit = createSpy();
     const stopSubmit = createSpy();
     const submitFailed = createSpy();
+    const onSubmitSuccess = createSpy();
     const onSubmitFail = createSpy();
     const asyncValidate = createSpy().andReturn(Promise.resolve());
     const validate = createSpy().andReturn({});
-    const props = {dispatch, fields, onSubmitFail, startSubmit, stopSubmit, submitFailed, touch, validate,
-      returnRejectedSubmitPromise: true};
+    const props = {
+      dispatch, fields, onSubmitSuccess, onSubmitFail, startSubmit, stopSubmit,
+      submitFailed, touch, validate, returnRejectedSubmitPromise: true
+    };
 
     return handleSubmit(submit, values, props, asyncValidate)
       .then(() => {
@@ -334,6 +376,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalled()
           .toHaveBeenCalledWith(submitErrors);
         expect(submitFailed).toNotHaveBeenCalled();
+        expect(onSubmitSuccess).toNotHaveBeenCalled();
         expect(onSubmitFail).toNotHaveBeenCalled();
       });
   });
