@@ -80,6 +80,10 @@
             "title": "`getValues()`"
           }
         }
+      },
+      "/examples": {
+        "file": "/docs/examples/README.md",
+        "title": "Examples"
       }
     }
   }

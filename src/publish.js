@@ -13,7 +13,7 @@ const fetch = createFetch(
 
 const makeCallback = (resolve, reject) => error => {
   if (error) {
-    console.error(error)
+    console.error(error)  // eslint-disable-line
     reject(error)
   } else {
     resolve()
@@ -33,17 +33,18 @@ const writeFile = (path, contents) =>
 
 const version = process.argv[ 2 ]
 if (!version) {
-  console.error('No version specified!')
+  console.error('No version specified!')  // eslint-disable-line
   process.exit(1)
 }
 
 const promises = []
 const publish = (pages, breadcrumbs = []) =>
   forIn(pages, ({ file, title, children }, path) => {
+    const dest = `${version}${path}`
     promises.push(fetch(file)
-      .then(response => mkdir(path.substring(1))
+      .then(response => mkdir(dest)
         .then(() => writeFile(
-          path.length > 1 ? `${path.substring(1)}/index.html` : 'index.html',
+          path.length > 1 ? `${dest}/index.html` : `${version}/index.html`,
           render({
             component: <Markdown content={response.textString}/>,
             path,
@@ -60,6 +61,6 @@ const pages = JSON.parse(fs.readFileSync('pages.json').toString())
 publish(pages)
 Promise.all(promises)
   .then(() => {
-    console.info('Done!')
+    console.info('Done!')  // eslint-disable-line
     process.exit(0)
   })
