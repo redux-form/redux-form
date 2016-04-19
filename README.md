@@ -26,5 +26,12 @@
 * [Release Notes](https://github.com/erikras/redux-form/releases)
 * [Tools](https://github.com/erikras/redux-form/blob/master/tools.md)
 
+### Versions of Documentation
+
+* [4.2.0](http://redux-form.com/4.2.0/)
+* [5.0.0](http://redux-form.com/5.0.0/)
+* [5.0.1](http://redux-form.com/5.0.1/)
+* [5.1.0](http://redux-form.com/5.1.0/)
+
 ## Community
 [Adding A Robust Form Validation To React Redux Apps - Blog](https://medium.com/@rajaraodv/adding-a-robust-form-validation-to-react-redux-apps-616ca240c124#.1iyuelj2e)
