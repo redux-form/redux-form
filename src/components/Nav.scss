@@ -1,0 +1,108 @@
+@import "./constants";
+
+.nav {
+
+  button {
+    position: fixed;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 20px;
+    &:before {
+      @include fa-bars;
+    }
+    z-index: 11;
+  }
+
+  .placeholder {
+    width: 0;
+    transition: width 0.3s ease-in-out;
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 20;
+    padding: 25px 0 0 $nav-width + 25px;
+    color: #ccc;
+    cursor: pointer;
+  }
+
+  .menu {
+    position: fixed;
+    left: -$nav-width;
+    top: 0;
+    bottom: 0;
+    background: white;
+    box-shadow: 3px 0 10px rgba(0, 0, 0, .15);
+    width: $nav-width;
+    color: #333;
+    overflow-y: auto;
+    z-index: 21;
+    transition: left 0.3s ease-in-out;
+  }
+
+  a {
+    text-decoration: none;
+    color: #666;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    display: block;
+    font-size: 18px;
+    &:hover {
+      background-image: linear-gradient(#eee, #eaeaea);
+    }
+
+    &.active {
+      background-image: linear-gradient(#e0e0e0, #dadada);
+      &:hover {
+        background-image: linear-gradient(#e0e0e0, #dadada);
+      }
+    }
+
+    &.brand {
+      background: url('./brand.png') no-repeat 8px 8px;
+      height: 60px;
+      font-size: 25px;
+      line-height: 38px;
+      padding-left: 80px;
+      &:hover {
+        background: url('./brand.png') no-repeat 8px 8px;
+        text-decoration: none;
+      }
+    }
+
+    &.indent1 {
+      padding-left: 20px;
+    }
+
+    &.indent2 {
+      padding-left: 30px;
+    }
+  }
+
+  @mixin open {
+    .placeholder {
+      width: $nav-width;
+    }
+    .menu {
+      left: 0;
+    }
+  }
+  &.open {
+    @include open;
+    .overlay {
+      display: block;
+    }
+  }
+  @media (min-width: $menu-threshold) {
+    @include open;
+  }
+}

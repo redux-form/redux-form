@@ -1,0 +1,24 @@
+@import "./constants";
+
+.breadcrumbs {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+  li {
+    font-size: 16px;
+    color: #666;
+    margin-left: 0;
+    &:before {
+      content: '/';
+      margin: 0 8px;
+      color: #999;
+    }
+    &:first-child:before {
+      content: '';
+      margin: 0;
+    }
+  }
+}

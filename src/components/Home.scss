@@ -1,4 +1,4 @@
-@import "constants";
+@import "./constants";
 
 .home {
   .masthead {
@@ -7,31 +7,80 @@
     color: white;
     text-align: center;
     .logo {
-      background-image: url('logo.png');
+      background-image: url('./logo.png');
       background-size: contain;
-      width: 300px;
-      height: 181px;
+      @include aspect-ratio(300px, 181px);
+      max-width: 300px;
       margin: 20px auto;
       display: block;
     }
     h1 {
       color: #33e0ff;
-      font-size: 8rem;
-      @include insignia;
+      font-size: 5rem;
+      line-height: 1em;
+      margin: 10px;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
     }
     h2 {
       color: #ddd;
-      font-size: 3rem;
+      font-size: 2rem;
       margin: 20px;
-      @include insignia;
+      line-height: 1.2em;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+    .version {
+      color: #666;
     }
     .github {
       font-size: 1.5em;
     }
   }
-  :global(.markdown img.logo) {
-    display: none; // hide logo in readme
+  .options {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    margin: 30px 30px 50px 30px;
+    font-size: 20px;
+    a {
+      flex: 1;
+      min-width: 125px;
+      max-width: 250px;
+      margin: 10px;
+      text-decoration: none;
+      color: #333;
+      text-align: center;
+      i {
+        @include aspect-ratio(1px, 1px);
+        display: block;
+        width: 100%;
+        background-size: 80%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        margin: 0 auto 10px auto;
+        transition: background-size 0.2s ease-in-out;
+      }
+      &:hover {
+        i {
+          background-size: 100%;
+        }
+      }
+    }
+    .start {
+      background-image: url('./start.svg');
+    }
+    .api {
+      background-image: url('./api.svg');
+    }
+    .faq {
+      background-image: url('./faq.svg');
+    }
+    @media (max-width: 500px) {
+      flex-flow: column nowrap;
+      margin: 30px;
+      a {
+        margin: 10px auto;
+        width: 80%;
+      }
+    }
   }
 }

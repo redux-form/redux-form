@@ -1,14 +1,13 @@
 import React from 'react'
-import readme from '../../../README.md'
-import prettify from '../util/prettify'
 import GithubButton from './GithubButton'
 
-const Home = () => {
+const Home = ({ version }) => {
   const styles = require('./Home.scss')
   return (<div className={styles.home}>
     <div className={styles.masthead}>
       <div className={styles.logo}/>
       <h1>Redux Form</h1>
+      <div className={styles.version}>v{version}</div>
 
       <h2>The best way to manage your form state in Redux.</h2>
       <GithubButton
@@ -27,7 +26,20 @@ const Home = () => {
         height={30}
         count large/>
     </div>
-    <div className="container markdown" dangerouslySetInnerHTML={{ __html: prettify(readme) }}/>
+    <div className={styles.options}>
+      <a href="docs/GettingStarted.md">
+        <i className={styles.start}/>
+        Start Here
+      </a>
+      <a href="docs/api">
+        <i className={styles.api}/>
+        API
+      </a>
+      <a href="docs/faq">
+        <i className={styles.faq}/>
+        FAQ
+      </a>
+    </div>
   </div>)
 }
 

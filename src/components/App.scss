@@ -1,11 +1,180 @@
-@import "constants";
-@import "../prism";
+@import "./constants";
+@import "../vendor/prism";
+@import "./form";
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, figure {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  max-width: inherit;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Lato, Helvetica, Arial, sans-serif;
+  line-height: 1.4em;
+  font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  line-height: 1.2em;
+  margin: 10px 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 25px 0;
+}
+
+h2 {
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+h3 {
+  font-size: 1.4rem;
+  margin: 15px 0;
+}
+
+h4 {
+  font-size: 1.2rem;
+  margin: 12px 0;
+}
+
+input, textarea, button, select {
+  outline: none;
+}
+
+p {
+  margin: 8px 0;
+}
+
+li {
+  margin-left: 20px;
+}
+
+:not(pre)>code[class*=language-], pre[class*=language-] {
+  background: none;
+}
+
+pre[class*=language-] {
+  margin: 0 15px;
+  padding: 0;
+}
+
+code {
+  margin: 0 2px;
+}
 
 .app {
-  color: blue;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.topNav {
+  text-align: right;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  overflow-y: hidden;
+  transition: height 0.3s ease-in-out;
+  background: white;
+  .brand {
+    position: absolute;
+    left: 70px;
+    top: 12px;
+    background: url('./brand.png') no-repeat 0 0;
+    width: 66px;
+    height: 40px;
+    &:hover {
+      background: url('./brand.png') no-repeat 0 0;
+    }
+  }
+  .github {
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 20px;
+    color: black;
+  }
+  @media (min-width: $menu-threshold) {
+    height: 0;
+  }
+}
+
+.contentAndFooter {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+  min-width: 0;
+  p, li {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  code, a {
+    font-size: 1em;
+  }
+  a {
+    color: #337ab7;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
   .content {
-    border: 1px solid red;
-    border-radius: 10px;
-    padding: 100px;
+    flex: 1;
+    padding: 15px 25px;
+    max-width: 940px;
+    width: 100%;
+    margin: 65px auto 50px auto;
+    transition: margin-top 0.3s ease-in-out;
+    @media (min-width: $menu-threshold) {
+      margin-top: 0;
+    }
+    &.home {
+      max-width: none;
+      padding: 0;
+    }
+  }
+  &.hasNav {
+    .content {
+      padding: 20px 40px;
+    }
+  }
+  .footer {
+    background: #2d2d2d;
+    padding: 0;
+    text-align: center;
+    color: #ddd;
+    iframe {
+      margin: 0px 15px;
+    }
+    & > div {
+      margin: 20px;
+    }
+    .help {
+      padding: 3px;
+      margin: 5px;
+      background-image: linear-gradient(#555, #444);
+      color: #ccc;
+      font-size: 20px;
+      border-radius: 5px;
+      vertical-align: middle;
+      &:first-of-type {
+        margin-left: 10px;
+      }
+      &:hover {
+        color: #fff;
+        background-image: linear-gradient(#666, #333);
+      }
+    }
   }
 }

@@ -6,3 +6,4 @@ test
 .idea
 .npmignore
 webpack.*
+*.gif

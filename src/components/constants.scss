@@ -1,5 +1,86 @@
-$navbar-height: 50px;
+$nav-width: 240px;
+$menu-threshold: 920px;
 
-@mixin insignia {
-  font-family: insignia, Verdana, sans-serif;
+@mixin fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    padding: ($height / $width) * 100% 0 0 0 !important;
+  }
+  & > .content {
+    @include fill;
+  }
+}
+
+@mixin btn($color) {
+  white-space: nowrap;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 20px;
+  color: white;
+  &:visited {
+    color: white;
+  }
+  background-image: linear-gradient(lighten($color, 10%), darken($color, 10%));
+  border: 1px solid darken($color, 10%);
+  &:hover {
+    background-image: linear-gradient(lighten($color, 15%), $color);
+    &[disabled] {
+      background-image: linear-gradient(lighten($color, 10%), darken($color, 10%));
+    }
+  }
+  &:visited {
+    color: black;
+  }
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn-default {
+  @include btn(#eee);
+  color: black;
+}
+
+@mixin btn-primary {
+  @include btn(#337ab7);
+}
+
+@mixin btn-danger {
+  @include btn(#d9534f);
+}
+
+@mixin fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin fa-paper-plane {
+  @include fa;
+  content: '\f1d8';
+}
+
+@mixin fa-bars {
+  @include fa;
+  content: '\f0c9';
+}
+
+@mixin fa-exclamation-circle {
+  @include fa;
+  content: '\f06a';
 }

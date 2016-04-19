@@ -1,31 +1,18 @@
 {
   "name": "redux-form-website-template",
-  "version": "0.0.1",
+  "version": "0.0.19",
   "description": "The template for the redux-form website",
-  "main": "./dist/index.js",
+  "main": "./dist/bundle.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/erikras/redux-form"
   },
   "scripts": {
-    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "build": "npm run clean && npm run lint && npm run build:webpack",
-    "clean": "rimraf dist",
+    "build": "cross-env NODE_ENV=production webpack src/index.js dist/bundle.js",
+    "clean": "rimraf dist lib",
     "lint": "eslint src",
     "prepublish": "npm run clean && npm run build"
   },
-  "keywords": [
-    "react",
-    "reactjs",
-    "flux",
-    "redux",
-    "react-redux",
-    "redux-form",
-    "form",
-    "decorator",
-    "example",
-    "demo"
-  ],
   "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
   "license": "MIT",
   "bugs": {
@@ -33,8 +20,13 @@
   },
   "homepage": "https://redux-form.com",
   "dependencies": {
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "classnames": "^2.2.3",
+    "marked": "^0.3.5",
+    "react": "^15.0.0-rc.2",
+    "react-dom": "^15.0.0-rc.2",
+    "react-redux": "^4.4.2",
+    "redux": "^3.4.0",
+    "redux-form": "6.0.0-alpha.4"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
@@ -62,7 +54,10 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.12.9"
   },
-  "npmName": "redux-form-website",
+  "files": [
+    "dist"
+  ],
+  "npmName": "redux-form-website-template",
   "npmFileMap": [
     {
       "basePath": "/dist/",

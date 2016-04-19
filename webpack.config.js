@@ -1,48 +1,24 @@
-var path = require('path');
+'use strict';
 var webpack = require('webpack');
+var env = process.env.NODE_ENV;
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var reactExternal = {
+  root: 'React',
+  commonjs2: 'react',
+  commonjs: 'react',
+  amd: 'react'
+};
+
 module.exports = {
-  target: 'node',
-  entry: {
-    index: './src/index',
-    prism: './src/prism.js'
-  },
-  node: {
-    console: true
-  },
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name].js',
-    publicPath: '/dist/'
-  },
-  plugins: [
-    new ExtractTextPlugin('bundle.css', { allChunks: true }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    })
-  ],
-  resolve: {
-    modulesDirectories: [
-      'src',
-      'node_modules'
-    ],
-    extensions: [ '', '.json', '.js' ]
+  externals: {
+    'react': reactExternal
   },
   module: {
     loaders: [
       {
-        test: /\.jsx?/,
-        loaders: [ 'babel' ],
-        include: path.join(__dirname, 'src')
+        test: /\.js$/, loaders: [ 'babel' ],
+        exclude: /node_modules/
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
@@ -54,5 +30,25 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap')
       }
     ]
+  },
+  output: {
+    library: 'ReduxFormWebsiteTemplate',
+    libraryTarget: 'umd'
+  },
+  plugins: [
+    new ExtractTextPlugin('bundle.css', { allChunks: true }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(env)
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        screw_ie8: true,
+        warnings: false
+      }
+    })
+  ],
+  resolve: {
+    extensions: [ '', '.js' ]
   }
 };
