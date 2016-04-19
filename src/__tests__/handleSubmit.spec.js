@@ -329,7 +329,9 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(submitErrors);
         expect(submitFailed).toNotHaveBeenCalled();
         expect(onSubmitSuccess).toNotHaveBeenCalled();
-        expect(onSubmitFail).toNotHaveBeenCalled();
+        expect(onSubmitFail)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith(submitErrors);
       }, () => {
         expect(false).toBe(true); // should not get into reject branch
       });
@@ -377,7 +379,9 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith(submitErrors);
         expect(submitFailed).toNotHaveBeenCalled();
         expect(onSubmitSuccess).toNotHaveBeenCalled();
-        expect(onSubmitFail).toNotHaveBeenCalled();
+        expect(onSubmitFail)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith(submitErrors);
       });
   });
 });
