@@ -1,43 +1,44 @@
-import expect, {createSpy} from 'expect';
-import createOnBlur from '../createOnBlur';
+import expect, { createSpy } from 'expect'
+import noop from 'lodash.noop'
+import createOnBlur from '../createOnBlur'
 
 describe('createOnBlur', () => {
   it('should return a function', () => {
     expect(createOnBlur())
       .toExist()
-      .toBeA('function');
-  });
+      .toBeA('function')
+  })
 
   it('should return a function that calls blur with name and value', () => {
-    const blur = createSpy();
-    createOnBlur('foo', blur)('bar');
+    const blur = createSpy()
+    createOnBlur(blur)('bar')
     expect(blur)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'bar');
-  });
+      .toHaveBeenCalledWith('bar')
+  })
 
   it('should return a function that calls blur with name and value from event', () => {
-    const blur = createSpy();
-    createOnBlur('foo', blur)({
+    const blur = createSpy()
+    createOnBlur(blur)({
       target: {
         value: 'bar'
       },
-      preventDefault: () => null,
-      stopPropagation: () => null
-    });
+      preventDefault: noop,
+      stopPropagation: noop
+    })
     expect(blur)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'bar');
-  });
+      .toHaveBeenCalledWith('bar')
+  })
 
   it('should return a function that calls blur and then afterBlur with name and value', () => {
-    const blur = createSpy();
-    const afterBlur = createSpy();
-    createOnBlur('foo', blur, false, afterBlur)('bar');
-    expect(blur).toHaveBeenCalled();
+    const blur = createSpy()
+    const afterBlur = createSpy()
+    createOnBlur(blur, afterBlur)('bar')
+    expect(blur).toHaveBeenCalled()
     expect(afterBlur)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'bar');
-  });
+      .toHaveBeenCalledWith('bar')
+  })
 
-});
+})

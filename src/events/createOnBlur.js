@@ -1,11 +1,13 @@
-import getValue from './getValue';
+import getValue from './getValue'
+import isReactNative from '../isReactNative'
+
 const createOnBlur =
-  (name, blur, isReactNative, afterBlur) =>
+  (blur, afterBlur) =>
     event => {
-      const value = getValue(event, isReactNative);
-      blur(name, value);
+      const value = getValue(event, isReactNative)
+      blur(value)
       if (afterBlur) {
-        afterBlur(name, value);
+        afterBlur(value)
       }
-    };
-export default createOnBlur;
+    }
+export default createOnBlur

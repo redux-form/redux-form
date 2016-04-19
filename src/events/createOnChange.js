@@ -1,5 +1,7 @@
-import getValue from './getValue';
-const createOnChange =
-  (name, change, isReactNative) =>
-    event => change(name, getValue(event, isReactNative));
-export default createOnChange;
+import getValue from './getValue'
+import isReactNative from '../isReactNative'
+
+const createOnChange = change =>
+  event => change(getValue(event, isReactNative))
+
+export default createOnChange
