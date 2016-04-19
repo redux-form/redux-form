@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - `reduxForm()`</title>
+    <link href="/6.0.0-alpha.4/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app___3P8ep hasNav___1KF_W"><div class="nav___11xa5"><button type="button"></button><div class="overlay___1GMox"><i class="fa fa-times"></i> Close</div><div class="placeholder___TzF1K"></div><nav class="menu___12xDU"><a href="http://redux-form.com" class="brand___1qRUu">Redux Form</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/GettingStarted.md" class="">Getting Started</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api" class="">API</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ReduxForm.md" class="indent1___4iVnL active___2eU59"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Props.md" class="indent1___4iVnL"><code>props</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Field.md" class="indent1___4iVnL"><code>Field</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Reducer.md" class="indent1___4iVnL"><code>reducer</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ReducerSyncValidation.md" class="indent2___2PiOO"><code>reducer.syncValidation()</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/SubmissionError.md" class="indent1___4iVnL"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ActionCreators.md" class="indent1___4iVnL">Action Creators</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/MigrationGuide.md" class="indent1___4iVnL"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/faq" class="">FAQ</a><a href="http://redux-form.com/6.0.0-alpha.4/examples" class="">Examples</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/simple" class="indent1___4iVnL">Simple Form</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/syncValidation" class="indent1___4iVnL">Sync Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/submitValidation" class="indent1___4iVnL">Submit Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/asyncValidation" class="indent1___4iVnL">Async Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/initializeFromState" class="indent1___4iVnL">Initializing from State</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/immutable" class="indent1___4iVnL">Immutable JS</a></nav></div><div class="contentAndFooter___kE2nt"><div class="topNav___sBW8S"><a href="http://redux-form.com" class="brand___YAZl-"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank"><i class="fa fa-fw fa-github"></i></a></div><div class="content___3TVHp"><div><ol class="breadcrumbs___1BHo6"><li><a href="/">Redux Form</a></li><li><a href="/docs/api">API</a></li><li><code>reduxForm()</code></li></ol><div><h1 id="-reduxform-config-object-"><code>reduxForm(config:Object)</code></h1>
+<p>Creates a decorator with which you use <code>redux-form</code> to connect your form component to Redux.
+It takes a <code>config</code> parameter which lets you configure your form.</p>
+<h2 id="importing">Importing</h2>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >var</span> reduxForm <span class="token operator" >=</span> <span class="token function" >require</span><span class="token punctuation" >(</span><span class="token string" >'redux-form'</span><span class="token punctuation" >)</span><span class="token punctuation" >.</span>reduxForm<span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES5</span>
+</code></pre>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span> reduxForm <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span><span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES6</span>
+</code></pre>
+
+<h2 id="config-properties">Config Properties</h2>
+<p><strong>IMPORTANT: All of these configuration options may be passed into <code>reduxForm()</code> at &quot;design time&quot;
+or passed in as props to your component at runtime.</strong></p>
+<h3 id="required">Required</h3>
+<h4 id="-form-string-required-"><code>form : String</code> [required]</h4>
+<blockquote>
+<p>the name of your form and the key to where your form&#39;s state will be mounted under the
+<code>redux-form</code> reducer</p>
+</blockquote>
+<h3 id="optional">Optional</h3>
+<h4 id="-asyncblurfields-array-string-optional-">-<code>asyncBlurFields : Array&lt;String&gt;</code> [optional]</h4>
+<blockquote>
+<p>field names for which <code>onBlur</code> should trigger a call to the <code>asyncValidate</code> function.
+Defaults to <code>[]</code>.</p>
+<p>See <a href="../../examples/asyncValidation">Asynchronous Blur Validation Example</a> for more 
+details.</p>
+</blockquote>
+<h4 id="-asyncvalidate-values-object-dispatch-function-props-object-promise-undefined-errors-object-optional-"><code>asyncValidate : (values:Object, dispatch:Function, props:Object) =&gt; Promise&lt;undefined, errors:Object&gt;</code> [optional]</h4>
+<blockquote>
+<p>a function that takes all the form values, the <code>dispatch</code> function, and the <code>props</code> given
+to your component, and 
+returns a Promise that will resolve if the validation is passed, or will reject with an
+object of validation errors
+in the form <code>{ field1: &lt;String&gt;, field2: &lt;String&gt; }</code>.</p>
+<p>See <a href="../../examples/asynchronous-blur-validation">Asynchronous Blur Validation Example</a> for more 
+details.</p>
+</blockquote>
+<h4 id="-destroyonunmount-boolean-optional-"><code>destroyOnUnmount : boolean</code> [optional]</h4>
+<p><strong>UNIMPLEMENTED SO FAR IN V6</strong></p>
+<blockquote>
+<p>Whether or not to automatically destroy your form&#39;s state in the Redux store when your
+component is unmounted. 
+Defaults to <code>true</code>.</p>
+</blockquote>
+<h4 id="-getformstate-function-optional-"><code>getFormState : Function</code> [optional]</h4>
+<blockquote>
+<p>A function that takes the entire Redux state and returns the state slice which corresponds to 
+where the <code>redux-form</code> reducer was mounted. This functionality is rarely needed, and defaults to
+assuming that the reducer is mounted under the <code>form</code> key.</p>
+</blockquote>
+<h4 id="-initialvalues-object-string-string-optional-"><code>initialValues : Object&lt;String, String&gt;</code> [optional]</h4>
+<blockquote>
+<p>The values with which to initialize your form in <code>componentWillMount()</code>. Particularly useful when
+<a href="../../examples/multirecord">Editing Multiple Records</a>, but can also be used with single-record 
+forms. The values 
+should be in the form <code>{ field1: &#39;value1&#39;, field2: &#39;value2&#39; }</code>.</p>
+</blockquote>
+<h4 id="-onsubmit-function-optional-"><code>onSubmit : Function</code> [optional]</h4>
+<blockquote>
+<p>The function to call with the form data when the <code>handleSubmit()</code> is fired from within the
+form component. If you do not specify it as a prop here, you must pass it as a parameter to
+<code>handleSubmit()</code> inside your form component.</p>
+<p>If your <code>onSubmit</code> function returns a promise, the <code>submitting</code> property will be set to
+<code>true</code> until the promise has been resolved or rejected. If it is rejected with a
+<code>redux-form</code> <code>SubmissionError</code> containing errors in the form
+<code>{ field1: &#39;error&#39;, field2: &#39;error&#39; }</code> then the submission errors will be added to each field
+(to the <code>error</code> prop) just like async validation errors are. If there is an error that is not
+specific to any field, but applicable to the entire form, you may pass that as if it were the
+error for a field
+called <code>_error</code>, and it will be given as the <code>error</code> prop.</p>
+</blockquote>
+<h4 id="-propnamespace-string-optional-"><code>propNamespace : string</code> [optional]</h4>
+<p><strong>UNIMPLEMENTED SO FAR IN V6</strong></p>
+<blockquote>
+<p>If specified, all the props normally passed into your decorated component directly will be passed under the key 
+specified. Useful if using other decorator libraries on the same component to avoid prop namespace collisions.</p>
+</blockquote>
+<h4 id="-returnrejectedsubmitpromise-boolean-optional-"><code>returnRejectedSubmitPromise : boolean</code> [optional]</h4>
+<blockquote>
+<p>If set to <code>true</code>, a failed submit will return a rejected promise. Defaults to <code>false</code>. Only use this if you need to
+detect submit failures and run some code when a submit fails.</p>
+</blockquote>
+<h4 id="-touchonblur-boolean-optional-"><code>touchOnBlur : boolean</code> [optional]</h4>
+<blockquote>
+<p>marks fields as <code>touched</code> when the blur action is fired. Defaults to <code>true</code>.</p>
+</blockquote>
+<h4 id="-touchonchange-boolean-optional-"><code>touchOnChange : boolean</code> [optional]</h4>
+<blockquote>
+<p>marks fields as <code>touched</code> when the change action is fired. Defaults to <code>false</code>.</p>
+</blockquote>
+<h4 id="-validate-values-object-props-object-errors-object-optional-"><code>validate : (values:Object, props:Object) =&gt; errors:Object</code> [optional]</h4>
+<blockquote>
+<p>a synchronous validation function that takes the form values and props passed into your component.
+If validation passes, it should return <code>{}</code>. If validation fails, it should return the validation errors in the
+form <code>{ field1: &lt;String&gt;, field2: &lt;String&gt; }</code>. Defaults to <code>(values, props) =&gt; ({})</code>.</p>
+<p>See <a href="../../examples/synchronous-validation">Synchronous Validation Example</a> for more details.</p>
+</blockquote>
+</div></div></div><div class="footer___1oh0h"><div>Created by Erik Rasmussen</div><div>Got questions? Ask for help:<a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank"><i class="fa fa-fw fa-github"></i></a></div><div><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @erikras</a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @ReduxForm</a></div></div></div></div>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>

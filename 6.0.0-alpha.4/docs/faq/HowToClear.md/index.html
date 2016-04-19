@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - How can I clear my form after my submission succeeds?</title>
+    <link href="/6.0.0-alpha.4/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app___3P8ep hasNav___1KF_W"><div class="nav___11xa5"><button type="button"></button><div class="overlay___1GMox"><i class="fa fa-times"></i> Close</div><div class="placeholder___TzF1K"></div><nav class="menu___12xDU"><a href="http://redux-form.com" class="brand___1qRUu">Redux Form</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/GettingStarted.md" class="">Getting Started</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api" class="">API</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ReduxForm.md" class="indent1___4iVnL"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Props.md" class="indent1___4iVnL"><code>props</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Field.md" class="indent1___4iVnL"><code>Field</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Reducer.md" class="indent1___4iVnL"><code>reducer</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ReducerSyncValidation.md" class="indent2___2PiOO"><code>reducer.syncValidation()</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/SubmissionError.md" class="indent1___4iVnL"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ActionCreators.md" class="indent1___4iVnL">Action Creators</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/MigrationGuide.md" class="indent1___4iVnL"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/faq" class="">FAQ</a><a href="http://redux-form.com/6.0.0-alpha.4/examples" class="">Examples</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/simple" class="indent1___4iVnL">Simple Form</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/syncValidation" class="indent1___4iVnL">Sync Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/submitValidation" class="indent1___4iVnL">Submit Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/asyncValidation" class="indent1___4iVnL">Async Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/initializeFromState" class="indent1___4iVnL">Initializing from State</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/immutable" class="indent1___4iVnL">Immutable JS</a></nav></div><div class="contentAndFooter___kE2nt"><div class="topNav___sBW8S"><a href="http://redux-form.com" class="brand___YAZl-"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank"><i class="fa fa-fw fa-github"></i></a></div><div class="content___3TVHp"><div><ol class="breadcrumbs___1BHo6"><li><a href="/">Redux Form</a></li><li><a href="/docs/faq">FAQ</a></li><li>How can I clear my form after my submission succeeds?</li></ol><div><h1 id="how-can-i-clear-my-form-after-my-submission-succeeds-">How can I clear my form after my submission succeeds?</h1>
+<p>Excellent question. You have several options:</p>
+<h3 id="a-you-can-use-the-plugin-api-api-reducer-plugin-to-teach-the-redux-form-reducer-to-respond-to-the-action-dispatched-when-your-submission-succeeds-">A) You can use <a href="#/api/reducer/plugin">the <code>plugin()</code> API</a> to teach the <code>redux-form</code> reducer to respond to the action dispatched when your submission succeeds.</h3>
+<blockquote>
+<p>This is the proper Redux way to do it and has the benefit of not dispatching another action.</p>
+</blockquote>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span>createStore<span class="token punctuation" >,</span> combineReducers<span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux'</span><span class="token punctuation" >;</span>
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span>reducer <span class="token keyword" >as</span> formReducer<span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span><span class="token punctuation" >;</span>
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span>ACCOUNT_SAVE_SUCCESS<span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'../actions/actionTypes'</span><span class="token punctuation" >;</span>
+
+<span class="token keyword" >const</span> reducers <span class="token operator" >=</span> <span class="token punctuation" >{</span>
+  <span class="token comment" spellcheck="true">// ... your other reducers here ...</span>
+  form<span class="token punctuation" >:</span> formReducer<span class="token punctuation" >.</span><span class="token function" >plugin</span><span class="token punctuation" >(</span><span class="token punctuation" >{</span>
+    account<span class="token punctuation" >:</span> <span class="token punctuation" >(</span>state<span class="token punctuation" >,</span> action<span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> <span class="token punctuation" >{</span> <span class="token comment" spellcheck="true">// &lt;------ 'account' is name of form given to reduxForm()</span>
+      <span class="token keyword" >switch</span><span class="token punctuation" >(</span>action<span class="token punctuation" >.</span>type<span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+        <span class="token keyword" >case</span> ACCOUNT_SAVE_SUCCESS<span class="token punctuation" >:</span>
+          <span class="token keyword" >return</span> undefined<span class="token punctuation" >;</span>       <span class="token comment" spellcheck="true">// &lt;--- blow away form data</span>
+        <span class="token keyword" >default</span><span class="token punctuation" >:</span>
+          <span class="token keyword" >return</span> state<span class="token punctuation" >;</span>
+      <span class="token punctuation" >}</span>
+    <span class="token punctuation" >}</span>
+  <span class="token punctuation" >}</span><span class="token punctuation" >)</span>
+<span class="token punctuation" >}</span>
+<span class="token keyword" >const</span> reducer <span class="token operator" >=</span> <span class="token function" >combineReducers</span><span class="token punctuation" >(</span>reducers<span class="token punctuation" >)</span><span class="token punctuation" >;</span>
+<span class="token keyword" >const</span> store <span class="token operator" >=</span> <span class="token function" >createStore</span><span class="token punctuation" >(</span>reducer<span class="token punctuation" >)</span><span class="token punctuation" >;</span>
+</code></pre>
+
+<h3 id="b-simply-unmount-your-form-component">B) Simply unmount your form component</h3>
+<blockquote>
+<p>For many use cases, you will want to either hide your form component after submission succeeds or navigate away to 
+another page, which will cause <code>redux-form</code>&#39;s default behavior of destroying the form data in the reducer in 
+<code>componentWillUnmount</code>.</p>
+</blockquote>
+<h3 id="c-you-can-call-this-props-resetform-from-inside-your-form-after-your-submission-succeeds-">C) You can call <code>this.props.resetForm()</code> from inside your form after your submission succeeds.</h3>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token function" >submitMyForm</span><span class="token punctuation" >(</span>data<span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+  <span class="token keyword" >const</span> <span class="token punctuation" >{</span>createRecord<span class="token punctuation" >,</span> resetForm<span class="token punctuation" >}</span> <span class="token operator" >=</span> <span class="token keyword" >this</span><span class="token punctuation" >.</span>props<span class="token punctuation" >;</span>
+  <span class="token keyword" >return</span> <span class="token function" >createRecord</span><span class="token punctuation" >(</span>data<span class="token punctuation" >)</span><span class="token punctuation" >.</span><span class="token function" >then</span><span class="token punctuation" >(</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> <span class="token punctuation" >{</span>
+    <span class="token function" >resetForm</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span><span class="token punctuation" >;</span>
+    <span class="token comment" spellcheck="true">// do other success stuff</span>
+  <span class="token punctuation" >}</span><span class="token punctuation" >)</span><span class="token punctuation" >;</span>
+<span class="token punctuation" >}</span>
+
+<span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+  <span class="token keyword" >const</span> <span class="token punctuation" >{</span>handleSubmit<span class="token punctuation" >,</span> submitMyForm<span class="token punctuation" >}</span> <span class="token operator" >=</span> <span class="token keyword" >this</span><span class="token punctuation" >.</span>props<span class="token punctuation" >;</span>
+  <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>form</span> <span class="token attr-name" >onSubmit</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span><span class="token function" >handleSubmit</span><span class="token punctuation" >(</span>submitMyForm<span class="token punctuation" >.</span><span class="token function" >bind</span><span class="token punctuation" >(</span><span class="token keyword" >this</span><span class="token punctuation" >)</span><span class="token punctuation" >)</span><span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>
+      <span class="token comment" spellcheck="true">// inputs</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>form</span><span class="token punctuation" >></span></span>
+  <span class="token punctuation" >)</span><span class="token punctuation" >;</span>
+<span class="token punctuation" >}</span>
+</code></pre>
+
+<h3 id="d-you-can-dispatch-reset-from-any-connected-component">D) You can dispatch <code>reset()</code> from any connected component</h3>
+<blockquote>
+<p>Extremely flexible, but you have to know your form name and have <code>dispatch</code> available.</p>
+</blockquote>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span>reset<span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span><span class="token punctuation" >;</span>
+
+<span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>
+
+<span class="token function" >dispatch</span><span class="token punctuation" >(</span><span class="token function" >reset</span><span class="token punctuation" >(</span><span class="token string" >'myForm'</span><span class="token punctuation" >)</span><span class="token punctuation" >)</span><span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// requires form name</span>
+</code></pre>
+</div></div></div><div class="footer___1oh0h"><div>Created by Erik Rasmussen</div><div>Got questions? Ask for help:<a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank"><i class="fa fa-fw fa-github"></i></a></div><div><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @erikras</a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @ReduxForm</a></div></div></div></div>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>

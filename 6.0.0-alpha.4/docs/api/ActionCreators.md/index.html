@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - Action Creators</title>
+    <link href="/6.0.0-alpha.4/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app___3P8ep hasNav___1KF_W"><div class="nav___11xa5"><button type="button"></button><div class="overlay___1GMox"><i class="fa fa-times"></i> Close</div><div class="placeholder___TzF1K"></div><nav class="menu___12xDU"><a href="http://redux-form.com" class="brand___1qRUu">Redux Form</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/GettingStarted.md" class="">Getting Started</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api" class="">API</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ReduxForm.md" class="indent1___4iVnL"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Props.md" class="indent1___4iVnL"><code>props</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Field.md" class="indent1___4iVnL"><code>Field</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/Reducer.md" class="indent1___4iVnL"><code>reducer</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ReducerSyncValidation.md" class="indent2___2PiOO"><code>reducer.syncValidation()</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/SubmissionError.md" class="indent1___4iVnL"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/ActionCreators.md" class="indent1___4iVnL active___2eU59">Action Creators</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/api/MigrationGuide.md" class="indent1___4iVnL"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.0-alpha.4/docs/faq" class="">FAQ</a><a href="http://redux-form.com/6.0.0-alpha.4/examples" class="">Examples</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/simple" class="indent1___4iVnL">Simple Form</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/syncValidation" class="indent1___4iVnL">Sync Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/submitValidation" class="indent1___4iVnL">Submit Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/asyncValidation" class="indent1___4iVnL">Async Validation</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/initializeFromState" class="indent1___4iVnL">Initializing from State</a><a href="http://redux-form.com/6.0.0-alpha.4/examples/immutable" class="indent1___4iVnL">Immutable JS</a></nav></div><div class="contentAndFooter___kE2nt"><div class="topNav___sBW8S"><a href="http://redux-form.com" class="brand___YAZl-"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank"><i class="fa fa-fw fa-github"></i></a></div><div class="content___3TVHp"><div><ol class="breadcrumbs___1BHo6"><li><a href="/">Redux Form</a></li><li><a href="/docs/api">API</a></li><li>Action Creators</li></ol><div><h1 id="action-creators">Action Creators</h1>
+<p><code>redux-form</code> exports all of its internal action creators, allowing you complete control to
+dispatch any action you wish. However, it is recommended that you use the actions passed as
+props to your component for most of your needs, as they are already bound to <code>dispatch</code>, your 
+form, and, in the case of field-specific actions such as <code>CHANGE</code> or <code>BLUR</code>, the specific field.</p>
+<h3 id="-blur-form-string-field-string-value-string-"><code>blur(form:String, field:String, value:String)</code></h3>
+<blockquote>
+<p>Saves the value to the field.</p>
+</blockquote>
+<h3 id="-change-form-string-field-string-value-string-"><code>change(form:String, field:String, value:String)</code></h3>
+<blockquote>
+<p>Saves the value to the field.</p>
+</blockquote>
+<h3 id="-changewithkey-form-string-formkey-field-string-value-string-"><code>changeWithKey(form:String, formKey, field:String, value:String)</code></h3>
+<blockquote>
+<p>Saves the value to the field in the form under the specified <code>formKey</code>. For use when using
+<a href="#/examples/multirecord">multirecord forms</a>.</p>
+</blockquote>
+<h3 id="-destroy-form-string-"><code>destroy(form:String)</code></h3>
+<blockquote>
+<p>Destroys the form, removing all its state.</p>
+</blockquote>
+<h3 id="-focus-form-string-field-string-"><code>focus(form:String, field:String)</code></h3>
+<blockquote>
+<p>Marks the given field as <code>active</code> and <code>visited</code>.</p>
+</blockquote>
+<h3 id="-initialize-form-string-data-object-fields-array-string-"><code>initialize(form:String, data:Object, fields:Array&lt;String&gt;)</code></h3>
+<blockquote>
+<p>Sets the initial values in the form with which future data values will be compared to calculate
+<code>dirty</code> and <code>pristine</code>. The <code>data</code> parameter may contain deep nested array and object values that match the shape of 
+your form fields. <strong>IMPORTANT:</strong> The fields array passed must be the same as the one given as a <a href="#/api/reduxForm">config parameter to
+<code>reduxForm()</code></a>.</p>
+</blockquote>
+<h3 id="-reset-form-string-"><code>reset(form:String)</code></h3>
+<blockquote>
+<p>Resets the values in the form back to the values past in with the most recent <code>initialize</code> action.</p>
+</blockquote>
+<h3 id="-startasyncvalidation-form-string-"><code>startAsyncValidation(form:String)</code></h3>
+<blockquote>
+<p>Flips the <code>asyncValidating</code> flag <code>true</code>.</p>
+</blockquote>
+<h3 id="-startsubmit-form-string-"><code>startSubmit(form:String)</code></h3>
+<blockquote>
+<p>Flips the <code>submitting</code> flag <code>true</code>.</p>
+</blockquote>
+<h3 id="-stopsubmit-form-string-errors-object-"><code>stopSubmit(form:String, errors:Object)</code></h3>
+<blockquote>
+<p>Flips the <code>submitting</code> flag <code>false</code> and populates <code>submitError</code> for each field.</p>
+</blockquote>
+<h3 id="-stopasyncvalidation-form-string-errors-object-"><code>stopAsyncValidation(form:String, errors:Object)</code></h3>
+<blockquote>
+<p>Flips the <code>asyncValidating</code> flag <code>false</code> and populates <code>asyncError</code> for each field.</p>
+</blockquote>
+<h3 id="-touch-form-string-fields-string-"><code>touch(form:String, ...fields:String)</code></h3>
+<blockquote>
+<p>Marks all the fields passed in as <code>touched</code>.</p>
+</blockquote>
+<h3 id="-untouch-form-string-fields-string-"><code>untouch(form:String, ...fields:String)</code></h3>
+<blockquote>
+<p>Resets the &#39;touched&#39; flag for all the fields passed in.</p>
+</blockquote>
+</div></div></div><div class="footer___1oh0h"><div>Created by Erik Rasmussen</div><div>Got questions? Ask for help:<a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank"><i class="fa fa-fw fa-stack-overflow"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank"><i class="fa fa-fw fa-github"></i></a></div><div><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @erikras</a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @ReduxForm</a></div></div></div></div>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>

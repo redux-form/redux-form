@@ -57,13 +57,9 @@
             "file": "/docs/api/Reducer.md",
             "title": "`reducer`",
             "children": {
-              "/docs/api/ReducerNormalize.md": {
-                "file": "/docs/api/ReducerNormalize.md",
-                "title": "`reducer.normalize()`"
-              },
-              "/docs/api/ReducerPlugin.md": {
-                "file": "/docs/api/ReducerPlugin.md",
-                "title": "`reducer.plugin()`"
+              "/docs/api/ReducerSyncValidation.md": {
+                "file": "/docs/api/ReducerSyncValidation.md",
+                "title": "`reducer.syncValidation()`"
               }
             }
           },
@@ -75,9 +71,17 @@
             "file": "/docs/api/ActionCreators.md",
             "title": "Action Creators"
           },
-          "/docs/api/GetValues.md": {
-            "file": "/docs/api/GetValues.md",
-            "title": "`getValues()`"
+          "/docs/api/MigrationGuide.md": {
+            "file": "/docs/api/MigrationGuide.md",
+            "title": "`v6` Migration Guide"
+          },
+          "/docs/api/SubmissionError.md": {
+            "file": "/docs/api/SubmissionError.md",
+            "title": "`SubmissionError`"
+          },
+          "/docs/api/Field.md": {
+            "file": "/docs/api/Field.md",
+            "title": "`Field`"
           }
         }
       },
