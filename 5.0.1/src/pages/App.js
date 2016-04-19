@@ -55,7 +55,7 @@ class App extends Component {
           Have questions? Ask for help <a
           href="https://github.com/erikras/redux-form/issues"
           target="_blank">on Github</a> or in the <a
-          href="https://discordapp.com/channels/102860784329052160/105736485537374208"
+          href="https://discord.gg/0ZcbPKXt5bXoX4kj"
           target="_blank">#redux-form</a> Discord channel.
         </Navbar>
       </div>
