@@ -1,4 +1,4 @@
 const createOnFocus =
   (name, focus) =>
-    () => focus(name);
-export default createOnFocus;
+    () => focus(name)
+export default createOnFocus

@@ -1,258 +1,213 @@
-import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
-  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT_FAILED, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes';
-import mapValues from './mapValues';
-import read from './read';
-import write from './write';
-import getValuesFromState from './getValuesFromState';
-import initializeState from './initializeState';
-import resetState from './resetState';
-import setErrors from './setErrors';
-import {makeFieldValue} from './fieldValue';
-import normalizeFields from './normalizeFields';
+import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET,
+  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT,
+  SUBMIT_FAILED, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes'
+import forIn from 'lodash.forin'
+import mapValues from 'lodash.mapvalues'
+import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
-export const globalErrorKey = '_error';
+const createReducer = structure => {
+  const { empty, getIn, setIn, deleteIn, fromJS } = structure
+  const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
 
-export const initialState = {
-  _active: undefined,
-  _asyncValidating: false,
-  [globalErrorKey]: undefined,
-  _initialized: false,
-  _submitting: false,
-  _submitFailed: false
-};
-
-const behaviors = {
-  [ADD_ARRAY_VALUE](state, {path, index, value, fields}) {
-    const array = read(path, state);
-    const stateCopy = {...state};
-    const arrayCopy = array ? [...array] : [];
-    const newValue = value !== null && typeof value === 'object' ?
-      initializeState(value, fields || Object.keys(value)) : makeFieldValue({value});
-    if (index === undefined) {
-      arrayCopy.push(newValue);
-    } else {
-      arrayCopy.splice(index, 0, newValue);
-    }
-    return write(path, arrayCopy, stateCopy);
-  },
-  [BLUR](state, {field, value, touch}) {
-    // remove _active from state
-    const {_active, ...stateCopy} = state;  // eslint-disable-line prefer-const
-    return write(field, previous => {
-      const result = {...previous};
+  const behaviors = {
+    [ADD_ARRAY_VALUE](state) {
+      return state
+    },
+    [BLUR](state, { field, value, touch }, validate) {
+      let result = state
       if (value !== undefined) {
-        result.value = value;
+        result = setIn(result, `values.${field}`, value)
       }
+      if (value === '') {
+        result = deleteInWithCleanUp(result, `values.${field}`)
+      }
+      result = deleteIn(result, 'active')
+      result = deleteIn(result, `fields.${field}.active`)
       if (touch) {
-        result.touched = true;
+        result = setIn(result, `fields.${field}.touched`, true)
       }
-      return makeFieldValue(result);
-    }, stateCopy);
-  },
-  [CHANGE](state, {field, value, touch}) {
-    return write(field, previous => {
-      const {asyncError, submitError, ...result} = {...previous, value};
+      return validate(result)
+    },
+    [CHANGE](state, { field, value, touch }, validate) {
+      let result = state
+      if (value !== undefined) {
+        result = setIn(result, `values.${field}`, value)
+      }
+      if (value === '') {
+        result = deleteInWithCleanUp(result, `values.${field}`)
+      }
+      result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
+      result = deleteInWithCleanUp(result, `submitErrors.${field}`)
       if (touch) {
-        result.touched = true;
+        result = setIn(result, `fields.${field}.touched`, true)
       }
-      return makeFieldValue(result);
-    }, state);
-  },
-  [DESTROY]() {
-    return undefined;
-  },
-  [FOCUS](state, {field}) {
-    const stateCopy = write(field, previous => makeFieldValue({...previous, visited: true}), state);
-    stateCopy._active = field;
-    return stateCopy;
-  },
-  [INITIALIZE](state, {data, fields}) {
-    return {
-      ...initializeState(data, fields, state),
-      _asyncValidating: false,
-      _active: undefined,
-      [globalErrorKey]: undefined,
-      _initialized: true,
-      _submitting: false,
-      _submitFailed: false
-    };
-  },
-  [REMOVE_ARRAY_VALUE](state, {path, index}) {
-    const array = read(path, state);
-    const stateCopy = {...state};
-    const arrayCopy = array ? [...array] : [];
-    if (index === undefined) {
-      arrayCopy.pop();
-    } else if (isNaN(index)) {
-      delete arrayCopy[index];
-    } else {
-      arrayCopy.splice(index, 1);
+      return validate(result)
+    },
+    [FOCUS](state, { field }) {
+      let result = state
+      const previouslyActive = getIn(state, 'active')
+      result = deleteIn(result, `fields.${previouslyActive}.active`)
+      result = setIn(result, `fields.${field}.visited`, true)
+      result = setIn(result, `fields.${field}.active`, true)
+      result = setIn(result, 'active', field)
+      return result
+    },
+    [INITIALIZE](state, { data }) {
+      const mapData = fromJS(data)
+      let result = empty // clean all field state
+      result = setIn(result, 'values', mapData)
+      result = setIn(result, 'initial', mapData)
+      return result
+    },
+    [REMOVE_ARRAY_VALUE](state) {
+      return state
+    },
+    [RESET](state, action, validate) {
+      const values = getIn(state, 'initial')
+      let result = empty
+      if(values) {
+        result = setIn(result, 'values', values)
+        result = setIn(result, 'initial', values)
+      } else {
+        result = deleteInWithCleanUp(result, 'values')
+      }
+      return validate(result)
+    },
+    [START_ASYNC_VALIDATION](state, { field }) {
+      return setIn(state, 'asyncValidating', field || true)
+    },
+    [START_SUBMIT](state) {
+      return setIn(state, 'submitting', true)
+    },
+    [STOP_ASYNC_VALIDATION](state, { errors }) {
+      let result = state
+      result = deleteIn(result, 'asyncValidating')
+      if (errors && Object.keys(errors).length) {
+        const { _error, ...fieldErrors } = errors
+        if (_error) {
+          result = setIn(result, 'error', _error)
+        }
+        if (Object.keys(fieldErrors).length) {
+          result = setIn(result, 'asyncErrors', fromJS(fieldErrors))
+        } else {
+          result = deleteIn(result, 'asyncErrors')
+        }
+      } else {
+        result = deleteIn(result, 'error')
+        result = deleteIn(result, 'asyncErrors')
+      }
+      return result
+    },
+    [STOP_SUBMIT](state, { errors }) {
+      let result = state
+      result = deleteIn(result, 'submitting')
+      result = deleteIn(result, 'submitFailed')
+      if (errors && Object.keys(errors).length) {
+        const { _error, ...fieldErrors } = errors
+        if (_error) {
+          result = setIn(result, 'error', _error)
+        }
+        if (Object.keys(fieldErrors).length) {
+          result = setIn(result, 'submitErrors', fromJS(fieldErrors))
+        } else {
+          result = deleteIn(result, 'submitErrors')
+        }
+        result = setIn(result, 'submitFailed', true)
+      } else {
+        result = deleteIn(result, 'error')
+        result = deleteIn(result, 'submitErrors')
+      }
+      return result
+    },
+    [SUBMIT_FAILED](state) {
+      let result = state
+      result = setIn(result, 'submitFailed', true)
+      result = deleteIn(result, 'submitting')
+      return result
+    },
+    [SWAP_ARRAY_VALUES](state) {
+      return state
+    },
+    [TOUCH](state, { fields }) {
+      let result = state
+      fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
+      return result
+    },
+    [UNTOUCH](state, { fields }) {
+      let result = state
+      fields.forEach(field => result = deleteIn(result, `fields.${field}.touched`))
+      return result
     }
-    return write(path, arrayCopy, stateCopy);
-  },
-  [RESET](state) {
-    return {
-      ...resetState(state),
-      _active: undefined,
-      _asyncValidating: false,
-      [globalErrorKey]: undefined,
-      _initialized: state._initialized,
-      _submitting: false,
-      _submitFailed: false
-    };
-  },
-  [START_ASYNC_VALIDATION](state, {field}) {
-    return {
-      ...state,
-      _asyncValidating: field || true
-    };
-  },
-  [START_SUBMIT](state) {
-    return {
-      ...state,
-      _submitting: true
-    };
-  },
-  [STOP_ASYNC_VALIDATION](state, {errors}) {
-    return {
-      ...setErrors(state, errors, 'asyncError'),
-      _asyncValidating: false,
-      [globalErrorKey]: errors && errors[globalErrorKey]
-    };
-  },
-  [STOP_SUBMIT](state, {errors}) {
-    return {
-      ...setErrors(state, errors, 'submitError'),
-      [globalErrorKey]: errors && errors[globalErrorKey],
-      _submitting: false,
-      _submitFailed: !!(errors && Object.keys(errors).length)
-    };
-  },
-  [SUBMIT_FAILED](state) {
-    return {
-      ...state,
-      _submitFailed: true
-    };
-  },
-  [SWAP_ARRAY_VALUES](state, {path, indexA, indexB}) {
-    const array = read(path, state);
-    const arrayLength = array.length;
-    if (indexA === indexB || isNaN(indexA) || isNaN(indexB) || indexA >= arrayLength || indexB >= arrayLength ) {
-      return state; // do nothing
+  }
+
+  const makeValidator = validate =>
+    state => {
+      let result = state
+      const errors = validate(getIn(result, 'values') || empty)
+      if (errors && Object.keys(errors).length) {
+        const { _error, ...fieldErrors } = errors
+        if (_error) {
+          result = setIn(result, 'error', _error)
+        }
+        if (Object.keys(fieldErrors).length) {
+          result = setIn(result, 'syncErrors', fromJS(fieldErrors))
+        } else {
+          result = deleteIn(result, 'syncErrors')
+        }
+      } else {
+        result = deleteIn(result, 'error')
+        result = deleteIn(result, 'syncErrors')
+      }
+      return result
     }
-    const stateCopy = {...state};
-    const arrayCopy = [...array];
-    arrayCopy[indexA] = array[indexB];
-    arrayCopy[indexB] = array[indexA];
-    return write(path, arrayCopy, stateCopy);
-  },
-  [TOUCH](state, {fields}) {
-    return {
-      ...state,
-      ...fields.reduce((accumulator, field) =>
-        write(field, value => makeFieldValue({...value, touched: true}), accumulator), state)
-    };
-  },
-  [UNTOUCH](state, {fields}) {
-    return {
-      ...state,
-      ...fields.reduce((accumulator, field) =>
-        write(field, value => {
-          if (value) {
-            const {touched, ...rest} = value;
-            return makeFieldValue(rest);
-          }
-          return makeFieldValue(value);
-        }, accumulator), state)
-    };
-  }
-};
 
-const reducer = (state = initialState, action = {}) => {
-  const behavior = behaviors[action.type];
-  return behavior ? behavior(state, action) : state;
-};
-
-function formReducer(state = {}, action = {}) {
-  const {form, key, ...rest} = action; // eslint-disable-line no-redeclare
-  if (!form) {
-    return state;
+  const reducer = (state = empty, action, validate = state => state) => {
+    const behavior = behaviors[ action.type ]
+    return behavior ? behavior(state, action, validate) : state
   }
-  if (key) {
-    if (action.type === DESTROY) {
-      return {
-        ...state,
-        [form]: state[form] && Object.keys(state[form]).reduce((accumulator, stateKey) =>
-          stateKey === key ? accumulator : {
+
+  const initValidate = (state, validation) => {
+    let result = state
+    forIn(validation, (validate, form) => {
+      result = setIn(result, form, validate(getIn(result, form) || empty))
+    })
+    return result
+  }
+
+  const byForm = (reducer, validation = {}) =>
+    (state = initValidate(empty, validation), action) => {
+      if (action === undefined) {
+        return initValidate(state, validation)
+      }
+      const { form, ...rest } = action // eslint-disable-line no-redeclare
+      if (!form) {
+        return state
+      }
+      if (action.type === DESTROY) {
+        return Object.keys(state).reduce((accumulator, formName) =>
+          formName === form ? accumulator : {
             ...accumulator,
-            [stateKey]: state[form][stateKey]
+            [formName]: state[ formName ]
           }, {})
-      };
-    }
-    return {
-      ...state,
-      [form]: {
-        ...state[form],
-        [key]: reducer((state[form] || {})[key], rest)
       }
-    };
+      const formState = getIn(state, form)
+      const result = reducer(formState, rest, validation[ form ])
+      return result === formState ? state : setIn(state, form, result)
+    }
+
+  /**
+   * Adds additional functionality to the reducer
+   */
+  function decorate(target) {
+    target.validation = validation => {
+      return decorate(byForm(reducer, mapValues(validation, makeValidator)))
+    }
+
+    // put back plugin and normalize?
+    return target
   }
-  if (action.type === DESTROY) {
-    return Object.keys(state).reduce((accumulator, formName) =>
-      formName === form ? accumulator : {
-        ...accumulator,
-        [formName]: state[formName]
-      }, {});
-  }
-  return {
-    ...state,
-    [form]: reducer(state[form], rest)
-  };
+
+  return decorate(byForm(reducer))
 }
 
-/**
- * Adds additional functionality to the reducer
- */
-function decorate(target) {
-  target.plugin = function plugin(reducers) { // use 'function' keyword to enable 'this'
-    return decorate((state = {}, action = {}) => {
-      const result = this(state, action);
-      return {
-        ...result,
-        ...mapValues(reducers, (pluginReducer, key) => pluginReducer(result[key] || initialState, action))
-      };
-    });
-  };
-
-  target.normalize = function normalize(normalizers) { // use 'function' keyword to enable 'this'
-    return decorate((state = {}, action = {}) => {
-      const result = this(state, action);
-      return {
-        ...result,
-        ...mapValues(normalizers, (formNormalizers, form) => {
-          const runNormalize = (previous, currentResult) => {
-            const previousValues = getValuesFromState({
-              ...initialState, ...previous
-            });
-            const formResult = {
-              ...initialState,
-              ...currentResult
-            };
-            const values = getValuesFromState(formResult);
-            return normalizeFields(formNormalizers, formResult, previous, values, previousValues);
-          };
-          if (action.key) {
-            return {
-              ...result[form], [action.key]: runNormalize(state[form][action.key], result[form][action.key])
-            };
-          }
-          return runNormalize(state[form], result[form]);
-        })
-      };
-    });
-  };
-
-  return target;
-}
-
-export default decorate(formReducer);
+export default createReducer

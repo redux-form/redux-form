@@ -1,41 +1,46 @@
-import isPromise from 'is-promise';
-import isValid from './isValid';
+import isPromise from 'is-promise'
+import SubmissionError from './SubmissionError'
 
-const handleSubmit = (submit, values, props, asyncValidate) => {
-  const {dispatch, fields, startSubmit, stopSubmit, submitFailed, returnRejectedSubmitPromise, touch, validate} = props;
-  const syncErrors = validate(values, props);
-  touch(...fields); // touch all fields
-  if (isValid(syncErrors)) {
+const handleSubmit = (submit, props, isValid, asyncValidate) => {
+  const { dispatch, startSubmit, stopSubmit, submitFailed, syncErrors,
+    returnRejectedSubmitPromise, values } = props
+
+  if (isValid) {
     const doSubmit = () => {
-      const result = submit(values, dispatch);
+      const result = submit(values, dispatch)
       if (isPromise(result)) {
-        startSubmit();
-        return result.then(submitResult => {
-          stopSubmit();
-          return submitResult;
-        }, submitError => {
-          stopSubmit(submitError);
-          if (returnRejectedSubmitPromise) {
-            return Promise.reject(submitError);
-          }
-        });
+        startSubmit()
+        return result
+          .then(submitResult => {
+            stopSubmit()
+            return submitResult
+          }).catch(submitError => {
+            stopSubmit(submitError instanceof SubmissionError ? submitError.errors : undefined)
+            if (returnRejectedSubmitPromise) {
+              return Promise.reject(submitError)
+            }
+          })
       }
-      return result;
-    };
-    const asyncValidateResult = asyncValidate();
-    return isPromise(asyncValidateResult) ?
-      // asyncValidateResult will be rejected if async validation failed
-      asyncValidateResult.then(doSubmit, () => {
-        submitFailed();
-        return returnRejectedSubmitPromise ? Promise.reject() : Promise.resolve();
-      }) :
-      doSubmit(); // no async validation, so submit
-  }
-  submitFailed();
+      return result
+    }
 
-  if (returnRejectedSubmitPromise) {
-    return Promise.reject(syncErrors);
-  }
-};
+    return asyncValidate ?
+      asyncValidate()
+        .then(
+          doSubmit,
+          asyncErrors => {
+            submitFailed()
+            if (returnRejectedSubmitPromise) {
+              return Promise.reject(asyncErrors)
+            }
+          }) : doSubmit()
+  } else {
+    submitFailed()
 
-export default handleSubmit;
+    if (returnRejectedSubmitPromise) {
+      return Promise.reject(syncErrors)
+    }
+  }
+}
+
+export default handleSubmit
