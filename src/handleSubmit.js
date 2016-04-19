@@ -21,6 +21,9 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
           return submitResult;
         }, submitError => {
           stopSubmit(submitError);
+          if (onSubmitFail) {
+            onSubmitFail(submitError);
+          }
           if (returnRejectedSubmitPromise) {
             return Promise.reject(submitError);
           }
