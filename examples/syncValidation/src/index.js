@@ -23,8 +23,6 @@ let render = () => {
   const raw = require('!!raw!./SyncValidationForm')
   const rawReducer = require('!!raw!./reducer')
   const rawValidate = require('!!raw!./validate')
-  console.info(generateExampleBreadcrumbs('syncValidation', 'Synchronous Validation' +
-    ' Example', REDUX_FORM_VERSION))
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -34,7 +32,8 @@ let render = () => {
          */
         version={REDUX_FORM_VERSION}
         path="/examples/syncValidation"
-        breadcrumbs={generateExampleBreadcrumbs('syncValidation', 'Synchronous Validation Example', REDUX_FORM_VERSION)}>
+        breadcrumbs={generateExampleBreadcrumbs('syncValidation',
+          'Synchronous Validation Example', REDUX_FORM_VERSION)}>
 
         <Markdown content={readme}/>
 
