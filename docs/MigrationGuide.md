@@ -131,7 +131,7 @@ field object is done one at a time at the location of each field.
 
 ## `handleSubmit` and `onSubmit`
 
-Good news! The only thing that has changed about form submission is that your submit validation 
+The only thing that has changed about form submission is that your submit validation 
 errors must now be wrapped in a `SubmissionError` object. This is to distinguish between 
 validation errors and AJAX or server errors.
 [See discussion on PR #602](https://github.com/erikras/redux-form/pull/602)

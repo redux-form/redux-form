@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import { App, Code, Markdown, Values } from 'redux-form-website-template'
+import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
 import reducer from './reducer'
 
 const dest = document.getElementById('content')
@@ -23,6 +23,8 @@ let render = () => {
   const raw = require('!!raw!./SyncValidationForm')
   const rawReducer = require('!!raw!./reducer')
   const rawValidate = require('!!raw!./validate')
+  console.info(generateExampleBreadcrumbs('syncValidation', 'Synchronous Validation' +
+    ' Example', REDUX_FORM_VERSION))
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -30,19 +32,9 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        absolute
         version={REDUX_FORM_VERSION}
         path="/examples/syncValidation"
-        breadcrumbs={[
-          {
-            path: 'http://redux-form.com/examples',
-            title: 'Examples'
-          },
-          {
-            path: 'http://redux-form.com/examples/syncValidation',
-            title: 'Synchronous Validation Example'
-          }
-        ]}>
+        breadcrumbs={generateExampleBreadcrumbs('syncValidation', 'Synchronous Validation Example', REDUX_FORM_VERSION)}>
 
         <Markdown content={readme}/>
 

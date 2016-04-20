@@ -53,7 +53,7 @@
     "react-redux": "^4.4.2",
     "redux": "^3.4.0",
     "redux-form": "6.0.0-alpha.4",
-    "redux-form-website-template": "0.0.20",
+    "redux-form-website-template": "0.0.21",
     "redux-immutablejs": "0.0.8"
   },
   "devDependencies": {

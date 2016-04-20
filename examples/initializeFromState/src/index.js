@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
-import { App, Code, Markdown, Values } from 'redux-form-website-template'
+import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
 import account from './account'
 
 const dest = document.getElementById('content')
@@ -35,19 +35,9 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        absolute
         version={REDUX_FORM_VERSION}
         path="/examples/initializeFromState"
-        breadcrumbs={[
-          {
-            path: 'http://redux-form.com/examples',
-            title: 'Examples'
-          },
-          {
-            path: 'http://redux-form.com/examples/initializeFromState',
-            title: 'Initialize From State Example'
-          }
-        ]}>
+        breadcrumbs={generateExampleBreadcrumbs('initializeFromState', 'Initialize From State Example', REDUX_FORM_VERSION)}>
 
         <Markdown content={readme}/>
 
