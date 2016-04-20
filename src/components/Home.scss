@@ -71,8 +71,17 @@
     .api {
       background-image: url('./api.svg');
     }
+    .examples {
+      background-image: url('./examples.svg');
+    }
     .faq {
       background-image: url('./faq.svg');
+    }
+    @media (max-width: 650px) {
+      flex-flow: row wrap;
+      a {
+        min-width: 40%;
+      }
     }
     @media (max-width: 500px) {
       flex-flow: column nowrap;

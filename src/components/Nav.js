@@ -45,7 +45,7 @@ class Nav extends Component {
         <nav className={styles.menu}>
           <a href={url} className={styles.brand}>Redux Form</a>
           {this.renderItem('/docs/GettingStarted.md', 'Getting Started')}
-          {this.renderItem('/docs/MigrationGuide.md', '`v6` Migration Guide', 1)}
+          {this.renderItem('/docs/MigrationGuide.md', '`v6` Migration Guide')}
           {this.renderItem('/docs/api', 'API')}
           {this.renderItem('/docs/api/ReduxForm.md', '`reduxForm()`', 1)}
           {this.renderItem('/docs/api/Props.md', '`props`', 1)}

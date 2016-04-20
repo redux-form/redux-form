@@ -35,6 +35,10 @@ const Home = ({ version }) => {
         <i className={styles.api}/>
         API
       </a>
+      <a href="examples">
+        <i className={styles.examples}/>
+        Examples
+      </a>
       <a href="docs/faq">
         <i className={styles.faq}/>
         FAQ
