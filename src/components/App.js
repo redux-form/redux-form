@@ -4,13 +4,13 @@ import Home from './Home'
 import Nav from './Nav'
 import Breadcrumbs from './Breadcrumbs'
 import TwitterFollowButton from './TwitterFollowButton'
-import cx from 'classnames';
+import cx from 'classnames'
 
 const App = ({ children, path, version, breadcrumbs }) => {
-  const isHome = path === '/';
+  const isHome = path === '/'
   const url = `http://redux-form.com/${version}`
   return (
-    <div className={cx(styles.app, {[styles.hasNav]: !isHome})}>
+    <div className={cx(styles.app, { [styles.hasNav]: !isHome })}>
       {!isHome && <Nav path={path} url={url}/>}
       <div className={styles.contentAndFooter}>
         <div className={styles.topNav}>

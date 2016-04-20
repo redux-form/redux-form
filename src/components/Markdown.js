@@ -1,6 +1,6 @@
 import React from 'react'
 import marked from 'marked'
-import Prism from '../vendor/prism';
+import Prism from '../vendor/prism'
 
 const prettify = markdown =>
   markdown.replace(/```(?:javascript|js)([\s\S]+?)```/g,

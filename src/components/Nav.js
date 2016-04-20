@@ -19,7 +19,7 @@ class Nav extends Component {
     const { path, url } = this.props
     return (
       <a href={`${url || ''}${href}`}
-        className={cx(styles[`indent${indent}`], {[styles.active]: href === path})}
+        className={cx(styles[`indent${indent}`], { [styles.active]: href === path })}
         dangerouslySetInnerHTML={{ __html: formatLabel(label) }}/>
     )
   }

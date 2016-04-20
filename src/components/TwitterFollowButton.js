@@ -15,7 +15,7 @@ const TwitterFollowButton = ({ username, showUsername, showCount, large }) => {
     <a href={`https://twitter.com/${username}`} className="twitter-follow-button" {...props}>
       Follow @{username}
     </a>
-  );
+  )
 }
 
 TwitterFollowButton.propTypes = {
@@ -25,4 +25,4 @@ TwitterFollowButton.propTypes = {
   large: PropTypes.bool
 }
 
-export default TwitterFollowButton;
+export default TwitterFollowButton
