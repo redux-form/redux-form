@@ -77,4 +77,4 @@ That's it! There is no Step #3!
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect
 up the inputs to `redux-form` would be the
-[Simple Form Example](http://redux-form.com/6.0.0-alpha-5/simple).
+[Simple Form Example](http://redux-form.com/6.0.0-alpha-4/simple).
