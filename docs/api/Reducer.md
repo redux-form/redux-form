@@ -36,7 +36,7 @@ const store = createStore(reducer);
 
 ---
 
-### Addtional Functionality
+### Additional Functionality
 
 You can enhance the behavior of the `redux-form` reducer by calling additional methods on it
 when you mount it to the Redux state. You may call as many of these on it as you wish, and each 

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import { App, Code, Markdown, Values } from 'redux-form-website-template'
+import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
 import reducer from './reducer'
 
 const dest = document.getElementById('content')
@@ -30,19 +30,9 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        absolute
         version={REDUX_FORM_VERSION}
         path="/examples/immutable"
-        breadcrumbs={[
-          {
-            path: 'http://redux-form.com/examples',
-            title: 'Examples'
-          },
-          {
-            path: 'http://redux-form.com/examples/immutable',
-            title: 'Immutable JS Example'
-          }
-        ]}>
+        breadcrumbs={generateExampleBreadcrumbs('immutable', 'Immutable JS Example', REDUX_FORM_VERSION)}>
 
         <Markdown content={readme}/>
 
