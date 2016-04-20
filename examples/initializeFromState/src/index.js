@@ -37,14 +37,14 @@ let render = () => {
          */
         absolute
         version={REDUX_FORM_VERSION}
-        path="/examples/simple"
+        path="/examples/initializeFromState"
         breadcrumbs={[
           {
             path: 'http://redux-form.com/examples',
             title: 'Examples'
           },
           {
-            path: 'http://redux-form.com/examples/initialize-from-state',
+            path: 'http://redux-form.com/examples/initializeFromState',
             title: 'Initialize From State Example'
           }
         ]}>

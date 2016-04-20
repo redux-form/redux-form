@@ -32,9 +32,9 @@ let render = () => {
          */
         absolute
         version={REDUX_FORM_VERSION}
-        path="/examples/async-validation"
+        path="/examples/asyncValidation"
         breadcrumbs={[ { path: 'http://redux-form.com/examples', title: 'Examples' },
-            { path: 'http://redux-form.com/examples/async-validation', title: 'Async Validation Example' } ]}>
+            { path: 'http://redux-form.com/examples/asyncValidation', title: 'Async Validation Example' } ]}>
 
         <Markdown content={readme}/>
 
