@@ -27,7 +27,7 @@ let render = () => {
          */
         absolute
         version={REDUX_FORM_VERSION}
-        path="/examples/submit-validation"
+        path="/examples/submitValidation"
         breadcrumbs={[ { path: 'http://redux-form.com/examples', title: 'Examples' },
             { path: 'http://redux-form.com/examples/submit-validation', title: 'Submit Validation Example' } ]}>
 

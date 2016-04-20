@@ -32,14 +32,14 @@ let render = () => {
          */
         absolute
         version={REDUX_FORM_VERSION}
-        path="/examples/synchronous-validation"
+        path="/examples/syncValidation"
         breadcrumbs={[
           {
             path: 'http://redux-form.com/examples',
             title: 'Examples'
           },
           {
-            path: 'http://redux-form.com/examples/synchronous-validation',
+            path: 'http://redux-form.com/examples/syncValidation',
             title: 'Synchronous Validation Example'
           }
         ]}>
