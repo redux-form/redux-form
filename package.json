@@ -1,5 +1,5 @@
 {
-  "name": "redux-form.com",
+  "name": "redux-form-website",
   "version": "0.0.1",
   "description": "The generator for the redux-form website",
   "main": "./dist/index.js",

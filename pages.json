@@ -7,6 +7,14 @@
         "file": "/docs/GettingStarted.md",
         "title": "Getting Started"
       },
+      "/docs/DocumentationVersions.md": {
+        "file": "/docs/DocumentationVersions.md",
+        "title": "Older Versions"
+      },
+      "/docs/MigrationGuide.md": {
+        "file": "/docs/api/MigrationGuide.md",
+        "title": "`v6` Migration Guide"
+      },
       "/docs/faq": {
         "file": "/docs/faq/README.md",
         "title": "FAQ",
@@ -71,10 +79,6 @@
             "file": "/docs/api/ActionCreators.md",
             "title": "Action Creators"
           },
-          "/docs/api/MigrationGuide.md": {
-            "file": "/docs/api/MigrationGuide.md",
-            "title": "`v6` Migration Guide"
-          },
           "/docs/api/SubmissionError.md": {
             "file": "/docs/api/SubmissionError.md",
             "title": "`SubmissionError`"
@@ -86,7 +90,7 @@
         }
       },
       "/examples": {
-        "file": "/docs/examples/README.md",
+        "file": "/examples/README.md",
         "title": "Examples"
       }
     }
