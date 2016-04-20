@@ -14,6 +14,8 @@
 
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
+## [v6.0.0-alpha.4 release](https://github.com/erikras/redux-form/releases/tag/v6.0.0-alpha.4)
+
 ## Installation
 ```npm install --save redux-form```
 
