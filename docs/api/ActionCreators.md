@@ -13,11 +13,6 @@ form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the
 
 > Saves the value to the field.
 
-### `changeWithKey(form:String, formKey, field:String, value:String)`
-
-> Saves the value to the field in the form under the specified `formKey`. For use when using
-[multirecord forms](#/examples/multirecord).
-
 ### `destroy(form:String)`
 
 > Destroys the form, removing all its state.
