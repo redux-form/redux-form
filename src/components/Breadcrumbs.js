@@ -10,7 +10,8 @@ const Breadcrumbs = ({ items }) => {
   }
   return (
     <ol className={styles.breadcrumbs}>
-      {items.map(({path, title}, index) =>
+      <li>{items.length}</li>
+      {items.map(({ path, title }, index) =>
         index === items.length - 1 ?
           <li key={index} dangerouslySetInnerHTML={{ __html: formatTitle(title) }}/> :
           <li key={index}><a href={path} dangerouslySetInnerHTML={{ __html: formatTitle(title) }}/></li>

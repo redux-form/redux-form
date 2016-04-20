@@ -1,6 +1,6 @@
 {
   "name": "redux-form-website-template",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "The template for the redux-form website",
   "main": "./dist/bundle.js",
   "repository": {

@@ -5,7 +5,7 @@ import App from './components/App'
 /*<link href="https://npmcdn.com/redux-form-website-template@${version}/dist/bundle.css"
 media="screen, projection" rel="stylesheet" type="text/css"/>*/
 
-const render = ({ component, title, path, version, breadcrumbs, absolute }) =>
+const render = ({ component, title, path, version, breadcrumbs }) =>
   `<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -32,7 +32,7 @@ const render = ({ component, title, path, version, breadcrumbs, absolute }) =>
     </style>
   </head>
   <body>
-    ${renderToStaticMarkup(<App {...{ version, path, breadcrumbs, absolute }}>{component}</App>)}
+    ${renderToStaticMarkup(<App {...{ version, path, breadcrumbs }}>{component}</App>)}
   <script>
     (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

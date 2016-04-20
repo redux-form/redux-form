@@ -6,7 +6,7 @@ import Breadcrumbs from './Breadcrumbs'
 import TwitterFollowButton from './TwitterFollowButton'
 import cx from 'classnames';
 
-const App = ({ children, path, version, breadcrumbs, absolute }) => {
+const App = ({ children, path, version, breadcrumbs }) => {
   const isHome = path === '/';
   const url = `http://redux-form.com/${version}`
   return (
