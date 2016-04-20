@@ -1242,4 +1242,34 @@ describe('readFields', () => {
       readonly: false
     });
   });
+
+  it('should not error on undefined errors', () => {
+    const result = readFields({
+      asyncBlurFields: [],
+      blur,
+      change,
+      fields: [ 'foo' ],
+      focus,
+      form: {
+        foo: {
+          value: 'fooValue'
+        }
+      },
+      validate: () => undefined,
+    }, {}, {});
+    expectField({
+      field: result.foo,
+      name: 'foo',
+      value: 'fooValue',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      readonly: false
+    });
+    expect(result._meta.allPristine).toBe(false);
+    expect(result._meta.allValid).toBe(true);
+    expect(result._meta.values).toEqual({ foo: 'fooValue' });
+    expect(result._meta.errors).toEqual({});
+  });
 });
