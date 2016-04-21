@@ -170,11 +170,12 @@ const behaviors = {
 
 const reducer = (state = initialState, action = {}) => {
   const behavior = behaviors[action.type];
-  return behavior ? behavior(state, action) : state;
+  return behavior ? behavior(state, action.payload) : state;
 };
 
 function formReducer(state = {}, action = {}) {
-  const {form, key, ...rest} = action; // eslint-disable-line no-redeclare
+  const payload = action.payload === undefined ? {} : action.payload;
+  const {form, key, ...rest} = payload;
   if (!form) {
     return state;
   }
@@ -206,7 +207,7 @@ function formReducer(state = {}, action = {}) {
   }
   return {
     ...state,
-    [form]: reducer(state[form], rest)
+    [form]: reducer(state[form], {type: action.type, payload: rest})
   };
 }
 
