@@ -8,11 +8,6 @@ const formatLabel = label => /<p>(.+)<\/p>/.exec(marked(label))[ 1 ]
 class Nav extends Component {
   constructor(props) {
     super(props)
-    this.open = this.open.bind(this)
-    this.close = this.close.bind(this)
-    this.state = {
-      open: false
-    }
   }
 
   renderItem(href, label, indent = 0) {
@@ -24,23 +19,11 @@ class Nav extends Component {
     )
   }
 
-  open() {
-    this.setState({ open: true })
-  }
-
-  close() {
-    this.setState({ open: false })
-  }
-
   render() {
-    const { open } = this.state
     const { url } = this.props
     return (
-      <div className={cx(styles.nav, { [styles.open]: open })}>
-        <button type="button" onClick={this.open}/>
-        <div className={styles.overlay} onClick={this.close}>
-          <i className="fa fa-times"/> Close
-        </div>
+      <div className={styles.nav}>
+        <button type="button"/>
         <div className={styles.placeholder}/>
         <nav className={styles.menu}>
           <a href={url} className={styles.brand}>Redux Form</a>
