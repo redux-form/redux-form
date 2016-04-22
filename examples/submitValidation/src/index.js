@@ -16,8 +16,11 @@ let render = () => {
   const SubmitValidationForm = require('./SubmitValidationForm').default
   const submit = require('./submit').default
   const readme = require('./SubmitValidation.md')
+  const stopSubmitReadme = require('./StopSubmitReadme.md')
   const raw = require('!!raw!./SubmitValidationForm')
   const rawSubmit = require('!!raw!./submit')
+  const rawStopSubmit = require('!!raw!./stopSubmit')
+
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -46,6 +49,10 @@ let render = () => {
         <h4>SubmitValidationForm.js</h4>
 
         <Code source={raw}/>
+
+        <Markdown content={stopSubmitReadme} />
+
+        <Code source={rawStopSubmit} />
 
       </App>
     </Provider>,
