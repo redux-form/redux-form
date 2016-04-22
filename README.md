@@ -14,8 +14,6 @@
 
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
-## [v6.0.0-alpha.4 release](https://github.com/erikras/redux-form/releases/tag/v6.0.0-alpha.4)
-
 ## Installation
 ```npm install --save redux-form```
 
@@ -34,6 +32,12 @@
 * [5.0.0](http://redux-form.com/5.0.0/)
 * [5.0.1](http://redux-form.com/5.0.1/)
 * [5.1.0](http://redux-form.com/5.1.0/)
+* [5.1.3](http://redux-form.com/5.1.3/)
+
+---
+
+* [6.0.0-alpha.4](http://redux-form.com/6.0.0-alpha.4/)
+* [6.0.0-alpha.5](http://redux-form.com/6.0.0-alpha.5/)
 
 ## Community
 [Adding A Robust Form Validation To React Redux Apps - Blog](https://medium.com/@rajaraodv/adding-a-robust-form-validation-to-react-redux-apps-616ca240c124#.1iyuelj2e)
