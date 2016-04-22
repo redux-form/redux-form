@@ -5,6 +5,7 @@ import { createSpy } from 'expect'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import { Provider } from 'react-redux'
+import Field from '../Field'
 import noop from 'lodash.noop'
 import createReducer from '../reducer'
 import createReduxForm from '../reduxForm'
@@ -20,26 +21,25 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
   const { fromJS, getIn } = structure
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
-  const reducer = createReducer(structure).validation({
-    testForm: values => {
-      const animal = getIn(values, 'animal')
-      return animal && animal.length > 5 ? { animal: 'Too long' } : {}
-    }
-  })
+  const reducer = createReducer(structure)
 
   describe(name, () => {
     const makeStore = (initial = {}) => createStore(
       combineReducers({ form: reducer }), fromJS({ form: initial }))
 
-    const propChecker = (formState, renderSpy = noop) => {
+    const propChecker = (formState, renderSpy = noop, config = {}) => {
       const store = makeStore({ testForm: formState })
       class Form extends Component {
         render() {
           renderSpy(this.props)
-          return <div />
+          return (
+            <div>
+              <Field name="foo" component={React.DOM.input}/>
+            </div>
+          )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({ form: 'testForm', ...config })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated/>
@@ -129,10 +129,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should provide valid', () => {
       expect(propChecker({}).valid).toBe(true)
-      expect(propChecker({
-        syncErrors: {
-          foo: 'bar'
-        }
+      expect(propChecker({}, undefined, {
+        validate: () => ({ foo: 'sync error' })
       }).valid).toBe(false)
       expect(propChecker({
         asyncErrors: {
@@ -143,10 +141,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should provide invalid', () => {
       expect(propChecker({}).invalid).toBe(false)
-      expect(propChecker({
-        syncErrors: {
-          foo: 'bar'
-        }
+      expect(propChecker({}, undefined, {
+        validate: () => ({ foo: 'sync error' })
       }).invalid).toBe(true)
       expect(propChecker({
         asyncErrors: {
@@ -163,7 +159,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should not rerender unless form-wide props (except value!) change', () => {
       const spy = createSpy()
-      const { dispatch } = propChecker({}, spy)  // render 0
+      const { dispatch } = propChecker({}, spy, {
+        validate: values => {
+          const animal = getIn(values, 'animal')
+          return animal && animal.length > 5 ? { animal: 'Too long' } : {}
+        }
+      })  // render 0
       expect(spy.calls.length).toBe(1)
 
       // simulate typing the word "giraffe"
@@ -415,6 +416,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(store.getState()).toEqualMap({
           form: {
             testForm: {
+              anyTouched: true,
               values: {
                 deep: {
                   foo: 'bar'

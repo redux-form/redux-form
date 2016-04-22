@@ -1,6 +1,6 @@
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET,
-  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, SUBMIT_FAILED, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes'
+  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+  STOP_SUBMIT, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes'
 
 export const addArrayValue = (path, value, index, fields) =>
   ({ type: ADD_ARRAY_VALUE, path, value, index, fields })
@@ -39,8 +39,8 @@ export const stopAsyncValidation = errors =>
 export const stopSubmit = errors =>
   ({ type: STOP_SUBMIT, errors })
 
-export const submitFailed = () =>
-  ({ type: SUBMIT_FAILED })
+export const setSubmitFailed = () =>
+  ({ type: SET_SUBMIT_FAILED })
 
 export const swapArrayValues = (path, indexA, indexB) =>
   ({ type: SWAP_ARRAY_VALUES, path, indexA, indexB })

@@ -52,7 +52,7 @@
     "react-dom": "^15.0.0-rc.2",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
-    "redux-form": "6.0.0-alpha.4",
+    "redux-form": "6.0.0-alpha.5",
     "redux-form-website-template": "0.0.22"
   },
   "devDependencies": {

@@ -28,14 +28,14 @@ const describeField = (name, structure, combineReducers, expect) => {
   }
 
 
-  const testProps = (state) => {
+  const testProps = (state, config = {}) => {
     const store = makeStore({ testForm: state })
     class Form extends Component {
       render() {
         return <div><Field name="foo" component={TestInput}/></div>
       }
     }
-    const TestForm = reduxForm({ form: 'testForm' })(Form)
+    const TestForm = reduxForm({ form: 'testForm', ...config })(Form)
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
         <TestForm/>
@@ -86,17 +86,16 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props2.dirty).toBe(true)
     })
 
-    it('should get sync errors from Redux state', () => {
+    it('should get sync errors from outer reduxForm component', () => {
       const props = testProps({
         initial: {
           foo: 'bar'
         },
         values: {
           foo: 'bar'
-        },
-        syncErrors: {
-          foo: 'foo error'
         }
+      }, {
+        validate: () => ({ foo: 'foo error' })
       })
       expect(props.error).toBe('foo error')
     })

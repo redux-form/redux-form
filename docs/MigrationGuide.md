@@ -170,58 +170,9 @@ validation errors and AJAX or server errors.
 
 ## Sync Validation
 
-Because synchronous validation occurs every time a form value changes, it has been moved from the
-form component to the reducer. Yes, sync errors are kept in the Redux state now. Nothing needs to 
-change about your validation function aside from how you give it to `redux-form`.
-
-#### `v5`
-
-Reducer:
-
-```js
-import { reducer as formReducer } from 'redux-form'
-
-const reducer = combineReducers({
-  // ...your other reducers
-  form: formReducer
-})
-```
-
-Form component decoration:
-
-```js
-import myFormValidation from './myFormValidation'
-
-reduxForm({
-  name: 'myForm',
-  validate: myFormValidation
-})(MyForm)
-```
-
-#### `v6`
-
-Reducer:
-
-```js
-import { reducer as formReducer } from 'redux-form'
-import myFormValidation from './myFormValidation'
-
-const reducer = combineReducers({
-  // ...your other reducers
-  form: formReducer.validation({
-    myForm: myFormValidation // from form name to sync validation function
-  })
-})
-```
-
-Form component decoration:
-
-```js
-reduxForm({
-  name: 'myForm'
-                    // <--- no sync validation passed
-})(MyForm)
-```
+Sync validation is exactly the same as in `v5`. The only small difference is that if you are 
+using ImmutableJS, the `values` given to your sync validation function will be an an
+`Immutable.Map`. The errors returned, however, should be a in a plain JS object, like always.
 
 ## Initialization with `initialValues`
 

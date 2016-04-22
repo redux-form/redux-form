@@ -17,7 +17,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({ REDUX_FORM_VERSION: JSON.stringify('6.0.0-alpha.4') })
+    new webpack.DefinePlugin({ REDUX_FORM_VERSION: JSON.stringify('6.0.0-alpha.5') })
   ],
   resolve: {
     modulesDirectories: [

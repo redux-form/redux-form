@@ -3,14 +3,15 @@ import isClass from 'is-class'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import bindActionData from './bindActionData'
+import plain from './structure/plain'
 
 const createConnectedField = ({
-    asyncValidate,
-    blur,
-    change,
-    focus,
-    getFormState,
-    initialValues
+  asyncValidate,
+  blur,
+  change,
+  focus,
+  getFormState,
+  initialValues
   }, { deepEqual, getIn }, name) => {
 
   class ConnectedField extends Component {
@@ -26,9 +27,16 @@ const createConnectedField = ({
       return !deepEqual(this.props, nextProps)
     }
 
+    get syncError() {
+      const { _reduxForm: { syncErrors } } = this.context
+      return plain.getIn(syncErrors, name)
+    }
+
     isValid() {
-      const { syncError, asyncError, submitError } = this.props
-      const error = syncError || asyncError || submitError
+      const { asyncError, submitError } = this.props
+
+      const error = this.syncError || asyncError || submitError
+
       return !error
     }
 
@@ -40,6 +48,7 @@ const createConnectedField = ({
           getIn,
           name,
           props,
+          this.syncError,
           initialValues && getIn(initialValues, name),
           defaultValue,
           asyncValidate
@@ -63,7 +72,6 @@ const createConnectedField = ({
       initial: getIn(getFormState(state), `initial.${name}`),
       value: getIn(getFormState(state), `values.${name}`),
       state: getIn(getFormState(state), `fields.${name}`),
-      syncError: getIn(getFormState(state), `syncErrors.${name}`),
       asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
       submitError: getIn(getFormState(state), `submitErrors.${name}`),
       submitFailed: getIn(getFormState(state), 'submitFailed'),

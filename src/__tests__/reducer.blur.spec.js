@@ -27,6 +27,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             myField: 'myValue'
           },
@@ -64,6 +65,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             myField: 'myValue'
           },
@@ -104,6 +106,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             myField: 'myValue'
           },
@@ -138,6 +141,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           fields: {
             myField: {
               touched: true
@@ -163,6 +167,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           fields: {
             myField: {
               touched: true
@@ -190,6 +195,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           fields: {
             nested: {
               myField: {
@@ -222,6 +228,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             myField: {
               mySubField: 'hello'
@@ -260,6 +267,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             myArray: [ 'hello' ]
           },
@@ -293,6 +301,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     expect(state)
       .toEqualMap(setIn(fromJS({ // must use setIn to make sure complex value is js object
         foo: {
+          anyTouched: true,
           fields: {
             myComplexField: {
               touched: true

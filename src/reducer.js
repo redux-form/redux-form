@@ -1,8 +1,6 @@
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET,
-  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT,
-  SUBMIT_FAILED, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes'
-import forIn from 'lodash.forin'
-import mapValues from 'lodash.mapvalues'
+  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT,
+  SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
 const createReducer = structure => {
@@ -13,7 +11,7 @@ const createReducer = structure => {
     [ADD_ARRAY_VALUE](state) {
       return state
     },
-    [BLUR](state, { field, value, touch }, validate) {
+    [BLUR](state, { field, value, touch }) {
       let result = state
       if (value !== undefined) {
         result = setIn(result, `values.${field}`, value)
@@ -25,10 +23,11 @@ const createReducer = structure => {
       result = deleteIn(result, `fields.${field}.active`)
       if (touch) {
         result = setIn(result, `fields.${field}.touched`, true)
+        result = setIn(result, 'anyTouched', true)
       }
-      return validate(result)
+      return result
     },
-    [CHANGE](state, { field, value, touch }, validate) {
+    [CHANGE](state, { field, value, touch }) {
       let result = state
       if (value !== undefined) {
         result = setIn(result, `values.${field}`, value)
@@ -40,8 +39,9 @@ const createReducer = structure => {
       result = deleteInWithCleanUp(result, `submitErrors.${field}`)
       if (touch) {
         result = setIn(result, `fields.${field}.touched`, true)
+        result = setIn(result, 'anyTouched', true)
       }
-      return validate(result)
+      return result
     },
     [FOCUS](state, { field }) {
       let result = state
@@ -62,7 +62,7 @@ const createReducer = structure => {
     [REMOVE_ARRAY_VALUE](state) {
       return state
     },
-    [RESET](state, action, validate) {
+    [RESET](state) {
       const values = getIn(state, 'initial')
       let result = empty
       if(values) {
@@ -71,7 +71,7 @@ const createReducer = structure => {
       } else {
         result = deleteInWithCleanUp(result, 'values')
       }
-      return validate(result)
+      return result
     },
     [START_ASYNC_VALIDATION](state, { field }) {
       return setIn(state, 'asyncValidating', field || true)
@@ -119,7 +119,7 @@ const createReducer = structure => {
       }
       return result
     },
-    [SUBMIT_FAILED](state) {
+    [SET_SUBMIT_FAILED](state) {
       let result = state
       result = setIn(result, 'submitFailed', true)
       result = deleteIn(result, 'submitting')
@@ -131,6 +131,7 @@ const createReducer = structure => {
     [TOUCH](state, { fields }) {
       let result = state
       fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
+      result = setIn(result, 'anyTouched', true)
       return result
     },
     [UNTOUCH](state, { fields }) {
@@ -140,45 +141,13 @@ const createReducer = structure => {
     }
   }
 
-  const makeValidator = validate =>
-    state => {
-      let result = state
-      const errors = validate(getIn(result, 'values') || empty)
-      if (errors && Object.keys(errors).length) {
-        const { _error, ...fieldErrors } = errors
-        if (_error) {
-          result = setIn(result, 'error', _error)
-        }
-        if (Object.keys(fieldErrors).length) {
-          result = setIn(result, 'syncErrors', fromJS(fieldErrors))
-        } else {
-          result = deleteIn(result, 'syncErrors')
-        }
-      } else {
-        result = deleteIn(result, 'error')
-        result = deleteIn(result, 'syncErrors')
-      }
-      return result
-    }
-
-  const reducer = (state = empty, action, validate = state => state) => {
+  const reducer = (state = empty, action) => {
     const behavior = behaviors[ action.type ]
-    return behavior ? behavior(state, action, validate) : state
+    return behavior ? behavior(state, action) : state
   }
 
-  const initValidate = (state, validation) => {
-    let result = state
-    forIn(validation, (validate, form) => {
-      result = setIn(result, form, validate(getIn(result, form) || empty))
-    })
-    return result
-  }
-
-  const byForm = (reducer, validation = {}) =>
-    (state = initValidate(empty, validation), action) => {
-      if (action === undefined) {
-        return initValidate(state, validation)
-      }
+  const byForm = (reducer) =>
+    (state = empty, action = {}) => {
       const { form, ...rest } = action // eslint-disable-line no-redeclare
       if (!form) {
         return state
@@ -191,7 +160,7 @@ const createReducer = structure => {
           }, {})
       }
       const formState = getIn(state, form)
-      const result = reducer(formState, rest, validation[ form ])
+      const result = reducer(formState, rest)
       return result === formState ? state : setIn(state, form, result)
     }
 
@@ -199,9 +168,6 @@ const createReducer = structure => {
    * Adds additional functionality to the reducer
    */
   function decorate(target) {
-    target.validation = validation => {
-      return decorate(byForm(reducer, mapValues(validation, makeValidator)))
-    }
 
     // put back plugin and normalize?
     return target

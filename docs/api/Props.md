@@ -20,6 +20,10 @@ class SimpleForm extends Component {
 }
 ```
 
+### `anyTouched : boolean`
+
+> `true` if any of the fields have been marked as `touched`, `false` otherwise.
+
 ### `asyncValidate : Function`
 
 > A function that may be called to initiate asynchronous validation if asynchronous validation is enabled.
