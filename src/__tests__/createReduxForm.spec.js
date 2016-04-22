@@ -2051,6 +2051,70 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.contact.billing.phones).toBe(billingPhones);
   });
 
+  it('should not blow away existing values when initialValues changes', () => {
+    const store = makeStore();
+    const form = 'testForm';
+
+    const Decorated = reduxForm({
+      form,
+      fields: [ 'firstName', 'lastName' ]
+    })(Form);
+
+    class StatefulContainer extends Component {
+      constructor(props) {
+        super(props);
+
+        this.starrMe = this.starrMe.bind(this);
+        this.state = {
+          beatle: { firstName: 'John', lastName: 'Lennon' }
+        };
+      }
+
+      starrMe() {
+        this.setState({
+          beatle: { firstName: 'Ringo', lastName: 'Starr' }
+        });
+      }
+
+      render() {
+        return (
+          <div>
+            <Decorated initialValues={this.state.beatle}/>
+            <button onClick={this.starrMe}>Ringo Me!</button>
+          </div>
+        );
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <StatefulContainer/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    expect(stub.props.fields.firstName.value).toBe('John');
+    expect(stub.props.fields.firstName.pristine).toBe(true);
+    expect(stub.props.fields.lastName.value).toBe('Lennon');
+    expect(stub.props.fields.lastName.pristine).toBe(true);
+
+    stub.props.fields.firstName.onChange('George');
+    stub.props.fields.lastName.onChange('Harrison');
+
+    expect(stub.props.fields.firstName.value).toBe('George');
+    expect(stub.props.fields.firstName.pristine).toBe(false);
+    expect(stub.props.fields.lastName.value).toBe('Harrison');
+    expect(stub.props.fields.lastName.pristine).toBe(false);
+
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button');
+    TestUtils.Simulate.click(button);
+
+    expect(stub.props.fields.firstName.value).toBe('George');
+    expect(stub.props.fields.firstName.pristine).toBe(false);
+    expect(stub.props.fields.lastName.value).toBe('Harrison');
+    expect(stub.props.fields.lastName.pristine).toBe(false);
+  });
+
   it('should provide a submit() method to submit the form', () => {
     const store = makeStore();
     const form = 'testForm';
@@ -2390,17 +2454,17 @@ describe('createReduxForm', () => {
     class FormComponent extends Component {
       componentWillReceiveProps(nextProps) {
         /*
-        console.info(
-          this.props.fields.foo.bar.value,
-          nextProps.fields.foo.bar.value,
-          this.props.fields.foo === nextProps.fields.foo,
-          this.props.fields.foo.bar === nextProps.fields.foo.bar,
-          this.props.fields.foo.bar.value === nextProps.fields.foo.bar.value);
+         console.info(
+         this.props.fields.foo.bar.value,
+         nextProps.fields.foo.bar.value,
+         this.props.fields.foo === nextProps.fields.foo,
+         this.props.fields.foo.bar === nextProps.fields.foo.bar,
+         this.props.fields.foo.bar.value === nextProps.fields.foo.bar.value);
 
-        Prints out:
+         Prints out:
 
-        previous previous false true true
-        next next false true true
+         previous previous false true true
+         next next false true true
          */
         lastPrevBarValue = this.props.fields.foo.bar.value;
         lastNextBarValue = nextProps.fields.foo.bar.value;
