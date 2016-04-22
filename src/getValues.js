@@ -1,3 +1,11 @@
+/**
+ * Given a state[field], get the value.
+ *  Fallback to .initialValue when .value is undefined to prevent double render/initialize cycle.
+ *  See {@link https://github.com/erikras/redux-form/issues/621}.
+ */
+const itemToValue =
+  ({value, initialValue}) => typeof value !== 'undefined' ? value : initialValue;
+
 const getValue = (field, state, dest) => {
   const dotIndex = field.indexOf('.');
   const openIndex = field.indexOf('[');
@@ -24,7 +32,7 @@ const getValue = (field, state, dest) => {
         getValue(rest, item, dest[key][index]);
       });
     } else {
-      dest[key] = array.map(item => item && item.value);
+      dest[key] = array.map(itemToValue);
     }
   } else if (dotIndex > 0) {
     // subobject field
@@ -35,7 +43,7 @@ const getValue = (field, state, dest) => {
     }
     getValue(rest, state && state[key] || {}, dest[key]);
   } else {
-    dest[field] = state[field] && state[field].value;
+    dest[field] = state[field] && itemToValue(state[field]);
   }
 };
 

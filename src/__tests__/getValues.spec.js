@@ -18,6 +18,21 @@ describe('getValues', () => {
       });
   });
 
+  it('should fallback to initialValues when values are undefined', () => {
+    const form = {
+      someText: {value: 'Hello Again!', initialValue: 'Hello'},
+      someArray: {value: undefined, initialValue: [1, 2, 3]},
+      someBool: {value: undefined, initialValue: false},
+    };
+    const fields = ['someText', 'someArray', 'someBool'];
+    expect(getValues(fields, form))
+      .toEqual({
+        someText: 'Hello Again!',
+        someArray: [1, 2, 3],
+        someBool: false,
+      });
+  });
+
   it('should allow undefined values', () => {
     const form = {
       foo: {value: 'bar'}
@@ -59,7 +74,7 @@ describe('getValues', () => {
     const form = {
       foo: [
         {value: 'bar'},
-        {value: 'baz'},
+        {value: undefined, initialValue: 'baz'},
         {}
       ],
       alive: {value: true}
