@@ -16,11 +16,11 @@ export const destroy = () =>
 export const focus = field =>
   ({type: FOCUS, field});
 
-export const initialize = (data, fields) => {
+export const initialize = (data, fields, overwriteValues = true) => {
   if (!Array.isArray(fields)) {
     throw new Error('must provide fields array to initialize() action creator');
   }
-  return {type: INITIALIZE, data, fields};
+  return {type: INITIALIZE, data, fields, overwriteValues};
 };
 
 export const removeArrayValue = (path, index) =>

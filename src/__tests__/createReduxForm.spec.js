@@ -2093,26 +2093,40 @@ describe('createReduxForm', () => {
     );
     const stub = TestUtils.findRenderedComponentWithType(dom, Form);
 
+    // initialized to John Lennon, pristine
     expect(stub.props.fields.firstName.value).toBe('John');
     expect(stub.props.fields.firstName.pristine).toBe(true);
     expect(stub.props.fields.lastName.value).toBe('Lennon');
     expect(stub.props.fields.lastName.pristine).toBe(true);
 
+    // users changes to George Harrison
     stub.props.fields.firstName.onChange('George');
     stub.props.fields.lastName.onChange('Harrison');
 
+    // values are now George Harrison
     expect(stub.props.fields.firstName.value).toBe('George');
     expect(stub.props.fields.firstName.pristine).toBe(false);
     expect(stub.props.fields.lastName.value).toBe('Harrison');
     expect(stub.props.fields.lastName.pristine).toBe(false);
 
+    // change initialValues to Ringo Starr
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button');
     TestUtils.Simulate.click(button);
 
+    // values are STILL George Harrison
     expect(stub.props.fields.firstName.value).toBe('George');
     expect(stub.props.fields.firstName.pristine).toBe(false);
     expect(stub.props.fields.lastName.value).toBe('Harrison');
     expect(stub.props.fields.lastName.pristine).toBe(false);
+
+    // but, if we reset form
+    stub.props.resetForm();
+
+    // values now go back to Ringo Starr, pristine
+    expect(stub.props.fields.firstName.value).toBe('Ringo');
+    expect(stub.props.fields.firstName.pristine).toBe(true);
+    expect(stub.props.fields.lastName.value).toBe('Starr');
+    expect(stub.props.fields.lastName.pristine).toBe(true);
   });
 
   it('should provide a submit() method to submit the form', () => {

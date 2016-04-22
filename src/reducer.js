@@ -66,9 +66,9 @@ const behaviors = {
     stateCopy._active = field;
     return stateCopy;
   },
-  [INITIALIZE](state, {data, fields}) {
+  [INITIALIZE](state, {data, fields, overwriteValues}) {
     return {
-      ...initializeState(data, fields, state),
+      ...initializeState(data, fields, state, overwriteValues),
       _asyncValidating: false,
       _active: undefined,
       [globalErrorKey]: undefined,

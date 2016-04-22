@@ -1202,6 +1202,41 @@ describe('reducer', () => {
     expect(isFieldValue(state.foo.myField)).toBe(true);
   });
 
+  it('should set initialize values, not overwriting values when overwriteValues is false', () => {
+    const state = reducer({
+      foo: {
+        myField: makeFieldValue({
+          value: 'dirtyValue',
+          touched: true
+        }),
+        _active: 'myField',
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...initialize({myField: 'cleanValue'}, ['myField'], false),
+      form: 'foo',
+      touch: true
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          initial: 'cleanValue',
+          value: 'dirtyValue'
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: true,
+        _submitting: false,
+        _submitFailed: false
+      });
+    expect(isFieldValue(state.foo.myField)).toBe(true);
+  });
+
   it('should pop an array value', () => {
     const state = reducer({
       testForm: {

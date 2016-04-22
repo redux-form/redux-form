@@ -72,7 +72,10 @@ describe('actions', () => {
   it('should create initialize action', () => {
     const data = {a: 8, c: 9};
     const fields = ['a', 'c'];
-    expect(initialize(data, fields)).toEqual({type: INITIALIZE, data, fields});
+    expect(initialize(data, fields)).toEqual({type: INITIALIZE, data, fields, overwriteValues: true});
+    expect(initialize(data, fields)).toEqual({type: INITIALIZE, data, fields, overwriteValues: true});
+    expect(initialize(data, fields, false)).toEqual({type: INITIALIZE, data, fields, overwriteValues: false});
+    expect(initialize(data, fields, false)).toEqual({type: INITIALIZE, data, fields, overwriteValues: false});
   });
 
   it('should throw an error if initialize is not given a fields array', () => {
