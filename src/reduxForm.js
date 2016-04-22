@@ -9,9 +9,9 @@ import handleSubmit from './handleSubmit'
 import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
+import plain from './structure/plain'
 
-const { blur, change, focus, setSyncValidationErrors, submitFailed, startSubmit, stopSubmit,
-  startAsyncValidate, stopAsyncValidate, ...formActions } = importedActions
+const { blur, change, focus, ...formActions } = importedActions
 
 const getDisplayName = Comp => Comp.displayName || Comp.name || 'Component'
 const propsToUpdateFor = [
@@ -22,6 +22,7 @@ const propsToUpdateFor = [
   'pristine',
   'submitting',
   'submitFailed',
+  'syncErrors',
   'valid'
 ]
 
@@ -79,11 +80,11 @@ const createReduxForm =
           shouldComponentUpdate(nextProps) {
             // useful to debug rerenders
             //propsToUpdateFor.forEach(prop => {
-            //  if (this.props[ prop ] !== nextProps[ prop ]) {
+            //  if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
             //    console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
             //  }
             //})
-            return propsToUpdateFor.some(prop => this.props[ prop ] !== nextProps[ prop ])
+            return propsToUpdateFor.some(prop => !plain.deepEqual(this.props[ prop ], nextProps[ prop ]))
           }
 
           get values() {
@@ -168,26 +169,30 @@ const createReduxForm =
           form: PropTypes.string.isRequired,
           initialValues: PropTypes.object,
           getFormState: PropTypes.func,
+          validate: PropTypes.func,
           touchOnBlur: PropTypes.bool,
           touchOnChange: PropTypes.bool
         }
 
         const connector = connect(
-          (state, { form, getFormState, initialValues }) => {
+          (state, props) => {
+            const { form, getFormState, initialValues, validate } = props
             const formState = getIn(getFormState(state) || empty, form) || empty
             const stateInitial = getIn(formState, 'initial')
             const initial = initialValues || stateInitial || empty
             const values = getIn(formState, 'values') || initial || empty
             const pristine = deepEqual(initial, values)
-            const syncErrors = getIn(formState, 'syncErrors')
             const asyncErrors = getIn(formState, 'asyncErrors')
-            const hasSyncErrors = syncErrors && !deepEqual(syncErrors, empty)
+            const syncErrors = validate && validate(values, props) || {}
+            const hasSyncErrors = syncErrors && !plain.deepEqual(syncErrors, {})
             const hasAsyncErrors = asyncErrors && !deepEqual(asyncErrors, empty)
             const valid = !(hasSyncErrors || hasAsyncErrors)
+            const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
             const error = getIn(formState, 'error')
             return {
+              anyTouched,
               asyncErrors,
               asyncValidating: getIn(formState, 'asyncValidating'),
               dirty: !pristine,
@@ -198,8 +203,8 @@ const createReduxForm =
               submitting,
               submitFailed,
               syncErrors,
-              valid,
-              values
+              values,
+              valid
             }
           },
           (dispatch, ownProps) => ({

@@ -2,19 +2,8 @@
 
 To provide synchronous client-side validation, you will need to provide redux-form with a 
 validation function that takes an object of form values and returns an object of errors.
-
-The way you provide your synchronous validation function is via the reducer.
-
-```js
-import { reducer as formReducer } from 'redux-form'
-
-const reducerWithValidation = reducer.validation({
-  formName: (values) => {
-    // do validation
-    return {} // {} means that validation passed
-  }
-})
-```
+This is done by providing the validation function to the decorator as a config parameter, or
+to the decorated form component as a prop.
 
 The example validation function is purely for simplistic demonstration value. In your 
 application, you will want to build some type of reusable system of validators.

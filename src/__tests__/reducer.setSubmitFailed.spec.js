@@ -1,6 +1,6 @@
-import { submitFailed } from '../actions'
+import { setSubmitFailed } from '../actions'
 
-const describeSubmitFailed = (reducer, expect, { fromJS }) => () => {
+const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
   it('should set submitFailed flag on submitFailed', () => {
     const state = reducer(fromJS({
       foo: {
@@ -8,7 +8,7 @@ const describeSubmitFailed = (reducer, expect, { fromJS }) => () => {
         should: 'notchange'
       }
     }), {
-      ...submitFailed(),
+      ...setSubmitFailed(),
       form: 'foo'
     })
     expect(state)
@@ -29,7 +29,7 @@ const describeSubmitFailed = (reducer, expect, { fromJS }) => () => {
         submitting: true
       }
     }), {
-      ...submitFailed(),
+      ...setSubmitFailed(),
       form: 'foo'
     })
     expect(state)
@@ -43,4 +43,4 @@ const describeSubmitFailed = (reducer, expect, { fromJS }) => () => {
   })
 }
 
-export default describeSubmitFailed
+export default describeSetSubmitFailed

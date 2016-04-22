@@ -16,6 +16,7 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             myField: 'value',
             myOtherField: 'otherValue'
@@ -49,6 +50,7 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             deep: {
               myField: 'value',
@@ -83,6 +85,7 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
     expect(state)
       .toEqualMap({
         foo: {
+          anyTouched: true,
           values: {
             myFields: [ 'value', 'otherValue' ]
           },
