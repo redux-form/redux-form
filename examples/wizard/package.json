@@ -1,0 +1,79 @@
+{
+  "name": "redux-form-wizard-example",
+  "version": "5.0.0",
+  "description": "Multiplage Wizard example for redux-form",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erikras/redux-form"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build": "npm run clean && npm run build:webpack",
+    "lint": "eslint src",
+    "start": "node devServer.js",
+    "prepublish": "npm run lint && npm run build"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "flux",
+    "redux",
+    "react-redux",
+    "redux-form",
+    "form",
+    "decorator",
+    "example",
+    "demo"
+  ],
+  "betterScripts": {
+    "dev": {
+      "command": "node webpack/webpack-dev-server.js",
+      "env": {
+        "UV_THREADPOOL_SIZE": 100,
+        "NODE_ENV": "development",
+        "NODE_PATH": "./src"
+      }
+    }
+  },
+  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erikras/redux-form/issues"
+  },
+  "homepage": "https://github.com/erikras/redux-form",
+  "dependencies": {
+    "babel-polyfill": "^6.6.1",
+    "html-loader": "^0.4.3",
+    "json-loader": "^0.5.4",
+    "markdown-loader": "^0.1.7",
+    "raw-loader": "^0.5.1",
+    "react": "^15.0.0-rc.2",
+    "react-dom": "^15.0.0-rc.2",
+    "react-redux": "^4.4.1",
+    "redux": "^3.3.1",
+    "redux-form": "6.0.0-alpha.5",
+    "redux-form-website-template": "0.0.21"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.15",
+    "babel-eslint": "^5.0.0-beta4",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.3.13",
+    "cross-env": "^1.0.7",
+    "eslint": "^1.6.0",
+    "eslint-config-rackt": "^1.1.1",
+    "eslint-loader": "^1.3.0",
+    "eslint-plugin-babel": "^3.0.0",
+    "eslint-plugin-react": "^3.11.3",
+    "eventsource-polyfill": "^0.9.6",
+    "express": "^4.13.3",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "redbox-react": "^1.2.2",
+    "rimraf": "^2.4.3",
+    "webpack": "^1.12.9",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0"
+  }
+}
