@@ -44,4 +44,6 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 > How to use Immutable JS for `redux-form` state storage.
 
 ---
-  
+### [Multi-page wizard](wizard)
+
+> How to separate a single form out into sepearate pages of inputs.
