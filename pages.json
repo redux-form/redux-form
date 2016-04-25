@@ -63,13 +63,7 @@
           },
           "/docs/api/Reducer.md": {
             "file": "/docs/api/Reducer.md",
-            "title": "`reducer`",
-            "children": {
-              "/docs/api/ReducerSyncValidation.md": {
-                "file": "/docs/api/ReducerSyncValidation.md",
-                "title": "`reducer.syncValidation()`"
-              }
-            }
+            "title": "`reducer`"
           },
           "/docs/api/Props.md": {
             "file": "/docs/api/Props.md",
