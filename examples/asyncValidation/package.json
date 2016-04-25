@@ -1,6 +1,6 @@
 {
   "name": "redux-form-async-validation-example",
-  "version": "5.0.0",
+  "version": "6.0.0-alpha.6",
   "description": "An async validation example for redux-form",
   "repository": {
     "type": "git",
@@ -53,7 +53,7 @@
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
     "redux-form": "6.0.0-alpha.6",
-    "redux-form-website-template": "0.0.23"
+    "redux-form-website-template": "0.0.24"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
