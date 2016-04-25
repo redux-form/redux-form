@@ -9,18 +9,19 @@ const WizardFormSecondPage = (props) => {
     <form onSubmit={handleSubmit}>
         <div>
         <label>Email</label>
-          <Field name="email" component = {email => 
+          <Field name="email" component={email =>
             <div>
               <input type="email" {...email} placeholder="Email"/>
               {email.touched && email.error && <span>{email.error}</span>}
             </div>
-          } />
+          }/>
       </div>
       <div>
         <label>Sex</label>
         <div>
           <label><Field name="sex" component={input} type="radio" value="male"/> Male</label>
           <label><Field name="sex" component={input} type="radio" value="female"/> Female</label>
+          <Field name="sex" component={sex => sex.touched && sex.error ? <span>{sex.error}</span> : null}/>
         </div>
       </div>
       <div>
