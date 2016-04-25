@@ -44,4 +44,10 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 > How to use Immutable JS for `redux-form` state storage.
 
 ---
+
+### [Multi-page "Wizard" Form](wizard)
+
+> How to create a multi-page "wizard" form.
+
+---
   
