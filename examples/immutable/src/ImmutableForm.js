@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form/immutable' // <--- immutable import
+import validate from './validate'
 const { DOM: { input } } = React
 
 const ImmutableForm = (props) => {
@@ -42,5 +43,6 @@ const ImmutableForm = (props) => {
 }
 
 export default reduxForm({
-  form: 'immutableExample'  // a unique identifier for this form
+  form: 'immutableExample',  // a unique identifier for this form
+  validate
 })(ImmutableForm)

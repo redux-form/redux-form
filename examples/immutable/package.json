@@ -52,7 +52,7 @@
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.2",
     "redux": "^3.4.0",
-    "redux-form": "6.0.0-alpha.5",
+    "redux-form": "6.0.0-alpha.6",
     "redux-form-website-template": "0.0.22",
     "redux-immutablejs": "0.0.8"
   },
