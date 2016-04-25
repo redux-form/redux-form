@@ -65,7 +65,7 @@ const createReducer = structure => {
     [RESET](state) {
       const values = getIn(state, 'initial')
       let result = empty
-      if(values) {
+      if (values) {
         result = setIn(result, 'values', values)
         result = setIn(result, 'initial', values)
       } else {
@@ -119,10 +119,14 @@ const createReducer = structure => {
       }
       return result
     },
-    [SET_SUBMIT_FAILED](state) {
+    [SET_SUBMIT_FAILED](state, { fields }) {
       let result = state
       result = setIn(result, 'submitFailed', true)
       result = deleteIn(result, 'submitting')
+      fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
+      if (fields.length) {
+        result = setIn(result, 'anyTouched', true)
+      }
       return result
     },
     [SWAP_ARRAY_VALUES](state) {

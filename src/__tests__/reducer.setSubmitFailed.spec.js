@@ -41,6 +41,45 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+
+
+  it('should mark fields provided as touched', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          a: 'aVal',
+          b: 42,
+          c: true
+        }
+      }
+    }), {
+      ...setSubmitFailed('a', 'b', 'c'),
+      form: 'foo'
+    })
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            a: 'aVal',
+            b: 42,
+            c: true
+          },
+          fields: {
+            a: {
+              touched: true
+            },
+            b: {
+              touched: true
+            },
+            c: {
+              touched: true
+            }
+          },
+          anyTouched: true,
+          submitFailed: true
+        }
+      })
+  })
 }
 
 export default describeSetSubmitFailed

@@ -14,13 +14,10 @@ const createField = ({ deepEqual, getIn }) => {
       }
       this.key = generateKey()
       this.ConnectedField = createConnectedField(context._reduxForm, { deepEqual, getIn }, props.name)
-      this.isValid = this.isValid.bind(this)
     }
 
     componentWillMount() {
-      this.context._reduxForm.register(this.key, {
-        isValid: this.isValid
-      })
+      this.context._reduxForm.register(this.key, this)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -35,8 +32,12 @@ const createField = ({ deepEqual, getIn }) => {
       this.context._reduxForm.unregister(this.key)
     }
 
-    isValid() {
-      return this.refs.connected.getWrappedInstance().isValid()
+    get valid() {
+      return this.refs.connected.getWrappedInstance().valid
+    }
+
+    get name() {
+      return this.props.name
     }
 
     render() {

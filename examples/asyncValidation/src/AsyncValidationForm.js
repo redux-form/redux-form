@@ -37,6 +37,5 @@ const AsyncValidationForm = (props) => {
 export default reduxForm({
   form: 'asyncValidation', // a unique identifier for this form
   validate,
-  asyncValidate,
-  asyncBlurFields: [ 'username' ]
+  asyncValidate
 })(AsyncValidationForm)

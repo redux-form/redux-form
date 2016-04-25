@@ -20,7 +20,6 @@ const createConnectedField = ({
       if (!context._reduxForm) {
         throw new Error('ConnectedField must be inside a component decorated with reduxForm()')
       }
-      this.isValid = this.isValid.bind(this)
     }
 
     shouldComponentUpdate(nextProps) {
@@ -32,7 +31,7 @@ const createConnectedField = ({
       return plain.getIn(syncErrors, name)
     }
 
-    isValid() {
+    get valid() {
       const { asyncError, submitError } = this.props
 
       const error = this.syncError || asyncError || submitError
