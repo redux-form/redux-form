@@ -1082,6 +1082,33 @@ describe('createReduxForm', () => {
     expect(submit).toNotHaveBeenCalled();
   });
 
+  it('should call async validation if form is pristine and initialized but alwaysAsyncValidate is true', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const errorValue = { foo: 'no bears allowed' };
+    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
+    const Decorated = reduxForm({
+      form,
+      fields: [ 'foo', 'bar' ],
+      asyncValidate,
+      asyncBlurFields: [ 'foo' ],
+      alwaysAsyncValidate: true,
+      initialValues: {
+        foo: 'dog',
+        bar: 'cat'
+      }
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    stub.props.fields.foo.onBlur('dog');
+    expect(asyncValidate).toHaveBeenCalled();
+  });
+
   it('should call submit function passed to handleSubmit', (done) => {
     const submit = (values) => {
       expect(values).toEqual({

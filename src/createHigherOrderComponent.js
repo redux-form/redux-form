@@ -61,7 +61,7 @@ const createHigherOrderComponent = (config,
       }
 
       asyncValidate(name, value) {
-        const {asyncValidate, dispatch, fields, form, startAsyncValidation, stopAsyncValidation, validate} = this.props;
+        const {alwaysAsyncValidate, asyncValidate, dispatch, fields, form, startAsyncValidation, stopAsyncValidation, validate} = this.props;
         const isSubmitting = !name;
         if (asyncValidate) {
           const values = getValues(fields, form);
@@ -74,8 +74,9 @@ const createHigherOrderComponent = (config,
 
           // if blur validating, only run async validate if sync validation passes
           // and submitting (not blur validation) or form is dirty or form was never initialized
+          // unless alwaysAsyncValidate is true
           const syncValidationPasses = isSubmitting || isValid(syncErrors[name]);
-          if (syncValidationPasses && (isSubmitting || !allPristine || !initialized)) {
+          if (alwaysAsyncValidate || (syncValidationPasses && (isSubmitting || !allPristine || !initialized))) {
             return asyncValidation(() =>
               asyncValidate(values, dispatch, this.props), startAsyncValidation, stopAsyncValidation, name);
           }
@@ -145,6 +146,7 @@ const createHigherOrderComponent = (config,
     ReduxForm.WrappedComponent = WrappedComponent;
     ReduxForm.propTypes = {
       // props:
+      alwaysAsyncValidate: PropTypes.bool,
       asyncBlurFields: PropTypes.arrayOf(PropTypes.string),
       asyncValidate: PropTypes.func,
       dispatch: PropTypes.func.isRequired,
