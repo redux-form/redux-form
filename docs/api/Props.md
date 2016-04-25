@@ -5,7 +5,7 @@ to your decorated form component. The `props` that _you pass into your wrapped c
 listed [here](#/api/reduxForm).
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of these
-[`propTypes`](https://github.com/erikras/redux-form/blob/master/src/propTypes.js), 
+[`propTypes`](https://github.com/erikras/redux-form/blob/v6/src/propTypes.js), 
 so you may import them, like so:
 
 ```javascript
