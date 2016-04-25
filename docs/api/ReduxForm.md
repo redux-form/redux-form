@@ -107,5 +107,5 @@ detect submit failures and run some code when a submit fails.
 If validation passes, it should return `{}`. If validation fails, it should return the validation errors in the
 form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
-> See [Synchronous Validation Example](../../examples/synchronous-validation) for more details.
+> See [Synchronous Validation Example](../../examples/syncValidation) for more details.
 
