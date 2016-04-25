@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
+import { reducer as reduxFormReducer } from 'redux-form'
 import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
-import reducer from './reducer'
 
 const dest = document.getElementById('content')
-
+const reducer = combineReducers({
+  form: reduxFormReducer // mounted under "form"
+})
 const store =
   (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(reducer)
 
@@ -22,6 +24,7 @@ let render = () => {
   const WizardForm = require('./WizardForm').default
   const readme = require('./Wizard.md')
   const rawWizard = require('!!raw!./WizardForm')
+  const rawValidate = require('!!raw!./validate')
   const WizardFormFirstPage = require('!!raw!./WizardFormFirstPage')
   const WizardFormSecondPage = require('!!raw!./WizardFormSecondPage')
   const WizardFormThirdPage = require('!!raw!./WizardFormThirdPage')
@@ -49,6 +52,10 @@ let render = () => {
         <h4>WizardForm.js</h4>
 
         <Code source={rawWizard}/>
+
+        <h4>validate.js</h4>
+
+        <Code source={rawValidate}/>
 
         <h4>WizardFormFirstPage.js</h4>
 
@@ -96,6 +103,7 @@ if (module.hot) {
   module.hot.accept('./WizardFormSecondPage', rerender)
   module.hot.accept('./WizardFormThirdPage', rerender)
   module.hot.accept('./WizardFormThirdPage', rerender)
+  module.hot.accept('!!raw!./validate', rerender)
   module.hot.accept('!!raw!./WizardFormFirstPage', rerender)
   module.hot.accept('!!raw!./WizardFormSecondPage', rerender)
   module.hot.accept('!!raw!./WizardFormThirdPage', rerender)

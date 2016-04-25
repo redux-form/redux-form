@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-const  { DOM: { input, select, textarea } } = React
+import validate from './validate'
+const { DOM: { input, select, textarea } } = React
 const colors = [ 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet' ]
 
 const WizardFormThirdPage = (props) => {
@@ -9,14 +10,17 @@ const WizardFormThirdPage = (props) => {
     <form onSubmit={handleSubmit}>
       <div>
         <label>Favorite Color</label>
-        <div>
-          <Field name="favoriteColor" component={select}>
-            <option value="">Select a color...</option>
-            {colors.map(colorOption =>
-              <option value={colorOption} key={colorOption}>{colorOption}</option>)
-            }
-          </Field>
-        </div>
+        <Field name="favoriteColor" component={favoriteColor =>
+          <div>
+              <select {...favoriteColor}>
+                <option value="">Select a color...</option>
+                {colors.map(colorOption =>
+                  <option value={colorOption} key={colorOption}>{colorOption}</option>)
+                }
+              </select>
+                {favoriteColor.touched && favoriteColor.error && <span>{favoriteColor.error}</span>}
+          </div>
+        }/>
       </div>
       <div>
         <label htmlFor="employed">Employed</label>
@@ -31,9 +35,7 @@ const WizardFormThirdPage = (props) => {
         </div>
       </div>
       <div>
-      <button type="button" className="btn btn-default btn-lg" onClick={previousPage}>
-        <i className="fa fa-chevron-left"/>Previous
-      </button>
+        <button type="button" className="previous" onClick={previousPage}>Previous</button>
         <button type="submit" disabled={pristine || submitting}>Submit</button>
       </div>
     </form>
@@ -41,5 +43,6 @@ const WizardFormThirdPage = (props) => {
 }
 export default reduxForm({
   form: 'wizard', //Form name is same
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  validate
 })(WizardFormThirdPage)

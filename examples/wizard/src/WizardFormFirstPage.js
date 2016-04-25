@@ -1,16 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import validate from './validate'
 const  { DOM: { input } } = React
-const validate = values => {
-  const errors = {}
-  if (!values.firstName) {
-    errors.firstName = 'Required'
-  }
-  if (!values.lastName) {
-    errors.lastName = 'Required'
-  }
-  return errors
-}
+
 const WizardFormFirstPage = (props) => {
   const { handleSubmit } = props
   return (
@@ -28,15 +20,13 @@ const WizardFormFirstPage = (props) => {
         <label>Last Name</label>
           <Field name="lastName" component = {lastName => 
             <div>
-              <input type="text" {...lastName} placeholder="last Name"/>
+              <input type="text" {...lastName} placeholder="Last Name"/>
               {lastName.touched && lastName.error && <span>{lastName.error}</span>}
             </div>
           } />
       </div>
       <div>
-        <button type="submit">
-          Next <i className="fa fa-chevron-right"/>
-        </button>
+        <button type="submit" className="next">Next</button>
       </div>
     </form>
   ) 
