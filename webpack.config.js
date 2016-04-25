@@ -14,6 +14,11 @@ module.exports = {
   externals: {
     'react': reactExternal
   },
+  entry: {
+    'main': [
+      './src/client.js'
+    ]
+  },
   module: {
     loaders: [
       {

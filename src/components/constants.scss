@@ -80,6 +80,16 @@ $menu-threshold: 920px;
   content: '\f0c9';
 }
 
+@mixin fa-chevron-left {
+  @include fa;
+  content: '\f053';
+}
+
+@mixin fa-chevron-right {
+  @include fa;
+  content: '\f054';
+}
+
 @mixin fa-exclamation-circle {
   @include fa;
   content: '\f06a';

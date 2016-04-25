@@ -21,6 +21,20 @@
     transition: width 0.3s ease-in-out;
   }
 
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 20;
+    padding: 25px 0 0 $nav-width + 25px;
+    color: #ccc;
+    cursor: pointer;
+  }
+
   .menu {
     position: fixed;
     left: -$nav-width;
@@ -82,8 +96,11 @@
       left: 0;
     }
   }
-  &:hover {
+  &.open {
     @include open;
+    .overlay {
+      display: block;
+    }
   }
   @media (min-width: $menu-threshold) {
     @include open;

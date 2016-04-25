@@ -42,6 +42,9 @@ form {
           padding: 0;
         }
       }
+      & > select {
+        height: 29px;
+      }
       & > label { // radio buttons
         border: none;
         padding-left: 0;
@@ -75,6 +78,22 @@ form {
         }
         &:before {
           @include fa-paper-plane;
+          margin-right: 5px;
+        }
+        &:global(.next) {
+          &:before {
+            content: '';
+            margin-right: 0;
+          }
+          &:after {
+            @include fa-chevron-right;
+            margin-left: 5px;
+          }
+        }
+      }
+      &:global(.previous) {
+        &:before {
+          @include fa-chevron-left;
           margin-right: 5px;
         }
       }

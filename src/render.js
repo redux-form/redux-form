@@ -1,9 +1,6 @@
 import React from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import App from './components/App'
-
-/*<link href="https://npmcdn.com/redux-form-website-template@${version}/dist/bundle.css"
-media="screen, projection" rel="stylesheet" type="text/css"/>*/
 
 const render = ({ component, title, path, version, breadcrumbs }) =>
   `<!DOCTYPE html>
@@ -12,7 +9,7 @@ const render = ({ component, title, path, version, breadcrumbs }) =>
     <meta charSet="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title>Redux Form${title && ` - ${title}`}</title>
-    <link href="/${version}/bundle.css"
+    <link href="http://redux-form.com/${version}/bundle.css"
       media="screen, projection" rel="stylesheet" type="text/css"/>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
@@ -32,7 +29,11 @@ const render = ({ component, title, path, version, breadcrumbs }) =>
     </style>
   </head>
   <body>
-    ${renderToStaticMarkup(<App {...{ version, path, breadcrumbs }}>{component}</App>)}
+  <div id="content">
+    ${renderToString(<App {...{ version, path, breadcrumbs }}>{component}</App>)}
+  </div>
+  <script src="http://redux-form.com/${version}/bundle.js"></script>
+  <script>initReact(${JSON.stringify({ version, path, breadcrumbs })})</script>
   <script>
     (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

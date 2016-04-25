@@ -8,6 +8,11 @@ const formatLabel = label => /<p>(.+)<\/p>/.exec(marked(label))[ 1 ]
 class Nav extends Component {
   constructor(props) {
     super(props)
+    this.open = this.open.bind(this)
+    this.close = this.close.bind(this)
+    this.state = {
+      open: false
+    }
   }
 
   renderItem(href, label, indent = 0) {
@@ -19,11 +24,23 @@ class Nav extends Component {
     )
   }
 
+  open() {
+    this.setState({ open: true })
+  }
+
+  close() {
+    this.setState({ open: false })
+  }
+
   render() {
+    const { open } = this.state
     const { url } = this.props
     return (
-      <div className={styles.nav}>
-        <button type="button"/>
+      <div className={cx(styles.nav, { [styles.open]: open })}>
+        <button type="button" onClick={this.open}/>
+        <div className={styles.overlay} onClick={this.close}>
+          <i className="fa fa-times"/> Close
+        </div>
         <div className={styles.placeholder}/>
         <nav className={styles.menu}>
           <a href={url} className={styles.brand}>Redux Form</a>
@@ -34,7 +51,6 @@ class Nav extends Component {
           {this.renderItem('/docs/api/Props.md', '`props`', 1)}
           {this.renderItem('/docs/api/Field.md', '`Field`', 1)}
           {this.renderItem('/docs/api/Reducer.md', '`reducer`', 1)}
-          {this.renderItem('/docs/api/ReducerSyncValidation.md', '`reducer.syncValidation()`', 2)}
           {this.renderItem('/docs/api/SubmissionError.md', '`SubmissionError`', 1)}
           {this.renderItem('/docs/api/ActionCreators.md', 'Action Creators', 1)}
           {this.renderItem('/docs/faq', 'FAQ')}
@@ -45,6 +61,7 @@ class Nav extends Component {
           {this.renderItem('/examples/asyncValidation', 'Async Validation', 1)}
           {this.renderItem('/examples/initializeFromState', 'Initializing from State', 1)}
           {this.renderItem('/examples/immutable', 'Immutable JS', 1)}
+          {this.renderItem('/examples/wizard', 'Multi-page "Wizard" Form', 1)}
           {this.renderItem('/docs/DocumentationVersions.md', 'Older Versions')}
         </nav>
       </div>
