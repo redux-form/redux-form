@@ -1,10 +1,10 @@
 import expect from 'expect'
 import { ADD_ARRAY_VALUE, BLUR, CHANGE, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET,
-  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SWAP_ARRAY_VALUES,
-  TOUCH, UNTOUCH, DESTROY } from '../actionTypes'
+  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT,
+  SWAP_ARRAY_VALUES, TOUCH, UNTOUCH, DESTROY } from '../actionTypes'
 import { addArrayValue, blur, change, destroy, focus, initialize, removeArrayValue, reset,
-  startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit, swapArrayValues, touch,
-  untouch } from '../actions'
+  setSubmitFailed, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
+  swapArrayValues, touch, untouch } from '../actions'
 
 describe('actions', () => {
   it('should create add array value action', () => {
@@ -103,6 +103,10 @@ describe('actions', () => {
     expect(startSubmit()).toEqual({ type: START_SUBMIT })
   })
 
+  it('should create startSubmit action', () => {
+    expect(startSubmit()).toEqual({ type: START_SUBMIT })
+  })
+
   it('should create stopAsyncValidation action', () => {
     const errors = {
       foo: 'Foo error',
@@ -126,6 +130,17 @@ describe('actions', () => {
     expect(stopSubmit(errors)).toEqual({
       type: STOP_SUBMIT,
       errors
+    })
+  })
+
+  it('should create setSubmitFailed action', () => {
+    expect(setSubmitFailed()).toEqual({
+      type: SET_SUBMIT_FAILED,
+      fields: []
+    })
+    expect(setSubmitFailed('a', 'b', 'c')).toEqual({
+      type: SET_SUBMIT_FAILED,
+      fields: [ 'a', 'b', 'c' ]
     })
   })
 

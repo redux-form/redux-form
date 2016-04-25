@@ -38,15 +38,4 @@ const store = createStore(reducer);
 
 ### Additional Functionality
 
-You can enhance the behavior of the `redux-form` reducer by calling additional methods on it
-when you mount it to the Redux state. You may call as many of these on it as you wish, and each 
-will return a new copy of the reducer with the additional functionality.
-
-### [`reducer.syncValidation(Object<String, Object<String, Function>>)`](ReducerSyncValidation.md)
-
-> Returns a form reducer that will also run the synchronous validation function given for each 
-form name.
-
----
-
 The old `v5` functionality of `normalize()` and `plugin()` have not yet been implemented in `v6`.

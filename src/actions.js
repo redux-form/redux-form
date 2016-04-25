@@ -39,8 +39,8 @@ export const stopAsyncValidation = errors =>
 export const stopSubmit = errors =>
   ({ type: STOP_SUBMIT, errors })
 
-export const setSubmitFailed = () =>
-  ({ type: SET_SUBMIT_FAILED })
+export const setSubmitFailed = (...fields) =>
+  ({ type: SET_SUBMIT_FAILED, fields })
 
 export const swapArrayValues = (path, indexA, indexB) =>
   ({ type: SWAP_ARRAY_VALUES, path, indexA, indexB })

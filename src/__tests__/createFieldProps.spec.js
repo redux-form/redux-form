@@ -106,22 +106,6 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(touchedResult.touched).toBe(true)
     })
 
-    it('should show as touched if submitFailed', () => {
-      const untouchedResult = createFieldProps(getIn, 'foo', {
-        initial: 'bar',
-        value: 'bar',
-        state: empty
-      })
-      expect(untouchedResult.touched).toBe(false)
-      const touchedResult = createFieldProps(getIn, 'foo', {
-        initial: 'bar',
-        value: 'bar',
-        state: empty,
-        submitFailed: true
-      })
-      expect(touchedResult.touched).toBe(true)
-    })
-
     it('should read visited from state', () => {
       const notVisitedResult = createFieldProps(getIn, 'foo', {
         initial: 'bar',

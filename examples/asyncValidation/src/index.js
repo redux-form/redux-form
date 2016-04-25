@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
+import { reducer as reduxFormReducer } from 'redux-form'
 import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
-import reducer from './reducer'
 
 const dest = document.getElementById('content')
+const reducer = combineReducers({
+  form: reduxFormReducer // mounted under "form"
+})
 const store =
   (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(reducer)
 

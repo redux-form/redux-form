@@ -1,11 +1,11 @@
 import isPromise from 'is-promise'
 import SubmissionError from './SubmissionError'
 
-const handleSubmit = (submit, props, isValid, asyncValidate) => {
+const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
   const { dispatch, startSubmit, stopSubmit, setSubmitFailed, syncErrors,
     returnRejectedSubmitPromise, values } = props
 
-  if (isValid) {
+  if (valid) {
     const doSubmit = () => {
       const result = submit(values, dispatch)
       if (isPromise(result)) {
@@ -24,18 +24,22 @@ const handleSubmit = (submit, props, isValid, asyncValidate) => {
       return result
     }
 
-    return asyncValidate ?
-      asyncValidate()
+    const asyncValidateResult =  asyncValidate && asyncValidate()
+    if(asyncValidateResult) {
+      return asyncValidateResult
         .then(
           doSubmit,
           asyncErrors => {
-            setSubmitFailed()
+            setSubmitFailed(...fields)
             if (returnRejectedSubmitPromise) {
               return Promise.reject(asyncErrors)
             }
-          }) : doSubmit()
+          })
+    } else {
+      return doSubmit()
+    }
   } else {
-    setSubmitFailed()
+    setSubmitFailed(...fields)
 
     if (returnRejectedSubmitPromise) {
       return Promise.reject(syncErrors)

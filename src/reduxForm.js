@@ -92,7 +92,7 @@ const createReduxForm =
           }
 
           get valid() {
-            return every(this.fields, field => field.isValid())
+            return every(this.fields, field => field.valid)
           }
 
           get invalid() {
@@ -105,6 +105,10 @@ const createReduxForm =
 
           unregister(key) {
             delete this.fields[ key ]
+          }
+
+          get fieldList() {
+            return Object.values(this.fields).map(field => field.name)
           }
 
           asyncValidate(name, value) {
@@ -140,9 +144,9 @@ const createReduxForm =
             }
             return !submitOrEvent || silenceEvent(submitOrEvent) ?
               // submitOrEvent is an event: fire submit
-              handleSubmit(check(onSubmit), this.props, this.valid) :
+              handleSubmit(check(onSubmit), this.props, this.valid, this.asyncValidate, this.fieldList) :
               // submitOrEvent is the submit function: return deferred submit thunk
-              silenceEvents(() => handleSubmit(check(submitOrEvent), this.props, this.valid))
+              silenceEvents(() => handleSubmit(check(submitOrEvent), this.props, this.valid, this.asyncValidate, this.fieldList))
           }
 
           render() {
