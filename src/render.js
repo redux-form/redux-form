@@ -11,7 +11,6 @@ const render = ({ component, title, path, version, breadcrumbs }) =>
     <title>Redux Form${title && ` - ${title}`}</title>
     <link href="http://redux-form.com/${version}/bundle.css"
       media="screen, projection" rel="stylesheet" type="text/css"/>
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css">
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
           media="screen, projection" rel="stylesheet" type="text/css"/>
     <meta itemprop="name" content="Redux Form"/>
