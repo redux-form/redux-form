@@ -1,7 +1,7 @@
 {
   "name": "redux-form-wizard-example",
   "version": "5.0.0",
-  "description": "Multiplage Wizard example for redux-form",
+  "description": "Multi-page Wizard example for redux-form",
   "repository": {
     "type": "git",
     "url": "https://github.com/erikras/redux-form"
