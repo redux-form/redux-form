@@ -1,5 +1,5 @@
 import { Iterable } from 'immutable'
-import every from 'lodash.every'
+import every from '../../util/every'
 
 const deepEqualValues = (a, b) => {
   if (a === undefined && b === '') return true

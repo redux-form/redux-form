@@ -1,4 +1,4 @@
-import toPath from 'lodash.topath'
+import toPath from '../../util/toPath'
 
 const deleteInWithPath = (state, first, ...rest) => {
   if (state === undefined || first === undefined) {

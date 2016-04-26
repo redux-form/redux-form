@@ -1,5 +1,5 @@
 import { Map, Iterable, fromJS } from 'immutable'
-import toPath from 'lodash.topath'
+import toPath from '../../util/toPath'
 import deepEqual from './deepEqual'
 import deleteWithPath from './deleteWithPath'
 import plainGetIn from '../plain/getIn'

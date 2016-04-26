@@ -3,8 +3,8 @@ import createOnChange from './events/createOnChange'
 import createOnDragStart from './events/createOnDragStart'
 import createOnDrop from './events/createOnDrop'
 import createOnFocus from './events/createOnFocus'
-import partial from 'lodash.partial'
-import noop from 'lodash.noop'
+import partial from './util/partial'
+import noop from './util/noop'
 
 const processProps = (props, _value) => {
   const { type, value, ...rest } = props
