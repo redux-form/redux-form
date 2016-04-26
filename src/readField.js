@@ -25,7 +25,7 @@ const getNextKey = path => {
 };
 
 const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props, callback = () => null, prefix = '') => {
-  const {asyncBlurFields, blur, change, focus, form, initialValues, readonly, addArrayValue,
+  const {asyncBlurFields, autofill, blur, change, focus, form, initialValues, readonly, addArrayValue,
     removeArrayValue, swapArrayValues} = props;
   const dotIndex = fieldName.indexOf('.');
   const openIndex = fieldName.indexOf('[');
@@ -119,6 +119,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     field.value = initialValue;
     field.initialValue = initialValue;
     if (!readonly) {
+      field.autofill = value => autofill(name, value);
       field.onBlur = createOnBlur(name, blur, isReactNative,
         ~asyncBlurFields.indexOf(name) && ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
       field.onChange = onChange;

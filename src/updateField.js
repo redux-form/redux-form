@@ -43,6 +43,10 @@ const updateField = (field, formField, active, syncError) => {
   if (visited !== field.visited) {
     diff.visited = visited;
   }
+  const autofilled = !!formField.autofilled;
+  if (autofilled !== field.autofilled) {
+    diff.autofilled = autofilled;
+  }
 
   if ('initial' in formField && formField.initial !== field.initialValue) {
     field.initialValue = formField.initial;

@@ -5,6 +5,8 @@ import createAll from './createAll';
 export const {
   actionTypes,
   addArrayValue,
+  autofill,
+  autofillWithKey,
   blur,
   change,
   changeWithKey,

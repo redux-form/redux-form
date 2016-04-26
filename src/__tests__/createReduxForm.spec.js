@@ -31,11 +31,12 @@ describe('createReduxForm', () => {
     }
   }
 
-  const expectField = ({field, name, value, initial, valid, dirty, error, touched, visited, readonly}) => {
+  const expectField = ({field, name, value, initial, valid, dirty, error, touched, visited, readonly, autofilled}) => {
     expect(field).toBeA('object');
     expect(field.name).toBe(name);
     expect(field.value).toEqual(value === undefined ? '' : value);
     if (readonly) {
+      expect(field.autofill).toNotExist();
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
       expect(field.onDragStart).toNotExist();
@@ -43,6 +44,7 @@ describe('createReduxForm', () => {
       expect(field.onFocus).toNotExist();
       expect(field.onUpdate).toNotExist();
     } else {
+      expect(field.autofill).toBeA('function');
       expect(field.onBlur).toBeA('function');
       expect(field.onChange).toBeA('function');
       expect(field.onDragStart).toBeA('function');
@@ -58,6 +60,11 @@ describe('createReduxForm', () => {
     expect(field.error).toEqual(error);
     expect(field.touched).toBe(touched);
     expect(field.visited).toBe(visited);
+    if (autofilled) {
+      expect(field.autofilled).toBe(autofilled);
+    } else {
+      expect(autofilled in field).toBe(false);
+    }
   };
 
   it('should render without error', () => {
@@ -144,6 +151,50 @@ describe('createReduxForm', () => {
       name: 'bar',
       value: 'barValue',
       initial: 'barValue',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+  });
+
+  it('should set value and autofilled and NOT touch field on autofill', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: [ 'foo', 'bar' ]
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    stub.props.fields.foo.autofill('fooValue');
+
+    expect(stub.props.fields).toBeA('object');
+    expectField({
+      field: stub.props.fields.foo,
+      name: 'foo',
+      value: 'fooValue',
+      initial: undefined,
+      valid: true,
+      dirty: true,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false,
+      autofilled: true
+    });
+    expectField({
+      field: stub.props.fields.bar,
+      name: 'bar',
+      value: undefined,
+      initial: undefined,
       valid: true,
       dirty: false,
       error: undefined,
@@ -479,6 +530,52 @@ describe('createReduxForm', () => {
       initial: 'Jerry',
       valid: true,
       dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false
+    });
+  });
+
+  it('should delete autofilled when field changes', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const Decorated = reduxForm({
+      form,
+      fields: [ 'foo', 'bar' ]
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    stub.props.fields.foo.autofill('fooValue');
+
+    expectField({
+      field: stub.props.fields.foo,
+      name: 'foo',
+      value: 'fooValue',
+      initial: undefined,
+      valid: true,
+      dirty: true,
+      error: undefined,
+      touched: false,
+      visited: false,
+      readonly: false,
+      autofilled: true
+    });
+
+    stub.props.fields.foo.onChange('fooValue!');
+
+    expectField({
+      field: stub.props.fields.foo,
+      name: 'foo',
+      value: 'fooValue!',
+      initial: undefined,
+      valid: true,
+      dirty: true,
       error: undefined,
       touched: false,
       visited: false,

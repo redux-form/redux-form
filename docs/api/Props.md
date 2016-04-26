@@ -59,6 +59,14 @@ has the following properties:
 
 > > `true` if this field currently has focus. It will only work if you are passing `onFocus` to your input element.
 
+> #### `autofill : Function`
+
+> > Provided for convenience in dispatching an autofill action to modify the field value and set the `autofilled` flag to `true`.
+
+> #### `autofilled : boolean` [optional]
+
+> > `true` if the field value was set programmatically by an autofill action. Not present initially or after the field is updated by `onChange`. Applications may wish to check that `pristine || autofilled` is true before autofilling to avoid overwriting user-provided values.
+
 > #### `checked : boolean` [optional]
 
 > > An alias for `value` _only when `value` is a boolean_. Provided for convenience of destructuring the whole field

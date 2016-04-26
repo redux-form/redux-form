@@ -1,7 +1,7 @@
 import expect from 'expect';
-import { ADD_ARRAY_VALUE, BLUR, CHANGE, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
+import { ADD_ARRAY_VALUE, AUTOFILL, BLUR, CHANGE, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH, DESTROY } from '../actionTypes';
-import {addArrayValue, blur, change, destroy, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
+import {addArrayValue, autofill, blur, change, destroy, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, swapArrayValues, touch, untouch} from '../actions';
 
 describe('actions', () => {
@@ -33,6 +33,19 @@ describe('actions', () => {
       index: 2,
       value: 'foo',
       fields: [ 'x', 'y' ]
+    });
+  });
+
+  it('should create autofill action', () => {
+    expect(autofill('foo', 'bar')).toEqual({
+      type: AUTOFILL,
+      field: 'foo',
+      value: 'bar'
+    });
+    expect(autofill('baz', 7)).toEqual({
+      type: AUTOFILL,
+      field: 'baz',
+      value: 7
     });
   });
 
