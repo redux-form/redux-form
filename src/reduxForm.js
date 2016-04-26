@@ -10,6 +10,7 @@ import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
 import plain from './structure/plain'
+import values from 'lodash.values';
 
 const { blur, change, focus, ...formActions } = importedActions
 
@@ -108,7 +109,7 @@ const createReduxForm =
           }
 
           get fieldList() {
-            return Object.values(this.fields).map(field => field.name)
+            return values(this.fields).map(field => field.name)
           }
 
           asyncValidate(name, value) {
