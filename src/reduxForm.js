@@ -10,7 +10,7 @@ import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
 import plain from './structure/plain'
-import values from 'lodash.values';
+import values from 'lodash.values'
 
 const { blur, change, focus, ...formActions } = importedActions
 
