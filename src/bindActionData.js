@@ -1,4 +1,4 @@
-import mapValues from 'lodash.mapvalues'
+import mapValues from './util/mapValues'
 
 /**
  * Adds additional properties to the results of the function or map of functions passed

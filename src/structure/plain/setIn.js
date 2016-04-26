@@ -1,4 +1,4 @@
-import toPath from 'lodash.topath'
+import toPath from '../../util/toPath'
 
 const setInWithPath = (state, value, first, ...rest) => {
   if (first === undefined) {
