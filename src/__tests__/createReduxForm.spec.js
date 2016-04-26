@@ -2148,13 +2148,14 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.contact.billing.phones).toBe(billingPhones);
   });
 
-  it('should not blow away existing values when initialValues changes', () => {
+  it('should not replace existing values when initialValues changes if overwriteOnInitialValuesChange is set to false', () => {
     const store = makeStore();
     const form = 'testForm';
 
     const Decorated = reduxForm({
       form,
-      fields: [ 'firstName', 'lastName' ]
+      fields: [ 'firstName', 'lastName' ],
+      overwriteOnInitialValuesChange: false
     })(Form);
 
     class StatefulContainer extends Component {
@@ -2220,6 +2221,75 @@ describe('createReduxForm', () => {
     stub.props.resetForm();
 
     // values now go back to Ringo Starr, pristine
+    expect(stub.props.fields.firstName.value).toBe('Ringo');
+    expect(stub.props.fields.firstName.pristine).toBe(true);
+    expect(stub.props.fields.lastName.value).toBe('Starr');
+    expect(stub.props.fields.lastName.pristine).toBe(true);
+  });
+
+  it('should replace existing values when initialValues changes', () => {
+    const store = makeStore();
+    const form = 'testForm';
+
+    const Decorated = reduxForm({
+      form,
+      fields: [ 'firstName', 'lastName' ]
+    })(Form);
+
+    class StatefulContainer extends Component {
+      constructor(props) {
+        super(props);
+
+        this.starrMe = this.starrMe.bind(this);
+        this.state = {
+          beatle: { firstName: 'John', lastName: 'Lennon' }
+        };
+      }
+
+      starrMe() {
+        this.setState({
+          beatle: { firstName: 'Ringo', lastName: 'Starr' }
+        });
+      }
+
+      render() {
+        return (
+          <div>
+            <Decorated initialValues={this.state.beatle}/>
+            <button onClick={this.starrMe}>Ringo Me!</button>
+          </div>
+        );
+      }
+    }
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <StatefulContainer/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    // initialized to John Lennon, pristine
+    expect(stub.props.fields.firstName.value).toBe('John');
+    expect(stub.props.fields.firstName.pristine).toBe(true);
+    expect(stub.props.fields.lastName.value).toBe('Lennon');
+    expect(stub.props.fields.lastName.pristine).toBe(true);
+
+    // users changes to George Harrison
+    stub.props.fields.firstName.onChange('George');
+    stub.props.fields.lastName.onChange('Harrison');
+
+    // values are now George Harrison
+    expect(stub.props.fields.firstName.value).toBe('George');
+    expect(stub.props.fields.firstName.pristine).toBe(false);
+    expect(stub.props.fields.lastName.value).toBe('Harrison');
+    expect(stub.props.fields.lastName.pristine).toBe(false);
+
+    // change initialValues to Ringo Starr
+    const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button');
+    TestUtils.Simulate.click(button);
+
+    // values are now Ringo Starr, pristine
     expect(stub.props.fields.firstName.value).toBe('Ringo');
     expect(stub.props.fields.firstName.pristine).toBe(true);
     expect(stub.props.fields.lastName.value).toBe('Starr');

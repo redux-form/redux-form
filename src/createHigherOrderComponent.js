@@ -50,7 +50,9 @@ const createHigherOrderComponent = (config,
           this.fields = readFields(nextProps, this.props, this.fields, this.asyncValidate, isReactNative);
         }
         if (!deepEqual(this.props.initialValues, nextProps.initialValues)) {
-          this.props.initialize(nextProps.initialValues, nextProps.fields, !this.props.form._initialized);
+          this.props.initialize(nextProps.initialValues,
+            nextProps.fields,
+            this.props.overwriteOnInitialValuesChange || !this.props.form._initialized);
         }
       }
 
@@ -154,6 +156,7 @@ const createHigherOrderComponent = (config,
       onSubmit: PropTypes.func,
       onSubmitSuccess: PropTypes.func,
       onSubmitFail: PropTypes.func,
+      overwriteOnInitialValuesChange: PropTypes.bool.isRequired,
       propNamespace: PropTypes.string,
       readonly: PropTypes.bool,
       returnRejectedSubmitPromise: PropTypes.bool,

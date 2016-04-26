@@ -12,6 +12,7 @@ const createReduxForm =
       WrappedComponent => {
         const ReduxFormConnector = reduxFormConnector(WrappedComponent, mapStateToProps, mapDispatchToProps, mergeProps, options);
         const configWithDefaults = {
+          overwriteOnInitialValuesChange: true,
           touchOnBlur: true,
           touchOnChange: false,
           destroyOnUnmount: true,
