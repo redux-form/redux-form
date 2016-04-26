@@ -11,6 +11,8 @@ const isNative =
 export const {
   actionTypes,
   addArrayValue,
+  autofill,
+  autofillWithKey,
   blur,
   change,
   changeWithKey,

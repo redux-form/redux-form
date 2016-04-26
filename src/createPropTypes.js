@@ -2,6 +2,7 @@ const createPropTypes = ({PropTypes: {any, bool, string, func, object}}) => ({
   // State:
   active: string,                     // currently active field
   asyncValidating: bool.isRequired,   // true if async validation is running
+  autofilled: bool,                   // true if set programmatically by autofill
   dirty: bool.isRequired,             // true if any values are different from initialValues
   error: any,                         // form-wide error from '_error' key in validation result
   errors: object,                     // a map of errors corresponding to structure of form data (result of validation)

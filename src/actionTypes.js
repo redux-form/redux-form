@@ -1,4 +1,5 @@
 export const ADD_ARRAY_VALUE = 'redux-form/ADD_ARRAY_VALUE';
+export const AUTOFILL = 'redux-form/AUTOFILL';
 export const BLUR = 'redux-form/BLUR';
 export const CHANGE = 'redux-form/CHANGE';
 export const DESTROY = 'redux-form/DESTROY';

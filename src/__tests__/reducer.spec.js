@@ -1,7 +1,7 @@
 import expect from 'expect';
 import reducer, {globalErrorKey} from '../reducer';
 import bindActionData from '../bindActionData';
-import {addArrayValue, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
+import {addArrayValue, autofill, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
   stopAsyncValidation, stopSubmit, swapArrayValues, touch, untouch, destroy} from '../actions';
 import {isFieldValue, makeFieldValue} from '../fieldValue';
 
@@ -584,6 +584,60 @@ describe('reducer', () => {
     expect(isFieldValue(state.testForm.myField[1].myField2[2].bar)).toBe(true);
   });
 
+  it('should set value on autofill with empty state', () => {
+    const state = reducer({}, {
+      ...autofill('myField', 'myValue'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          value: 'myValue',
+          autofilled: true
+        },
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
+    expect(isFieldValue(state.foo.myField)).toBe(true);
+  });
+
+  it('should set value on autofill with initial value', () => {
+    const state = reducer({
+      foo: {
+        myField: makeFieldValue({
+          value: 'initial'
+        }),
+        _active: 'myField',
+        _asyncValidating: false,
+        [globalErrorKey]: 'Some global error',
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...autofill('myField', 'different'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          value: 'different',
+          autofilled: true
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        [globalErrorKey]: 'Some global error',
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
+    expect(isFieldValue(state.foo.myField)).toBe(true);
+  });
+
   it('should set value on blur with empty state', () => {
     const state = reducer({}, {
       ...blur('myField', 'myValue'),
@@ -887,6 +941,39 @@ describe('reducer', () => {
           value: 'initial',
           submitError: 'submit error',
           asyncError: 'async error'
+        }),
+        _active: 'myField',
+        _asyncValidating: false,
+        [globalErrorKey]: 'Some global error',
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...change('myField', 'different'),
+      form: 'foo'
+    });
+    expect(state.foo)
+      .toEqual({
+        myField: {
+          value: 'different'
+        },
+        _active: 'myField',
+        _asyncValidating: false,
+        [globalErrorKey]: 'Some global error',
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
+    expect(isFieldValue(state.foo.myField)).toBe(true);
+  });
+
+  it('should set value on change and remove autofilled', () => {
+    const state = reducer({
+      foo: {
+        myField: makeFieldValue({
+          value: 'initial',
+          autofilled: true
         }),
         _active: 'myField',
         _asyncValidating: false,

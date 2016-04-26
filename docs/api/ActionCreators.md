@@ -4,6 +4,15 @@
 you wish. However, **it is *highly* recommended that you use the actions passed as props to your component
 for most of your needs.**
 
+### `autofill(form:String, field:String, value:String)`
+
+> Saves the value to the field and sets its `autofilled` property to `true`.
+
+### `autofillWithKey(form:String, formKey, field:String, value:String)`
+
+> Saves the value to the field in the form under the specified `formKey` and sets its `autofilled` property to `true`. For use when using
+[multirecord forms](#/examples/multirecord).
+
 ### `blur(form:String, field:String, value:String)`
 
 > Saves the value to the field.

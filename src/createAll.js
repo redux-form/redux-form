@@ -11,6 +11,7 @@ import getValues from './getValuesFromState';
 const boundActions = {
   ...mapValues({
     ...actions,
+    autofillWithKey: (key, ...args) => bindActionData(actions.autofill, {key})(...args),
     changeWithKey: (key, ...args) => bindActionData(actions.change, {key})(...args),
     initializeWithKey: (key, ...args) => bindActionData(actions.initialize, {key})(...args),
     reset: (key) => bindActionData(actions.reset, {key})(),
@@ -21,6 +22,8 @@ const boundActions = {
 };
 
 const addArrayValue = boundActions.addArrayValue;
+const autofill = boundActions.autofill;
+const autofillWithKey = boundActions.autofillWithKey;
 const blur = boundActions.blur;
 const change = boundActions.change;
 const changeWithKey = boundActions.changeWithKey;
@@ -45,6 +48,8 @@ export default function createAll(isReactNative, React, connect) {
   return {
     actionTypes,
     addArrayValue,
+    autofill,
+    autofillWithKey,
     blur,
     change,
     changeWithKey,
