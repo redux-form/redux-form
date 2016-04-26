@@ -38,7 +38,7 @@ component to populate its value and listen for changes.
   
 ```js
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 class ContactForm extends Component {
   render() {
