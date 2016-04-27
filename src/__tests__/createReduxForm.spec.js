@@ -7,6 +7,7 @@ import TestUtils from 'react-addons-test-utils';
 import {combineReducers, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import reducer from '../reducer';
+import {makeFieldValue} from '../fieldValue';
 import createReduxForm from '../createReduxForm';
 
 const createRestorableSpy = (fn) => {
@@ -17,9 +18,9 @@ const createRestorableSpy = (fn) => {
 
 describe('createReduxForm', () => {
   const reduxForm = createReduxForm(false, React, connect);
-  const makeStore = () => createStore(combineReducers({
+  const makeStore = (initialState = {}) => createStore(combineReducers({
     form: reducer
-  }));
+  }), { form: initialState });
 
   it('should return a decorator function', () => {
     expect(reduxForm).toBeA('function');
@@ -31,7 +32,7 @@ describe('createReduxForm', () => {
     }
   }
 
-  const expectField = ({field, name, value, initial, valid, dirty, error, touched, visited, readonly, autofilled}) => {
+  const expectField = ({ field, name, value, initial, valid, dirty, error, touched, visited, readonly, autofilled }) => {
     expect(field).toBeA('object');
     expect(field.name).toBe(name);
     expect(field.value).toEqual(value === undefined ? '' : value);
@@ -1136,6 +1137,34 @@ describe('createReduxForm', () => {
     const stub = TestUtils.findRenderedComponentWithType(dom, Form);
 
     stub.props.fields.foo.onBlur();
+    expect(asyncValidate).toHaveBeenCalled();
+  });
+
+  it('should call async validation for matching array field', () => {
+    const store = makeStore({
+      testForm: {
+        foo: [
+          {}
+        ]
+      }
+    });
+    const form = 'testForm';
+    const errorValue = { foo: 'no bears allowed' };
+    const asyncValidate = createSpy().andReturn(Promise.reject(errorValue));
+    const Decorated = reduxForm({
+      form,
+      fields: [ 'foo[].name' ],
+      asyncValidate,
+      asyncBlurFields: [ 'foo[].name' ]
+    })(Form);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, Form);
+
+    stub.props.fields.foo[0].name.onBlur();
     expect(asyncValidate).toHaveBeenCalled();
   });
 
@@ -2463,7 +2492,7 @@ describe('createReduxForm', () => {
 
       render() {
         fooRenders++;
-        const {field} = this.props;
+        const { field } = this.props;
         return <input type="text" {...field}/>;
       }
     }
@@ -2478,7 +2507,7 @@ describe('createReduxForm', () => {
 
       render() {
         barRenders++;
-        const {field} = this.props;
+        const { field } = this.props;
         return <input type="password" {...field}/>;
       }
     }
@@ -2488,7 +2517,7 @@ describe('createReduxForm', () => {
 
     class FieldTestForm extends Component {
       render() {
-        const {fields: {foo, bar}} = this.props;
+        const { fields: { foo, bar } } = this.props;
         return (<div>
           <FooInput field={foo}/>
           <BarInput field={bar}/>

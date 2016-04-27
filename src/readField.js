@@ -24,6 +24,10 @@ const getNextKey = path => {
   return dotIndex > 0 ? path.substring(0, dotIndex) : path;
 };
 
+const shouldAsyncValidate = (name, asyncBlurFields) =>
+  // remove array indices
+  ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'));
+
 const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncValidate, isReactNative, props, callback = () => null, prefix = '') => {
   const {asyncBlurFields, autofill, blur, change, focus, form, initialValues, readonly, addArrayValue,
     removeArrayValue, swapArrayValues} = props;
@@ -121,7 +125,8 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     if (!readonly) {
       field.autofill = value => autofill(name, value);
       field.onBlur = createOnBlur(name, blur, isReactNative,
-        ~asyncBlurFields.indexOf(name) && ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
+        shouldAsyncValidate(name, asyncBlurFields) &&
+        ((blurName, blurValue) => silencePromise(asyncValidate(blurName, blurValue))));
       field.onChange = onChange;
       field.onDragStart = createOnDragStart(name, () => field.value);
       field.onDrop = createOnDrop(name, change);
