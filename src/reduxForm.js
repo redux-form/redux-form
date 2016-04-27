@@ -117,7 +117,8 @@ const createReduxForm =
             if (asyncValidate) {
               const valuesToValidate = isSubmitting ? values : setIn(values, name, value)
               const syncValidationPasses = isSubmitting || !getIn(syncErrors, name)
-              const isBlurField = !isSubmitting && (!asyncBlurFields || ~asyncBlurFields.indexOf(name))
+              const isBlurField = !isSubmitting &&
+                (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
 
               // if blur validating, only run async validate if sync validation passes and either no
               // blur fields are passed or the field that has blurred is listed
