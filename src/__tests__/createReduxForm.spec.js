@@ -1144,7 +1144,8 @@ describe('createReduxForm', () => {
     const store = makeStore({
       testForm: {
         foo: [
-          {}
+          makeFieldValue({ value: 'dog' }),
+          makeFieldValue({ value: 'cat' })
         ]
       }
     });
