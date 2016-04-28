@@ -1,6 +1,5 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-const { DOM: { input } } = React
 
 const SubmitValidationForm = (props) => {
   const { error, handleSubmit, pristine, reset, submitting } = props

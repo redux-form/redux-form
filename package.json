@@ -42,7 +42,6 @@
     "es6-error": "^2.1.0",
     "hoist-non-react-statics": "^1.0.5",
     "immutable": "^3.7.6",
-    "is-class": "0.0.4",
     "is-promise": "^2.1.0"
   },
   "devDependencies": {

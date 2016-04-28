@@ -1,7 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
-const { DOM: { input, select, textarea } } = React
 const colors = [ 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet' ]
 
 const WizardFormThirdPage = (props) => {
@@ -25,13 +24,13 @@ const WizardFormThirdPage = (props) => {
       <div>
         <label htmlFor="employed">Employed</label>
         <div>
-          <Field name="employed" id="employed" component={input} type="checkbox"/>
+          <Field name="employed" id="employed" component="input" type="checkbox"/>
         </div>
       </div>
       <div>
         <label>Notes</label>
         <div>
-          <Field name="notes" component={textarea}/>
+          <Field name="notes" component="textarea"/>
         </div>
       </div>
       <div>

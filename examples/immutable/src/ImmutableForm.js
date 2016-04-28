@@ -1,7 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form/immutable' // <--- immutable import
 import validate from './validate'
-const { DOM: { input } } = React
 
 const ImmutableForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props
