@@ -1,7 +1,7 @@
 {
-  "name": "redux-form-simple-material-ui-example",
+  "name": "redux-form-material-ui-example",
   "version": "6.0.0-alpha.6",
-  "description": "A simple example for redux-form with material-ui",
+  "description": "An example of redux-form with material-ui",
   "repository": {
     "type": "git",
     "url": "https://github.com/erikras/redux-form"
