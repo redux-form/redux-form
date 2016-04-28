@@ -7,14 +7,21 @@ import Checkbox from 'material-ui/lib/checkbox'
 import SelectField from 'material-ui/lib/select-field'
 import MenuItem from 'material-ui/lib/menus/menu-item'
 
-class MaterialUiForm  extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props
-    return (
-      <form onSubmit={handleSubmit}>
+const validate = values => {
+  const errors = {}
+  const requiredFields = [ 'firstName', 'lastName', 'sex', 'favoriteColor', 'notes' ]
+  requiredFields.forEach(field => {
+    if(!values[field]) {
+      errors[field] = 'Required'
+    }
+  })
+  return errors
+}
+
+const MaterialUiForm = props => {
+  const { handleSubmit, pristine, reset, submitting } = props
+  return (
+    <form onSubmit={handleSubmit}>
       <div>
         <Field name="firstName" component={firstName => 
           <TextField hintText = "First Name" 
@@ -22,26 +29,26 @@ class MaterialUiForm  extends React.Component {
             {...firstName} 
           />
         }/>
-        </div>
-        <div>
-            <Field name="lastName" component={lastName => 
+      </div>
+      <div>
+        <Field name="lastName" component={lastName =>
               <TextField 
                 hintText = "Last Name"
                 floatingLabelText="Last Name"
                 {...lastName} />
             }/>
-        </div>
-        <div>
-            <Field name="email" component={email =>
+      </div>
+      <div>
+        <Field name="email" component={email =>
               <TextField 
                 hintText="Email"
                 floatingLabelText="Email"
                 {...email}
               />
             }/>
-        </div>
-        <div>
-          <Field name="sex" component={sex => 
+      </div>
+      <div>
+        <Field name="sex" component={sex =>
              <RadioButtonGroup {...sex}>
                 <RadioButton
                   value="male"
@@ -53,9 +60,9 @@ class MaterialUiForm  extends React.Component {
                 />
              </RadioButtonGroup>
           }/>
-        </div>
-        <div>
-          <Field name="favoriteColor" component={props => 
+      </div>
+      <div>
+        <Field name="favoriteColor" component={props =>
               <div>
                 <SelectField 
                   {...props} 
@@ -69,36 +76,37 @@ class MaterialUiForm  extends React.Component {
                 </SelectField>
               </div>
           }/>
-        </div>
+      </div>
+      <div>
         <div>
-          <div>
-            <Field name="employed" id="employed" component={ props => 
+          <Field name="employed" id="employed" component={ props =>
               <Checkbox label ="Employed" 
                 checked = {props.value ? true : false}
                 onCheck = {(e) => props.onChange(e)}
               />
             }/>
-          </div>
         </div>
+      </div>
+      <div>
         <div>
-          <div>
-            <Field name="notes" component={notes =>
+          <Field name="notes" component={notes =>
               <TextField hintText="Notes" 
                 multiLine = {true}
                 rows={2} {...notes}
               />
             }/>
-          </div>
         </div>
-        <div>
-          <button type="submit" disabled={pristine || submitting}>Submit</button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
-        </div>
-      </form>
-    )
-  }
+      </div>
+      <div>
+        <button type="submit" disabled={pristine || submitting}>Submit</button>
+        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values
+        </button>
+      </div>
+    </form>
+  )
 }
 
 export default reduxForm({
-  form: 'MaterialUiForm'  // a unique identifier for this form
+  form: 'MaterialUiForm',  // a unique identifier for this form
+  validate
 })(MaterialUiForm)
