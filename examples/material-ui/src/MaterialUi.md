@@ -12,3 +12,8 @@ Read more [here](../../../docs/api/Field.md#usage)
 
 The delay between when you click "Submit" and when the alert dialog pops up is intentional,
 to simulate server latency.
+
+### How to use async validation in form:
+
+* Emails that will _fail_ validation: `foo@foo.com`, `bar@bar.com`.
+

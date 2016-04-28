@@ -25,6 +25,7 @@ let render = () => {
   const MaterialUiForm = require('./MaterialUiForm').default
   const readme = require('./MaterialUi.md')
   const raw = require('!!raw!./MaterialUiForm')
+  const asyncValidateraw = require('!!raw!./asyncValidate')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -45,6 +46,10 @@ let render = () => {
         <Values form="MaterialUiForm"/>
 
         <h2>Code</h2>
+
+        <h4>asyncValidate.js</h4>
+
+        <Code source={asyncValidateraw}/>
 
         <h4>SimpleForm.js</h4>
 
@@ -80,6 +85,7 @@ if (module.hot) {
   module.hot.accept('./MaterialUiForm', rerender)
   module.hot.accept('./MaterialUi.md', rerender)
   module.hot.accept('!!raw!./MaterialUiForm', rerender)
+  module.hot.accept('!!raw!./asyncValidate', rerender)
 }
 
 render()
