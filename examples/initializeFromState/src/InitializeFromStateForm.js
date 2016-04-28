@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-const { DOM: { input, select, textarea } } = React
 import { load as loadAccount } from './account'
 const data = {  // used to populate "account" reducer when "Load" is clicked
   firstName: 'Jane',
@@ -24,32 +23,32 @@ let InitializeFromStateForm = props => {
       <div>
         <label>First Name</label>
         <div>
-          <Field name="firstName" component={input} type="text" placeholder="First Name"/>
+          <Field name="firstName" component="input" type="text" placeholder="First Name"/>
         </div>
       </div>
       <div>
         <label>Last Name</label>
         <div>
-          <Field name="lastName" component={input} type="text" placeholder="Last Name"/>
+          <Field name="lastName" component="input" type="text" placeholder="Last Name"/>
         </div>
       </div>
       <div>
         <label>Age</label>
         <div>
-          <Field name="age" component={input} type="number" placeholder="Age"/>
+          <Field name="age" component="input" type="number" placeholder="Age"/>
         </div>
       </div>
       <div>
         <label>Sex</label>
         <div>
-          <label><Field name="sex" component={input} type="radio" value="male"/> Male</label>
-          <label><Field name="sex" component={input} type="radio" value="female"/> Female</label>
+          <label><Field name="sex" component="input" type="radio" value="male"/> Male</label>
+          <label><Field name="sex" component="input" type="radio" value="female"/> Female</label>
         </div>
       </div>
       <div>
         <label>Favorite Color</label>
         <div>
-          <Field name="favoriteColor" component={select}>
+          <Field name="favoriteColor" component="select">
             <option value="">Select a color...</option>
             {colors.map(colorOption =>
               <option value={colorOption} key={colorOption}>{colorOption}</option>)}
@@ -59,13 +58,13 @@ let InitializeFromStateForm = props => {
       <div>
         <label htmlFor="employed">Employed</label>
         <div>
-          <Field name="employed" id="employed" component={input} type="checkbox"/>
+          <Field name="employed" id="employed" component="input" type="checkbox"/>
         </div>
       </div>
       <div>
         <label>Bio</label>
         <div>
-          <Field name="bio" component={textarea}/>
+          <Field name="bio" component="textarea"/>
         </div>
       </div>
       <div>

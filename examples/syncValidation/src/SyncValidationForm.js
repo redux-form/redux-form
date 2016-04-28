@@ -1,6 +1,5 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-const { DOM: { input } } = React
 
 const validate = values => {
   const errors = {}

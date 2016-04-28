@@ -1,7 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
-const  { DOM: { input } } = React
 
 const WizardFormSecondPage = (props) => {
   const { handleSubmit, previousPage } = props
@@ -19,8 +18,8 @@ const WizardFormSecondPage = (props) => {
       <div>
         <label>Sex</label>
         <div>
-          <label><Field name="sex" component={input} type="radio" value="male"/> Male</label>
-          <label><Field name="sex" component={input} type="radio" value="female"/> Female</label>
+          <label><Field name="sex" component="input" type="radio" value="male"/> Male</label>
+          <label><Field name="sex" component="input" type="radio" value="female"/> Female</label>
           <Field name="sex" component={sex => sex.touched && sex.error ? <span>{sex.error}</span> : null}/>
         </div>
       </div>

@@ -4,16 +4,16 @@ import createConnectedField from './ConnectedField'
 let keys = 0
 const generateKey = () => `redux-form-field-${keys++}`
 
-const createField = ({ deepEqual, getIn }) => {
+const createFieldArray = ({ deepEqual, getIn }) => {
 
-  class Field extends Component {
+  class FieldArray extends Component {
     constructor(props, context) {
       super(props, context)
       if (!context._reduxForm) {
-        throw new Error('Field must be inside a component decorated with reduxForm()')
+        throw new Error('FieldArray must be inside a component decorated with reduxForm()')
       }
       this.key = generateKey()
-      this.ConnectedField = createConnectedField(context._reduxForm, { deepEqual, getIn }, props.name)
+      this.ConnectedFieldArray = createConnectedFieldArray(context._reduxForm, { deepEqual, getIn }, props.name)
     }
 
     componentWillMount() {
@@ -23,8 +23,8 @@ const createField = ({ deepEqual, getIn }) => {
     componentWillReceiveProps(nextProps) {
       if (this.props.name !== nextProps.name) {
         // name changed, regenerate connected field
-        this.ConnectedField =
-          createConnectedField(this.context._reduxForm, getIn, nextProps.name)
+        this.ConnectedFieldArray =
+          createConnectedFieldArray(this.context._reduxForm, getIn, nextProps.name)
       }
     }
 
@@ -41,21 +41,21 @@ const createField = ({ deepEqual, getIn }) => {
     }
 
     render() {
-      const { ConnectedField } = this
-      return <ConnectedField {...this.props} ref="connected"/>
+      const { ConnectedFieldArray } = this
+      return <ConnectedFieldArray {...this.props} ref="connected"/>
     }
   }
 
-  Field.propTypes = {
+  FieldArray.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
+    component: PropTypes.func.isRequired,
     defaultValue: PropTypes.any
   }
-  Field.contextTypes = {
+  FieldArray.contextTypes = {
     _reduxForm: PropTypes.object
   }
 
-  return Field
+  return FieldArray
 }
 
-export default createField
+export default createFieldArray

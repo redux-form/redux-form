@@ -4,7 +4,7 @@ import createFieldProps from './createFieldProps'
 import bindActionData from './bindActionData'
 import plain from './structure/plain'
 
-const createConnectedField = ({
+const createConnectedFieldArray = ({
   asyncValidate,
   blur,
   change,
@@ -13,11 +13,11 @@ const createConnectedField = ({
   initialValues
   }, { deepEqual, getIn }, name) => {
 
-  class ConnectedField extends Component {
+  class ConnectedFieldArray extends Component {
     constructor(props, context) {
       super(props, context)
       if (!context._reduxForm) {
-        throw new Error('ConnectedField must be inside a component decorated with reduxForm()')
+        throw new Error('ConnectedFieldArray must be inside a component decorated with reduxForm()')
       }
     }
 
@@ -54,30 +54,28 @@ const createConnectedField = ({
     }
   }
 
-  ConnectedField.propTypes = {
+  ConnectedFieldArray.propTypes = {
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     defaultValue: PropTypes.any
   }
 
-  ConnectedField.contextTypes = {
+  ConnectedFieldArray.contextTypes = {
     _reduxForm: PropTypes.object
   }
 
-  const actions = bindActionData({ blur, change, focus }, { field: name })
+  const actions = bindActionData({ push, pop, shift, unshift }, { field: name })
   const connector = connect(
     (state, ownProps) => ({
       initial: getIn(getFormState(state), `initial.${name}`),
       value: getIn(getFormState(state), `values.${name}`),
-      state: getIn(getFormState(state), `fields.${name}`),
       asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
-      submitError: getIn(getFormState(state), `submitErrors.${name}`),
-      _value: ownProps.value // save value passed in (for checkboxes)
+      submitError: getIn(getFormState(state), `submitErrors.${name}`)
     }),
     actions,
     undefined,
     { withRef: true }
   )
-  return connector(ConnectedField)
+  return connector(ConnectedFieldArray)
 }
 
-export default createConnectedField
+export default createConnectedFieldArray
