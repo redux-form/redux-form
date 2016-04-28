@@ -6,15 +6,18 @@ import RadioButtonGroup from 'material-ui/lib/radio-button-group'
 import Checkbox from 'material-ui/lib/checkbox'
 import SelectField from 'material-ui/lib/select-field'
 import MenuItem from 'material-ui/lib/menus/menu-item'
-
+import asyncValidate from './asyncValidate'
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'firstName', 'lastName', 'sex', 'favoriteColor', 'notes' ]
+  const requiredFields = [ 'firstName', 'lastName', 'email', 'favoriteColor', 'notes' ]
   requiredFields.forEach(field => {
     if(!values[field]) {
       errors[field] = 'Required'
     }
   })
+  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address'
+  }
   return errors
 }
 
@@ -26,6 +29,7 @@ const MaterialUiForm = props => {
         <Field name="firstName" component={firstName => 
           <TextField hintText = "First Name" 
             floatingLabelText="First Name"
+            errorText = {firstName.touched && firstName.error}
             {...firstName} 
           />
         }/>
@@ -35,7 +39,9 @@ const MaterialUiForm = props => {
               <TextField 
                 hintText = "Last Name"
                 floatingLabelText="Last Name"
-                {...lastName} />
+                errorText = {lastName.touched && lastName.error}
+                {...lastName} 
+              />
             }/>
       </div>
       <div>
@@ -43,6 +49,7 @@ const MaterialUiForm = props => {
               <TextField 
                 hintText="Email"
                 floatingLabelText="Email"
+                errorText = {email.touched && email.error}
                 {...email}
               />
             }/>
@@ -64,22 +71,25 @@ const MaterialUiForm = props => {
       <div>
         <Field name="favoriteColor" component={props =>
               <div>
-                <SelectField 
-                  {...props} 
+                <SelectField                   
                   value={props.value}
                   floatingLabelText = "Favourite Color"
+                  errorText = {props.touched && props.error}
+                  {...props}
                   onChange = {(event, index, value) => props.onChange(value)}
                 >
                   <MenuItem value={'ff0000'} primaryText="Red"/>
                   <MenuItem value={'00ff00'} primaryText="Green"/>
                   <MenuItem value={'0000ff'} primaryText="Blue"/>
                 </SelectField>
+
               </div>
           }/>
       </div>
       <div>
         <div>
           <Field name="employed" id="employed" component={ props =>
+            /* React 15 warning should go in Material-Ui 0.15 */
               <Checkbox label ="Employed" 
                 checked = {props.value ? true : false}
                 onCheck = {(e) => props.onChange(e)}
@@ -92,7 +102,9 @@ const MaterialUiForm = props => {
           <Field name="notes" component={notes =>
               <TextField hintText="Notes" 
                 multiLine = {true}
-                rows={2} {...notes}
+                rows={2} 
+                errorText = {notes.touched && notes.error}
+                {...notes}
               />
             }/>
         </div>
@@ -108,5 +120,6 @@ const MaterialUiForm = props => {
 
 export default reduxForm({
   form: 'MaterialUiForm',  // a unique identifier for this form
-  validate
+  validate,
+  asyncValidate
 })(MaterialUiForm)
