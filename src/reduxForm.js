@@ -108,7 +108,7 @@ const createReduxForm =
           }
 
           get fieldList() {
-            return Object.values(this.fields).map(field => field.name)
+            return Object.keys(this.fields).map(key => this.fields[key].name)
           }
 
           asyncValidate(name, value) {
