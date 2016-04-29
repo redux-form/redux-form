@@ -25,6 +25,9 @@ const setErrors = (state, errors, destKey) => {
     }
     return makeFieldValue(state);
   };
+  if (state instanceof File) {
+    return state;
+  }
   if (!errors) {
     if (!state) {
       return state;
