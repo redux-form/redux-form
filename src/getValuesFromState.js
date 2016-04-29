@@ -14,7 +14,7 @@ const getValuesFromState = state => {
   return keys.reduce((accumulator, key) => {
     const field = state[key];
     if (field) {
-      if (field.hasOwnProperty && field.hasOwnProperty('value')) {
+      if (isFieldValue(field)) {
         if (field.value !== undefined) {
           accumulator[key] = field.value;
         }
