@@ -25,7 +25,7 @@ const setErrors = (state, errors, destKey) => {
     }
     return makeFieldValue(state);
   };
-  if (state instanceof File) {
+  if (typeof File !== 'undefined' && state instanceof File) {
     return state;
   }
   if (!errors) {
