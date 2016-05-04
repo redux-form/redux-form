@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import isClass from 'is-class'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
-import bindActionData from './bindActionData'
+import partial from './util/partial'
+import mapValues from './util/mapValues'
 import plain from './structure/plain'
 
 const createConnectedField = ({
@@ -12,7 +12,7 @@ const createConnectedField = ({
   focus,
   getFormState,
   initialValues
-  }, { deepEqual, getIn }, name) => {
+  }, { deepEqual, getIn, size }, name) => {
 
   class ConnectedField extends Component {
     constructor(props, context) {
@@ -27,8 +27,8 @@ const createConnectedField = ({
     }
 
     get syncError() {
-      const { _reduxForm: { syncErrors } } = this.context
-      return plain.getIn(syncErrors, name)
+      const { _reduxForm: { getSyncErrors } } = this.context
+      return plain.getIn(getSyncErrors(), name)
     }
 
     get valid() {
@@ -41,8 +41,7 @@ const createConnectedField = ({
 
     render() {
       const { component, defaultValue, ...props } = this.props
-      const factory = isClass(component) ? React.createFactory(component) : component
-      return factory(
+      return React.createElement(component,
         createFieldProps(
           getIn,
           name,
@@ -57,7 +56,7 @@ const createConnectedField = ({
   }
 
   ConnectedField.propTypes = {
-    component: PropTypes.func.isRequired,
+    component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     defaultValue: PropTypes.any
   }
 
@@ -65,7 +64,7 @@ const createConnectedField = ({
     _reduxForm: PropTypes.object
   }
 
-  const actions = bindActionData({ blur, change, focus }, { field: name })
+  const actions = mapValues({ blur, change, focus }, actionCreator => partial(actionCreator, name))
   const connector = connect(
     (state, ownProps) => ({
       initial: getIn(getFormState(state), `initial.${name}`),
@@ -73,7 +72,6 @@ const createConnectedField = ({
       state: getIn(getFormState(state), `fields.${name}`),
       asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
       submitError: getIn(getFormState(state), `submitErrors.${name}`),
-      submitFailed: getIn(getFormState(state), 'submitFailed'),
       _value: ownProps.value // save value passed in (for checkboxes)
     }),
     actions,

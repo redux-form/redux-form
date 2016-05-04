@@ -34,7 +34,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           renderSpy(this.props)
           return (
             <div>
-              <Field name="foo" component={React.DOM.input}/>
+              <Field name="foo" component="input"/>
             </div>
           )
         }
@@ -168,21 +168,22 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(spy.calls.length).toBe(1)
 
       // simulate typing the word "giraffe"
-      dispatch({ ...change('g'), form: 'testForm', field: 'animal' })       // render 1 (now dirty)
+      dispatch(change('testForm', 'animal', 'g'))       // render 1 (now dirty)
       expect(spy.calls.length).toBe(2)
 
-      dispatch({ ...change('gi'), form: 'testForm', field: 'animal' })      // no render
-      dispatch({ ...change('gir'), form: 'testForm', field: 'animal' })     // no render
-      dispatch({ ...change('gira'), form: 'testForm', field: 'animal' })    // no render
-      dispatch({ ...change('giraf'), form: 'testForm', field: 'animal' })   // no render
-      dispatch({ ...change('giraff'), form: 'testForm', field: 'animal' })  // render 2 (invalid)
+      dispatch(change('testForm', 'animal', 'gi'))      // no render
+      dispatch(change('testForm', 'animal', 'gir'))     // no render
+      dispatch(change('testForm', 'animal', 'gira'))    // no render
+      dispatch(change('testForm', 'animal', 'giraf'))   // no render
+      dispatch(change('testForm', 'animal', 'giraff'))  // render 2 (invalid)
       expect(spy.calls.length).toBe(3)
-      dispatch({ ...change('giraffe'), form: 'testForm', field: 'animal' }) // no render
+      dispatch(change('testForm', 'animal', 'giraffe')) // no render
 
-      dispatch({ ...change(''), form: 'testForm', field: 'animal' }) // render 3 (clean/valid)
+      dispatch(change('testForm', 'animal', '')) // render 3 (clean/valid)
       expect(spy.calls.length).toBe(4)
 
       expect(spy).toHaveBeenCalled()
+      expect(spy.calls.length).toBe(4)
 
       expect(spy.calls[ 0 ].arguments[ 0 ].dirty).toBe(false)
       expect(spy.calls[ 0 ].arguments[ 0 ].invalid).toBe(false)
@@ -199,7 +200,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(spy.calls[ 2 ].arguments[ 0 ].pristine).toBe(false)
       expect(spy.calls[ 2 ].arguments[ 0 ].valid).toBe(false)
 
-      expect(spy.calls.length).toBe(4)
       expect(spy.calls[ 3 ].arguments[ 0 ].dirty).toBe(false)
       expect(spy.calls[ 3 ].arguments[ 0 ].invalid).toBe(false)
       expect(spy.calls[ 3 ].arguments[ 0 ].pristine).toBe(true)
@@ -208,7 +208,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should initialize values with initialValues on first render', () => {
       const store = makeStore({})
-      const inputRender = createSpy(React.DOM.input).andCallThrough()
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         deep: {
@@ -257,7 +257,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should initialize with initialValues on later render', () => {
       const store = makeStore({})
-      const inputRender = createSpy(React.DOM.input).andCallThrough()
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         deep: {
@@ -339,9 +339,69 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'bar')
     })
 
+    it('should rerender form, but not fields, when non-redux-form props change', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = {}
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state}/>
+              </Provider>
+              <button onClick={() => this.setState({ someOtherProp: 42 })}>Init</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {}
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls[ 0 ].arguments[ 0 ].someOtherProp).toNotExist()
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+
+      // initialize
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(initButton)
+
+      // rerender form on prop change
+      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].someOtherProp)
+        .toExist()
+        .toBe(42)
+
+      // no need to rerender input
+      expect(inputRender.calls.length).toBe(1)
+    })
+
     it('should call async on blur of async blur field', done => {
       const store = makeStore({})
-      const inputRender = createSpy(React.DOM.input).andCallThrough()
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
       const formRender = createSpy()
       const asyncErrors = {
         deep: {

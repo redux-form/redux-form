@@ -30,6 +30,12 @@ form name.
 
 ---
   
+## [`FieldArray`](FieldArray.md)
+
+> The component needed render an array of fields
+
+---
+  
 ## [`SubmissionError`](SubmissionError.md)
 
 > A special error type for returning submit validation errors

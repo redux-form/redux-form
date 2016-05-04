@@ -48,7 +48,7 @@ const createField = ({ deepEqual, getIn }) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired,
+    component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     defaultValue: PropTypes.any
   }
   Field.contextTypes = {

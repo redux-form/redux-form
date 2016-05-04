@@ -7,10 +7,7 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
         doesnt: 'matter',
         should: 'notchange'
       }
-    }), {
-      ...setSubmitFailed(),
-      form: 'foo'
-    })
+    }), setSubmitFailed('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -28,10 +25,7 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
         should: 'notchange',
         submitting: true
       }
-    }), {
-      ...setSubmitFailed(),
-      form: 'foo'
-    })
+    }), setSubmitFailed('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -52,10 +46,7 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
           c: true
         }
       }
-    }), {
-      ...setSubmitFailed('a', 'b', 'c'),
-      form: 'foo'
-    })
+    }), setSubmitFailed('foo', 'a', 'b', 'c'))
     expect(state)
       .toEqualMap({
         foo: {

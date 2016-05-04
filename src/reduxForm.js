@@ -3,27 +3,27 @@ import hoistStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import every from './util/every'
+import mapValues from './util/mapValues'
+import partial from './util/partial'
+import partialRight from './util/partialRight'
 import * as importedActions from './actions'
-import bindActionData from './bindActionData'
 import handleSubmit from './handleSubmit'
 import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
 import plain from './structure/plain'
 
-const { blur, change, focus, ...formActions } = importedActions
+// extract field-specific actions
+const { arraySplice, arraySwap, blur, change, focus, ...formActions } = importedActions
 
 const getDisplayName = Comp => Comp.displayName || Comp.name || 'Component'
-const propsToUpdateFor = [
-  'asyncValidating',
-  'dirty',
-  'error',
-  'invalid',
-  'pristine',
-  'submitting',
-  'submitFailed',
+const propsToNotUpdateFor = [
+  ...Object.keys(importedActions),
+  'asyncErrors',
+  'initialized',
+  'initialValues',
   'syncErrors',
-  'valid'
+  'values'
 ]
 
 /**
@@ -46,6 +46,7 @@ const createReduxForm =
             super(props)
             this.submit = this.submit.bind(this)
             this.asyncValidate = this.asyncValidate.bind(this)
+            this.getSyncErrors = this.getSyncErrors.bind(this)
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
             this.fields = {}
@@ -57,6 +58,7 @@ const createReduxForm =
                 ...this.props,
                 getFormState: state => getIn(this.props.getFormState(state), this.props.form),
                 asyncValidate: this.asyncValidate,
+                getSyncErrors: this.getSyncErrors,
                 register: this.register,
                 unregister: this.unregister
               }
@@ -78,15 +80,19 @@ const createReduxForm =
           }
 
           shouldComponentUpdate(nextProps) {
-            // useful to debug rerenders
-            //propsToUpdateFor.forEach(prop => {
-            //  if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
-            //    console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
-            //  }
-            //})
-            return propsToUpdateFor.some(prop => !plain.deepEqual(this.props[ prop ], nextProps[ prop ]))
+            return Object.keys(nextProps).some(prop => {
+              // useful to debug rerenders
+              // if(!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
+              //   console.info(prop, 'changed', this.props[prop], '==>', nextProps[prop])
+              // }
+              return !~propsToNotUpdateFor.indexOf(prop) && !plain.deepEqual(this.props[ prop ], nextProps[ prop ])
+            })
           }
 
+          getSyncErrors() {
+            return this.props.syncErrors
+          }
+          
           get values() {
             return this.props.values
           }
@@ -108,7 +114,7 @@ const createReduxForm =
           }
 
           get fieldList() {
-            return Object.values(this.fields).map(field => field.name)
+            return Object.keys(this.fields).map(key => this.fields[ key ].name)
           }
 
           asyncValidate(name, value) {
@@ -152,9 +158,11 @@ const createReduxForm =
 
           render() {
             // remove some redux-form config-only props
-            const { asyncErrors, reduxMountPoint, destroyOnUnmount, form, getFormState, touchOnBlur,
+            const {
+              asyncErrors, reduxMountPoint, destroyOnUnmount, form, getFormState, touchOnBlur,
               touchOnChange, syncErrors, values,
-              ...passableProps } = this.props // eslint-disable-line no-redeclare
+              ...passableProps
+            } = this.props // eslint-disable-line no-redeclare
             return (
               <WrappedComponent
                 {...passableProps}
@@ -212,19 +220,18 @@ const createReduxForm =
               valid
             }
           },
-          (dispatch, ownProps) => ({
-            ...bindActionCreators(bindActionData(formActions, { form: ownProps.form }), dispatch),
-            ...bindActionData({
-              blur: bindActionData(blur, {
-                touch: !!ownProps.touchOnBlur
-              }),
-              change: bindActionData(change, {
-                touch: !!ownProps.touchOnChange
-              }),
-              focus
-            }, { form: ownProps.form }),
-            dispatch
-          }),
+          (dispatch, ownProps) =>
+            ({
+              ...bindActionCreators(mapValues(formActions, actionCreator => partial(actionCreator, ownProps.form)), dispatch),
+              ...mapValues({
+                arraySplice,
+                arraySwap,
+                blur: partialRight(blur, !!ownProps.touchOnBlur),
+                change: partialRight(change, !!ownProps.touchOnChange),
+                focus
+              }, actionCreator => partial(actionCreator, ownProps.form)),
+              dispatch
+            }),
           undefined,
           { withRef: true }
         )

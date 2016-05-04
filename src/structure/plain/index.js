@@ -1,3 +1,4 @@
+import splice from './splice'
 import getIn from './getIn'
 import setIn from './setIn'
 import deepEqual from './deepEqual'
@@ -11,7 +12,9 @@ const structure = {
   deepEqual,
   deleteIn,
   deleteWithPath,
-  fromJS: value => value
+  fromJS: value => value,
+  size: array => array ? array.length : 0,
+  splice
 }
 
 export default structure

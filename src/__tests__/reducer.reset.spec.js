@@ -21,10 +21,7 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
           }
         }
       }
-    }), {
-      ...reset(),
-      form: 'foo'
-    })
+    }), reset('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -67,10 +64,7 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
         },
         active: 'myField'
       }
-    }), {
-      ...reset(),
-      form: 'foo'
-    })
+    }), reset('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -103,10 +97,7 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
           }
         }
       }
-    }), {
-      ...reset(),
-      form: 'foo'
-    })
+    }), reset('foo'))
     expect(state)
       .toEqualMap({
         foo: {}

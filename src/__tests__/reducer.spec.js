@@ -5,6 +5,8 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import describeInitialize from './reducer.initialize.spec'
+import describeArraySplice from './reducer.arraySplice.spec'
+import describeArraySwap from './reducer.arraySwap.spec'
 import describeBlur from './reducer.blur.spec'
 import describeChange from './reducer.change.spec'
 import describeFocus from './reducer.focus.spec'
@@ -19,6 +21,8 @@ import describeStopAsyncValidation from './reducer.stopAsyncValidation.spec'
 
 const tests = {
   initialize: describeInitialize,
+  arraySplice: describeArraySplice,
+  arraySwap: describeArraySwap,
   blur: describeBlur,
   change: describeChange,
   focus: describeFocus,
@@ -50,7 +54,7 @@ const describeReducer = (name, structure, expect) => {
     })
 
     it('should initialize form state when action has form', () => {
-      const state = reducer(undefined, { form: 'foo' })
+      const state = reducer(undefined, { meta: { form: 'foo' } })
       expect(state)
         .toExist()
         .toBeAMap()

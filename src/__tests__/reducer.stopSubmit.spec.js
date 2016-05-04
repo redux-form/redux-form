@@ -8,10 +8,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         should: 'notchange',
         submitting: true
       }
-    }), {
-      ...stopSubmit(),
-      form: 'foo'
-    })
+    }), stopSubmit('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -48,15 +45,12 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         },
         submitting: true
       }
-    }), {
-      ...stopSubmit({
-        bar: {
-          myField: 'Error about myField',
-          myOtherField: 'Error about myOtherField'
-        }
-      }),
-      form: 'foo'
-    })
+    }), stopSubmit('foo', {
+      bar: {
+        myField: 'Error about myField',
+        myOtherField: 'Error about myOtherField'
+      }
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -114,15 +108,12 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         },
         submitting: true
       }
-    }), {
-      ...stopSubmit({
-        bar: [
-          'Error about myField',
-          'Error about myOtherField'
-        ]
-      }),
-      form: 'foo'
-    })
+    }), stopSubmit('foo', {
+      bar: [
+        'Error about myField',
+        'Error about myOtherField'
+      ]
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -170,19 +161,16 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         },
         submitting: true
       }
-    }), {
-      ...stopSubmit({
-        cat: [
-          'Not funny',
-          'Sleeps too much'
-        ],
-        dog: [
-          'Unhelpful',
-          'Not house trained'
-        ]
-      }),
-      form: 'foo'
-    })
+    }), stopSubmit('foo', {
+      cat: [
+        'Not funny',
+        'Sleeps too much'
+      ],
+      dog: [
+        'Unhelpful',
+        'Not house trained'
+      ]
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -240,10 +228,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         },
         submitting: true
       }
-    }), {
-      ...stopSubmit(),
-      form: 'foo'
-    })
+    }), stopSubmit('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -281,10 +266,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         submitting: true,
         error: 'Previous global error'
       }
-    }), {
-      ...stopSubmit(),
-      form: 'foo'
-    })
+    }), stopSubmit('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -308,10 +290,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         submitting: true,
         submitFailed: true
       }
-    }), {
-      ...stopSubmit(),
-      form: 'foo'
-    })
+    }), stopSubmit('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -342,13 +321,10 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         },
         submitting: true
       }
-    }), {
-      ...stopSubmit({
-        myField: 'Error about myField',
-        myOtherField: 'Error about myOtherField'
-      }),
-      form: 'foo'
-    })
+    }), stopSubmit('foo', {
+      myField: 'Error about myField',
+      myOtherField: 'Error about myOtherField'
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -390,12 +366,9 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         },
         submitting: true
       }
-    }), {
-      ...stopSubmit({
-        _error: 'This is a global error'
-      }),
-      form: 'foo'
-    })
+    }), stopSubmit('foo', {
+      _error: 'This is a global error'
+    }))
     expect(state)
       .toEqualMap({
         foo: {

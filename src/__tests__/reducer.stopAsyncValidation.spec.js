@@ -22,15 +22,12 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         },
         asyncValidating: true
       }
-    }), {
-      ...stopAsyncValidation({
-        bar: {
-          myField: 'Error about myField',
-          myOtherField: 'Error about myOtherField'
-        }
-      }),
-      form: 'foo'
-    })
+    }), stopAsyncValidation('foo', {
+      bar: {
+        myField: 'Error about myField',
+        myOtherField: 'Error about myOtherField'
+      }
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -81,15 +78,12 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         },
         asyncValidating: true
       }
-    }), {
-      ...stopAsyncValidation({
-        bar: [
-          'async error 1',
-          'async error 2'
-        ]
-      }),
-      form: 'foo'
-    })
+    }), stopAsyncValidation('foo', {
+      bar: [
+        'async error 1',
+        'async error 2'
+      ]
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -146,10 +140,7 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         },
         asyncValidating: true
       }
-    }), {
-      ...stopAsyncValidation(),
-      form: 'foo'
-    })
+    }), stopAsyncValidation('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -190,19 +181,16 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         },
         asyncValidating: true
       }
-    }), {
-      ...stopAsyncValidation({
-        cat: [
-          'Not funny',
-          'Sleeps too much'
-        ],
-        dog: [
-          'Unhelpful',
-          'Not house trained'
-        ]
-      }),
-      form: 'foo'
-    })
+    }), stopAsyncValidation('foo', {
+      cat: [
+        'Not funny',
+        'Sleeps too much'
+      ],
+      dog: [
+        'Unhelpful',
+        'Not house trained'
+      ]
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -246,10 +234,7 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         asyncValidating: true,
         error: 'Previous global error'
       }
-    }), {
-      ...stopAsyncValidation(),
-      form: 'foo'
-    })
+    }), stopAsyncValidation('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -278,12 +263,9 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         },
         asyncValidating: true
       }
-    }), {
-      ...stopAsyncValidation({
-        _error: 'This is a global error'
-      }),
-      form: 'foo'
-    })
+    }), stopAsyncValidation('foo', {
+      _error: 'This is a global error'
+    }))
     expect(state)
       .toEqualMap({
         foo: {
