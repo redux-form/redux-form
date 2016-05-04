@@ -52,7 +52,7 @@ const describeArraySwap = (reducer, expect, { fromJS }) => () => {
           },
           submitErrors: {
             myField: {
-              subField: [ undefined, , 'Invalid' ]
+              subField: [ undefined, , 'Invalid' ]  // eslint-disable-line no-sparse-arrays
             }
           }
         }

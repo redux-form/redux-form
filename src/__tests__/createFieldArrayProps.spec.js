@@ -7,7 +7,7 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeCreateFieldProps = (name, structure, expect) => {
-  const { empty, fromJS, getIn, deepEqual, size } = structure
+  const { fromJS, getIn, deepEqual, size } = structure
   const defaultProps = [ deepEqual, getIn, size, 'foo' ]
 
   describe(name, () => {

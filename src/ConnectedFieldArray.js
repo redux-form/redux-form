@@ -24,7 +24,7 @@ const createConnectedFieldArray = ({
       }
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    shouldComponentUpdate(nextProps) {
       const prevLength = this.props.value ? size(this.props.value) : 0
       const nextLength = nextProps.value ? size(nextProps.value) : 0
       return prevLength !== nextLength
@@ -70,7 +70,7 @@ const createConnectedFieldArray = ({
 
   const actions = mapValues({ arraySplice, arraySwap }, actionCreator => partial(actionCreator, name))
   const connector = connect(
-    (state, ownProps) => ({
+    state => ({
       initial: getIn(getFormState(state), `initial.${name}`),
       value: getIn(getFormState(state), `values.${name}`),
       asyncError: getIn(getFormState(state), `asyncErrors.${name}._error`),

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import createConnectedFieldArray from './ConnectedFieldArray'
-import plain from './structure/plain'
 
 let keys = 0
 const generateKey = () => `redux-form-field-${keys++}`

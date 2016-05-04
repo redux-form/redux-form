@@ -10,7 +10,7 @@ import {
   reset, setSubmitFailed, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
   touch, untouch
 } from '../actions'
-import {isFSA} from 'flux-standard-action';
+import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
 
 describe('actions', () => {
