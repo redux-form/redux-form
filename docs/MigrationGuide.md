@@ -271,9 +271,6 @@ render() {
 }
 ```
 
-They have not been written yet, but there will be action creators for each array operation:
-e.g. push, pop, shift, unshift, insert, remove, swap.
-
 ## Normalization
 
 Not implemented yet.

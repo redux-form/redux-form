@@ -16,6 +16,10 @@ const createField = ({ deepEqual, getIn }) => {
       this.ConnectedField = createConnectedField(context._reduxForm, { deepEqual, getIn }, props.name)
     }
 
+    shouldComponentUpdate(nextProps) {
+      return this.props.name !== nextProps.name
+    }
+
     componentWillMount() {
       this.context._reduxForm.register(this.key, this)
     }

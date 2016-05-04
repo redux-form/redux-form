@@ -14,11 +14,25 @@ import asyncValidation from './asyncValidation'
 import plain from './structure/plain'
 
 // extract field-specific actions
-const { arraySplice, arraySwap, blur, change, focus, ...formActions } = importedActions
+const {
+  arrayInsert,
+  arrayPop,
+  arrayPush,
+  arrayRemove,
+  arrayShift,
+  arraySplice,
+  arraySwap,
+  arrayUnshift,
+  blur,
+  change,
+  focus,
+  ...formActions
+} = importedActions
 
 const getDisplayName = Comp => Comp.displayName || Comp.name || 'Component'
 const propsToNotUpdateFor = [
   ...Object.keys(importedActions),
+  'array',
   'asyncErrors',
   'initialized',
   'initialValues',
@@ -82,17 +96,17 @@ const createReduxForm =
           shouldComponentUpdate(nextProps) {
             return Object.keys(nextProps).some(prop => {
               // useful to debug rerenders
-              // if(!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
-              //   console.info(prop, 'changed', this.props[prop], '==>', nextProps[prop])
+              // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
+              //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
               // }
-              return !~propsToNotUpdateFor.indexOf(prop) && !plain.deepEqual(this.props[ prop ], nextProps[ prop ])
+              return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
             })
           }
 
           getSyncErrors() {
             return this.props.syncErrors
           }
-          
+
           get values() {
             return this.props.values
           }
@@ -159,8 +173,23 @@ const createReduxForm =
           render() {
             // remove some redux-form config-only props
             const {
-              asyncErrors, reduxMountPoint, destroyOnUnmount, form, getFormState, touchOnBlur,
-              touchOnChange, syncErrors, values,
+              arrayInsert,
+              arrayPop,
+              arrayPush,
+              arrayRemove,
+              arrayShift,
+              arraySplice,
+              arraySwap,
+              arrayUnshift,
+              asyncErrors,
+              reduxMountPoint,
+              destroyOnUnmount,
+              form,
+              getFormState,
+              touchOnBlur,
+              touchOnChange,
+              syncErrors,
+              values,
               ...passableProps
             } = this.props // eslint-disable-line no-redeclare
             return (
@@ -222,10 +251,27 @@ const createReduxForm =
           },
           (dispatch, ownProps) =>
             ({
-              ...bindActionCreators(mapValues(formActions, actionCreator => partial(actionCreator, ownProps.form)), dispatch),
+              ...bindActionCreators(mapValues({ ...formActions },
+                actionCreator => partial(actionCreator, ownProps.form)), dispatch),
+              array: bindActionCreators(mapValues({
+                insert: arrayInsert,
+                pop: arrayPop,
+                push: arrayPush,
+                remove: arrayRemove,
+                shift: arrayShift,
+                splice: arraySplice,
+                swap: arraySwap,
+                unshift: arrayUnshift
+              }, actionCreator => partial(actionCreator, ownProps.form)), dispatch),
               ...mapValues({
+                arrayInsert,
+                arrayPop,
+                arrayPush,
+                arrayRemove,
+                arrayShift,
                 arraySplice,
                 arraySwap,
+                arrayUnshift,
                 blur: partialRight(blur, !!ownProps.touchOnBlur),
                 change: partialRight(change, !!ownProps.touchOnChange),
                 focus

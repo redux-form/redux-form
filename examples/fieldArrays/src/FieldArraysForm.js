@@ -1,45 +1,17 @@
 import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
+import validate from './validate'
 
-const validate = values => {
-  const errors = {}
-  if(!values.clubName) {
-    errors.clubName = 'Required'
-  }
-  if (!values.members || !values.members.length) {
-    errors.members = { _error: 'At least one member must be entered' }
-  } else {
-    errors.members = values.members.map(member => {
-      const memberErrors = {}
-      if (!member || !member.firstName) {
-        memberErrors.firstName = 'Required'
-      }
-      if (!member || !member.lastName) {
-        memberErrors.lastName = 'Required'
-      }
-      if (member && member.hobbies && member.hobbies.length) {
-        memberErrors.hobbies = member.hobbies.map(hobby => {
-          if (!hobby || !hobby.length) {
-            return 'Required'
-          }
-        })
-        if (member.hobbies.length > 2) {
-          memberErrors.hobbies._error = 'No more than two hobbies allowed'
-        }
-      }
-      return memberErrors
-    })
-  }
-  return errors
-}
+let renders = 0
 
 const FieldArraysForm = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props
+  const { array: { push }, handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
+      {++renders}
       <div>
         <label>Club Name</label>
-        <Field name="clubName" component={clubName =>
+        <Field name="clubName" key="clubName" component={clubName =>
           <div>
             <input type="text" {...clubName} placeholder="Club Name"/>
             {clubName.touched && clubName.error && <span>{clubName.error}</span>}
@@ -49,11 +21,14 @@ const FieldArraysForm = (props) => {
       <FieldArray name="members" component={members =>
         <ul>
           <li>
-            <button type="button" onClick={() => members.push({})}>Add Member</button>
+            <button type="button" onClick={() => push('members', {})}>Add Member</button>
           </li>
           {members.map((member, memberIndex) =>
             <li key={memberIndex}>
-              <button type="button" onClick={() => members.remove(memberIndex)}/>
+              <button
+                type="button"
+                title="Remove Member"
+                onClick={() => members.remove(memberIndex)}/>
               <h4>Member #{memberIndex + 1}</h4>
               <div>
                 <label>First Name</label>
@@ -80,7 +55,10 @@ const FieldArraysForm = (props) => {
                   </li>
                   {hobbies.map((hobby, hobbyIndex) =>
                     <li key={hobbyIndex}>
-                      <button type="button" onClick={() => hobbies.remove(hobbyIndex)}/>
+                      <button
+                        type="button"
+                        title="Remove Hobby"
+                        onClick={() => hobbies.remove(hobbyIndex)}/>
                       <div>
                         <Field name={hobby} component={hobbyProps =>
                           <div>

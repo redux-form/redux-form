@@ -1,8 +1,23 @@
 import {
-  ARRAY_SPLICE, ARRAY_SWAP,
-  BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION,
-  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
+  ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
+  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, SET_SUBMIT_FAILED,
+  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
 } from './actionTypes'
+
+export const arrayInsert = (form, field, index, value) =>
+  ({ type: ARRAY_INSERT, meta: { form, field, index }, payload: value })
+
+export const arrayPop = (form, field) =>
+  ({ type: ARRAY_POP, meta: { form, field } })
+
+export const arrayPush = (form, field, value) =>
+  ({ type: ARRAY_PUSH, meta: { form, field }, payload: value })
+
+export const arrayRemove = (form, field, index) =>
+  ({ type: ARRAY_REMOVE, meta: { form, field, index } })
+
+export const arrayShift = (form, field) => 
+  ({ type: ARRAY_SHIFT, meta: { form, field } })
 
 export const arraySplice = (form, field, index, removeNum, value) => {
   const action = {
@@ -16,14 +31,17 @@ export const arraySplice = (form, field, index, removeNum, value) => {
 }
 
 export const arraySwap = (form, field, indexA, indexB) => {
-  if(indexA === indexB) {
+  if (indexA === indexB) {
     throw new Error('Swap indices cannot be equal')
   }
-  if(indexA < 0 || indexB < 0) {
+  if (indexA < 0 || indexB < 0) {
     throw new Error('Swap indices cannot be negative')
   }
   return { type: ARRAY_SWAP, meta: { form, field, indexA, indexB } }
 }
+
+export const arrayUnshift = (form, field, value) => 
+  ({ type: ARRAY_UNSHIFT, meta: { form, field }, payload: value })
 
 export const blur = (form, field, value, touch) =>
   ({ type: BLUR, meta: { form, field, touch }, payload: value })

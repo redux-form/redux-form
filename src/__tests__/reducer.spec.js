@@ -5,8 +5,14 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import describeInitialize from './reducer.initialize.spec'
+import describeArrayInsert from './reducer.arrayInsert.spec'
+import describeArrayPop from './reducer.arrayPop.spec'
+import describeArrayPush from './reducer.arrayPush.spec'
+import describeArrayRemove from './reducer.arrayRemove.spec'
+import describeArrayShift from './reducer.arrayShift.spec'
 import describeArraySplice from './reducer.arraySplice.spec'
 import describeArraySwap from './reducer.arraySwap.spec'
+import describeArrayUnshift from './reducer.arrayUnshift.spec'
 import describeBlur from './reducer.blur.spec'
 import describeChange from './reducer.change.spec'
 import describeFocus from './reducer.focus.spec'
@@ -21,8 +27,14 @@ import describeStopAsyncValidation from './reducer.stopAsyncValidation.spec'
 
 const tests = {
   initialize: describeInitialize,
+  arrayInsert: describeArrayInsert,
+  arrayPop: describeArrayPop,
+  arrayPush: describeArrayPush,
+  arrayRemove: describeArrayRemove,
+  arrayShift: describeArrayShift,
   arraySplice: describeArraySplice,
   arraySwap: describeArraySwap,
+  arrayUnshift: describeArrayUnshift,
   blur: describeBlur,
   change: describeChange,
   focus: describeFocus,

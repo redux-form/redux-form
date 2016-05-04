@@ -74,87 +74,87 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should provide push', () => {
-      const arraySplice = createSpy()
+      const arrayPush = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b' ]),
-        arraySplice
+        arrayPush
       })
       expect(result.push).toBeA('function')
-      expect(arraySplice).toNotHaveBeenCalled()
+      expect(arrayPush).toNotHaveBeenCalled()
       expect(result.push('c')).toNotExist()
-      expect(arraySplice)
+      expect(arrayPush)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(2, 0, 'c')
+        .toHaveBeenCalledWith('c')
     })
 
     it('should provide pop', () => {
-      const arraySplice = createSpy()
+      const arrayPop = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b', 'c' ]),
-        arraySplice
+        arrayPop
       })
       expect(result.pop).toBeA('function')
-      expect(arraySplice).toNotHaveBeenCalled()
+      expect(arrayPop).toNotHaveBeenCalled()
       expect(result.pop()).toBe('c')
-      expect(arraySplice)
+      expect(arrayPop)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(2, 1)
+        .toHaveBeenCalledWith()
     })
 
     it('should provide insert', () => {
-      const arraySplice = createSpy()
+      const arrayInsert = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b' ]),
-        arraySplice
+        arrayInsert
       })
       expect(result.insert).toBeA('function')
-      expect(arraySplice).toNotHaveBeenCalled()
+      expect(arrayInsert).toNotHaveBeenCalled()
       expect(result.insert(1, 'c')).toNotExist()
-      expect(arraySplice)
+      expect(arrayInsert)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(1, 0, 'c')
+        .toHaveBeenCalledWith(1, 'c')
     })
     
     it('should provide remove', () => {
-      const arraySplice = createSpy()
+      const arrayRemove = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b' ]),
-        arraySplice
+        arrayRemove
       })
       expect(result.remove).toBeA('function')
-      expect(arraySplice).toNotHaveBeenCalled()
+      expect(arrayRemove).toNotHaveBeenCalled()
       expect(result.remove(2)).toNotExist()
-      expect(arraySplice)
+      expect(arrayRemove)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(2, 1)
+        .toHaveBeenCalledWith(2)
     })
     
     it('should provide unshift', () => {
-      const arraySplice = createSpy()
+      const arrayUnshift = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b' ]),
-        arraySplice
+        arrayUnshift
       })
       expect(result.unshift).toBeA('function')
-      expect(arraySplice).toNotHaveBeenCalled()
+      expect(arrayUnshift).toNotHaveBeenCalled()
       expect(result.unshift('c')).toNotExist()
-      expect(arraySplice)
+      expect(arrayUnshift)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(0, 0, 'c')
+        .toHaveBeenCalledWith('c')
     })
 
     it('should provide shift', () => {
-      const arraySplice = createSpy()
+      const arrayShift = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b', 'c' ]),
-        arraySplice
+        arrayShift
       })
       expect(result.shift).toBeA('function')
-      expect(arraySplice).toNotHaveBeenCalled()
+      expect(arrayShift).toNotHaveBeenCalled()
       expect(result.shift()).toBe('a')
-      expect(arraySplice)
+      expect(arrayShift)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(0, 1)
+        .toHaveBeenCalledWith()
     })
 
     it('should provide forEach', () => {
