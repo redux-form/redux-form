@@ -1,12 +1,13 @@
 import expect from 'expect'
 import expectPredicate from 'expect-predicate'
 import {
-  ARRAY_SPLICE, ARRAY_SWAP,
-  BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION,
-  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
+  ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
+  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, SET_SUBMIT_FAILED,
+  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
 } from '../actionTypes'
 import {
-  arraySplice, arraySwap, blur, change, destroy, focus, initialize,
+  arrayInsert, arrayPop, arrayPush, arrayRemove, arrayShift, arraySplice, arraySwap,
+  arrayUnshift, blur, change, destroy, focus, initialize,
   reset, setSubmitFailed, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
   touch, untouch
 } from '../actions'
@@ -14,6 +15,71 @@ import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
 
 describe('actions', () => {
+
+  it('should create array insert action', () => {
+    expect(arrayInsert('myForm', 'myField', 0, 'foo'))
+      .toEqual({
+        type: ARRAY_INSERT,
+        meta: {
+          form: 'myForm',
+          field: 'myField',
+          index: 0
+        },
+        payload: 'foo'
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create array pop action', () => {
+    expect(arrayPop('myForm', 'myField'))
+      .toEqual({
+        type: ARRAY_POP,
+        meta: {
+          form: 'myForm',
+          field: 'myField'
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create array push action', () => {
+    expect(arrayPush('myForm', 'myField', 'foo'))
+      .toEqual({
+        type: ARRAY_PUSH,
+        meta: {
+          form: 'myForm',
+          field: 'myField'
+        },
+        payload: 'foo'
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create array remove action', () => {
+    expect(arrayRemove('myForm', 'myField', 3))
+      .toEqual({
+        type: ARRAY_REMOVE,
+        meta: {
+          form: 'myForm',
+          field: 'myField',
+          index: 3
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create array shift action', () => {
+    expect(arrayShift('myForm', 'myField'))
+      .toEqual({
+        type: ARRAY_SHIFT,
+        meta: {
+          form: 'myForm',
+          field: 'myField'
+        }
+      })
+      .toPass(isFSA)
+  })
+
   it('should create array splice action', () => {
     expect(arraySplice('myForm', 'myField', 1, 1))
       .toEqual({
@@ -59,6 +125,19 @@ describe('actions', () => {
           removeNum: 2
         },
         payload: { foo: 'bar' }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create array unshift action', () => {
+    expect(arrayUnshift('myForm', 'myField', 'foo'))
+      .toEqual({
+        type: ARRAY_UNSHIFT,
+        meta: {
+          form: 'myForm',
+          field: 'myField'
+        },
+        payload: 'foo'
       })
       .toPass(isFSA)
   })

@@ -24,6 +24,7 @@ let render = () => {
   const FieldArraysForm = require('./FieldArraysForm').default
   const readme = require('./FieldArrays.md')
   const raw = require('!!raw!./FieldArraysForm')
+  const rawValidate = require('!!raw!./validate')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -49,6 +50,10 @@ let render = () => {
         <h3>FieldArraysForm.js</h3>
 
         <Code source={raw}/>
+
+        <h3>validate.js</h3>
+
+        <Code source={rawValidate}/>
 
       </App>
     </Provider>,
@@ -77,6 +82,7 @@ if (module.hot) {
   const rerender = () => {
     setTimeout(render)
   }
+  module.hot.accept('./validate', rerender)
   module.hot.accept('./FieldArraysForm', rerender)
   module.hot.accept('./FieldArrays.md', rerender)
   module.hot.accept('!!raw!./FieldArraysForm', rerender)

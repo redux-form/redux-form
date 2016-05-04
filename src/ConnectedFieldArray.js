@@ -6,8 +6,14 @@ import mapValues from './util/mapValues'
 import plain from './structure/plain'
 
 const createConnectedFieldArray = ({
+  arrayInsert,
+  arrayPop,
+  arrayPush,
+  arrayRemove,
+  arrayShift,
   arraySplice,
   arraySwap,
+  arrayUnshift,
   asyncValidate,
   blur,
   change,
@@ -68,7 +74,16 @@ const createConnectedFieldArray = ({
     _reduxForm: PropTypes.object
   }
 
-  const actions = mapValues({ arraySplice, arraySwap }, actionCreator => partial(actionCreator, name))
+  const actions = mapValues({ 
+    arrayInsert, 
+    arrayPop, 
+    arrayPush, 
+    arrayRemove, 
+    arrayShift, 
+    arraySplice, 
+    arraySwap, 
+    arrayUnshift
+  }, actionCreator => partial(actionCreator, name))
   const connector = connect(
     state => ({
       initial: getIn(getFormState(state), `initial.${name}`),

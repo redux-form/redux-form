@@ -5,11 +5,44 @@ dispatch any action you wish. However, it is recommended that you use the action
 props to your component for most of your needs, as they are already bound to `dispatch`, your 
 form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the specific field.
 
-### `blur(form:String, field:String, value:String)`
+### `arrayInsert(form:String, field:String, index:Number, value:any)`
+
+> Inserts an item into a field array at the specified index
+
+### `arrayPop(form:String, field:String)`
+
+> Removes an item from the end of a field array
+
+### `arrayPush(form:String, field:String, value:any)`
+
+> Appends an item to the end of a field array
+
+### `arrayRemove(form:String, field:String, index:Number)`
+
+> Removes an item at the specified index from a field array
+
+### `arrayShift(form:String, field:String)`
+
+> Removes an item from the beginning of a field array
+
+### `arraySplice(form:String, field:String, index:Number, removeNum:Number, value:any)`
+
+> **ADVANCED USAGE** - Inserts and/or removes items from a field array. Works similarly to 
+[`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
+
+### `arraySwap(form:String, field:String, indexA:Number, indexB:Number)`
+
+> Swaps two items at the specified indexes in a field array
+
+### `arrayUnshift(form:String, field:String, value:any)`
+
+> Inserts an item at the beginning of a field array
+
+### `blur(form:String, field:String, value:any)`
 
 > Saves the value to the field.
 
-### `change(form:String, field:String, value:String)`
+### `change(form:String, field:String, value:any)`
 
 > Saves the value to the field.
 

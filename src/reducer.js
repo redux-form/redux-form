@@ -1,12 +1,13 @@
 import {
-  ARRAY_SPLICE, ARRAY_SWAP, BLUR, CHANGE, DESTROY, FOCUS,
+  ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
+  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS,
   INITIALIZE, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT,
   STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
 const createReducer = structure => {
-  const { splice, empty, getIn, setIn, deleteIn, fromJS } = structure
+  const { splice, empty, getIn, setIn, deleteIn, fromJS, size } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
     const existing = getIn(state, `${key}.${field}`)
@@ -15,15 +16,37 @@ const createReducer = structure => {
       state
   }
   const rootKeys = [ 'values', 'fields', 'submitErrors', 'asyncErrors' ]
+  const arraySplice = (state, field, index, removeNum, value) => {
+    let result = state
+    result = doSplice(result, 'values', field, index, removeNum, value, true)
+    result = doSplice(result, 'fields', field, index, removeNum, empty)
+    result = doSplice(result, 'submitErrors', field, index, removeNum, empty)
+    result = doSplice(result, 'asyncErrors', field, index, removeNum, empty)
+    return result
+  }
 
   const behaviors = {
+    [ARRAY_INSERT](state, { meta: { field, index }, payload }) {
+      return arraySplice(state, field, index, 0, payload)
+    },
+    [ARRAY_POP](state, { meta: { field } }) {
+      const array = getIn(state, `values.${field}`)
+      const length = array ? size(array) : 0
+      return length ? arraySplice(state, field, length - 1, 1) : state
+    },
+    [ARRAY_PUSH](state, { meta: { field }, payload }) {
+      const array = getIn(state, `values.${field}`)
+      const length = array ? size(array) : 0
+      return arraySplice(state, field, length, 0, payload)
+    },
+    [ARRAY_REMOVE](state, { meta: { field, index } }) {
+      return arraySplice(state, field, index, 1)
+    },
+    [ARRAY_SHIFT](state, { meta: { field } }) {
+      return arraySplice(state, field, 0, 1)
+    },
     [ARRAY_SPLICE](state, { meta: { field, index, removeNum }, payload }) {
-      let result = state
-      result = doSplice(result, 'values', field, index, removeNum, payload, true)
-      result = doSplice(result, 'fields', field, index, removeNum, empty)
-      result = doSplice(result, 'submitErrors', field, index, removeNum, empty)
-      result = doSplice(result, 'asyncErrors', field, index, removeNum, empty)
-      return result
+      return arraySplice(state, field, index, removeNum, payload)
     },
     [ARRAY_SWAP](state, { meta: { field, indexA, indexB } }) {
       let result = state
@@ -36,6 +59,9 @@ const createReducer = structure => {
         }
       })
       return result
+    },
+    [ARRAY_UNSHIFT](state, { meta: { field }, payload }) {
+      return arraySplice(state, field, 0, 0, payload)
     },
     [BLUR](state, { meta: { field, touch }, payload }) {
       let result = state

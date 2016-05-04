@@ -12,7 +12,7 @@ const createConnectedField = ({
   focus,
   getFormState,
   initialValues
-  }, { deepEqual, getIn, size }, name) => {
+}, { deepEqual, getIn, size }, name) => {
 
   class ConnectedField extends Component {
     constructor(props, context) {
@@ -42,8 +42,7 @@ const createConnectedField = ({
     render() {
       const { component, defaultValue, ...props } = this.props
       return React.createElement(component,
-        createFieldProps(
-          getIn,
+        createFieldProps(getIn,
           name,
           props,
           this.syncError,
