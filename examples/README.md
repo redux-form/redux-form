@@ -7,6 +7,7 @@ Each example is its own standalone web app with hot reloading. To run them local
 `redux-form` repository, `cd` into an example folder, and run `npm install` and `npm start`. Then
 open [`localhost:3030`](http://localhost:3030) in your browser.
 
+
 ---
 
 ### [Simple Form](simple)
@@ -50,4 +51,8 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 > How to create a multi-page "wizard" form.
 
 ---
-  
+### [Material-ui Examples](material-ui)
+
+> Contains multiple material-ui examples
+
+---

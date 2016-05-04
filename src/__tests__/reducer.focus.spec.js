@@ -2,11 +2,7 @@ import { focus } from '../actions'
 
 const describeFocus = (reducer, expect, { fromJS }) => () => {
   it('should set visited on focus and update active with no previous state', () => {
-    const state = reducer(undefined, {
-      ...focus(),
-      form: 'foo',
-      field: 'myField'
-    })
+    const state = reducer(undefined, focus('foo', 'myField'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -22,11 +18,7 @@ const describeFocus = (reducer, expect, { fromJS }) => () => {
   })
 
   it('should set visited on focus and update active on deep field with no previous state', () => {
-    const state = reducer(undefined, {
-      ...focus(),
-      form: 'foo',
-      field: 'myField.subField'
-    })
+    const state = reducer(undefined, focus('foo', 'myField.subField'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -61,11 +53,7 @@ const describeFocus = (reducer, expect, { fromJS }) => () => {
         },
         active: 'otherField'
       }
-    }), {
-      ...focus(),
-      form: 'foo',
-      field: 'myField'
-    })
+    }), focus('foo', 'myField'))
     expect(state)
       .toEqualMap({
         foo: {

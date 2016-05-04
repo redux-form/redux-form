@@ -1,23 +1,48 @@
-import { ADD_ARRAY_VALUE, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET,
-  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT,
-  SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes'
+import {
+  ARRAY_SPLICE, ARRAY_SWAP, BLUR, CHANGE, DESTROY, FOCUS,
+  INITIALIZE, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT,
+  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
+} from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
 const createReducer = structure => {
-  const { empty, getIn, setIn, deleteIn, fromJS } = structure
+  const { splice, empty, getIn, setIn, deleteIn, fromJS } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
+  const doSplice = (state, key, field, index, removeNum, value, force) => {
+    const existing = getIn(state, `${key}.${field}`)
+    return existing || force ?
+      setIn(state, `${key}.${field}`, splice(existing, index, removeNum, value)) :
+      state
+  }
+  const rootKeys = [ 'values', 'fields', 'submitErrors', 'asyncErrors' ]
 
   const behaviors = {
-    [ADD_ARRAY_VALUE](state) {
-      return state
-    },
-    [BLUR](state, { field, value, touch }) {
+    [ARRAY_SPLICE](state, { meta: { field, index, removeNum }, payload }) {
       let result = state
-      if (value !== undefined) {
-        result = setIn(result, `values.${field}`, value)
-      }
-      if (value === '') {
+      result = doSplice(result, 'values', field, index, removeNum, payload, true)
+      result = doSplice(result, 'fields', field, index, removeNum, empty)
+      result = doSplice(result, 'submitErrors', field, index, removeNum, empty)
+      result = doSplice(result, 'asyncErrors', field, index, removeNum, empty)
+      return result
+    },
+    [ARRAY_SWAP](state, { meta: { field, indexA, indexB } }) {
+      let result = state
+      rootKeys.forEach(key => {
+        const valueA = getIn(result, `${key}.${field}[${indexA}]`)
+        const valueB = getIn(result, `${key}.${field}[${indexB}]`)
+        if (valueA !== undefined || valueB !== undefined) {
+          result = setIn(result, `${key}.${field}[${indexA}]`, valueB)
+          result = setIn(result, `${key}.${field}[${indexB}]`, valueA)
+        }
+      })
+      return result
+    },
+    [BLUR](state, { meta: { field, touch }, payload }) {
+      let result = state
+      if (payload === '') {
         result = deleteInWithCleanUp(result, `values.${field}`)
+      } else if (payload !== undefined) {
+        result = setIn(result, `values.${field}`, payload)
       }
       result = deleteIn(result, 'active')
       result = deleteIn(result, `fields.${field}.active`)
@@ -27,13 +52,12 @@ const createReducer = structure => {
       }
       return result
     },
-    [CHANGE](state, { field, value, touch }) {
+    [CHANGE](state, { meta: { field, touch }, payload }) {
       let result = state
-      if (value !== undefined) {
-        result = setIn(result, `values.${field}`, value)
-      }
-      if (value === '') {
+      if (payload === '') {
         result = deleteInWithCleanUp(result, `values.${field}`)
+      } else if (payload !== undefined) {
+        result = setIn(result, `values.${field}`, payload)
       }
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
       result = deleteInWithCleanUp(result, `submitErrors.${field}`)
@@ -43,7 +67,7 @@ const createReducer = structure => {
       }
       return result
     },
-    [FOCUS](state, { field }) {
+    [FOCUS](state, { meta: { field } }) {
       let result = state
       const previouslyActive = getIn(state, 'active')
       result = deleteIn(result, `fields.${previouslyActive}.active`)
@@ -52,15 +76,12 @@ const createReducer = structure => {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { data }) {
-      const mapData = fromJS(data)
+    [INITIALIZE](state, { payload }) {
+      const mapData = fromJS(payload)
       let result = empty // clean all field state
       result = setIn(result, 'values', mapData)
       result = setIn(result, 'initial', mapData)
       return result
-    },
-    [REMOVE_ARRAY_VALUE](state) {
-      return state
     },
     [RESET](state) {
       const values = getIn(state, 'initial')
@@ -73,17 +94,17 @@ const createReducer = structure => {
       }
       return result
     },
-    [START_ASYNC_VALIDATION](state, { field }) {
+    [START_ASYNC_VALIDATION](state, { meta: { field } }) {
       return setIn(state, 'asyncValidating', field || true)
     },
     [START_SUBMIT](state) {
       return setIn(state, 'submitting', true)
     },
-    [STOP_ASYNC_VALIDATION](state, { errors }) {
+    [STOP_ASYNC_VALIDATION](state, { payload }) {
       let result = state
       result = deleteIn(result, 'asyncValidating')
-      if (errors && Object.keys(errors).length) {
-        const { _error, ...fieldErrors } = errors
+      if (payload && Object.keys(payload).length) {
+        const { _error, ...fieldErrors } = payload
         if (_error) {
           result = setIn(result, 'error', _error)
         }
@@ -98,12 +119,12 @@ const createReducer = structure => {
       }
       return result
     },
-    [STOP_SUBMIT](state, { errors }) {
+    [STOP_SUBMIT](state, { payload }) {
       let result = state
       result = deleteIn(result, 'submitting')
       result = deleteIn(result, 'submitFailed')
-      if (errors && Object.keys(errors).length) {
-        const { _error, ...fieldErrors } = errors
+      if (payload && Object.keys(payload).length) {
+        const { _error, ...fieldErrors } = payload
         if (_error) {
           result = setIn(result, 'error', _error)
         }
@@ -119,7 +140,7 @@ const createReducer = structure => {
       }
       return result
     },
-    [SET_SUBMIT_FAILED](state, { fields }) {
+    [SET_SUBMIT_FAILED](state, { meta: { fields } }) {
       let result = state
       result = setIn(result, 'submitFailed', true)
       result = deleteIn(result, 'submitting')
@@ -129,16 +150,13 @@ const createReducer = structure => {
       }
       return result
     },
-    [SWAP_ARRAY_VALUES](state) {
-      return state
-    },
-    [TOUCH](state, { fields }) {
+    [TOUCH](state, { meta: { fields } }) {
       let result = state
       fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
       result = setIn(result, 'anyTouched', true)
       return result
     },
-    [UNTOUCH](state, { fields }) {
+    [UNTOUCH](state, { meta: { fields } }) {
       let result = state
       fields.forEach(field => result = deleteIn(result, `fields.${field}.touched`))
       return result
@@ -152,7 +170,7 @@ const createReducer = structure => {
 
   const byForm = (reducer) =>
     (state = empty, action = {}) => {
-      const { form, ...rest } = action // eslint-disable-line no-redeclare
+      const form = action && action.meta && action.meta.form
       if (!form) {
         return state
       }
@@ -164,7 +182,7 @@ const createReducer = structure => {
           }, {})
       }
       const formState = getIn(state, form)
-      const result = reducer(formState, rest)
+      const result = reducer(formState, action)
       return result === formState ? state : setIn(state, form, result)
     }
 

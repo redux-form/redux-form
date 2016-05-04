@@ -25,10 +25,16 @@ import { Field } from 'redux-form';  // ES6
 
 ## Props you can pass to `Field`
 
-#### `component : Component|Function|factory` [required]
+#### `name : String` [required]
 
-A `Component`, stateless function, or `ReactElement` factory that will render the input. See the 
-[Usage](#usage) section below for details.
+A string path, in dot-and-bracket notation, corresponding to a value in the form values. It may 
+be as simple as `'firstName'` or as complicated as
+`contact.billing.address[2].phones[1].areaCode`. See the [Usage](#usage) section below for details.
+
+#### `component : Component|Function|String` [required]
+
+A `Component`, stateless function, or string corresponding to a default JSX element.
+See the [Usage](#usage) section below for details.
 
 #### `defaultValue: any` [optional]
 
@@ -136,8 +142,7 @@ asynchronous, and submit validation errors will be reported here.
 
 #### `name : String`
 
-> The name of the field. It will be the same as the key in the `fields` Object, but useful
-if bundling up a field to send down to a specialized input component.
+> The name prop passed in.
 
 #### `onBlur(eventOrValue) : Function`
 

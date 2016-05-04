@@ -2,10 +2,7 @@ import { initialize } from '../actions'
 
 const describeInitialize = (reducer, expect, { fromJS }) => () => {
   it('should set initialize values on initialize on empty state', () => {
-    const state = reducer(undefined, {
-      ...initialize({ myField: 'initialValue' }),
-      form: 'foo'
-    })
+    const state = reducer(undefined, initialize('foo', { myField: 'initialValue' }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -20,10 +17,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
   })
 
   it('should allow initializing null values', () => {
-    const state = reducer(undefined, {
-      ...initialize({ bar: 'baz', dog: null }),
-      form: 'foo'
-    })
+    const state = reducer(undefined, initialize('foo', { bar: 'baz', dog: null }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -40,10 +34,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
   })
 
   it('should initialize nested values on initialize on empty state', () => {
-    const state = reducer(undefined, {
-      ...initialize({ myField: { subField: 'initialValue' } }),
-      form: 'foo'
-    })
+    const state = reducer(undefined, initialize('foo', { myField: { subField: 'initialValue' } }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -62,10 +53,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
   })
 
   it('should initialize array values on initialize on empty state', () => {
-    const state = reducer(undefined, {
-      ...initialize({ myField: [ 'initialValue' ] }),
-      form: 'foo'
-    })
+    const state = reducer(undefined, initialize('foo', { myField: [ 'initialValue' ] }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -80,21 +68,18 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
   })
 
   it('should initialize array values with subvalues on initialize on empty state', () => {
-    const state = reducer(undefined, {
-      ...initialize({
-        accounts: [
-          {
-            name: 'Bobby Tables',
-            email: 'bobby@gmail.com'
-          },
-          {
-            name: 'Sammy Tables',
-            email: 'sammy@gmail.com'
-          }
-        ]
-      }),
-      form: 'foo'
-    })
+    const state = reducer(undefined, initialize('foo', {
+      accounts: [
+        {
+          name: 'Bobby Tables',
+          email: 'bobby@gmail.com'
+        },
+        {
+          name: 'Sammy Tables',
+          email: 'sammy@gmail.com'
+        }
+      ]
+    }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -138,10 +123,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
           }
         }
       }
-    }), {
-      ...initialize({ myField: 'cleanValue' }),
-      form: 'foo'
-    })
+    }), initialize('foo', { myField: 'cleanValue' }))
     expect(state)
       .toEqualMap({
         foo: {

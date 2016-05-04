@@ -9,10 +9,7 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
           myOtherField: 'otherValue'
         }
       }
-    }), {
-      ...touch('myField', 'myOtherField'),
-      form: 'foo'
-    })
+    }), touch('foo', 'myField', 'myOtherField'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -43,10 +40,7 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
           }
         }
       }
-    }), {
-      ...touch('deep.myField', 'deep.myOtherField'),
-      form: 'foo'
-    })
+    }), touch('foo', 'deep.myField', 'deep.myOtherField'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -78,10 +72,7 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
           myFields: [ 'value', 'otherValue' ]
         }
       }
-    }), {
-      ...touch('myFields[0]', 'myFields[1]'),
-      form: 'foo'
-    })
+    }), touch('foo', 'myFields[0]', 'myFields[1]'))
     expect(state)
       .toEqualMap({
         foo: {

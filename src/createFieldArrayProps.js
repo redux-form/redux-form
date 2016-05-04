@@ -1,30 +1,37 @@
-import createOnBlur from './events/createOnBlur'
-import createOnChange from './events/createOnChange'
-import createOnDragStart from './events/createOnDragStart'
-import createOnDrop from './events/createOnDrop'
-import createOnFocus from './events/createOnFocus'
-import partial from './util/partial'
-import noop from './util/noop'
+import createInsert from './arrays/insert'
+import createPop from './arrays/pop'
+import createPush from './arrays/push'
+import createRemove from './arrays/remove'
+import createShift from './arrays/shift'
+import createUnshift from './arrays/unshift'
 
-const createFieldArrayProps = (getIn, name,
+const createFieldArrayProps = (deepEqual, getIn, size, name,
   {
-    asyncError, blur, change, focus, initial, state, submitError, submitFailed,
-    value, _value, ...rest
-  }, syncError, initialPropValue, defaultValue = '', asyncValidate = noop) => {
+    arraySplice, arraySwap, asyncError, initial, state,
+    submitError, submitFailed, value, ...rest
+  }, syncError, initialPropValue) => {
   const error = syncError || asyncError || submitError
-  const onChange = createOnChange(change)
   const initialValue = initial || initialPropValue
+  const array = value || initialValue
+  const pristine = deepEqual(value, initialValue)
+  const length = size(array)
   return {
-    array: {
-      push: null,
-      pop: null,
-      shift: null,
-      unshift: null,
-      map: null,
-      length: null,
-      forEach: null,
-      ...rest
-    }
+    dirty: !pristine,
+    error,
+    forEach: callback => (array || []).forEach((item, index) => callback(`${name}[${index}]`, index)),
+    insert: createInsert(arraySplice),
+    invalid: !!error,
+    length,
+    map: callback => (array || []).map((item, index) => callback(`${name}[${index}]`, index)),
+    pop: createPop(array, length, getIn, arraySplice),
+    pristine,
+    push: createPush(length, arraySplice),
+    remove: createRemove(arraySplice),
+    shift: createShift(array, length, getIn, arraySplice),
+    swap: arraySwap,
+    unshift: createUnshift(arraySplice),
+    valid: !error,
+    ...rest
   }
 }
 

@@ -7,10 +7,7 @@ const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
         doesnt: 'matter',
         should: 'notchange'
       }
-    }), {
-      ...startSubmit(),
-      form: 'foo'
-    })
+    }), startSubmit('foo'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -28,10 +25,7 @@ const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
         should: 'notchange',
         submitFailed: true
       }
-    }), {
-      ...startSubmit(),
-      form: 'foo'
-    })
+    }), startSubmit('foo'))
     expect(state)
       .toEqualMap({
         foo: {

@@ -33,5 +33,19 @@ describe('structure.plain.getIn', () => {
     expect(getIn(state, 'foo.bar[0]')).toBe('baz')
     expect(getIn(state, 'foo.bar[1].dog')).toBe(42)
   })
+
+  it('should get string keys on arrays', () => {
+    const array = [1,2,3]
+    array.stringKey = 'hello'
+    const state = {
+      foo: {
+        bar: array
+      }
+    }
+    expect(getIn(state, 'foo.bar[0]')).toBe(1)
+    expect(getIn(state, 'foo.bar[1]')).toBe(2)
+    expect(getIn(state, 'foo.bar[2]')).toBe(3)
+    expect(getIn(state, 'foo.bar.stringKey')).toBe('hello')
+  })
 })
 
