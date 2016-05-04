@@ -9,8 +9,7 @@ describe('structure.plain.getIn', () => {
   it('should return undefined if any step on the path is undefined', () => {
     expect(getIn({
       a: {
-        b: {
-        }
+        b: {}
       }
     }, 'a.b.c')).toBe(undefined)
   })
@@ -35,7 +34,7 @@ describe('structure.plain.getIn', () => {
   })
 
   it('should get string keys on arrays', () => {
-    const array = [1,2,3]
+    const array = [ 1, 2, 3 ]
     array.stringKey = 'hello'
     const state = {
       foo: {
