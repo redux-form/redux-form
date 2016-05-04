@@ -2,13 +2,10 @@ import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import validate from './validate'
 
-let renders = 0
-
 const FieldArraysForm = (props) => {
   const { array: { push }, handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
-      {++renders}
       <div>
         <label>Club Name</label>
         <Field name="clubName" key="clubName" component={clubName =>
