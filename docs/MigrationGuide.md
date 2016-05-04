@@ -252,7 +252,6 @@ render() {
 
 ```js
 render() {
-  const { push } = this.props
   return (
     <div>
       <FieldArray name="awards" component={awards =>
