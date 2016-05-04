@@ -224,10 +224,10 @@ render() {
 }
 ```
 
-## Array Fields
+## Field Arrays
 
-This part of `v6` has not yet been written. The current plan is to have some sort of component, 
-like `Field`, that will let you iterate over your array values. Something like:
+To get the field array object that was passed as a prop to the whole form in `v5`, you must use 
+the `FieldArray` component, much like the `Field` component is used.
 
 #### `v5`
 
@@ -248,26 +248,31 @@ render() {
 }
 ```
 
-#### `v6` - Proposal
+#### `v6`
 
 ```js
 render() {
   const { push } = this.props
   return (
     <div>
-      <ArrayField name="awards" component={props =>
-        <ul>
-          {props.array.map((name, index) => <li key={index}>
-            <label>Award #{index + 1}</label>
-            <Field name={name} type="text"/>
-          </li>}
-        </ul>
-      </ArrayField>
-      <button onClick={() => push('awards')}>Add Award</button>
+      <FieldArray name="awards" component={awards =>
+        <div>
+          <ul>
+            {awards.map((name, index) => <li key={index}>
+              <label>Award #{index + 1}</label>
+              <Field name={name} type="text"/>
+            </li>}
+          </ul>
+          <button onClick={() => awards.push()}>Add Award</button>
+        </div>
+      }/>
     </div>
   )
 }
 ```
+
+They have not been written yet, but there will be action creators for each array operation:
+e.g. push, pop, shift, unshift, insert, remove, swap.
 
 ## Normalization
 
