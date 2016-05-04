@@ -16,13 +16,12 @@
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
 ## Installation
-```npm install --save redux-form```
+```npm install --save redux-form@6.0.0-alpha.7```
 
 ## Documentation
 
-* [Getting Started](http://erikras.github.io/redux-form/#/getting-started)
-* [Examples](http://erikras.github.io/redux-form/#/examples)
-* [API](http://erikras.github.io/redux-form/#/api)
-* [FAQ](http://erikras.github.io/redux-form/#/faq)
+* [Getting Started](http://redux-form.com/6.0.0-alpha.7/docs/GettingStarted.md/)
+* [Examples](http://redux-form.com/6.0.0-alpha.7/examples/)
+* [API](http://redux-form.com/6.0.0-alpha.7/docs/api/)
+* [FAQ](http://redux-form.com/6.0.0-alpha.7/docs/faq/)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
-* [Tools](https://github.com/erikras/redux-form/blob/master/tools.md)

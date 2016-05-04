@@ -1,6 +1,6 @@
 {
   "name": "redux-form-simple-example",
-  "version": "6.0.0-alpha.6",
+  "version": "6.0.0-alpha.7",
   "description": "A simple example for redux-form",
   "repository": {
     "type": "git",
@@ -52,7 +52,7 @@
     "react-dom": "^15.0.0-rc.2",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
-    "redux-form": "6.0.0-alpha.6",
+    "redux-form": "6.0.0-alpha.7",
     "redux-form-website-template": "0.0.24"
   },
   "devDependencies": {
