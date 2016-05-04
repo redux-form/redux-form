@@ -40,6 +40,12 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 
 ---
 
+### [Field Arrays](fieldArrays)
+
+> How to create and manipulate arrays of fields.
+
+---
+
 ### [Immutable JS](immutable)
 
 > How to use Immutable JS for `redux-form` state storage.
