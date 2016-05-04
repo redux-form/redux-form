@@ -17,10 +17,7 @@ const describeUntouch = (reducer, expect, { fromJS }) => () => {
           }
         }
       }
-    }), {
-      ...untouch('myField', 'myOtherField'),
-      form: 'foo'
-    })
+    }), untouch('foo', 'myField', 'myOtherField'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -56,10 +53,7 @@ const describeUntouch = (reducer, expect, { fromJS }) => () => {
           }
         }
       }
-    }), {
-      ...untouch('deep.myField', 'deep.myOtherField'),
-      form: 'foo'
-    })
+    }), untouch('foo', 'deep.myField', 'deep.myOtherField'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -92,10 +86,7 @@ const describeUntouch = (reducer, expect, { fromJS }) => () => {
           ]
         }
       }
-    }), {
-      ...untouch('myFields[0]', 'myFields[1]'),
-      form: 'foo'
-    })
+    }), untouch('foo', 'myFields[0]', 'myFields[1]'))
     expect(state)
       .toEqualMap({
         foo: {

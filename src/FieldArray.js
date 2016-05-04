@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react'
-import createConnectedField from './ConnectedField'
+import createConnectedFieldArray from './ConnectedFieldArray'
+import plain from './structure/plain'
 
 let keys = 0
 const generateKey = () => `redux-form-field-${keys++}`
 
-const createFieldArray = ({ deepEqual, getIn }) => {
+const createFieldArray = ({ deepEqual, getIn, size }) => {
 
   class FieldArray extends Component {
     constructor(props, context) {
@@ -13,11 +14,7 @@ const createFieldArray = ({ deepEqual, getIn }) => {
         throw new Error('FieldArray must be inside a component decorated with reduxForm()')
       }
       this.key = generateKey()
-      this.ConnectedFieldArray = createConnectedFieldArray(context._reduxForm, { deepEqual, getIn }, props.name)
-    }
-
-    componentWillMount() {
-      this.context._reduxForm.register(this.key, this)
+      this.ConnectedFieldArray = createConnectedFieldArray(context._reduxForm, { deepEqual, getIn, size }, props.name)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,10 +23,6 @@ const createFieldArray = ({ deepEqual, getIn }) => {
         this.ConnectedFieldArray =
           createConnectedFieldArray(this.context._reduxForm, getIn, nextProps.name)
       }
-    }
-
-    componentWillUnmount() {
-      this.context._reduxForm.unregister(this.key)
     }
 
     get valid() {
@@ -48,8 +41,7 @@ const createFieldArray = ({ deepEqual, getIn }) => {
 
   FieldArray.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired,
-    defaultValue: PropTypes.any
+    component: PropTypes.func.isRequired
   }
   FieldArray.contextTypes = {
     _reduxForm: PropTypes.object

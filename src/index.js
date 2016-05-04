@@ -10,6 +10,7 @@ export const {
   change,
   destroy,
   Field,
+  FieldArray,
   focus,
   reducer,
   reduxForm,

@@ -1,17 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import createFieldProps from './createFieldProps'
-import bindActionData from './bindActionData'
+import createFieldArrayProps from './createFieldArrayProps'
+import partial from './util/partial'
+import mapValues from './util/mapValues'
 import plain from './structure/plain'
 
 const createConnectedFieldArray = ({
+  arraySplice,
+  arraySwap,
   asyncValidate,
   blur,
   change,
   focus,
   getFormState,
   initialValues
-  }, { deepEqual, getIn }, name) => {
+  }, { deepEqual, getIn, size }, name) => {
 
   class ConnectedFieldArray extends Component {
     constructor(props, context) {
@@ -21,13 +24,15 @@ const createConnectedFieldArray = ({
       }
     }
 
-    shouldComponentUpdate(nextProps) {
-      return !deepEqual(this.props, nextProps)
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+      const prevLength = this.props.value ? size(this.props.value) : 0
+      const nextLength = nextProps.value ? size(nextProps.value) : 0
+      return prevLength !== nextLength
     }
 
     get syncError() {
-      const { _reduxForm: { syncErrors } } = this.context
-      return plain.getIn(syncErrors, name)
+      const { _reduxForm: { getSyncErrors } } = this.context
+      return plain.getIn(getSyncErrors(), `${name}._error`)
     }
 
     get valid() {
@@ -39,16 +44,16 @@ const createConnectedFieldArray = ({
     }
 
     render() {
-      const { component, defaultValue, ...props } = this.props
+      const { component, ...props } = this.props
       return React.createElement(component,
-        createFieldProps(
+        createFieldArrayProps(
+          deepEqual,
           getIn,
+          size,
           name,
           props,
           this.syncError,
-          initialValues && getIn(initialValues, name),
-          defaultValue,
-          asyncValidate
+          initialValues && getIn(initialValues, name)
         )
       )
     }
@@ -63,13 +68,13 @@ const createConnectedFieldArray = ({
     _reduxForm: PropTypes.object
   }
 
-  const actions = bindActionData({ push, pop, shift, unshift }, { field: name })
+  const actions = mapValues({ arraySplice, arraySwap }, actionCreator => partial(actionCreator, name))
   const connector = connect(
     (state, ownProps) => ({
       initial: getIn(getFormState(state), `initial.${name}`),
       value: getIn(getFormState(state), `values.${name}`),
-      asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
-      submitError: getIn(getFormState(state), `submitErrors.${name}`)
+      asyncError: getIn(getFormState(state), `asyncErrors.${name}._error`),
+      submitError: getIn(getFormState(state), `submitErrors.${name}._error`)
     }),
     actions,
     undefined,

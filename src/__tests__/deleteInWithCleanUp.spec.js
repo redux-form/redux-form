@@ -38,6 +38,41 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
       })
     })
 
+    it('should just set to undefined if leaf structure is an array', () => {
+      expect(deleteInWithCleanUp(fromJS({
+        a: [ 42 ]
+      }), 'a[0]')).toEqualMap({
+        a: [ undefined ]
+      })
+      expect(deleteInWithCleanUp(fromJS({
+        a: [ 42 ]
+      }), 'b[0]')).toEqualMap({
+        a: [ 42 ]
+      })
+      expect(deleteInWithCleanUp(fromJS({
+        a: [ 41, 42, 43 ]
+      }), 'a[1]')).toEqualMap({
+        a: [ 41, undefined, 43 ]
+      })
+      expect(deleteInWithCleanUp(fromJS({
+        a: {
+          b: 1,
+          c: [ 2 ]
+        },
+        d: {
+          e: 3
+        }
+      }), 'a.c[0]')).toEqualMap({
+        a: {
+          b: 1,
+          c: [ undefined ]
+        },
+        d: {
+          e: 3
+        }
+      })
+    })
+
     it('should delete parent if no other children', () => {
       expect(deleteInWithCleanUp(fromJS({
         a: {
