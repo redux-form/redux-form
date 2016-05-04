@@ -11,106 +11,165 @@ $threshold: 400px;
   }
 }
 
+@mixin form-row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin: 10px 5px;
+
+  & > label {
+    font-weight: bold;
+    margin-right: 10px;
+    min-width: 150px;
+    text-align: right;
+    padding: 6px 9px;
+  }
+  & > div { // input container
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    flex-flow: column nowrap;
+    position: relative;
+    & > * { // input
+      flex: 1;
+      font-size: 16px;
+      padding: 5px 8px;
+      border: 1px solid #ccc;
+      &[type='checkbox'] {
+        margin: 8px 0;
+        padding: 0;
+      }
+    }
+    & > select {
+      height: 29px;
+    }
+    & > label { // radio buttons
+      border: none;
+      padding-left: 0;
+    }
+    & > span { // errors
+      border: none;
+      @include error;
+    }
+    &:global(.async-validating) {
+      &:after {
+        content: '';
+        position: absolute;
+        top: 7px;
+        right: 7px;
+        z-index: 200;
+        height: 16px;
+        width: 16px;
+        background-image: url('./validating.gif');
+      }
+    }
+  }
+  button {
+    margin: 10px;
+    &[type='button'] {
+      @include btn-default;
+    }
+    &[type='submit'] {
+      @include btn-primary;
+      &:global(.submitting) {
+        cursor: wait !important;
+      }
+      &:before {
+        @include fa-paper-plane;
+        margin-right: 5px;
+      }
+      &:global(.next) {
+        &:before {
+          content: '';
+          margin-right: 0;
+        }
+        &:after {
+          @include fa-chevron-right;
+          margin-left: 5px;
+        }
+      }
+    }
+    &:global(.previous) {
+      &:before {
+        @include fa-chevron-left;
+        margin-right: 5px;
+      }
+    }
+  }
+  @media (max-width: $threshold) {
+    flex-flow: column nowrap;
+    & > label {
+      text-align: left;
+    }
+    & > div {
+      flex-flow: column-reverse nowrap;
+    }
+  }
+}
+
 form {
   font-size: 16px;
   & > div {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    margin: 10px 5px;
-
-    & > label {
-      font-weight: bold;
-      margin-right: 10px;
-      min-width: 150px;
-      text-align: right;
-      padding: 6px 9px;
-    }
-    & > div { // input container
-      flex: 1;
-      max-width: 500px;
-      display: flex;
-      flex-flow: column nowrap;
-      position: relative;
-      & > * { // input
-        flex: 1;
-        font-size: 16px;
-        padding: 5px 8px;
-        border: 1px solid #ccc;
-        &[type='checkbox'] {
-          margin: 8px 0;
-          padding: 0;
-        }
-      }
-      & > select {
-        height: 29px;
-      }
-      & > label { // radio buttons
-        border: none;
-        padding-left: 0;
-      }
-      & > span { // errors
-        border: none;
-        @include error;
-      }
-      &:global(.async-validating) {
-        &:after {
-          content: '';
-          position: absolute;
-          top: 7px;
-          right: 7px;
-          z-index: 200;
-          height: 16px;
-          width: 16px;
-          background-image: url('./validating.gif');
-        }
-      }
-    }
-    button {
-      margin: 10px;
-      &[type='button'] {
-        @include btn-default;
-      }
-      &[type='submit'] {
-        @include btn-primary;
-        &:global(.submitting) {
-          cursor: wait !important;
-        }
-        &:before {
-          @include fa-paper-plane;
-          margin-right: 5px;
-        }
-        &:global(.next) {
-          &:before {
-            content: '';
-            margin-right: 0;
-          }
-          &:after {
-            @include fa-chevron-right;
-            margin-left: 5px;
-          }
-        }
-      }
-      &:global(.previous) {
-        &:before {
-          @include fa-chevron-left;
-          margin-right: 5px;
-        }
-      }
-    }
-    @media (max-width: $threshold) {
-      flex-flow: column nowrap;
-      & > label {
-        text-align: left;
-      }
-      & > div {
-        flex-flow: column-reverse nowrap;
-      }
-    }
+    @include form-row;
   }
   & > strong {
     @include error;
     display: block;
     text-align: center;
+  }
+  button {
+    cursor: pointer;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      margin: 0;
+      padding: 15px;
+      background-image: linear-gradient(#efefef, #eee);
+      clear:both;
+      ul li {
+        background-image: linear-gradient(#ccefcc, #cec);
+        &:nth-child(odd) {
+          background-image: linear-gradient(#ccdfcc, #cdc);
+        }
+        &:first-child {
+          background-image: none;
+        }
+      }
+      &:global(.error) {
+        background-image: linear-gradient(#efcccc, #ecc) !important;
+        text-align: center;
+        @include error;
+      }
+      & > div {
+        @include form-row;
+      }
+      & > button {
+        float: right;
+        @include btn-danger;
+        padding: 5px 8px;
+        &:before {
+          @include fa-trash;
+        }
+      }
+      &:nth-child(odd) {
+        background-image: linear-gradient(#dfdfdf, #ddd);
+      }
+      &:first-child {
+        // button row
+        background-image: none;
+        text-align: center;
+        button {
+          float: none;
+          @include btn-default;
+          &:before {
+            @include fa-plus;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
   }
 }

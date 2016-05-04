@@ -75,6 +75,16 @@ $menu-threshold: 920px;
   content: '\f1d8';
 }
 
+@mixin fa-plus {
+  @include fa;
+  content: '\f067';
+}
+
+@mixin fa-trash {
+  @include fa;
+  content: '\f1f8';
+}
+
 @mixin fa-bars {
   @include fa;
   content: '\f0c9';
