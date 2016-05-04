@@ -46,13 +46,13 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 
 ---
 
-### [Multi-page "Wizard" Form](wizard)
+### [Wizard Form](wizard)
 
 > How to create a multi-page "wizard" form.
 
 ---
-### [Material-ui Examples](material-ui)
+### [Material-UI Examples](material-ui)
 
-> Contains multiple material-ui examples
+> Contains multiple Material-UI examples
 
 ---
