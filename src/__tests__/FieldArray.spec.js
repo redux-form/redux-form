@@ -101,7 +101,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should use initialValues', () => {
       const props = testProps({}, {
         initialValues: {
-          foo: ['a','b','c']
+          foo: [ 'a', 'b', 'c' ]
         }
       })
       expect(props.length).toBe(3)
@@ -109,9 +109,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[0].arguments[0]).toBe('foo[0]')
-      expect(iterate.calls[1].arguments[0]).toBe('foo[1]')
-      expect(iterate.calls[2].arguments[0]).toBe('foo[2]')
+      expect(iterate.calls[ 0 ].arguments[ 0 ]).toBe('foo[0]')
+      expect(iterate.calls[ 1 ].arguments[ 0 ]).toBe('foo[1]')
+      expect(iterate.calls[ 2 ].arguments[ 0 ]).toBe('foo[2]')
     })
 
     it('should get sync errors from outer reduxForm component', () => {
@@ -213,7 +213,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <div/>).andCallThrough()
+      const input = createSpy(() => <div/>).andCallThrough()
       class Form extends Component {
         constructor() {
           super()

@@ -1,6 +1,6 @@
 import expect from 'expect'
 import deepEqual from 'deep-equal'
-import { Map, List, Iterable, fromJS } from 'immutable'
+import { Map, Iterable, fromJS } from 'immutable'
 
 const deepEqualValues = (a, b) => {
   if (Iterable.isIterable(a)) {
