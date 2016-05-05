@@ -28,7 +28,7 @@ const createField = ({ deepEqual, getIn }) => {
       if (this.props.name !== nextProps.name) {
         // name changed, regenerate connected field
         this.ConnectedField =
-          createConnectedField(this.context._reduxForm, getIn, nextProps.name)
+          createConnectedField(this.context._reduxForm, { deepEqual, getIn }, nextProps.name)
       }
     }
 
