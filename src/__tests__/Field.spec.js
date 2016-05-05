@@ -1,5 +1,6 @@
 /* eslint react/no-multi-comp:0 */
 import React, { Component } from 'react'
+import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
@@ -128,6 +129,102 @@ const describeField = (name, structure, combineReducers, expect) => {
         }
       })
       expect(props.error).toBe('foo error')
+    })
+
+    it('should provide valid getter', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          },
+          submitErrors: {
+            foo: 'foo error'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.valid).toBe(false)
+    })
+
+    it('should provide name getter', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.name).toBe('foo')
+    })
+
+    it('should reconnect when name changes', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'fooValue',
+            bar: 'barValue'
+          },
+          fields: {
+            bar: {
+              touched: true
+            }
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { field: 'foo' }
+        }
+
+        render() {
+          return (<div>
+            <Field name={this.state.field} component={input}/>
+            <button onClick={() => this.setState({ field: 'bar' })}>Change</button>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('fooValue')
+      expect(input.calls[ 0 ].arguments[ 0 ].touched).toBe(false)
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].value).toBe('barValue')
+      expect(input.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
     })
   })
 }

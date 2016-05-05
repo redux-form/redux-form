@@ -1,14 +1,15 @@
 import expect from 'expect'
+import noop from '../noop'
 import mapValues from '../mapValues'
 
 describe('mapValues', () => {
   it('should return undefined when given undefined', () => {
-    expect(mapValues(undefined, () => null))
+    expect(mapValues(undefined, noop))
       .toBe(undefined)
   })
 
   it('should return null when given null', () => {
-    expect(mapValues(null, () => null))
+    expect(mapValues(null, noop))
       .toBe(null)
   })
 

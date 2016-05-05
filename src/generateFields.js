@@ -1,3 +1,6 @@
+/*
+EXPERIMENTAL
+
 const sameContents = (arrayA, arrayB) => arrayA === arrayB || (arrayA.length === arrayB.length && arrayA.every((valueA, index) => valueA === arrayB[ index ]))
 
 const generate = (field, tree = {}, values = {}, path = '', createField, createArray) => {
@@ -53,6 +56,7 @@ const generate = (field, tree = {}, values = {}, path = '', createField, createA
   }
   return tree
 }
+ */
 
 /**
  * Generates a tree of field objects
@@ -63,9 +67,14 @@ const generate = (field, tree = {}, values = {}, path = '', createField, createA
  * @param createField A callback to create a field object
  * @param createArray A callback to create a field array
  */
+
+/*
+ EXPERIMENTAL
+
 const generateFields = (fields = [], tree = {}, values, createField, createArray) =>
   fields.reduce((accumulator, field) =>
       generate(field, accumulator, values, undefined, createField, createArray),
     tree)
 
 export default generateFields
+*/

@@ -6,6 +6,10 @@ import addExpectations from '../../../__tests__/addExpectations'
 describe('structure.immutable.deleteWithPath', () => {
   const expect = addExpectations(expectations)
 
+  it('should do nothing with empty state', () => {
+    expect(deleteWithPath(undefined, 'dog')).toNotExist()
+  })
+
   it('should not return state if path not found', () => {
     const state = fromJS({ foo: 'bar' })
     expect(deleteWithPath(state, /dog/)).toBe(state)

@@ -6,6 +6,7 @@ import every from './util/every'
 import mapValues from './util/mapValues'
 import partial from './util/partial'
 import partialRight from './util/partialRight'
+import getDisplayName from './util/getDisplayName'
 import * as importedActions from './actions'
 import handleSubmit from './handleSubmit'
 import silenceEvent from './events/silenceEvent'
@@ -29,7 +30,6 @@ const {
   ...formActions
 } = importedActions
 
-const getDisplayName = Comp => Comp.displayName || Comp.name || 'Component'
 const propsToNotUpdateFor = [
   ...Object.keys(importedActions),
   'array',
@@ -59,6 +59,7 @@ const createReduxForm =
           constructor(props) {
             super(props)
             this.submit = this.submit.bind(this)
+            this.reset = this.reset.bind(this)
             this.asyncValidate = this.asyncValidate.bind(this)
             this.getSyncErrors = this.getSyncErrors.bind(this)
             this.register = this.register.bind(this)
@@ -168,6 +169,10 @@ const createReduxForm =
               handleSubmit(check(onSubmit), this.props, this.valid, this.asyncValidate, this.fieldList) :
               // submitOrEvent is the submit function: return deferred submit thunk
               silenceEvents(() => handleSubmit(check(submitOrEvent), this.props, this.valid, this.asyncValidate, this.fieldList))
+          }
+          
+          reset() {
+            this.props.reset();
           }
 
           render() {
@@ -288,6 +293,26 @@ const createReduxForm =
         return class ReduxForm extends Component {
           submit() {
             return this.refs.wrapped.getWrappedInstance().submit()
+          }
+
+          reset() {
+            return this.refs.wrapped.getWrappedInstance().reset()
+          }
+
+          get valid() {
+            return this.refs.wrapped.getWrappedInstance().valid
+          }
+
+          get invalid() {
+            return this.refs.wrapped.getWrappedInstance().invalid
+          }
+
+          get values() {
+            return this.refs.wrapped.getWrappedInstance().values
+          }
+
+          get fieldList() { // mainly provided for testing
+            return this.refs.wrapped.getWrappedInstance().fieldList
           }
 
           render() {

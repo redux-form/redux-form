@@ -1,22 +1,23 @@
 import expect, { createSpy } from 'expect'
 import isPromise from 'is-promise'
+import noop from '../util/noop'
 import asyncValidation from '../asyncValidation'
 
 describe('asyncValidation', () => {
   const field = 'myField'
 
   it('should throw an error if fn does not return a promise', () => {
-    const fn = () => null
-    const start = () => null
-    const stop = () => null
+    const fn = noop
+    const start = noop
+    const stop = noop
     expect(() => asyncValidation(fn, start, stop, field))
       .toThrow(/promise/)
   })
 
   it('should return a promise', () => {
     const fn = () => Promise.resolve()
-    const start = () => null
-    const stop = () => null
+    const start = noop
+    const stop = noop
     expect(isPromise(asyncValidation(fn, start, stop, field))).toBe(true)
   })
 
@@ -31,8 +32,6 @@ describe('asyncValidation', () => {
       .toHaveBeenCalledWith(field)
     return promise.then(() => {
       expect(stop).toHaveBeenCalled()
-    }, () => {
-      expect(false).toBe(true) // should not get into reject branch
     })
   })
 
@@ -45,9 +44,7 @@ describe('asyncValidation', () => {
     expect(start)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith(field)
-    return promise.then(() => {
-      expect(false).toBe(true) // should not get into resolve branch
-    }, () => {
+    return promise.catch(() => {
       expect(stop).toHaveBeenCalled()
     })
   })
@@ -62,9 +59,7 @@ describe('asyncValidation', () => {
     expect(start)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith(field)
-    return promise.then(() => {
-      expect(false).toBe(true) // should not get into resolve branch
-    }, () => {
+    return promise.catch(() => {
       expect(stop)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(errors)

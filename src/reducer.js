@@ -201,11 +201,7 @@ const createReducer = structure => {
         return state
       }
       if (action.type === DESTROY) {
-        return Object.keys(state).reduce((accumulator, formName) =>
-          formName === form ? accumulator : {
-            ...accumulator,
-            [formName]: state[ formName ]
-          }, {})
+        return deleteInWithCleanUp(state, action.meta.form)
       }
       const formState = getIn(state, form)
       const result = reducer(formState, action)

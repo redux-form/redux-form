@@ -1,3 +1,6 @@
+/**
+ EXPERIMENTAL
+
 import expect from 'expect'
 import fieldKeys from '../fieldKeys'
 
@@ -72,3 +75,5 @@ describe('fieldKeys', () => {
       .toEqual([ 'a[0]', 'a[1]', 'b.c[0]', 'd[0].e', 'd[1].e', 'f[]' ])
   })
 })
+
+*/

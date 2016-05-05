@@ -1,3 +1,6 @@
+/**
+EXPERIMENTAL
+ 
 function* generate(field, values, path = '') {
   const [ , key, rest ] = /([^.]+)\.?(.+)?/.exec(field)
 
@@ -29,6 +32,7 @@ function* generate(field, values, path = '') {
     yield `${path}${key}`
   }
 }
+*/
 
 /**
  * Iterates over all the fields specified by a fields array and store values.
@@ -36,8 +40,13 @@ function* generate(field, values, path = '') {
  * @param fields The fields array given to redux-form
  * @param values The current values of the form in the Redux store
  */
-export default function* fieldKeys(fields = [], values = {}) {
+
+/**
+ EXPERIMENTAL
+
+ export default function* fieldKeys(fields = [], values = {}) {
   for (let field of fields) {
     yield * generate(field, values)
   }
 }
+*/

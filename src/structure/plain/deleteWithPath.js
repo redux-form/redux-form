@@ -9,7 +9,7 @@ const deleteWithPath = (state, matcher, path = '') => {
     let changed = false
     const processed = []
     state.forEach((value, index) => {
-      const nextPath = path ? `${path}[${index}]` : String(index)
+      const nextPath = `${path}[${index}]`
       if (matcher.test(nextPath)) {
         changed = true
       } else {

@@ -6,8 +6,13 @@ import addExpectations from '../../../__tests__/addExpectations'
 describe('structure.immutable.deepEqual', () => {
   const expect = addExpectations(expectations)
 
-  it('work with nested Immutable.Maps', () => {
-    expect(deepEqual(fromJS({
+  const testBothWays = (a, b, expectation) => {
+    expect(deepEqual(a, b)).toBe(expectation)
+    expect(deepEqual(b, a)).toBe(expectation)
+  }
+
+  it('should work with nested Immutable.Maps', () => {
+    testBothWays(fromJS({
       a: {
         b: {
           c: 1
@@ -25,8 +30,8 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    }))).toBe(true)
-    expect(deepEqual(fromJS({
+    }), true)
+    testBothWays(fromJS({
       a: {
         b: {
           c: 1
@@ -44,11 +49,11 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    }))).toBe(false)
+    }), false)
   })
 
   it('work with plain objects', () => {
-    expect(deepEqual({
+    testBothWays({
       a: {
         b: {
           c: 1
@@ -66,8 +71,8 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    })).toBe(true)
-    expect(deepEqual({
+    }, true)
+    testBothWays({
       a: {
         b: {
           c: 1
@@ -85,11 +90,11 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    })).toBe(false)
+    }, false)
   })
 
-  it('work with plain objects inside Immutable.Maps', () => {
-    expect(deepEqual(fromJS({
+  it('should work with plain objects inside Immutable.Maps', () => {
+    testBothWays(fromJS({
       a: {
         b: {
           c: 1
@@ -107,8 +112,8 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    }).setIn('a.b.g', { h: { i: 29 } }))).toBe(true)
-    expect(deepEqual(fromJS({
+    }).setIn('a.b.g', { h: { i: 29 } }), true)
+    testBothWays(fromJS({
       a: {
         b: {
           c: 1
@@ -126,11 +131,11 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    }).setIn('a.b.g', { h: { i: 30 } }))).toBe(false)
+    }).setIn('a.b.g', { h: { i: 30 } }), false)
   })
 
-  it('work with Immutable.Maps inside plain objects', () => {
-    expect(deepEqual({
+  it('should work with Immutable.Maps inside plain objects', () => {
+    testBothWays({
       a: {
         b: {
           c: fromJS({
@@ -156,8 +161,8 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    })).toBe(true)
-    expect(deepEqual({
+    }, true)
+    testBothWays({
       a: {
         b: {
           c: fromJS({
@@ -183,7 +188,19 @@ describe('structure.immutable.deepEqual', () => {
         e: 3
       },
       f: 4
-    })).toBe(false)
+    }, false)
+  })
+
+  it('should treat undefined and \'\' as equal', () => {
+    testBothWays(fromJS({
+      a: {
+        b: ''
+      }
+    }), fromJS({
+      a: {
+        b: undefined
+      }
+    }), true)
   })
 })
 

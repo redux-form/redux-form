@@ -1,3 +1,6 @@
+/*
+ EXPERIMENTAL
+
 import expect, { createSpy } from 'expect'
 import generateFields from '../generateFields'
 
@@ -526,3 +529,4 @@ describe('generateFields', () => {
     expect(createArray.calls[ 1 ].arguments[ 0 ]).toBe('d.e')
   })
 })
+*/

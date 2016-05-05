@@ -15,6 +15,7 @@ import describeArraySwap from './reducer.arraySwap.spec'
 import describeArrayUnshift from './reducer.arrayUnshift.spec'
 import describeBlur from './reducer.blur.spec'
 import describeChange from './reducer.change.spec'
+import describeDestroy from './reducer.destroy.spec'
 import describeFocus from './reducer.focus.spec'
 import describeTouch from './reducer.touch.spec'
 import describeUntouch from './reducer.untouch.spec'
@@ -37,6 +38,7 @@ const tests = {
   arrayUnshift: describeArrayUnshift,
   blur: describeBlur,
   change: describeChange,
+  destroy: describeDestroy,
   focus: describeFocus,
   reset: describeReset,
   touch: describeTouch,
