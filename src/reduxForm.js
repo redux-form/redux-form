@@ -172,7 +172,7 @@ const createReduxForm =
           }
           
           reset() {
-            this.props.reset();
+            this.props.reset()
           }
 
           render() {
