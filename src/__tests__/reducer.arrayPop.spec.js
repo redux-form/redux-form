@@ -1,6 +1,16 @@
 import { arrayPop } from '../actions'
 
 const describeArrayPop = (reducer, expect, { fromJS }) => () => {
+  it('should do nothing with no array', () => {
+    const state = reducer(fromJS({
+      foo: { }
+    }), arrayPop('foo', 'myField.subField'))
+    expect(state)
+      .toEqualMap({
+        foo: { }
+      })
+  })
+
   it('should pop from end', () => {
     const state = reducer(fromJS({
       foo: {

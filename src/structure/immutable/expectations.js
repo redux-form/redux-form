@@ -4,25 +4,14 @@ import { Map, List, Iterable, fromJS } from 'immutable'
 
 const deepEqualValues = (a, b) => {
   if (Iterable.isIterable(a)) {
-    if (Iterable.isIterable(b)) {
-      return a.count() === b.count() &&
-        a.every((value, key) => deepEqualValues(value, b.get(key)))
-    }
-    return false
+    return Iterable.isIterable(b) &&
+      a.count() === b.count() &&
+      a.every((value, key) => deepEqualValues(value, b.get(key)))
   }
   return deepEqual(a, b) // neither are immutable iterables
 }
 
 const api = {
-  toBeAList() {
-    expect.assert(
-      List.isList(this.actual),
-      'expected %s to be an immutable list',
-      this.actual
-    )
-    return this
-  },
-
   toBeAMap() {
     expect.assert(
       Map.isMap(this.actual),

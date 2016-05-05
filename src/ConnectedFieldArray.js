@@ -23,17 +23,8 @@ const createConnectedFieldArray = ({
   }, { deepEqual, getIn, size }, name) => {
 
   class ConnectedFieldArray extends Component {
-    constructor(props, context) {
-      super(props, context)
-      if (!context._reduxForm) {
-        throw new Error('ConnectedFieldArray must be inside a component decorated with reduxForm()')
-      }
-    }
-
     shouldComponentUpdate(nextProps) {
-      const prevLength = this.props.value ? size(this.props.value) : 0
-      const nextLength = nextProps.value ? size(nextProps.value) : 0
-      return prevLength !== nextLength
+      return size(this.props.value) !== size(nextProps.value)
     }
 
     get syncError() {

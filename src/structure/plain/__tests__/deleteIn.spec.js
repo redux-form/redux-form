@@ -9,6 +9,27 @@ describe('structure.plain.deleteIn', () => {
     expect(deleteIn(state, 'cat.rat.pig')).toBe(state)
   })
 
+  it('should do nothing if array index out of bounds', () => {
+    const state = {
+      foo: [
+        {
+          bar: [
+            'dog'
+          ]
+        }
+      ]
+    }
+    expect(deleteIn(state, 'foo[2].bar[0]')).toEqual(state)
+    expect(deleteIn(state, 'foo[0].bar[2]')).toEqual(state)
+  })
+
+  it('should throw exception for non-numerical array indexes', () => {
+    const state = {
+      foo: [ 'dog' ]
+    }
+    expect(() => deleteIn(state, 'foo[bar]')).toThrow(/non\-numerical index/)
+  })
+
   it('should delete shallow keys without mutating state', () => {
     const state = { foo: 'bar', dog: 'fido' }
     expect(deleteIn(state, 'foo'))

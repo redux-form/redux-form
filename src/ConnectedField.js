@@ -12,16 +12,9 @@ const createConnectedField = ({
   focus,
   getFormState,
   initialValues
-}, { deepEqual, getIn, size }, name) => {
+}, { deepEqual, getIn }, name) => {
 
   class ConnectedField extends Component {
-    constructor(props, context) {
-      super(props, context)
-      if (!context._reduxForm) {
-        throw new Error('ConnectedField must be inside a component decorated with reduxForm()')
-      }
-    }
-
     shouldComponentUpdate(nextProps) {
       return !deepEqual(this.props, nextProps)
     }
