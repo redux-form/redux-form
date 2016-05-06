@@ -121,6 +121,10 @@ Remember the second rule above that all other props are passed to the element ge
 > `true` if this field currently has focus. It will only work if you are passing `onFocus` to your
 input element.
 
+#### `asyncValidating : boolean`
+
+> `true` if the form is currently running asynchronous validation because this field was blurred.
+
 #### `checked : boolean` [optional]
 
 > An alias for `value` _only when `value` is a boolean_. Provided for convenience of destructuring

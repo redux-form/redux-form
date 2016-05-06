@@ -4,13 +4,13 @@ import validate from './validate'
 import asyncValidate from './asyncValidate'
 
 const AsyncValidationForm = (props) => {
-  const { asyncValidating, handleSubmit, pristine, reset, submitting } = props
+  const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label>Username</label>
         <Field name="username" component={username =>
-          <div className={asyncValidating === 'username' ? 'async-validating' : ''}>
+          <div className={username.asyncValidating ? 'async-validating' : ''}>
             <input type="text" {...username} placeholder="Username"/>
             {username.touched && username.error && <span>{username.error}</span>}
           </div>
