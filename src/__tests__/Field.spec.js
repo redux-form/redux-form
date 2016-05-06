@@ -87,6 +87,29 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props2.dirty).toBe(true)
     })
 
+    it('should get asyncValidating from Redux state', () => {
+      const props1 = testProps({
+        initial: {
+          foo: 'bar'
+        },
+        values: {
+          foo: 'bar'
+        },
+        asyncValidating: 'dog'
+      })
+      expect(props1.asyncValidating).toBe(false)
+      const props2 = testProps({
+        initial: {
+          foo: 'bar'
+        },
+        values: {
+          foo: 'baz'
+        },
+        asyncValidating: 'foo'
+      })
+      expect(props2.asyncValidating).toBe(true)
+    })
+
     it('should get sync errors from outer reduxForm component', () => {
       const props = testProps({
         initial: {

@@ -64,6 +64,7 @@ const createConnectedField = ({
       state: getIn(getFormState(state), `fields.${name}`),
       asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
       submitError: getIn(getFormState(state), `submitErrors.${name}`),
+      asyncValidating: getIn(getFormState(state), 'asyncValidating') === name,
       _value: ownProps.value // save value passed in (for checkboxes)
     }),
     actions,
