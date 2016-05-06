@@ -46,7 +46,7 @@ returned from the validation function as an `_error` key on the array.
 
 #### `forEach(callback) : Function`
 
-> A method to iterate over each value of the array. See the section on [Iteration](#Iteration) 
+> A method to iterate over each value of the array. See the section on [Iteration](#iteration) 
 for more details.
 
 #### `insert(index, value) : Function`
@@ -64,7 +64,7 @@ for more details.
 #### `map(callback) : Function`
 
 > A method to iterate over each value of the array. Returns an array of the results of each call 
-to the callback. See the section on [Iteration](#Iteration) for more details.
+to the callback. See the section on [Iteration](#iteration) for more details.
 
 #### `pop() : Function`
 
