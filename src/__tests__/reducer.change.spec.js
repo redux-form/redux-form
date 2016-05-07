@@ -61,6 +61,36 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       })
   })
 
+  it('should allow setting an initialized field to \'\'', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'initialValue'
+        },
+        initial: {
+          myField: 'initialValue'
+        }
+      }
+    }), change('foo', 'myField', '', true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          anyTouched: true,
+          values: {
+            myField: ''
+          },
+          initial: {
+            myField: 'initialValue'
+          },
+          fields: {
+            myField: {
+              touched: true
+            }
+          }
+        }
+      })
+  })
+
   it('should remove a value if on change is set with \'\'', () => {
     const state = reducer(fromJS({
       foo: {
