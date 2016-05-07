@@ -156,7 +156,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
         },
         initial: {
           myField: 'initialValue'
-        },
+        }
       }
     }), blur('foo', 'myField', '', true))
     expect(state)
@@ -164,10 +164,10 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           anyTouched: true,
           values: {
-            myField: '',
+            myField: ''
           },
           initial: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           fields: {
             myField: {
