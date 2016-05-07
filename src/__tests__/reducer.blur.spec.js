@@ -148,6 +148,36 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
       })
   })
 
+  it('should allow setting an initialized field to \'\'', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'initialValue'
+        },
+        initial: {
+          myField: 'initialValue'
+        },
+      }
+    }), blur('foo', 'myField', '', true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          anyTouched: true,
+          values: {
+            myField: '',
+          },
+          initial: {
+            myField: 'initialValue',
+          },
+          fields: {
+            myField: {
+              touched: true
+            }
+          }
+        }
+      })
+  })
+
   it('should NOT remove a value if on blur is set with \'\' if it\'s an array field', () => {
     const state = reducer(fromJS({
       foo: {
