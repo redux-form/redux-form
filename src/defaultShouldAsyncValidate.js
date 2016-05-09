@@ -1,7 +1,7 @@
 export const defaultShouldAsyncValidate = ({
   initialized,
   trigger,
-  blurredField,
+  // blurredField,  // not used in default implementation
   pristine,
   syncValidationPasses
 }) => {

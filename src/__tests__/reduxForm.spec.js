@@ -514,7 +514,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: 'testForm'
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated/>
         </Provider>
@@ -540,7 +540,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         getFormState: () => undefined
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated/>
         </Provider>
