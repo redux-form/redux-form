@@ -14,6 +14,8 @@ describe('getValue', () => {
     expect(getValue(true, false)).toBe(true)
     expect(getValue(false, true)).toBe(false)
     expect(getValue(false, false)).toBe(false)
+    expect(getValue('dog', true)).toBe('dog')
+    expect(getValue('dog', false)).toBe('dog')
   })
 
   it('should unwrap value if non-event object containing value key is passed', () => {
@@ -142,6 +144,7 @@ describe('getValue', () => {
       }
     }, false)).toBe(myFiles)
   })
+
   it('should return selected options if is a multiselect', () => {
     const options = [
       { selected: true, value: 'foo' },
@@ -161,11 +164,19 @@ describe('getValue', () => {
       preventDefault: noop,
       stopPropagation: noop,
       target: {
+        type: 'select-multiple'
+      }
+    }, false)).toEqual([])  // no options specified
+    expect(getValue({
+      preventDefault: noop,
+      stopPropagation: noop,
+      target: {
         type: 'select-multiple',
         options
       }
     }, false)).toEqual(expected)
   })
+
   it('should return event.target.value if not file or checkbox', () => {
     expect(getValue({
       preventDefault: noop,

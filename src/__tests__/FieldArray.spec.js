@@ -19,7 +19,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   const FieldArray = createFieldArray(structure)
   const reducer = createReducer(structure)
   const { fromJS, getIn, size } = structure
-  const makeStore = (initial = {}) => createStore(
+  const makeStore = (initial) => createStore(
     combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   class TestComponent extends Component {
@@ -291,7 +291,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         validate: values => {
           const dogs = getIn(values, 'dogs')
           const errors = {
-            dogs: dogs ? dogs.map(dog => !dog || !dog.length ? 'Required' : undefined) : []
+            dogs: []
           }
           if (dogs && size(dogs) > 2) {
             errors.dogs._error = 'Too many'

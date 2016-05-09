@@ -19,7 +19,7 @@ const describeField = (name, structure, combineReducers, expect) => {
   const Field = createField(structure)
   const reducer = createReducer(structure)
   const { fromJS } = structure
-  const makeStore = (initial = {}) => createStore(
+  const makeStore = (initial) => createStore(
     combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   class TestInput extends Component {
