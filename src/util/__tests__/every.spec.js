@@ -4,19 +4,20 @@ import every from '../every'
 describe('every', () => {
   it('should return true when given undefined', () => {
     const spy = createSpy()
-    expect(every(undefined)).toBe(true)
+    expect(every(undefined, spy)).toBe(true)
+    expect(every(null, spy)).toBe(true)
     expect(spy).toNotHaveBeenCalled()
   })
 
   it('should return true when given an empty array', () => {
     const spy = createSpy()
-    expect(every([])).toBe(true)
+    expect(every([], spy)).toBe(true)
     expect(spy).toNotHaveBeenCalled()
   })
 
   it('should return true when given an empty object', () => {
     const spy = createSpy()
-    expect(every({})).toBe(true)
+    expect(every({}, spy)).toBe(true)
     expect(spy).toNotHaveBeenCalled()
   })
 
