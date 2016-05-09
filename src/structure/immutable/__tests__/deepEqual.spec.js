@@ -1,5 +1,5 @@
 import deepEqual from '../deepEqual'
-import { fromJS } from 'immutable'
+import { fromJS, List } from 'immutable'
 import expectations from '../expectations'
 import addExpectations from '../../../__tests__/addExpectations'
 
@@ -189,6 +189,33 @@ describe('structure.immutable.deepEqual', () => {
       },
       f: 4
     }, false)
+  })
+
+  it('should work with Immutable.Lists', () => {
+    let firstObj = { a: 1 }
+    let secondObj = { a: 1 }
+    let thirdObj = { c: 1 }
+
+    testBothWays(
+      List([ 'a', 'b' ]),
+      List([ 'a', 'b', 'c' ]),
+      false
+    )
+    testBothWays(
+      List([ 'a', 'b', 'c' ]),
+      List([ 'a', 'b', 'c' ]),
+      true
+    )
+    testBothWays(
+      List([ 'a', 'b', firstObj ]),
+      List([ 'a', 'b', secondObj ]),
+      true
+    )
+    testBothWays(
+      List([ 'a', 'b', firstObj ]),
+      List([ 'a', 'b', thirdObj ]),
+      false
+    )
   })
 
   it('should work with plain objects with cycles', () => {
