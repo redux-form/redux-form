@@ -1,12 +1,11 @@
 import isEqualWith from 'lodash/isEqualWith'
 
 const customizer = (obj, other) => {
-  if (obj === undefined && other === '') return true
-  if (obj === '' && other === undefined) return true
+  if (obj == other) return true
+  if (obj == null && other === '') return true
+  if (obj === '' && other == null) return true
 }
 
-const deepEqual = (a, b) => {
-  return isEqualWith(a, b, customizer)
-}
+const deepEqual = (a, b) => isEqualWith(a, b, customizer)
 
 export default deepEqual

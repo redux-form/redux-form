@@ -152,5 +152,29 @@ describe('structure.plain.deepEqual', () => {
       }
     }, true)
   })
+
+  it('should treat null and \'\' as equal', () => {
+    testBothWays({
+      a: {
+        b: ''
+      }
+    }, {
+      a: {
+        b: null
+      }
+    }, true)
+  })
+  
+  it('should treat null and undefined as equal', () => {
+    testBothWays({
+      a: {
+        b: undefined
+      }
+    }, {
+      a: {
+        b: null
+      }
+    }, true)
+  })
 })
 
