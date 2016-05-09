@@ -106,6 +106,13 @@ const createReduxForm =
             })
           }
 
+          componentWillUnmount() {
+            const { destroyOnUnmount, destroy } = this.props
+            if (destroyOnUnmount) {
+              destroy()
+            }
+          }
+          
           getSyncErrors() {
             return this.props.syncErrors
           }
