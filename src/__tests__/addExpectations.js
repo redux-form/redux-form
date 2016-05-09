@@ -7,18 +7,16 @@ import expect from 'expect'
  */
 const addExpectations = expectations => {
   const decorate = dest => {
-    if (dest) {
-      const wrap = (value, key) => {
-        if (typeof value === 'function' && key !== 'actual') {
-          dest[ key ] = (...params) => decorate(value.apply(dest, params))
-        }
+    const wrap = (value, key) => {
+      if (typeof value === 'function' && key !== 'actual') {
+        dest[ key ] = (...params) => decorate(value.apply(dest, params))
       }
-      for (let key in dest) {
-        wrap(dest[ key ], key)
-      }
-      for (let key in expectations) {
-        wrap(expectations[ key ], key)
-      }
+    }
+    for (let key in dest) {
+      wrap(dest[ key ], key)
+    }
+    for (let key in expectations) {
+      wrap(expectations[ key ], key)
     }
     return dest
   }

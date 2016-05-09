@@ -418,7 +418,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(stub.values).toEqualMap({ bar: 'foo' })
     })
 
-    it('should submit when submit() called', () => {
+    it('should submit when submit() called and onSubmit provided as config param', () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -450,10 +450,134 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[0].arguments[0].value).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('foo')
 
       expect(stub.submit).toBeA('function')
       stub.submit()
+    })
+
+    it('should submit when "submit" button is clicked and handleSubmit provided function', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            bar: 'foo'
+          }
+        }
+      })
+      const submit = createSpy()
+
+      const Form = ({ handleSubmit }) =>
+        (
+          <form onSubmit={handleSubmit(submit)}>
+            <Field name="bar" component="textarea"/>
+            <input type="submit" value="Submit"/>
+          </form>
+        )
+
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+
+      expect(submit).toNotHaveBeenCalled()
+
+      TestUtils.Simulate.submit(form)
+
+      expect(submit).toHaveBeenCalled()
+    })
+
+    it('should be fine if form is not yet in Redux store', () => {
+      const store = makeStore({
+        anotherForm: {
+          values: {
+            bar: 'foo'
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+
+      const Form = () =>
+        (
+          <form>
+            <Field name="foo" component={input} type="text"/>
+          </form>
+        )
+
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(input).toHaveBeenCalled()
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('')
+    })
+
+    it('should be fine if getFormState returns nothing', () => {
+      const store = makeStore({})
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+
+      const Form = () =>
+        (
+          <form>
+            <Field name="foo" component={input} type="text"/>
+          </form>
+        )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        getFormState: () => undefined
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(input).toHaveBeenCalled()
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('')
+    })
+
+    it('should throw an error when no onSubmit is specified', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            bar: 'foo'
+          }
+        }
+      })
+
+      const Form = () => (
+        <form>
+          <Field name="bar" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+      expect(() => stub.submit())
+        .toThrow(/onSubmit function or pass onSubmit as a prop/)
     })
 
     it('should submit (with async validation) when submit() called', () => {
@@ -490,7 +614,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[0].arguments[0].value).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('foo')
 
       expect(asyncValidate).toNotHaveBeenCalled()
 
@@ -498,7 +622,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       stub.submit()
 
       expect(asyncValidate).toHaveBeenCalled()
-      expect(asyncValidate.calls[0].arguments[0]).toEqualMap({ bar: 'foo' })
+      expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
     })
 
     it('should reset when reset() called', () => {
@@ -526,16 +650,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(input).toHaveBeenCalled()
 
-      expect(input.calls[0].arguments[0].value).toBe('initialBar')
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('initialBar')
 
-      input.calls[0].arguments[0].onChange('newBar')
+      input.calls[ 0 ].arguments[ 0 ].onChange('newBar')
 
-      expect(input.calls[1].arguments[0].value).toBe('newBar')
+      expect(input.calls[ 1 ].arguments[ 0 ].value).toBe('newBar')
 
       expect(stub.reset).toBeA('function')
       stub.reset()
 
-      expect(input.calls[2].arguments[0].value).toBe('initialBar')
+      expect(input.calls[ 2 ].arguments[ 0 ].value).toBe('initialBar')
     })
 
     it('should rerender form, but not fields, when non-redux-form props change', () => {
@@ -706,6 +830,49 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(inputRender.calls[ 3 ].arguments[ 0 ].error).toBe('async error')
         done()
       })
+    })
+
+    it('should not call async validate if shouldAsyncValidate returns false', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const asyncValidate = createSpy().andReturn(Promise.reject({ foo: 'bad user!' }))
+      const shouldAsyncValidate = createSpy().andReturn(false)
+
+      const Form = () =>
+        (
+          <form>
+            <Field name="foo" component={inputRender} type="text"/>
+          </form>
+        )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncBlurFields: [ 'foo' ],
+        shouldAsyncValidate
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+      expect(store.getState()).toEqualMap({
+        form: {}
+      })
+
+      expect(asyncValidate).toNotHaveBeenCalled()
+
+      const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+      TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+      expect(shouldAsyncValidate).toNotHaveBeenCalled()
+
+      TestUtils.Simulate.blur(inputElement, { target: { value: 'bar' } })
+
+      expect(shouldAsyncValidate).toHaveBeenCalled()
+
+      expect(asyncValidate).toNotHaveBeenCalled()
     })
   })
 }

@@ -1,6 +1,5 @@
 import expect from 'expect'
-
-const isObject = value => value && typeof value === 'object'
+import { isObject } from 'lodash'
 
 const expectations = {
   toBeAMap() {

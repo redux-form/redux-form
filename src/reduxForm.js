@@ -12,6 +12,7 @@ import handleSubmit from './handleSubmit'
 import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
+import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import plain from './structure/plain'
 
 // extract field-specific actions
@@ -51,6 +52,7 @@ const createReduxForm =
         touchOnBlur: true,
         touchOnChange: false,
         destroyOnUnmount: true,
+        shouldAsyncValidate: defaultShouldAsyncValidate,
         getFormState: state => getIn(state, 'form'),
         ...initialConfig
       }
@@ -133,18 +135,33 @@ const createReduxForm =
           }
 
           asyncValidate(name, value) {
-            const { asyncBlurFields, asyncValidate, dispatch, initialized, pristine, startAsyncValidation, stopAsyncValidation, syncErrors, values } = this.props
-            const isSubmitting = !name
+            const {
+              asyncBlurFields,
+              asyncErrors,
+              asyncValidate,
+              dispatch,
+              initialized,
+              pristine,
+              shouldAsyncValidate,
+              startAsyncValidation,
+              stopAsyncValidation,
+              syncErrors,
+              values
+            } = this.props
+            const submitting = !name
             if (asyncValidate) {
-              const valuesToValidate = isSubmitting ? values : setIn(values, name, value)
-              const syncValidationPasses = isSubmitting || !getIn(syncErrors, name)
-              const isBlurField = !isSubmitting &&
+              const valuesToValidate = submitting ? values : setIn(values, name, value)
+              const syncValidationPasses = submitting || !getIn(syncErrors, name)
+              const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
-
-              // if blur validating, only run async validate if sync validation passes and either no
-              // blur fields are passed or the field that has blurred is listed
-              // if submitting (not blur validation) or form is dirty or form was never initialized
-              if (syncValidationPasses && (isSubmitting || !pristine || !initialized) && (isSubmitting || isBlurField)) {
+              if ((isBlurredField || submitting) && shouldAsyncValidate({
+                  asyncErrors,
+                  initialized,
+                  trigger: submitting ? 'submit' : 'blur',
+                  blurredField: name,
+                  pristine,
+                  syncValidationPasses
+                })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props),
                   startAsyncValidation,
@@ -170,7 +187,7 @@ const createReduxForm =
               // submitOrEvent is the submit function: return deferred submit thunk
               silenceEvents(() => handleSubmit(check(submitOrEvent), this.props, this.valid, this.asyncValidate, this.fieldList))
           }
-          
+
           reset() {
             this.props.reset()
           }
@@ -227,7 +244,7 @@ const createReduxForm =
             const formState = getIn(getFormState(state) || empty, form) || empty
             const stateInitial = getIn(formState, 'initial')
             const initial = initialValues || stateInitial || empty
-            const values = getIn(formState, 'values') || initial || empty
+            const values = getIn(formState, 'values') || initial
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
             const syncErrors = validate && validate(values, props) || {}
