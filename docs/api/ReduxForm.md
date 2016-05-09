@@ -47,11 +47,8 @@ details.
 
 #### `destroyOnUnmount : boolean` [optional]
 
-**UNIMPLEMENTED SO FAR IN V6**
-
 > Whether or not to automatically destroy your form's state in the Redux store when your
-component is unmounted. 
-Defaults to `true`.
+component is unmounted. Defaults to `true`.
 
 #### `getFormState : Function` [optional]
 
@@ -85,13 +82,64 @@ called `_error`, and it will be given as the `error` prop.
 
 **UNIMPLEMENTED SO FAR IN V6**
 
-> If specified, all the props normally passed into your decorated component directly will be passed under the key 
-specified. Useful if using other decorator libraries on the same component to avoid prop namespace collisions.
+> If specified, all the props normally passed into your decorated component directly will be passed
+under the key specified. Useful if using other decorator libraries on the same component to avoid
+prop namespace collisions.
 
 #### `returnRejectedSubmitPromise : boolean` [optional]
 
 > If set to `true`, a failed submit will return a rejected promise. Defaults to `false`. Only use this if you need to
 detect submit failures and run some code when a submit fails.
+
+#### `shouldAsyncValidate(params) : boolean` [optional]
+
+> An optional function you may provide to have full control over when async validation happens.
+Your `shouldAsyncValidate()` function will be given an object with the following values:
+
+> ##### `asyncErrors : Object` [optional]
+
+> Any existing asynchronous validation errors
+
+> ##### `initialized : boolean` [required]
+
+> `true` if the form has ever been initialized with initial values
+
+> ##### `trigger : String` [required]
+
+> The reason to possibly run async validation. It will either be: `'blur'` or `'submit'`, 
+depending on whether an async blur field had triggered the async validation or if submitting the 
+form has triggered it, respecitively.
+
+> ##### `blurredField : string` [optional]
+
+> The name of the field that has triggered the async validation. May be `undefined`.
+
+> ##### `pristine : boolean` [required]
+
+> `true` if the form is pristine, `false` if it is dirty
+
+> ##### `syncValidationPasses : boolean` [required]
+
+> `true` if synchronous validation is passing, `false` if it is failing.
+
+> The default behavior is:
+
+> ```js
+  if(!syncValidationPasses) {
+    return false
+  }
+  switch(trigger) {
+    case 'blur':
+      // blurring
+      return true
+    case 'submit':
+      // submitting, so only async validate if form is dirty or was never initialized
+      // conversely, DON'T async validate if the form is pristine just as it was initialized
+      return !pristine || !initialized
+    default:
+      return false
+  }
+```
 
 #### `touchOnBlur : boolean` [optional]
 
