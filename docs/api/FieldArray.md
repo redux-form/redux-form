@@ -28,10 +28,31 @@ be as simple as `'firstName'` or as complicated as
 
 A `Component` or stateless function to render the field array.
 
+#### `withRef : boolean` [optional]
+
+If `true`, the rendered component will be available with the `getRenderedComponent()` method.
+Defaults to `false`. **Cannot be used if your component is a stateless function component.**
+
+## Instance API
+
+The following properties and methods are available on an instance of a `FieldArray` component.
+
+#### `name : String`
+
+> The `name` prop that you passed in.
+
+#### `valid : boolean`
+
+> `true` if this field passes validation, `false` otherwise.
+
+#### `getRenderedComponent()`
+
+> Returns the instance of the rendered component. For this to work, you must provide a 
+`withRef` prop, and your component must not be a stateless function component.
+
 ## Props
 
-The stateless function `Component` given to the `component` prop will be provided with the 
-following props:
+These are props that `FieldArray` will pass to your wrapped component.
 
 #### `dirty : boolean`
 

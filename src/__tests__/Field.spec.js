@@ -202,6 +202,31 @@ const describeField = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Field)
       expect(stub.name).toBe('foo')
     })
+    
+    it('should provide access to rendered component', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput} withRef/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const field = TestUtils.findRenderedComponentWithType(dom, Field)
+      const input = TestUtils.findRenderedComponentWithType(dom, TestInput)
+      
+      expect(field.getRenderedComponent()).toBe(input)
+    })
 
     it('should reconnect when name changes', () => {
       const store = makeStore({
