@@ -158,6 +158,19 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propChecker({ submitting: false }).submitting).toBe(false)
     })
 
+    it('should provide bound array action creators', () => {
+      const arrayProp = propChecker({}).array
+      expect(arrayProp).toExist()
+      expect(arrayProp.insert).toExist().toBeA('function')
+      expect(arrayProp.pop).toExist().toBeA('function')
+      expect(arrayProp.push).toExist().toBeA('function')
+      expect(arrayProp.remove).toExist().toBeA('function')
+      expect(arrayProp.shift).toExist().toBeA('function')
+      expect(arrayProp.splice).toExist().toBeA('function')
+      expect(arrayProp.swap).toExist().toBeA('function')
+      expect(arrayProp.unshift).toExist().toBeA('function')
+    })
+
     it('should not rerender unless form-wide props (except value!) change', () => {
       const spy = createSpy()
       const { dispatch } = propChecker({}, spy, {
