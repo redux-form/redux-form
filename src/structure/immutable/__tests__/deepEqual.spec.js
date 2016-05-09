@@ -1,11 +1,8 @@
-import deepEqual from '../deepEqual'
+import expect from 'expect'
 import { fromJS, List } from 'immutable'
-import expectations from '../expectations'
-import addExpectations from '../../../__tests__/addExpectations'
+import deepEqual from '../deepEqual'
 
 describe('structure.immutable.deepEqual', () => {
-  const expect = addExpectations(expectations)
-
   const testBothWays = (a, b, expectation) => {
     expect(deepEqual(a, b)).toBe(expectation)
     expect(deepEqual(b, a)).toBe(expectation)
@@ -192,9 +189,9 @@ describe('structure.immutable.deepEqual', () => {
   })
 
   it('should work with Immutable.Lists', () => {
-    let firstObj = { a: 1 }
-    let secondObj = { a: 1 }
-    let thirdObj = { c: 1 }
+    const firstObj = { a: 1 }
+    const secondObj = { a: 1 }
+    const thirdObj = { c: 1 }
 
     testBothWays(
       List([ 'a', 'b' ]),
@@ -232,12 +229,12 @@ describe('structure.immutable.deepEqual', () => {
     //   }
     // }
 
-    let base1 = { a: 1 }
-    let deep1 = { b: 2, base: base1 }
+    const base1 = { a: 1 }
+    const deep1 = { b: 2, base: base1 }
     base1.deep = deep1
 
-    let base2 = { a: 1 }
-    let deep2 = { b : 2, base: base2 }
+    const base2 = { a: 1 }
+    const deep2 = { b : 2, base: base2 }
     base2.deep = deep2
 
     testBothWays(base1, base2, true)
