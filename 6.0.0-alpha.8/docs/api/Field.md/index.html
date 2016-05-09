@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - `Field`</title>
+    <link href="http://redux-form.com/6.0.0-alpha.8/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="content">
+    <div class="app___3P8ep hasNav___1KF_W" data-reactroot="" data-reactid="1" data-react-checksum="-1277322841"><div class="nav___11xa5" data-reactid="2"><button type="button" data-reactid="3"></button><div class="overlay___1GMox" data-reactid="4"><i class="fa fa-times" data-reactid="5"></i><!-- react-text: 6 --> Close<!-- /react-text --></div><div class="placeholder___TzF1K" data-reactid="7"></div><nav class="menu___12xDU" data-reactid="8"><a href="http://redux-form.com/6.0.0-alpha.8" class="brand___1qRUu" data-reactid="9">Redux Form</a><a href="http://redux-form.com/6.0.0-alpha.8/docs/GettingStarted.md" class="" data-reactid="10">Getting Started</a><a href="http://redux-form.com/6.0.0-alpha.8/docs/MigrationGuide.md" class="" data-reactid="11"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api" class="" data-reactid="12">API</a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api/ReduxForm.md" class="indent1___4iVnL" data-reactid="13"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api/Props.md" class="indent1___4iVnL" data-reactid="14"><code>props</code></a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api/Field.md" class="indent1___4iVnL active___2eU59" data-reactid="15"><code>Field</code></a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api/FieldArray.md" class="indent1___4iVnL" data-reactid="16"><code>FieldArray</code></a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api/Reducer.md" class="indent1___4iVnL" data-reactid="17"><code>reducer</code></a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api/SubmissionError.md" class="indent1___4iVnL" data-reactid="18"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.0-alpha.8/docs/api/ActionCreators.md" class="indent1___4iVnL" data-reactid="19">Action Creators</a><a href="http://redux-form.com/6.0.0-alpha.8/docs/faq" class="" data-reactid="20">FAQ</a><a href="http://redux-form.com/6.0.0-alpha.8/examples" class="" data-reactid="21">Examples</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/simple" class="indent1___4iVnL" data-reactid="22">Simple Form</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/syncValidation" class="indent1___4iVnL" data-reactid="23">Sync Validation</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/submitValidation" class="indent1___4iVnL" data-reactid="24">Submit Validation</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/asyncValidation" class="indent1___4iVnL" data-reactid="25">Async Validation</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/initializeFromState" class="indent1___4iVnL" data-reactid="26">Initializing from State</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/fieldArrays" class="indent1___4iVnL" data-reactid="27">Field Arrays</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/immutable" class="indent1___4iVnL" data-reactid="28">Immutable JS</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/wizard" class="indent1___4iVnL" data-reactid="29">Wizard Form</a><a href="http://redux-form.com/6.0.0-alpha.8/examples/material-ui" class="indent1___4iVnL" data-reactid="30">Material UI</a><a href="http://redux-form.com/6.0.0-alpha.8/docs/DocumentationVersions.md" class="" data-reactid="31">Older Versions</a></nav></div><div class="contentAndFooter___kE2nt" data-reactid="32"><div class="topNav___sBW8S" data-reactid="33"><a href="http://redux-form.com" class="brand___YAZl-" data-reactid="34"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank" data-reactid="35"><i class="fa fa-fw fa-github" data-reactid="36"></i></a></div><div class="content___3TVHp" data-reactid="37"><div data-reactid="38"><ol class="breadcrumbs___1BHo6" data-reactid="39"><li data-reactid="40"><a href="http://redux-form.com/6.0.0-alpha.8/" data-reactid="41">Redux Form</a></li><li data-reactid="42"><a href="http://redux-form.com/6.0.0-alpha.8/docs/api" data-reactid="43">API</a></li><li data-reactid="44"><code>Field</code></li></ol><div data-reactid="45"><h1 id="-field-"><code>Field</code></h1>
+<p>The <code>Field</code> component is how you connect each individual input to the Redux store. There are 
+three fundamental things that you need to understand in order to use <code>Field</code> correctly:</p>
+<ol>
+<li><p>The <code>name</code> prop is required. It is a string path, in dot-and-bracket notation, corresponding to 
+a value in the form values. It may be as simple as <code>&#39;firstName&#39;</code> or as complicated as
+<code>contact.billing.address[2].phones[1].areaCode</code>.</p>
+</li>
+<li><p>The <code>component</code> prop is required. It may be a <code>Component</code>, a stateless
+function, or string name of one of the default supported DOM inputs (<code>input</code>, <code>textarea</code> or 
+<code>select</code>), See <a href="#usage">Usage</a> section below. To learn about the props that will provided to
+whatever your <code>component</code> is, see the <a href="#props">Props</a> section below.</p>
+</li>
+<li><p>All other props will be passed along to the element generated by the <code>component</code> prop.</p>
+</li>
+</ol>
+<h2 id="importing">Importing</h2>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >var</span> Field <span class="token operator" >=</span> <span class="token function" >require</span><span class="token punctuation" >(</span><span class="token string" >'redux-form'</span><span class="token punctuation" >)</span><span class="token punctuation" >.</span>Field<span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES5</span>
+</code></pre>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span> Field <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span><span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES6</span>
+</code></pre>
+
+<h2 id="props-you-can-pass-to-field-">Props you can pass to <code>Field</code></h2>
+<h4 id="-name-string-required-"><code>name : String</code> [required]</h4>
+<p>A string path, in dot-and-bracket notation, corresponding to a value in the form values. It may 
+be as simple as <code>&#39;firstName&#39;</code> or as complicated as
+<code>contact.billing.address[2].phones[1].areaCode</code>. See the <a href="#usage">Usage</a> section below for details.</p>
+<h4 id="-component-component-function-string-required-"><code>component : Component|Function|String</code> [required]</h4>
+<p>A <code>Component</code>, stateless function, or string corresponding to a default JSX element.
+See the <a href="#usage">Usage</a> section below for details.</p>
+<h4 id="-defaultvalue-any-optional-"><code>defaultValue : any</code> [optional]</h4>
+<p>A value to be used if the current value for this field is <code>undefined</code> in the Redux Store. 
+Defaults to <code>&#39;&#39;</code> to ensure that the input is
+<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">controlled</a>.</p>
+<h4 id="-withref-boolean-optional-"><code>withRef : boolean</code> [optional]</h4>
+<p>If <code>true</code>, the rendered component will be available with the <code>getRenderedComponent()</code> method.
+Defaults to <code>false</code>. <strong>Cannot be used if your component is a stateless function component.</strong></p>
+<h2 id="usage">Usage</h2>
+<p>The <code>component</code> prop will be passed to
+<a href="http://facebook.github.io/react/docs/top-level-api.html#react.createelement"><code>React.createElement()</code></a>,
+which accepts one of three possible things:</p>
+<h3 id="1-a-component">1. A component</h3>
+<p>This can be any component class that you have written or have imported from a third party library.</p>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token comment" spellcheck="true">// MyCustomInput.js</span>
+<span class="token keyword" >import</span> React<span class="token punctuation" >,</span> <span class="token punctuation" >{</span> Component <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'react'</span>
+
+<span class="token keyword" >class</span> <span class="token class-name" >MyCustomInput</span> <span class="token keyword" >extends</span> <span class="token class-name" >Component</span> <span class="token punctuation" >{</span>
+  <span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+    <span class="token keyword" >const</span> <span class="token punctuation" >{</span> value<span class="token punctuation" >,</span> onChange <span class="token punctuation" >}</span> <span class="token operator" >=</span> <span class="token keyword" >this</span><span class="token punctuation" >.</span>props
+    <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>span</span><span class="token punctuation" >></span></span>The current value is <span class="token punctuation" >{</span>value<span class="token punctuation" >}</span><span class="token punctuation" >.</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>span</span><span class="token punctuation" >></span></span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>button</span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>button<span class="token punctuation" >"</span></span> <span class="token attr-name" >onClick</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> <span class="token function" >onChange</span><span class="token punctuation" >(</span>value <span class="token operator" >+</span> <span class="token number" >1</span><span class="token punctuation" >)</span><span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>Inc<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>button</span><span class="token punctuation" >></span></span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>button</span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>button<span class="token punctuation" >"</span></span> <span class="token attr-name" >onClick</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> <span class="token function" >onChange</span><span class="token punctuation" >(</span>value <span class="token operator" >-</span> <span class="token number" >1</span><span class="token punctuation" >)</span><span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>Dec<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>button</span><span class="token punctuation" >></span></span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+    <span class="token punctuation" >)</span>
+  <span class="token punctuation" >}</span>
+<span class="token punctuation" >}</span>
+</code></pre>
+
+<p>Then, somewhere in your form...</p>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> MyCustomInput <span class="token keyword" >from</span> <span class="token string" >'./MyCustomInput'</span>
+
+<span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>
+
+<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>Field</span> <span class="token attr-name" >component</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span>MyCustomInput<span class="token punctuation" >}</span></span><span class="token punctuation" >/></span></span>
+</code></pre>
+
+<p>To learn what props will be passed to your component, see the <a href="#props">Props</a> section below.</p>
+<h3 id="2-a-stateless-function">2. A stateless function</h3>
+<p>This is the most flexible way to use <code>&lt;Field&gt;</code>, as it gives you complete control over how the 
+input is rendered. It is especially useful for displaying validation errors. It will also be the 
+most familiar to people migrating from previous versions of <code>redux-form</code>.</p>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>Field</span> <span class="token attr-name" >component</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span><span class="token punctuation" >(</span>props<span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> <span class="token punctuation" >{</span>
+  <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span> <span class="token attr-name" >class</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>input-row<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span>
+      <span class="token operator" >&lt;</span>input type<span class="token operator" >=</span><span class="token string" >"text"</span> <span class="token punctuation" >{</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>props<span class="token punctuation" >}</span></span><span class="token punctuation" >/></span></span>
+      <span class="token punctuation" >{</span>props<span class="token punctuation" >.</span>touched <span class="token operator" >&amp;&amp;</span> props<span class="token punctuation" >.</span>error <span class="token operator" >&amp;&amp;</span> <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>span</span> <span class="token attr-name" >className</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>error<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span><span class="token punctuation" >{</span>props<span class="token punctuation" >.</span>error<span class="token punctuation" >}</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>span</span><span class="token punctuation" >></span></span><span class="token punctuation" >}</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+  <span class="token punctuation" >)</span>
+<span class="token punctuation" >}</span><span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>
+</code></pre>
+
+<p>To learn what props will be passed to your stateless function, see the <a href="#props">Props</a> section 
+below.</p>
+<h3 id="3-a-string-input-select-or-textarea-">3. A string: <code>input</code>, <code>select</code>, or <code>textarea</code></h3>
+<p>So all you really need to render an <code>redux-form</code>-connected text input is:</p>
+<p><pre class="language-jsx"><code class="language-jsx">
+<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>Field</span> <span class="token attr-name" >component</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >&quot;</span>input<span class="token punctuation" >&quot;</span></span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >&quot;</span>text<span class="token punctuation" >&quot;</span>/</span><span class="token punctuation" >&gt;</span></span>
+</code></pre>
+Remember the second rule above that all other props are passed to the element generated by 
+<code>component</code>? So the <code>type=&quot;text&quot;</code> prop will be given to the input.</p>
+<h2 id="instance-api">Instance API</h2>
+<p>The following properties and methods are available on an instance of a <code>Field</code> component.</p>
+<h4 id="-name-string-"><code>name : String</code></h4>
+<blockquote>
+<p>The <code>name</code> prop that you passed in.</p>
+</blockquote>
+<h4 id="-valid-boolean-"><code>valid : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if this field passes validation, <code>false</code> otherwise.</p>
+</blockquote>
+<h4 id="-getrenderedcomponent-"><code>getRenderedComponent()</code></h4>
+<blockquote>
+<p>Returns the instance of the rendered component. For this to work, you must provide a 
+<code>withRef</code> prop, and your component must not be a stateless function component.</p>
+</blockquote>
+<p>#### </p>
+<h2 id="props">Props</h2>
+<p>These are props that <code>Field</code> will pass to your wrapped component.</p>
+<h4 id="-active-boolean-"><code>active : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if this field currently has focus. It will only work if you are passing <code>onFocus</code> to your
+input element.</p>
+</blockquote>
+<h4 id="-asyncvalidating-boolean-"><code>asyncValidating : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the form is currently running asynchronous validation because this field was blurred.</p>
+</blockquote>
+<h4 id="-checked-boolean-optional-"><code>checked : boolean</code> [optional]</h4>
+<blockquote>
+<p>An alias for <code>value</code> <em>only when <code>value</code> is a boolean</em>. Provided for convenience of destructuring
+the whole field
+object into the props of a form element.</p>
+</blockquote>
+<h4 id="-dirty-boolean-"><code>dirty : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field value has changed from its initialized value. Opposite of <code>pristine</code>.</p>
+</blockquote>
+<h4 id="-error-string-optional-"><code>error : String</code> [optional]</h4>
+<blockquote>
+<p>The error for this field if its value is not passing validation. Both synchronous,
+asynchronous, and submit validation errors will be reported here.</p>
+</blockquote>
+<h4 id="-invalid-boolean-"><code>invalid : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field value fails validation (has a validation error). Opposite of <code>valid</code>.</p>
+</blockquote>
+<h4 id="-name-string-"><code>name : String</code></h4>
+<blockquote>
+<p>The name prop passed in.</p>
+</blockquote>
+<h4 id="-onblur-eventorvalue-function-"><code>onBlur(eventOrValue) : Function</code></h4>
+<blockquote>
+<p>A function to call when the form field loses focus. It expects to <em>either</em> receive the 
+<a href="http://facebook.github.io/react/docs/events.html">React SyntheticEvent</a> <em>or</em> the current
+value of the field.</p>
+</blockquote>
+<h4 id="-onchange-eventorvalue-function-"><code>onChange(eventOrValue) : Function</code></h4>
+<blockquote>
+<p>A function to call when the form field is changed. It expects to <em>either</em> receive the 
+<a href="http://facebook.github.io/react/docs/events.html">React SyntheticEvent</a> <em>or</em> the new value
+of the field.</p>
+</blockquote>
+<h4 id="-ondragstart-event-function-"><code>onDragStart(event) : Function</code></h4>
+<blockquote>
+<p>A function to call when the form field receives a <code>dragStart</code> event. Saves the field value
+in the event for giving the field it is dropped into.</p>
+</blockquote>
+<h4 id="-ondrop-event-function-"><code>onDrop(event) : Function</code></h4>
+<blockquote>
+<p>A function to call when the form field receives a <code>drop</code> event.</p>
+</blockquote>
+<h4 id="-onfocus-event-function-"><code>onFocus(event) : Function</code></h4>
+<blockquote>
+<p>A function to call when the form field receives focus.</p>
+</blockquote>
+<h4 id="-onupdate-eventorvalue-function-"><code>onUpdate(eventOrValue) : Function</code></h4>
+<blockquote>
+<p>An alias for <code>onChange</code>. Provided for convenience of destructuring the whole field object into
+the props of a form element. Added to provide out-of-the-box support for
+<a href="http://nikgraf.github.io/belle/">Belle</a> components&#39;
+<a href="https://github.com/nikgraf/belle/issues/58"><code>onUpdate</code> API</a>.</p>
+</blockquote>
+<h4 id="-pristine-boolean-"><code>pristine : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field value is the same as its initialized value. Opposite of <code>dirty</code>.</p>
+</blockquote>
+<h4 id="-touched-boolean-"><code>touched : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field has been touched. By default this will be set when the field is blurred.</p>
+</blockquote>
+<h4 id="-valid-boolean-"><code>valid : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field value passes validation (has no validation errors). Opposite of <code>invalid</code>.</p>
+</blockquote>
+<h4 id="-value-any-"><code>value: any</code></h4>
+<blockquote>
+<p>The value of this form field. It will be a boolean for checkboxes, and a string for all other
+input types. If there is no value in the Redux state for this field, it will default to the
+<code>defaultValue</code> prop given to <code>Field</code>. If no such <code>defaultValue</code> is specified, it will be <code>&#39;&#39;</code>.
+This is to ensure that the input is
+<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">controlled</a>.</p>
+</blockquote>
+<h4 id="-visited-boolean-"><code>visited: boolean</code></h4>
+<blockquote>
+<p><code>true</code> if this field has ever had focus. It will only work if you are passing <code>onFocus</code> to 
+your input element.</p>
+</blockquote>
+</div></div></div><div class="footer___1oh0h" data-reactid="46"><div data-reactid="47">Created by Erik Rasmussen</div><div data-reactid="48"><!-- react-text: 49 -->Got questions? Ask for help:<!-- /react-text --><a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank" data-reactid="50"><i class="fa fa-fw fa-stack-overflow" data-reactid="51"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank" data-reactid="52"><i class="fa fa-fw fa-github" data-reactid="53"></i></a></div><div data-reactid="54"><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="55"><!-- react-text: 56 -->Follow @<!-- /react-text --><!-- react-text: 57 -->erikras<!-- /react-text --></a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="58"><!-- react-text: 59 -->Follow @<!-- /react-text --><!-- react-text: 60 -->ReduxForm<!-- /react-text --></a></div></div></div></div>
+  </div>
+  <script src="http://redux-form.com/6.0.0-alpha.8/bundle.js"></script>
+  <script>initReact({"version":"6.0.0-alpha.8","path":"/docs/api/Field.md","breadcrumbs":[{"path":"http://redux-form.com/6.0.0-alpha.8/","title":"Redux Form"},{"path":"http://redux-form.com/6.0.0-alpha.8/docs/api","title":"API"},{"path":"http://redux-form.com/6.0.0-alpha.8/docs/api/Field.md","title":"`Field`"}]})</script>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>
