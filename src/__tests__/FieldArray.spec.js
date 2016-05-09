@@ -98,6 +98,36 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props2.dirty).toBe(true)
     })
 
+    it('should provide access to rendered component', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class TestComponent extends Component {
+        render() {
+          return <div>TEST INPUT</div>
+        }
+      }
+      class Form extends Component {
+        render() {
+          return <div><FieldArray name="foo" component={TestComponent} withRef/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const field = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      const component = TestUtils.findRenderedComponentWithType(dom, TestComponent)
+
+      expect(field.getRenderedComponent()).toBe(component)
+    })
+
     it('should use initialValues', () => {
       const props = testProps({}, {
         initialValues: {

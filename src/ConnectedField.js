@@ -32,18 +32,24 @@ const createConnectedField = ({
       return !error
     }
 
+    getRenderedComponent() {
+      return this.refs.renderedComponent
+    }
+
     render() {
-      const { component, defaultValue, ...props } = this.props
-      return React.createElement(component,
-        createFieldProps(getIn,
-          name,
-          props,
-          this.syncError,
-          initialValues && getIn(initialValues, name),
-          defaultValue,
-          asyncValidate
-        )
+      const { component, defaultValue, withRef, ...rest } = this.props
+      const props = createFieldProps(getIn,
+        name,
+        rest,
+        this.syncError,
+        initialValues && getIn(initialValues, name),
+        defaultValue,
+        asyncValidate
       )
+      if (withRef) {
+        props.ref = 'renderedComponent'
+      }
+      return React.createElement(component, props)
     }
   }
 

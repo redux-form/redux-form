@@ -20,7 +20,7 @@ const createConnectedFieldArray = ({
   focus,
   getFormState,
   initialValues
-  }, { deepEqual, getIn, size }, name) => {
+}, { deepEqual, getIn, size }, name) => {
 
   class ConnectedFieldArray extends Component {
     shouldComponentUpdate(nextProps) {
@@ -40,19 +40,25 @@ const createConnectedFieldArray = ({
       return !error
     }
 
+    getRenderedComponent() {
+      return this.refs.renderedComponent
+    }
+
     render() {
-      const { component, ...props } = this.props
-      return React.createElement(component,
-        createFieldArrayProps(
-          deepEqual,
-          getIn,
-          size,
-          name,
-          props,
-          this.syncError,
-          initialValues && getIn(initialValues, name)
-        )
+      const { component, withRef, ...rest } = this.props
+      const props = createFieldArrayProps(
+        deepEqual,
+        getIn,
+        size,
+        name,
+        rest,
+        this.syncError,
+        initialValues && getIn(initialValues, name)
       )
+      if (withRef) {
+        props.ref = 'renderedComponent'
+      }
+      return React.createElement(component, props)
     }
   }
 
@@ -65,14 +71,14 @@ const createConnectedFieldArray = ({
     _reduxForm: PropTypes.object
   }
 
-  const actions = mapValues({ 
-    arrayInsert, 
-    arrayPop, 
-    arrayPush, 
-    arrayRemove, 
-    arrayShift, 
-    arraySplice, 
-    arraySwap, 
+  const actions = mapValues({
+    arrayInsert,
+    arrayPop,
+    arrayPush,
+    arrayRemove,
+    arrayShift,
+    arraySplice,
+    arraySwap,
     arrayUnshift
   }, actionCreator => partial(actionCreator, name))
   const connector = connect(

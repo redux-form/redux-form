@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
 
 let keys = 0
@@ -39,7 +40,14 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     get name() {
       return this.props.name
     }
-
+    
+    getRenderedComponent() {
+      invariant(this.props.withRef,
+        'If you want to access getRenderedComponent(), ' +
+        'you must specify a withRef prop to FieldArray')
+      return this.refs.connected.getWrappedInstance().getRenderedComponent()
+    }
+    
     render() {
       const { ConnectedFieldArray } = this
       return <ConnectedFieldArray {...this.props} ref="connected"/>

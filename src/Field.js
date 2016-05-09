@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 
 let keys = 0
@@ -38,6 +39,13 @@ const createField = ({ deepEqual, getIn }) => {
 
     get valid() {
       return this.refs.connected.getWrappedInstance().valid
+    }
+
+    getRenderedComponent() {
+      invariant(this.props.withRef,
+        'If you want to access getRenderedComponent(), ' +
+        'you must specify a withRef prop to Field')
+      return this.refs.connected.getWrappedInstance().getRenderedComponent()
     }
 
     get name() {

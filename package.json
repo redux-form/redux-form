@@ -41,6 +41,7 @@
     "deep-equal": "^1.0.1",
     "es6-error": "^2.1.0",
     "hoist-non-react-statics": "^1.0.5",
+    "invariant": "^2.2.1",
     "is-promise": "^2.1.0"
   },
   "devDependencies": {
