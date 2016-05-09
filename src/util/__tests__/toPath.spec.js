@@ -2,6 +2,10 @@ import expect from 'expect'
 import toPath from '../toPath'
 
 describe('toPath', () => {
+  it('should return empty array for null', () => {
+    expect(toPath(null)).toEqual([])
+  })
+
   it('should return empty array for undefined', () => {
     expect(toPath(undefined)).toEqual([])
   })
