@@ -353,6 +353,209 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'bar')
     })
 
+    it('should destroy on unmount by default', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { showForm: true }
+        }
+
+        render() {
+          const { showForm } = this.state
+          return (
+            <div>
+              <Provider store={store}>
+                <div>
+                  {showForm && <Decorated {...this.state}/>}
+                </div>
+              </Provider>
+              <button onClick={() => this.setState({ showForm: !showForm })}>Toggle</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {}
+      }, 'Form data in Redux did not get destroyed')
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].value).toBe('')
+
+      // change field
+      inputRender.calls[ 0 ].arguments[ 0 ].onChange('bob')
+
+      // form rerenders because now dirty
+      expect(formRender.calls.length).toBe(2)
+
+      // input now has value
+      expect(inputRender.calls.length).toBe(2)
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].value).toBe('bob')
+
+      // check state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              deep: {
+                foo: 'bob'
+              }
+            }
+          }
+        }
+      })
+
+      // unmount form
+      const toggle = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(toggle)
+
+      // check clean state
+      expect(store.getState()).toEqualMap({
+        form: {}
+      })
+
+      // form still not rendered again
+      expect(formRender.calls.length).toBe(2)
+
+      // toggle form back into existence
+      TestUtils.Simulate.click(toggle)
+
+      // form is back
+      expect(formRender.calls.length).toBe(3)
+
+      // input is back, but without value
+      expect(inputRender.calls.length).toBe(3)
+      expect(inputRender.calls[ 2 ].arguments[ 0 ].value).toBe('')
+    })
+
+    it('should not destroy on unmount if told not to', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        destroyOnUnmount: false
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { showForm: true }
+        }
+
+        render() {
+          const { showForm } = this.state
+          return (
+            <div>
+              <Provider store={store}>
+                <div>
+                  {showForm && <Decorated {...this.state}/>}
+                </div>
+              </Provider>
+              <button onClick={() => this.setState({ showForm: !showForm })}>Toggle</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {}
+      }, 'Form data in Redux did not get destroyed')
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].value).toBe('')
+
+      // change field
+      inputRender.calls[ 0 ].arguments[ 0 ].onChange('bob')
+
+      // form rerenders because now dirty
+      expect(formRender.calls.length).toBe(2)
+
+      // input now has value
+      expect(inputRender.calls.length).toBe(2)
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].value).toBe('bob')
+
+      // check state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              deep: {
+                foo: 'bob'
+              }
+            }
+          }
+        }
+      })
+
+      // unmount form
+      const toggle = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(toggle)
+
+      // check state not destroyed
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              deep: {
+                foo: 'bob'
+              }
+            }
+          }
+        }
+      })
+
+      // form still not rendered again
+      expect(formRender.calls.length).toBe(2)
+
+      // toggle form back into existence
+      TestUtils.Simulate.click(toggle)
+
+      // form is back
+      expect(formRender.calls.length).toBe(3)
+
+      // input is back, with its old value
+      expect(inputRender.calls.length).toBe(3)
+      expect(inputRender.calls[ 2 ].arguments[ 0 ].value).toBe('bob')
+    })
+
     it('should keep a list of registered fields', () => {
       const store = makeStore({})
       const noopRender = () => <div/>
