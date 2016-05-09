@@ -1,5 +1,5 @@
 import deepEqual from '../deepEqual'
-import { fromJS } from 'immutable'
+import { fromJS, List } from 'immutable'
 import expectations from '../expectations'
 import addExpectations from '../../../__tests__/addExpectations'
 
@@ -52,7 +52,7 @@ describe('structure.immutable.deepEqual', () => {
     }), false)
   })
 
-  it('work with plain objects', () => {
+  it('should work with plain objects', () => {
     testBothWays({
       a: {
         b: {
@@ -189,6 +189,58 @@ describe('structure.immutable.deepEqual', () => {
       },
       f: 4
     }, false)
+  })
+
+  it('should work with Immutable.Lists', () => {
+    let firstObj = { a: 1 }
+    let secondObj = { a: 1 }
+    let thirdObj = { c: 1 }
+
+    testBothWays(
+      List([ 'a', 'b' ]),
+      List([ 'a', 'b', 'c' ]),
+      false
+    )
+    testBothWays(
+      List([ 'a', 'b', 'c' ]),
+      List([ 'a', 'b', 'c' ]),
+      true
+    )
+    testBothWays(
+      List([ 'a', 'b', firstObj ]),
+      List([ 'a', 'b', secondObj ]),
+      true
+    )
+    testBothWays(
+      List([ 'a', 'b', firstObj ]),
+      List([ 'a', 'b', thirdObj ]),
+      false
+    )
+  })
+
+  it('should work with plain objects with cycles', () => {
+    // Set up cyclical structures:
+    //
+    // base1, base2 {
+    //   a: 1,
+    //   deep: {
+    //     b: 2,
+    //     base: {
+    //       a: 1,
+    //       deep: { ... }
+    //     }
+    //   }
+    // }
+
+    let base1 = { a: 1 }
+    let deep1 = { b: 2, base: base1 }
+    base1.deep = deep1
+
+    let base2 = { a: 1 }
+    let deep2 = { b : 2, base: base2 }
+    base2.deep = deep2
+
+    testBothWays(base1, base2, true)
   })
 
   it('should treat undefined and \'\' as equal', () => {
