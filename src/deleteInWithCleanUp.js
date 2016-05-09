@@ -1,4 +1,4 @@
-import toPath from './util/toPath'
+import { toPath } from 'lodash'
 
 const createDeleteInWithCleanUp = ({ deepEqual, empty, getIn, deleteIn, setIn }) => {
 

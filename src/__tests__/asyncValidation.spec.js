@@ -1,6 +1,6 @@
 import expect, { createSpy } from 'expect'
 import isPromise from 'is-promise'
-import noop from '../util/noop'
+import { noop } from 'lodash'
 import asyncValidation from '../asyncValidation'
 
 describe('asyncValidation', () => {
