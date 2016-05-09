@@ -1,5 +1,5 @@
 import expect from 'expect'
-import noop from '../../util/noop'
+import { noop } from 'lodash'
 import isEvent from '../isEvent'
 
 describe('isEvent', () => {

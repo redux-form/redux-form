@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import createFieldArrayProps from './createFieldArrayProps'
-import partial from './util/partial'
-import mapValues from './util/mapValues'
+import { partial, mapValues } from 'lodash'
 import plain from './structure/plain'
 
 const createConnectedFieldArray = ({

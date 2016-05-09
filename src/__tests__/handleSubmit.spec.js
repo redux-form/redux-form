@@ -2,7 +2,7 @@ import expect, { createSpy } from 'expect'
 import isPromise from 'is-promise'
 import handleSubmit from '../handleSubmit'
 import SubmissionError from '../SubmissionError'
-import noop from '../util/noop'
+import { noop } from 'lodash'
 
 describe('handleSubmit', () => {
   it('should stop if sync validation fails', () => {
