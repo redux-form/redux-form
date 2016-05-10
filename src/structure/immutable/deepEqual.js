@@ -1,6 +1,6 @@
 import { Iterable } from 'immutable'
 
-import isEqualWith from 'lodash/isEqualWith'
+import { isEqualWith } from 'lodash'
 
 const customizer = (obj, other) => {
   if (obj == other) return true
