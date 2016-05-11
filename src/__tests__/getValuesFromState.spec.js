@@ -176,6 +176,15 @@ describe('getValuesFromState', () => {
       });
   });
 
+  it('should ignore empty values from state', () => {
+    const state = {
+      name: makeFieldValue({}),
+    };
+    expect(getValuesFromState(state))
+      .toBeA('object')
+      .toEqual({});
+  });
+
   it('should ignore values starting with _', () => {
     const state = {
       foo: makeFieldValue({
