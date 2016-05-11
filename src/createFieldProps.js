@@ -46,7 +46,7 @@ const createFieldProps = (getIn, name,
     pristine: value === initialValue,
     touched: !!(state && getIn(state, 'touched')),
     valid: !error,
-    value: value === undefined ? defaultValue : value,
+    value: value == null ? defaultValue : value,
     visited: state && !!getIn(state, 'visited'),
     ...rest
   }, _value)
