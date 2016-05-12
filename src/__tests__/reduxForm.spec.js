@@ -884,7 +884,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
       const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
 
       expect(input).toHaveBeenCalled()
