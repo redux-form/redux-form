@@ -4,7 +4,7 @@ Below is a list of common problems or questions that people have using `redux-fo
 
 1. [My submit function isn't being called! Help?](SubmitFunction.md)
 
-2. [Will `redux-form` work with a my custom input component?](CustomComponent.md)
+2. [Will `redux-form` work with my custom input component?](CustomComponent.md)
 
 3. [What's the difference between `handleSubmit` and `onSubmit`?](HandleVsOn.md)
 
