@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
+import shallowCompare from 'react-addons-shallow-compare'
 
 let keys = 0
 const generateKey = () => `redux-form-field-array-${keys++}`
@@ -15,6 +16,10 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
       }
       this.key = generateKey()
       this.ConnectedFieldArray = createConnectedFieldArray(context._reduxForm, { deepEqual, getIn, size }, props.name)
+    }
+
+    shouldComponentUpdate(nextProps) {
+      return shallowCompare(this, nextProps)
     }
 
     componentWillMount() {
@@ -40,14 +45,14 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     get name() {
       return this.props.name
     }
-    
+
     getRenderedComponent() {
       invariant(this.props.withRef,
         'If you want to access getRenderedComponent(), ' +
         'you must specify a withRef prop to FieldArray')
       return this.refs.connected.getWrappedInstance().getRenderedComponent()
     }
-    
+
     render() {
       const { ConnectedFieldArray } = this
       return <ConnectedFieldArray {...this.props} ref="connected"/>
