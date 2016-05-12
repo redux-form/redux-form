@@ -105,7 +105,8 @@ const createReduxForm =
 
           componentWillUnmount() {
             const { destroyOnUnmount, destroy } = this.props
-            if (destroyOnUnmount) {
+            const isHotDev = process.env.NODE_ENV !== 'production' && module.hot;
+            if (destroyOnUnmount && !isHotDev) {
               destroy()
             }
           }
