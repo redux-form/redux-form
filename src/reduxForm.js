@@ -3,6 +3,7 @@ import hoistStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { every, mapValues, partial, partialRight } from 'lodash'
+import isPromise from 'is-promise'
 import getDisplayName from './util/getDisplayName'
 import * as importedActions from './actions'
 import handleSubmit from './handleSubmit'
@@ -39,6 +40,13 @@ const propsToNotUpdateFor = [
   'values'
 ]
 
+const checkSubmit = submit => {
+  if (!submit || typeof submit !== 'function') {
+    throw new Error(`You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop`)
+  }
+  return submit
+}
+
 /**
  * The decorator that is the main API to redux-form
  */
@@ -66,6 +74,7 @@ const createReduxForm =
             this.getSyncErrors = this.getSyncErrors.bind(this)
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
+            this.submitCompleted = this.submitCompleted.bind(this)
             this.fields = {}
           }
 
@@ -179,20 +188,35 @@ const createReduxForm =
             }
           }
 
+          submitCompleted(result) {
+            delete this.submitPromise
+            return result
+          }
+
+          listenToSubmit(promise) {
+            if(!isPromise(promise)) {
+              return promise
+            }
+            this.submitPromise = promise
+            return promise.then(this.submitCompleted, this.submitCompleted)
+          }
+
           submit(submitOrEvent) {
+            if(this.submitPromise) {
+              return // already submitting
+            }
             const { onSubmit } = this.props
 
-            const check = submit => {
-              if (!submit || typeof submit !== 'function') {
-                throw new Error(`You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop`)
-              }
-              return submit
-            }
-            return !submitOrEvent || silenceEvent(submitOrEvent) ?
+            if(!submitOrEvent || silenceEvent(submitOrEvent)) {
               // submitOrEvent is an event: fire submit
-              handleSubmit(check(onSubmit), this.props, this.valid, this.asyncValidate, this.fieldList) :
+              return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
+                this.props, this.valid, this.asyncValidate, this.fieldList))
+            } else {
               // submitOrEvent is the submit function: return deferred submit thunk
-              silenceEvents(() => handleSubmit(check(submitOrEvent), this.props, this.valid, this.asyncValidate, this.fieldList))
+              return silenceEvents(() =>
+                this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
+                  this.props, this.valid, this.asyncValidate, this.fieldList)))
+            }
           }
 
           reset() {
