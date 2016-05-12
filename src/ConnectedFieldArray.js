@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { partial, mapValues } from 'lodash'
 import plain from './structure/plain'
+import shallowCompare from 'react-addons-shallow-compare'
 
 const createConnectedFieldArray = ({
   arrayInsert,
@@ -23,7 +24,7 @@ const createConnectedFieldArray = ({
 
   class ConnectedFieldArray extends Component {
     shouldComponentUpdate(nextProps) {
-      return size(this.props.value) !== size(nextProps.value)
+      return shallowCompare(this, nextProps)
     }
 
     get syncError() {

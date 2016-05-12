@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
+import shallowCompare from 'react-addons-shallow-compare'
 
 let keys = 0
 const generateKey = () => `redux-form-field-${keys++}`
@@ -18,7 +19,7 @@ const createField = ({ deepEqual, getIn }) => {
     }
 
     shouldComponentUpdate(nextProps) {
-      return this.props.name !== nextProps.name
+      return shallowCompare(this, nextProps)
     }
 
     componentWillMount() {
