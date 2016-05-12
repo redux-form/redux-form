@@ -9,6 +9,7 @@ import handleSubmit from './handleSubmit'
 import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
+import createHasErrors from './hasErrors'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import plain from './structure/plain'
 
@@ -44,6 +45,8 @@ const propsToNotUpdateFor = [
 const createReduxForm =
   structure => {
     const { deepEqual, empty, getIn, setIn, fromJS } = structure
+    const hasErrors = createHasErrors(structure)
+    const plainHasErrors = createHasErrors(plain)
     return initialConfig => {
       const config = {
         touchOnBlur: true,
@@ -252,10 +255,12 @@ const createReduxForm =
             const values = getIn(formState, 'values') || initial
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
+            const submitErrors = getIn(formState, 'submitErrors')
             const syncErrors = validate && validate(values, props) || {}
-            const hasSyncErrors = syncErrors && !plain.deepEqual(syncErrors, {})
-            const hasAsyncErrors = asyncErrors && !deepEqual(asyncErrors, empty)
-            const valid = !(hasSyncErrors || hasAsyncErrors)
+            const hasSyncErrors = plainHasErrors(syncErrors)
+            const hasAsyncErrors = hasErrors(asyncErrors)
+            const hasSubmitErrors = hasErrors(submitErrors)
+            const valid = !(hasSyncErrors || hasAsyncErrors || hasSubmitErrors)
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')

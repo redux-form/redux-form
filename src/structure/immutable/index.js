@@ -13,6 +13,7 @@ const structure = {
   fromJS: jsValue => fromJS(jsValue, (key, value) =>
     Iterable.isIndexed(value) ? value.toList() : value.toMap()),
   size: list => list ? list.size : 0,
+  some: (iterable, callback) => Iterable.isIterable(iterable) ? iterable.some(callback) : false,
   splice: (list = List(), index, removeNum, value) =>
     removeNum ? list.splice(index, removeNum) : list.splice(index, 0, value)
 }

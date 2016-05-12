@@ -138,6 +138,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           foo: 'bar'
         }
       }).valid).toBe(false)
+      expect(propChecker({
+        asyncErrors: {
+          nested: {
+            myArrayField: [
+              undefined,
+              undefined
+            ]
+          }
+        }
+      }).valid).toBe(true)
     })
 
     it('should provide invalid prop', () => {
