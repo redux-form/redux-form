@@ -92,6 +92,7 @@
   },
   "files": [
     "README.md",
+    "es",
     "lib",
     "dist",
     "immutable.js"
