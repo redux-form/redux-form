@@ -10,10 +10,10 @@ Below is a list of common problems or questions that people have using `redux-fo
 
 4. [How can I clear my form after my submission succeeds?](HowToClear.md)
 
-5. [How can I submit my form when the users presses Enter?](EnterToSubmit.md)
+5. [How can I submit my form when the user presses Enter?](EnterToSubmit.md)
 
 6. [Does `redux-form` work with React Native?](ReactNative.md)
 
-7. [Does `redux-form` work ImmutableJS?](ImmutableJS.md)
+7. [Does `redux-form` work with ImmutableJS?](ImmutableJS.md)
 
 8. [Can I submit my form using websockets?](WebsocketSubmit.md)
