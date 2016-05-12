@@ -53,7 +53,7 @@
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
     "redux-form": "6.0.0-alpha.9",
-    "redux-form-website-template": "0.0.25"
+    "redux-form-website-template": "0.0.26"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
