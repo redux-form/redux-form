@@ -274,12 +274,54 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].length).toBe(1)
     })
 
-    it('should rerender when array sync error appears', () => {
-      const store = makeStore({ testForm: {} })
+    it('should reconnect when props change', () => {
+      const store = makeStore()
+      const input = createSpy(() => <div/>).andCallThrough()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { foo: 'foo', bar: 'bar' }
+        }
+
+        render() {
+          return (<div>
+            <FieldArray name="foo" foo={this.state.foo} bar={this.state.bar} component={input}/>
+            <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].foo).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].bar).toBe('bar')
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].foo).toBe('qux')
+      expect(input.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
+    })
+
+    it('should rerender when array sync error appears or disappears', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            dogs: []
+          }
+        }
+      })
       const renderFieldArray =
         createSpy(dogs => (<div>
           {dogs.map((dog, index) => <input key={index} {...dog}/>)}
-          <button onClick={() => dogs.push()}>Add Dog</button>
+          <button className="add" onClick={() => dogs.push()}>Add Dog</button>
+          <button className="remove" onClick={() => dogs.pop()}>Remove Dog</button>
         </div>)).andCallThrough()
       class Form extends Component {
         render() {
@@ -293,7 +335,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           const errors = {
             dogs: []
           }
-          if (dogs && size(dogs) > 2) {
+          if (dogs && size(dogs) === 0) {
+            errors.dogs._error = 'No dogs'
+          }
+          if (dogs && size(dogs) > 1) {
             errors.dogs._error = 'Too many'
           }
           return errors
@@ -304,12 +349,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           <TestForm/>
         </Provider>
       )
-      const addButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
 
+      // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
       expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].length).toBe(0)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].error).toNotExist()
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].error)
+        .toExist()
+        .toBe('No dogs')
 
       TestUtils.Simulate.click(addButton) // length goes to 1, no error yet
 
@@ -317,19 +366,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].length).toBe(1)
       expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].error).toNotExist()
 
-      TestUtils.Simulate.click(addButton) // length goes to 2, no error yet
+      TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
       expect(renderFieldArray.calls.length).toBe(3)
       expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].length).toBe(2)
-      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].error).toNotExist()
-
-      TestUtils.Simulate.click(addButton) // length goes to 3, ERROR!
-
-      expect(renderFieldArray.calls.length).toBe(4)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].length).toBe(3)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].error)
+      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].error)
         .toExist()
         .toBe('Too many')
+
+      TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
+
+      expect(renderFieldArray.calls.length).toBe(4)
+      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].length).toBe(1)
+      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].error).toNotExist()
+
+      TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
+
+      expect(renderFieldArray.calls.length).toBe(5)
+      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].length).toBe(0)
+      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].error)
+        .toExist()
+        .toBe('No dogs')
     })
   })
 }

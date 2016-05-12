@@ -202,7 +202,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Field)
       expect(stub.name).toBe('foo')
     })
-    
+
     it('should provide access to rendered component', () => {
       const store = makeStore({
         testForm: {
@@ -224,7 +224,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
       const field = TestUtils.findRenderedComponentWithType(dom, Field)
       const input = TestUtils.findRenderedComponentWithType(dom, TestInput)
-      
+
       expect(field.getRenderedComponent()).toBe(input)
     })
 
@@ -273,6 +273,41 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].value).toBe('barValue')
       expect(input.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
+    })
+
+    it('should reconnect when props change', () => {
+      const store = makeStore()
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { foo: 'foo', bar: 'bar' }
+        }
+
+        render() {
+          return (<div>
+            <Field name="foo" foo={this.state.foo} bar={this.state.bar} component={input}/>
+            <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].foo).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].bar).toBe('bar')
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].foo).toBe('qux')
+      expect(input.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
     })
   })
 }
