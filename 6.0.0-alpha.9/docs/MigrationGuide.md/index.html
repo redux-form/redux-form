@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - `v6` Migration Guide</title>
+    <link href="http://redux-form.com/6.0.0-alpha.9/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="content">
+    <div class="app___3P8ep hasNav___1KF_W" data-reactroot="" data-reactid="1" data-react-checksum="2019300353"><div class="nav___11xa5" data-reactid="2"><button type="button" data-reactid="3"></button><div class="overlay___1GMox" data-reactid="4"><i class="fa fa-times" data-reactid="5"></i><!-- react-text: 6 --> Close<!-- /react-text --></div><div class="placeholder___TzF1K" data-reactid="7"></div><nav class="menu___12xDU" data-reactid="8"><a href="http://redux-form.com/6.0.0-alpha.9" class="brand___1qRUu" data-reactid="9">Redux Form</a><a href="http://redux-form.com/6.0.0-alpha.9/docs/GettingStarted.md" class="" data-reactid="10">Getting Started</a><a href="http://redux-form.com/6.0.0-alpha.9/docs/MigrationGuide.md" class="active___2eU59" data-reactid="11"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api" class="" data-reactid="12">API</a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api/ReduxForm.md" class="indent1___4iVnL" data-reactid="13"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api/Props.md" class="indent1___4iVnL" data-reactid="14"><code>props</code></a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api/Field.md" class="indent1___4iVnL" data-reactid="15"><code>Field</code></a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api/FieldArray.md" class="indent1___4iVnL" data-reactid="16"><code>FieldArray</code></a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api/Reducer.md" class="indent1___4iVnL" data-reactid="17"><code>reducer</code></a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api/SubmissionError.md" class="indent1___4iVnL" data-reactid="18"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.0-alpha.9/docs/api/ActionCreators.md" class="indent1___4iVnL" data-reactid="19">Action Creators</a><a href="http://redux-form.com/6.0.0-alpha.9/docs/faq" class="" data-reactid="20">FAQ</a><a href="http://redux-form.com/6.0.0-alpha.9/examples" class="" data-reactid="21">Examples</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/simple" class="indent1___4iVnL" data-reactid="22">Simple Form</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/syncValidation" class="indent1___4iVnL" data-reactid="23">Sync Validation</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/submitValidation" class="indent1___4iVnL" data-reactid="24">Submit Validation</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/asyncValidation" class="indent1___4iVnL" data-reactid="25">Async Validation</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/initializeFromState" class="indent1___4iVnL" data-reactid="26">Initializing from State</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/fieldArrays" class="indent1___4iVnL" data-reactid="27">Field Arrays</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/immutable" class="indent1___4iVnL" data-reactid="28">Immutable JS</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/wizard" class="indent1___4iVnL" data-reactid="29">Wizard Form</a><a href="http://redux-form.com/6.0.0-alpha.9/examples/material-ui" class="indent1___4iVnL" data-reactid="30">Material UI</a><a href="http://redux-form.com/6.0.0-alpha.9/docs/DocumentationVersions.md" class="" data-reactid="31">Older Versions</a></nav></div><div class="contentAndFooter___kE2nt" data-reactid="32"><div class="topNav___sBW8S" data-reactid="33"><a href="http://redux-form.com" class="brand___YAZl-" data-reactid="34"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank" data-reactid="35"><i class="fa fa-fw fa-github" data-reactid="36"></i></a></div><div class="content___3TVHp" data-reactid="37"><div data-reactid="38"><ol class="breadcrumbs___1BHo6" data-reactid="39"><li data-reactid="40"><a href="http://redux-form.com/6.0.0-alpha.9/" data-reactid="41">Redux Form</a></li><li data-reactid="42"><code>v6</code> Migration Guide</li></ol><div data-reactid="43"><h1 id="-v5-v6-migration-guide"><code>v5</code> → <code>v6</code> Migration Guide</h1>
+<p><code>redux-form</code> has been <em>completely</em> rewritten for <code>v6</code>, because of a fundamental design change.</p>
+<h2 id="inversion-of-control">Inversion of Control</h2>
+<p>In <code>v5</code>, only the outer form component was connected to the Redux state, and the props for each 
+field were passed in via the form component. The problem with this is that the <em>entire</em> form 
+component had to rerender <em>on every single keypress</em> that changed a form value. This was fine for
+small login forms, but lead to extremely slow performance on larger forms with dozens or hundreds
+of fields.</p>
+<p><strong>In <code>v6</code>, every single field is connected to the Redux store.</strong> The outer form component is also
+connected, but is connected in such a manner that does not require it to refresh every time a 
+value changes.</p>
+<p>Because of this inversion of control, <strong>there is no incremental upgrade path</strong>. I would love to 
+provide new API and provide deprecation warnings on the old API, but there is just no path from 
+here to there that allows for such a transition.</p>
+<p>The <code>v6</code> <code>Field</code> API was designed, however, in such a way as to minimize the migration pains. 
+This document will outline the minimum migration distance from <code>v5</code> to <code>v6</code>.</p>
+<h2 id="goodbye-fields-hello-field-">Goodbye <code>fields</code>... Hello <code>Field</code>!</h2>
+<p>In <code>v5</code>, you were required to provide an array of <code>fields</code> names, and then a <code>fields</code> object prop 
+was provided to your decorated component. The mechanism that generates the props (<code>value</code>,
+<code>onChange</code>, <code>onBlur</code>, etc.) for your input from the string name of your field is the new <code>Field</code> 
+component.</p>
+<h4 id="-v5-"><code>v5</code></h4>
+<p>To illustrate how minimal a breaking change this is, I have marked each line that does <em>NOT</em> 
+change between <code>v5</code> and <code>v6</code> with an arrow.</p>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> React<span class="token punctuation" >,</span> <span class="token punctuation" >{</span> Component <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'react'</span>                    <span class="token comment" spellcheck="true">// &lt;--</span>
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span> reduxForm <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span>
+
+<span class="token keyword" >class</span> <span class="token class-name" >MyForm</span> <span class="token keyword" >extends</span> <span class="token class-name" >Component</span> <span class="token punctuation" >{</span>                            <span class="token comment" spellcheck="true">// &lt;--</span>
+  <span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>                                                <span class="token comment" spellcheck="true">// &lt;--</span>
+
+    <span class="token keyword" >const</span> <span class="token punctuation" >{</span> fields<span class="token punctuation" >:</span> <span class="token punctuation" >{</span> username<span class="token punctuation" >,</span> password <span class="token punctuation" >}</span><span class="token punctuation" >,</span> handleSubmit <span class="token punctuation" >}</span> <span class="token operator" >=</span> <span class="token keyword" >this</span><span class="token punctuation" >.</span>props
+
+    <span class="token keyword" >return</span> <span class="token punctuation" >(</span>                                                <span class="token comment" spellcheck="true">// &lt;--</span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>form</span> <span class="token attr-name" >onSubmit</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span>handleSubmit<span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>                        <span class="token comment" spellcheck="true">// &lt;--</span>
+
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>                                               <span class="token comment" spellcheck="true">// &lt;--</span>
+          <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>label</span><span class="token punctuation" >></span></span>Username<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>label</span><span class="token punctuation" >></span></span>                           <span class="token comment" spellcheck="true">// &lt;--</span>
+          <span class="token operator" >&lt;</span>input type<span class="token operator" >=</span><span class="token string" >"text"</span> <span class="token punctuation" >{</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>username<span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>                <span class="token comment" spellcheck="true">// &lt;--</span>
+          <span class="token punctuation" >{</span>username<span class="token punctuation" >.</span>touched <span class="token operator" >&amp;&amp;</span>                              <span class="token comment" spellcheck="true">// &lt;--</span>
+           username<span class="token punctuation" >.</span>error <span class="token operator" >&amp;&amp;</span>                                <span class="token comment" spellcheck="true">// &lt;--</span>
+           <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>span</span> <span class="token attr-name" >className</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>error<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span><span class="token punctuation" >{</span>username<span class="token punctuation" >.</span>error<span class="token punctuation" >}</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>span</span><span class="token punctuation" >></span></span><span class="token punctuation" >}</span> <span class="token comment" spellcheck="true">// &lt;--</span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>                                              <span class="token comment" spellcheck="true">// &lt;--</span>
+
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>                                               <span class="token comment" spellcheck="true">// &lt;--</span>
+          <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>label</span><span class="token punctuation" >></span></span>Password<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>label</span><span class="token punctuation" >></span></span>                           <span class="token comment" spellcheck="true">// &lt;--</span>
+          <span class="token operator" >&lt;</span>input type<span class="token operator" >=</span><span class="token string" >"password"</span> <span class="token punctuation" >{</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>password<span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>            <span class="token comment" spellcheck="true">// &lt;--</span>
+          <span class="token punctuation" >{</span>password<span class="token punctuation" >.</span>touched <span class="token operator" >&amp;&amp;</span>                              <span class="token comment" spellcheck="true">// &lt;--</span>
+           password<span class="token punctuation" >.</span>error <span class="token operator" >&amp;&amp;</span>                                <span class="token comment" spellcheck="true">// &lt;--</span>
+           <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>span</span> <span class="token attr-name" >className</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>error<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span><span class="token punctuation" >{</span>password<span class="token punctuation" >.</span>error<span class="token punctuation" >}</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>span</span><span class="token punctuation" >></span></span><span class="token punctuation" >}</span> <span class="token comment" spellcheck="true">// &lt;--</span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>                                              <span class="token comment" spellcheck="true">// &lt;--</span>
+
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>button</span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>submit<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span>Submit<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>button</span><span class="token punctuation" >></span></span>               <span class="token comment" spellcheck="true">// &lt;--</span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>form</span><span class="token punctuation" >></span></span>                                               <span class="token comment" spellcheck="true">// &lt;--</span>
+    <span class="token punctuation" >)</span>
+  <span class="token punctuation" >}</span>
+<span class="token punctuation" >}</span>
+
+<span class="token keyword" >export</span> <span class="token keyword" >default</span> <span class="token function" >reduxForm</span><span class="token punctuation" >(</span><span class="token punctuation" >{</span>                                  <span class="token comment" spellcheck="true">// &lt;--</span>
+  name<span class="token punctuation" >:</span> <span class="token string" >'myForm'</span><span class="token punctuation" >,</span>                                           <span class="token comment" spellcheck="true">// &lt;--</span>
+  fields<span class="token punctuation" >:</span> <span class="token punctuation" >[</span> <span class="token string" >'username'</span><span class="token punctuation" >,</span> <span class="token string" >'password'</span> <span class="token punctuation" >]</span>
+<span class="token punctuation" >}</span><span class="token punctuation" >)</span><span class="token punctuation" >(</span>MyForm<span class="token punctuation" >)</span>                                                  <span class="token comment" spellcheck="true">// &lt;--</span>
+</code></pre>
+
+<h4 id="-v6-"><code>v6</code></h4>
+<p>The lines with comments are <strong>the only ones</strong> that are different.</p>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> React<span class="token punctuation" >,</span> <span class="token punctuation" >{</span> Component <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'react'</span>
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span> reduxForm<span class="token punctuation" >,</span> Field <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span> <span class="token comment" spellcheck="true">// imported Field</span>
+
+<span class="token keyword" >class</span> <span class="token class-name" >MyForm</span> <span class="token keyword" >extends</span> <span class="token class-name" >Component</span> <span class="token punctuation" >{</span>
+  <span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+
+    <span class="token keyword" >const</span> <span class="token punctuation" >{</span> handleSubmit <span class="token punctuation" >}</span> <span class="token operator" >=</span> <span class="token keyword" >this</span><span class="token punctuation" >.</span>props       <span class="token comment" spellcheck="true">// no fields prop</span>
+
+    <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>form</span> <span class="token attr-name" >onSubmit</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span>handleSubmit<span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>
+
+        <span class="token operator" >&lt;</span>Field                                <span class="token comment" spellcheck="true">// wrap in Field</span>
+          name<span class="token operator" >=</span><span class="token string" >"username"</span>                     <span class="token comment" spellcheck="true">// specify field name</span>
+          component<span class="token operator" >=</span><span class="token punctuation" >{</span>username <span class="token operator" >=</span><span class="token operator" >></span>              <span class="token comment" spellcheck="true">// specify how to render, given props</span>
+            <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+              <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>label</span><span class="token punctuation" >></span></span>Username<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>label</span><span class="token punctuation" >></span></span>
+              <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>input</span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>text<span class="token punctuation" >"</span></span> <span class="token attr-name" >{...username}</span><span class="token punctuation" >/></span>
+              <span class="token attr-name" >{username.touched</span> <span class="token attr-name" >&amp;&amp;</span>
+               <span class="token attr-name" >username.error</span> <span class="token attr-name" >&amp;&amp;</span>
+               <span class="token attr-name" >&lt;span</span> <span class="token attr-name" >className</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>error<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span><span class="token punctuation" >{</span>username<span class="token punctuation" >.</span>error<span class="token punctuation" >}</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>span</span><span class="token punctuation" >></span></span><span class="token punctuation" >}</span>
+            <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+          <span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>                                 <span class="token comment" spellcheck="true">// close Field</span>
+
+        <span class="token operator" >&lt;</span>Field                                <span class="token comment" spellcheck="true">// wrap in Field</span>
+          name<span class="token operator" >=</span><span class="token string" >"password"</span>                     <span class="token comment" spellcheck="true">// specify field name</span>
+          component<span class="token operator" >=</span><span class="token punctuation" >{</span>password <span class="token operator" >=</span><span class="token operator" >></span>              <span class="token comment" spellcheck="true">// specify how to render, given props</span>
+            <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+              <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>label</span><span class="token punctuation" >></span></span>Password<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>label</span><span class="token punctuation" >></span></span>
+              <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>input</span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>password<span class="token punctuation" >"</span></span> <span class="token attr-name" >{...password}</span><span class="token punctuation" >/></span>
+              <span class="token attr-name" >{password.touched</span> <span class="token attr-name" >&amp;&amp;</span>
+               <span class="token attr-name" >password.error</span> <span class="token attr-name" >&amp;&amp;</span>
+               <span class="token attr-name" >&lt;span</span> <span class="token attr-name" >className</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>error<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span><span class="token punctuation" >{</span>password<span class="token punctuation" >.</span>error<span class="token punctuation" >}</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>span</span><span class="token punctuation" >></span></span><span class="token punctuation" >}</span>
+            <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+          <span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>                                 <span class="token comment" spellcheck="true">// close Field</span>
+
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>button</span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>submit<span class="token punctuation" >"</span></span><span class="token punctuation" >></span></span>Submit<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>button</span><span class="token punctuation" >></span></span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>form</span><span class="token punctuation" >></span></span>
+    <span class="token punctuation" >)</span>
+  <span class="token punctuation" >}</span>
+<span class="token punctuation" >}</span>
+
+<span class="token keyword" >export</span> <span class="token keyword" >default</span> <span class="token function" >reduxForm</span><span class="token punctuation" >(</span><span class="token punctuation" >{</span>
+  name<span class="token punctuation" >:</span> <span class="token string" >'myForm'</span>
+                                              <span class="token comment" spellcheck="true">// no fields array given</span>
+<span class="token punctuation" >}</span><span class="token punctuation" >)</span><span class="token punctuation" >(</span>MyForm<span class="token punctuation" >)</span>
+</code></pre>
+
+<p>In <code>v5</code> the field name strings were all bundled together as input and the field objects came out
+bundled together as output (of <code>redux-form</code>), and now, in <code>v6</code>, the conversion from field name to 
+field object is done one at a time at the location of each field.</p>
+<h2 id="-handlesubmit-and-onsubmit-"><code>handleSubmit</code> and <code>onSubmit</code></h2>
+<p>The only thing that has changed about form submission is that your submit validation 
+errors must now be wrapped in a <code>SubmissionError</code> object. This is to distinguish between 
+validation errors and AJAX or server errors.
+<a href="https://github.com/erikras/redux-form/pull/602">See discussion on PR #602</a></p>
+<h4 id="-v5-"><code>v5</code></h4>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token operator" >&lt;</span>MyForm onSubmit<span class="token operator" >=</span><span class="token punctuation" >{</span>values <span class="token operator" >=</span><span class="token operator" >></span>
+  ajax<span class="token punctuation" >.</span><span class="token function" >send</span><span class="token punctuation" >(</span>values<span class="token punctuation" >)</span> <span class="token comment" spellcheck="true">// however you send data to your server...</span>
+    <span class="token punctuation" >.</span><span class="token keyword" >catch</span><span class="token punctuation" >(</span>error <span class="token operator" >=</span><span class="token operator" >></span> <span class="token punctuation" >{</span>
+      <span class="token comment" spellcheck="true">// how you pass server-side validation errors back is up to you</span>
+      <span class="token keyword" >if</span><span class="token punctuation" >(</span>error<span class="token punctuation" >.</span>validationErrors<span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+        <span class="token keyword" >return</span> Promise<span class="token punctuation" >.</span><span class="token function" >reject</span><span class="token punctuation" >(</span>error<span class="token punctuation" >.</span>validationErrors<span class="token punctuation" >)</span>
+      <span class="token punctuation" >}</span> <span class="token keyword" >else</span> <span class="token punctuation" >{</span>
+        <span class="token comment" spellcheck="true">// what you do about other communication errors is up to you</span>
+        <span class="token function" >reportServerError</span><span class="token punctuation" >(</span>error<span class="token punctuation" >)</span>
+      <span class="token punctuation" >}</span>
+    <span class="token punctuation" >}</span><span class="token punctuation" >)</span>
+<span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>
+</code></pre>
+
+<h4 id="-v6-"><code>v6</code></h4>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token operator" >&lt;</span>MyForm onSubmit<span class="token operator" >=</span><span class="token punctuation" >{</span>values <span class="token operator" >=</span><span class="token operator" >></span>
+  ajax<span class="token punctuation" >.</span><span class="token function" >send</span><span class="token punctuation" >(</span>values<span class="token punctuation" >)</span>
+    <span class="token punctuation" >.</span><span class="token keyword" >catch</span><span class="token punctuation" >(</span>error <span class="token operator" >=</span><span class="token operator" >></span> <span class="token punctuation" >{</span>
+      <span class="token keyword" >if</span><span class="token punctuation" >(</span>error<span class="token punctuation" >.</span>validationErrors<span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+        <span class="token keyword" >throw</span> <span class="token keyword" >new</span> <span class="token class-name" >SubmissionError</span><span class="token punctuation" >(</span>error<span class="token punctuation" >.</span>validationErrors<span class="token punctuation" >)</span> <span class="token comment" spellcheck="true">// &lt;----- only difference</span>
+      <span class="token punctuation" >}</span> <span class="token keyword" >else</span> <span class="token punctuation" >{</span>
+        <span class="token function" >reportServerError</span><span class="token punctuation" >(</span>error<span class="token punctuation" >)</span>
+      <span class="token punctuation" >}</span>
+    <span class="token punctuation" >}</span><span class="token punctuation" >)</span>
+<span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>
+</code></pre>
+
+<h2 id="sync-validation">Sync Validation</h2>
+<p>Sync validation is exactly the same as in <code>v5</code>. The only small difference is that if you are 
+using ImmutableJS, the <code>values</code> given to your sync validation function will be an an
+<code>Immutable.Map</code>. The errors returned, however, should be a in a plain JS object, like always.</p>
+<h2 id="initialization-with-initialvalues-">Initialization with <code>initialValues</code></h2>
+<p>Nothing has changed with this, apart from fixing some pesky bugs like 
+<a href="https://github.com/erikras/redux-form/issues/514">#514</a>,
+<a href="https://github.com/erikras/redux-form/issues/621">#621</a>,
+<a href="https://github.com/erikras/redux-form/issues/628">#628</a>, and
+<a href="https://github.com/erikras/redux-form/issues/756">#756</a>. In <code>v6</code>, each field will have its 
+initial value on the very first render.</p>
+<h2 id="async-validation">Async Validation</h2>
+<p>No changes. Works exactly like <code>v5</code>.</p>
+<h2 id="deep-fields">Deep Fields</h2>
+<p>There is no mystery to deep fields in <code>v6</code>. You simply use dot-syntax on your field name.</p>
+<h4 id="-v5-"><code>v5</code></h4>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+  <span class="token keyword" >const</span> <span class="token punctuation" >{</span> 
+    fields<span class="token punctuation" >:</span> <span class="token punctuation" >{</span>
+      contact<span class="token punctuation" >:</span> <span class="token punctuation" >{</span>
+        shipping<span class="token punctuation" >:</span> <span class="token punctuation" >{</span> street <span class="token punctuation" >}</span>
+      <span class="token punctuation" >}</span>
+    <span class="token punctuation" >}</span>
+  <span class="token punctuation" >}</span> <span class="token operator" >=</span> <span class="token keyword" >this</span><span class="token punctuation" >.</span>props
+  <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+      <span class="token operator" >&lt;</span>input type<span class="token operator" >=</span><span class="token string" >"text"</span> <span class="token punctuation" >{</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>street<span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+  <span class="token punctuation" >)</span>  
+<span class="token punctuation" >}</span>
+</code></pre>
+
+<h4 id="-v6-"><code>v6</code></h4>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+  <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>Field</span> <span class="token attr-name" >name</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>contact.shipping.street<span class="token punctuation" >"</span></span> <span class="token attr-name" >component</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span>street <span class="token operator" >=</span><span class="token operator" >></span>
+        <span class="token operator" >&lt;</span>input type<span class="token operator" >=</span><span class="token string" >"text"</span> <span class="token punctuation" >{</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>street<span class="token punctuation" >}</span></span><span class="token punctuation" >/></span></span>
+      <span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+  <span class="token punctuation" >)</span>
+<span class="token punctuation" >}</span>
+</code></pre>
+
+<h2 id="field-arrays">Field Arrays</h2>
+<p>To get the field array object that was passed as a prop to the whole form in <code>v5</code>, you must use 
+the <code>FieldArray</code> component, much like the <code>Field</code> component is used.</p>
+<h4 id="-v5-"><code>v5</code></h4>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+  <span class="token keyword" >const</span> <span class="token punctuation" >{</span> fields<span class="token punctuation" >:</span> <span class="token punctuation" >{</span> awards <span class="token punctuation" >}</span> <span class="token punctuation" >}</span> <span class="token operator" >=</span> <span class="token keyword" >this</span><span class="token punctuation" >.</span>props<span class="token punctuation" >;</span>
+  <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>ul</span><span class="token punctuation" >></span></span>
+        <span class="token punctuation" >{</span>awards<span class="token punctuation" >.</span><span class="token function" >map</span><span class="token punctuation" >(</span><span class="token punctuation" >(</span>award<span class="token punctuation" >,</span> index<span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>li</span> <span class="token attr-name" >key</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span>index<span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>
+          <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>label</span><span class="token punctuation" >></span></span>Award #<span class="token punctuation" >{</span>index <span class="token operator" >+</span> <span class="token number" >1</span><span class="token punctuation" >}</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>label</span><span class="token punctuation" >></span></span>
+          <span class="token operator" >&lt;</span>input type<span class="token operator" >=</span><span class="token string" >"text"</span> <span class="token punctuation" >{</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span><span class="token punctuation" >.</span>award<span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>li</span><span class="token punctuation" >></span></span><span class="token punctuation" >}</span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>ul</span><span class="token punctuation" >></span></span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>button</span> <span class="token attr-name" >onClick</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> awards<span class="token punctuation" >.</span><span class="token function" >addField</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span><span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>Add Award<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>button</span><span class="token punctuation" >></span></span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+  <span class="token punctuation" >)</span>
+<span class="token punctuation" >}</span>
+</code></pre>
+
+<h4 id="-v6-"><code>v6</code></h4>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token function" >render</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+  <span class="token keyword" >return</span> <span class="token punctuation" >(</span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+      <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>FieldArray</span> <span class="token attr-name" >name</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>awards<span class="token punctuation" >"</span></span> <span class="token attr-name" >component</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span>awards <span class="token operator" >=</span><span class="token operator" >></span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>div</span><span class="token punctuation" >></span></span>
+          <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>ul</span><span class="token punctuation" >></span></span>
+            <span class="token punctuation" >{</span>awards<span class="token punctuation" >.</span><span class="token function" >map</span><span class="token punctuation" >(</span><span class="token punctuation" >(</span>name<span class="token punctuation" >,</span> index<span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> <span class="token operator" >&lt;</span>li key<span class="token punctuation" >=</span><span class="token punctuation" >{</span>index<span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>
+              <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>label</span><span class="token punctuation" >></span></span>Award #<span class="token punctuation" >{</span>index <span class="token operator" >+</span> <span class="token number" >1</span><span class="token punctuation" >}</span><span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>label</span><span class="token punctuation" >></span></span>
+              <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>Field</span> <span class="token attr-name" >name</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span>name<span class="token punctuation" >}</span></span> <span class="token attr-name" >type</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>text<span class="token punctuation" >"</span></span> <span class="token attr-name" >component</span><span class="token attr-value" ><span class="token punctuation" >=</span><span class="token punctuation" >"</span>input<span class="token punctuation" >"</span>/</span><span class="token punctuation" >></span></span>
+            <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>li</span><span class="token punctuation" >></span></span><span class="token punctuation" >}</span>
+          <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>ul</span><span class="token punctuation" >></span></span>
+          <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;</span>button</span> <span class="token attr-name" >onClick</span><span class="token script language-javascript" ><span class="token punctuation" >=</span><span class="token punctuation" >{</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span> <span class="token operator" >=</span><span class="token operator" >></span> awards<span class="token punctuation" >.</span><span class="token function" >push</span><span class="token punctuation" >(</span><span class="token punctuation" >)</span><span class="token punctuation" >}</span></span><span class="token punctuation" >></span></span>Add Award<span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>button</span><span class="token punctuation" >></span></span>
+        <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+      <span class="token punctuation" >}</span><span class="token operator" >/</span><span class="token operator" >></span>
+    <span class="token tag" ><span class="token tag" ><span class="token punctuation" >&lt;/</span>div</span><span class="token punctuation" >></span></span>
+  <span class="token punctuation" >)</span>
+<span class="token punctuation" >}</span>
+</code></pre>
+
+<h2 id="normalization">Normalization</h2>
+<p>Not implemented yet.</p>
+<h2 id="listening-to-other-actions">Listening to other actions</h2>
+<p>No equivalent of the <code>v5</code> <code>plugin()</code> interface has been written yet.</p>
+</div></div></div><div class="footer___1oh0h" data-reactid="44"><div data-reactid="45">Created by Erik Rasmussen</div><div data-reactid="46"><!-- react-text: 47 -->Got questions? Ask for help:<!-- /react-text --><a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank" data-reactid="48"><i class="fa fa-fw fa-stack-overflow" data-reactid="49"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank" data-reactid="50"><i class="fa fa-fw fa-github" data-reactid="51"></i></a></div><div data-reactid="52"><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="53"><!-- react-text: 54 -->Follow @<!-- /react-text --><!-- react-text: 55 -->erikras<!-- /react-text --></a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="56"><!-- react-text: 57 -->Follow @<!-- /react-text --><!-- react-text: 58 -->ReduxForm<!-- /react-text --></a></div></div></div></div>
+  </div>
+  <script src="http://redux-form.com/6.0.0-alpha.9/bundle.js"></script>
+  <script>initReact({"version":"6.0.0-alpha.9","path":"/docs/MigrationGuide.md","breadcrumbs":[{"path":"http://redux-form.com/6.0.0-alpha.9/","title":"Redux Form"},{"path":"http://redux-form.com/6.0.0-alpha.9/docs/MigrationGuide.md","title":"`v6` Migration Guide"}]})</script>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>
