@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import { Component, PropTypes, createElement } from 'react'
 import hoistStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -121,7 +121,7 @@ const createReduxForm =
               destroy()
             }
           }
-          
+
           getSyncErrors() {
             return this.props.syncErrors
           }
@@ -245,13 +245,10 @@ const createReduxForm =
               values,
               ...passableProps
             } = this.props // eslint-disable-line no-redeclare
-            return (
-              <WrappedComponent
-                {...passableProps}
-                {...{
-                  handleSubmit: this.submit
-                }}/>
-            )
+            return createElement(WrappedComponent, {
+              ...passableProps,
+              handleSubmit: this.submit
+            })
           }
         }
         Form.displayName = `Form(${getDisplayName(WrappedComponent)})`
@@ -367,8 +364,12 @@ const createReduxForm =
 
           render() {
             const { initialValues, ...rest } = this.props
-            // convert initialValues if need to
-            return <ConnectedForm ref="wrapped" initialValues={fromJS(initialValues)} {...rest}/>
+            return createElement(ConnectedForm, {
+              ...rest,
+              ref: 'wrapped',
+              // convert initialValues if need to
+              initialValues: fromJS(initialValues)
+            })
           }
         }
       }
