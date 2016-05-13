@@ -87,7 +87,7 @@
   },
   "peerDependencies": {
     "react": "^15.0.0",
-    "react-redux": "^4.0.0",
+    "react-redux": "^4.3.0",
     "redux": "^3.0.0"
   },
   "files": [
