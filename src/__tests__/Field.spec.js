@@ -154,6 +154,35 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props.error).toBe('foo error')
     })
 
+    it('should provide sync error for array field', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [ 'bar' ]
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const validate = () => ({ foo: [ 'bar error' ] })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo[0]" component={input}/></div>
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        validate
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(input).toHaveBeenCalled()
+      expect(input.calls[0].arguments[0].valid).toBe(false)
+      expect(input.calls[0].arguments[0].error).toBe('bar error')
+    })
+
     it('should provide valid getter', () => {
       const store = makeStore({
         testForm: {

@@ -123,7 +123,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(visitedResult.visited).toBe(true)
     })
 
-    it('should read sync errors from state', () => {
+    it('should read sync errors from param', () => {
       const noErrorResult = createFieldProps(getIn, 'foo', {
         initial: 'bar',
         value: 'bar',
