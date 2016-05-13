@@ -30,6 +30,17 @@ const {
   ...formActions
 } = importedActions
 
+const arrayActions = {
+  arrayInsert,
+  arrayPop,
+  arrayPush,
+  arrayRemove,
+  arrayShift,
+  arraySplice,
+  arraySwap,
+  arrayUnshift
+}
+
 const propsToNotUpdateFor = [
   ...Object.keys(importedActions),
   'array',
@@ -301,35 +312,41 @@ const createReduxForm =
               valid
             }
           },
-          (dispatch, ownProps) =>
-            ({
-              ...bindActionCreators(mapValues({ ...formActions },
-                actionCreator => partial(actionCreator, ownProps.form)), dispatch),
-              array: bindActionCreators(mapValues({
-                insert: arrayInsert,
-                pop: arrayPop,
-                push: arrayPush,
-                remove: arrayRemove,
-                shift: arrayShift,
-                splice: arraySplice,
-                swap: arraySwap,
-                unshift: arrayUnshift
-              }, actionCreator => partial(actionCreator, ownProps.form)), dispatch),
-              ...mapValues({
-                arrayInsert,
-                arrayPop,
-                arrayPush,
-                arrayRemove,
-                arrayShift,
-                arraySplice,
-                arraySwap,
-                arrayUnshift,
-                blur: partialRight(blur, !!ownProps.touchOnBlur),
-                change: partialRight(change, !!ownProps.touchOnChange),
-                focus
-              }, actionCreator => partial(actionCreator, ownProps.form)),
+          (dispatch, initialProps) => {
+            const bindForm = actionCreator => partial(actionCreator, initialProps.form)
+
+            // Bind the first parameter on `props.form`
+            const boundFormACs = mapValues(formActions, bindForm)
+            const boundArrayACs = mapValues(arrayActions, bindForm)
+            const boundBlur = partialRight(bindForm(blur), !!initialProps.touchOnBlur)
+            const boundChange = partialRight(bindForm(change), !!initialProps.touchOnChange)
+            const boundFocus = bindForm(focus)
+
+            // Wrap action creators with `dispatch`
+            const connectedFormACs = bindActionCreators(boundFormACs, dispatch)
+            const connectedArrayACs = {
+              insert: bindActionCreators(boundArrayACs.arrayInsert, dispatch),
+              pop: bindActionCreators(boundArrayACs.arrayPop, dispatch),
+              push: bindActionCreators(boundArrayACs.arrayPush, dispatch),
+              remove: bindActionCreators(boundArrayACs.arrayRemove, dispatch),
+              shift: bindActionCreators(boundArrayACs.arrayShift, dispatch),
+              splice: bindActionCreators(boundArrayACs.arraySplice, dispatch),
+              swap: bindActionCreators(boundArrayACs.arraySwap, dispatch),
+              unshift: bindActionCreators(boundArrayACs.arrayUnshift, dispatch)
+            }
+
+            const computedActions = {
+              ...connectedFormACs,
+              ...boundArrayACs,
+              blur: boundBlur,
+              change: boundChange,
+              array: connectedArrayACs,
+              focus: boundFocus,
               dispatch
-            }),
+            }
+
+            return () => computedActions
+          },
           undefined,
           { withRef: true }
         )
