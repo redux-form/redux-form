@@ -8,18 +8,17 @@ import propTypes from './propTypes'
 import * as actions from './actions'
 import * as actionTypes from './actionTypes'
 
-export default function createAll(structure) {
+const createAll = structure => ({
   // separate out field actions
-  return {
-    actionTypes,
-    ...actions,
-    Field: createField(structure),
-    FieldArray: createFieldArray(structure),
-    propTypes,
-    reduxForm: createReduxForm(structure),
-    reducer: createReducer(structure),
-    SubmissionError,
-    values: createValues(structure)
-  }
-}
+  actionTypes,
+  ...actions,
+  Field: createField(structure),
+  FieldArray: createFieldArray(structure),
+  propTypes,
+  reduxForm: createReduxForm(structure),
+  reducer: createReducer(structure),
+  SubmissionError,
+  values: createValues(structure)
+})
 
+export default createAll
