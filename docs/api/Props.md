@@ -5,7 +5,7 @@ to your decorated form component. The `props` that _you pass into your wrapped c
 listed [here](#/api/reduxForm).
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of these
-[`propTypes`](https://github.com/erikras/redux-form/blob/v6/src/propTypes.js), 
+[`propTypes`](https://github.com/erikras/redux-form/blob/v6/src/createPropTypes.js), 
 so you may import them, like so:
 
 ```javascript
@@ -44,7 +44,7 @@ class SimpleForm extends Component {
 
 > `true` if the form data has changed from its initialized values. Opposite of `pristine`.
 
-### `error : String`
+### `error : any`
 
 > A generic error for the entire form given by the `_error` key in the result from the
 synchronous validation function, the asynchronous validation, or the rejected promise from

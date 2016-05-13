@@ -59,9 +59,17 @@ const describeHasErrors = (name, structure, expect) => {
       expect(hasErrors(42)).toBe(false)
     })
 
-    it('should return true for an empty array with a _error key', () => {
+    it('should return true for an empty array with a string error under _error key', () => {
       const errors = setIn(fromJS([]), '_error', 'oh no!')
       if(getIn(errors, '_error') === 'oh no!') {
+        // cannot work for Immutable Lists because you can not set a value under a string key
+        expect(hasErrors(errors)).toBe(true)
+      }
+    })
+
+    it('should return true for an empty array with an object error under _error key', () => {
+      const errors = setIn(fromJS([]), '_error', { complex: 'error' })
+      if(getIn(errors, '_error')) {
         // cannot work for Immutable Lists because you can not set a value under a string key
         expect(hasErrors(errors)).toBe(true)
       }

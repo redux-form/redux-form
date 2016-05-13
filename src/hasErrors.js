@@ -4,7 +4,7 @@ const createHasErrors = ({ getIn, some }) => {
       return false
     }
     const globalError = getIn(errors, '_error')
-    if (globalError && typeof globalError === 'string') {
+    if (globalError) {
       return true
     }
     if (typeof errors === 'string') {
