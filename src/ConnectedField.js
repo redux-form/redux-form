@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import { partial, mapValues } from 'lodash'
@@ -48,7 +48,7 @@ const createConnectedField = ({
       if (withRef) {
         props.ref = 'renderedComponent'
       }
-      return React.createElement(component, props)
+      return createElement(component, props)
     }
   }
 
