@@ -22,6 +22,13 @@ const processProps = (props, _value) => {
       value: _value
     }
   }
+  if (type === 'select-multiple') {
+    return {
+      ...rest,
+      type,
+      value: value || []
+    }
+  }
   return props
 }
 
