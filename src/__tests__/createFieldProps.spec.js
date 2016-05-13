@@ -252,6 +252,15 @@ const describeCreateFieldProps = (name, structure, expect) => {
       }).checked).toBe(false)
     })
 
+    it('should default value to [] for multi-selects', () => {
+      expect(createFieldProps(getIn, 'foo', {
+        state: empty,
+        type: 'select-multiple'
+      }).value)
+        .toBeA('array')
+        .toEqual([])
+    })
+
     it('should replace undefined value with empty string', () => {
       const result = createFieldProps(getIn, 'foo', {
         state: empty
