@@ -45,6 +45,7 @@
   "dependencies": {
     "babel-polyfill": "^6.7.4",
     "html-loader": "^0.4.3",
+    "immutable": "^3.8.1",
     "json-loader": "^0.5.4",
     "markdown-loader": "^0.1.7",
     "raw-loader": "^0.5.1",
