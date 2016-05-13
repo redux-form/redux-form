@@ -2587,6 +2587,150 @@ describe('createReduxForm', () => {
     expect(barRenders).toBe(2);
   });
 
+  it('should change the deep field in an array', (done) => {
+    const store = makeStore();
+    const form = 'testForm';
+    class TestForm extends Component {
+      componentWillReceiveProps(nextProps) {
+        if (!this.props.fields.addresses.length) {
+          return;
+        }
+
+        expect(this.props.fields.addresses[0].postalCode)
+          .toNotBe(nextProps.fields.addresses[0].postalCode);
+        done();
+      }
+
+      render() {
+        return <div />;
+      }
+    }
+    TestForm.propTypes = {
+      fields: PropTypes.object.isRequired
+    };
+
+    const Decorated = reduxForm({
+      form,
+      fields: ['addresses[].street', 'addresses[].postalCode'],
+      initialValues: {
+        addresses: [
+          {street: '1 King Street', postalCode: '90210'},
+          {street: '2 King Street', postalCode: '90210'}
+        ]
+      }
+    })(TestForm);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, TestForm);
+
+    const addresses = stub.props.fields.addresses;
+    const address1 = addresses[0];
+    const postalCode1 = address1.postalCode;
+
+    postalCode1.onChange('90211');
+
+    expect(stub.props.fields.addresses[0].postalCode).toNotBe(postalCode1);
+  });
+
+  it('should change the deep field array when property changes', (done) => {
+    const store = makeStore();
+    const form = 'testForm';
+    class TestForm extends Component {
+      componentWillReceiveProps(nextProps) {
+        if (!this.props.fields.addresses.length) {
+          return;
+        }
+
+        expect(this.props.fields.addresses[0].postalCode)
+          .toNotBe(nextProps.fields.addresses[0].postalCode);
+        done();
+      }
+
+      render() {
+        return <div />;
+      }
+    }
+    TestForm.propTypes = {
+      fields: PropTypes.object.isRequired
+    };
+
+    const Decorated = reduxForm({
+      form,
+      fields: ['addresses[].street', 'addresses[].postalCode'],
+      initialValues: {
+        addresses: [
+          {street: '1 King Street', postalCode: '90210'},
+          {street: '2 King Street', postalCode: '90210'}
+        ]
+      }
+    })(TestForm);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, TestForm);
+
+    const addresses = stub.props.fields.addresses;
+    const address1 = addresses[0];
+    const postalCode1 = address1.postalCode;
+
+    postalCode1.onChange('90211');
+
+    expect(stub.props.fields.addresses).toNotBe(addresses);
+    expect(stub.props.fields.addresses[0]).toNotBe(address1);
+  });
+
+  it('should change the deep field in component lifecycle', (done) => {
+    const store = makeStore();
+    const form = 'testForm';
+    class TestForm extends Component {
+      componentWillReceiveProps(nextProps) {
+        if (!this.props.fields.addresses.length) {
+          return;
+        }
+
+        if (nextProps.fields.addresses[0].postalCode !==
+          this.props.fields.addresses[0].postalCode) {
+          done();
+        }
+      }
+
+      render() {
+        return <div />;
+      }
+    }
+    TestForm.propTypes = {
+      fields: PropTypes.object.isRequired
+    };
+
+    const Decorated = reduxForm({
+      form,
+      fields: ['addresses[].street', 'addresses[].postalCode'],
+      initialValues: {
+        addresses: [
+          {street: '1 King Street', postalCode: '90210'},
+          {street: '2 King Street', postalCode: '90210'}
+        ]
+      }
+    })(TestForm);
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated/>
+      </Provider>
+    );
+    const stub = TestUtils.findRenderedComponentWithType(dom, TestForm);
+
+    const addresses = stub.props.fields.addresses;
+    const address1 = addresses[0];
+    const postalCode1 = address1.postalCode;
+
+    postalCode1.onChange('90211');
+  });
+
   // Test to show bug https://github.com/erikras/redux-form/issues/550
   // ---
   // It's caused by the fact that we're no longer using the same field instance
