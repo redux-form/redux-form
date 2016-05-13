@@ -212,44 +212,44 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide sync error for array field', () => {
-        const store = makeStore({
-          testForm: {
-            values: {
-              foo: [
-                {
-                  library: 'redux-form',
-                  author: 'erikras'
-                }
-              ]
-            }
-          }
-        })
-        const component = createSpy(() => <div>Who cares?</div>).andCallThrough()
-        const validate = () => ({
-          foo: [
-            {
-              _error: 'Too awesome!'
-            }
-          ]
-        })
-        class Form extends Component {
-          render() {
-            return <div><FieldArray name="foo[0]" component={component}/></div>
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [
+              {
+                library: 'redux-form',
+                author: 'erikras'
+              }
+            ]
           }
         }
-        const TestForm = reduxForm({
-          form: 'testForm',
-          validate
-        })(Form)
-        TestUtils.renderIntoDocument(
-          <Provider store={store}>
-            <TestForm/>
-          </Provider>
-        )
-        expect(component).toHaveBeenCalled()
-        expect(component.calls[0].arguments[0].valid).toBe(false)
-        expect(component.calls[0].arguments[0].error).toBe('Too awesome!')
       })
+      const component = createSpy(() => <div>Who cares?</div>).andCallThrough()
+      const validate = () => ({
+        foo: [
+          {
+            _error: 'Too awesome!'
+          }
+        ]
+      })
+      class Form extends Component {
+        render() {
+          return <div><FieldArray name="foo[0]" component={component}/></div>
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        validate
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(component).toHaveBeenCalled()
+      expect(component.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
+      expect(component.calls[ 0 ].arguments[ 0 ].error).toBe('Too awesome!')
+    })
 
     it('should provide name getter', () => {
       const store = makeStore({
