@@ -8,9 +8,25 @@ var reactExternal = {
   amd: 'react'
 }
 
+var reduxExternal = {
+  root: 'Redux',
+  commonjs2: 'redux',
+  commonjs: 'redux',
+  amd: 'redux'
+}
+
+var reactReduxExternal = {
+  root: 'ReactRedux',
+  commonjs2: 'react-redux',
+  commonjs: 'react-redux',
+  amd: 'react-redux'
+}
+
 module.exports = {
   externals: {
-    'react': reactExternal
+    'react': reactExternal,
+    'redux': reduxExternal,
+    'react-redux': reactReduxExternal
   },
   module: {
     loaders: [
