@@ -1,4 +1,4 @@
-# Will `redux-form` work with a my custom input component?
+# Will `redux-form` work with my custom input component?
   
 The minimum interface needed for a custom component to work with `redux-form` is to make sure that
 `value` and `onChange` are passed properly. These are pretty standard prop names, so it's 
