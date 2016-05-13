@@ -1,4 +1,4 @@
-# Does `redux-form` work ImmutableJS?
+# Does `redux-form` work with ImmutableJS?
   
 Yes!
 
