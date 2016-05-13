@@ -1,6 +1,6 @@
 {
   "name": "redux-form-submit-validation-example",
-  "version": "6.0.0-alpha.9",
+  "version": "6.0.0-alpha.10",
   "description": "A submit validation example for redux-form",
   "repository": {
     "type": "git",
@@ -52,8 +52,8 @@
     "react-dom": "^15.0.0-rc.2",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
-    "redux-form": "6.0.0-alpha.9",
-    "redux-form-website-template": "0.0.26"
+    "redux-form": "6.0.0-alpha.10",
+    "redux-form-website-template": "0.0.27"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
