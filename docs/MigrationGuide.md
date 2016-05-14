@@ -68,7 +68,7 @@ class MyForm extends Component {                            // <--
 }
 
 export default reduxForm({                                  // <--
-  name: 'myForm',                                           // <--
+  form: 'myForm',                                           // <--
   fields: [ 'username', 'password' ]
 })(MyForm)                                                  // <--
 ```
@@ -120,7 +120,7 @@ class MyForm extends Component {
 }
 
 export default reduxForm({
-  name: 'myForm'
+  form: 'myForm'
                                               // no fields array given
 })(MyForm)
 ```
