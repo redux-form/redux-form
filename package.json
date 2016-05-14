@@ -68,6 +68,7 @@
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^3.6.3",
     "expect": "^1.14.0",
+    "expect-element": "^1.1.1",
     "expect-immutable": "0.0.3",
     "expect-predicate": "^1.0.0",
     "flux-standard-action": "^0.6.1",
