@@ -107,4 +107,3 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
 
 describeDeleteInWithCleanUp('deleteInWithCleanUp.plain', plain, addExpectations(plainExpectations))
 describeDeleteInWithCleanUp('deleteInWithCleanUp.immutable', immutable, addExpectations(immutableExpectations))
-

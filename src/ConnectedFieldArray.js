@@ -32,14 +32,6 @@ const createConnectedFieldArray = ({
       return plain.getIn(getSyncErrors(), `${name}._error`)
     }
 
-    get valid() {
-      const { asyncError, submitError } = this.props
-
-      const error = this.syncError || asyncError || submitError
-
-      return !error
-    }
-
     getRenderedComponent() {
       return this.refs.renderedComponent
     }

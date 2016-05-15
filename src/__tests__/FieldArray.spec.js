@@ -188,16 +188,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props.error).toBe('foo error')
     })
 
-    it('should provide valid getter', () => {
+    it('should provide name getter', () => {
       const store = makeStore({
         testForm: {
           values: {
             foo: 'bar'
-          },
-          submitErrors: {
-            foo: {
-              _error: 'foo error'
-            }
           }
         }
       })
@@ -213,7 +208,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.valid).toBe(false)
+      expect(stub.name).toBe('foo')
     })
 
     it('should provide sync error for array field', () => {
@@ -268,29 +263,6 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       domExpect(error)
         .toExist()
         .toHaveText('Too awesome!')
-    })
-
-    it('should provide name getter', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            foo: 'bar'
-          }
-        }
-      })
-      class Form extends Component {
-        render() {
-          return <div><FieldArray name="foo" component={TestComponent}/></div>
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.name).toBe('foo')
     })
 
     it('should reconnect when name changes', () => {

@@ -2,7 +2,7 @@
 
 `redux-form` exports all of its internal action creators, allowing you complete control to
 dispatch any action you wish. However, it is recommended that you use the actions passed as
-props to your component for most of your needs, as they are already bound to `dispatch`, your 
+props to your component for most of your needs, as they are already bound to `dispatch`, your
 form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the specific field.
 
 ### `arrayInsert(form:String, field:String, index:Number, value:any)`
@@ -27,7 +27,7 @@ form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the
 
 ### `arraySplice(form:String, field:String, index:Number, removeNum:Number, value:any)`
 
-> **ADVANCED USAGE** - Inserts and/or removes items from a field array. Works similarly to 
+> **ADVANCED USAGE** - Inserts and/or removes items from a field array. Works similarly to
 [`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
 
 ### `arraySwap(form:String, field:String, indexA:Number, indexB:Number)`
@@ -57,9 +57,13 @@ form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the
 ### `initialize(form:String, data:Object, fields:Array<String>)`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
-`dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of 
+`dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of
 your form fields. **IMPORTANT:** The fields array passed must be the same as the one given as a [config parameter to
 `reduxForm()`](#/api/reduxForm).
+
+### `registerField(form:String, name:String, type:String)`
+
+> Registers a field with the given name and field type ('Field' or 'FieldArray') with the store.
 
 ### `reset(form:String)`
 
@@ -88,3 +92,7 @@ your form fields. **IMPORTANT:** The fields array passed must be the same as the
 ### `untouch(form:String, ...fields:String)`
 
 > Resets the 'touched' flag for all the fields passed in.
+
+### `unregisterField(form:String, name:String)`
+
+> Unregisters a field with the given name and field type ('Field' or 'FieldArray') with the store.
