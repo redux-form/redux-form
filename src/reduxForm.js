@@ -2,7 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import hoistStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { every, mapValues, partial, partialRight } from 'lodash'
+import { mapValues, partial, partialRight } from 'lodash'
 import isPromise from 'is-promise'
 import getDisplayName from './util/getDisplayName'
 import * as importedActions from './actions'
@@ -11,6 +11,7 @@ import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
 import createHasErrors from './hasErrors'
+import createHasError from './hasError'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import plain from './structure/plain'
 
@@ -48,7 +49,8 @@ const propsToNotUpdateFor = [
   'initialized',
   'initialValues',
   'syncErrors',
-  'values'
+  'values',
+  'registeredFields'
 ]
 
 const checkSubmit = submit => {
@@ -63,8 +65,9 @@ const checkSubmit = submit => {
  */
 const createReduxForm =
   structure => {
-    const { deepEqual, empty, getIn, setIn, fromJS } = structure
+    const { deepEqual, empty, getIn, setIn, fromJS, some } = structure
     const hasErrors = createHasErrors(structure)
+    const hasError = createHasError(structure)
     const plainHasErrors = createHasErrors(plain)
     return initialConfig => {
       const config = {
@@ -86,7 +89,6 @@ const createReduxForm =
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
             this.submitCompleted = this.submitCompleted.bind(this)
-            this.fields = {}
           }
 
           getChildContext() {
@@ -129,6 +131,7 @@ const createReduxForm =
           componentWillUnmount() {
             const { destroyOnUnmount, destroy } = this.props
             if (destroyOnUnmount) {
+              this.destroyed = true
               destroy()
             }
           }
@@ -142,23 +145,25 @@ const createReduxForm =
           }
 
           get valid() {
-            return every(this.fields, field => field.valid)
+            return this.props.valid
           }
 
           get invalid() {
             return !this.valid
           }
 
-          register(key, field) {
-            this.fields[ key ] = field
+          register(name, type) {
+            this.props.registerField(name, type)
           }
 
-          unregister(key) {
-            delete this.fields[ key ]
+          unregister(name) {
+            if (!this.destroyed) {
+              this.props.unregisterField(name)
+            }
           }
 
           get fieldList() {
-            return Object.keys(this.fields).map(key => this.fields[ key ].name)
+            return this.props.registeredFields.map((field) => getIn(field, 'name'))
           }
 
           asyncValidate(name, value) {
@@ -254,6 +259,8 @@ const createReduxForm =
               touchOnChange,
               syncErrors,
               values,
+              registerField,
+              unregisterField,
               ...passableProps
             } = this.props // eslint-disable-line no-redeclare
             return createElement(WrappedComponent, {
@@ -274,7 +281,8 @@ const createReduxForm =
           getFormState: PropTypes.func,
           validate: PropTypes.func,
           touchOnBlur: PropTypes.bool,
-          touchOnChange: PropTypes.bool
+          touchOnChange: PropTypes.bool,
+          registeredFields: PropTypes.any
         }
 
         const connector = connect(
@@ -291,7 +299,12 @@ const createReduxForm =
             const hasSyncErrors = plainHasErrors(syncErrors)
             const hasAsyncErrors = hasErrors(asyncErrors)
             const hasSubmitErrors = hasErrors(submitErrors)
-            const valid = !(hasSyncErrors || hasAsyncErrors || hasSubmitErrors)
+            const valid = (
+              !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors &&
+              !some(getIn(formState, 'registeredFields'), ((field) => {
+                return hasError(field, syncErrors, asyncErrors, submitErrors)
+              }))
+            )
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
@@ -309,7 +322,8 @@ const createReduxForm =
               submitFailed,
               syncErrors,
               values,
-              valid
+              valid,
+              registeredFields: getIn(formState, 'registeredFields')
             }
           },
           (dispatch, initialProps) => {

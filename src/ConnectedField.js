@@ -26,14 +26,6 @@ const createConnectedField = ({
       return error && error._error ? error._error : error
     }
 
-    get valid() {
-      const { asyncError, submitError } = this.props
-
-      const error = this.syncError || asyncError || submitError
-
-      return !error
-    }
-
     getRenderedComponent() {
       return this.refs.renderedComponent
     }

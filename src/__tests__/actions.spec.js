@@ -2,14 +2,15 @@ import expect from 'expect'
 import expectPredicate from 'expect-predicate'
 import {
   ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
-  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, SET_SUBMIT_FAILED,
-  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
+  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REGISTER_FIELD, RESET,
+  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+  STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
 } from '../actionTypes'
 import {
   arrayInsert, arrayPop, arrayPush, arrayRemove, arrayShift, arraySplice, arraySwap,
-  arrayUnshift, blur, change, destroy, focus, initialize,
+  arrayUnshift, blur, change, destroy, focus, initialize, registerField,
   reset, setSubmitFailed, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
-  touch, untouch
+  touch, unregisterField, untouch
 } from '../actions'
 import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
@@ -240,6 +241,21 @@ describe('actions', () => {
       .toPass(isFSA)
   })
 
+  it('should create registerField action', () => {
+    expect(registerField('myForm', 'foo', 'Field'))
+      .toEqual({
+        type: REGISTER_FIELD,
+        meta: {
+          form: 'myForm'
+        },
+        payload: {
+          name: 'foo',
+          type: 'Field'
+        }
+      })
+      .toPass(isFSA)
+  })
+
   it('should create reset action', () => {
     expect(reset('myForm'))
       .toEqual({
@@ -378,6 +394,20 @@ describe('actions', () => {
         meta: {
           form: 'myForm',
           fields: [ 'cat', 'dog', 'pig' ]
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create unregisterField action', () => {
+    expect(unregisterField('myForm', 'foo'))
+      .toEqual({
+        type: UNREGISTER_FIELD,
+        meta: {
+          form: 'myForm'
+        },
+        payload: {
+          name: 'foo'
         }
       })
       .toPass(isFSA)
