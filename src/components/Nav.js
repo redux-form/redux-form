@@ -51,6 +51,7 @@ class Nav extends Component {
           {this.renderItem('/docs/api/Props.md', '`props`', 1)}
           {this.renderItem('/docs/api/Field.md', '`Field`', 1)}
           {this.renderItem('/docs/api/FieldArray.md', '`FieldArray`', 1)}
+          {this.renderItem('/docs/api/FormValueSelector.md', '`formValueSelector()`', 1)}
           {this.renderItem('/docs/api/Reducer.md', '`reducer`', 1)}
           {this.renderItem('/docs/api/SubmissionError.md', '`SubmissionError`', 1)}
           {this.renderItem('/docs/api/ActionCreators.md', 'Action Creators', 1)}
@@ -61,6 +62,7 @@ class Nav extends Component {
           {this.renderItem('/examples/submitValidation', 'Submit Validation', 1)}
           {this.renderItem('/examples/asyncValidation', 'Async Validation', 1)}
           {this.renderItem('/examples/initializeFromState', 'Initializing from State', 1)}
+          {this.renderItem('/examples/selectingFormValues', 'Selecting Form Values', 1)}
           {this.renderItem('/examples/fieldArrays', 'Field Arrays', 1)}
           {this.renderItem('/examples/immutable', 'Immutable JS', 1)}
           {this.renderItem('/examples/wizard', 'Wizard Form', 1)}
