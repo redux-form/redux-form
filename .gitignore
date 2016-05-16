@@ -1,4 +1,5 @@
 .idea
+.iml
 coverage
 node_modules
 dist
