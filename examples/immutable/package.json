@@ -1,6 +1,6 @@
 {
   "name": "redux-form-immutable-example",
-  "version": "6.0.0-alpha.12",
+  "version": "6.0.0-alpha.13",
   "description": "An immutable-js example for redux-form",
   "repository": {
     "type": "git",
@@ -53,7 +53,7 @@
     "react-dom": "^15.0.1",
     "react-redux": "^4.4.2",
     "redux": "^3.4.0",
-    "redux-form": "6.0.0-alpha.12",
+    "redux-form": "6.0.0-alpha.13",
     "redux-form-website-template": "0.0.28",
     "redux-immutablejs": "0.0.8"
   },
