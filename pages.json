@@ -81,6 +81,10 @@
             "file": "/docs/api/Field.md",
             "title": "`Field`"
           },
+          "/docs/api/FormValueSelector.md": {
+            "file": "/docs/api/FormValueSelector.md",
+            "title": "`formValueSelector()`"
+          },
           "/docs/api/FieldArray.md": {
             "file": "/docs/api/FieldArray.md",
             "title": "`FieldArray`"
