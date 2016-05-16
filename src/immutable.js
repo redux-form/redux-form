@@ -10,6 +10,7 @@ export const {
   Field,
   FieldArray,
   focus,
+  getFormValue,
   reducer,
   reduxForm,
   removeArrayValue,
