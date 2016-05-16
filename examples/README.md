@@ -52,6 +52,12 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 
 ---
 
+### [Selecting Form Values](selectingFormValues)
+
+> How to bind certain form values as props to your entire form component.
+
+---
+
 ### [Wizard Form](wizard)
 
 > How to create a multi-page "wizard" form.

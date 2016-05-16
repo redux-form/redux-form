@@ -32,10 +32,10 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version={REDUX_FORM_VERSION}
+        version="6.0.0-alpha.10"
         path="/examples/fieldArrays"
         breadcrumbs={generateExampleBreadcrumbs('syncValidation',
-          'Field Arrays Example', REDUX_FORM_VERSION)}>
+          'Field Arrays Example', '6.0.0-alpha.10')}>
 
         <Markdown content={readme}/>
 

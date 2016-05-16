@@ -3,7 +3,13 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
-import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
+import {
+  App,
+  Code,
+  Markdown,
+  Values,
+  generateExampleBreadcrumbs
+} from 'redux-form-website-template'
 
 const dest = document.getElementById('content')
 const reducer = combineReducers({
@@ -21,9 +27,9 @@ const showResults = values =>
   })
 
 let render = () => {
-  const SimpleForm = require('./SimpleForm').default
-  const readme = require('./Simple.md')
-  const raw = require('!!raw!./SimpleForm')
+  const SelectingFormValuesForm = require('./SelectingFormValuesForm').default
+  const readme = require('./SelectingFormValues.md')
+  const raw = require('!!raw!./SelectingFormValuesForm')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -32,20 +38,22 @@ let render = () => {
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
         version="6.0.0-alpha.10"
-        path="/examples/simple"
-        breadcrumbs={generateExampleBreadcrumbs('simple', 'Simple Form Example', '6.0.0-alpha.10')}>
+        path="/examples/selectingFormValues"
+        breadcrumbs={generateExampleBreadcrumbs('selectingFormValues',
+          'Selecting Form Values Example',
+          '6.0.0-alpha.10')}>
 
         <Markdown content={readme}/>
 
         <h2>Form</h2>
 
-        <SimpleForm onSubmit={showResults}/>
+        <SelectingFormValuesForm onSubmit={showResults}/>
 
-        <Values form="simple"/>
+        <Values form="selectingFormValues"/>
 
         <h2>Code</h2>
 
-        <h4>SimpleForm.js</h4>
+        <h4>SelectingFormValuesForm.js</h4>
 
         <Code source={raw}/>
 
@@ -76,9 +84,9 @@ if (module.hot) {
   const rerender = () => {
     setTimeout(render)
   }
-  module.hot.accept('./SimpleForm', rerender)
-  module.hot.accept('./Simple.md', rerender)
-  module.hot.accept('!!raw!./SimpleForm', rerender)
+  module.hot.accept('./SelectingFormValuesForm', rerender)
+  module.hot.accept('./SelectingFormValues.md', rerender)
+  module.hot.accept('!!raw!./SelectingFormValuesForm', rerender)
 }
 
 render()
