@@ -36,6 +36,12 @@ form name.
 
 ---
   
+## [`formValueSelector(form:String, [getFormState:Function])`](FormValueSelector.md)
+
+> Creates a selector for use in `connect()`ing to form values in the Redux store.
+
+---
+  
 ## [`SubmissionError`](SubmissionError.md)
 
 > A special error type for returning submit validation errors
