@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import { Component, PropTypes, createElement } from 'react'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 import shallowCompare from 'react-addons-shallow-compare'
@@ -58,8 +58,10 @@ const createField = ({ deepEqual, getIn }) => {
     }
 
     render() {
-      const { ConnectedField } = this
-      return <ConnectedField {...this.props} ref="connected"/>
+      return createElement(this.ConnectedField, {
+        ...this.props,
+        ref: 'connected'
+      })
     }
   }
 
