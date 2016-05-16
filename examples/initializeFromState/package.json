@@ -1,6 +1,6 @@
 {
   "name": "redux-form-initialize-from-state-example",
-  "version": "6.0.0-alpha.10",
+  "version": "6.0.0-alpha.11",
   "description": "A initialize from state example for redux-form",
   "repository": {
     "type": "git",
@@ -52,8 +52,8 @@
     "react-dom": "^15.0.0-rc.2",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
-    "redux-form": "6.0.0-alpha.10",
-    "redux-form-website-template": "0.0.27"
+    "redux-form": "6.0.0-alpha.11",
+    "redux-form-website-template": "0.0.28"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
