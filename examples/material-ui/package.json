@@ -1,6 +1,6 @@
 {
   "name": "redux-form-material-ui-example",
-  "version": "6.0.0-alpha.11",
+  "version": "6.0.0-alpha.12",
   "description": "An example of redux-form with material-ui",
   "repository": {
     "type": "git",
@@ -54,7 +54,7 @@
     "react-redux": "^4.4.1",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.3.1",
-    "redux-form": "6.0.0-alpha.11",
+    "redux-form": "6.0.0-alpha.12",
     "redux-form-website-template": "0.0.28"
   },
   "devDependencies": {
