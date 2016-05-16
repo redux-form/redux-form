@@ -19,7 +19,11 @@ const createField = ({ deepEqual, getIn }) => {
     }
 
     shouldComponentUpdate(nextProps) {
-      return shallowCompare(this, nextProps)
+      const propsWithoutComponent = { ...this.props }
+      const nextPropsWithoutComponent = { ...nextProps }
+      delete propsWithoutComponent.component
+      delete nextPropsWithoutComponent.component
+      return shallowCompare({ props: propsWithoutComponent }, nextPropsWithoutComponent)
     }
 
     componentWillMount() {
