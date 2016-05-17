@@ -13,6 +13,8 @@ const createConnectedField = ({
   initialValues
 }, { deepEqual, getIn }, name) => {
 
+  const propInitialValue = initialValues && getIn(initialValues, name)
+
   class ConnectedField extends Component {
     shouldComponentUpdate(nextProps) {
       return !deepEqual(this.props, nextProps)
@@ -26,6 +28,18 @@ const createConnectedField = ({
       return error && error._error ? error._error : error
     }
 
+    get dirty() {
+      return this.props.dirty
+    }
+
+    get pristine() {
+      return this.props.pristine
+    }
+
+    get value() {
+      return this.props.value
+    }
+    
     getRenderedComponent() {
       return this.refs.renderedComponent
     }
@@ -36,7 +50,6 @@ const createConnectedField = ({
         name,
         rest,
         this.syncError,
-        initialValues && getIn(initialValues, name),
         defaultValue,
         asyncValidate
       )
@@ -58,15 +71,21 @@ const createConnectedField = ({
 
   const actions = mapValues({ blur, change, focus }, actionCreator => partial(actionCreator, name))
   const connector = connect(
-    (state, ownProps) => ({
-      initial: getIn(getFormState(state), `initial.${name}`),
-      value: getIn(getFormState(state), `values.${name}`),
-      state: getIn(getFormState(state), `fields.${name}`),
-      asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
-      submitError: getIn(getFormState(state), `submitErrors.${name}`),
-      asyncValidating: getIn(getFormState(state), 'asyncValidating') === name,
-      _value: ownProps.value // save value passed in (for checkboxes)
-    }),
+    (state, ownProps) => {
+      const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue
+      const value = getIn(getFormState(state), `values.${name}`)
+      const pristine = value === initial
+      return {
+        asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
+        asyncValidating: getIn(getFormState(state), 'asyncValidating') === name,
+        dirty: !pristine,
+        pristine,
+        state: getIn(getFormState(state), `fields.${name}`),
+        submitError: getIn(getFormState(state), `submitErrors.${name}`),
+        value,
+        _value: ownProps.value // save value passed in (for checkboxes)
+      }
+    },
     actions,
     undefined,
     { withRef: true }

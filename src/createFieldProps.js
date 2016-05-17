@@ -33,14 +33,13 @@ const processProps = (props, _value) => {
 }
 
 const createFieldProps = (getIn, name,
-  { asyncError, blur, change, focus, initial, state, submitError,
-    value, _value, ...rest }, syncError, initialPropValue, defaultValue = '', asyncValidate = noop) => {
+  { asyncError, blur, change, dirty, focus, pristine, state, submitError,
+    value, _value, ...rest }, syncError, defaultValue = '', asyncValidate = noop) => {
   const error = syncError || asyncError || submitError
   const onChange = createOnChange(change)
-  const initialValue = initial || initialPropValue
   return processProps({
     active: state && !!getIn(state, 'active'),
-    dirty: value !== initialValue,
+    dirty,
     error,
     invalid: !!error,
     name,
@@ -50,7 +49,7 @@ const createFieldProps = (getIn, name,
     onDrop: createOnDrop(name, change),
     onFocus: createOnFocus(name, focus),
     onUpdate: onChange,
-    pristine: value === initialValue,
+    pristine,
     touched: !!(state && getIn(state, 'touched')),
     valid: !error,
     value: value == null ? defaultValue : value,

@@ -42,6 +42,18 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
       return this.props.name
     }
 
+    get dirty() {
+      return this.refs.connected.getWrappedInstance().dirty
+    }
+
+    get pristine() {
+      return this.refs.connected.getWrappedInstance().pristine
+    }
+
+    get value() {
+      return this.refs.connected.getWrappedInstance().value
+    }
+
     getRenderedComponent() {
       invariant(this.props.withRef,
         'If you want to access getRenderedComponent(), ' +

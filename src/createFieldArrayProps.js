@@ -1,32 +1,29 @@
-const createFieldArrayProps = (deepEqual, getIn, size, name,
+const createFieldArrayProps = (getIn, size, name,
   {
     arrayInsert, arrayPop, arrayPush, arrayRemove, arrayShift,
-    arraySplice, arraySwap, arrayUnshift, asyncError, initial, state,
+    arraySplice, arraySwap, arrayUnshift, asyncError, dirty, pristine, state,
     submitError, submitFailed, value, ...rest
-  }, syncError, initialPropValue) => {
+  }, syncError) => {
   const error = syncError || asyncError || submitError
-  const initialValue = initial || initialPropValue
-  const array = value || initialValue
-  const pristine = deepEqual(value, initialValue)
-  const length = size(array)
+  const length = size(value)
   return {
-    dirty: !pristine,
+    dirty,
     error,
-    forEach: callback => (array || []).forEach((item, index) => callback(`${name}[${index}]`, index)),
+    forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index)),
     insert: arrayInsert,
     invalid: !!error,
     length,
-    map: callback => (array || []).map((item, index) => callback(`${name}[${index}]`, index)),
+    map: callback => (value || []).map((item, index) => callback(`${name}[${index}]`, index)),
     pop: () => {
       arrayPop()
-      return getIn(array, length - 1)
+      return getIn(value, length - 1)
     },
     pristine,
     push: arrayPush,
     remove: arrayRemove,
     shift: () => {
       arrayShift()
-      return getIn(array, 0)
+      return getIn(value, 0)
     },
     swap: arraySwap,
     unshift: arrayUnshift,
