@@ -70,10 +70,10 @@ connect(
 ```javascript
 connect(
   state => {
-    const { firstValue, secondValue } = selector(state, 'first', 'second')
+    const { first, second } = selector(state, 'first', 'second')
     // do some calculation
     return {
-      sum: firstValue + secondValue
+      sum: first + second
     }
   }
 )(MyFormComponent)
