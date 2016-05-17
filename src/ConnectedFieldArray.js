@@ -22,6 +22,8 @@ const createConnectedFieldArray = ({
   initialValues
 }, { deepEqual, getIn, size }, name) => {
 
+  const propInitialValue = initialValues && getIn(initialValues, name)
+
   class ConnectedFieldArray extends Component {
     shouldComponentUpdate(nextProps) {
       return shallowCompare(this, nextProps)
@@ -32,6 +34,18 @@ const createConnectedFieldArray = ({
       return plain.getIn(getSyncErrors(), `${name}._error`)
     }
 
+    get dirty() {
+      return this.props.dirty
+    }
+
+    get pristine() {
+      return this.props.pristine
+    }
+
+    get value() {
+      return this.props.value
+    }
+
     getRenderedComponent() {
       return this.refs.renderedComponent
     }
@@ -39,13 +53,11 @@ const createConnectedFieldArray = ({
     render() {
       const { component, withRef, ...rest } = this.props
       const props = createFieldArrayProps(
-        deepEqual,
         getIn,
         size,
         name,
         rest,
-        this.syncError,
-        initialValues && getIn(initialValues, name)
+        this.syncError
       )
       if (withRef) {
         props.ref = 'renderedComponent'
@@ -74,12 +86,18 @@ const createConnectedFieldArray = ({
     arrayUnshift
   }, actionCreator => partial(actionCreator, name))
   const connector = connect(
-    state => ({
-      initial: getIn(getFormState(state), `initial.${name}`),
-      value: getIn(getFormState(state), `values.${name}`),
-      asyncError: getIn(getFormState(state), `asyncErrors.${name}._error`),
-      submitError: getIn(getFormState(state), `submitErrors.${name}._error`)
-    }),
+    state => {
+      const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue
+      const value = getIn(getFormState(state), `values.${name}`)
+      const pristine = deepEqual(value, initial)
+      return {
+        asyncError: getIn(getFormState(state), `asyncErrors.${name}._error`),
+        dirty: !pristine,
+        pristine,
+        submitError: getIn(getFormState(state), `submitErrors.${name}._error`),
+        value
+      }
+    },
     actions,
     undefined,
     { withRef: true }

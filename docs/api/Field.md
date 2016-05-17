@@ -122,13 +122,21 @@ Remember the second rule above that all other props are passed to the element ge
 
 The following properties and methods are available on an instance of a `Field` component.
 
+#### `dirty : boolean`
+
+> `true` if the current value is different from the initialized value, `false` otherwise.
+
 #### `name : String`
 
 > The `name` prop that you passed in.
 
-#### `valid : boolean`
+#### `pristine : boolean`
 
-> `true` if this field passes validation, `false` otherwise.
+> `true` if the current value is the same as the initialized value, `false` otherwise.
+
+#### `value : any`
+
+> The current value of the field.
 
 #### `getRenderedComponent()`
 
