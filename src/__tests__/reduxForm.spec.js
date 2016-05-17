@@ -185,25 +185,25 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const spy = createSpy()
       const { dispatch } = propChecker({}, spy, {
         validate: values => {
-          const animal = getIn(values, 'animal')
-          return animal && animal.length > 5 ? { animal: 'Too long' } : {}
+          const foo = getIn(values, 'foo')
+          return foo && foo.length > 5 ? { foo: 'Too long' } : {}
         }
       })  // render 0
       expect(spy.calls.length).toBe(1)
 
       // simulate typing the word "giraffe"
-      dispatch(change('testForm', 'animal', 'g'))       // render 1 (now dirty)
+      dispatch(change('testForm', 'foo', 'g'))       // render 1 (now dirty)
       expect(spy.calls.length).toBe(2)
 
-      dispatch(change('testForm', 'animal', 'gi'))      // no render
-      dispatch(change('testForm', 'animal', 'gir'))     // no render
-      dispatch(change('testForm', 'animal', 'gira'))    // no render
-      dispatch(change('testForm', 'animal', 'giraf'))   // no render
-      dispatch(change('testForm', 'animal', 'giraff'))  // render 2 (invalid)
+      dispatch(change('testForm', 'foo', 'gi'))      // no render
+      dispatch(change('testForm', 'foo', 'gir'))     // no render
+      dispatch(change('testForm', 'foo', 'gira'))    // no render
+      dispatch(change('testForm', 'foo', 'giraf'))   // no render
+      dispatch(change('testForm', 'foo', 'giraff'))  // render 2 (invalid)
       expect(spy.calls.length).toBe(3)
-      dispatch(change('testForm', 'animal', 'giraffe')) // no render
+      dispatch(change('testForm', 'foo', 'giraffe')) // no render
 
-      dispatch(change('testForm', 'animal', '')) // render 3 (clean/valid)
+      dispatch(change('testForm', 'foo', '')) // render 3 (clean/valid)
       expect(spy.calls.length).toBe(4)
 
       expect(spy).toHaveBeenCalled()
@@ -259,7 +259,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             initial: initialValues,
-            values: initialValues
+            values: initialValues,
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
           }
         }
       })
@@ -321,7 +322,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const dom = TestUtils.renderIntoDocument(<Container/>)
       expect(store.getState()).toEqualMap({
-        form: {}
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+          }
+        }
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -405,7 +410,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const dom = TestUtils.renderIntoDocument(<Container/>)
       expect(store.getState()).toEqualMap({
-        form: {}
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+          }
+        }
       }, 'Form data in Redux did not get destroyed')
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -432,7 +441,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               deep: {
                 foo: 'bob'
               }
-            }
+            },
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
           }
         }
       })
@@ -503,7 +513,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const dom = TestUtils.renderIntoDocument(<Container/>)
       expect(store.getState()).toEqualMap({
-        form: {}
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+          }
+        }
       }, 'Form data in Redux did not get destroyed')
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -530,7 +544,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               deep: {
                 foo: 'bob'
               }
-            }
+            },
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
           }
         }
       })
@@ -538,6 +553,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // unmount form
       const toggle = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(toggle)
+
 
       // check state not destroyed
       expect(store.getState()).toEqualMap({
@@ -598,13 +614,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      expect(stub.fieldList).toEqual([ 'foo', 'fooArray' ])
+      expect(stub.fieldList).toEqual(fromJS([ 'foo', 'fooArray' ]))
 
       // switch fields
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(stub.fieldList).toEqual([ 'bar', 'barArray' ])
+      expect(stub.fieldList).toEqual(fromJS([ 'bar', 'barArray' ]))
     })
 
     it('should provide valid/invalid/values getters', () => {
@@ -976,7 +992,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const dom = TestUtils.renderIntoDocument(<Container/>)
       expect(store.getState()).toEqualMap({
-        form: {}
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+          }
+        }
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -1032,7 +1052,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(store.getState()).toEqualMap({
-        form: {}
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+          }
+        }
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -1056,7 +1080,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               deep: {
                 foo: 'bar'
               }
-            }
+            },
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
           }
         }
       })
@@ -1089,6 +1114,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   }
                 }
               },
+              registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
               asyncErrors
             }
           }
@@ -1135,7 +1161,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(store.getState()).toEqualMap({
-        form: {}
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo', type: 'Field' } ]
+          }
+        }
       })
 
       expect(asyncValidate).toNotHaveBeenCalled()

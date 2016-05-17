@@ -1,7 +1,8 @@
 import {
   ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
-  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, RESET, SET_SUBMIT_FAILED,
-  START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
+  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REGISTER_FIELD, RESET,
+  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
+  STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
 } from './actionTypes'
 
 export const arrayInsert = (form, field, index, value) =>
@@ -16,7 +17,7 @@ export const arrayPush = (form, field, value) =>
 export const arrayRemove = (form, field, index) =>
   ({ type: ARRAY_REMOVE, meta: { form, field, index } })
 
-export const arrayShift = (form, field) => 
+export const arrayShift = (form, field) =>
   ({ type: ARRAY_SHIFT, meta: { form, field } })
 
 export const arraySplice = (form, field, index, removeNum, value) => {
@@ -40,7 +41,7 @@ export const arraySwap = (form, field, indexA, indexB) => {
   return { type: ARRAY_SWAP, meta: { form, field, indexA, indexB } }
 }
 
-export const arrayUnshift = (form, field, value) => 
+export const arrayUnshift = (form, field, value) =>
   ({ type: ARRAY_UNSHIFT, meta: { form, field }, payload: value })
 
 export const blur = (form, field, value, touch) =>
@@ -57,6 +58,9 @@ export const focus = (form, field) =>
 
 export const initialize = (form, values) =>
   ({ type: INITIALIZE, meta: { form }, payload: values })
+
+export const registerField = (form, name, type) =>
+  ({ type: REGISTER_FIELD, meta: { form }, payload: { name, type } })
 
 export const reset = form =>
   ({ type: RESET, meta: { form } })
@@ -96,6 +100,9 @@ export const setSubmitFailed = (form, ...fields) =>
 
 export const touch = (form, ...fields) =>
   ({ type: TOUCH, meta: { form, fields } })
+
+export const unregisterField = (form, name) =>
+  ({ type: UNREGISTER_FIELD, meta: { form }, payload: { name } })
 
 export const untouch = (form, ...fields) =>
   ({ type: UNTOUCH, meta: { form, fields } })

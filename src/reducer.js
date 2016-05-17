@@ -1,13 +1,13 @@
 import {
   ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
   ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS,
-  INITIALIZE, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT,
-  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNTOUCH
+  INITIALIZE, REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION,
+  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
 const createReducer = structure => {
-  const { splice, empty, getIn, setIn, deleteIn, fromJS, size } = structure
+  const { splice, empty, getIn, setIn, deleteIn, fromJS, size, some } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
     const existing = getIn(state, `${key}.${field}`)
@@ -111,6 +111,17 @@ const createReducer = structure => {
       result = setIn(result, 'initial', mapData)
       return result
     },
+    [REGISTER_FIELD](state, { payload: { name, type } }) {
+      let result = state
+      const registeredFields = getIn(result, 'registeredFields')
+      if (some(registeredFields, (field) => getIn(field, 'name') === name)) {
+        return state
+      }
+
+      const mapData = fromJS({ name, type })
+      result = setIn(state, 'registeredFields', splice(registeredFields, size(registeredFields), 0, mapData))
+      return result
+    },
     [RESET](state) {
       const values = getIn(state, 'initial')
       let result = empty
@@ -183,6 +194,22 @@ const createReducer = structure => {
       fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
       result = setIn(result, 'anyTouched', true)
       return result
+    },
+    [UNREGISTER_FIELD](state, { payload: { name } }) {
+      const registeredFields = getIn(state, 'registeredFields')
+
+      // in case the form was destroyed and registeredFields no longer exists
+      if (!registeredFields) {
+        return state
+      }
+
+      const fieldIndex = registeredFields.findIndex((value) => {
+        return getIn(value, 'name') === name
+      })
+      if (size(registeredFields) <= 1 && fieldIndex >= 0) {
+        return deleteInWithCleanUp(state, 'registeredFields')
+      }
+      return setIn(state, 'registeredFields', splice(registeredFields, fieldIndex, 1))
     },
     [UNTOUCH](state, { meta: { fields } }) {
       let result = state

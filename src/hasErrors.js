@@ -1,4 +1,4 @@
-const createHasErrors = ({ getIn, some }) => {
+const createHasErrors = ({ getIn }) => {
   const hasErrors = errors => {
     if (!errors) {
       return false
@@ -10,7 +10,7 @@ const createHasErrors = ({ getIn, some }) => {
     if (typeof errors === 'string') {
       return !!errors
     }
-    return !!errors && some(errors, hasErrors)
+    return false
   }
   return hasErrors
 }

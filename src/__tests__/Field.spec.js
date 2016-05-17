@@ -154,6 +154,29 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props.error).toBe('foo error')
     })
 
+    it('should provide name getter', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.name).toBe('foo')
+    })
+
     it('should provide sync error for array field', () => {
       const store = makeStore({
         testForm: {
@@ -181,55 +204,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input).toHaveBeenCalled()
       expect(input.calls[0].arguments[0].valid).toBe(false)
       expect(input.calls[0].arguments[0].error).toBe('bar error')
-    })
-
-    it('should provide valid getter', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            foo: 'bar'
-          },
-          submitErrors: {
-            foo: 'foo error'
-          }
-        }
-      })
-      class Form extends Component {
-        render() {
-          return <div><Field name="foo" component={TestInput}/></div>
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
-      expect(stub.valid).toBe(false)
-    })
-
-    it('should provide name getter', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            foo: 'bar'
-          }
-        }
-      })
-      class Form extends Component {
-        render() {
-          return <div><Field name="foo" component={TestInput}/></div>
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
-      expect(stub.name).toBe('foo')
     })
 
     it('should provide access to rendered component', () => {
