@@ -7,30 +7,30 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeCreateFieldProps = (name, structure, expect) => {
-  const { fromJS, getIn, deepEqual, size } = structure
-  const defaultProps = [ deepEqual, getIn, size, 'foo' ]
+  const { fromJS, getIn, size } = structure
+  const defaultProps = [ getIn, size, 'foo' ]
 
   describe(name, () => {
     it('should pass props through', () => {
       expect(createFieldArrayProps(...defaultProps, { otherProp: 'hello' }).otherProp).toBe('hello')
     })
 
-    it('should calculate dirty/pristine', () => {
+    it('should pass dirty/pristine through', () => {
       expect(createFieldArrayProps(...defaultProps, {
-        initial: fromJS([ 'bar' ]),
-        value: fromJS([ 'bar' ])
+        dirty: false,
+        pristine: true
       }).dirty).toBe(false)
       expect(createFieldArrayProps(...defaultProps, {
-        initial: fromJS([ 'bar' ]),
-        value: fromJS([ 'bar' ])
+        dirty: false,
+        pristine: true
       }).pristine).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
-        initial: fromJS([ 'bar' ]),
-        value: fromJS([ 'baz' ])
+        dirty: true,
+        pristine: false
       }).dirty).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
-        initial: fromJS([ 'bar' ]),
-        value: fromJS([ 'baz' ])
+        dirty: true,
+        pristine: false
       }).pristine).toBe(false)
     })
 

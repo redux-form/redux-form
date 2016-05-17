@@ -192,7 +192,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: 'bar'
+            foo: [ 'bar' ]
           }
         }
       })
@@ -208,7 +208,134 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.name).toBe('foo')
+      expect(stub.name).toEqual('foo')
+    })
+    
+    it('should provide value getter', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [ 'bar' ]
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><FieldArray name="foo" component={TestComponent}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      expect(stub.value).toEqualMap([ 'bar' ])
+    })
+
+    it('should provide dirty getter that is true when dirty', () => {
+      const store = makeStore({
+        testForm: {
+          initial: {
+            foo: [ 'dog' ]
+          },
+          values: {
+            foo: [ 'cat' ]
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><FieldArray name="foo" component={TestComponent}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      expect(stub.dirty).toBe(true)
+    })
+
+    it('should provide dirty getter that is false when pristine', () => {
+      const store = makeStore({
+        testForm: {
+          initial: {
+            foo: [ 'dog' ]
+          },
+          values: {
+            foo: [ 'dog' ]
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><FieldArray name="foo" component={TestComponent}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      expect(stub.dirty).toBe(false)
+    })
+
+    it('should provide pristine getter that is true when pristine', () => {
+      const store = makeStore({
+        testForm: {
+          initial: {
+            foo: [ 'dog' ]
+          },
+          values: {
+            foo: [ 'dog' ]
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><FieldArray name="foo" component={TestComponent}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      expect(stub.pristine).toBe(true)
+    })
+
+    it('should provide pristine getter that is false when dirty', () => {
+      const store = makeStore({
+        testForm: {
+          initial: {
+            foo: [ 'dog' ]
+          },
+          values: {
+            foo: [ 'cat' ]
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><FieldArray name="foo" component={TestComponent}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      expect(stub.pristine).toBe(false)
     })
 
     it('should provide sync error for array field', () => {

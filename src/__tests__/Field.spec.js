@@ -177,6 +177,147 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(stub.name).toBe('foo')
     })
 
+    it('should provide value getter', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.value).toBe('bar')
+    })
+
+    it('should provide dirty getter that is true when dirty', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.dirty).toBe(true)
+    })
+
+    it('should provide dirty getter that is false when pristine', () => {
+      const store = makeStore({
+        testForm: {
+          initial: {
+            foo: 'bar'
+          },
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.dirty).toBe(false)
+    })
+    
+    it('should provide pristine getter that is false when dirty', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.pristine).toBe(false)
+    })
+
+    it('should provide pristine getter that is true when pristine', () => {
+      const store = makeStore({
+        testForm: {
+          initial: {
+            foo: 'bar'
+          },
+          values: {
+            foo: 'bar'
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={TestInput}/></div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.pristine).toBe(true)
+    })
+
+    it('should have value set to initial value on first render', () => {
+      const store = makeStore({})
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component={input}/></div>
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm initialValues={{ foo: 'bar' }}/>
+        </Provider>
+      )
+      expect(input).toHaveBeenCalled()
+      expect(input.calls[0].arguments[0].value).toBe('bar')
+    })
+
     it('should provide sync error for array field', () => {
       const store = makeStore({
         testForm: {

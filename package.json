@@ -19,7 +19,7 @@
     "example:simple": "node examples/simple/server.js",
     "prepublish": "npm run test && npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js",
-    "test:watch": "npm test -- --watch",
+    "test:watch": "mocha --compilers js:babel-register --recursive --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js --watch",
     "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive 'src/**/__tests__/*' --require src/__tests__/setup.js"
   },
   "keywords": [
