@@ -1,11 +1,5 @@
 {
-  "name": "redux-form-selecting-form-values-example",
-  "version": "6.0.0-alpha.13",
-  "description": "An example of selecting form values",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/erikras/redux-form"
-  },
+  "private": true,
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
@@ -14,34 +8,6 @@
     "start": "node devServer.js",
     "prepublish": "npm run lint && npm run build"
   },
-  "keywords": [
-    "react",
-    "reactjs",
-    "flux",
-    "redux",
-    "react-redux",
-    "redux-form",
-    "form",
-    "decorator",
-    "example",
-    "demo"
-  ],
-  "betterScripts": {
-    "dev": {
-      "command": "node webpack/webpack-dev-server.js",
-      "env": {
-        "UV_THREADPOOL_SIZE": 100,
-        "NODE_ENV": "development",
-        "NODE_PATH": "./src"
-      }
-    }
-  },
-  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/erikras/redux-form/issues"
-  },
-  "homepage": "https://github.com/erikras/redux-form",
   "dependencies": {
     "babel-polyfill": "^6.6.1",
     "html-loader": "^0.4.3",
@@ -52,7 +18,7 @@
     "react-dom": "^15.0.0-rc.2",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
-    "redux-form": "6.0.0-alpha.13",
+    "redux-form": "file:../../",
     "redux-form-website-template": "0.0.28"
   },
   "devDependencies": {
