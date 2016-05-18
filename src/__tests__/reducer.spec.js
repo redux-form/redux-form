@@ -1,4 +1,5 @@
 import expect from 'expect';
+import {createStore} from 'redux';
 import reducer, {globalErrorKey} from '../reducer';
 import bindActionData from '../bindActionData';
 import {addArrayValue, autofill, blur, change, focus, initialize, removeArrayValue, reset, startAsyncValidation, startSubmit,
@@ -790,7 +791,7 @@ describe('reducer', () => {
             value: undefined
           })
         },
-        _active: 'myField',
+        _active: 'myField.mySubField',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
         _initialized: false,
@@ -826,7 +827,7 @@ describe('reducer', () => {
         myArray: [
           makeFieldValue({value: undefined})
         ],
-        _active: 'myField',
+        _active: 'myArray[0]',
         _asyncValidating: false,
         [globalErrorKey]: undefined,
         _initialized: false,
@@ -3562,5 +3563,28 @@ describe('reducer', () => {
       expect(isFieldValue(state.foo.my[1].deeply[1].otherKey)).toBe(true);
       expect(isFieldValue(state.foo.my[1].stays)).toBe(true);
     });
+  });
+
+  it('should flag the correct field as active', () => {
+    const store = createStore(reducer);
+
+    store.dispatch({form: 'foo', ...initialize({}, ['a', 'b'])});
+    store.dispatch({form: 'foo', ...focus('a')});
+    store.dispatch({form: 'foo', ...focus('b')});
+
+    expect(store.getState()).toMatch({
+      foo: {_active: 'b'}
+    });
+
+    store.dispatch({form: 'foo', ...blur('a')});
+
+    expect(store.getState()).toMatch({
+      foo: {_active: 'b'}
+    });
+
+    store.dispatch({form: 'foo', ...blur('b')});
+
+    expect(store.getState().foo)
+      .toExcludeKey('_active');
   });
 });
