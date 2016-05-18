@@ -15,11 +15,7 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     }
 
     shouldComponentUpdate(nextProps) {
-      const propsWithoutComponent = { ...this.props }
-      const nextPropsWithoutComponent = { ...nextProps }
-      delete propsWithoutComponent.component
-      delete nextPropsWithoutComponent.component
-      return shallowCompare({ props: propsWithoutComponent }, nextPropsWithoutComponent)
+      return shallowCompare(this, nextProps)
     }
 
     componentWillMount() {
