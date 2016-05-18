@@ -1,1 +1,4 @@
-All notable changes are described on the [Releases](https://github.com/erikras/redux-form/releases) page.
+# Change Log
+
+This project adheres to [Semantic Versioning](http://semver.org/).  
+Every release, along with the migration instructions, is documented on the Github [Releases](https://github.com/erikras/redux-form/releases) page.
