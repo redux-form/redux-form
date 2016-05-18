@@ -1,4 +1,4 @@
-export const defaultShouldAsyncValidate = ({
+const defaultShouldAsyncValidate = ({
   initialized,
   trigger,
   // blurredField,  // not used in default implementation
