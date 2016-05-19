@@ -74,7 +74,7 @@
     "flux-standard-action": "^0.6.1",
     "isparta": "4.0.0",
     "jsdom": "^9.1.0",
-    "lodash-webpack-plugin": "^0.4.0",
+    "lodash-webpack-plugin": "^0.7.0",
     "mocha": "^2.4.5",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
