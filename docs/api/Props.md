@@ -50,6 +50,11 @@ class SimpleForm extends Component {
 synchronous validation function, the asynchronous validation, or the rejected promise from
 `onSubmit`.
 
+### `form : String`
+
+> The form name that you gave to the `reduxForm()` decorator or the prop you passed in to your
+decorated form component.
+
 #### `handleSubmit(eventOrSubmit) : Function`
 
 > A function meant to be passed to `<form onSubmit={handleSubmit}>` or to

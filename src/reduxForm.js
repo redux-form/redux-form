@@ -253,7 +253,6 @@ const createReduxForm =
               asyncErrors,
               reduxMountPoint,
               destroyOnUnmount,
-              form,
               getFormState,
               touchOnBlur,
               touchOnChange,
