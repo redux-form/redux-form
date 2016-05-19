@@ -71,7 +71,9 @@ const createReducer = structure => {
       } else if (payload !== undefined) {
         result = setIn(result, `values.${field}`, payload)
       }
-      result = deleteIn(result, 'active')
+      if (field === getIn(result, 'active')) {
+        result = deleteIn(result, 'active')
+      }
       result = deleteIn(result, `fields.${field}.active`)
       if (touch) {
         result = setIn(result, `fields.${field}.touched`, true)

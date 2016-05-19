@@ -317,6 +317,32 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
         }
       }), 'foo.values.myComplexField', { id: 42, name: 'Bobby' }))
   })
+
+  it('should NOT remove active field if the blurred field is not active', () => {
+    const state = reducer(fromJS({
+      foo: {
+        fields: {
+          myField: {
+            active: true
+          },
+          myOtherField: {}
+        },
+        active: 'myField'
+      }
+    }), blur('foo', 'myOtherField'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          fields: {
+            myField: {
+              active: true
+            },
+            myOtherField: {}
+          },
+          active: 'myField'
+        }
+      })
+  })
 }
 
 export default describeBlur
