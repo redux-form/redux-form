@@ -33,22 +33,22 @@ for most of your needs.**
 ### `initialize(form:String, data:Object, fields:Array<String>)`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
-`dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of 
+`dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of
 your form fields. **IMPORTANT:** The fields array passed must be the same as the one given as a [config parameter to
 `reduxForm()`](#/api/reduxForm).
 
 ### `initializeWithKey(form:String, formKey, data:Object, fields:Array<String>)`
 
-> Used when editing multiple records with the same form component. Useful when 
+> Used when editing multiple records with the same form component. Useful when
 [editing multiple records](#/examples/multirecord).
 
 ### `reset(form:String)`
 
 > Resets the values in the form back to the values past in with the most recent `initialize` action.
 
-### `startAsyncValidation(form:String)`
+### `startAsyncValidation(form:String, field:String)`
 
-> Flips the `asyncValidating` flag `true`.
+> Sets `asyncValidating` to `field` if provided, or `true` if not. 
 
 ### `startSubmit(form:String)`
 
@@ -77,10 +77,9 @@ your form fields. **IMPORTANT:** The fields array passed must be the same as the
 
 ### `untouchWithKey(form:String, formKey, ...fields:String)`
 
-> Resets the `touched` flag for  all the fields passed in on the form at the specified `formKey`. For use 
+> Resets the `touched` flag for  all the fields passed in on the form at the specified `formKey`. For use
 with [multirecord forms](#/examples/multirecord).
 
 ### `destroy(form:String)`
 
 > Destroys the form, removing all its state.
-

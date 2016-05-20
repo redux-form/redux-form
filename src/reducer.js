@@ -42,8 +42,11 @@ const behaviors = {
     }, state);
   },
   [BLUR](state, {field, value, touch}) {
-    // remove _active from state
-    const {_active, ...stateCopy} = state;  // eslint-disable-line prefer-const
+    const {_active, ...stateCopy} = state;
+    if (_active && _active !== field) {
+      // remove _active from state
+      stateCopy._active = _active;
+    }
     return write(field, previous => {
       const result = {...previous};
       if (value !== undefined) {
