@@ -9,8 +9,9 @@ const createValues = ({ empty, getIn }) =>
     }
     return connect(
       state => ({
-        [prop]: getIn(getFormState(state), `${form}.values`) || empty
-      })
+        [prop]: getIn(getFormState(state), `${form}.values`)
+      }),
+      dispatch => ({})
     )
   }
 
