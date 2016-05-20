@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-const createValues = ({ empty, getIn }) =>
+const createValues = ({ getIn }) =>
   config => {
     const { form, prop, getFormState } = {
       prop: 'values',
@@ -11,7 +11,7 @@ const createValues = ({ empty, getIn }) =>
       state => ({
         [prop]: getIn(getFormState(state), `${form}.values`)
       }),
-      dispatch => ({})
+      () => ({})  // ignore dispatch
     )
   }
 

@@ -1,11 +1,10 @@
 /* eslint react/no-multi-comp:0 */
-import React, { Component } from 'react'
+import React from 'react'
 import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-addons-test-utils'
-import createReduxForm from '../reduxForm'
 import createReducer from '../reducer'
 import createValues from '../values'
 import plain from '../structure/plain'
@@ -15,7 +14,6 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeValues = (name, structure, combineReducers, expect) => {
-  const reduxForm = createReduxForm(structure)
   const values = createValues(structure)
   const reducer = createReducer(structure)
   const { fromJS } = structure
