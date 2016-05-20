@@ -3,9 +3,14 @@ import plain from './structure/plain'
 
 export const {
   actionTypes,
-  addArrayValue,
-  autofill,
-  autofillWithKey,
+  arrayInsert,
+  arrayPop,
+  arrayPush,
+  arrayRemove,
+  arrayShift,
+  arraySplice,
+  arraySwap,
+  arrayUnshift,
   blur,
   change,
   destroy,
@@ -15,7 +20,6 @@ export const {
   formValueSelector,
   reducer,
   reduxForm,
-  removeArrayValue,
   initialize,
   propTypes,
   reset,
@@ -25,7 +29,6 @@ export const {
   stopAsyncValidation,
   stopSubmit,
   SubmissionError,
-  swapArrayValues,
   touch,
   untouch,
   values

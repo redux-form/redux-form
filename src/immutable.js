@@ -3,7 +3,14 @@ import immutable from './structure/immutable'
 
 export const {
   actionTypes,
-  addArrayValue,
+  arrayInsert,
+  arrayPop,
+  arrayPush,
+  arrayRemove,
+  arrayShift,
+  arraySplice,
+  arraySwap,
+  arrayUnshift,
   blur,
   change,
   destroy,
@@ -13,7 +20,6 @@ export const {
   formValueSelector,
   reducer,
   reduxForm,
-  removeArrayValue,
   initialize,
   propTypes,
   reset,
@@ -23,7 +29,6 @@ export const {
   stopAsyncValidation,
   stopSubmit,
   SubmissionError,
-  swapArrayValues,
   touch,
   untouch,
   values
