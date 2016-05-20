@@ -36,6 +36,7 @@
 * [5.2.0](http://redux-form.com/5.2.0/)
 * [5.2.1](http://redux-form.com/5.2.1/)
 * [5.2.3](http://redux-form.com/5.2.3/)
+* [5.2.4](http://redux-form.com/5.2.4/)
 
 ---
 
@@ -46,6 +47,7 @@
 * [6.0.0-alpha.8](http://redux-form.com/6.0.0-alpha.8/)
 * [6.0.0-alpha.10](http://redux-form.com/6.0.0-alpha.10/)
 * [6.0.0-alpha.11](http://redux-form.com/6.0.0-alpha.11/)
+* [6.0.0-alpha.13](http://redux-form.com/6.0.0-alpha.13/)
 
 ## Community
 [Adding A Robust Form Validation To React Redux Apps - Blog](https://medium.com/@rajaraodv/adding-a-robust-form-validation-to-react-redux-apps-616ca240c124#.1iyuelj2e)
