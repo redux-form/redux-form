@@ -867,7 +867,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
     })
 
-    it('should not call async validation more than once if submit is clicked fast', (done) => {
+    it('should not call async validation more than once if submit is clicked fast when handleSubmit receives an event', (done) => {
       const store = makeStore({
         testForm: {
           values: {
@@ -878,6 +878,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const input = createSpy(props => <input {...props}/>).andCallThrough()
       const asyncValidate = createSpy(() =>
         new Promise(resolve => setTimeout(resolve, 100))).andCallThrough()
+      const onSubmit = values => {
+        expect(values).toEqualMap({ bar: 'foo' })
+        done()
+      }
 
       const Form = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
@@ -888,10 +892,58 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         asyncValidate,
-        onSubmit: values => {
-          expect(values).toEqualMap({ bar: 'foo' })
-          done()
+        onSubmit
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+
+      expect(input).toHaveBeenCalled()
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('foo')
+
+      expect(asyncValidate).toNotHaveBeenCalled()
+
+      TestUtils.Simulate.submit(form)
+      TestUtils.Simulate.submit(form)
+      TestUtils.Simulate.submit(form)
+      TestUtils.Simulate.submit(form)
+      TestUtils.Simulate.submit(form)
+
+      expect(asyncValidate).toHaveBeenCalled()
+      expect(asyncValidate.calls.length).toBe(1)
+      expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+    })
+
+    it('should not call async validation more than once if submit is clicked fast when handleSubmit receives a function', (done) => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            bar: 'foo'
+          }
         }
+      })
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const asyncValidate = createSpy(() =>
+        new Promise(resolve => setTimeout(resolve, 100))).andCallThrough()
+      const onSubmit = values => {
+        expect(values).toEqualMap({ bar: 'foo' })
+        done()
+      }
+
+      const Form = ({ handleSubmit }) => (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Field name="bar" component={input} type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        asyncValidate
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(

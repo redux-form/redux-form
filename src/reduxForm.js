@@ -218,18 +218,18 @@ const createReduxForm =
           }
 
           submit(submitOrEvent) {
-            if(this.submitPromise) {
-              return // already submitting
-            }
             const { onSubmit } = this.props
 
             if(!submitOrEvent || silenceEvent(submitOrEvent)) {
-              // submitOrEvent is an event: fire submit
-              return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
-                this.props, this.valid, this.asyncValidate, this.fieldList))
+              // submitOrEvent is an event: fire submit if not already submitting
+              if(!this.submitPromise) {
+                return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
+                  this.props, this.valid, this.asyncValidate, this.fieldList))
+              }
             } else {
               // submitOrEvent is the submit function: return deferred submit thunk
               return silenceEvents(() =>
+                !this.submitPromise &&
                 this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
                   this.props, this.valid, this.asyncValidate, this.fieldList)))
             }
