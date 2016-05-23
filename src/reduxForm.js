@@ -274,6 +274,7 @@ const createReduxForm =
           _reduxForm: PropTypes.object.isRequired
         }
         Form.propTypes = {
+          adapter: PropTypes.func,
           destroyOnUnmount: PropTypes.bool,
           form: PropTypes.string.isRequired,
           initialValues: PropTypes.object,
