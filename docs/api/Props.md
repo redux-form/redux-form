@@ -67,7 +67,7 @@ the place of the `onSubmit` prop. For example:
 
 > If your `onSubmit` function returns a promise, the `submitting` property will be set to
 `true` until the promise has been resolved or rejected. If it is rejected with an object
-matching `{ field1: 'error', field2: 'error' }` then the submission errors will be added
+like `new SubmissionError({ field1: 'error', field2: 'error' })` then the submission errors will be added
 to each field (to the `error` prop) just like async validation errors are. If there is an
 error that is not specific to any field, but applicable to the entire form, you may pass
 that as if it were the error for a field called `_error`, and it will be given as the
