@@ -13,7 +13,7 @@
     "html-loader": "^0.4.3",
     "json-loader": "^0.5.4",
     "markdown-loader": "^0.1.7",
-    "material-ui": "^0.14.4",
+    "material-ui": "^0.15.0",
     "raw-loader": "^0.5.1",
     "react": "^15.0.0-rc.2",
     "react-dom": "^15.0.0-rc.2",

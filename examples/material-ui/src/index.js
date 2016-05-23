@@ -4,7 +4,15 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
-import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import {
+  App,
+  Code,
+  Markdown,
+  Values,
+  generateExampleBreadcrumbs
+} from 'redux-form-website-template'
 injectTapEventPlugin()
 const dest = document.getElementById('content')
 const reducer = combineReducers({
@@ -28,34 +36,36 @@ let render = () => {
   const asyncValidateraw = require('!!raw!./asyncValidate')
   ReactDOM.render(
     <Provider store={store}>
-      <App
-        /**
-         * This <App/> component only provides the site wrapper.
-         * Remove it on your dev server if you wish. It will not affect the functionality.
-         */
-        version="6.0.0-alpha.13"
-        path="/examples/material-ui/"
-        breadcrumbs={generateExampleBreadcrumbs('material-ui', 'Material Ui Form Example', '6.0.0-alpha.13')}>
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <App
+          /**
+           * This <App/> component only provides the site wrapper.
+           * Remove it on your dev server if you wish. It will not affect the functionality.
+           */
+          version="6.0.0-alpha.13"
+          path="/examples/material-ui/"
+          breadcrumbs={generateExampleBreadcrumbs('material-ui', 'Material Ui Form Example', '6.0.0-alpha.13')}>
 
-        <Markdown content={readme}/>
+          <Markdown content={readme}/>
 
-        <h2>Form</h2>
+          <h2>Form</h2>
 
-        <MaterialUiForm onSubmit={showResults}/>
+          <MaterialUiForm onSubmit={showResults}/>
 
-        <Values form="MaterialUiForm"/>
+          <Values form="MaterialUiForm"/>
 
-        <h2>Code</h2>
+          <h2>Code</h2>
 
-        <h4>asyncValidate.js</h4>
+          <h4>asyncValidate.js</h4>
 
-        <Code source={asyncValidateraw}/>
+          <Code source={asyncValidateraw}/>
 
-        <h4>MaterialUiForm.js</h4>
+          <h4>MaterialUiForm.js</h4>
 
-        <Code source={raw}/>
+          <Code source={raw}/>
 
-      </App>
+        </App>
+      </MuiThemeProvider>
     </Provider>,
     dest
   )

@@ -1,11 +1,10 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import TextField from 'material-ui/lib/text-field'
-import RadioButton from 'material-ui/lib/radio-button'
-import RadioButtonGroup from 'material-ui/lib/radio-button-group'
-import Checkbox from 'material-ui/lib/checkbox'
-import SelectField from 'material-ui/lib/select-field'
-import MenuItem from 'material-ui/lib/menus/menu-item'
+import TextField from 'material-ui/TextField'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
+import Checkbox from 'material-ui/Checkbox'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
 import asyncValidate from './asyncValidate'
 
 const validate = values => {
