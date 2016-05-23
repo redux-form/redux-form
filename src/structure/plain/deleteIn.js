@@ -7,16 +7,20 @@ const deleteInWithPath = (state, first, ...rest) => {
   if (rest.length) {
     if (Array.isArray(state)) {
       if (first < state.length) {
-        const copy = [ ...state ]
-        copy[first] = deleteInWithPath(state && state[ first ], ...rest)
-        return copy
+        const result = deleteInWithPath(state && state[ first ], ...rest)
+        if (result !== state[ first ]) {
+          const copy = [ ...state ]
+          copy[ first ] = result
+          return copy
+        }
       }
       return state
     }
     if (first in state) {
-      return {
+      const result = deleteInWithPath(state && state[ first ], ...rest)
+      return state[ first ] === result ? state : {
         ...state,
-        [first]: deleteInWithPath(state && state[ first ], ...rest)
+        [first]: result
       }
     }
     return state

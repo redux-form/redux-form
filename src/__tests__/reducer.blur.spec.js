@@ -343,6 +343,34 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
         }
       })
   })
+
+  it('should NOT destroy an empty array field object on blur', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myArray: [ {} ]
+        }
+      }
+    }), blur('foo', 'myArray[0].foo', '', true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          anyTouched: true,
+          values: {
+            myArray: [ {} ]
+          },
+          fields: {
+            myArray: [
+              {
+                foo: {
+                  touched: true
+                }
+              }
+            ]
+          }
+        }
+      })
+  })
 }
 
 export default describeBlur

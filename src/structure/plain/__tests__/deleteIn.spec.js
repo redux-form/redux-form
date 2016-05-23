@@ -106,5 +106,28 @@ describe('structure.plain.deleteIn', () => {
       })
     expect(result3.foo).toNotBe(state.foo)
   })
+
+  it('should not mutate deep state if can\'t find final key', () => {
+    const state = {
+      foo: {
+        bar: [
+          {}
+        ]
+      }
+    }
+    const result = deleteIn(state, 'foo.bar[0].dog')
+    expect(result)
+      .toBe(state)
+      .toEqual({
+        foo: {
+          bar: [
+            {}
+          ]
+        }
+      })
+    expect(result.foo).toBe(state.foo)
+    expect(result.foo.bar).toBe(state.foo.bar)
+    expect(result.foo.bar[ 0 ]).toBe(state.foo.bar[ 0 ])
+  })
 })
 
