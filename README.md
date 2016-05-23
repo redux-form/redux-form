@@ -4,7 +4,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form) 
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
-[![Build Status](https://img.shields.io/travis/erikras/redux-form/master.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
+[![Build Status](https://img.shields.io/travis/erikras/redux-form/v6.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
 [![devDependency Status](https://david-dm.org/erikras/redux-form/dev-status.svg)](https://david-dm.org/erikras/redux-form#info=devDependencies)
 [![codecov.io](https://codecov.io/github/erikras/redux-form/coverage.svg?branch=v6)](https://codecov.io/github/erikras/redux-form?branch=v6)
 [![PayPal donate button](http://img.shields.io/paypal/donate.png?color=yellowgreen)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
