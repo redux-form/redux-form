@@ -8,9 +8,5 @@ and array on the object provided by the `FieldArray` component: `insert`, `pop`,
 `shift`, `swap`, and `unshift`. More detail can be found under the
 [`FieldArray` docs](http://redux-form.com/6.0.0-alpha.13/docs/api/FieldArray.md).
 
-In this example, the "Add Member" button adds a member using the 
-`this.props.array.push('members', {})` method, and the "Add Hobby" button uses the `hobbies.push()`
-method.
-
 Notice that array-specific errors are available if set on the array structure itself under the 
 `_error` key. (Hint: Add more than five hobbies to see an error.)

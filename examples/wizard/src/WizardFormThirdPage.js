@@ -3,23 +3,23 @@ import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
 const colors = [ 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet' ]
 
+const renderColorSelector = props => (
+  <div>
+    <select {...props}>
+      <option value="">Select a color...</option>
+      {colors.map(val => <option value={val} key={val}>{val}</option>)}
+    </select>
+    {props.touched && props.error && <span>{props.error}</span>}
+  </div>
+)
+
 const WizardFormThirdPage = (props) => {
   const { handleSubmit, pristine, previousPage, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label>Favorite Color</label>
-        <Field name="favoriteColor" component={favoriteColor =>
-          <div>
-              <select {...favoriteColor}>
-                <option value="">Select a color...</option>
-                {colors.map(colorOption =>
-                  <option value={colorOption} key={colorOption}>{colorOption}</option>)
-                }
-              </select>
-                {favoriteColor.touched && favoriteColor.error && <span>{favoriteColor.error}</span>}
-          </div>
-        }/>
+        <Field name="favoriteColor" component={renderColorSelector}/>
       </div>
       <div>
         <label htmlFor="employed">Employed</label>

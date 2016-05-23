@@ -25,6 +25,7 @@ let render = () => {
   const readme = require('./Wizard.md')
   const rawWizard = require('!!raw!./WizardForm')
   const rawValidate = require('!!raw!./validate')
+  const rawRenderField = require('!!raw!./renderField')
   const WizardFormFirstPage = require('!!raw!./WizardFormFirstPage')
   const WizardFormSecondPage = require('!!raw!./WizardFormSecondPage')
   const WizardFormThirdPage = require('!!raw!./WizardFormThirdPage')
@@ -48,6 +49,10 @@ let render = () => {
         <Values form="wizard"/>
 
         <h2>Code</h2>
+
+        <h4>renderField.js</h4>
+
+        <Code source={rawRenderField}/>
 
         <h4>WizardForm.js</h4>
 
@@ -104,6 +109,7 @@ if (module.hot) {
   module.hot.accept('./WizardFormThirdPage', rerender)
   module.hot.accept('./WizardFormThirdPage', rerender)
   module.hot.accept('!!raw!./validate', rerender)
+  module.hot.accept('!!raw!./renderField', rerender)
   module.hot.accept('!!raw!./WizardFormFirstPage', rerender)
   module.hot.accept('!!raw!./WizardFormSecondPage', rerender)
   module.hot.accept('!!raw!./WizardFormThirdPage', rerender)

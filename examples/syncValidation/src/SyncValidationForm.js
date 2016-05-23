@@ -23,37 +23,23 @@ const validate = values => {
   return errors
 }
 
+const renderField = props => (
+  <div>
+    <label>{props.placeholder}</label>
+    <div>
+      <input {...props}/>
+      {props.touched && props.error && <span>{props.error}</span>}
+    </div>
+  </div>
+)
+
 const SyncValidationForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username</label>
-        <Field name="username" component={username =>
-          <div>
-            <input type="text" {...username} placeholder="Username"/>
-            {username.touched && username.error && <span>{username.error}</span>}
-          </div>
-        }/>
-      </div>
-      <div>
-        <label>Email</label>
-        <Field name="email" component={email =>
-          <div>
-            <input type="email" {...email} placeholder="Email"/>
-            {email.touched && email.error && <span>{email.error}</span>}
-          </div>
-        }/>
-      </div>
-      <div>
-        <label>Age</label>
-        <Field name="age" component={age =>
-          <div>
-            <input type="number" {...age} placeholder="Age"/>
-            {age.touched && age.error && <span>{age.error}</span>}
-          </div>
-        }/>
-      </div>
+      <Field name="username" type="text" component={renderField} placeholder="Username"/>
+      <Field name="email" type="email" component={renderField} placeholder="Email"/>
+      <Field name="age" type="number" component={renderField} placeholder="Age"/>
       <div>
         <button type="submit" disabled={submitting}>Submit</button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>

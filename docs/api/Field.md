@@ -91,22 +91,27 @@ To learn what props will be passed to your component, see the [Props](#props) se
 
 This is the most flexible way to use `<Field>`, as it gives you complete control over how the 
 input is rendered. It is especially useful for displaying validation errors. It will also be the 
-most familiar to people migrating from previous versions of `redux-form`.
+most familiar to people migrating from previous versions of `redux-form`. **You must define the 
+stateless function outside of your `render()` method, or else it will be recreated on every 
+render and will force the `Field` to rerender because its `component` prop will be different.** 
+If you are defining your stateless function inside of `render()`, it will not only be slower, but
+your input will lose focus whenever the entire form component rerenders.
 
 ```js
-<Field component={(props) => {
-  return (
+// outside your render() method
+const renderField = (props) => (
     <div class="input-row">
       <input type="text" {...props}/>
       {props.touched && props.error && <span className="error">{props.error}</span>}
     </div>
   )
-}}/>
+  
+// inside your render() method
+<Field component={renderField}/>
 ```
 
 To learn what props will be passed to your stateless function, see the [Props](#props) section 
 below.
-
 
 ### 3. A string: `input`, `select`, or `textarea`
 

@@ -11,4 +11,4 @@ commonly known as a Wizard. There are several ways that this could be accomplish
 
 Things that are up to you to implement:
 
-* Call destroyForm() manually after a successful submit.
+* Call `destroyForm()` manually after a successful submit.
