@@ -18,7 +18,7 @@ describe('readFields', () => {
       .toExist()
       .toBeA('object');
     expect(field.name).toBe(name);
-    expect(field.value).toEqual(value === undefined ? '' : value);
+    expect(field.value).toEqual(value);
     if (readonly) {
       expect(field.onBlur).toNotExist();
       expect(field.onChange).toNotExist();
@@ -85,7 +85,7 @@ describe('readFields', () => {
     expectField({
       field: result.foo,
       name: 'foo',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -95,7 +95,7 @@ describe('readFields', () => {
     expectField({
       field: result.bar,
       name: 'bar',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -470,7 +470,7 @@ describe('readFields', () => {
           value: true
         },
         another: {
-          value: undefined
+          value: ''
         },
         stringField: {
           value: 'baz'
@@ -503,7 +503,7 @@ describe('readFields', () => {
     expectField({
       field: result.another,
       name: 'another',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -572,7 +572,7 @@ describe('readFields', () => {
     expectField({
       field: result.cat,
       name: 'cat',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -582,7 +582,7 @@ describe('readFields', () => {
     expectField({
       field: result.dog,
       name: 'dog',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -1204,7 +1204,7 @@ describe('readFields', () => {
     expectField({
       field: result.foo.dog,
       name: 'foo.dog',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -1214,7 +1214,7 @@ describe('readFields', () => {
     expectField({
       field: result.foo.cat,
       name: 'foo.cat',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -1224,7 +1224,7 @@ describe('readFields', () => {
     expectField({
       field: result.bar.rat,
       name: 'bar.rat',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
@@ -1234,7 +1234,7 @@ describe('readFields', () => {
     expectField({
       field: result.bar.ram,
       name: 'bar.ram',
-      value: undefined,
+      value: '',
       dirty: false,
       touched: false,
       visited: false,
