@@ -1,28 +1,22 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
+const renderField = props => (
+  <div>
+    <label>{props.placeholder}</label>
+    <div>
+      <input {...props}/>
+      {props.touched && props.error && <span>{props.error}</span>}
+    </div>
+  </div>
+)
+
 const SubmitValidationForm = (props) => {
   const { error, handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username</label>
-        <Field name="username" component={username =>
-          <div>
-            <input type="text" {...username} placeholder="Username"/>
-            {username.touched && username.error && <span>{username.error}</span>}
-          </div>
-        }/>
-      </div>
-      <div>
-        <label>Password</label>
-        <Field name="password" component={password =>
-          <div>
-            <input type="password" {...password} placeholder="Password"/>
-            {password.touched && password.error && <span>{password.error}</span>}
-          </div>
-        }/>
-      </div>
+      <Field name="username" type="text" component={renderField} placeholder="Username"/>
+      <Field name="password" type="password" component={renderField} placeholder="Password"/>
       {error && <strong>{error}</strong>}
       <div>
         <button type="submit" disabled={submitting}>Log In</button>

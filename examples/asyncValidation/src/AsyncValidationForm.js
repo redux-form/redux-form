@@ -3,28 +3,22 @@ import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
 import asyncValidate from './asyncValidate'
 
+const renderField = props => (
+  <div>
+    <label>{props.placeholder}</label>
+    <div className={props.asyncValidating ? 'async-validating' : ''}>
+      <input {...props}/>
+      {props.touched && props.error && <span>{props.error}</span>}
+    </div>
+  </div>
+)
+
 const AsyncValidationForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username</label>
-        <Field name="username" component={username =>
-          <div className={username.asyncValidating ? 'async-validating' : ''}>
-            <input type="text" {...username} placeholder="Username"/>
-            {username.touched && username.error && <span>{username.error}</span>}
-          </div>
-        }/>
-      </div>
-      <div>
-        <label>Password</label>
-        <Field name="password" component={password =>
-          <div>
-            <input type="password" {...password} placeholder="Password"/>
-            {password.touched && password.error && <span>{password.error}</span>}
-          </div>
-        }/>
-      </div>
+      <Field name="username" type="text" component={renderField} placeholder="Username"/>
+      <Field name="password" type="password" component={renderField} placeholder="Password"/>
       <div>
         <button type="submit" disabled={submitting}>Sign Up</button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
@@ -36,5 +30,6 @@ const AsyncValidationForm = (props) => {
 export default reduxForm({
   form: 'asyncValidation', // a unique identifier for this form
   validate,
-  asyncValidate
+  asyncValidate,
+  asyncBlurFields: [ 'username' ]
 })(AsyncValidationForm)

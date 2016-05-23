@@ -4,7 +4,8 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { combineReducers } from 'redux-immutablejs'
 import { reducer as reduxFormReducer } from 'redux-form/immutable'
-import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
+import { App, Code, Markdown, generateExampleBreadcrumbs } from 'redux-form-website-template'
+import Values from './ImmutableValues'
 
 const dest = document.getElementById('content')
 const reducer = combineReducers({
@@ -42,7 +43,7 @@ let render = () => {
 
         <ImmutableForm onSubmit={showResults}/>
 
-        <Values form="immutable"/>
+        <Values form="immutableExample"/>
 
         <h2>Code</h2>
 

@@ -51,7 +51,7 @@ let render = () => {
 
         <Code source={asyncValidateraw}/>
 
-        <h4>SimpleForm.js</h4>
+        <h4>MaterialUiForm.js</h4>
 
         <Code source={raw}/>
 
