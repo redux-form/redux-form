@@ -63,6 +63,12 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 > How to create a multi-page "wizard" form.
 
 ---
+
+### [Adapter](adapter)
+
+> How to use the built-in "adapter" API.
+
+---
 ### [Material-UI Examples](material-ui)
 
 > Contains multiple Material-UI examples
