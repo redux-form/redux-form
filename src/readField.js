@@ -6,6 +6,7 @@ import createOnFocus from './events/createOnFocus';
 import silencePromise from './silencePromise';
 import read from './read';
 import updateField from './updateField';
+import isNil from './isNil';
 
 function getSuffix(input, closeIndex) {
   let suffix = input.substring(closeIndex + 1);
@@ -118,7 +119,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     const onChange = createOnChange(name, change, isReactNative);
     const initialFormValue = read(`${name}.initial`, form);
     let initialValue = initialFormValue || read(name, initialValues);
-    initialValue = initialValue === undefined ? '' : initialValue;
+    initialValue = isNil(initialValue) ? '' : initialValue;
     field.name = name;
     field.checked = initialValue === true || undefined;
     field.value = initialValue;

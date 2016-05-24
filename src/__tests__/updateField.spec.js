@@ -119,6 +119,6 @@ describe('updateField', () => {
 
   it('should change initial and default values when initial changes', () => {
     expect(updateField({ initialValue: 1 }, { initial: 2 }, false, undefined).initialValue).toBe(2);
-    expect(updateField({ initialValue: 1 }, { initial: undefined }, false, undefined).initialValue).toBe(undefined);
+    expect(updateField({ initialValue: 1 }, { initial: undefined }, false, undefined).initialValue).toBe('');
   });
 });
