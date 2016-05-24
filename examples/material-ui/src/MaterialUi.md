@@ -13,12 +13,14 @@ Read more [here](../../../docs/api/Field.md#usage).
 The delay between when you click "Submit" and when the alert dialog pops up is intentional,
 to simulate server latency.
 
-### Field Adapter
+### Field Renderers
 
-In this example, we are importing the 
-[`redux-form-material-ui`](https://github.com/erikras/redux-form-material-ui) adapter library, 
-which knows how to map the strings passed to `component` to the input components from the 
-Material UI library.
+Notice that we define simple functions, like `renderTextField`, `renderCheckbox`, and 
+`renderSelectField` to form a bridge between `redux-form` and the Material UI input components. 
+You would only need to define these in one place in your application and reuse them in each form.
+
+In fact, we recommend using an adapter. For Material UI, an adapter has already been made for 
+you: [`redux-form-material-ui`](https://github.com/erikras/redux-form-material-ui).
 
 ### How to use async validation in form:
 
