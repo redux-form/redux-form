@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - `reduxForm()`</title>
+    <link href="http://redux-form.com/6.0.0-alpha.14/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="content">
+    <div class="app___3P8ep hasNav___1KF_W" data-reactroot="" data-reactid="1" data-react-checksum="-707306907"><div class="nav___11xa5" data-reactid="2"><button type="button" data-reactid="3"></button><div class="overlay___1GMox" data-reactid="4"><i class="fa fa-times" data-reactid="5"></i><!-- react-text: 6 --> Close<!-- /react-text --></div><div class="placeholder___TzF1K" data-reactid="7"></div><nav class="menu___12xDU" data-reactid="8"><a href="http://redux-form.com/6.0.0-alpha.14" class="brand___1qRUu" data-reactid="9">Redux Form</a><a href="http://redux-form.com/6.0.0-alpha.14/docs/GettingStarted.md" class="" data-reactid="10">Getting Started</a><a href="http://redux-form.com/6.0.0-alpha.14/docs/MigrationGuide.md" class="" data-reactid="11"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api" class="" data-reactid="12">API</a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/ReduxForm.md" class="indent1___4iVnL active___2eU59" data-reactid="13"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/Props.md" class="indent1___4iVnL" data-reactid="14"><code>props</code></a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/Field.md" class="indent1___4iVnL" data-reactid="15"><code>Field</code></a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/FieldArray.md" class="indent1___4iVnL" data-reactid="16"><code>FieldArray</code></a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/FormValueSelector.md" class="indent1___4iVnL" data-reactid="17"><code>formValueSelector()</code></a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/Reducer.md" class="indent1___4iVnL" data-reactid="18"><code>reducer</code></a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/SubmissionError.md" class="indent1___4iVnL" data-reactid="19"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.0-alpha.14/docs/api/ActionCreators.md" class="indent1___4iVnL" data-reactid="20">Action Creators</a><a href="http://redux-form.com/6.0.0-alpha.14/docs/faq" class="" data-reactid="21">FAQ</a><a href="http://redux-form.com/6.0.0-alpha.14/examples" class="" data-reactid="22">Examples</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/simple" class="indent1___4iVnL" data-reactid="23">Simple Form</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/syncValidation" class="indent1___4iVnL" data-reactid="24">Sync Validation</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/submitValidation" class="indent1___4iVnL" data-reactid="25">Submit Validation</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/asyncValidation" class="indent1___4iVnL" data-reactid="26">Async Validation</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/initializeFromState" class="indent1___4iVnL" data-reactid="27">Initializing from State</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/selectingFormValues" class="indent1___4iVnL" data-reactid="28">Selecting Form Values</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/fieldArrays" class="indent1___4iVnL" data-reactid="29">Field Arrays</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/immutable" class="indent1___4iVnL" data-reactid="30">Immutable JS</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/wizard" class="indent1___4iVnL" data-reactid="31">Wizard Form</a><a href="http://redux-form.com/6.0.0-alpha.14/examples/material-ui" class="indent1___4iVnL" data-reactid="32">Material UI</a><a href="http://redux-form.com/6.0.0-alpha.14/docs/DocumentationVersions.md" class="" data-reactid="33">Older Versions</a></nav></div><div class="contentAndFooter___kE2nt" data-reactid="34"><div class="topNav___sBW8S" data-reactid="35"><a href="http://redux-form.com" class="brand___YAZl-" data-reactid="36"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank" data-reactid="37"><i class="fa fa-fw fa-github" data-reactid="38"></i></a></div><div class="content___3TVHp" data-reactid="39"><div data-reactid="40"><ol class="breadcrumbs___1BHo6" data-reactid="41"><li data-reactid="42"><a href="http://redux-form.com/6.0.0-alpha.14/" data-reactid="43">Redux Form</a></li><li data-reactid="44"><a href="http://redux-form.com/6.0.0-alpha.14/docs/api" data-reactid="45">API</a></li><li data-reactid="46"><code>reduxForm()</code></li></ol><div data-reactid="47"><h1 id="-reduxform-config-object-"><code>reduxForm(config:Object)</code></h1>
+<p>Creates a decorator with which you use <code>redux-form</code> to connect your form component to Redux.
+It takes a <code>config</code> parameter which lets you configure your form.</p>
+<h2 id="importing">Importing</h2>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >var</span> reduxForm <span class="token operator" >=</span> <span class="token function" >require</span><span class="token punctuation" >(</span><span class="token string" >'redux-form'</span><span class="token punctuation" >)</span><span class="token punctuation" >.</span>reduxForm<span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES5</span>
+</code></pre>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span> reduxForm <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span><span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES6</span>
+</code></pre>
+
+<h2 id="config-properties">Config Properties</h2>
+<p><strong>IMPORTANT: All of these configuration options may be passed into <code>reduxForm()</code> at &quot;design time&quot;
+or passed in as props to your component at runtime.</strong></p>
+<h3 id="required">Required</h3>
+<h4 id="-form-string-required-"><code>form : String</code> [required]</h4>
+<blockquote>
+<p>the name of your form and the key to where your form&#39;s state will be mounted under the
+<code>redux-form</code> reducer</p>
+</blockquote>
+<h3 id="optional">Optional</h3>
+<h4 id="-adapter-component-string-props-object-reactelement-optional-">-<code>adapter : (component:String, props:Object) =&gt; ReactElement</code> [optional]</h4>
+<blockquote>
+<p>An adapter function that will render a component based on a string component type and the props
+given to a <code>Field</code>. <strong>Remember that all you really need to hook up to your custom component is 
+<code>value</code> and <code>onChange</code>.</strong> An example can be found in the
+<a href="https://github.com/erikras/redux-form-material-ui"><code>redux-form-material-ui</code></a> library.</p>
+</blockquote>
+<p>Defaults to <code>[]</code>.</p>
+<blockquote>
+<p>See <a href="../../examples/asyncValidation">Asynchronous Blur Validation Example</a> for more 
+details.</p>
+</blockquote>
+<h4 id="-asyncblurfields-array-string-optional-">-<code>asyncBlurFields : Array&lt;String&gt;</code> [optional]</h4>
+<blockquote>
+<p>field names for which <code>onBlur</code> should trigger a call to the <code>asyncValidate</code> function.
+Defaults to <code>[]</code>.</p>
+<p>See <a href="../../examples/asyncValidation">Asynchronous Blur Validation Example</a> for more 
+details.</p>
+</blockquote>
+<h4 id="-asyncvalidate-values-object-dispatch-function-props-object-promise-undefined-errors-object-optional-"><code>asyncValidate : (values:Object, dispatch:Function, props:Object) =&gt; Promise&lt;undefined, errors:Object&gt;</code> [optional]</h4>
+<blockquote>
+<p>a function that takes all the form values, the <code>dispatch</code> function, and the <code>props</code> given
+to your component, and 
+returns a Promise that will resolve if the validation is passed, or will reject with an
+object of validation errors
+in the form <code>{ field1: &lt;String&gt;, field2: &lt;String&gt; }</code>.</p>
+<p>See <a href="../../examples/asynchronous-blur-validation">Asynchronous Blur Validation Example</a> for more 
+details.</p>
+</blockquote>
+<h4 id="-destroyonunmount-boolean-optional-"><code>destroyOnUnmount : boolean</code> [optional]</h4>
+<blockquote>
+<p>Whether or not to automatically destroy your form&#39;s state in the Redux store when your
+component is unmounted. Defaults to <code>true</code>.</p>
+</blockquote>
+<h4 id="-getformstate-function-optional-"><code>getFormState : Function</code> [optional]</h4>
+<blockquote>
+<p>A function that takes the entire Redux state and returns the state slice which corresponds to 
+where the <code>redux-form</code> reducer was mounted. This functionality is rarely needed, and defaults to
+assuming that the reducer is mounted under the <code>form</code> key.</p>
+</blockquote>
+<h4 id="-initialvalues-object-string-string-optional-"><code>initialValues : Object&lt;String, String&gt;</code> [optional]</h4>
+<blockquote>
+<p>The values with which to initialize your form in <code>componentWillMount()</code>. Particularly useful when
+<a href="../../examples/multirecord">Editing Multiple Records</a>, but can also be used with single-record 
+forms. The values 
+should be in the form <code>{ field1: &#39;value1&#39;, field2: &#39;value2&#39; }</code>.</p>
+</blockquote>
+<h4 id="-onsubmit-function-optional-"><code>onSubmit : Function</code> [optional]</h4>
+<blockquote>
+<p>The function to call with the form data when the <code>handleSubmit()</code> is fired from within the
+form component. If you do not specify it as a prop here, you must pass it as a parameter to
+<code>handleSubmit()</code> inside your form component.</p>
+<p>If your <code>onSubmit</code> function returns a promise, the <code>submitting</code> property will be set to
+<code>true</code> until the promise has been resolved or rejected. If it is rejected with a
+<code>redux-form</code> <code>SubmissionError</code> containing errors in the form
+<code>{ field1: &#39;error&#39;, field2: &#39;error&#39; }</code> then the submission errors will be added to each field
+(to the <code>error</code> prop) just like async validation errors are. If there is an error that is not
+specific to any field, but applicable to the entire form, you may pass that as if it were the
+error for a field
+called <code>_error</code>, and it will be given as the <code>error</code> prop.</p>
+</blockquote>
+<h4 id="-propnamespace-string-optional-"><code>propNamespace : string</code> [optional]</h4>
+<p><strong>UNIMPLEMENTED SO FAR IN V6</strong></p>
+<blockquote>
+<p>If specified, all the props normally passed into your decorated component directly will be passed
+under the key specified. Useful if using other decorator libraries on the same component to avoid
+prop namespace collisions.</p>
+</blockquote>
+<h4 id="-returnrejectedsubmitpromise-boolean-optional-"><code>returnRejectedSubmitPromise : boolean</code> [optional]</h4>
+<blockquote>
+<p>If set to <code>true</code>, a failed submit will return a rejected promise. Defaults to <code>false</code>. Only use this if you need to
+detect submit failures and run some code when a submit fails.</p>
+</blockquote>
+<h4 id="-shouldasyncvalidate-params-boolean-optional-"><code>shouldAsyncValidate(params) : boolean</code> [optional]</h4>
+<blockquote>
+<p>An optional function you may provide to have full control over when async validation happens.
+Your <code>shouldAsyncValidate()</code> function will be given an object with the following values:</p>
+<h5 id="-asyncerrors-object-optional-"><code>asyncErrors : Object</code> [optional]</h5>
+<p>Any existing asynchronous validation errors</p>
+<h5 id="-initialized-boolean-required-"><code>initialized : boolean</code> [required]</h5>
+<p><code>true</code> if the form has ever been initialized with initial values</p>
+<h5 id="-trigger-string-required-"><code>trigger : String</code> [required]</h5>
+<p>The reason to possibly run async validation. It will either be: <code>&#39;blur&#39;</code> or <code>&#39;submit&#39;</code>, 
+depending on whether an async blur field had triggered the async validation or if submitting the 
+form has triggered it, respecitively.</p>
+<h5 id="-blurredfield-string-optional-"><code>blurredField : string</code> [optional]</h5>
+<p>The name of the field that has triggered the async validation. May be <code>undefined</code>.</p>
+<h5 id="-pristine-boolean-required-"><code>pristine : boolean</code> [required]</h5>
+<p><code>true</code> if the form is pristine, <code>false</code> if it is dirty</p>
+<h5 id="-syncvalidationpasses-boolean-required-"><code>syncValidationPasses : boolean</code> [required]</h5>
+<p><code>true</code> if synchronous validation is passing, <code>false</code> if it is failing.</p>
+<p>The default behavior is:</p>
+<pre class="language-jsx"><code class="language-jsx">
+  <span class="token keyword" >if</span><span class="token punctuation" >(</span><span class="token operator" >!</span>syncValidationPasses<span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+    <span class="token keyword" >return</span> <span class="token boolean" >false</span>
+  <span class="token punctuation" >}</span>
+  <span class="token keyword" >switch</span><span class="token punctuation" >(</span>trigger<span class="token punctuation" >)</span> <span class="token punctuation" >{</span>
+    <span class="token keyword" >case</span> <span class="token string" >'blur'</span><span class="token punctuation" >:</span>
+      <span class="token comment" spellcheck="true">// blurring</span>
+      <span class="token keyword" >return</span> <span class="token boolean" >true</span>
+    <span class="token keyword" >case</span> <span class="token string" >'submit'</span><span class="token punctuation" >:</span>
+      <span class="token comment" spellcheck="true">// submitting, so only async validate if form is dirty or was never initialized</span>
+      <span class="token comment" spellcheck="true">// conversely, DON'T async validate if the form is pristine just as it was initialized</span>
+      <span class="token keyword" >return</span> <span class="token operator" >!</span>pristine <span class="token operator" >||</span> <span class="token operator" >!</span>initialized
+    <span class="token keyword" >default</span><span class="token punctuation" >:</span>
+      <span class="token keyword" >return</span> <span class="token boolean" >false</span>
+  <span class="token punctuation" >}</span>
+</code></pre>
+
+</blockquote>
+<h4 id="-touchonblur-boolean-optional-"><code>touchOnBlur : boolean</code> [optional]</h4>
+<blockquote>
+<p>marks fields as <code>touched</code> when the blur action is fired. Defaults to <code>true</code>.</p>
+</blockquote>
+<h4 id="-touchonchange-boolean-optional-"><code>touchOnChange : boolean</code> [optional]</h4>
+<blockquote>
+<p>marks fields as <code>touched</code> when the change action is fired. Defaults to <code>false</code>.</p>
+</blockquote>
+<h4 id="-validate-values-object-props-object-errors-object-optional-"><code>validate : (values:Object, props:Object) =&gt; errors:Object</code> [optional]</h4>
+<blockquote>
+<p>a synchronous validation function that takes the form values and props passed into your component.
+If validation passes, it should return <code>{}</code>. If validation fails, it should return the validation errors in the
+form <code>{ field1: &lt;String&gt;, field2: &lt;String&gt; }</code>. Defaults to <code>(values, props) =&gt; ({})</code>.</p>
+<p>See <a href="../../examples/syncValidation">Synchronous Validation Example</a> for more details.</p>
+</blockquote>
+</div></div></div><div class="footer___1oh0h" data-reactid="48"><div data-reactid="49">Created by Erik Rasmussen</div><div data-reactid="50"><!-- react-text: 51 -->Got questions? Ask for help:<!-- /react-text --><a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank" data-reactid="52"><i class="fa fa-fw fa-stack-overflow" data-reactid="53"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank" data-reactid="54"><i class="fa fa-fw fa-github" data-reactid="55"></i></a></div><div data-reactid="56"><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="57"><!-- react-text: 58 -->Follow @<!-- /react-text --><!-- react-text: 59 -->erikras<!-- /react-text --></a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="60"><!-- react-text: 61 -->Follow @<!-- /react-text --><!-- react-text: 62 -->ReduxForm<!-- /react-text --></a></div></div></div></div>
+  </div>
+  <script src="http://redux-form.com/6.0.0-alpha.14/bundle.js"></script>
+  <script>initReact({"version":"6.0.0-alpha.14","path":"/docs/api/ReduxForm.md","breadcrumbs":[{"path":"http://redux-form.com/6.0.0-alpha.14/","title":"Redux Form"},{"path":"http://redux-form.com/6.0.0-alpha.14/docs/api","title":"API"},{"path":"http://redux-form.com/6.0.0-alpha.14/docs/api/ReduxForm.md","title":"`reduxForm()`"}]})</script>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>
