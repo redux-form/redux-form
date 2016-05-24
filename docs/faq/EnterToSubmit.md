@@ -5,7 +5,7 @@ that does not have `type="button"` specified. The recommended way to structure y
 
 ```javascript
 render() {
-  const {fields: {firstName, lastName}, handleSubmit} = this.props.fields;
+  const {fields: {firstName, lastName}, handleSubmit} = this.props;
   return (
     <form onSubmit={handleSubmit}>
       <button type="button">Load Data</button>
