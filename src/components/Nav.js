@@ -66,6 +66,7 @@ class Nav extends Component {
           {this.renderItem('/examples/fieldArrays', 'Field Arrays', 1)}
           {this.renderItem('/examples/immutable', 'Immutable JS', 1)}
           {this.renderItem('/examples/wizard', 'Wizard Form', 1)}
+          {this.renderItem('/examples/adapter', 'Adapter', 1)}
           {this.renderItem('/examples/material-ui', 'Material UI', 1)}
           {this.renderItem('/docs/DocumentationVersions.md', 'Older Versions')}
         </nav>
