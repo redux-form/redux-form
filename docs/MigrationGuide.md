@@ -30,88 +30,87 @@ component.
 
 #### `v5`
 
-To illustrate how minimal a breaking change this is, I have marked each line that does *NOT* 
-change between `v5` and `v6` with an arrow.
-
 ```js
-import React, { Component } from 'react'                    // <--
+import React, { Component } from 'react'
 import { reduxForm } from 'redux-form'
 
-class MyForm extends Component {                            // <--
-  render() {                                                // <--
+class MyForm extends Component {
+  render() {
   
     const { fields: { username, password }, handleSubmit } = this.props
     
-    return (                                                // <--
-      <form onSubmit={handleSubmit}>                        // <--
+    return (
+      <form onSubmit={handleSubmit}>
       
-        <div>                                               // <--
-          <label>Username</label>                           // <--
-          <input type="text" {...username}/>                // <--
-          {username.touched &&                              // <--
-           username.error &&                                // <--
-           <span className="error">{username.error}</span>} // <--
-        </div>                                              // <--
+        <div>
+          <label>Username</label>
+          <div>
+            <input type="text" {...username}/>
+            {username.touched &&
+             username.error &&
+             <span className="error">{username.error}</span>}
+          </div>
+        </div>
         
-        <div>                                               // <--
-          <label>Password</label>                           // <--
-          <input type="password" {...password}/>            // <--
-          {password.touched &&                              // <--
-           password.error &&                                // <--
-           <span className="error">{password.error}</span>} // <--
-        </div>                                              // <--
+        <div>
+          <label>Password</label>
+          <div>
+            <input type="password" {...password}/>  // Duplicating same code as above
+            {password.touched &&                    // except for "type" prop
+             password.error &&
+             <span className="error">{password.error}</span>}
+          </div>
+        </div>
         
-        <button type="submit">Submit</button>               // <--
-      </form>                                               // <--
+        <button type="submit">Submit</button>
+      </form>
     )
   }
 }
 
-export default reduxForm({                                  // <--
-  form: 'myForm',                                           // <--
+export default reduxForm({
+  form: 'myForm',
   fields: [ 'username', 'password' ]
-})(MyForm)                                                  // <--
+})(MyForm)
 ```
 
 #### `v6`
-
-The lines with comments are **the only ones** that are different.
 
 ```js
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form' // imported Field
 
+const renderInput = props => // Define stateless component to render input and errors
+  <div>
+    <input {...props}/>      // No type specified. That is specified below in <Field>
+    {props.touched &&
+     props.error &&
+     <span className="error">{props.error}</span>}
+  </div>
+            
 class MyForm extends Component {
   render() {
   
-    const { handleSubmit } = this.props       // no fields prop
+    const { handleSubmit } = this.props       // No fields prop
     
     return (
       <form onSubmit={handleSubmit}>
       
-        <Field                                // wrap in Field
-          name="username"                     // specify field name
-          component={username =>              // specify how to render, given props
-            <div>
-              <label>Username</label>
-              <input type="text" {...username}/>
-              {username.touched &&
-               username.error &&
-               <span className="error">{username.error}</span>}
-            </div>
-          }/>                                 // close Field
-          
-        <Field                                // wrap in Field
-          name="password"                     // specify field name
-          component={password =>              // specify how to render, given props
-            <div>
-              <label>Password</label>
-              <input type="password" {...password}/>
-              {password.touched &&
-               password.error &&
-               <span className="error">{password.error}</span>}
-            </div>
-          }/>                                 // close Field
+        <div>
+          <label>Username</label>
+          <Field
+            name="username"                   // Specify field name
+            component={renderInput}           // Specify render component above
+            type="text"/>                     // "type" prop will get forwarded to <input>
+        </div>
+        
+        <div>
+          <label>Username</label>
+          <Field
+            name="username"                   // Specify field name
+            component={renderInput}           // Reuse same render component
+            type="password"/>                 // type prop will get forwarded to <input>
+        </div>
         
         <button type="submit">Submit</button>
       </form>

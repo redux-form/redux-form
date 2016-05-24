@@ -22,7 +22,7 @@
     "redux": "^3.3.1",
     "redux-form": "file:../../",
     "redux-form-material-ui": "^1.0.0",
-    "redux-form-website-template": "0.0.29"
+    "redux-form-website-template": "0.0.30"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",

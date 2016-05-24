@@ -16,6 +16,6 @@ The parameters passed to your validation function will be:
 
 ## Example
 
-See [Syncronous Validation Example](http://redux-form.com/6.0.0-alpha.13/examples/syncValidation) 
+See [Syncronous Validation Example](http://redux-form.com/6.0.0-alpha.14/examples/syncValidation) 
 example for more information.
 
