@@ -1,6 +1,6 @@
 # `props`
 
-> The `props` listed on this page are are the `props` that `redux-form` generates to give
+> The `props` listed on this page are the `props` that `redux-form` generates to give
 to your decorated form component. The `props` that _you pass into your wrapped component_ are listed
 [here](#/api/reduxForm).
 
