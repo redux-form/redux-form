@@ -1,0 +1,23 @@
+@mixin no-link {
+  text-decoration: none;
+  color: black;
+}
+
+.reminder {
+  float: right;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px;
+  background-image: linear-gradient(#eee, #ddd);
+  border: 1px solid #ddd;
+  @include no-link;
+  &:focus,
+  &:hover {
+    @include no-link;
+  }
+  code {
+    background: transparent;
+  }
+}
