@@ -61,10 +61,6 @@ form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the
 your form fields. **IMPORTANT:** The fields array passed must be the same as the one given as a [config parameter to
 `reduxForm()`](#/api/reduxForm).
 
-### `registerField(form:String, name:String, type:String)`
-
-> Registers a field with the given name and field type ('Field' or 'FieldArray') with the store.
-
 ### `reset(form:String)`
 
 > Resets the values in the form back to the values past in with the most recent `initialize` action.
@@ -92,7 +88,3 @@ your form fields. **IMPORTANT:** The fields array passed must be the same as the
 ### `untouch(form:String, ...fields:String)`
 
 > Resets the 'touched' flag for all the fields passed in.
-
-### `unregisterField(form:String, name:String)`
-
-> Unregisters a field with the given name and field type ('Field' or 'FieldArray') with the store.
