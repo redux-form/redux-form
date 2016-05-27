@@ -309,6 +309,7 @@ const createReduxForm =
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
             const error = getIn(formState, 'error')
+            const registeredFields = getIn(formState, 'registeredFields')
             return {
               anyTouched,
               asyncErrors,
@@ -318,12 +319,12 @@ const createReduxForm =
               initialized: !!stateInitial,
               invalid: !valid,
               pristine,
+              registeredFields,
               submitting,
               submitFailed,
               syncErrors,
               values,
-              valid,
-              registeredFields: getIn(formState, 'registeredFields')
+              valid
             }
           },
           (dispatch, initialProps) => {

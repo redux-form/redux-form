@@ -125,13 +125,15 @@ const createReducer = structure => {
       return result
     },
     [RESET](state) {
-      const values = getIn(state, 'initial')
       let result = empty
+      const registeredFields = getIn(state, 'registeredFields')
+      if (registeredFields) {
+        result = setIn(empty, 'registeredFields', registeredFields)
+      }
+      const values = getIn(state, 'initial')
       if (values) {
         result = setIn(result, 'values', values)
         result = setIn(result, 'initial', values)
-      } else {
-        result = deleteInWithCleanUp(result, 'values')
       }
       return result
     },

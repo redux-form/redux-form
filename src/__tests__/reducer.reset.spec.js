@@ -84,7 +84,6 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
       })
   })
 
-
   it('should erase values if reset called with no initial values', () => {
     const state = reducer(fromJS({
       foo: {
@@ -101,6 +100,34 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
     expect(state)
       .toEqualMap({
         foo: {}
+      })
+  })
+
+  it('should not destroy registered fields', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [
+          { name: 'username', type: 'Field' },
+          { name: 'password', type: 'Field' }
+        ],
+        values: {
+          myField: 'bar'
+        },
+        fields: {
+          myField: {
+            touched: true
+          }
+        }
+      }
+    }), reset('foo'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'username', type: 'Field' },
+            { name: 'password', type: 'Field' }
+          ]
+        }
       })
   })
 }
