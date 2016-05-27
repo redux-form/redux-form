@@ -37,6 +37,7 @@
 * [5.2.1](http://redux-form.com/5.2.1/)
 * [5.2.3](http://redux-form.com/5.2.3/)
 * [5.2.4](http://redux-form.com/5.2.4/)
+* [5.2.5](http://redux-form.com/5.2.5/)
 
 ---
 
