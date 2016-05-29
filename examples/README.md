@@ -74,3 +74,8 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 > Contains multiple Material-UI examples
 
 ---
+
+### [React-Widegets Examples](react-widgets)
+
+> How to use `react-widgets` components with `redux-form` 
+---
