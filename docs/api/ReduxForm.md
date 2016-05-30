@@ -26,15 +26,6 @@ or passed in as props to your component at runtime.**
 
 ### Optional
 
-#### -`adapter : (component:String, props:Object) => ReactElement` [optional]
-
-> An adapter function that will render a component based on a string component type and the props
-given to a `Field`. **Remember that all you really need to hook up to your custom component is 
-`value` and `onChange`.** An example can be found in the
-[`redux-form-material-ui`](https://github.com/erikras/redux-form-material-ui) library.
-
-Defaults to `[]`.
-
 > See [Asynchronous Blur Validation Example](../../examples/asyncValidation) for more 
 details.
 

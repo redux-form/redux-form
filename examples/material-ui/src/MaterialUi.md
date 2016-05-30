@@ -19,8 +19,8 @@ Notice that we define simple functions, like `renderTextField`, `renderCheckbox`
 `renderSelectField` to form a bridge between `redux-form` and the Material UI input components. 
 You would only need to define these in one place in your application and reuse them in each form.
 
-In fact, we recommend using an adapter. For Material UI, an adapter has already been made for 
-you: [`redux-form-material-ui`](https://github.com/erikras/redux-form-material-ui).
+For Material UI, `@erikras` has published a set of wrapper components to use Material UI:
+[`redux-form-material-ui`](https://github.com/erikras/redux-form-material-ui).
 
 ### How to use async validation in form:
 
