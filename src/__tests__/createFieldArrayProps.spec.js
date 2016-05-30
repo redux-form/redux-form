@@ -15,6 +15,10 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(createFieldArrayProps(...defaultProps, { otherProp: 'hello' }).otherProp).toBe('hello')
     })
 
+    it('should pass props through using props prop', () => {
+      expect(createFieldArrayProps(...defaultProps, { props: { otherProp: 'hello' } }).otherProp).toBe('hello')
+    })
+
     it('should pass dirty/pristine through', () => {
       expect(createFieldArrayProps(...defaultProps, {
         dirty: false,
@@ -114,7 +118,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(1, 'c')
     })
-    
+
     it('should provide remove', () => {
       const arrayRemove = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
@@ -128,7 +132,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(2)
     })
-    
+
     it('should provide unshift', () => {
       const arrayUnshift = createSpy()
       const result = createFieldArrayProps(...defaultProps, {

@@ -200,6 +200,21 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(result.className).toBe('my-class')
     })
 
+    it('should pass through other props using props prop', () => {
+      const result = createFieldProps(getIn, 'foo', {
+        value: 'bar',
+        state: empty,
+        props: {
+          someOtherProp: 'dog',
+          className: 'my-class'
+        }
+      })
+      expect(result.initial).toNotExist()
+      expect(result.state).toNotExist()
+      expect(result.someOtherProp).toBe('dog')
+      expect(result.className).toBe('my-class')
+    })
+
     it('should set checked for checkboxes', () => {
       expect(createFieldProps(getIn, 'foo', {
         state: empty,
