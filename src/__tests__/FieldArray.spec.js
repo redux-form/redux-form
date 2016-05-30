@@ -114,14 +114,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const renderArray = createSpy(() => <div/>).andCallThrough()
       class Form extends Component {
         render() {
-          return <div>
-            <FieldArray
-              name="foo"
-              component={renderArray}
-              otherProp="dog"
-              anotherProp="cat"
-            />
-          </div>
+          return (
+            <div>
+              <FieldArray
+                name="foo"
+                component={renderArray}
+                otherProp="dog"
+                anotherProp="cat"
+              />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
