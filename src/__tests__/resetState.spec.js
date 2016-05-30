@@ -27,15 +27,18 @@ describe('resetState', () => {
       .toEqual({
         foo: {
           initial: 'dog',
-          value: 'dog'
+          value: 'dog',
+          _isFieldValue: true
         },
         bar: {
           initial: 'rat',
-          value: 'rat'
+          value: 'rat',
+          _isFieldValue: true
         },
         baz: {
           initial: 'hog',
-          value: 'hog'
+          value: 'hog',
+          _isFieldValue: true
         }
       });
     expect(isFieldValue(result.foo)).toBe(true);
@@ -67,15 +70,19 @@ describe('resetState', () => {
         foo: {
           bar: {
             initial: 'dog',
-            value: 'dog'
+            value: 'dog',
+            _isFieldValue: true
           }
         },
         baz: {
           chad: {
             initial: 'fun',
-            value: 'fun'
+            value: 'fun',
+            _isFieldValue: true
           },
-          chaz: {}
+          chaz: {
+            _isFieldValue: true
+          }
         }
       });
     expect(isFieldValue(result.foo.bar)).toBe(true);
@@ -105,13 +112,17 @@ describe('resetState', () => {
         foo: [
           {
             initial: 'cat',
-            value: 'cat'
+            value: 'cat',
+            _isFieldValue: true
           },
           {
             initial: 'rat',
-            value: 'rat'
+            value: 'rat',
+            _isFieldValue: true
           },
-          {}
+          {
+            _isFieldValue: true
+          }
         ]
       });
     expect(isFieldValue(result.foo[0])).toBe(true);
@@ -143,13 +154,15 @@ describe('resetState', () => {
           {
             value: {
               initial: 'cat',
-              value: 'cat'
+              value: 'cat',
+              _isFieldValue: true
             }
           },
           {
             value: {
               initial: 'pig',
-              value: 'pig'
+              value: 'pig',
+              _isFieldValue: true
             }
           }
         ]

@@ -20,10 +20,12 @@ describe('setErrors', () => {
     }, '__err'))
       .toEqual({
         foo: {
-          __err: 'fooError'
+          __err: 'fooError',
+          _isFieldValue: true
         },
         bar: {
-          __err: 'barError'
+          __err: 'barError',
+          _isFieldValue: true
         }
       });
   });
@@ -34,8 +36,9 @@ describe('setErrors', () => {
     }, '__err'))
       .toEqual({
         foo: {
-          __err: 'fooError'
-        },
+          __err: 'fooError',
+          _isFieldValue: true
+        }
       });
   });
 
@@ -56,10 +59,12 @@ describe('setErrors', () => {
       .toEqual({
         dog: {
           foo: {
-            __err: 'fooError'
+            __err: 'fooError',
+            _isFieldValue: true
           },
           bar: {
-            __err: 'barError'
+            __err: 'barError',
+            _isFieldValue: true
           }
         }
       });
@@ -75,10 +80,12 @@ describe('setErrors', () => {
       .toEqual({
         dog: [
           {
-            __err: 'fooError'
+            __err: 'fooError',
+            _isFieldValue: true
           },
           {
-            __err: 'barError'
+            __err: 'barError',
+            _isFieldValue: true
           }
         ]
       });
@@ -99,10 +106,12 @@ describe('setErrors', () => {
       .toEqual({
         foo: {
           value: 'bar',
+          _isFieldValue: true,
           __err: 'fooError'
         },
         cat: {
           value: 'rat',
+          _isFieldValue: true,
           __err: 'meow'
         }
       });
@@ -121,10 +130,12 @@ describe('setErrors', () => {
     }, {}, '__err'))
       .toEqual({
         foo: {
-          value: 'bar'
+          value: 'bar',
+          _isFieldValue: true
         },
         cat: {
-          value: 'rat'
+          value: 'rat',
+          _isFieldValue: true
         }
       });
   });
@@ -140,6 +151,7 @@ describe('setErrors', () => {
       .toEqual({
         foo: {
           value: 'bar',
+          _isFieldValue: true,
           __err: 'fooError1'
         }
       });
@@ -161,6 +173,7 @@ describe('setErrors', () => {
         dog: {
           foo: {
             value: 'bar',
+            _isFieldValue: true,
             __err: 'fooError'
           }
         }
@@ -179,7 +192,8 @@ describe('setErrors', () => {
       .toEqual({
         dog: {
           foo: {
-            value: 'bar'
+            value: 'bar',
+            _isFieldValue: true
           }
         }
       });
@@ -199,6 +213,7 @@ describe('setErrors', () => {
       .toEqual({
         foo: {
           value: 'bar',
+          _isFieldValue: true,
           __err: {
             some: 'complex',
             error: 'value'
@@ -223,6 +238,7 @@ describe('setErrors', () => {
         dog: {
           foo: {
             value: 'bar',
+            _isFieldValue: true,
             __err: 'fooError1'
           }
         }
@@ -246,10 +262,12 @@ describe('setErrors', () => {
         foo: [
           {
             value: 'bar',
+            _isFieldValue: true,
             __err: 'fooError'
           },
           {
-            __err: 'additionalErrorForUndefinedField'
+            __err: 'additionalErrorForUndefinedField',
+            _isFieldValue: true
           }
         ]
       });
@@ -269,7 +287,8 @@ describe('setErrors', () => {
       .toEqual({
         foo: [
           {
-            value: 'bar'
+            value: 'bar',
+            _isFieldValue: true
           }
         ]
       });
@@ -284,7 +303,8 @@ describe('setErrors', () => {
       .toEqual({
         foo: [
           {
-            value: 'bar'
+            value: 'bar',
+            _isFieldValue: true
           }
         ]
       });

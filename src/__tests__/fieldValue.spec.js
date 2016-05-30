@@ -19,7 +19,10 @@ describe('fieldValue', () => {
       const someObject = {b: 1};
       expect(someObject).toEqual({b: 1});
       makeFieldValue(someObject);
-      expect(someObject).toEqual({b: 1});
+      expect(someObject).toEqual({
+        b: 1,
+        _isFieldValue: true
+      });
     });
 
     it('should set the field value flag', () => {
