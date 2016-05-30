@@ -12,18 +12,18 @@ const renderField = props => (
   </div>
 )
 
-const renderMembers = members => (
+const renderMembers = ({ fields }) => (
   <ul>
     <li>
-      <button type="button" onClick={() => members.push({})}>Add Member</button>
+      <button type="button" onClick={() => fields.push({})}>Add Member</button>
     </li>
-    {members.map((member, memberIndex) =>
-      <li key={memberIndex}>
+    {fields.map((member, index) =>
+      <li key={index}>
         <button
           type="button"
           title="Remove Member"
-          onClick={() => members.remove(memberIndex)}/>
-        <h4>Member #{memberIndex + 1}</h4>
+          onClick={() => fields.remove(index)}/>
+        <h4>Member #{index + 1}</h4>
         <Field
           name={`${member}.firstName`}
           type="text"
@@ -40,25 +40,25 @@ const renderMembers = members => (
   </ul>
 )
 
-const renderHobbies = hobbies => (
+const renderHobbies = ({ fields }) => (
   <ul>
     <li>
-      <button type="button" onClick={() => hobbies.push()}>Add Hobby</button>
+      <button type="button" onClick={() => fields.push()}>Add Hobby</button>
     </li>
-    {hobbies.map((hobby, hobbyIndex) =>
-      <li key={hobbyIndex}>
+    {fields.map((hobby, index) =>
+      <li key={index}>
         <button
           type="button"
           title="Remove Hobby"
-          onClick={() => hobbies.remove(hobbyIndex)}/>
+          onClick={() => fields.remove(index)}/>
         <Field
           name={hobby}
           type="text"
           component={renderField}
-          placeholder={`Hobby #${hobbyIndex + 1}`}/>
+          placeholder={`Hobby #${index + 1}`}/>
       </li>
     )}
-    {hobbies.error && <li className="error">{hobbies.error}</li>}
+    {fields.error && <li className="error">{fields.error}</li>}
   </ul>
 )
 

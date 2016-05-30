@@ -19,58 +19,58 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(createFieldArrayProps(...defaultProps, {
         dirty: false,
         pristine: true
-      }).dirty).toBe(false)
+      }).fields.dirty).toBe(false)
       expect(createFieldArrayProps(...defaultProps, {
         dirty: false,
         pristine: true
-      }).pristine).toBe(true)
+      }).fields.pristine).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         dirty: true,
         pristine: false
-      }).dirty).toBe(true)
+      }).fields.dirty).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         dirty: true,
         pristine: false
-      }).pristine).toBe(false)
+      }).fields.pristine).toBe(false)
     })
 
     it('should provide length', () => {
       expect(createFieldArrayProps(...defaultProps, {
         value: fromJS([])
-      }).length).toBe(0)
+      }).fields.length).toBe(0)
       expect(createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a' ])
-      }).length).toBe(1)
+      }).fields.length).toBe(1)
       expect(createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b' ])
-      }).length).toBe(2)
+      }).fields.length).toBe(2)
       expect(createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b', 'c' ])
-      }).length).toBe(3)
+      }).fields.length).toBe(3)
     })
 
     it('should provide errors', () => {
-      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').error).toBe('Sync Error')
-      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').valid).toBe(false)
-      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').invalid).toBe(true)
+      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').fields.error).toBe('Sync Error')
+      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').fields.valid).toBe(false)
+      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').fields.invalid).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
-      }).error).toBe('Async Error')
+      }).fields.error).toBe('Async Error')
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
-      }).valid).toBe(false)
+      }).fields.valid).toBe(false)
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
-      }).invalid).toBe(true)
+      }).fields.invalid).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         submitError: 'Submit Error'
-      }).error).toBe('Submit Error')
+      }).fields.error).toBe('Submit Error')
       expect(createFieldArrayProps(...defaultProps, {
         submitError: 'Submit Error'
-      }).valid).toBe(false)
+      }).fields.valid).toBe(false)
       expect(createFieldArrayProps(...defaultProps, {
         submitError: 'Submit Error'
-      }).invalid).toBe(true)
+      }).fields.invalid).toBe(true)
     })
 
     it('should provide push', () => {
@@ -79,9 +79,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: fromJS([ 'a', 'b' ]),
         arrayPush
       })
-      expect(result.push).toBeA('function')
+      expect(result.fields.push).toBeA('function')
       expect(arrayPush).toNotHaveBeenCalled()
-      expect(result.push('c')).toNotExist()
+      expect(result.fields.push('c')).toNotExist()
       expect(arrayPush)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith('c')
@@ -93,9 +93,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: fromJS([ 'a', 'b', 'c' ]),
         arrayPop
       })
-      expect(result.pop).toBeA('function')
+      expect(result.fields.pop).toBeA('function')
       expect(arrayPop).toNotHaveBeenCalled()
-      expect(result.pop()).toBe('c')
+      expect(result.fields.pop()).toBe('c')
       expect(arrayPop)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith()
@@ -107,9 +107,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: fromJS([ 'a', 'b' ]),
         arrayInsert
       })
-      expect(result.insert).toBeA('function')
+      expect(result.fields.insert).toBeA('function')
       expect(arrayInsert).toNotHaveBeenCalled()
-      expect(result.insert(1, 'c')).toNotExist()
+      expect(result.fields.insert(1, 'c')).toNotExist()
       expect(arrayInsert)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(1, 'c')
@@ -121,9 +121,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: fromJS([ 'a', 'b' ]),
         arrayRemove
       })
-      expect(result.remove).toBeA('function')
+      expect(result.fields.remove).toBeA('function')
       expect(arrayRemove).toNotHaveBeenCalled()
-      expect(result.remove(2)).toNotExist()
+      expect(result.fields.remove(2)).toNotExist()
       expect(arrayRemove)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(2)
@@ -135,9 +135,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: fromJS([ 'a', 'b' ]),
         arrayUnshift
       })
-      expect(result.unshift).toBeA('function')
+      expect(result.fields.unshift).toBeA('function')
       expect(arrayUnshift).toNotHaveBeenCalled()
-      expect(result.unshift('c')).toNotExist()
+      expect(result.fields.unshift('c')).toNotExist()
       expect(arrayUnshift)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith('c')
@@ -149,9 +149,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: fromJS([ 'a', 'b', 'c' ]),
         arrayShift
       })
-      expect(result.shift).toBeA('function')
+      expect(result.fields.shift).toBeA('function')
       expect(arrayShift).toNotHaveBeenCalled()
-      expect(result.shift()).toBe('a')
+      expect(result.fields.shift()).toBe('a')
       expect(arrayShift)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith()
@@ -162,9 +162,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b', 'c' ])
       })
-      expect(result.forEach).toBeA('function')
+      expect(result.fields.forEach).toBeA('function')
       expect(callback).toNotHaveBeenCalled()
-      result.forEach(callback)
+      result.fields.forEach(callback)
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(3)
       expect(callback.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0 ])
@@ -177,9 +177,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b', 'c' ])
       })
-      expect(result.map).toBeA('function')
+      expect(result.fields.map).toBeA('function')
       expect(callback).toNotHaveBeenCalled()
-      const mapResult = result.map(callback)
+      const mapResult = result.fields.map(callback)
       expect(size(mapResult), 3)
       expect(getIn(mapResult, 0)).toEqual({ whatever: true, name: 'foo[0]' })
       expect(getIn(mapResult, 1)).toEqual({ whatever: true, name: 'foo[1]' })
@@ -197,9 +197,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         arraySwap,
         value: fromJS([ 'a', 'b', 'c' ])
       })
-      expect(result.swap).toBeA('function')
+      expect(result.fields.swap).toBeA('function')
       expect(arraySwap).toNotHaveBeenCalled()
-      expect(result.swap(0, 2)).toNotExist()
+      expect(result.fields.swap(0, 2)).toNotExist()
       expect(arraySwap)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(0, 2)

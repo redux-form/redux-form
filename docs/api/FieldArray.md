@@ -52,71 +52,73 @@ The following properties and methods are available on an instance of a `FieldArr
 
 ## Props
 
-These are props that `FieldArray` will pass to your wrapped component.
+These are props that `FieldArray` will pass to your wrapped component. As you can see, they are 
+all under the `fields` key. Any additional props that you pass to `FieldArray` will be passed 
+along, but will _not_ be under the `fields` key.
 
-#### `dirty : boolean`
+#### `fields.dirty : boolean`
 
 > `true` if the any of the fields in the field array have changed from their initialized value. 
 Opposite of `pristine`.
 
-#### `error : String` [optional]
+#### `fields.error : String` [optional]
 
 > The error for this field array if its value is not passing validation. Both synchronous,
 asynchronous, and submit validation errors will be reported here. Array-specific errors should be
 returned from the validation function as an `_error` key on the array.
 
-#### `forEach(callback) : Function`
+#### `fields.forEach(callback) : Function`
 
 > A method to iterate over each value of the array. See the section on [Iteration](#iteration) 
 for more details.
 
-#### `insert(index, value) : Function`
+#### `fields.insert(index, value) : Function`
 
 > A function to insert a new value into the array at any arbitrary index.
 
-#### `invalid : boolean`
+#### `fields.invalid : boolean`
 
 > `true` if the field array value fails validation (has a validation error). Opposite of `valid`.
 
-#### `length : Number`
+#### `fields.length : Number`
 
 > The current length of the array.
 
-#### `map(callback) : Function`
+#### `fields.map(callback) : Function`
 
 > A method to iterate over each value of the array. Returns an array of the results of each call 
 to the callback. See the section on [Iteration](#iteration) for more details.
 
-#### `pop() : Function`
+#### `fields.pop() : Function`
 
 > Removes an item from the end of the array. Returns the item removed.
 
-#### `pristine : boolean`
+#### `fields.pristine : boolean`
 
 > `true` if the all of the fields in the field array are the same as their initialized 
 value. Opposite of `dirty`.
 
-#### `push(value) : Function`
+#### `fields.push(value) : Function`
 
 > Adds a value to the end of the array. Returns nothing.
 
-#### `remove(index) : Function`
+#### `fields.remove(index) : Function`
 
 > Removes an item from the array at an arbitrary index. Returns nothing.
 
-#### `shift() : Function`
+#### `fields.shift() : Function`
 
 > Removes an item from beginning of the array. Returns the item removed..
 
-#### `swap(indexA, indexB) : Function`
+#### `fields.swap(indexA, indexB) : Function`
 
 > Swaps two items in the array at the given indexes. Returns nothing.
 
-#### `unshift(value) : Function`
+#### `fields.unshift(value) : Function`
 
 > Adds an item to the beginning of the array. Returns nothing.
 
-#### `valid : boolean`
+#### `fields.valid : boolean`
 
 > `true` if the field value passes validation (has no validation errors). Opposite of `invalid`.
 
