@@ -109,6 +109,10 @@ const createReducer = structure => {
     [INITIALIZE](state, { payload }) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
+      const registeredFields = getIn(state, 'registeredFields')
+      if (registeredFields) {
+        result = setIn(result, 'registeredFields', registeredFields)
+      }
       result = setIn(result, 'values', mapData)
       result = setIn(result, 'initial', mapData)
       return result
@@ -128,7 +132,7 @@ const createReducer = structure => {
       let result = empty
       const registeredFields = getIn(state, 'registeredFields')
       if (registeredFields) {
-        result = setIn(empty, 'registeredFields', registeredFields)
+        result = setIn(result, 'registeredFields', registeredFields)
       }
       const values = getIn(state, 'initial')
       if (values) {

@@ -354,6 +354,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
             initial: initialValues,
             values: initialValues
           }

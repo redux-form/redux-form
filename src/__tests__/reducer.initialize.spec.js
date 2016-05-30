@@ -136,6 +136,42 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+
+  it('should set initialize values, and not remove registered fields', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [
+          { name: 'username', type: 'Field' },
+          { name: 'password', type: 'Field' }
+        ],
+        values: {
+          username: 'dirtyValue'
+        },
+        fields: {
+          username: {
+            touched: true
+          }
+        }
+      }
+    }), initialize('foo', { username: 'cleanValue', password: 'cleanPassword' }))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'username', type: 'Field' },
+            { name: 'password', type: 'Field' }
+          ],
+          values: {
+            username: 'cleanValue',
+            password: 'cleanPassword'
+          },
+          initial: {
+            username: 'cleanValue',
+            password: 'cleanPassword'
+          }
+        }
+      })
+  })
 }
 
 export default describeInitialize
