@@ -454,59 +454,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
     })
 
-    it('should use adapter to render fields', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            cow: 'calf',
-            horse: 'foal',
-            sheep: 'lamb',
-            donkey: 'foal',
-            chicken: 'chick'
-          }
-        }
-      })
-      const adapter = createSpy(props => <div {...props}/>).andCallThrough()
-      class Form extends Component {
-        render() {
-          return (<div>
-            <Field name="cow" component="Cow" says="moo"/>
-            <Field name="horse" component="Horse" says="neigh"/>
-            <Field name="sheep" component="Sheep" says="baa"/>
-            <Field name="donkey" component="Donkey" says="heehaw"/>
-            <Field name="chicken" component="Chicken" says="cluck"/>
-          </div>)
-        }
-      }
-      const TestForm = reduxForm({
-        form: 'testForm',
-        adapter
-      })(Form)
-      TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-      expect(adapter).toHaveBeenCalled()
-      expect(adapter.calls.length).toBe(5)
-      expect(adapter.calls[ 0 ].arguments[ 0 ]).toBe('Cow')
-      expect(adapter.calls[ 0 ].arguments[ 1 ].says).toBe('moo')
-      expect(adapter.calls[ 0 ].arguments[ 1 ].value).toBe('calf')
-      expect(adapter.calls[ 1 ].arguments[ 0 ]).toBe('Horse')
-      expect(adapter.calls[ 1 ].arguments[ 1 ].says).toBe('neigh')
-      expect(adapter.calls[ 1 ].arguments[ 1 ].value).toBe('foal')
-      expect(adapter.calls[ 2 ].arguments[ 0 ]).toBe('Sheep')
-      expect(adapter.calls[ 2 ].arguments[ 1 ].says).toBe('baa')
-      expect(adapter.calls[ 2 ].arguments[ 1 ].value).toBe('lamb')
-      expect(adapter.calls[ 3 ].arguments[ 0 ]).toBe('Donkey')
-      expect(adapter.calls[ 3 ].arguments[ 1 ].says).toBe('heehaw')
-      expect(adapter.calls[ 3 ].arguments[ 1 ].value).toBe('foal')
-      expect(adapter.calls[ 4 ].arguments[ 0 ]).toBe('Chicken')
-      expect(adapter.calls[ 4 ].arguments[ 1 ].says).toBe('cluck')
-      expect(adapter.calls[ 4 ].arguments[ 1 ].value).toBe('chick')
-
-    })
-
     // ----------------------------------------------
     // Uncomment this to confirm that #1024 is fixed.
     // ----------------------------------------------

@@ -46,7 +46,6 @@ const createConnectedField = ({
 
     render() {
       const { component, defaultValue, withRef, ...rest } = this.props
-      const { _reduxForm: { adapter } } = this.context
       const props = createFieldProps(getIn,
         name,
         rest,
@@ -57,14 +56,7 @@ const createConnectedField = ({
       if (withRef) {
         props.ref = 'renderedComponent'
       }
-      let element
-      if (adapter) {
-        element = adapter(component, props)
-      }
-      if (!element) {
-        element = createElement(component, props)
-      }
-      return element
+      return createElement(component, props)
     }
   }
 
