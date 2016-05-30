@@ -1405,7 +1405,8 @@ describe('reducer', () => {
       .toEqual({
         myField: [
           {
-            value: 'foo',_isFieldValue: true
+            value: 'foo',
+            _isFieldValue: true
           }
         ],
         _active: undefined,
