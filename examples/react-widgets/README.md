@@ -1,4 +1,4 @@
-# Simple Material UI Form Example
+# Simple React Widgets UI Form Example
 
 ## To run locally
 

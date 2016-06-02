@@ -28,6 +28,36 @@ const validate = values => {
   return errors
 }
 
+const renderDropdownList = props => (
+  <div>
+    <DropdownList
+      {...props}
+      onChange={(value) => props.onChange(value)}
+    />
+    {props.touched && props.error && <span>{props.error}</span>}
+  </div>
+)
+const renderMultiselect = props => (
+  <div>
+    <Multiselect
+      {...props}
+      onChange={value => props.onChange(value)}
+      onBlur = {event => props.onBlur()}
+    />
+    {props.touched && props.error && <span>{props.error}</span>}
+  </div>
+)
+const renderSelectList = props => (
+  <div>
+    <SelectList
+      {...props}
+      onChange={(value) => props.onChange(value)} /* Simulating onChange manually*/
+      onBlur = {event => props.onBlur()} /* Simulating onBlur manually*/
+    />
+    {props.touched && props.error && <span>{props.error}</span>}
+  </div>
+)
+
 let ReactWidgetsForm = props => {
   const { handleSubmit, pristine, reset, submitting, load } = props
   return (
@@ -37,52 +67,21 @@ let ReactWidgetsForm = props => {
     </div>
     <div>
       <label>Favorite Color</label>
-      <Field name="favoriteColor"
-        component={ favoriteColor =>
-          <div>
-            <DropdownList
-              {...favoriteColor}
-              data={colors}
-              valueField="value"
-              textField="color"
-              onChange={(value) => favoriteColor.onChange(value)}
-            />
-            {favoriteColor.touched && favoriteColor.error && <span>{favoriteColor.error}</span>}
-          </div>
-          }
-        />
+      <Field
+        name="favoriteColor"
+        component={renderDropdownList}
+        data={colors}
+        valueField="value"
+        textField="color"
+      />
       </div>
       <div>
       <label>Hobbies</label>
-      <Field name="hobbies"
-        component={ hobbies =>
-          <div>
-            <Multiselect
-              {...hobbies}
-              data={[ 'Guitar', 'Cycling', 'Hiking' ]}
-              onChange={ value => hobbies.onChange(value)}
-              onBlur = {event => hobbies.onBlur()}
-            />
-            {hobbies.touched && hobbies.error && <span>{hobbies.error}</span>}
-          </div>
-          }
-        />
+        <Field name="hobbies" component={renderMultiselect} data={[ 'Guitar', 'Cycling', 'Hiking' ]}/>
       </div>
       <div>
         <label>Sex</label>
-        <Field name="sex"
-          component={ sex =>
-            <div>
-              <SelectList
-                {...sex}
-                data={[ 'male', 'female' ]}
-                onChange={(value) => sex.onChange(value)} /* Simulating onChange manually*/
-                onBlur = {event => sex.onBlur()} /* Simulating onBlur manually*/
-              />
-              {sex.touched && sex.error && <span>{sex.error}</span>}
-            </div>
-            }
-          />
+        <Field name="sex" component={renderSelectList} data={[ 'male', 'female' ]}/>
       </div>
       <div>
         <button type="submit" disabled={pristine || submitting}>Submit</button>
