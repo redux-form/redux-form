@@ -4,9 +4,11 @@ import expectedPropTypes from '../propTypes'
 import {
   actionTypes,
   arrayInsert,
+  arrayMove,
   arrayPop,
   arrayPush,
   arrayRemove,
+  arrayRemoveAll,
   arrayShift,
   arraySplice,
   arraySwap,
@@ -41,6 +43,9 @@ describe('index', () => {
   it('should export arrayInsert', () => {
     expect(arrayInsert).toExist().toBeA('function')
   })
+  it('should export arrayMove', () => {
+    expect(arrayMove).toExist().toBeA('function')
+  })
   it('should export arrayPop', () => {
     expect(arrayPop).toExist().toBeA('function')
   })
@@ -49,6 +54,9 @@ describe('index', () => {
   })
   it('should export arrayRemove', () => {
     expect(arrayRemove).toExist().toBeA('function')
+  })
+  it('should export arrayRemoveAll', () => {
+    expect(arrayRemoveAll).toExist().toBeA('function')
   })
   it('should export arrayShift', () => {
     expect(arrayShift).toExist().toBeA('function')

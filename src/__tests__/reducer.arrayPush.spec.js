@@ -13,6 +13,24 @@ const describeArrayPush = (reducer, expect, { fromJS }) => () => {
       })
   })
 
+  it('should work with existing empty array', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: []
+        }
+      }
+    }), arrayPush('foo', 'myField', 'myValue'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            myField: [ 'myValue' ]
+          }
+        }
+      })
+  })
+
   it('should push at end', () => {
     const state = reducer(fromJS({
       foo: {

@@ -5,7 +5,7 @@ describe('structure.plain.splice', () => {
   it('should insert even when initial array is undefined', () => {
     expect(splice(undefined, 2, 0, 'foo'))  // really goes to index 0
       .toBeA('array')
-      .toEqual([ 'foo' ])
+      .toEqual([ , , 'foo' ])  // eslint-disable-line no-sparse-arrays
   })
 
   it('should insert at start', () => {
@@ -24,6 +24,12 @@ describe('structure.plain.splice', () => {
     expect(splice([ 'a', 'b', 'd' ], 2, 0, 'c'))
       .toBeA('array')
       .toEqual([ 'a', 'b', 'c', 'd' ])
+  })
+
+  it('should insert in out of range', () => {
+    expect(splice([ 'a', 'b', 'c' ], 5, 0, 'f'))
+      .toBeA('array')
+      .toEqual([ 'a', 'b', 'c', , , 'f' ])  // eslint-disable-line no-sparse-arrays
   })
 
   it('should return empty array when removing and initial array is undefined', () => {

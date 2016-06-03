@@ -14,8 +14,15 @@ const structure = {
     Iterable.isIndexed(value) ? value.toList() : value.toMap()),
   size: list => list ? list.size : 0,
   some: (iterable, callback) => Iterable.isIterable(iterable) ? iterable.some(callback) : false,
-  splice: (list = List(), index, removeNum, value) =>
-    removeNum ? list.splice(index, removeNum) : list.splice(index, 0, value)
+  splice: (list = List.isList(list) || List(), index, removeNum, value) => {
+    if(removeNum) {
+      return list.splice(index, removeNum)  // removing
+    }
+    if(index < list.size) {
+      return list.splice(index, 0, value)   // inserting
+    }
+    return list.set(index, value)         // inserting after end of list
+  }
 }
 
 export default structure

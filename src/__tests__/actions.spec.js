@@ -1,14 +1,14 @@
 import expect from 'expect'
 import expectPredicate from 'expect-predicate'
 import {
-  ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
-  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REGISTER_FIELD, RESET,
-  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
+  ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
+  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE,
+  REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT,
+  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
 } from '../actionTypes'
 import {
-  arrayInsert, arrayPop, arrayPush, arrayRemove, arrayShift, arraySplice, arraySwap,
-  arrayUnshift, blur, change, destroy, focus, initialize, registerField,
+  arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
+  arraySplice, arraySwap, arrayUnshift, blur, change, destroy, focus, initialize, registerField,
   reset, setSubmitFailed, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
   touch, unregisterField, untouch
 } from '../actions'
@@ -27,6 +27,20 @@ describe('actions', () => {
           index: 0
         },
         payload: 'foo'
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create array move action', () => {
+    expect(arrayMove('myForm', 'myField', 2, 4))
+      .toEqual({
+        type: ARRAY_MOVE,
+        meta: {
+          form: 'myForm',
+          field: 'myField',
+          from: 2,
+          to: 4
+        }
       })
       .toPass(isFSA)
   })
@@ -64,6 +78,18 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           index: 3
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create array removeAll action', () => {
+    expect(arrayRemoveAll('myForm', 'myField'))
+      .toEqual({
+        type: ARRAY_REMOVE_ALL,
+        meta: {
+          form: 'myForm',
+          field: 'myField'
         }
       })
       .toPass(isFSA)

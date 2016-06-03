@@ -72,7 +72,7 @@ returned from the validation function as an `_error` key on the array.
 > A method to iterate over each value of the array. See the section on [Iteration](#iteration) 
 for more details.
 
-#### `fields.insert(index, value) : Function`
+#### `fields.insert(index:Integer, value:Any) : Function`
 
 > A function to insert a new value into the array at any arbitrary index.
 
@@ -89,6 +89,10 @@ for more details.
 > A method to iterate over each value of the array. Returns an array of the results of each call 
 to the callback. See the section on [Iteration](#iteration) for more details.
 
+#### `fields.move(from:Integer, to:Integer) : Function`
+
+> Moves an element from one index in the array to another.
+
 #### `fields.pop() : Function`
 
 > Removes an item from the end of the array. Returns the item removed.
@@ -98,23 +102,27 @@ to the callback. See the section on [Iteration](#iteration) for more details.
 > `true` if the all of the fields in the field array are the same as their initialized 
 value. Opposite of `dirty`.
 
-#### `fields.push(value) : Function`
+#### `fields.push(value:Any) : Function`
 
 > Adds a value to the end of the array. Returns nothing.
 
-#### `fields.remove(index) : Function`
+#### `fields.remove(index:Integer) : Function`
 
 > Removes an item from the array at an arbitrary index. Returns nothing.
+
+#### `fields.removeAll() : Function`
+
+> Removes all the values from the array.
 
 #### `fields.shift() : Function`
 
 > Removes an item from beginning of the array. Returns the item removed..
 
-#### `fields.swap(indexA, indexB) : Function`
+#### `fields.swap(indexA:Integer, indexB:Integer) : Function`
 
 > Swaps two items in the array at the given indexes. Returns nothing.
 
-#### `fields.unshift(value) : Function`
+#### `fields.unshift(value:Any) : Function`
 
 > Adds an item to the beginning of the array. Returns nothing.
 
