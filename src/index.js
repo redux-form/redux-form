@@ -4,9 +4,11 @@ import plain from './structure/plain'
 export const {
   actionTypes,
   arrayInsert,
+  arrayMove,
   arrayPop,
   arrayPush,
   arrayRemove,
+  arrayRemoveAll,
   arrayShift,
   arraySplice,
   arraySwap,

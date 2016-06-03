@@ -1,12 +1,15 @@
 import {
-  ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
-  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REGISTER_FIELD, RESET,
-  SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT, STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
+  ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
+  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE,
+  REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT,
+  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
 } from './actionTypes'
 
 export const arrayInsert = (form, field, index, value) =>
   ({ type: ARRAY_INSERT, meta: { form, field, index }, payload: value })
+
+export const arrayMove = (form, field, from, to) =>
+  ({ type: ARRAY_MOVE, meta: { form, field, from, to } })
 
 export const arrayPop = (form, field) =>
   ({ type: ARRAY_POP, meta: { form, field } })
@@ -16,6 +19,9 @@ export const arrayPush = (form, field, value) =>
 
 export const arrayRemove = (form, field, index) =>
   ({ type: ARRAY_REMOVE, meta: { form, field, index } })
+
+export const arrayRemoveAll = (form, field) =>
+  ({ type: ARRAY_REMOVE_ALL, meta: { form, field } })
 
 export const arrayShift = (form, field) =>
   ({ type: ARRAY_SHIFT, meta: { form, field } })

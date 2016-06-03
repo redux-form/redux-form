@@ -4,9 +4,11 @@ import immutable from './structure/immutable'
 export const {
   actionTypes,
   arrayInsert,
+  arrayMove,
   arrayPop,
   arrayPush,
   arrayRemove,
+  arrayRemoveAll,
   arrayShift,
   arraySplice,
   arraySwap,

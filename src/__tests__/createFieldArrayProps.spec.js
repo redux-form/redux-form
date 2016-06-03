@@ -73,6 +73,20 @@ const describeCreateFieldProps = (name, structure, expect) => {
       }).fields.invalid).toBe(true)
     })
 
+    it('should provide move', () => {
+      const arrayMove = createSpy()
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ]),
+        arrayMove
+      })
+      expect(result.fields.move).toBeA('function')
+      expect(arrayMove).toNotHaveBeenCalled()
+      expect(result.fields.move(0, 2)).toNotExist()
+      expect(arrayMove)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(0, 2)
+    })
+    
     it('should provide push', () => {
       const arrayPush = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
@@ -114,7 +128,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(1, 'c')
     })
-    
+
     it('should provide remove', () => {
       const arrayRemove = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
@@ -128,7 +142,21 @@ const describeCreateFieldProps = (name, structure, expect) => {
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(2)
     })
-    
+
+    it('should provide removeAll', () => {
+      const arrayRemoveAll = createSpy()
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b' ]),
+        arrayRemoveAll
+      })
+      expect(result.fields.removeAll).toBeA('function')
+      expect(arrayRemoveAll).toNotHaveBeenCalled()
+      expect(result.fields.removeAll()).toNotExist()
+      expect(arrayRemoveAll)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith()
+    })
+
     it('should provide unshift', () => {
       const arrayUnshift = createSpy()
       const result = createFieldArrayProps(...defaultProps, {

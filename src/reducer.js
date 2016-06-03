@@ -1,6 +1,6 @@
 import {
-  ARRAY_INSERT, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_SHIFT, ARRAY_SPLICE, ARRAY_SWAP,
-  ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS,
+  ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
+  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS,
   INITIALIZE, REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION,
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
 } from './actionTypes'
@@ -29,6 +29,22 @@ const createReducer = structure => {
     [ARRAY_INSERT](state, { meta: { field, index }, payload }) {
       return arraySplice(state, field, index, 0, payload)
     },
+    [ARRAY_MOVE](state, { meta: { field, from, to } }) {
+      const array = getIn(state, `values.${field}`)
+      const length = array ? size(array) : 0
+      let result = state
+      if (length) {
+        rootKeys.forEach(key => {
+          const path = `${key}.${field}`
+          if (getIn(result, path)) {
+            const value = getIn(result, `${path}[${from}]`)
+            result = setIn(result, path, splice(getIn(result, path), from, 1))      // remove
+            result = setIn(result, path, splice(getIn(result, path), to, 0, value)) // insert
+          }
+        })
+      }
+      return result
+    },
     [ARRAY_POP](state, { meta: { field } }) {
       const array = getIn(state, `values.${field}`)
       const length = array ? size(array) : 0
@@ -41,6 +57,11 @@ const createReducer = structure => {
     },
     [ARRAY_REMOVE](state, { meta: { field, index } }) {
       return arraySplice(state, field, index, 1)
+    },
+    [ARRAY_REMOVE_ALL](state, { meta: { field } }) {
+      const array = getIn(state, `values.${field}`)
+      const length = array ? size(array) : 0
+      return length ? arraySplice(state, field, 0, length) : state
     },
     [ARRAY_SHIFT](state, { meta: { field } }) {
       return arraySplice(state, field, 0, 1)

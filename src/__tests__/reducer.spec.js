@@ -6,9 +6,11 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import describeInitialize from './reducer.initialize.spec'
 import describeArrayInsert from './reducer.arrayInsert.spec'
+import describeArrayMove from './reducer.arrayMove.spec'
 import describeArrayPop from './reducer.arrayPop.spec'
 import describeArrayPush from './reducer.arrayPush.spec'
 import describeArrayRemove from './reducer.arrayRemove.spec'
+import describeArrayRemoveAll from './reducer.arrayRemoveAll.spec'
 import describeArrayShift from './reducer.arrayShift.spec'
 import describeArraySplice from './reducer.arraySplice.spec'
 import describeArraySwap from './reducer.arraySwap.spec'
@@ -31,9 +33,11 @@ import describeUnregisterField from './reducer.unregisterField.spec'
 const tests = {
   initialize: describeInitialize,
   arrayInsert: describeArrayInsert,
+  arrayMove: describeArrayMove,
   arrayPop: describeArrayPop,
   arrayPush: describeArrayPush,
   arrayRemove: describeArrayRemove,
+  arrayRemoveAll: describeArrayRemoveAll,
   arrayShift: describeArrayShift,
   arraySplice: describeArraySplice,
   arraySwap: describeArraySwap,
