@@ -100,9 +100,10 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     let subobject = fields[key] || {};
     const nextPath = pathToHere + key + '.';
     const nextKey = getNextKey(rest);
+    const nextPrefix = prefix + key + '.';
     const previous = subobject[nextKey];
     const result = readField(state[key] || {}, rest, nextPath, subobject, syncErrors, asyncValidate,
-      isReactNative, props, callback, nextPath);
+      isReactNative, props, callback, nextPrefix);
     if (result !== previous) {
       subobject = {
         ...subobject,

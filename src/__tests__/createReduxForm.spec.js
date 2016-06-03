@@ -1573,7 +1573,8 @@ describe('createReduxForm', () => {
         'proposals[].note',
         'proposals[].rooms[].name',
         'proposals[].rooms[].adults',
-        'proposals[].rooms[].children'
+        'proposals[].rooms[].children',
+        'proposals[].meta.items[].name'
       ]
     })(Form);
     const dom = TestUtils.renderIntoDocument(
@@ -1597,13 +1598,22 @@ describe('createReduxForm', () => {
         name: 'Room 1',
         adults: 2,
         children: 0
-      } ]
+      } ],
+      meta: {
+        items: [{
+          name: 'Bilbo'
+        }]
+      }
     });
 
     stub.props.fields.proposals[ 0 ].rooms.addField({
       name: 'Room 2',
       adults: 0,
       children: 2
+    });
+
+    stub.props.fields.proposals[ 0 ].meta.items.addField({
+      name: 'Frodo',
     });
 
     // check field
@@ -1702,6 +1712,30 @@ describe('createReduxForm', () => {
       name: 'proposals[0].rooms[1].children',
       value: 2,
       initial: 2,
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+
+    expectField({
+      field: stub.props.fields.proposals[ 0 ].meta.items[ 0 ].name,
+      name: 'proposals[0].meta.items[0].name',
+      value: 'Bilbo',
+      initial: 'Bilbo',
+      valid: true,
+      dirty: false,
+      error: undefined,
+      touched: false,
+      visited: false
+    });
+
+    expectField({
+      field: stub.props.fields.proposals[ 0 ].meta.items[ 1 ].name,
+      name: 'proposals[0].meta.items[1].name',
+      value: 'Frodo',
+      initial: 'Frodo',
       valid: true,
       dirty: false,
       error: undefined,
