@@ -236,4 +236,23 @@ describe('getValuesFromState', () => {
         }
       });
   });
+
+  it('should retrieve values from recreated state', () => {
+    const initialState = {
+      foo: makeFieldValue({
+        value: 'bar'
+      })
+    };
+
+    expect(getValuesFromState(initialState)).toEqual({
+      foo: 'bar'
+    });
+
+    const serializedState = JSON.stringify(initialState);
+    const unSerializedState = JSON.parse(serializedState);
+
+    expect(getValuesFromState(unSerializedState)).toEqual({
+      foo: 'bar'
+    });
+  });
 });

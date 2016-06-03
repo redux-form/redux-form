@@ -1495,12 +1495,14 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.users[ 0 ].name)
       .toEqual({
         initial: 'Bob',
-        value: 'Bob'
+        value: 'Bob',
+        _isFieldValue: true
       });
     expect(store.getState().form.testForm.users[ 0 ].age)
       .toEqual({
         initial: 27,
-        value: 27
+        value: 27,
+        _isFieldValue: true
       });
   });
 
@@ -1828,7 +1830,8 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.children)
       .toEqual({
         initial: [ 3, 4 ],
-        value: [ 3, 4 ]
+        value: [ 3, 4 ],
+        _isFieldValue: true
       });
     // reset form to newly initialized values
     stub.props.resetForm();
@@ -1876,7 +1879,8 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.name)
       .toEqual({
         initial: 'Bob',
-        value: 'Bob'
+        value: 'Bob',
+        _isFieldValue: true
       });
     // set value
     stub.props.fields.name.onChange('Dan');
@@ -1896,7 +1900,8 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.name)
       .toEqual({
         initial: 'Bob',
-        value: 'Dan'
+        value: 'Dan',
+        _isFieldValue: true
       });
 
     // should NOT dispatch INITIALIZE this time
@@ -1922,7 +1927,8 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.name)
       .toEqual({
         initial: 'Bob',
-        value: 'Dan'
+        value: 'Dan',
+        _isFieldValue: true
       });
 
     // manually initialize new values
@@ -1943,7 +1949,8 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.name)
       .toEqual({
         initial: 'Tom',
-        value: 'Tom'
+        value: 'Tom',
+        _isFieldValue: true
       });
   });
 
@@ -1979,7 +1986,8 @@ describe('createReduxForm', () => {
     expect(store.getState().form.testForm.name)
       .toEqual({
         initial: 'Tom',
-        value: 'Tom'
+        value: 'Tom',
+        _isFieldValue: true
       });
     // check value
     expectField({
@@ -2072,7 +2080,8 @@ describe('createReduxForm', () => {
           .toEqual({
             initial: 'Tom',
             value: 'Moe',
-            asyncError: deepError
+            asyncError: deepError,
+            _isFieldValue: true
           });
         // check field
         expectField({
@@ -2129,7 +2138,8 @@ describe('createReduxForm', () => {
             initial: 'Tom',
             value: 'Tom',
             submitError: deepError,
-            touched: true
+            touched: true,
+            _isFieldValue: true
           });
         // check field
         expectField({

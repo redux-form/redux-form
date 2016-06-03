@@ -19,7 +19,9 @@ describe('fieldValue', () => {
       const someObject = {b: 1};
       expect(someObject).toEqual({b: 1});
       makeFieldValue(someObject);
-      expect(someObject).toEqual({b: 1});
+      expect(someObject).toEqual(Object.defineProperties({b: 1}, {
+        _isFieldValue: {value: true, enumerable: false} // hide property
+      }));
     });
 
     it('should set the field value flag', () => {
@@ -27,6 +29,14 @@ describe('fieldValue', () => {
       expect(isFieldValue(someObject)).toBe(false);
       makeFieldValue(someObject);
       expect(isFieldValue(someObject)).toBe(true);
+    });
+
+    it('should be still field value after object recreation', () => {
+      const someObject = makeFieldValue({b: 1});
+      expect(isFieldValue(someObject)).toBe(true);
+
+      const recreatedObject = JSON.parse(JSON.stringify(someObject));
+      expect(isFieldValue(recreatedObject)).toBe(true);
     });
   });
 
