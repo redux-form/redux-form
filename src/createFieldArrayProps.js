@@ -2,7 +2,7 @@ const createFieldArrayProps = (getIn, size, name,
   {
     arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
     arraySplice, arraySwap, arrayUnshift, asyncError, dirty, pristine, state,
-    submitError, submitFailed, value, ...rest
+    submitError, submitFailed, value, props, ...rest
   }, syncError) => {
   const error = syncError || asyncError || submitError
   const length = size(value)
@@ -32,6 +32,7 @@ const createFieldArrayProps = (getIn, size, name,
       unshift: arrayUnshift,
       valid: !error
     },
+    ...props,
     ...rest
   }
 }

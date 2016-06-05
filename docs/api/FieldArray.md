@@ -1,10 +1,10 @@
 # `FieldArray`
 
-The `FieldArray` component is how you render an array of fields. It works a lot like `Field`. 
-With `Field`, you give a `name`, referring to the location of the field in the Redux state, and a 
+The `FieldArray` component is how you render an array of fields. It works a lot like `Field`.
+With `Field`, you give a `name`, referring to the location of the field in the Redux state, and a
 `component` to render the field, which is given the props to connect the field to the Redux state.
 
-With `FieldArray`, you provide a `name` just like with `Field`, but the `component` you give to 
+With `FieldArray`, you provide a `name` just like with `Field`, but the `component` you give to
 `FieldArray` will be given a set of props to query, update, and iterate through the field array.
 
 ## Importing
@@ -20,7 +20,7 @@ import { FieldArray } from 'redux-form';  // ES6
 
 #### `name : String` [required]
 
-A string path, in dot-and-bracket notation, corresponding to a value in the form values. It may 
+A string path, in dot-and-bracket notation, corresponding to a value in the form values. It may
 be as simple as `'firstName'` or as complicated as
 `contact.billing.address[2].phones[1].areaCode`.
 
@@ -32,6 +32,11 @@ A `Component` or stateless function to render the field array.
 
 If `true`, the rendered component will be available with the `getRenderedComponent()` method.
 Defaults to `false`. **Cannot be used if your component is a stateless function component.**
+
+#### `props : object` [optional]
+
+Object with custom props to pass through the `FieldArray` component into a component provided
+to `component` prop. This props will be merged to props provided by `FieldArray` itself.
 
 ## Instance API
 
@@ -47,18 +52,18 @@ The following properties and methods are available on an instance of a `FieldArr
 
 #### `getRenderedComponent()`
 
-> Returns the instance of the rendered component. For this to work, you must provide a 
+> Returns the instance of the rendered component. For this to work, you must provide a
 `withRef` prop, and your component must not be a stateless function component.
 
 ## Props
 
-These are props that `FieldArray` will pass to your wrapped component. As you can see, they are 
-all under the `fields` key. Any additional props that you pass to `FieldArray` will be passed 
+These are props that `FieldArray` will pass to your wrapped component. As you can see, they are
+all under the `fields` key. Any additional props that you pass to `FieldArray` will be passed
 along, but will _not_ be under the `fields` key.
 
 #### `fields.dirty : boolean`
 
-> `true` if the any of the fields in the field array have changed from their initialized value. 
+> `true` if the any of the fields in the field array have changed from their initialized value.
 Opposite of `pristine`.
 
 #### `fields.error : String` [optional]
@@ -69,7 +74,7 @@ returned from the validation function as an `_error` key on the array.
 
 #### `fields.forEach(callback) : Function`
 
-> A method to iterate over each value of the array. See the section on [Iteration](#iteration) 
+> A method to iterate over each value of the array. See the section on [Iteration](#iteration)
 for more details.
 
 #### `fields.insert(index:Integer, value:Any) : Function`
@@ -86,7 +91,7 @@ for more details.
 
 #### `fields.map(callback) : Function`
 
-> A method to iterate over each value of the array. Returns an array of the results of each call 
+> A method to iterate over each value of the array. Returns an array of the results of each call
 to the callback. See the section on [Iteration](#iteration) for more details.
 
 #### `fields.move(from:Integer, to:Integer) : Function`
@@ -99,7 +104,7 @@ to the callback. See the section on [Iteration](#iteration) for more details.
 
 #### `fields.pristine : boolean`
 
-> `true` if the all of the fields in the field array are the same as their initialized 
+> `true` if the all of the fields in the field array are the same as their initialized
 value. Opposite of `dirty`.
 
 #### `fields.push(value:Any) : Function`
@@ -132,13 +137,13 @@ value. Opposite of `dirty`.
 
 ## Iteration
 
-When you iterate through a field array with either `forEach()` or `map()`, your callback will be 
+When you iterate through a field array with either `forEach()` or `map()`, your callback will be
 passed two parameters:
 
 #### `name : String`
 
-> The name needed to give to `Field` to render the fields in this array. If the `name` prop you 
-give to `FieldArray` is `'foo.bar'`, and there are three items in the array, your callback will 
+> The name needed to give to `Field` to render the fields in this array. If the `name` prop you
+give to `FieldArray` is `'foo.bar'`, and there are three items in the array, your callback will
 be called three times, with `'foo.bar[0]'`, `'foo.bar[1]'`, and `'foo.bar[2]'`.
 
 #### `index : Number`

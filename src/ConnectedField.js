@@ -62,7 +62,8 @@ const createConnectedField = ({
 
   ConnectedField.propTypes = {
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
-    defaultValue: PropTypes.any
+    defaultValue: PropTypes.any,
+    props: PropTypes.object
   }
 
   ConnectedField.contextTypes = {
