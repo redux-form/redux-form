@@ -670,6 +670,80 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(stub.values).toEqualMap({ bar: 'foo' })
     })
 
+    it('should mark all fields as touched on submit', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const username = createSpy(props => <input {...props} type="text"/>).andCallThrough()
+      const password = createSpy(props => <input {...props} type="password"/>).andCallThrough()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component={username} type="text"/>
+          <Field name="password" component={password} type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => ({ _error: 'Login Failed' })
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'username', type: 'Field' },
+              { name: 'password', type: 'Field' }
+            ]
+          }
+        }
+      })
+
+      expect(username).toHaveBeenCalled()
+      expect(username.calls[ 0 ].arguments[ 0 ].touched).toBe(false)
+
+      expect(password).toHaveBeenCalled()
+      expect(password.calls[ 0 ].arguments[ 0 ].touched).toBe(false)
+
+      expect(stub.submit).toBeA('function')
+      stub.submit()
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'username', type: 'Field' },
+              { name: 'password', type: 'Field' }
+            ],
+            anyTouched: true,
+            fields: {
+              username: {
+                touched: true
+              },
+              password: {
+                touched: true
+              }
+            }
+          }
+        }
+      })
+
+      expect(username.calls.length).toBe(2)
+      expect(username.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
+
+      expect(password.calls.length).toBe(2)
+      expect(password.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
+    })
+
     it('should submit when submit() called and onSubmit provided as config param', () => {
       const store = makeStore({
         testForm: {
