@@ -3,8 +3,10 @@ import SubmissionError from './SubmissionError'
 
 const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
   const { dispatch, startSubmit, stopSubmit, setSubmitFailed, syncErrors,
-    returnRejectedSubmitPromise, values } = props
+    returnRejectedSubmitPromise, touch, values } = props
 
+  touch(...fields) // mark all fields as touched
+  
   if (valid) {
     const doSubmit = () => {
       const result = submit(values, dispatch)
