@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - Examples</title>
+    <link href="http://redux-form.com/6.0.0-alpha.15/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="content">
+    <div class="app___3P8ep hasNav___1KF_W" data-reactroot="" data-reactid="1" data-react-checksum="642652939"><div class="nav___11xa5" data-reactid="2"><button type="button" data-reactid="3"></button><div class="overlay___1GMox" data-reactid="4"><i class="fa fa-times" data-reactid="5"></i><!-- react-text: 6 --> Close<!-- /react-text --></div><div class="placeholder___TzF1K" data-reactid="7"></div><nav class="menu___12xDU" data-reactid="8"><a href="http://redux-form.com/6.0.0-alpha.15" class="brand___1qRUu" data-reactid="9">Redux Form</a><a href="http://redux-form.com/6.0.0-alpha.15/docs/GettingStarted.md" class="" data-reactid="10">Getting Started</a><a href="http://redux-form.com/6.0.0-alpha.15/docs/MigrationGuide.md" class="" data-reactid="11"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api" class="" data-reactid="12">API</a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/ReduxForm.md" class="indent1___4iVnL" data-reactid="13"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/Props.md" class="indent1___4iVnL" data-reactid="14"><code>props</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/Field.md" class="indent1___4iVnL" data-reactid="15"><code>Field</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/FieldArray.md" class="indent1___4iVnL" data-reactid="16"><code>FieldArray</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/FormValueSelector.md" class="indent1___4iVnL" data-reactid="17"><code>formValueSelector()</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/Reducer.md" class="indent1___4iVnL" data-reactid="18"><code>reducer</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/ReducerPlugin.md" class="indent2___2PiOO" data-reactid="19"><code>reducer.plugin()</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/SubmissionError.md" class="indent1___4iVnL" data-reactid="20"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.0-alpha.15/docs/api/ActionCreators.md" class="indent1___4iVnL" data-reactid="21">Action Creators</a><a href="http://redux-form.com/6.0.0-alpha.15/docs/faq" class="" data-reactid="22">FAQ</a><a href="http://redux-form.com/6.0.0-alpha.15/examples" class="active___2eU59" data-reactid="23">Examples</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/simple" class="indent1___4iVnL" data-reactid="24">Simple Form</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/syncValidation" class="indent1___4iVnL" data-reactid="25">Sync Validation</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/submitValidation" class="indent1___4iVnL" data-reactid="26">Submit Validation</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/asyncValidation" class="indent1___4iVnL" data-reactid="27">Async Validation</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/initializeFromState" class="indent1___4iVnL" data-reactid="28">Initializing from State</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/selectingFormValues" class="indent1___4iVnL" data-reactid="29">Selecting Form Values</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/fieldArrays" class="indent1___4iVnL" data-reactid="30">Field Arrays</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/immutable" class="indent1___4iVnL" data-reactid="31">Immutable JS</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/wizard" class="indent1___4iVnL" data-reactid="32">Wizard Form</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/material-ui" class="indent1___4iVnL" data-reactid="33">Material UI</a><a href="http://redux-form.com/6.0.0-alpha.15/examples/react-widgets" class="indent1___4iVnL" data-reactid="34">React Widgets</a><a href="http://redux-form.com/6.0.0-alpha.15/docs/DocumentationVersions.md" class="" data-reactid="35">Older Versions</a></nav></div><div class="contentAndFooter___kE2nt" data-reactid="36"><div class="topNav___sBW8S" data-reactid="37"><a href="http://redux-form.com" class="brand___YAZl-" data-reactid="38"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank" data-reactid="39"><i class="fa fa-fw fa-github" data-reactid="40"></i></a></div><div class="content___3TVHp" data-reactid="41"><div data-reactid="42"><ol class="breadcrumbs___1BHo6" data-reactid="43"><li data-reactid="44"><a href="http://redux-form.com/6.0.0-alpha.15/" data-reactid="45">Redux Form</a></li><li data-reactid="46">Examples</li></ol><div data-reactid="47"><h1 id="examples">Examples</h1>
+<p>Below are a list of examples that demonstrate the capabilities of <code>redux-form</code> for testing and
+learning purposes.</p>
+<p>Each example is its own standalone web app with hot reloading. To run them locally, clone the 
+<code>redux-form</code> repository, <code>cd</code> into an example folder, and run <code>npm install</code> and <code>npm start</code>. Then
+open <a href="http://localhost:3030"><code>localhost:3030</code></a> in your browser.</p>
+<hr>
+<h3 id="-simple-form-simple-"><a href="simple">Simple Form</a></h3>
+<blockquote>
+<p>The simplest form. Demonstrates how to attach standard inputs to Redux.</p>
+</blockquote>
+<hr>
+<h3 id="-synchronous-validation-syncvalidation-"><a href="syncValidation">Synchronous Validation</a></h3>
+<blockquote>
+<p>How to add synchronous client-side validation to your form.</p>
+</blockquote>
+<hr>
+<h3 id="-submit-validation-submitvalidation-"><a href="submitValidation">Submit Validation</a></h3>
+<blockquote>
+<p>How to return server-side validation errors back from your submit function.</p>
+</blockquote>
+<hr>
+<h3 id="-aynchronous-blur-validation-asyncvalidation-"><a href="asyncValidation">Aynchronous Blur Validation</a></h3>
+<blockquote>
+<p>How to run asynchronous server-side validation on your form when certain fields lose focus.</p>
+</blockquote>
+<hr>
+<h3 id="-initializing-from-state-initializefromstate-"><a href="initializeFromState">Initializing From State</a></h3>
+<blockquote>
+<p>How to initialize your form data from any slice of the Redux state.</p>
+</blockquote>
+<hr>
+<h3 id="-field-arrays-fieldarrays-"><a href="fieldArrays">Field Arrays</a></h3>
+<blockquote>
+<p>How to create and manipulate arrays of fields.</p>
+</blockquote>
+<hr>
+<h3 id="-immutable-js-immutable-"><a href="immutable">Immutable JS</a></h3>
+<blockquote>
+<p>How to use Immutable JS for <code>redux-form</code> state storage.</p>
+</blockquote>
+<hr>
+<h3 id="-selecting-form-values-selectingformvalues-"><a href="selectingFormValues">Selecting Form Values</a></h3>
+<blockquote>
+<p>How to bind certain form values as props to your entire form component.</p>
+</blockquote>
+<hr>
+<h3 id="-wizard-form-wizard-"><a href="wizard">Wizard Form</a></h3>
+<blockquote>
+<p>How to create a multi-page &quot;wizard&quot; form.</p>
+</blockquote>
+<hr>
+<h3 id="-material-ui-examples-material-ui-"><a href="material-ui">Material-UI Examples</a></h3>
+<blockquote>
+<p>Contains multiple Material-UI examples</p>
+</blockquote>
+<hr>
+<h3 id="-react-widegets-examples-react-widgets-"><a href="react-widgets">React-Widegets Examples</a></h3>
+<h2 id="-how-to-use-react-widgets-components-with-redux-form-">&gt; How to use <code>react-widgets</code> components with <code>redux-form</code> </h2>
+</div></div></div><div class="footer___1oh0h" data-reactid="48"><div data-reactid="49">Created by Erik Rasmussen</div><div data-reactid="50"><!-- react-text: 51 -->Got questions? Ask for help:<!-- /react-text --><a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank" data-reactid="52"><i class="fa fa-fw fa-stack-overflow" data-reactid="53"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank" data-reactid="54"><i class="fa fa-fw fa-github" data-reactid="55"></i></a></div><div data-reactid="56"><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="57"><!-- react-text: 58 -->Follow @<!-- /react-text --><!-- react-text: 59 -->erikras<!-- /react-text --></a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="60"><!-- react-text: 61 -->Follow @<!-- /react-text --><!-- react-text: 62 -->ReduxForm<!-- /react-text --></a></div></div></div></div>
+  </div>
+  <script src="http://redux-form.com/6.0.0-alpha.15/bundle.js"></script>
+  <script>initReact({"version":"6.0.0-alpha.15","path":"/examples","breadcrumbs":[{"path":"http://redux-form.com/6.0.0-alpha.15/","title":"Redux Form"},{"path":"http://redux-form.com/6.0.0-alpha.15/examples","title":"Examples"}]})</script>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>
