@@ -101,6 +101,41 @@ describe('getValue', () => {
     }, false)).toBe(false)
   })
 
+  it('should return a number type for numeric inputs', () => {
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'number',
+        value: '3.1415'
+      }
+    }, true)).toBe(3.1415);
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'range',
+        value: '2.71828'
+      }
+    }, true)).toBe(2.71828);
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'number',
+        value: '3'
+      }
+    }, false)).toBe(3);
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'range',
+        value: '3.1415'
+      }
+    }, false)).toBe(3.1415);
+  });
+  
   it('should return event.target.files if file', () => {
     const myFiles = [ 'foo', 'bar' ]
     expect(getValue({
