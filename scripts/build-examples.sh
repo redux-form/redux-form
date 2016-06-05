@@ -27,6 +27,7 @@ do
     rm -rf node_modules
   else
     rm -rf node_modules/redux-form
+    rm -rf node_modules/redux-form-website-template
   fi
   npm install
   cd ..
