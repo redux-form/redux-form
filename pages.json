@@ -65,6 +65,10 @@
             "file": "/docs/api/Reducer.md",
             "title": "`reducer`"
           },
+          "/docs/api/ReducerPlugin.md": {
+            "file": "/docs/api/ReducerPlugin.md",
+            "title": "`reducer.plugin()`"
+          },
           "/docs/api/Props.md": {
             "file": "/docs/api/Props.md",
             "title": "`props`"
