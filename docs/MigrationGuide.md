@@ -275,4 +275,46 @@ Not implemented yet.
 
 ## Listening to other actions
 
-No equivalent of the `v5` `plugin()` interface has been written yet.
+The `plugin()` API is identical to that of `v5`. However, the internal structure of the form 
+state _has_ changed, so your plugin reducer that was modifying it will need to be updated. It 
+more or less changed as follows:
+
+#### `v5`
+
+```js
+{
+  myField: {
+    value: 'myValue',
+    initial: 'myInitialValue',
+    asyncError: 'myAsyncError',
+    submitError: 'mySubmitError',
+    touched: true,
+    visited: true
+  }
+}
+```
+
+#### `v6`
+
+```js
+{
+  values: {
+    myField: 'myValue'
+  },
+  initial: {
+    myField: 'myInitialValue
+  },
+  asyncErrors: {
+    myField: 'myAsyncError
+  },
+  submitErrors: {
+    myField: 'mySubmitError
+  },
+  fields: {
+    myField: {
+      touched: true,
+      visited: true
+    }
+  }
+}
+```

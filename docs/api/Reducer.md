@@ -38,4 +38,9 @@ const store = createStore(reducer);
 
 ### Additional Functionality
 
-The old `v5` functionality of `normalize()` and `plugin()` have not yet been implemented in `v6`.
+### [`reducer.normalize(Object<String, Object<String, Function>>)`](ReducerNormalize.md)
+
+> Returns a form reducer that will also pass each form value through the normalizing functions
+provided. The parameter is an object mapping from `formName` to an object mapping from
+`fieldName` to a normalizer function. The normalizer function is given four parameters and
+expected to return the normalized value of the field. [See details](ReducerNormalize.md).

@@ -22,6 +22,7 @@ import describeFocus from './reducer.focus.spec'
 import describeTouch from './reducer.touch.spec'
 import describeUntouch from './reducer.untouch.spec'
 import describeReset from './reducer.reset.spec'
+import describePlugin from './reducer.plugin.spec'
 import describeStartSubmit from './reducer.startSubmit.spec'
 import describeStopSubmit from './reducer.stopSubmit.spec'
 import describeSetSubmitFailed from './reducer.setSubmitFailed.spec'
@@ -55,7 +56,8 @@ const tests = {
   startAsyncValidation: describeStartAsyncValidation,
   stopAsyncValidation: describeStopAsyncValidation,
   registerField: describeRegisterField,
-  unregisterField: describeUnregisterField
+  unregisterField: describeUnregisterField,
+  plugin: describePlugin
 }
 
 const describeReducer = (name, structure, expect) => {
@@ -73,6 +75,11 @@ const describeReducer = (name, structure, expect) => {
     it('should not modify state when action has no form', () => {
       const state = { foo: 'bar' }
       expect(reducer(state, { type: 'SOMETHING_ELSE' })).toBe(state)
+    })
+    
+    it('should not modify state when action has form, but unknown type', () => {
+      const state = { foo: 'bar' }
+      expect(reducer(state, { type: 'SOMETHING_ELSE', form: 'foo' })).toBe(state)
     })
 
     it('should initialize form state when action has form', () => {
