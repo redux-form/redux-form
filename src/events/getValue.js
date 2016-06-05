@@ -32,7 +32,7 @@ const getValue = (event, isReactNative) => {
       return getSelectedValues(event.target.options)
     }
     if (type === 'number' || type === 'range') {
-      return parseFloat(value);
+      return parseFloat(value)
     }
     return value
   }
