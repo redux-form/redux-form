@@ -103,32 +103,32 @@ describe('getValue', () => {
 
   it('should return a number type for numeric inputs', () => {
     expect(getValue({
-      preventDefault: () => null,
-      stopPropagation: () => null,
+      preventDefault: noop,
+      stopPropagation: noop,
       target: {
         type: 'number',
         value: '3.1415'
       }
     }, true)).toBe(3.1415)
     expect(getValue({
-      preventDefault: () => null,
-      stopPropagation: () => null,
+      preventDefault: noop,
+      stopPropagation: noop,
       target: {
         type: 'range',
         value: '2.71828'
       }
     }, true)).toBe(2.71828)
     expect(getValue({
-      preventDefault: () => null,
-      stopPropagation: () => null,
+      preventDefault: noop,
+      stopPropagation: noop,
       target: {
         type: 'number',
         value: '3'
       }
     }, false)).toBe(3)
     expect(getValue({
-      preventDefault: () => null,
-      stopPropagation: () => null,
+      preventDefault: noop,
+      stopPropagation: noop,
       target: {
         type: 'range',
         value: '3.1415'
