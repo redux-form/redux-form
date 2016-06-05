@@ -67,7 +67,8 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
 
   FieldArray.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired
+    component: PropTypes.func.isRequired,
+    props: PropTypes.object
   }
   FieldArray.contextTypes = {
     _reduxForm: PropTypes.object

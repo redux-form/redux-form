@@ -15,6 +15,10 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(createFieldArrayProps(...defaultProps, { otherProp: 'hello' }).otherProp).toBe('hello')
     })
 
+    it('should pass props through using props prop', () => {
+      expect(createFieldArrayProps(...defaultProps, { props: { otherProp: 'hello' } }).otherProp).toBe('hello')
+    })
+
     it('should pass dirty/pristine through', () => {
       expect(createFieldArrayProps(...defaultProps, {
         dirty: false,
@@ -86,7 +90,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(0, 2)
     })
-    
+
     it('should provide push', () => {
       const arrayPush = createSpy()
       const result = createFieldArrayProps(...defaultProps, {

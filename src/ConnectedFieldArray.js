@@ -68,7 +68,8 @@ const createConnectedFieldArray = ({
 
   ConnectedFieldArray.propTypes = {
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
-    defaultValue: PropTypes.any
+    defaultValue: PropTypes.any,
+    props: PropTypes.object
   }
 
   ConnectedFieldArray.contextTypes = {
