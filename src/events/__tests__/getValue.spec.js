@@ -194,7 +194,7 @@ describe('getValue', () => {
       preventDefault: () => null,
       stopPropagation: () => null,
       target: {
-       type: 'range',
+        type: 'range',
         value: '3.1415'
       }
     }, false)).toBe(3.1415);
