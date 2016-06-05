@@ -629,7 +629,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(stub.fieldList).toEqual(fromJS([ 'bar', 'barArray' ]))
     })
 
-    it('should provide valid/invalid/values getters', () => {
+    it('should provide valid/invalid/values/dirty/pristine getters', () => {
       const store = makeStore({})
       const input = createSpy(props => <input {...props}/>).andCallThrough()
 
@@ -653,6 +653,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       // invalid because no value for 'bar' field
+      expect(stub.dirty).toBe(false)
+      expect(stub.pristine).toBe(true)
       expect(stub.valid).toBe(false)
       expect(stub.invalid).toBe(true)
       expect(stub.values).toEqualMap({})
@@ -661,6 +663,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       input.calls[ 0 ].arguments[ 0 ].onChange('foo')
 
       // valid because we have a value for 'bar' field
+      expect(stub.dirty).toBe(true)
+      expect(stub.pristine).toBe(false)
       expect(stub.valid).toBe(true)
       expect(stub.invalid).toBe(false)
       expect(stub.values).toEqualMap({ bar: 'foo' })
@@ -1238,6 +1242,35 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(shouldAsyncValidate).toHaveBeenCalled()
 
       expect(asyncValidate).toNotHaveBeenCalled()
+    })
+
+    it('should expose wrapped instance', () => {
+      const store = makeStore({})
+
+      class Form extends Component {
+        render() {
+          return (
+            <form>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const wrapped = TestUtils.findRenderedComponentWithType(dom, Form)
+      const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(decorated.wrappedInstance.props).toEqual(wrapped.props)
     })
   })
 }

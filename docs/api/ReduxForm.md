@@ -160,3 +160,46 @@ form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => (
 
 > See [Synchronous Validation Example](../../examples/syncValidation) for more details.
 
+## Instance API
+
+The following are methods or properties that you can access on an instance of your decorated form
+component.
+
+#### `dirty : boolean`
+
+`true` when the current form values are different from the `initialValues`, `false` otherwise.
+
+#### `fieldList : Array`
+
+An array of strings representing all the fields in the form. Mainly useful for testing.
+
+#### `invalid : boolean`
+
+`true` when the form is invalid (has validation errors), `false` otherwise.
+
+#### `pristine : boolean`
+
+`true` when the current form values are the same as the `initialValues`, `false` otherwise.
+
+#### `reset() : void`
+
+Resets the form to the `initialValues`. It will be `pristine` after reset.
+
+#### `submit() : Promise`
+
+Submits the form. [You'd never have guessed that, right?] Returns a promise that will be resolved 
+when the form is submitted successfully, or rejected if the submission fails.
+
+#### `valid : boolean`
+
+`true` when the form is valid (has no validation errors), `false` otherwise.
+
+#### `values : Object`
+
+The current values of all the fields in the form.
+
+#### `wrappedInstance : ReactElement`
+
+A reference to the instance of the component you decorated with `reduxForm()`. Mainly useful for 
+testing.
+
