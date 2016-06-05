@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
-import userData from './userData'
 
 import {
   App,
@@ -15,7 +14,6 @@ import {
 
 const dest = document.getElementById('content')
 const reducer = combineReducers({
-  userData,
   form: reduxFormReducer // mounted under "form"
 })
 const store =
@@ -33,7 +31,6 @@ let render = () => {
   const ReactWidgetsForm = require('./ReactWidgetsForm').default
   const readme = require('./ReactWidgets.md')
   const raw = require('!!raw!./ReactWidgetsForm')
-  const rawUserData = require('!!raw!./userData')
   ReactDOM.render(
     <Provider store={store}>
         <App
@@ -51,13 +48,9 @@ let render = () => {
 
           <ReactWidgetsForm onSubmit={showResults}/>
 
-          <Values form="ReactWidgetsForm"/>
+          <Values form="reactWidgets"/>
 
           <h2>Code</h2>
-
-          <h4>userData.js</h4>
-
-          <Code source={rawUserData}/>
 
           <h4>ReactWidgetsForm.js</h4>
 

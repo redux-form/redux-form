@@ -1,4 +1,4 @@
-# Simple React Widgets UI Form Example
+# [React Widgets](https://github.com/jquense/react-widgets) Example
 
 ## To run locally
 

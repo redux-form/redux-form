@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charSet="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Redux Form</title>
   <link href="http://redux-form.com/6.0.0-alpha.14/bundle.css"
     media="screen, projection"
@@ -14,24 +15,43 @@
   <meta property="og:title" content="Redux Form"/>
   <meta property="og:site_name" content="Redux Form"/>
   <meta property="og:description"
-        content="The best way to manage your form state in Redux."/>
+    content="The best way to manage your form state in Redux."/>
   <meta property="og:image" content="logo.png"/>
   <meta property="twitter:site" content="@erikras"/>
   <meta property="twitter:creator" content="@erikras"/>
   <style>
-  /*
-    Tweaking some CSS for
-    getting it work with react-widgets
-  */
-    form ul li:first-child{
-      text-align:left;
+    /*
+      Tweaking some CSS for
+      getting it work with react-widgets
+    */
+    form ul li:first-child {
+      text-align: left;
     }
+
     form ul li {
-      padding: 0px;
-      background-image:none;
+      padding: 0;
+      background-image: none;
+      display: inline-block;
     }
-    form>div>div>* {
-      height: 50px
+
+    form > div > div {
+      border: none;
+    }
+
+    form > div > div > * {
+      height: 50px;
+    }
+
+    form > div > div > span:before {
+      display: none;
+    }
+
+    form .rw-list {
+      border: none;
+    }
+
+    form .rw-popup-container {
+      border: none;
     }
   </style>
 </head>
@@ -88,10 +108,17 @@
 </div>
 <script type="text/javascript" src="dist/bundle.js"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  (function(i, s, o, g, r, a, m) {
+    i[ 'GoogleAnalyticsObject' ] = r;
+    i[ r ] = i[ r ] || function() {
+        (i[ r ].q = i[ r ].q || []).push(arguments)
+      }, i[ r ].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[ 0 ];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
   ga('create', 'UA-69298417-1', 'auto');
   ga('send', 'pageview');
 </script>
