@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charSet="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Redux Form</title>
+  <link href="http://redux-form.com/6.0.0-alpha.14/bundle.css"
+    media="screen, projection"
+    rel="stylesheet" type="text/css"/>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+    media="screen, projection" rel="stylesheet" type="text/css"/>
+  <meta itemprop="name" content="Redux Form"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Redux Form"/>
+  <meta property="og:site_name" content="Redux Form"/>
+  <meta property="og:description"
+        content="The best way to manage your form state in Redux."/>
+  <meta property="og:image" content="logo.png"/>
+  <meta property="twitter:site" content="@erikras"/>
+  <meta property="twitter:creator" content="@erikras"/>
+  <style>
+  /*
+    Tweaking some CSS for
+    getting it work with react-widgets
+  */
+    form ul li:first-child{
+      text-align:left;
+    }
+    form ul li {
+      padding: 0px;
+      background-image:none;
+    }
+    form>div>div>* {
+      height: 50px
+    }
+  </style>
+</head>
+<body>
+<div id="content">
+  <style type="text/css" scoped>
+    .loader {
+      margin: 10% auto;
+      font-size: 10px;
+      position: relative;
+      text-indent: -9999em;
+      border-top: 1.1em solid rgba(100, 100, 100, 0.2);
+      border-right: 1.1em solid rgba(100, 100, 100, 0.2);
+      border-bottom: 1.1em solid rgba(100, 100, 100, 0.2);
+      border-left: 1.1em solid grey;
+      -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-animation: load8 1.1s infinite linear;
+      animation: load8 1.1s infinite linear;
+    }
+
+    .loader,
+    .loader:after {
+      border-radius: 50%;
+      width: 10em;
+      height: 10em;
+    }
+
+    @-webkit-keyframes load8 {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes load8 {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <div class="loader">Loading...</div>
+</div>
+<script type="text/javascript" src="dist/bundle.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-69298417-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
