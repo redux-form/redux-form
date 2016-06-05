@@ -11,10 +11,9 @@
 
 > The form reducer. Should be given to mounted to your Redux state at `form`.
 
-> ### [`reducer.syncValidation(Object<String, Object<String, Function>>)`](ReducerSyncValidation.md)
+> ### [`reducer.plugin(Object<String, Function>)`](ReducerPlugin.md)
 
-> Returns a form reducer that will also run the synchronous validation function given for each 
-form name.
+> Returns a form reducer that will also pass each action through additional reducers specified.
 
 ---
   
