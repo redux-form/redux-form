@@ -155,7 +155,15 @@ const createReduxForm =
           }
 
           get invalid() {
-            return !this.valid
+            return this.props.invalid
+          }
+
+          get dirty() {
+            return this.props.dirty
+          }
+
+          get pristine() {
+            return this.props.pristine
           }
 
           register(name, type) {
@@ -393,6 +401,14 @@ const createReduxForm =
             return this.refs.wrapped.getWrappedInstance().invalid
           }
 
+          get pristine() {
+            return this.refs.wrapped.getWrappedInstance().pristine
+          }
+
+          get dirty() {
+            return this.refs.wrapped.getWrappedInstance().dirty
+          }
+
           get values() {
             return this.refs.wrapped.getWrappedInstance().values
           }
@@ -406,30 +422,7 @@ const createReduxForm =
           }
 
           render() {
-            const {
-              // Remove proprietary props
-              initialValues,
-              arrayInsert,
-              arrayMove,
-              arrayPop,
-              arrayPush,
-              arrayRemove,
-              arrayRemoveAll,
-              arrayShift,
-              arraySplice,
-              arraySwap,
-              arrayUnshift,
-              asyncErrors,
-              getFormState,
-              registerField,
-              registeredFields,
-              syncErrors,
-              touchOnBlur,
-              touchOnChange,
-              unregisterField,
-              values,
-              ...rest
-            } = this.props
+            const { initialValues, ...rest } = this.props
             return createElement(ConnectedForm, {
               ...rest,
               ref: 'wrapped',
