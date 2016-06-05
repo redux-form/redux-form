@@ -53,6 +53,7 @@ class Nav extends Component {
           {this.renderItem('/docs/api/FieldArray.md', '`FieldArray`', 1)}
           {this.renderItem('/docs/api/FormValueSelector.md', '`formValueSelector()`', 1)}
           {this.renderItem('/docs/api/Reducer.md', '`reducer`', 1)}
+          {this.renderItem('/docs/api/ReducerPlugin.md', '`reducer.plugin()`', 2)}
           {this.renderItem('/docs/api/SubmissionError.md', '`SubmissionError`', 1)}
           {this.renderItem('/docs/api/ActionCreators.md', 'Action Creators', 1)}
           {this.renderItem('/docs/faq', 'FAQ')}
@@ -66,8 +67,8 @@ class Nav extends Component {
           {this.renderItem('/examples/fieldArrays', 'Field Arrays', 1)}
           {this.renderItem('/examples/immutable', 'Immutable JS', 1)}
           {this.renderItem('/examples/wizard', 'Wizard Form', 1)}
-          {this.renderItem('/examples/adapter', 'Adapter', 1)}
           {this.renderItem('/examples/material-ui', 'Material UI', 1)}
+          {this.renderItem('/examples/react-widgets', 'React Widgets', 1)}
           {this.renderItem('/docs/DocumentationVersions.md', 'Older Versions')}
         </nav>
       </div>
