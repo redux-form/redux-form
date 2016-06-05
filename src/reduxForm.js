@@ -15,6 +15,12 @@ import createHasError from './hasError'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import plain from './structure/plain'
 
+const isClassComponent = Component => Boolean(
+  Component &&
+  Component.prototype &&
+  typeof Component.prototype.isReactComponent === 'object'
+)
+
 // extract field-specific actions
 const {
   arrayInsert,
@@ -187,13 +193,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                asyncErrors,
-                initialized,
-                trigger: submitting ? 'submit' : 'blur',
-                blurredField: name,
-                pristine,
-                syncValidationPasses
-              })) {
+                  asyncErrors,
+                  initialized,
+                  trigger: submitting ? 'submit' : 'blur',
+                  blurredField: name,
+                  pristine,
+                  syncValidationPasses
+                })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props),
                   startAsyncValidation,
@@ -210,7 +216,7 @@ const createReduxForm =
           }
 
           listenToSubmit(promise) {
-            if(!isPromise(promise)) {
+            if (!isPromise(promise)) {
               return promise
             }
             this.submitPromise = promise
@@ -220,18 +226,18 @@ const createReduxForm =
           submit(submitOrEvent) {
             const { onSubmit } = this.props
 
-            if(!submitOrEvent || silenceEvent(submitOrEvent)) {
+            if (!submitOrEvent || silenceEvent(submitOrEvent)) {
               // submitOrEvent is an event: fire submit if not already submitting
-              if(!this.submitPromise) {
+              if (!this.submitPromise) {
                 return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
                   this.props, this.valid, this.asyncValidate, this.fieldList))
               }
             } else {
               // submitOrEvent is the submit function: return deferred submit thunk
               return silenceEvents(() =>
-                !this.submitPromise &&
-                this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
-                  this.props, this.valid, this.asyncValidate, this.fieldList)))
+              !this.submitPromise &&
+              this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
+                this.props, this.valid, this.asyncValidate, this.fieldList)))
             }
           }
 
@@ -262,6 +268,9 @@ const createReduxForm =
               unregisterField,
               ...passableProps
             } = this.props // eslint-disable-line no-redeclare
+            if (isClassComponent(WrappedComponent)) {
+              passableProps.ref = 'wrapped'
+            }
             return createElement(WrappedComponent, {
               ...passableProps,
               handleSubmit: this.submit
@@ -299,8 +308,7 @@ const createReduxForm =
             const hasAsyncErrors = hasErrors(asyncErrors)
             const hasSubmitErrors = hasErrors(submitErrors)
             const valid = (
-              !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors &&
-              !some(getIn(formState, 'registeredFields'), ((field) => {
+              !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors && !some(getIn(formState, 'registeredFields'), ((field) => {
                 return hasError(field, syncErrors, asyncErrors, submitErrors)
               }))
             )
@@ -393,8 +401,35 @@ const createReduxForm =
             return this.refs.wrapped.getWrappedInstance().fieldList
           }
 
+          get wrappedInstance() { // for testing
+            return this.refs.wrapped.getWrappedInstance().refs.wrapped
+          }
+
           render() {
-            const { initialValues, ...rest } = this.props
+            const {
+              // Remove proprietary props
+              initialValues,
+              arrayInsert,
+              arrayMove,
+              arrayPop,
+              arrayPush,
+              arrayRemove,
+              arrayRemoveAll,
+              arrayShift,
+              arraySplice,
+              arraySwap,
+              arrayUnshift,
+              asyncErrors,
+              getFormState,
+              registerField,
+              registeredFields,
+              syncErrors,
+              touchOnBlur,
+              touchOnChange,
+              unregisterField,
+              values,
+              ...rest
+            } = this.props
             return createElement(ConnectedForm, {
               ...rest,
               ref: 'wrapped',

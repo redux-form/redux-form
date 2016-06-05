@@ -1239,6 +1239,35 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(asyncValidate).toNotHaveBeenCalled()
     })
+
+    it('should expose wrapped instance', () => {
+      const store = makeStore({})
+
+      class Form extends Component {
+        render() {
+          return (
+            <form>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const wrapped = TestUtils.findRenderedComponentWithType(dom, Form)
+      const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(decorated.wrappedInstance.props).toEqual(wrapped.props)
+    })
   })
 }
 
