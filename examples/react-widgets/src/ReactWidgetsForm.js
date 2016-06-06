@@ -9,12 +9,6 @@ const colors = [ { color: 'Red', value: 'ff0000' },
   { color: 'Green', value: '00ff00' },
   { color: 'Blue', value: '0000ff' } ]
 
-const renderMultiselect = props =>
-  <Multiselect {...props} onBlur={() => props.onBlur()} defaultValue={[]}/>
-
-const renderSelectList = props =>
-  <SelectList {...props} onBlur={() => props.onBlur()}/>
-
 let ReactWidgetsForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
@@ -32,15 +26,17 @@ let ReactWidgetsForm = props => {
         <label>Hobbies</label>
         <Field
           name="hobbies"
-          component={renderMultiselect}
+          component={Multiselect}
           defaultValue={[]}
+          onBlur={() => props.onBlur()}
           data={[ 'Guitar', 'Cycling', 'Hiking' ]}/>
       </div>
       <div>
         <label>Sex</label>
         <Field
           name="sex"
-          component={renderSelectList}
+          component={SelectList}
+          onBlur={() => props.onBlur()}
           data={[ 'male', 'female' ]}/>
       </div>
       <div>

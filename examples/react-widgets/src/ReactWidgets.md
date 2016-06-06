@@ -3,7 +3,7 @@
 This is a demonstration of how to connect
 [react-widgets](https://github.com/jquense/react-widgets) form elements to `redux-form`.
 
-Very few modifications are needed.
+Very few modifications are needed. All of these can be done as props to the `Field` component.
 
 * `Multiselect`
   * Needs `onBlur` to be rewritten ignoring the parameter
