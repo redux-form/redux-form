@@ -214,7 +214,7 @@ const createReduxForm =
 
           submitCompleted(result) {
             delete this.submitPromise
-            return result
+            return resultgetIn(formState, 'registeredFields')
           }
 
           listenToSubmit(promise) {
@@ -311,16 +311,16 @@ const createReduxForm =
             const hasSyncErrors = plainHasErrors(syncErrors)
             const hasAsyncErrors = hasErrors(asyncErrors)
             const hasSubmitErrors = hasErrors(submitErrors)
-            const valid = (
-              !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors && !some(getIn(formState, 'registeredFields'), ((field) => {
-                return hasError(field, syncErrors, asyncErrors, submitErrors)
-              }))
-            )
+            const registeredFields = getIn(formState, 'registeredFields')
+            const hasFieldWithError = registeredFields && some(registeredFields, ((field) => {
+              return hasError(field, syncErrors, asyncErrors, submitErrors)
+            }))
+            const valid =
+              !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors && !hasFieldWithError
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
             const error = getIn(formState, 'error')
-            const registeredFields = getIn(formState, 'registeredFields')
             return {
               anyTouched,
               asyncErrors,
