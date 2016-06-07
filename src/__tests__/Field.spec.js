@@ -467,11 +467,13 @@ const describeField = (name, structure, combineReducers, expect) => {
       const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
-          return <div>
-            <Field name="title" component="input"/>
-            <Field name="author" component="input"/>
-            <Field name="username" component={renderUsername} normalize={normalize}/>
-          </div>
+          return (
+            <div>
+              <Field name="title" component="input"/>
+              <Field name="author" component="input"/>
+              <Field name="username" component={renderUsername} normalize={normalize}/>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -505,7 +507,7 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       expect(renderUsername.calls[ 1 ].arguments[ 0 ].value).toBe('erikras')
     })
-    
+
     it('should call normalize function on blur', () => {
       const store = makeStore({
         testForm: {
@@ -520,11 +522,13 @@ const describeField = (name, structure, combineReducers, expect) => {
       const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
-          return <div>
-            <Field name="title" component="input"/>
-            <Field name="author" component="input"/>
-            <Field name="username" component={renderUsername} normalize={normalize}/>
-          </div>
+          return (
+            <div>
+              <Field name="title" component="input"/>
+              <Field name="author" component="input"/>
+              <Field name="username" component={renderUsername} normalize={normalize}/>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
