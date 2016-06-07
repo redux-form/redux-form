@@ -61,7 +61,7 @@ const propsToNotUpdateFor = [
 
 const checkSubmit = submit => {
   if (!submit || typeof submit !== 'function') {
-    throw new Error(`You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop`)
+    throw new Error('You must either pass handleSubmit() an onSubmit function or pass onSubmit as a prop')
   }
   return submit
 }
@@ -255,6 +255,7 @@ const createReduxForm =
 
           render() {
             // remove some redux-form config-only props
+            /* eslint-disable no-unused-vars */
             const {
               arrayInsert,
               arrayPop,
@@ -275,7 +276,8 @@ const createReduxForm =
               registerField,
               unregisterField,
               ...passableProps
-            } = this.props // eslint-disable-line no-redeclare
+            } = this.props
+            /* eslint-enable no-unused-vars */
             if (isClassComponent(WrappedComponent)) {
               passableProps.ref = 'wrapped'
             }
