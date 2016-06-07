@@ -23,11 +23,13 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide onBlur', () => {
       const blur = createSpy()
+      const normalize = createSpy(value => value).andCallThrough()
       expect(blur).toNotHaveBeenCalled()
-      const result = createFieldProps(getIn, 'foo', { value: 'bar', blur })
+      const result = createFieldProps(getIn, 'foo', { value: 'bar', blur, normalize })
       expect(result.onBlur).toBeA('function')
       expect(blur).toNotHaveBeenCalled()
       result.onBlur('rabbit')
+      expect(normalize).toHaveBeenCalled()
       expect(blur)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith('rabbit')
@@ -35,11 +37,13 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide onChange', () => {
       const change = createSpy()
+      const normalize = createSpy(value => value).andCallThrough()
       expect(change).toNotHaveBeenCalled()
-      const result = createFieldProps(getIn, 'foo', { value: 'bar', change })
+      const result = createFieldProps(getIn, 'foo', { value: 'bar', change, normalize })
       expect(result.onChange).toBeA('function')
       expect(change).toNotHaveBeenCalled()
       result.onChange('rabbit')
+      expect(normalize).toHaveBeenCalled()
       expect(change)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith('rabbit')

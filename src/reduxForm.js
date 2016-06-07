@@ -92,6 +92,7 @@ const createReduxForm =
             this.reset = this.reset.bind(this)
             this.asyncValidate = this.asyncValidate.bind(this)
             this.getSyncErrors = this.getSyncErrors.bind(this)
+            this.getValues = this.getValues.bind(this)
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
             this.submitCompleted = this.submitCompleted.bind(this)
@@ -194,13 +195,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                asyncErrors,
-                initialized,
-                trigger: submitting ? 'submit' : 'blur',
-                blurredField: name,
-                pristine,
-                syncValidationPasses
-              })) {
+                  asyncErrors,
+                  initialized,
+                  trigger: submitting ? 'submit' : 'blur',
+                  blurredField: name,
+                  pristine,
+                  syncValidationPasses
+                })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props),
                   startAsyncValidation,

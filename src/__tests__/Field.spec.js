@@ -28,7 +28,6 @@ const describeField = (name, structure, combineReducers, expect) => {
     }
   }
 
-
   const testProps = (state, config = {}) => {
     const store = makeStore({ testForm: state })
     class Form extends Component {
@@ -248,7 +247,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Field)
       expect(stub.dirty).toBe(false)
     })
-    
+
     it('should provide pristine getter that is false when dirty', () => {
       const store = makeStore({
         testForm: {
@@ -315,7 +314,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.calls[0].arguments[0].value).toBe('bar')
+      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('bar')
     })
 
     it('should provide sync error for array field', () => {
@@ -343,8 +342,8 @@ const describeField = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.calls[0].arguments[0].valid).toBe(false)
-      expect(input.calls[0].arguments[0].error).toBe('bar error')
+      expect(input.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
+      expect(input.calls[ 0 ].arguments[ 0 ].error).toBe('bar error')
     })
 
     it('should provide access to rendered component', () => {
@@ -452,6 +451,112 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].foo).toBe('qux')
       expect(input.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
+    })
+
+    it('should call normalize function on change', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = createSpy(props => <input {...props}/>).andCallThrough()
+      const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <div>
+            <Field name="title" component="input"/>
+            <Field name="author" component="input"/>
+            <Field name="username" component={renderUsername} normalize={normalize}/>
+          </div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(normalize).toNotHaveBeenCalled()
+
+      expect(renderUsername.calls[ 0 ].arguments[ 0 ].value).toBe('oldusername')
+      renderUsername.calls[ 0 ].arguments[ 0 ].onChange('ERIKRAS')
+
+      expect(normalize)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(
+          'ERIKRAS',
+          'oldusername',
+          fromJS({
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'ERIKRAS'
+          }), fromJS({
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          })
+        )
+      expect(normalize.calls.length).toBe(1)
+
+      expect(renderUsername.calls[ 1 ].arguments[ 0 ].value).toBe('erikras')
+    })
+    
+    it('should call normalize function on blur', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = createSpy(props => <input {...props}/>).andCallThrough()
+      const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <div>
+            <Field name="title" component="input"/>
+            <Field name="author" component="input"/>
+            <Field name="username" component={renderUsername} normalize={normalize}/>
+          </div>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(normalize).toNotHaveBeenCalled()
+
+      expect(renderUsername.calls[ 0 ].arguments[ 0 ].value).toBe('oldusername')
+      renderUsername.calls[ 0 ].arguments[ 0 ].onBlur('ERIKRAS')
+
+      expect(normalize)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(
+          'ERIKRAS',
+          'oldusername',
+          fromJS({
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'ERIKRAS'
+          }), fromJS({
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          })
+        )
+      expect(normalize.calls.length).toBe(1)
+
+      expect(renderUsername.calls[ 1 ].arguments[ 0 ].value).toBe('erikras')
     })
 
     // ----------------------------------------------

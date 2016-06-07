@@ -2,9 +2,9 @@ import getValue from './getValue'
 import isReactNative from '../isReactNative'
 
 const createOnBlur =
-  (blur, afterBlur) =>
+  (blur, normalize, afterBlur) =>
     event => {
-      const value = getValue(event, isReactNative)
+      const value = normalize(getValue(event, isReactNative))
       blur(value)
       if (afterBlur) {
         afterBlur(value)

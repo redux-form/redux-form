@@ -20,7 +20,7 @@ const createConnectedField = ({
       return !deepEqual(this.props, nextProps)
     }
 
-    get syncError() {
+    getSyncError() {
       const { _reduxForm: { getSyncErrors } } = this.context
       const error = plain.getIn(getSyncErrors(), name)
       // Because the error for this field might not be at a level in the error structure where
@@ -28,15 +28,11 @@ const createConnectedField = ({
       return error && error._error ? error._error : error
     }
 
-    get dirty() {
-      return this.props.dirty
-    }
-
-    get pristine() {
+    isPristine() {
       return this.props.pristine
     }
 
-    get value() {
+    getValue() {
       return this.props.value
     }
 
@@ -49,7 +45,7 @@ const createConnectedField = ({
       const props = createFieldProps(getIn,
         name,
         rest,
-        this.syncError,
+        this.getSyncError(),
         asyncValidate
       )
       if (withRef) {

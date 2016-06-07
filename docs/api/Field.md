@@ -47,10 +47,35 @@ Defaults to `''` to ensure that the input is
 If `true`, the rendered component will be available with the `getRenderedComponent()` method.
 Defaults to `false`. **Cannot be used if your component is a stateless function component.**
 
+#### `normalize : (value, previousValue, allValues, previousAllValues) => nextValue` [optional]
+
+A function to convert whatever value the user has entered into the value that you want stored in 
+the Redux store for the field. For instance, if you want the value to be in all uppercase, you 
+would pass `value => value.toUpperCase()`. The parameters to your normalize function are:
+
+> ##### `value : any`
+
+> The value entered by the user.
+
+> ##### `previousValue : any`
+
+> The previous value for the field.
+
+> ##### `allValues : Object`
+
+> All the values in the entire form with the new value. This will be an Immutable `Map` if you are
+using Immutable JS.
+
+> ##### `previousAllValues : Object`
+
+> All the values in the entire form before the current change. This will be an Immutable `Map` if
+you are using Immutable JS.
+
 #### `props : object` [optional]
 
 Object with custom props to pass through the `Field` component into a component provided
-to `component` prop. This props will be merged to props provided by `Field` itself.
+to `component` prop. This props will be merged to props provided by `Field` itself. This _may_ be
+useful if you are using TypeScript.
 
 ## Usage
 

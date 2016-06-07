@@ -33,17 +33,17 @@ const processProps = (props, _value) => {
 }
 
 const createFieldProps = (getIn, name,
-  { asyncError, blur, change, defaultValue = '', dirty, focus, pristine, state, submitError,
-    value, _value, props, ...rest }, syncError, asyncValidate = noop) => {
+  { asyncError, blur, change, defaultValue = '', dirty, focus, normalize, pristine, state,
+    submitError, value, _value, props, ...rest }, syncError, asyncValidate = noop) => {
   const error = syncError || asyncError || submitError
-  const onChange = createOnChange(change)
+  const onChange = createOnChange(change, normalize)
   return processProps({
     active: state && !!getIn(state, 'active'),
     dirty,
     error,
     invalid: !!error,
     name,
-    onBlur: createOnBlur(blur, partial(asyncValidate, name)),
+    onBlur: createOnBlur(blur, normalize, partial(asyncValidate, name)),
     onChange,
     onDragStart: createOnDragStart(name, value),
     onDrop: createOnDrop(name, change),
