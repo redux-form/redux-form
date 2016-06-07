@@ -273,8 +273,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
         foo: 'some complex value'
       }
       const result = createFieldProps(getIn, 'foo', {
-        state: empty
-      }, undefined, defaultValue)
+        state: empty,
+        defaultValue
+      })
       expect(result.value).toBe(defaultValue)
     })
   })

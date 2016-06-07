@@ -45,12 +45,11 @@ const createConnectedField = ({
     }
 
     render() {
-      const { component, defaultValue, withRef, ...rest } = this.props
+      const { component, withRef, ...rest } = this.props
       const props = createFieldProps(getIn,
         name,
         rest,
         this.syncError,
-        defaultValue,
         asyncValidate
       )
       if (withRef) {
