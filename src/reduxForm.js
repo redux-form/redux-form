@@ -104,6 +104,7 @@ const createReduxForm =
                 getFormState: state => getIn(this.props.getFormState(state), this.props.form),
                 asyncValidate: this.asyncValidate,
                 getSyncErrors: this.getSyncErrors,
+                getValues: this.getValues,
                 register: this.register,
                 unregister: this.unregister
               }
@@ -146,23 +147,15 @@ const createReduxForm =
             return this.props.syncErrors
           }
 
-          get values() {
+          getValues() {
             return this.props.values
           }
 
-          get valid() {
+          isValid() {
             return this.props.valid
           }
 
-          get invalid() {
-            return this.props.invalid
-          }
-
-          get dirty() {
-            return this.props.dirty
-          }
-
-          get pristine() {
+          isPristine() {
             return this.props.pristine
           }
 
@@ -176,7 +169,7 @@ const createReduxForm =
             }
           }
 
-          get fieldList() {
+          getFieldList() {
             return this.props.registeredFields.map((field) => getIn(field, 'name'))
           }
 
@@ -238,14 +231,14 @@ const createReduxForm =
               // submitOrEvent is an event: fire submit if not already submitting
               if (!this.submitPromise) {
                 return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
-                  this.props, this.valid, this.asyncValidate, this.fieldList))
+                  this.props, this.isValid(), this.asyncValidate, this.getFieldList()))
               }
             } else {
               // submitOrEvent is the submit function: return deferred submit thunk
               return silenceEvents(() =>
               !this.submitPromise &&
               this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
-                this.props, this.valid, this.asyncValidate, this.fieldList)))
+                this.props, this.isValid(), this.asyncValidate, this.getFieldList())))
             }
           }
 
@@ -396,27 +389,27 @@ const createReduxForm =
           }
 
           get valid() {
-            return this.refs.wrapped.getWrappedInstance().valid
+            return this.refs.wrapped.getWrappedInstance().isValid()
           }
 
           get invalid() {
-            return this.refs.wrapped.getWrappedInstance().invalid
+            return !this.valid
           }
 
           get pristine() {
-            return this.refs.wrapped.getWrappedInstance().pristine
+            return this.refs.wrapped.getWrappedInstance().isPristine()
           }
 
           get dirty() {
-            return this.refs.wrapped.getWrappedInstance().dirty
+            return !this.pristine
           }
 
           get values() {
-            return this.refs.wrapped.getWrappedInstance().values
+            return this.refs.wrapped.getWrappedInstance().getValues()
           }
 
           get fieldList() { // mainly provided for testing
-            return this.refs.wrapped.getWrappedInstance().fieldList
+            return this.refs.wrapped.getWrappedInstance().getFieldList()
           }
 
           get wrappedInstance() { // for testing
