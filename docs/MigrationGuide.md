@@ -239,7 +239,7 @@ render() {
         {awards.map((award, index) => <li key={index}>
           <label>Award #{index + 1}</label>
           <input type="text" {...award}/>
-        </li>}
+        </li>)}
       </ul>
       <button onClick={() => awards.addField()}>Add Award</button>
     </div>
@@ -259,7 +259,7 @@ render() {
             {awards.map((name, index) => <li key={index}>
               <label>Award #{index + 1}</label>
               <Field name={name} type="text" component="input"/>
-            </li>}
+            </li>)}
           </ul>
           <button onClick={() => awards.push()}>Add Award</button>
         </div>
