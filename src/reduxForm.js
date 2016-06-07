@@ -92,6 +92,7 @@ const createReduxForm =
             this.reset = this.reset.bind(this)
             this.asyncValidate = this.asyncValidate.bind(this)
             this.getSyncErrors = this.getSyncErrors.bind(this)
+            this.getValues = this.getValues.bind(this)
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
             this.submitCompleted = this.submitCompleted.bind(this)

@@ -3,7 +3,7 @@ import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 import shallowCompare from 'react-addons-shallow-compare'
 
-const createField = ({ deepEqual, getIn }) => {
+const createField = ({ deepEqual, getIn, setIn }) => {
 
   class Field extends Component {
     constructor(props, context) {
@@ -12,6 +12,7 @@ const createField = ({ deepEqual, getIn }) => {
         throw new Error('Field must be inside a component decorated with reduxForm()')
       }
       this.ConnectedField = createConnectedField(context._reduxForm, { deepEqual, getIn }, props.name)
+      this.normalize = this.normalize.bind(this)
     }
 
     shouldComponentUpdate(nextProps) {
@@ -46,20 +47,37 @@ const createField = ({ deepEqual, getIn }) => {
     }
 
     get dirty() {
-      return this.refs.connected.getWrappedInstance().dirty
+      return !this.pristine
     }
 
     get pristine() {
-      return this.refs.connected.getWrappedInstance().pristine
+      return this.refs.connected.getWrappedInstance().isPristine()
     }
 
     get value() {
-      return this.refs.connected.getWrappedInstance().value
+      return this.refs.connected.getWrappedInstance().getValue()
+    }
+    
+    normalize(value) {
+      const { normalize } = this.props
+      if(!normalize) {
+        return value
+      }
+      const previousValues = this.context._reduxForm.getValues()
+      const previousValue = this.value
+      const nextValues = setIn(previousValues, this.props.name, value)
+      return normalize(
+        value,
+        previousValue,
+        nextValues,
+        previousValues
+      )
     }
 
     render() {
       return createElement(this.ConnectedField, {
         ...this.props,
+        normalize: this.normalize,
         ref: 'connected'
       })
     }
@@ -69,6 +87,7 @@ const createField = ({ deepEqual, getIn }) => {
     name: PropTypes.string.isRequired,
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     defaultValue: PropTypes.any,
+    normalize: PropTypes.func,
     props: PropTypes.object
   }
   Field.contextTypes = {
