@@ -453,6 +453,46 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
     })
 
+    it('should NOT rerender when props.props is shallow-equal, but !==', () => {
+      const store = makeStore()
+      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const renderSpy = createSpy()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { foo: 'bar' }
+        }
+
+        render() {
+          renderSpy()
+          return (<div>
+            <Field name="myField" component={input} props={{ cat: 2, dog: 3 }}/>
+            <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(renderSpy).toHaveBeenCalled()
+      expect(renderSpy.calls.length).toBe(1)
+
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].cat).toBe(2)
+      expect(input.calls[ 0 ].arguments[ 0 ].dog).toBe(3)
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(renderSpy.calls.length).toBe(2)
+
+      expect(input.calls.length).toBe(1)
+    })
+
     it('should call normalize function on change', () => {
       const store = makeStore({
         testForm: {
