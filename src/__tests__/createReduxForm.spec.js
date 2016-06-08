@@ -2808,4 +2808,34 @@ describe('createReduxForm', () => {
     // FAILS
     //expect(lastPrevBarValue).toNotEqual(lastNextBarValue);
   });
+
+  it('treats null the same as undefined when setting initial values', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    class NullInitialValuesTestForm extends Component {
+      render() {
+        const {fields: { name }} = this.props;
+        expect(name.initialValue).toBe('');
+        expect(name.value).toBe('');
+
+        return (
+          <div>
+            <input {...name} />
+          </div>
+        );
+      }
+    }
+    NullInitialValuesTestForm.propTypes = {
+      fields: PropTypes.object.isRequired
+    };
+    const Decorated = reduxForm({
+      form,
+      fields: ['name']
+    })(NullInitialValuesTestForm);
+    TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated initialValues={{name: null}}/>
+      </Provider>
+    );
+  });
 });

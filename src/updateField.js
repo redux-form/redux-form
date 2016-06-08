@@ -1,12 +1,14 @@
 import isPristine from './isPristine';
 import isValid from './isValid';
+import isNil from './isNil';
 
 /**
  * Updates a field object from the store values
  */
 const updateField = (field, formField, active, syncError) => {
   const diff = {};
-  const formFieldValue = formField.value === undefined ? '' : formField.value;
+  const formFieldValue = isNil(formField.value) ? '' : formField.value;
+  const formFieldInitial = isNil(formField.initial) ? '' : formField.initial;
 
   // update field value
   if (field.value !== formFieldValue) {
@@ -15,7 +17,7 @@ const updateField = (field, formField, active, syncError) => {
   }
 
   // update dirty/pristine
-  const pristine = isPristine(formFieldValue, formField.initial);
+  const pristine = isPristine(formFieldValue, formFieldInitial);
   if (field.pristine !== pristine) {
     diff.dirty = !pristine;
     diff.pristine = pristine;
@@ -48,8 +50,8 @@ const updateField = (field, formField, active, syncError) => {
     diff.autofilled = autofilled;
   }
 
-  if ('initial' in formField && formField.initial !== field.initialValue) {
-    field.initialValue = formField.initial;
+  if ('initial' in formField && formFieldInitial !== field.initialValue) {
+    field.initialValue = formFieldInitial;
   }
 
   return Object.keys(diff).length ? {
