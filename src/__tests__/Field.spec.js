@@ -18,7 +18,7 @@ const describeField = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const reducer = createReducer(structure)
-  const { fromJS } = structure
+  const { fromJS, getIn } = structure
   const makeStore = (initial) => createStore(
     combineReducers({ form: reducer }), fromJS({ form: initial }))
 
@@ -606,58 +606,61 @@ const describeField = (name, structure, combineReducers, expect) => {
     // ----------------------------------------------
     // Uncomment this to confirm that #1024 is fixed.
     // ----------------------------------------------
-    // it('should rerender when sync error changes', () => {
-    //   const store = makeStore({
-    //     testForm: {
-    //       values: {
-    //         password: 'redux-form sucks',
-    //         confirm: 'redux-form rocks'
-    //       }
-    //     }
-    //   })
-    //   const passwordInput = createSpy(props => <input {...props}/>).andCallThrough()
-    //   const confirmInput = createSpy(props => <input {...props}/>).andCallThrough()
-    //   const validate = ({ password, confirm }) =>
-    //     password === confirm ? {} : { confirm: 'Must match!' }
-    //   class Form extends Component {
-    //     render() {
-    //       return (<div>
-    //         <Field name="password" component={passwordInput}/>
-    //         <Field name="confirm" component={confirmInput}/>
-    //       </div>)
-    //     }
-    //   }
-    //   const TestForm = reduxForm({
-    //     form: 'testForm',
-    //     validate
-    //   })(Form)
-    //   const dom = TestUtils.renderIntoDocument(
-    //     <Provider store={store}>
-    //       <TestForm/>
-    //     </Provider>
-    //   )
-    //
-    //   // password input rendered
-    //   expect(passwordInput).toHaveBeenCalled()
-    //   expect(passwordInput.calls.length).toBe(1)
-    //
-    //   // confirm input rendered with error
-    //   expect(confirmInput).toHaveBeenCalled()
-    //   expect(confirmInput.calls.length).toBe(1)
-    //   expect(confirmInput.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
-    //   expect(confirmInput.calls[ 0 ].arguments[ 0 ].error).toBe('Must match!')
-    //
-    //   // update password field so that they match
-    //   passwordInput.calls[ 0 ].arguments[ 0 ].onChange('redux-form rocks')
-    //
-    //   // password input rerendered
-    //   expect(passwordInput.calls.length).toBe(2)
-    //
-    //   // confirm input should also rerender, but with no error
-    //   expect(confirmInput.calls.length).toBe(2)
-    //   expect(confirmInput.calls[ 1 ].arguments[ 0 ].valid).toBe(true)
-    //   expect(confirmInput.calls[ 1 ].arguments[ 0 ].error).toBe(undefined)
-    // })
+    it('should rerender when sync error changes', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            password: 'redux-form sucks',
+            confirm: 'redux-form rocks'
+          }
+        }
+      })
+      const passwordInput = createSpy(props => <input {...props}/>).andCallThrough()
+      const confirmInput = createSpy(props => <input {...props}/>).andCallThrough()
+      const validate = values => {
+        const password = getIn(values, 'password')
+        const confirm = getIn(values, 'confirm')
+        return password === confirm ? {} : { confirm: 'Must match!' }
+      }
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Field name="password" component={passwordInput}/>
+            <Field name="confirm" component={confirmInput}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        validate
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // password input rendered
+      expect(passwordInput).toHaveBeenCalled()
+      expect(passwordInput.calls.length).toBe(1)
+
+      // confirm input rendered with error
+      expect(confirmInput).toHaveBeenCalled()
+      expect(confirmInput.calls.length).toBe(1)
+      expect(confirmInput.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
+      expect(confirmInput.calls[ 0 ].arguments[ 0 ].error).toBe('Must match!')
+
+      // update password field so that they match
+      passwordInput.calls[ 0 ].arguments[ 0 ].onChange('redux-form rocks')
+
+      // password input rerendered
+      expect(passwordInput.calls.length).toBe(2)
+
+      // confirm input should also rerender, but with no error
+      expect(confirmInput.calls.length).toBe(2)
+      expect(confirmInput.calls[ 1 ].arguments[ 0 ].valid).toBe(true)
+      expect(confirmInput.calls[ 1 ].arguments[ 0 ].error).toBe(undefined)
+    })
   })
 }
 

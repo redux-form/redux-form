@@ -2,7 +2,6 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import { mapValues } from 'lodash'
-import plain from './structure/plain'
 
 const createConnectedField = ({
   asyncValidate,
@@ -18,14 +17,6 @@ const createConnectedField = ({
   class ConnectedField extends Component {
     shouldComponentUpdate(nextProps) {
       return !deepEqual(this.props, nextProps)
-    }
-
-    getSyncError() {
-      const { _reduxForm: { getSyncErrors } } = this.context
-      const error = plain.getIn(getSyncErrors(), name)
-      // Because the error for this field might not be at a level in the error structure where
-      // it can be set directly, it might need to be unwrapped from the _error property
-      return error && error._error ? error._error : error
     }
 
     isPristine() {
@@ -45,7 +36,6 @@ const createConnectedField = ({
       const props = createFieldProps(getIn,
         name,
         rest,
-        this.getSyncError(),
         asyncValidate
       )
       if (withRef) {
