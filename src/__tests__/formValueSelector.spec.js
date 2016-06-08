@@ -174,15 +174,15 @@ const describeFormValueSelector = (name, structure, expect) => {
         form: {
           myForm: {
             values: {
-              mice: ['Jaq', 'Gus', 'Major', 'Bruno']
+              mice: [ 'Jaq', 'Gus', 'Major', 'Bruno' ]
             }
           }
         }
       })
       expect(selector(state, 'mice'))
-        .toEqualMap(['Jaq', 'Gus', 'Major', 'Bruno'])
+        .toEqualMap([ 'Jaq', 'Gus', 'Major', 'Bruno' ])
     })
-    
+
     it('should get a single value using a different mount point', () => {
       const selector = formValueSelector('myForm', state => getIn(state, 'otherMountPoint'))
       const state = fromJS({
