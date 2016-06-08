@@ -49,16 +49,16 @@ class ContactForm extends Component {
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <label>First Name</label>
-          <input type="text" placeholder="First Name" {...firstName}/>
+          <label for="firstname">First Name</label>
+          <input id="firstname" type="text" placeholder="First Name" {...firstName}/>
         </div>
         <div>
-          <label>Last Name</label>
-          <input type="text" placeholder="Last Name" {...lastName}/>
+          <label for="lastname">Last Name</label>
+          <input id="lastname" type="text" placeholder="Last Name" {...lastName}/>
         </div>
         <div>
-          <label>Email</label>
-          <input type="email" placeholder="Email" {...email}/>
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="Email" {...email}/>
         </div>
         <button type="submit">Submit</button>
       </form>

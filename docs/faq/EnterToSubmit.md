@@ -11,11 +11,11 @@ render() {
       <button type="button">Load Data</button>
       <button type="button">Delete Record</button>
       
-      <label>First Name</label>
-      <input type="text" {...firstName}/>
+      <label for="firstname">First Name</label>
+      <input id="firstname" type="text" {...firstName}/>
       
-      <label>Last Name</label>
-      <input type="text" {...lastName}/>
+      <label for="lastname">Last Name</label>
+      <input id="lastname" type="text" {...lastName}/>
       
       <button type="submit">Submit</button>
       <button type="button">Do Something Else</button>
