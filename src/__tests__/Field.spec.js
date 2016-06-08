@@ -634,7 +634,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         form: 'testForm',
         validate
       })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm/>
         </Provider>

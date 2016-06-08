@@ -2,7 +2,6 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import { mapValues } from 'lodash'
-import plain from './structure/plain'
 
 const createConnectedField = ({
   asyncValidate,
