@@ -280,7 +280,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender.calls[ 0 ].arguments[ 0 ].value).toBe('bar')
     })
 
-    it('should initialize with initialValues on later render', () => {
+    it('should initialize with initialValues on later render if not already initialized', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
       const formRender = createSpy()
@@ -330,12 +330,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
-      const checkFormProps = props => {
-        expect(props.pristine).toBe(true)
-        expect(props.dirty).toBe(false)
-        expect(props.initialized).toBe(false)
-      }
-      checkFormProps(formRender.calls[ 0 ].arguments[ 0 ])
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
@@ -374,6 +368,198 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'bar')
     })
 
+    it('should NOT reinitialize with initialValues', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        deep: {
+          foo: 'baz'
+        }
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state}/>
+              </Provider>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      const checkInputProps = (props, value) => {
+        expect(props.pristine).toBe(true)
+        expect(props.dirty).toBe(false)
+        expect(props.value).toBe(value)
+      }
+      checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
+
+      // initialize
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(initButton)
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+
+      // rerender just because prop changed
+      expect(formRender.calls.length).toBe(2)
+
+      // no need to rerender input since nothing changed
+      expect(inputRender.calls.length).toBe(1)
+    })
+
+    it('should reinitialize with initialValues if enableReinitialize', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        deep: {
+          foo: 'baz'
+        }
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state}/>
+              </Provider>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      const checkInputProps = (props, value) => {
+        expect(props.pristine).toBe(true)
+        expect(props.dirty).toBe(false)
+        expect(props.value).toBe(value)
+      }
+      checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
+
+      // initialize
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(initButton)
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
+            initial: initialValues2,
+            values: initialValues2
+          }
+        }
+      })
+
+      // rerendered twice because prop changed and values initialized
+      expect(formRender.calls.length).toBe(3)
+
+      // should rerender input with new value
+      expect(inputRender.calls.length).toBe(2)
+      checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'baz')
+    })
+    
     it('should destroy on unmount by default', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
