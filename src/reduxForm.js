@@ -81,6 +81,7 @@ const createReduxForm =
         touchOnChange: false,
         destroyOnUnmount: true,
         shouldAsyncValidate: defaultShouldAsyncValidate,
+        enableReinitialize: false,
         getFormState: state => getIn(state, 'form'),
         ...initialConfig
       }
@@ -112,14 +113,20 @@ const createReduxForm =
             }
           }
 
-          initIfNeeded({ initialize, initialized, initialValues }) {
-            if (initialValues && !initialized) {
-              initialize(initialValues)
+          initIfNeeded(nextProps) {
+            if(nextProps) {
+              const { enableReinitialize } = this.props
+              if((enableReinitialize || !nextProps.initialized) && 
+                !deepEqual(this.props.initialValues, nextProps.initialValues)) {
+                this.props.initialize(nextProps.initialValues)
+              }
+            } else if (this.props.initialValues) {
+              this.props.initialize(this.props.initialValues)
             }
           }
 
           componentWillMount() {
-            this.initIfNeeded(this.props)
+            this.initIfNeeded()
           }
 
           componentWillReceiveProps(nextProps) {
@@ -260,15 +267,15 @@ const createReduxForm =
               arraySwap,
               arrayUnshift,
               asyncErrors,
-              reduxMountPoint,
               destroyOnUnmount,
+              enableReinitialize,
               getFormState,
+              registerField,
               touchOnBlur,
               touchOnChange,
               syncErrors,
-              values,
-              registerField,
               unregisterField,
+              values,
               ...passableProps
             } = this.props
             /* eslint-enable no-unused-vars */

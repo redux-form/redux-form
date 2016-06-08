@@ -53,6 +53,11 @@ details.
 > Whether or not to automatically destroy your form's state in the Redux store when your
 component is unmounted. Defaults to `true`.
 
+#### `enableReinitialize : boolean` [optional]
+
+> When set to `true`, the form will reinitialize every time the `initialValues` prop changes.
+Defaults to `false`.
+
 #### `getFormState : Function` [optional]
 
 > A function that takes the entire Redux state and returns the state slice which corresponds to 
