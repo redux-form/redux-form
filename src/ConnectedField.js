@@ -1,7 +1,7 @@
 import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
-import { partial, mapValues } from 'lodash'
+import { mapValues } from 'lodash'
 import plain from './structure/plain'
 
 const createConnectedField = ({
@@ -65,7 +65,7 @@ const createConnectedField = ({
     _reduxForm: PropTypes.object
   }
 
-  const actions = mapValues({ blur, change, focus }, actionCreator => partial(actionCreator, name))
+  const actions = mapValues({ blur, change, focus }, actionCreator => actionCreator.bind(null, name))
   const connector = connect(
     (state, ownProps) => {
       const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue

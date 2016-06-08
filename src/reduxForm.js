@@ -2,7 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import hoistStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { mapValues, partial, partialRight } from 'lodash'
+import { mapValues } from 'lodash'
 import isPromise from 'is-promise'
 import getDisplayName from './util/getDisplayName'
 import * as importedActions from './actions'
@@ -339,13 +339,13 @@ const createReduxForm =
             }
           },
           (dispatch, initialProps) => {
-            const bindForm = actionCreator => partial(actionCreator, initialProps.form)
+            const bindForm = actionCreator => actionCreator.bind(null, initialProps.form)
 
             // Bind the first parameter on `props.form`
             const boundFormACs = mapValues(formActions, bindForm)
             const boundArrayACs = mapValues(arrayActions, bindForm)
-            const boundBlur = partialRight(bindForm(blur), !!initialProps.touchOnBlur)
-            const boundChange = partialRight(bindForm(change), !!initialProps.touchOnChange)
+            const boundBlur = (field, value) => blur(initialProps.form, field, value, !!initialProps.touchOnBlur)
+            const boundChange = (field, value) => change(initialProps.form, field, value, !!initialProps.touchOnChange)
             const boundFocus = bindForm(focus)
 
             // Wrap action creators with `dispatch`

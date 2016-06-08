@@ -1,7 +1,7 @@
 import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldArrayProps from './createFieldArrayProps'
-import { partial, mapValues } from 'lodash'
+import { mapValues } from 'lodash'
 import plain from './structure/plain'
 import shallowCompare from 'react-addons-shallow-compare'
 
@@ -85,7 +85,7 @@ const createConnectedFieldArray = ({
     arraySplice,
     arraySwap,
     arrayUnshift
-  }, actionCreator => partial(actionCreator, name))
+  }, actionCreator => actionCreator.bind(null, name))
   const connector = connect(
     state => {
       const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue

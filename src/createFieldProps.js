@@ -3,7 +3,7 @@ import createOnChange from './events/createOnChange'
 import createOnDragStart from './events/createOnDragStart'
 import createOnDrop from './events/createOnDrop'
 import createOnFocus from './events/createOnFocus'
-import { partial, noop } from 'lodash'
+import { noop } from 'lodash'
 
 const processProps = (props, _value) => {
   const { type, value, ...rest } = props
@@ -43,7 +43,7 @@ const createFieldProps = (getIn, name,
     error,
     invalid: !!error,
     name,
-    onBlur: createOnBlur(blur, normalize, partial(asyncValidate, name)),
+    onBlur: createOnBlur(blur, normalize, asyncValidate.bind(null, name)),
     onChange,
     onDragStart: createOnDragStart(name, value),
     onDrop: createOnDrop(name, change),
