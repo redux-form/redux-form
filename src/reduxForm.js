@@ -214,7 +214,7 @@ const createReduxForm =
 
           submitCompleted(result) {
             delete this.submitPromise
-            return resultgetIn(formState, 'registeredFields')
+            return result
           }
 
           listenToSubmit(promise) {
@@ -413,7 +413,7 @@ const createReduxForm =
             return this.refs.wrapped.getWrappedInstance().getFieldList()
           }
 
-          get wrappedInstance() { // for testing
+          get wrappedInstance() { // for testine
             return this.refs.wrapped.getWrappedInstance().refs.wrapped
           }
 
