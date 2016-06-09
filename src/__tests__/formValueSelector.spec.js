@@ -183,6 +183,33 @@ const describeFormValueSelector = (name, structure, expect) => {
         .toEqualMap([ 'Jaq', 'Gus', 'Major', 'Bruno' ])
     })
 
+    it('should get a deep array', () => {
+      const selector = formValueSelector('myForm')
+      const state = fromJS({
+        form: {
+          myForm: {
+            values: {
+              rodent: {
+                rat: {
+                  hog: 'Willbur'
+                },
+                mice: [ 'Jaq', 'Gus', 'Major', 'Bruno' ]
+              }
+            }
+          }
+        }
+      })
+      expect(selector(state, 'rodent.rat.hog', 'rodent.mice'))
+        .toEqual({
+          rodent: {
+            rat: {
+              hog: 'Willbur'
+            },
+            mice: [ 'Jaq', 'Gus', 'Major', 'Bruno' ]
+          }
+        })
+    })
+
     it('should get a single value using a different mount point', () => {
       const selector = formValueSelector('myForm', state => getIn(state, 'otherMountPoint'))
       const state = fromJS({
