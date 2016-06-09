@@ -191,7 +191,7 @@ const describeFormValueSelector = (name, structure, expect) => {
             values: {
               rodent: {
                 rat: {
-                  hog: 'Willbur'
+                  hog: 'Wilbur'
                 },
                 mice: [ 'Jaq', 'Gus', 'Major', 'Bruno' ]
               }
@@ -203,9 +203,9 @@ const describeFormValueSelector = (name, structure, expect) => {
         .toEqual({
           rodent: {
             rat: {
-              hog: 'Willbur'
+              hog: 'Wilbur'
             },
-            mice: [ 'Jaq', 'Gus', 'Major', 'Bruno' ]
+            mice: fromJS([ 'Jaq', 'Gus', 'Major', 'Bruno' ])
           }
         })
     })
