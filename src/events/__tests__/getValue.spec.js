@@ -101,7 +101,7 @@ describe('getValue', () => {
     }, false)).toBe(false)
   })
 
-  it('should return a number type for numeric inputs', () => {
+  it('should return a number type for numeric inputs, when a value is set', () => {
     expect(getValue({
       preventDefault: noop,
       stopPropagation: noop,
@@ -134,6 +134,15 @@ describe('getValue', () => {
         value: '3.1415'
       }
     }, false)).toBe(3.1415)
+
+    expect(getValue({
+      preventDefault: noop,
+      stopPropagation: noop,
+      target: {
+        type: 'range',
+        value: ''
+      }
+    }, false)).toBe('')
   })
 
   it('should return event.target.files if file', () => {
