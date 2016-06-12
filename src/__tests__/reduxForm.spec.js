@@ -321,10 +321,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
 
       const dom = TestUtils.renderIntoDocument(<Container/>)
+      const registeredFields = [ { name: 'deep.foo', type: 'Field' } ]
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields
           }
         }
       })
@@ -355,7 +356,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               }
             ],
             initial: initialValues,
-            values: initialValues
+            values: initialValues,
+            registeredFields
           }
         }
       })
