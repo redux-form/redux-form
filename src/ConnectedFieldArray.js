@@ -25,8 +25,8 @@ const createConnectedFieldArray = ({
   const propInitialValue = initialValues && getIn(initialValues, name)
 
   class ConnectedFieldArray extends Component {
-    shouldComponentUpdate(nextProps) {
-      return shallowCompare(this, nextProps)
+    shouldComponentUpdate(nextProps, nextState) {
+      return shallowCompare(this, nextProps, nextState)
     }
 
     get syncError() {
