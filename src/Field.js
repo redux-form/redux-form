@@ -16,7 +16,10 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       this.normalize = this.normalize.bind(this)
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+      if (this.context._reduxForm.syncErrors !== nextContext._reduxForm.syncErrors) {
+        return true
+      }
       return shallowCompare(this, nextProps, nextState)
     }
 
@@ -87,7 +90,7 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       return createElement(this.ConnectedField, {
         ...this.props,
         normalize: this.normalize,
-        syncError: this.getSyncError(),
+        syncError: this.getSyncError(this.context),
         ref: 'connected'
       })
     }
