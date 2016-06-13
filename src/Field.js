@@ -16,8 +16,11 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       this.normalize = this.normalize.bind(this)
     }
 
-    shouldComponentUpdate(nextProps) {
-      return shallowCompare(this, nextProps)
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+      if (this.context._reduxForm.syncErrors !== nextContext._reduxForm.syncErrors) {
+        return true
+      }
+      return shallowCompare(this, nextProps, nextState)
     }
 
     componentWillMount() {
@@ -58,7 +61,7 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     get value() {
       return this.refs.connected.getWrappedInstance().getValue()
     }
-    
+
     normalize(value) {
       const { normalize } = this.props
       if(!normalize) {
@@ -82,12 +85,12 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       // it can be set directly, it might need to be unwrapped from the _error property
       return error && error._error ? error._error : error
     }
-    
+
     render() {
       return createElement(this.ConnectedField, {
         ...this.props,
         normalize: this.normalize,
-        syncError: this.getSyncError(),
+        syncError: this.getSyncError(this.context),
         ref: 'connected'
       })
     }
