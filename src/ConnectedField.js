@@ -55,7 +55,6 @@ const createConnectedField = ({
     _reduxForm: PropTypes.object
   }
 
-  const actions = mapValues({ blur, change, focus }, actionCreator => actionCreator.bind(null, name))
   const connector = connect(
     (state, ownProps) => {
       const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue
@@ -72,7 +71,10 @@ const createConnectedField = ({
         _value: ownProps.value // save value passed in (for checkboxes)
       }
     },
-    actions,
+    (dispatch, initialProps) => mapValues({ blur, change, focus }, actionCreator => (...args) => {
+      const prioritizedDispatch = initialProps.dispatch || dispatch
+      return prioritizedDispatch(actionCreator(name, ...args))
+    }),
     undefined,
     { withRef: true }
   )

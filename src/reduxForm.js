@@ -375,7 +375,7 @@ const createReduxForm =
               change: boundChange,
               array: connectedArrayACs,
               focus: boundFocus,
-              dispatch
+              dispatch: initialProps.dispatch || dispatch
             }
 
             return () => computedActions

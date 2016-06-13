@@ -1,10 +1,11 @@
 /* eslint react/no-multi-comp:0 */
 import React, { Component } from 'react'
-import { createSpy } from 'expect'
+import { createSpy, spyOn } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-addons-test-utils'
+import { CHANGE } from '../actionTypes'
 import createReduxForm from '../reduxForm'
 import createReducer from '../reducer'
 import createField from '../Field'
@@ -454,9 +455,11 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
+      const testingProps = { cat: 2, dog: 3 }
       const store = makeStore()
       const input = createSpy(props => <input {...props}/>).andCallThrough()
       const renderSpy = createSpy()
+
       class Form extends Component {
         constructor() {
           super()
@@ -466,7 +469,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         render() {
           renderSpy()
           return (<div>
-            <Field name="myField" component={input} props={{ cat: 2, dog: 3 }}/>
+            <Field name="myField" component={input} props={testingProps}/>
             <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
           </div>)
         }
@@ -660,6 +663,34 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(confirmInput.calls.length).toBe(2)
       expect(confirmInput.calls[ 1 ].arguments[ 0 ].valid).toBe(true)
       expect(confirmInput.calls[ 1 ].arguments[ 0 ].error).toBe(undefined)
+    })
+
+    it('should prioritize dispatch passed via props over connected dispatch', () => {
+      const store = makeStore()
+
+      spyOn(store, 'dispatch')
+      const dispatchSpy = createSpy()
+
+      const TestForm = reduxForm({ form: 'testForm' })(
+        () => <Field name="myField" component="input" type="text" dispatch={dispatchSpy} />)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // Change action should be dispatched after input value has changed
+      expect(dispatchSpy).toNotHaveBeenCalled()
+
+      const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+      TestUtils.Simulate.change(input)
+
+      // Provided dispatch function which has been passed via props
+      // should be used, and store.dispatch should be called just once
+      // because of Redux/@@INIT
+      expect(dispatchSpy.calls[ 0 ].arguments[ 0 ].type).toBe(CHANGE)
+      expect(store.dispatch.calls.length).toBe(1) // Redux always dispatches at least one INIT action, that's why 1 over 0
     })
   })
 }
