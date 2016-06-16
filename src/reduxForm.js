@@ -92,7 +92,6 @@ const createReduxForm =
             this.submit = this.submit.bind(this)
             this.reset = this.reset.bind(this)
             this.asyncValidate = this.asyncValidate.bind(this)
-            this.getSyncErrors = this.getSyncErrors.bind(this)
             this.getValues = this.getValues.bind(this)
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
@@ -105,7 +104,6 @@ const createReduxForm =
                 ...this.props,
                 getFormState: state => getIn(this.props.getFormState(state), this.props.form),
                 asyncValidate: this.asyncValidate,
-                getSyncErrors: this.getSyncErrors,
                 getValues: this.getValues,
                 register: this.register,
                 unregister: this.unregister
@@ -149,10 +147,6 @@ const createReduxForm =
               this.destroyed = true
               destroy()
             }
-          }
-
-          getSyncErrors() {
-            return this.props.syncErrors
           }
 
           getValues() {
