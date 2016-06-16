@@ -29,11 +29,6 @@ const createConnectedFieldArray = ({
       return shallowCompare(this, nextProps)
     }
 
-    get syncError() {
-      const { _reduxForm: { getSyncErrors } } = this.context
-      return plain.getIn(getSyncErrors(), `${name}._error`)
-    }
-
     get dirty() {
       return this.props.dirty
     }
@@ -56,8 +51,7 @@ const createConnectedFieldArray = ({
         getIn,
         size,
         name,
-        rest,
-        this.syncError
+        rest
       )
       if (withRef) {
         props.ref = 'renderedComponent'
