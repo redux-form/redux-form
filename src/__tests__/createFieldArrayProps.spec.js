@@ -54,9 +54,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should provide errors', () => {
-      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').fields.error).toBe('Sync Error')
-      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').fields.valid).toBe(false)
-      expect(createFieldArrayProps(...defaultProps, {}, 'Sync Error').fields.invalid).toBe(true)
+      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).fields.error).toBe('Sync Error')
+      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).fields.valid).toBe(false)
+      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).fields.invalid).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
       }).fields.error).toBe('Async Error')

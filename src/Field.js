@@ -4,6 +4,14 @@ import createConnectedField from './ConnectedField'
 import shallowCompare from 'react-addons-shallow-compare'
 import plain from './structure/plain'
 
+const getSyncError = (context, name) => {
+  const { _reduxForm: { syncErrors } } = context
+  const error = plain.getIn(syncErrors, name)
+  // Because the error for this field might not be at a level in the error structure where
+  // it can be set directly, it might need to be unwrapped from the _error property
+  return error && error._error ? error._error : error
+}
+
 const createField = ({ deepEqual, getIn, setIn }) => {
 
   class Field extends Component {
@@ -12,12 +20,16 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       if (!context._reduxForm) {
         throw new Error('Field must be inside a component decorated with reduxForm()')
       }
-      this.ConnectedField = createConnectedField(context._reduxForm, { deepEqual, getIn }, props.name)
+      this.ConnectedField = createConnectedField(context._reduxForm, {
+        deepEqual,
+        getIn
+      }, props.name)
       this.normalize = this.normalize.bind(this)
     }
 
-    shouldComponentUpdate(nextProps) {
-      return shallowCompare(this, nextProps)
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+      const nextSyncError = getSyncError(nextContext, nextProps.name)
+      return shallowCompare(this, nextProps, nextState) || this.syncError !== nextSyncError
     }
 
     componentWillMount() {
@@ -43,6 +55,10 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       return this.refs.connected.getWrappedInstance().getRenderedComponent()
     }
 
+    get syncError() {
+      return getSyncError(this.context, this.props.name)
+    }
+    
     get name() {
       return this.props.name
     }
@@ -58,10 +74,10 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     get value() {
       return this.refs.connected.getWrappedInstance().getValue()
     }
-    
+
     normalize(value) {
       const { normalize } = this.props
-      if(!normalize) {
+      if (!normalize) {
         return value
       }
       const previousValues = this.context._reduxForm.getValues()
@@ -75,19 +91,11 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       )
     }
 
-    getSyncError() {
-      const { _reduxForm: { getSyncErrors } } = this.context
-      const error = plain.getIn(getSyncErrors(), this.props.name)
-      // Because the error for this field might not be at a level in the error structure where
-      // it can be set directly, it might need to be unwrapped from the _error property
-      return error && error._error ? error._error : error
-    }
-    
     render() {
       return createElement(this.ConnectedField, {
         ...this.props,
         normalize: this.normalize,
-        syncError: this.getSyncError(),
+        syncError: this.syncError,
         ref: 'connected'
       })
     }

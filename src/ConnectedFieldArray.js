@@ -2,7 +2,6 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
-import plain from './structure/plain'
 import shallowCompare from 'react-addons-shallow-compare'
 
 const createConnectedFieldArray = ({
@@ -29,11 +28,6 @@ const createConnectedFieldArray = ({
       return shallowCompare(this, nextProps)
     }
 
-    get syncError() {
-      const { _reduxForm: { getSyncErrors } } = this.context
-      return plain.getIn(getSyncErrors(), `${name}._error`)
-    }
-
     get dirty() {
       return this.props.dirty
     }
@@ -56,8 +50,7 @@ const createConnectedFieldArray = ({
         getIn,
         size,
         name,
-        rest,
-        this.syncError
+        rest
       )
       if (withRef) {
         props.ref = 'renderedComponent'

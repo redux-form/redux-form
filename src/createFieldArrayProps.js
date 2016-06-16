@@ -1,9 +1,10 @@
 const createFieldArrayProps = (getIn, size, name,
   {
     arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
-    arraySplice, arraySwap, arrayUnshift, asyncError, dirty, pristine, state,
-    submitError, submitFailed, value, props, ...rest
-  }, syncError) => {
+    arraySplice, arraySwap, arrayUnshift, asyncError, // eslint-disable-line no-unused-vars
+    dirty, pristine, submitError, submitFailed, // eslint-disable-line no-unused-vars
+    syncError, value, props, ...rest
+  }) => {
   const error = syncError || asyncError || submitError
   const length = size(value)
   return {
