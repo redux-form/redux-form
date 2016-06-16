@@ -503,6 +503,41 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(component.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
     })
 
+    it('should allow addition after focus', () => {
+      const store = makeStore()
+      const component = createSpy(() => <div/>).andCallThrough()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { foo: 'foo', bar: 'bar' }
+        }
+
+        render() {
+          return (<div>
+            <FieldArray name="foo" foo={this.state.foo} bar={this.state.bar} component={component}/>
+            <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(component).toHaveBeenCalled()
+      expect(component.calls.length).toBe(1)
+      expect(component.calls[ 0 ].arguments[ 0 ].foo).toBe('foo')
+      expect(component.calls[ 0 ].arguments[ 0 ].bar).toBe('bar')
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(component.calls.length).toBe(2)
+      expect(component.calls[ 1 ].arguments[ 0 ].foo).toBe('qux')
+      expect(component.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
+    })
+
     it('should rerender when array sync error appears or disappears', () => {
       const store = makeStore({
         testForm: {
