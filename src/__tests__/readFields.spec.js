@@ -460,7 +460,7 @@ describe('readFields', () => {
       asyncBlurFields: [],
       blur,
       change,
-      fields: [ 'foo', 'bar', 'another', 'stringField' ],
+      fields: [ 'foo', 'bar', 'another', 'stringBoolFoo', 'stringBoolBar', 'stringField' ],
       focus,
       form: {
         foo: {

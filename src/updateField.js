@@ -1,5 +1,6 @@
 import isPristine from './isPristine';
 import isValid from './isValid';
+import isChecked from './isChecked';
 
 /**
  * Updates a field object from the store values
@@ -11,7 +12,7 @@ const updateField = (field, formField, active, syncError) => {
   // update field value
   if (field.value !== formFieldValue) {
     diff.value = formFieldValue;
-    diff.checked = typeof formFieldValue === 'boolean' ? formFieldValue : undefined;
+    diff.checked = isChecked(formFieldValue);
   }
 
   // update dirty/pristine
