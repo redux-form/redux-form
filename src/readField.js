@@ -6,6 +6,7 @@ import createOnFocus from './events/createOnFocus';
 import silencePromise from './silencePromise';
 import read from './read';
 import updateField from './updateField';
+import isChecked from './isChecked';
 
 function getSuffix(input, closeIndex) {
   let suffix = input.substring(closeIndex + 1);
@@ -121,7 +122,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     let initialValue = initialFormValue || read(name, initialValues);
     initialValue = initialValue === undefined ? '' : initialValue;
     field.name = name;
-    field.checked = String(initialValue).toLowerCase() === 'true' || undefined;
+    field.checked = isChecked(initialValue);
     field.value = initialValue;
     field.initialValue = initialValue;
     if (!readonly) {
