@@ -472,9 +472,16 @@ describe('readFields', () => {
         another: {
           value: ''
         },
+        stringBoolFoo: {
+          value: 'false'
+        },
+        stringBoolBar: {
+          value: 'true'
+        },
         stringField: {
           value: 'baz'
         }
+
       },
       validate: noValidation
     }, {}, {});
@@ -510,6 +517,28 @@ describe('readFields', () => {
       error: undefined,
       readonly: false,
       checked: undefined
+    });
+    expectField({
+      field: result.stringBoolFoo,
+      name: 'stringBoolFoo',
+      value: 'false',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      readonly: false,
+      checked: false
+    });
+    expectField({
+      field: result.stringBoolBar,
+      name: 'stringBoolBar',
+      value: 'true',
+      dirty: true,
+      touched: false,
+      visited: false,
+      error: undefined,
+      readonly: false,
+      checked: true
     });
     expectField({
       field: result.stringField,
