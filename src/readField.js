@@ -115,7 +115,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     const initialFormValue = read(`${name}.initial`, form);
     const initialValue = initialFormValue || read(name, initialValues);
     field.name = name;
-    field.checked = initialValue === true || undefined;
+    field.checked = String(initialValue).toLowerCase() === 'true' || undefined;
     field.value = initialValue;
     field.initialValue = initialValue;
     if (!readonly) {
