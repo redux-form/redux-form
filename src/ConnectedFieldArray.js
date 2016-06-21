@@ -6,9 +6,11 @@ import shallowCompare from 'react-addons-shallow-compare'
 
 const createConnectedFieldArray = ({
   arrayInsert,
+  arrayMove,
   arrayPop,
   arrayPush,
   arrayRemove,
+  arrayRemoveAll,
   arrayShift,
   arraySplice,
   arraySwap,
@@ -71,9 +73,11 @@ const createConnectedFieldArray = ({
 
   const actions = mapValues({
     arrayInsert,
+    arrayMove,
     arrayPop,
     arrayPush,
     arrayRemove,
+    arrayRemoveAll,
     arrayShift,
     arraySplice,
     arraySwap,
