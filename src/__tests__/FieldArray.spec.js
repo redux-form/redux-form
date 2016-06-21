@@ -103,6 +103,119 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props2.fields.dirty).toBe(true)
     })
 
+    it('should provide forEach', () => {
+      const props = testProps({
+        values: {
+          foo: [ 'a', 'b', 'c' ]
+        }
+      })
+      expect(props.fields.forEach).toBeA('function')
+      const iterate = createSpy()
+      props.fields.forEach(iterate)
+      expect(iterate).toHaveBeenCalled()
+      expect(iterate.calls.length).toBe(3)
+      expect(iterate.calls[0].arguments).toEqual([ 'foo[0]', 0 ])
+      expect(iterate.calls[1].arguments).toEqual([ 'foo[1]', 1 ])
+      expect(iterate.calls[2].arguments).toEqual([ 'foo[2]', 2 ])
+    })
+
+    it('should provide map', () => {
+      const props = testProps({
+        values: {
+          foo: [ 'a', 'b', 'c' ]
+        }
+      })
+      expect(props.fields.map).toBeA('function')
+      const iterate = createSpy()
+      props.fields.map(iterate)
+      expect(iterate).toHaveBeenCalled()
+      expect(iterate.calls.length).toBe(3)
+      expect(iterate.calls[0].arguments).toEqual([ 'foo[0]', 0 ])
+      expect(iterate.calls[1].arguments).toEqual([ 'foo[1]', 1 ])
+      expect(iterate.calls[2].arguments).toEqual([ 'foo[2]', 2 ])
+    })
+
+    it('should provide insert', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.insert).toBeA('function')
+    })
+
+    it('should provide push', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.push).toBeA('function')
+    })
+
+    it('should provide pop', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.pop).toBeA('function')
+    })
+
+    it('should provide shift', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.shift).toBeA('function')
+    })
+
+    it('should provide unshift', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.unshift).toBeA('function')
+    })
+
+    it('should provide move', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.move).toBeA('function')
+    })
+
+    it('should provide remove', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.remove).toBeA('function')
+    })
+
+    it('should provide removeAll', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.removeAll).toBeA('function')
+    })
+    
+    it('should provide swap', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.swap).toBeA('function')
+    })
+
     it('should provide pass through other props', () => {
       const store = makeStore({
         testForm: {
