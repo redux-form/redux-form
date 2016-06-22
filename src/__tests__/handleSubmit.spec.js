@@ -29,7 +29,7 @@ describe('handleSubmit', () => {
       .toHaveBeenCalledWith('foo', 'baz')
   })
 
-  it('should stop and return rejected promise if sync validation fails and returnRejectedSubmitPromise', (done) => {
+  it('should stop and return rejected promise if sync validation fails', (done) => {
     const values = { foo: 'bar', baz: 42 }
     const submit = createSpy().andReturn(69)
     const syncErrors = { foo: 'error' }
@@ -39,7 +39,6 @@ describe('handleSubmit', () => {
     const setSubmitFailed = createSpy()
     const asyncValidate = createSpy()
     const props = {
-      returnRejectedSubmitPromise: true,
       startSubmit,
       stopSubmit,
       touch,
@@ -91,7 +90,7 @@ describe('handleSubmit', () => {
     expect(setSubmitFailed).toNotHaveBeenCalled()
   })
 
-  it('should not submit if async validation fails', () => {
+  it('should not submit if async validation fails', done => {
     const values = { foo: 'bar', baz: 42 }
     const submit = createSpy().andReturn(69)
     const dispatch = noop
@@ -103,7 +102,7 @@ describe('handleSubmit', () => {
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .then(result => {
+      .catch(result => {
         expect(result).toBe(undefined)
         expect(asyncValidate)
           .toHaveBeenCalled()
@@ -117,6 +116,7 @@ describe('handleSubmit', () => {
         expect(setSubmitFailed)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith('foo', 'baz')
+        done()
       })
   })
 
@@ -131,8 +131,7 @@ describe('handleSubmit', () => {
     const asyncErrors = { foo: 'async error' }
     const asyncValidate = createSpy().andReturn(Promise.reject(asyncErrors))
     const props = {
-      dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values,
-      returnRejectedSubmitPromise: true
+      dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
@@ -215,7 +214,7 @@ describe('handleSubmit', () => {
       })
   })
 
-  it('should set submit errors if async submit fails', () => {
+  it('should set submit errors if async submit fails', done => {
     const values = { foo: 'bar', baz: 42 }
     const submitErrors = { foo: 'submit error' }
     const submit = createSpy().andReturn(Promise.reject(new SubmissionError(submitErrors)))
@@ -228,8 +227,8 @@ describe('handleSubmit', () => {
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .then(result => {
-        expect(result).toBe(undefined)
+      .catch(error => {
+        expect(error).toBe(submitErrors)
         expect(asyncValidate)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith()
@@ -246,6 +245,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith('foo', 'baz')
         expect(setSubmitFailed)
           .toNotHaveBeenCalled()
+        done()
       })
   })
 
@@ -262,7 +262,7 @@ describe('handleSubmit', () => {
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .then(result => {
+      .catch(result => {
         expect(result).toBe(undefined)
         expect(asyncValidate)
           .toHaveBeenCalled()
@@ -294,14 +294,12 @@ describe('handleSubmit', () => {
     const setSubmitFailed = createSpy()
     const asyncValidate = createSpy().andReturn(Promise.resolve())
     const props = {
-      dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values,
-      returnRejectedSubmitPromise: true
+      dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .catch(result => {
-        expect(result instanceof SubmissionError).toBe(true)
-        expect(result.errors).toBe(submitErrors)
+      .catch(error => {
+        expect(error).toBe(submitErrors)
         expect(asyncValidate)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith()
