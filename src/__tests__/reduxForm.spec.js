@@ -1207,7 +1207,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        onSubmit: () => Promise.reject(new SubmissionError("Rejection"))
+        onSubmit: () => Promise.reject(new SubmissionError('Rejection'))
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
