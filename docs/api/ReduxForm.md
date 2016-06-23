@@ -94,11 +94,6 @@ called `_error`, and it will be given as the `error` prop.
 under the key specified. Useful if using other decorator libraries on the same component to avoid
 prop namespace collisions.
 
-#### `returnRejectedSubmitPromise : boolean` [optional]
-
-> If set to `true`, a failed submit will return a rejected promise. Defaults to `false`. Only use this if you need to
-detect submit failures and run some code when a submit fails.
-
 #### `shouldAsyncValidate(params) : boolean` [optional]
 
 > An optional function you may provide to have full control over when async validation happens.

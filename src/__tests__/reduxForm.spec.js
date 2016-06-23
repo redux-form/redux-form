@@ -15,6 +15,7 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
+import SubmissionError from '../SubmissionError'
 import { change } from '../actions'
 
 const describeReduxForm = (name, structure, combineReducers, expect) => {
@@ -559,7 +560,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender.calls.length).toBe(2)
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'baz')
     })
-    
+
     it('should destroy on unmount by default', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
@@ -1187,6 +1188,39 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(asyncValidate).toHaveBeenCalled()
       expect(asyncValidate.calls.length).toBe(1)
       expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+    })
+
+    it('should return rejected promise when submit is rejected', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            bar: 'foo'
+          }
+        }
+      })
+
+      const Form = () => (
+        <form>
+          <Field name="bar" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => Promise.reject(new SubmissionError('Rejection'))
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+      return stub.submit()
+        .catch(err => {
+          expect(err).toBe('Rejection')
+        })
     })
 
     it('should not call async validation more than once if submit is clicked fast when handleSubmit receives a function', (done) => {
