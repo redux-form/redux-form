@@ -603,9 +603,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderUsername.calls[ 1 ].arguments[ 0 ].value).toBe('erikras')
     })
 
-    // ----------------------------------------------
-    // Uncomment this to confirm that #1024 is fixed.
-    // ----------------------------------------------
     it('should rerender when sync error changes', () => {
       const store = makeStore({
         testForm: {
