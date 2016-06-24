@@ -315,7 +315,7 @@ const createReduxForm =
             const hasSyncErrors = plainHasErrors(syncErrors)
             const hasAsyncErrors = hasErrors(asyncErrors)
             const hasSubmitErrors = hasErrors(submitErrors)
-            const registeredFields = getIn(formState, 'registeredFields')
+            const registeredFields = getIn(formState, 'registeredFields') || []
             const hasFieldWithError = registeredFields && some(registeredFields, ((field) => {
               return hasError(field, syncErrors, asyncErrors, submitErrors)
             }))
