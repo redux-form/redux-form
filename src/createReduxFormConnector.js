@@ -1,6 +1,7 @@
 import LazyCache from 'react-lazy-cache/noGetters';
 import getDisplayName from './getDisplayName';
 import createHigherOrderComponent from './createHigherOrderComponent';
+import invariant from 'invariant'
 
 /**
  * This component tracks props that affect how the form is mounted to the store. Normally these should not change,
@@ -10,6 +11,7 @@ const createReduxFormConnector =
   (isReactNative, React, connect) =>
     (WrappedComponent, mapStateToProps, mapDispatchToProps, mergeProps, options) => {
       const {Component, PropTypes} = React;
+      const { withRef = false } = (options || {});
       class ReduxFormConnector extends Component {
         constructor(props) {
           super(props);
@@ -37,7 +39,11 @@ const createReduxFormConnector =
           // remove some redux-form config-only props
           const {reduxMountPoint, destroyOnUnmount, form, getFormState, touchOnBlur, touchOnChange,
             ...passableProps } = this.props; // eslint-disable-line no-redeclare
-          return <ReduxForm {...passableProps}/>;
+          if ( withRef ) {
+            return <ReduxForm {...passableProps} ref="wrappedInstance"/>;
+          } else {
+            return <ReduxForm {...passableProps}/>;
+          }
         }
       }
       ReduxFormConnector.displayName = `ReduxFormConnector(${getDisplayName(WrappedComponent)})`;

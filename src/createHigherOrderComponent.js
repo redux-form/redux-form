@@ -12,6 +12,7 @@ import silenceEvents from './events/silenceEvents';
 import silenceEvent from './events/silenceEvent';
 import wrapMapDispatchToProps from './wrapMapDispatchToProps';
 import wrapMapStateToProps from './wrapMapStateToProps';
+import invariant from 'invariant'
 
 /**
  * Creates a HOC that knows how to create redux-connected sub-components.
@@ -27,6 +28,7 @@ const createHigherOrderComponent = (config,
                                     options) => {
   const {Component, PropTypes} = React;
   return (reduxMountPoint, formName, formKey, getFormState) => {
+    const { withRef = false } = (options || {});
     class ReduxForm extends Component {
       constructor(props) {
         super(props);
@@ -138,10 +140,18 @@ const createHigherOrderComponent = (config,
           untouchAll: silenceEvents(() => untouch(...fields))
         };
         const passedProps = propNamespace ? {[propNamespace]: props} : props;
-        return (<WrappedComponent {...{
-          ...passableProps, // contains dispatch
-          ...passedProps
-        }}/>);
+        if ( withRef ) {
+          return (<WrappedComponent {...{
+            ...passableProps, // contains dispatch
+            ...passedProps
+          }} ref="wrappedInstance" />);
+        } else {
+          return (<WrappedComponent {...{
+            ...passableProps, // contains dispatch
+            ...passedProps
+          }}/>);
+        }
+
       }
     }
     ReduxForm.displayName = `ReduxForm(${getDisplayName(WrappedComponent)})`;

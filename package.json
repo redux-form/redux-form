@@ -1,6 +1,6 @@
 {
-  "name": "redux-form",
-  "version": "5.2.5",
+  "name": "redux-form-t2",
+  "version": "5.2.7",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "jsnext:main": "./src/index.js",
@@ -11,8 +11,8 @@
   "scripts": {
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
     "build:lib": "babel src --out-dir lib",
-    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
-    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form-t2.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form-t2.min.js",
     "clean": "rimraf dist lib",
     "coverage": "babel-istanbul cover src/__tests__/setup.js",
     "lint": "eslint src",
@@ -42,7 +42,8 @@
     "deep-equal": "^1.0.1",
     "hoist-non-react-statics": "^1.0.5",
     "is-promise": "^2.1.0",
-    "react-lazy-cache": "^3.0.1"
+    "react-lazy-cache": "^3.0.1",
+    "invariant": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.3.17",
@@ -97,7 +98,7 @@
     "react-redux": "^3.0.0 || ^4.0.0",
     "redux": "^3.0.0"
   },
-  "npmName": "redux-form",
+  "npmName": "redux-form-t2",
   "npmFileMap": [
     {
       "basePath": "/dist/",
