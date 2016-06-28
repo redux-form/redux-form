@@ -26,6 +26,7 @@ export const {
   propTypes,
   reset,
   setSubmitFailed,
+  setSubmitSuccess,
   startAsyncValidation,
   startSubmit,
   stopAsyncValidation,
