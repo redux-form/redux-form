@@ -11,8 +11,8 @@
   "scripts": {
     "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
     "build:lib": "babel src --out-dir lib",
-    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form-t2.js",
-    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form-t2.min.js",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
     "clean": "rimraf dist lib",
     "coverage": "babel-istanbul cover src/__tests__/setup.js",
     "lint": "eslint src",
