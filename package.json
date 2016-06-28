@@ -98,7 +98,7 @@
     "react-redux": "^3.0.0 || ^4.0.0",
     "redux": "^3.0.0"
   },
-  "npmName": "redux-form-t2",
+  "npmName": "redux-form",
   "npmFileMap": [
     {
       "basePath": "/dist/",
