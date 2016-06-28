@@ -1,6 +1,6 @@
 import createReduxFormConnector from './createReduxFormConnector';
 import hoistStatics from 'hoist-non-react-statics';
-import invariant from 'invariant'
+import invariant from 'invariant';
 
 /**
  * The decorator that is the main API to redux-form
@@ -51,7 +51,7 @@ const createReduxForm =
             invariant(withRef,
               `To access the wrapped instance, you need to specify ` +
               `{ withRef: true } as the fourth argument of the connect() call.`
-            )
+            );
             return this.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance;
           }
         }

@@ -1,7 +1,6 @@
 import LazyCache from 'react-lazy-cache/noGetters';
 import getDisplayName from './getDisplayName';
 import createHigherOrderComponent from './createHigherOrderComponent';
-import invariant from 'invariant'
 
 /**
  * This component tracks props that affect how the form is mounted to the store. Normally these should not change,

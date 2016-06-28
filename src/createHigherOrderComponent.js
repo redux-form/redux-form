@@ -12,7 +12,6 @@ import silenceEvents from './events/silenceEvents';
 import silenceEvent from './events/silenceEvent';
 import wrapMapDispatchToProps from './wrapMapDispatchToProps';
 import wrapMapStateToProps from './wrapMapStateToProps';
-import invariant from 'invariant'
 
 /**
  * Creates a HOC that knows how to create redux-connected sub-components.
