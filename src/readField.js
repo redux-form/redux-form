@@ -141,12 +141,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
     Object.defineProperty(field, '_isField', {value: true});
   }
 
-  const defaultFieldState = {
-    initial: field.value,
-    value: field.value,
-  };
-
-  const fieldState = (fieldName ? state[fieldName] : state) || defaultFieldState;
+  const fieldState = (fieldName ? state[fieldName] : state) || {};
   const syncError = read(name, syncErrors);
   const updated = updateField(field, fieldState, name === form._active, syncError);
   if (fieldName || fields[fieldName] !== updated) {

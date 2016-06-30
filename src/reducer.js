@@ -9,6 +9,7 @@ import resetState from './resetState';
 import setErrors from './setErrors';
 import {makeFieldValue} from './fieldValue';
 import normalizeFields from './normalizeFields';
+import createInitialState from './createInitialState';
 
 export const globalErrorKey = '_error';
 
@@ -76,15 +77,7 @@ const behaviors = {
     return stateCopy;
   },
   [INITIALIZE](state, {data, fields, overwriteValues}) {
-    return {
-      ...initializeState(data, fields, state, overwriteValues),
-      _asyncValidating: false,
-      _active: undefined,
-      [globalErrorKey]: undefined,
-      _initialized: true,
-      _submitting: false,
-      _submitFailed: false
-    };
+    return createInitialState(data, fields, state, overwriteValues);
   },
   [REMOVE_ARRAY_VALUE](state, {path, index}) {
     const array = read(path, state);
