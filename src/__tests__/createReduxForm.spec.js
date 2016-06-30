@@ -2708,16 +2708,13 @@ describe('createReduxForm', () => {
   it('initial values should be present on first render', () => {
     const store = makeStore();
     const form = 'testForm';
-    const validate = values => {
-      expect(values.name).toBe('Bob');
-    };
     class InitialValuesTestForm extends Component {
       render() {
-        const {fields: {name}} = this.props;
-        expect(name.initialValue).toBe('Bob');
-        expect(name.value).toBe('Bob');
+        const {fields: {mingzi}} = this.props;
+        expect(mingzi.initialValue).toBe('Bob');
+        expect(mingzi.value).toBe('Bob');
         return (<div>
-          <input {...name}/>
+          <input {...mingzi}/>
         </div>);
       }
     }
@@ -2726,12 +2723,11 @@ describe('createReduxForm', () => {
     };
     const Decorated = reduxForm({
       form,
-      fields: ['name'],
-      validate,
+      fields: ['mingzi']
     })(InitialValuesTestForm);
     TestUtils.renderIntoDocument(
       <Provider store={store}>
-        <Decorated initialValues={{name: 'Bob'}}/>
+        <Decorated initialValues={{mingzi: 'Bob'}}/>
       </Provider>
     );
   });
