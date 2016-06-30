@@ -2804,4 +2804,34 @@ describe('createReduxForm', () => {
     // FAILS
     //expect(lastPrevBarValue).toNotEqual(lastNextBarValue);
   });
+
+  // Test to show bug https://github.com/erikras/redux-form/issues/1241
+  it('pass correct initial values to validate when initialValues not given', () => {
+    const store = makeStore();
+    const form = 'testForm';
+    const validate = values => {
+      expect(values.name).toBe(undefined);
+    };
+    class ValidateTestForm extends Component {
+      render() {
+        const {fields: {name}} = this.props;
+        return (<div>
+          <input {...name}/>
+        </div>);
+      }
+    }
+    ValidateTestForm.propTypes = {
+      fields: PropTypes.object.isRequired
+    };
+    const Decorated = reduxForm({
+      form,
+      fields: ['name'],
+      validate,
+    })(ValidateTestForm);
+    TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <Decorated />
+      </Provider>
+    );
+  });
 });
