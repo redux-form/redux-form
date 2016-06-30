@@ -7,9 +7,9 @@ import removeField from './removeField';
  * Reads props and generates (or updates) field structure
  */
 const readFields = (props, previousProps, myFields, asyncValidate, isReactNative) => {
-  const {fields, form, validate, initialValues} = props;
+  const {fields, form, validate} = props;
   const previousFields = previousProps.fields;
-  const values = form._initialized === false ? initialValues : getValues(fields, form);
+  const values = getValues(fields, form);
   const syncErrors = validate(values, props) || {};
   let errors = {};
   const formError = syncErrors._error || form._error;
