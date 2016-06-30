@@ -1,0 +1,116 @@
+@import "constants";
+
+:global(.navbar-fixed-top) {
+}
+
+:global(nav) {
+  :global(.navbar-brand) {
+    position: relative;
+    padding-left: 80px;
+    margin: 0 20px 0 0 !important;
+    @include insignia;
+    font-size: 3rem;
+    cursor: pointer;
+  }
+}
+
+.brand {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  display: inline-block;
+  height: 40px;
+  width: 66px;
+  background-size: 80%;
+  margin: 0 10px 0 0;
+}
+
+.iconLink > a {
+  font-size: 2em;
+  padding: 10px 15px !important;
+}
+
+.appContent {
+  margin: 50px 0; // for fixed navbar
+}
+
+.bottom {
+  text-align: center;
+  padding-top: 15px;
+}
+
+:global(pre.code-block),
+:global(.markdown pre) {
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(#333, #111);
+  border-color: #0d0d0d;
+}
+
+:global(h1[id]),
+:global(h2[id]),
+:global(h3[id]),
+:global(h4[id]),
+:global(h5[id]),
+:global(h6[id]) { // hack for anchors to work with top fixed navbar
+  &:before {
+    $offset: $navbar-height + 10;
+    content: '';
+    display: block;
+    height: $offset; // fixed header height
+    margin: -$offset 0 0; // negative fixed header height
+  }
+}
+
+*, a:focus {
+  outline: 0;
+}
+
+p, li {
+  font-size: 17.5px;
+}
+
+a code {
+  text-decoration: underline;
+}
+
+code {
+  color: #063;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  code {
+    font-weight: bold;
+  }
+}
+
+h1 {
+  font-size: 4rem;
+  code {
+    font-size: 2.5rem;
+  }
+}
+
+h2 {
+  font-size: 3.5rem;
+  code {
+    font-size: 2.25rem;
+  }
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.75rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+

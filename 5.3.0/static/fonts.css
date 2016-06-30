@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'insignia';
+  src: url('fonts/insignia.eot');
+  src: url('fonts/insignia.eot?#iefix') format('embedded-opentype'),
+  url('fonts/insignia.woff') format('woff'),
+  url('fonts/insignia.ttf') format('truetype'),
+  url('fonts/insignia.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
