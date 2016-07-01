@@ -8,3 +8,4 @@ docs
 .npmignore
 .travis.yml
 webpack.*
+coverage

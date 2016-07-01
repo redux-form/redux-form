@@ -9,6 +9,11 @@
 * [5.2.0](http://redux-form.com/5.2.0/)
 * [5.2.1](http://redux-form.com/5.2.1/)
 * [5.2.3](http://redux-form.com/5.2.3/)
+* [5.2.3](http://redux-form.com/5.2.3/)
+* [5.2.4](http://redux-form.com/5.2.4/)
+* [5.2.5](http://redux-form.com/5.2.5/)
+* [5.3.0](http://redux-form.com/5.3.0/)
+* [5.3.1](http://redux-form.com/5.3.1/)
 
 
 * [6.0.0-alpha.4](http://redux-form.com/6.0.0-alpha.4/)
@@ -17,3 +22,7 @@
 * [6.0.0-alpha.7](http://redux-form.com/6.0.0-alpha.7/)
 * [6.0.0-alpha.8](http://redux-form.com/6.0.0-alpha.8/)
 * [6.0.0-alpha.10](http://redux-form.com/6.0.0-alpha.10/)
+* [6.0.0-alpha.11](http://redux-form.com/6.0.0-alpha.11/)
+* [6.0.0-alpha.13](http://redux-form.com/6.0.0-alpha.13/)
+* [6.0.0-alpha.14](http://redux-form.com/6.0.0-alpha.14/)
+* [6.0.0-alpha.15](http://redux-form.com/6.0.0-alpha.15/)
