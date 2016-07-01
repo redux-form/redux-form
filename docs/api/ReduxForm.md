@@ -31,8 +31,8 @@ or passed in as props to your component at runtime.**
 > field names for which `onBlur` should trigger a call to the `asyncValidate` function.
 Defaults to `[]`.
 
-> See [Asynchronous Blur Validation Example](../../examples/asyncValidation) for more 
-details.
+> See [Asynchronous Blur Validation Example](http://redux-form.com/6.0.0-rc.1/examples/asyncValidation/)
+for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object) => Promise<undefined, errors:Object>` [optional]
 
@@ -42,8 +42,8 @@ returns a Promise that will resolve if the validation is passed, or will reject 
 object of validation errors
 in the form `{ field1: <String>, field2: <String> }`.
 
-> See [Asynchronous Blur Validation Example](../../examples/asynchronous-blur-validation) for more 
-details.
+> See [Asynchronous Blur Validation Example](http://redux-form.com/6.0.0-rc.1/examples/asyncValidation/)
+for more details.
 
 #### `destroyOnUnmount : boolean` [optional]
 
@@ -63,10 +63,8 @@ assuming that the reducer is mounted under the `form` key.
 
 #### `initialValues : Object<String, String>` [optional]
 
-> The values with which to initialize your form in `componentWillMount()`. Particularly useful when
-[Editing Multiple Records](../../examples/multirecord), but can also be used with single-record 
-forms. The values 
-should be in the form `{ field1: 'value1', field2: 'value2' }`.
+> The values with which to initialize your form in `componentWillMount()`.
+The values should be in the form `{ field1: 'value1', field2: 'value2' }`.
 
 #### `onSubmit : Function` [optional]
 
@@ -179,7 +177,8 @@ form has triggered it, respectively.
 If validation passes, it should return `{}`. If validation fails, it should return the validation errors in the
 form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
-> See [Synchronous Validation Example](../../examples/syncValidation) for more details.
+> See [Synchronous Validation Example](http://redux-form.com/6.0.0-rc.1/examples/syncValidation/)
+for more details.
 
 ## Instance API
 
