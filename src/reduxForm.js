@@ -295,6 +295,8 @@ const createReduxForm =
           form: PropTypes.string.isRequired,
           initialValues: PropTypes.object,
           getFormState: PropTypes.func,
+          onSubmitFail: PropTypes.func,
+          onSubmitSuccess: PropTypes.func,
           validate: PropTypes.func,
           touchOnBlur: PropTypes.bool,
           touchOnChange: PropTypes.bool,

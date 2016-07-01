@@ -931,6 +931,338 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(password.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
     })
 
+    it('should call onSubmitFail with errors if sync submit fails by throwing SubmissionError', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const errors = { username: 'Required' }
+      const onSubmitFail = createSpy()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => {
+          throw new SubmissionError(errors)
+        },
+        onSubmitFail
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      expect(onSubmitFail).toNotHaveBeenCalled()
+
+      const caught = stub.submit()
+
+      expect(onSubmitFail)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(errors, store.dispatch)
+      expect(caught).toBe(errors)
+    })
+
+    it('should call onSubmitFail with undefined if sync submit fails by throwing other error', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const onSubmitFail = createSpy()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => {
+          throw new Error('Some other error')
+        },
+        onSubmitFail
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      expect(onSubmitFail).toNotHaveBeenCalled()
+
+      const caught = stub.submit()
+
+      expect(onSubmitFail)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(undefined, store.dispatch)
+      expect(caught).toNotExist()
+    })
+
+    it('should call onSubmitFail if async submit fails', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const errors = { username: 'Required' }
+      const onSubmitFail = createSpy()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => Promise.reject(new SubmissionError(errors)),
+        onSubmitFail
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      expect(onSubmitFail).toNotHaveBeenCalled()
+
+      return stub.submit()
+        .catch(caught => {
+          expect(onSubmitFail)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(caught).toBe(errors)
+        })
+    })
+
+    it('should call onSubmitFail if sync validation prevents submit', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const errors = { username: 'Required' }
+      const onSubmit = createSpy()
+      const onSubmitFail = createSpy()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit,
+        onSubmitFail,
+        validate: () => errors
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      expect(onSubmitFail).toNotHaveBeenCalled()
+      expect(onSubmit).toNotHaveBeenCalled()
+
+      return stub.submit()
+        .catch(caught => {
+          expect(onSubmit).toNotHaveBeenCalled()
+          expect(onSubmitFail)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(caught).toBe(errors)
+        })
+    })
+
+    it('should call onSubmitFail if async validation prevents submit', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const errors = { username: 'Required' }
+      const onSubmit = createSpy()
+      const onSubmitFail = createSpy()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        asyncValidate: () => {
+          return Promise.reject(errors)
+        },
+        onSubmit,
+        onSubmitFail
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      expect(onSubmit).toNotHaveBeenCalled()
+      expect(onSubmitFail).toNotHaveBeenCalled()
+
+      return stub.submit()
+        .catch(caught => {
+          expect(onSubmit).toNotHaveBeenCalled()
+          expect(onSubmitFail)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(caught).toBe(errors)
+        })
+    })
+
+    it('should call onSubmitSuccess if sync submit succeeds', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const result = { message: 'Good job!' }
+      const onSubmitSuccess = createSpy()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => result,
+        onSubmitSuccess
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      expect(onSubmitSuccess).toNotHaveBeenCalled()
+
+      const returned = stub.submit()
+
+      expect(onSubmitSuccess)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(result, store.dispatch)
+      expect(returned).toBe(result)
+    })
+
+    it('should call onSubmitSuccess if async submit succeeds', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const result = { message: 'Good job!' }
+      const onSubmitSuccess = createSpy()
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => Promise.resolve(result),
+        onSubmitSuccess
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      expect(onSubmitSuccess).toNotHaveBeenCalled()
+
+      return stub.submit()
+        .then(returned => {
+          expect(onSubmitSuccess)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(result, store.dispatch)
+          expect(returned).toBe(result)
+        })
+    })
+
+    it('should return error thrown by sync onSubmit', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+      const errors = { username: 'Required' }
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: () => {
+          throw new SubmissionError(errors)
+        }
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(stub.submit).toBeA('function')
+
+      const caught = stub.submit()
+
+      expect(caught).toBe(errors)
+    })
+
     it('should submit when submit() called and onSubmit provided as config param', () => {
       const store = makeStore({
         testForm: {
