@@ -50,6 +50,7 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 
 > How to use normalize your form values.
 
+---
 
 ### [Immutable JS](immutable)
 
