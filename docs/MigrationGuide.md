@@ -271,7 +271,35 @@ render() {
 
 ## Normalization
 
-Not implemented yet.
+In `v6`, normalization has moved from the reducer to the field level.
+
+#### `v5`
+
+```js
+const upper = value => value && value.toUpperCase()
+
+const reducer = combineReducers({
+  // other reducers
+  form: form.normalize({
+    myForm: {
+      myUppercaseField: upper
+    }
+  })
+});
+```
+
+#### `v6`
+
+```js
+const upper = value => value && value.toUpperCase()
+
+...
+
+<Field name="myUppercaseField" component="input" normalize={upper}/>
+```
+
+See the [Normalizing Example](http://redux-form.com/6.0.0-alpha.15/examples/normalizing/) for 
+more details.
 
 ## Listening to other actions
 
