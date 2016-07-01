@@ -20,7 +20,7 @@
     "react-redux": "^4.4.2",
     "redux": "^3.4.0",
     "redux-form": "file:../../",
-    "redux-form-website-template": "0.0.31",
+    "redux-form-website-template": "0.0.33",
     "redux-immutablejs": "0.0.8"
   },
   "devDependencies": {
