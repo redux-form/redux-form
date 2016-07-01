@@ -26,7 +26,7 @@
     "mkdirp": "^0.5.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "redux-form-website-template": "0.0.31"
+    "redux-form-website-template": "0.0.33"
   },
   "devDependencies": {
     "babel-cli": "^6.6.4",
