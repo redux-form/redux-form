@@ -65,6 +65,7 @@ class Nav extends Component {
           {this.renderItem('/examples/initializeFromState', 'Initializing from State', 1)}
           {this.renderItem('/examples/selectingFormValues', 'Selecting Form Values', 1)}
           {this.renderItem('/examples/fieldArrays', 'Field Arrays', 1)}
+          {this.renderItem('/examples/normalizing', 'Normalizing', 1)}
           {this.renderItem('/examples/immutable', 'Immutable JS', 1)}
           {this.renderItem('/examples/wizard', 'Wizard Form', 1)}
           {this.renderItem('/examples/material-ui', 'Material UI', 1)}
