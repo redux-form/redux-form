@@ -46,6 +46,11 @@ open [`localhost:3030`](http://localhost:3030) in your browser.
 
 ---
 
+### [Normalizing](normalizing)
+
+> How to use normalize your form values.
+
+
 ### [Immutable JS](immutable)
 
 > How to use Immutable JS for `redux-form` state storage.
