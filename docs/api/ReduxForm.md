@@ -132,7 +132,7 @@ Your `shouldAsyncValidate()` function will be given an object with the following
 
 > The reason to possibly run async validation. It will either be: `'blur'` or `'submit'`, 
 depending on whether an async blur field had triggered the async validation or if submitting the 
-form has triggered it, respecitively.
+form has triggered it, respectively.
 
 > ##### `blurredField : string` [optional]
 
