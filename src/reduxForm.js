@@ -114,7 +114,7 @@ const createReduxForm =
           initIfNeeded(nextProps) {
             if(nextProps) {
               const { enableReinitialize } = this.props
-              if((enableReinitialize || !nextProps.initialized) && 
+              if((enableReinitialize || !nextProps.initialized) &&
                 !deepEqual(this.props.initialValues, nextProps.initialValues)) {
                 this.props.initialize(nextProps.initialValues)
               }
@@ -172,6 +172,9 @@ const createReduxForm =
           }
 
           getFieldList() {
+            if (!this.props.registeredFields) {
+              return []
+            }
             return this.props.registeredFields.map((field) => getIn(field, 'name'))
           }
 
