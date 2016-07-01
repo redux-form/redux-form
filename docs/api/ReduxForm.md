@@ -26,9 +26,6 @@ or passed in as props to your component at runtime.**
 
 ### Optional
 
-> See [Asynchronous Blur Validation Example](../../examples/asyncValidation) for more 
-details.
-
 #### -`asyncBlurFields : Array<String>` [optional]
 
 > field names for which `onBlur` should trigger a call to the `asyncValidate` function.
