@@ -112,9 +112,7 @@ following parameters:
 
 > The Redux `dispatch` function.
 
-#### `propNamespace : string` [optional]
-
-**UNIMPLEMENTED SO FAR IN V6**
+#### `propNamespace : String` [optional]
 
 > If specified, all the props normally passed into your decorated component directly will be passed
 under the key specified. Useful if using other decorator libraries on the same component to avoid

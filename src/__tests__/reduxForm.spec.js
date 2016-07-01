@@ -169,6 +169,24 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propChecker({ submitting: false }).submitting).toBe(false)
     })
 
+    it('should put props under prop namespace if specified', () => {
+      const props = propChecker({}, noop, {
+        propNamespace: 'fooProps',
+        someOtherProp: 'whatever'
+      })
+      expect(props.fooProps).toExist().toBeA('object')
+      expect(props.dispatch).toNotExist()
+      expect(props.dirty).toNotExist()
+      expect(props.pristine).toNotExist()
+      expect(props.submitting).toNotExist()
+      expect(props.someOtherProp).toExist()
+      expect(props.fooProps.dispatch).toBeA('function')
+      expect(props.fooProps.dirty).toBeA('boolean')
+      expect(props.fooProps.pristine).toBeA('boolean')
+      expect(props.fooProps.submitting).toBeA('boolean')
+      expect(props.fooProps.someOtherProp).toNotExist()
+    })
+
     it('should provide bound array action creators', () => {
       const arrayProp = propChecker({}).array
       expect(arrayProp).toExist()
