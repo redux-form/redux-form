@@ -255,6 +255,7 @@ const createReduxForm =
             // remove some redux-form config-only props
             /* eslint-disable no-unused-vars */
             const {
+              anyTouched,
               arrayInsert,
               arrayPop,
               arrayPush,
@@ -264,25 +265,63 @@ const createReduxForm =
               arraySwap,
               arrayUnshift,
               asyncErrors,
+              asyncValidate,
+              asyncValidating,
+              destroy,
               destroyOnUnmount,
+              dirty,
+              dispatch,
               enableReinitialize,
+              error,
+              form,
               getFormState,
+              initialize,
+              invalid,
+              pristine,
+              propNamespace,
               registerField,
+              reset,
+              submitting,
+              submitFailed,
+              touch,
               touchOnBlur,
               touchOnChange,
               syncErrors,
               unregisterField,
+              untouch,
+              valid,
               values,
-              ...passableProps
+              ...rest
             } = this.props
             /* eslint-enable no-unused-vars */
-            if (isClassComponent(WrappedComponent)) {
-              passableProps.ref = 'wrapped'
+            const reduxFormProps = {
+              anyTouched,
+              asyncValidate,
+              asyncValidating,
+              destroy,
+              dirty,
+              dispatch,
+              error,
+              form,
+              handleSubmit: this.submit,
+              initialize,
+              invalid,
+              pristine,
+              reset,
+              submitting,
+              submitFailed,
+              touch,
+              untouch,
+              valid
             }
-            return createElement(WrappedComponent, {
-              ...passableProps,
-              handleSubmit: this.submit
-            })
+            const propsToPass = {
+              ...(propNamespace ? { [propNamespace]: reduxFormProps } : reduxFormProps),
+              ...rest
+            }
+            if (isClassComponent(WrappedComponent)) {
+              propsToPass.ref = 'wrapped'
+            }
+            return createElement(WrappedComponent, propsToPass)
           }
         }
         Form.displayName = `Form(${getDisplayName(WrappedComponent)})`
@@ -297,6 +336,7 @@ const createReduxForm =
           getFormState: PropTypes.func,
           onSubmitFail: PropTypes.func,
           onSubmitSuccess: PropTypes.func,
+          propNameSpace: PropTypes.string,
           validate: PropTypes.func,
           touchOnBlur: PropTypes.bool,
           touchOnChange: PropTypes.bool,
