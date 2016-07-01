@@ -969,7 +969,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(errors)
+        .toHaveBeenCalledWith(errors, store.dispatch)
       expect(caught).toBe(errors)
     })
 
@@ -1010,7 +1010,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(undefined)
+        .toHaveBeenCalledWith(undefined, store.dispatch)
       expect(caught).toNotExist()
     })
 
@@ -1050,7 +1050,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         .catch(caught => {
           expect(onSubmitFail)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors)
+            .toHaveBeenCalledWith(errors, store.dispatch)
           expect(caught).toBe(errors)
         })
     })
@@ -1095,7 +1095,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           expect(onSubmit).toNotHaveBeenCalled()
           expect(onSubmitFail)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors)
+            .toHaveBeenCalledWith(errors, store.dispatch)
           expect(caught).toBe(errors)
         })
     })
@@ -1142,7 +1142,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           expect(onSubmit).toNotHaveBeenCalled()
           expect(onSubmitFail)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors)
+            .toHaveBeenCalledWith(errors, store.dispatch)
           expect(caught).toBe(errors)
         })
     })
@@ -1183,7 +1183,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitSuccess)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(result)
+        .toHaveBeenCalledWith(result, store.dispatch)
       expect(returned).toBe(result)
     })
 
@@ -1223,7 +1223,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         .then(returned => {
           expect(onSubmitSuccess)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(result)
+            .toHaveBeenCalledWith(result, store.dispatch)
           expect(returned).toBe(result)
         })
     })

@@ -88,11 +88,29 @@ called `_error`, and it will be given as the `error` prop.
 
 #### `onSubmitFail : Function` [optional]
 
-> A callback function that will be called when a submission fails for whatever reason.
+> A callback function that will be called when a submission fails for whatever reason. It will be
+called with the following parameters:
+
+> ##### `errors : Object`
+
+> The errors that caused the submission to fail.
+
+> ##### `dispatch : Function`
+
+> The Redux `dispatch` function.
 
 #### `onSubmitSuccess : Function` [optional]
 
-> A callback function that will be called when a submission succeeds.
+> A callback function that will be called when a submission succeeds.  It will be called with the
+following parameters:
+                                                                      
+> ##### `result : Object`
+
+> Any result that `onSubmit` has returned
+
+> ##### `dispatch : Function`
+
+> The Redux `dispatch` function.
 
 #### `propNamespace : string` [optional]
 

@@ -17,7 +17,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
       } catch (submitError) {
         const error = submitError instanceof SubmissionError ? submitError.errors : undefined
         if(onSubmitFail) {
-          onSubmitFail(error)
+          onSubmitFail(error, dispatch)
         }
         return error
       }
@@ -27,20 +27,20 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
           .then(submitResult => {
             stopSubmit()
             if(onSubmitSuccess) {
-              onSubmitSuccess(submitResult)
+              onSubmitSuccess(submitResult, dispatch)
             }
             return submitResult
           }, submitError => {
             const error = submitError instanceof SubmissionError ? submitError.errors : undefined
             stopSubmit(error)
             if(onSubmitFail) {
-              onSubmitFail(error)
+              onSubmitFail(error, dispatch)
             }
             return Promise.reject(error)
           })
       }
       if(onSubmitSuccess) {
-        onSubmitSuccess(result)
+        onSubmitSuccess(result, dispatch)
       }
       return result
     }
@@ -53,7 +53,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
           asyncErrors => {
             setSubmitFailed(...fields)
             if(onSubmitFail) {
-              onSubmitFail(asyncErrors)
+              onSubmitFail(asyncErrors, dispatch)
             }
             return Promise.reject(asyncErrors)
           })
@@ -63,7 +63,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
   } else {
     setSubmitFailed(...fields)
     if(onSubmitFail) {
-      onSubmitFail(syncErrors)
+      onSubmitFail(syncErrors, dispatch)
     }
     // Can't know here if submission is sync or async, so we guess async (the most common case) and
     // return the sync errors in a promise.
