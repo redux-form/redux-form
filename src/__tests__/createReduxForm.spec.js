@@ -1164,7 +1164,6 @@ describe('createReduxForm', () => {
       </Provider>
     );
     const stub = TestUtils.findRenderedComponentWithType(dom, Form);
-
     stub.props.fields.foo[0].name.onBlur();
     expect(asyncValidate).toHaveBeenCalled();
   });
@@ -2811,7 +2810,9 @@ describe('createReduxForm', () => {
     const form = 'testForm';
     const validate = values => {
       expect(values.name).toBe(undefined);
+      expect(values.company.name).toBe('Foo')
     };
+
     class ValidateTestForm extends Component {
       render() {
         const {fields: {name}} = this.props;
@@ -2820,17 +2821,24 @@ describe('createReduxForm', () => {
         </div>);
       }
     }
+
     ValidateTestForm.propTypes = {
       fields: PropTypes.object.isRequired
     };
+
     const Decorated = reduxForm({
       form,
-      fields: ['name'],
+      fields: ['name', 'company.name'],
       validate,
     })(ValidateTestForm);
+
+    const initialValues = {
+      company: { name: 'Foo' }
+    }
+
     TestUtils.renderIntoDocument(
       <Provider store={store}>
-        <Decorated />
+        <Decorated initialValues={initialValues} />
       </Provider>
     );
   });
