@@ -1566,6 +1566,33 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(decorated.wrappedInstance.props).toEqual(wrapped.props)
     })
+
+    it('should return an empty list if there are no registered fields', () => {
+      const store = makeStore({})
+
+      class Form extends Component {
+        render() {
+          return (
+            <form>
+            </form>
+          )
+        }
+      }
+
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      expect(decorated.refs.wrapped.getWrappedInstance().getFieldList()).toEqual([])
+    })
   })
 }
 
