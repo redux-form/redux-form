@@ -86,6 +86,14 @@ specific to any field, but applicable to the entire form, you may pass that as i
 error for a field
 called `_error`, and it will be given as the `error` prop.
 
+#### `onSubmitFail : Function` [optional]
+
+> A callback function that will be called when a submission fails for whatever reason.
+
+#### `onSubmitSuccess : Function` [optional]
+
+> A callback function that will be called when a submission succeeds.
+
 #### `propNamespace : string` [optional]
 
 **UNIMPLEMENTED SO FAR IN V6**
