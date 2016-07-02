@@ -268,6 +268,14 @@ const describeCreateFieldProps = (name, structure, expect) => {
         .toEqual([])
     })
 
+    it('should default value to undefined for file inputs', () => {
+      expect(createFieldProps(getIn, 'foo', {
+        state: empty,
+        type: 'file'
+      }).value)
+        .toEqual(undefined)
+    })
+
     it('should replace undefined value with empty string', () => {
       const result = createFieldProps(getIn, 'foo', {
         state: empty

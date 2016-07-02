@@ -29,6 +29,13 @@ const processProps = (props, _value) => {
       value: value || []
     }
   }
+  if (type === 'file') {
+    return {
+      ...rest,
+      type,
+      value: undefined
+    }
+  }
   return props
 }
 
