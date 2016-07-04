@@ -84,7 +84,7 @@ connect(
 ```javascript
 connect(
   state => ({
-    values: selector(state, 'first', 'second')
+    myValues: selector(state, 'first', 'second')
   })
 )(MyFormComponent)
 ```
