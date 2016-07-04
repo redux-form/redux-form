@@ -41,7 +41,7 @@ const createConnectedField = ({
       if (withRef) {
         props.ref = 'renderedComponent'
       }
-      return createElement(component, props)
+      return createElement(component, typeof component === 'string' ? props.input : props)
     }
   }
 
@@ -55,7 +55,11 @@ const createConnectedField = ({
     _reduxForm: PropTypes.object
   }
 
-  const actions = mapValues({ blur, change, focus }, actionCreator => actionCreator.bind(null, name))
+  const actions = mapValues({
+    blur,
+    change,
+    focus
+  }, actionCreator => actionCreator.bind(null, name))
   const connector = connect(
     (state, ownProps) => {
       const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue

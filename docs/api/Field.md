@@ -96,7 +96,7 @@ import React, { Component } from 'react'
 
 class MyCustomInput extends Component {
   render() {
-    const { value, onChange } = this.props
+    const { input: { value, onChange } } = this.props
     return (
       <div>
         <span>The current value is {value}.</span>
@@ -132,9 +132,9 @@ your input will lose focus whenever the entire form component rerenders.
 
 ```js
 // outside your render() method
-const renderField = (props) => (
+const renderField = (field) => (
     <div class="input-row">
-      <input type="text" {...props}/>
+      <input type="text" {...field.input}/>
       {props.touched && props.error && !props.disabled && <span className="error">{props.error}</span>}
     </div>
   )
@@ -196,12 +196,6 @@ input element.
 
 > `true` if the form is currently running asynchronous validation because this field was blurred.
 
-#### `checked : boolean` [optional]
-
-> An alias for `value` _only when `value` is a boolean_. Provided for convenience of destructuring
-the whole field
-object into the props of a form element.
-
 #### `dirty : boolean`
 
 > `true` if the field value has changed from its initialized value. Opposite of `pristine`.
@@ -215,41 +209,53 @@ asynchronous, and submit validation errors will be reported here.
 
 > `true` if the field value fails validation (has a validation error). Opposite of `valid`.
 
-#### `name : String`
+#### `input : Object`
+
+> An object containing all the props that you will normally want to pass to your input component.
+They are:
+
+> #### `checked : boolean` [optional]
+
+> An alias for `value` _only when `value` is a boolean_. Provided for convenience of destructuring
+the whole field
+object into the props of a form element.
+
+> #### `name : String`
 
 > The name prop passed in.
 
-#### `onBlur(eventOrValue) : Function`
+> #### `onBlur(eventOrValue) : Function`
 
 > A function to call when the form field loses focus. It expects to _either_ receive the
 [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) _or_ the current
 value of the field.
 
-#### `onChange(eventOrValue) : Function`
+> #### `onChange(eventOrValue) : Function`
 
 > A function to call when the form field is changed. It expects to _either_ receive the
 [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) _or_ the new value
 of the field.
 
-#### `onDragStart(event) : Function`
+> #### `onDragStart(event) : Function`
 
 > A function to call when the form field receives a `dragStart` event. Saves the field value
 in the event for giving the field it is dropped into.
 
-#### `onDrop(event) : Function`
+> #### `onDrop(event) : Function`
 
 > A function to call when the form field receives a `drop` event.
 
-#### `onFocus(event) : Function`
+> #### `onFocus(event) : Function`
 
 > A function to call when the form field receives focus.
 
-#### `onUpdate(eventOrValue) : Function`
+> #### `value: any`
 
-> An alias for `onChange`. Provided for convenience of destructuring the whole field object into
-the props of a form element. Added to provide out-of-the-box support for
-[Belle](http://nikgraf.github.io/belle/) components'
-[`onUpdate` API](https://github.com/nikgraf/belle/issues/58).
+> The value of this form field. It will be a boolean for checkboxes, and a string for all other
+input types. If there is no value in the Redux state for this field, it will default to the
+`defaultValue` prop given to `Field`. If no such `defaultValue` is specified, it will be `''`.
+This is to ensure that the input is
+[controlled](https://facebook.github.io/react/docs/forms.html#controlled-components).
 
 #### `pristine : boolean`
 
@@ -262,14 +268,6 @@ the props of a form element. Added to provide out-of-the-box support for
 #### `valid : boolean`
 
 > `true` if the field value passes validation (has no validation errors). Opposite of `invalid`.
-
-#### `value: any`
-
-> The value of this form field. It will be a boolean for checkboxes, and a string for all other
-input types. If there is no value in the Redux state for this field, it will default to the
-`defaultValue` prop given to `Field`. If no such `defaultValue` is specified, it will be `''`.
-This is to ensure that the input is
-[controlled](https://facebook.github.io/react/docs/forms.html#controlled-components).
 
 #### `visited: boolean`
 

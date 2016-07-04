@@ -661,7 +661,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       const renderFieldArray =
         createSpy(({ fields }) => (<div>
-          {fields.map((field, index) => <input key={index} {...field}/>)}
+          {fields.map((field, index) => <div key={index}>{field}</div>)}
           <button className="add" onClick={() => fields.push()}>Add Dog</button>
           <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
         </div>)).andCallThrough()

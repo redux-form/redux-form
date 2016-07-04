@@ -3,12 +3,12 @@ import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
 import asyncValidate from './asyncValidate'
 
-const renderField = props => (
+const renderField = field => (
   <div>
-    <label>{props.placeholder}</label>
-    <div className={props.asyncValidating ? 'async-validating' : ''}>
-      <input {...props}/>
-      {props.touched && props.error && <span>{props.error}</span>}
+    <label>{field.input.placeholder}</label>
+    <div className={field.asyncValidating ? 'async-validating' : ''}>
+      <input {...field.input}/>
+      {field.touched && field.error && <span>{field.error}</span>}
     </div>
   </div>
 )

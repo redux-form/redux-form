@@ -40,30 +40,35 @@ const processProps = (props, _value) => {
 }
 
 const createFieldProps = (getIn, name,
-  { asyncError, blur, change, defaultValue = '', dirty, focus, normalize, pristine, props, state,
-    submitError, value, _value, syncError, ...rest }, asyncValidate = noop) => {
+  {
+    asyncError, asyncValidating, blur, change, defaultValue = '', dirty, focus, normalize,
+    pristine, props, state, submitError, value, _value, syncError, ...rest
+  }, asyncValidate = noop) => {
   const error = syncError || asyncError || submitError
   const onChange = createOnChange(change, normalize)
-  return processProps({
-    active: state && !!getIn(state, 'active'),
-    dirty,
-    error,
-    invalid: !!error,
+  const input = processProps({
     name,
     onBlur: createOnBlur(blur, normalize, asyncValidate.bind(null, name)),
     onChange,
     onDragStart: createOnDragStart(name, value),
     onDrop: createOnDrop(name, change),
     onFocus: createOnFocus(name, focus),
-    onUpdate: onChange,
-    pristine,
-    touched: !!(state && getIn(state, 'touched')),
-    valid: !error,
     value: value == null ? defaultValue : value,
-    visited: state && !!getIn(state, 'visited'),
     ...props,
     ...rest
   }, _value)
+  return {
+    active: state && !!getIn(state, 'active'),
+    asyncValidating,
+    dirty,
+    error,
+    invalid: !!error,
+    input,
+    pristine,
+    touched: !!(state && getIn(state, 'touched')),
+    valid: !error,
+    visited: state && !!getIn(state, 'visited')
+  }
 }
 
 export default createFieldProps

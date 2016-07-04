@@ -60,7 +60,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           foo: 'bar'
         }
       })
-      expect(props.value).toBe('bar')
+      expect(props.input.value).toBe('bar')
     })
 
     it('should get dirty/pristine from Redux state', () => {
@@ -299,7 +299,7 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should have value set to initial value on first render', () => {
       const store = makeStore({})
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       class Form extends Component {
         render() {
           return <div><Field name="foo" component={input}/></div>
@@ -314,7 +314,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('bar')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('bar')
     })
 
     it('should provide sync error for array field', () => {
@@ -325,7 +325,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       const validate = () => ({ foo: [ 'bar error' ] })
       class Form extends Component {
         render() {
@@ -385,7 +385,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -407,30 +407,30 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('fooValue')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('fooValue')
       expect(input.calls[ 0 ].arguments[ 0 ].touched).toBe(false)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].value).toBe('barValue')
+      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('barValue')
       expect(input.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
     })
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
-          this.state = { foo: 'foo', bar: 'bar' }
+          this.state = { foo: 'foo' }
         }
 
         render() {
           return (<div>
-            <Field name="foo" foo={this.state.foo} bar={this.state.bar} component={input}/>
-            <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
+            <Field name="foo" rel={this.state.foo} component={input}/>
+            <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
           </div>)
         }
       }
@@ -442,20 +442,18 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].foo).toBe('foo')
-      expect(input.calls[ 0 ].arguments[ 0 ].bar).toBe('bar')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.rel).toBe('foo')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].foo).toBe('qux')
-      expect(input.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
+      expect(input.calls[ 1 ].arguments[ 0 ].input.rel).toBe('qux')
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
       const store = makeStore()
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       const renderSpy = createSpy()
       class Form extends Component {
         constructor() {
@@ -466,7 +464,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         render() {
           renderSpy()
           return (<div>
-            <Field name="myField" component={input} props={{ cat: 2, dog: 3 }}/>
+            <Field name="myField" component={input} props={{ rel: 'test' }}/>
             <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
           </div>)
         }
@@ -482,8 +480,7 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].cat).toBe(2)
-      expect(input.calls[ 0 ].arguments[ 0 ].dog).toBe(3)
+      expect(input.calls[ 0 ].arguments[ 0 ].input.rel).toBe('test')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
@@ -503,7 +500,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderUsername = createSpy(props => <input {...props}/>).andCallThrough()
+      const renderUsername = createSpy(props => <input {...props.input}/>).andCallThrough()
       const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -525,8 +522,8 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       expect(normalize).toNotHaveBeenCalled()
 
-      expect(renderUsername.calls[ 0 ].arguments[ 0 ].value).toBe('oldusername')
-      renderUsername.calls[ 0 ].arguments[ 0 ].onChange('ERIKRAS')
+      expect(renderUsername.calls[ 0 ].arguments[ 0 ].input.value).toBe('oldusername')
+      renderUsername.calls[ 0 ].arguments[ 0 ].input.onChange('ERIKRAS')
 
       expect(normalize)
         .toHaveBeenCalled()
@@ -545,7 +542,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         )
       expect(normalize.calls.length).toBe(1)
 
-      expect(renderUsername.calls[ 1 ].arguments[ 0 ].value).toBe('erikras')
+      expect(renderUsername.calls[ 1 ].arguments[ 0 ].input.value).toBe('erikras')
     })
 
     it('should call normalize function on blur', () => {
@@ -558,7 +555,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderUsername = createSpy(props => <input {...props}/>).andCallThrough()
+      const renderUsername = createSpy(props => <input {...props.input}/>).andCallThrough()
       const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -580,8 +577,8 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       expect(normalize).toNotHaveBeenCalled()
 
-      expect(renderUsername.calls[ 0 ].arguments[ 0 ].value).toBe('oldusername')
-      renderUsername.calls[ 0 ].arguments[ 0 ].onBlur('ERIKRAS')
+      expect(renderUsername.calls[ 0 ].arguments[ 0 ].input.value).toBe('oldusername')
+      renderUsername.calls[ 0 ].arguments[ 0 ].input.onBlur('ERIKRAS')
 
       expect(normalize)
         .toHaveBeenCalled()
@@ -600,7 +597,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         )
       expect(normalize.calls.length).toBe(1)
 
-      expect(renderUsername.calls[ 1 ].arguments[ 0 ].value).toBe('erikras')
+      expect(renderUsername.calls[ 1 ].arguments[ 0 ].input.value).toBe('erikras')
     })
 
     it('should rerender when sync error changes', () => {
@@ -612,8 +609,8 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const passwordInput = createSpy(props => <input {...props}/>).andCallThrough()
-      const confirmInput = createSpy(props => <input {...props}/>).andCallThrough()
+      const passwordInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const confirmInput = createSpy(props => <input {...props.input}/>).andCallThrough()
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -648,7 +645,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(confirmInput.calls[ 0 ].arguments[ 0 ].error).toBe('Must match!')
 
       // update password field so that they match
-      passwordInput.calls[ 0 ].arguments[ 0 ].onChange('redux-form rocks')
+      passwordInput.calls[ 0 ].arguments[ 0 ].input.onChange('redux-form rocks')
 
       // password input rerendered
       expect(passwordInput.calls.length).toBe(2)

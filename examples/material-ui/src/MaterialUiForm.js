@@ -21,26 +21,26 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = props => (
-  <TextField hintText={props.label}
-    floatingLabelText={props.label}
-    errorText={props.touched && props.error}
-    {...props}
+const renderTextField = field => (
+  <TextField hintText={field.input.label}
+    floatingLabelText={field.input.label}
+    errorText={field.touched && field.error}
+    {...field.input}
   />
 )
 
-const renderCheckbox = props => (
-  <Checkbox label={props.label}
-    checked={props.value ? true : false}
-    onCheck={props.onChange}/>
+const renderCheckbox = field => (
+  <Checkbox label={field.input.label}
+    checked={field.input.value ? true : false}
+    onCheck={field.input.onChange}/>
 )
 
-const renderSelectField = props => (
+const renderSelectField = field => (
   <SelectField
-    floatingLabelText={props.label}
-    errorText={props.touched && props.error}
-    {...props}
-    onChange={(event, index, value) => props.onChange(value)}>
+    floatingLabelText={field.input.label}
+    errorText={field.touched && field.error}
+    {...field.input}
+    onChange={(event, index, value) => field.input.onChange(value)}>
   </SelectField>
 )
 

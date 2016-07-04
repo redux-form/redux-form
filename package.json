@@ -47,7 +47,7 @@
     "is-promise": "^2.1.0",
     "lodash": "^4.12.0",
     "lodash-es": "^4.12.0",
-    "react-addons-shallow-compare": "^15.0.0"
+    "react-addons-shallow-compare": "^15.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.3.17",
@@ -77,9 +77,9 @@
     "jsdom": "^9.1.0",
     "lodash-webpack-plugin": "^0.9.0",
     "mocha": "^2.4.5",
-    "react": "^15.0.0",
-    "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^15.2.0",
+    "react-addons-test-utils": "^15.2.0",
+    "react-dom": "^15.2.0",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
     "redux-immutablejs": "0.0.8",

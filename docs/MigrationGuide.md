@@ -80,12 +80,12 @@ export default reduxForm({
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form' // imported Field
 
-const renderInput = props => // Define stateless component to render input and errors
+const renderInput = field =>   // Define stateless component to render input and errors
   <div>
-    <input {...props}/>      // No type specified. That is specified below in <Field>
-    {props.touched &&
-     props.error &&
-     <span className="error">{props.error}</span>}
+    <input {...field.input}/>  // No type specified. That is specified below in <Field>
+    {field.touched &&
+     field.error &&
+     <span className="error">{field.error}</span>}
   </div>
             
 class MyForm extends Component {
@@ -216,7 +216,7 @@ render() {
   return (
     <div>
       <Field name="contact.shipping.street" component={street =>
-        <input type="text" {...street}/>
+        <input type="text" {...street.input}/>
       }/>
     </div>
   )
@@ -238,7 +238,7 @@ render() {
       <ul>
         {awards.map((award, index) => <li key={index}>
           <label>Award #{index + 1}</label>
-          <input type="text" {...award}/>
+          <input type="text" {...award.input}/>
         </li>)}
       </ul>
       <button onClick={() => awards.addField()}>Add Award</button>
