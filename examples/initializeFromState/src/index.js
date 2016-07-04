@@ -45,7 +45,7 @@ let render = () => {
 
         <InitializeFromStateForm onSubmit={showResults}/>
 
-        <Values form="simple"/>
+        <Values form="initializeFromState"/>
 
         <h2>Code</h2>
 
