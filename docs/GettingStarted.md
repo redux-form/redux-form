@@ -1,12 +1,13 @@
 # Getting Started With `redux-form`
 
-`redux-form` primarily consists of three things: 
+`redux-form` primarily consists of four things: 
 
 1. A Redux reducer that listens to dispatched `redux-form` actions to maintain your form state in
 Redux.
 2. A React component decorator that wraps your entire form in a Higher Order Component (HOC) and 
 provides functionality via props.
 3. A `Field` component to connect your individual field inputs to the Redux store.
+4. Various Action Creators for interacting with your forms throughout the application.
 
 ## Implementation Guide
 
