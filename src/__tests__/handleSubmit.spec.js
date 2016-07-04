@@ -1,5 +1,4 @@
 import expect, { createSpy } from 'expect'
-import isPromise from 'is-promise'
 import handleSubmit from '../handleSubmit'
 import SubmissionError from '../SubmissionError'
 import { noop } from 'lodash'
