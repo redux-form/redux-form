@@ -73,7 +73,11 @@ export default ContactForm;
 
 ### You're done!
 
-That's it! There is no Step #3!
+Well, almost. You will still need to:
+ 
+* Do something with the data that has been submitted. It will be passed as JSON to your `onSubmit`
+function.
+* Potentially set the form values initially, with the `initialValues` prop.
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect
 up the inputs to `redux-form` would be the
