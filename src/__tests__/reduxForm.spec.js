@@ -1108,14 +1108,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmitFail).toNotHaveBeenCalled()
       expect(onSubmit).toNotHaveBeenCalled()
 
-      return stub.submit()
-        .catch(caught => {
-          expect(onSubmit).toNotHaveBeenCalled()
-          expect(onSubmitFail)
-            .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors, store.dispatch)
-          expect(caught).toBe(errors)
-        })
+      const result = stub.submit()
+      expect(onSubmit).toNotHaveBeenCalled()
+      expect(onSubmitFail)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(errors, store.dispatch)
+      expect(result).toBe(errors)
     })
 
     it('should call onSubmitFail if async validation prevents submit', () => {

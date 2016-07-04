@@ -29,7 +29,7 @@ describe('handleSubmit', () => {
       .toHaveBeenCalledWith('foo', 'baz')
   })
 
-  it('should stop and return rejected promise if sync validation fails', (done) => {
+  it('should stop and return errors if sync validation fails', () => {
     const values = { foo: 'bar', baz: 42 }
     const submit = createSpy().andReturn(69)
     const syncErrors = { foo: 'error' }
@@ -48,7 +48,6 @@ describe('handleSubmit', () => {
     }
 
     const result = handleSubmit(submit, props, false, asyncValidate, [ 'foo', 'baz' ])
-    expect(isPromise(result)).toBe(true)
 
     expect(asyncValidate).toNotHaveBeenCalled()
     expect(submit).toNotHaveBeenCalled()
@@ -60,10 +59,7 @@ describe('handleSubmit', () => {
     expect(setSubmitFailed)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith('foo', 'baz')
-    result.catch(error => {
-      expect(error).toBe(syncErrors)
-      done()
-    })
+    expect(result).toBe(syncErrors)
   })
 
   it('should return result of sync submit', () => {

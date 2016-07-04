@@ -65,9 +65,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
     if(onSubmitFail) {
       onSubmitFail(syncErrors, dispatch)
     }
-    // Can't know here if submission is sync or async, so we guess async (the most common case) and
-    // return the sync errors in a promise.
-    return Promise.reject(syncErrors)
+    return syncErrors
   }
 }
 
