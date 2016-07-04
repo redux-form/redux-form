@@ -36,7 +36,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
             if(onSubmitFail) {
               onSubmitFail(error, dispatch)
             }
-            return Promise.reject(error)
+            return error
           })
       }
       if(onSubmitSuccess) {

@@ -115,7 +115,7 @@ describe('handleSubmit', () => {
       })
   })
 
-  it('should not submit if async validation fails and return rejected promise', () => {
+  it('should not submit if async validation fails and return rejected promise', done => {
     const values = { foo: 'bar', baz: 42 }
     const submit = createSpy().andReturn(69)
     const dispatch = noop
@@ -144,6 +144,7 @@ describe('handleSubmit', () => {
         expect(setSubmitFailed)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith('foo', 'baz')
+        done()
       })
   })
 
@@ -222,7 +223,7 @@ describe('handleSubmit', () => {
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .catch(error => {
+      .then(error => {
         expect(error).toBe(submitErrors)
         expect(asyncValidate)
           .toHaveBeenCalled()
@@ -244,7 +245,7 @@ describe('handleSubmit', () => {
       })
   })
 
-  it('should not set errors if rejected value not a SubmissionError', () => {
+  it('should not set errors if rejected value not a SubmissionError', done => {
     const values = { foo: 'bar', baz: 42 }
     const submitErrors = { foo: 'submit error' }
     const submit = createSpy().andReturn(Promise.reject(submitErrors))
@@ -257,7 +258,7 @@ describe('handleSubmit', () => {
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, values }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .catch(result => {
+      .then(result => {
         expect(result).toBe(undefined)
         expect(asyncValidate)
           .toHaveBeenCalled()
@@ -275,10 +276,11 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith('foo', 'baz')
         expect(setSubmitFailed)
           .toNotHaveBeenCalled()
+        done()
       })
   })
 
-  it('should set submit errors if async submit fails and return rejected promise', () => {
+  it('should set submit errors if async submit fails and return rejected promise', done => {
     const values = { foo: 'bar', baz: 42 }
     const submitErrors = { foo: 'submit error' }
     const submit = createSpy().andReturn(Promise.reject(new SubmissionError(submitErrors)))
@@ -293,7 +295,7 @@ describe('handleSubmit', () => {
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .catch(error => {
+      .then(error => {
         expect(error).toBe(submitErrors)
         expect(asyncValidate)
           .toHaveBeenCalled()
@@ -310,6 +312,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalled()
           .toHaveBeenCalledWith('foo', 'baz')
         expect(setSubmitFailed).toNotHaveBeenCalled()
+        done()
       })
   })
 })

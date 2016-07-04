@@ -2,12 +2,12 @@ import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import validate from './validate'
 
-const renderField = props => (
+const renderField = field => (
   <div>
-    <label>{props.placeholder}</label>
+    <label>{field.input.placeholder}</label>
     <div>
-      <input {...props}/>
-      {props.touched && props.error && <span>{props.error}</span>}
+      <input {...field.input}/>
+      {field.touched && field.error && <span>{field.error}</span>}
     </div>
   </div>
 )

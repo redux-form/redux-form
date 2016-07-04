@@ -251,7 +251,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should initialize values with initialValues on first render', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         deep: {
@@ -296,12 +296,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender.calls.length).toBe(1)
       expect(inputRender.calls[ 0 ].arguments[ 0 ].pristine).toBe(true)
       expect(inputRender.calls[ 0 ].arguments[ 0 ].dirty).toBe(false)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].value).toBe('bar')
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('bar')
     })
 
     it('should initialize with initialValues on later render if not already initialized', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         deep: {
@@ -355,7 +355,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const checkInputProps = (props, value) => {
         expect(props.pristine).toBe(true)
         expect(props.dirty).toBe(false)
-        expect(props.value).toBe(value)
+        expect(props.input.value).toBe(value)
       }
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], '')
 
@@ -389,7 +389,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should NOT reinitialize with initialValues', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -450,7 +450,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const checkInputProps = (props, value) => {
         expect(props.pristine).toBe(true)
         expect(props.dirty).toBe(false)
-        expect(props.value).toBe(value)
+        expect(props.input.value).toBe(value)
       }
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
 
@@ -483,7 +483,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should reinitialize with initialValues if enableReinitialize', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -547,7 +547,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const checkInputProps = (props, value) => {
         expect(props.pristine).toBe(true)
         expect(props.dirty).toBe(false)
-        expect(props.value).toBe(value)
+        expect(props.input.value).toBe(value)
       }
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
 
@@ -581,7 +581,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should destroy on unmount by default', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -632,17 +632,17 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].value).toBe('')
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
 
       // change field
-      inputRender.calls[ 0 ].arguments[ 0 ].onChange('bob')
+      inputRender.calls[ 0 ].arguments[ 0 ].input.onChange('bob')
 
       // form rerenders because now dirty
       expect(formRender.calls.length).toBe(2)
 
       // input now has value
       expect(inputRender.calls.length).toBe(2)
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].value).toBe('bob')
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('bob')
 
       // check state
       expect(store.getState()).toEqualMap({
@@ -678,12 +678,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       // input is back, but without value
       expect(inputRender.calls.length).toBe(3)
-      expect(inputRender.calls[ 2 ].arguments[ 0 ].value).toBe('')
+      expect(inputRender.calls[ 2 ].arguments[ 0 ].input.value).toBe('')
     })
 
     it('should not destroy on unmount if told not to', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -735,17 +735,17 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].value).toBe('')
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
 
       // change field
-      inputRender.calls[ 0 ].arguments[ 0 ].onChange('bob')
+      inputRender.calls[ 0 ].arguments[ 0 ].input.onChange('bob')
 
       // form rerenders because now dirty
       expect(formRender.calls.length).toBe(2)
 
       // input now has value
       expect(inputRender.calls.length).toBe(2)
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].value).toBe('bob')
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('bob')
 
       // check state
       expect(store.getState()).toEqualMap({
@@ -790,7 +790,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       // input is back, with its old value
       expect(inputRender.calls.length).toBe(3)
-      expect(inputRender.calls[ 2 ].arguments[ 0 ].value).toBe('bob')
+      expect(inputRender.calls[ 2 ].arguments[ 0 ].input.value).toBe('bob')
     })
 
     it('should keep a list of registered fields', () => {
@@ -836,7 +836,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should provide valid/invalid/values/dirty/pristine getters', () => {
       const store = makeStore({})
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
 
       const Form = () => (
         <form>
@@ -865,7 +865,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(stub.values).toEqualMap({})
 
       // set value for 'bar' field
-      input.calls[ 0 ].arguments[ 0 ].onChange('foo')
+      input.calls[ 0 ].arguments[ 0 ].input.onChange('foo')
 
       // valid because we have a value for 'bar' field
       expect(stub.dirty).toBe(true)
@@ -879,8 +879,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {}
       })
-      const username = createSpy(props => <input {...props} type="text"/>).andCallThrough()
-      const password = createSpy(props => <input {...props} type="password"/>).andCallThrough()
+      const username = createSpy(props => <input {...props.input} type="text"/>).andCallThrough()
+      const password = createSpy(props => <input {...props.input} type="password"/>).andCallThrough()
 
       const Form = () => (
         <form>
@@ -1032,7 +1032,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(caught).toNotExist()
     })
 
-    it('should call onSubmitFail if async submit fails', () => {
+    it('should call onSubmitFail if async submit fails', done => {
       const store = makeStore({
         testForm: {}
       })
@@ -1065,11 +1065,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmitFail).toNotHaveBeenCalled()
 
       return stub.submit()
-        .catch(caught => {
+        .then(caught => {
           expect(onSubmitFail)
             .toHaveBeenCalled()
             .toHaveBeenCalledWith(errors, store.dispatch)
           expect(caught).toBe(errors)
+          done()
         })
     })
 
@@ -1116,7 +1117,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(result).toBe(errors)
     })
 
-    it('should call onSubmitFail if async validation prevents submit', () => {
+    it('should call onSubmitFail if async validation prevents submit', done => {
       const store = makeStore({
         testForm: {}
       })
@@ -1133,9 +1134,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        asyncValidate: () => {
-          return Promise.reject(errors)
-        },
+        asyncValidate: () => Promise.reject(errors),
         onSubmit,
         onSubmitFail
       })(Form)
@@ -1154,12 +1153,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmitFail).toNotHaveBeenCalled()
 
       return stub.submit()
-        .catch(caught => {
+        .catch(error => {
           expect(onSubmit).toNotHaveBeenCalled()
           expect(onSubmitFail)
             .toHaveBeenCalled()
             .toHaveBeenCalledWith(errors, store.dispatch)
-          expect(caught).toBe(errors)
+          expect(error).toBe(errors)
+          done()
         })
     })
 
@@ -1287,7 +1287,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
 
       const Form = () => (
         <form>
@@ -1311,7 +1311,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('foo')
 
       expect(stub.submit).toBeA('function')
       stub.submit()
@@ -1362,7 +1362,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
 
       const Form = () =>
         (
@@ -1382,12 +1382,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
     })
 
     it('should be fine if getFormState returns nothing', () => {
       const store = makeStore({})
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
 
       const Form = () =>
         (
@@ -1408,7 +1408,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
     })
 
     it('should throw an error when no onSubmit is specified', () => {
@@ -1449,7 +1449,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       const asyncValidate = createSpy(() => Promise.resolve()).andCallThrough()
 
       const Form = () => (
@@ -1475,7 +1475,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('foo')
 
       expect(asyncValidate).toNotHaveBeenCalled()
 
@@ -1494,7 +1494,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       const asyncValidate = createSpy(() =>
         new Promise(resolve => setTimeout(resolve, 100))).andCallThrough()
       const onSubmit = values => {
@@ -1523,7 +1523,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('foo')
 
       expect(asyncValidate).toNotHaveBeenCalled()
 
@@ -1538,7 +1538,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
     })
 
-    it('should return rejected promise when submit is rejected', () => {
+    it('should return rejected promise when submit is rejected', done => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1566,8 +1566,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
       return stub.submit()
-        .catch(err => {
+        .then(err => {
           expect(err).toBe('Rejection')
+          done()
         })
     })
 
@@ -1579,7 +1580,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
       const asyncValidate = createSpy(() =>
         new Promise(resolve => setTimeout(resolve, 100))).andCallThrough()
       const onSubmit = values => {
@@ -1607,7 +1608,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
 
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('foo')
 
       expect(asyncValidate).toNotHaveBeenCalled()
 
@@ -1624,7 +1625,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should reset when reset() called', () => {
       const store = makeStore({})
-      const input = createSpy(props => <input {...props}/>).andCallThrough()
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
 
       const Form = () => (
         <form>
@@ -1647,21 +1648,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(input).toHaveBeenCalled()
 
-      expect(input.calls[ 0 ].arguments[ 0 ].value).toBe('initialBar')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('initialBar')
 
-      input.calls[ 0 ].arguments[ 0 ].onChange('newBar')
+      input.calls[ 0 ].arguments[ 0 ].input.onChange('newBar')
 
-      expect(input.calls[ 1 ].arguments[ 0 ].value).toBe('newBar')
+      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('newBar')
 
       expect(stub.reset).toBeA('function')
       stub.reset()
 
-      expect(input.calls[ 2 ].arguments[ 0 ].value).toBe('initialBar')
+      expect(input.calls[ 2 ].arguments[ 0 ].input.value).toBe('initialBar')
     })
 
     it('should rerender form, but not fields, when non-redux-form props change', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -1725,7 +1726,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call async on blur of async blur field', done => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
       const asyncErrors = {
         deep: {
@@ -1770,7 +1771,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
       expect(inputRender.calls[ 0 ].arguments[ 0 ].pristine).toBe(true)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].value).toBe('')
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
       expect(inputRender.calls[ 0 ].arguments[ 0 ].valid).toBe(true)
       expect(inputRender.calls[ 0 ].arguments[ 0 ].error).toBe(undefined)
 
@@ -1795,7 +1796,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(inputRender.calls.length).toBe(2)  // input rerendered
       expect(inputRender.calls[ 1 ].arguments[ 0 ].pristine).toBe(false)
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].value).toBe('bar')
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('bar')
       expect(inputRender.calls[ 1 ].arguments[ 0 ].valid).toBe(true)
       expect(inputRender.calls[ 1 ].arguments[ 0 ].error).toBe(undefined)
 
@@ -1832,7 +1833,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         // input rerendered twice, at start and end of async validation
         expect(inputRender.calls.length).toBe(4)
         expect(inputRender.calls[ 3 ].arguments[ 0 ].pristine).toBe(false)
-        expect(inputRender.calls[ 3 ].arguments[ 0 ].value).toBe('bar')
+        expect(inputRender.calls[ 3 ].arguments[ 0 ].input.value).toBe('bar')
         expect(inputRender.calls[ 3 ].arguments[ 0 ].valid).toBe(false)
         expect(inputRender.calls[ 3 ].arguments[ 0 ].error).toBe('async error')
         done()
@@ -1841,7 +1842,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should not call async validate if shouldAsyncValidate returns false', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const asyncValidate = createSpy().andReturn(Promise.reject({ foo: 'bad user!' }))
       const shouldAsyncValidate = createSpy().andReturn(false)
 

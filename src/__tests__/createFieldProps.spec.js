@@ -11,7 +11,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
   describe(name, () => {
     it('should pass value through', () => {
-      expect(createFieldProps(getIn, 'foo', { value: 'hello' }).value).toBe('hello')
+      expect(createFieldProps(getIn, 'foo', { value: 'hello' }).input.value).toBe('hello')
     })
 
     it('should pass dirty/pristine through', () => {
@@ -26,9 +26,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
       const normalize = createSpy(value => value).andCallThrough()
       expect(blur).toNotHaveBeenCalled()
       const result = createFieldProps(getIn, 'foo', { value: 'bar', blur, normalize })
-      expect(result.onBlur).toBeA('function')
+      expect(result.input.onBlur).toBeA('function')
       expect(blur).toNotHaveBeenCalled()
-      result.onBlur('rabbit')
+      result.input.onBlur('rabbit')
       expect(normalize).toHaveBeenCalled()
       expect(blur)
         .toHaveBeenCalled()
@@ -40,27 +40,22 @@ const describeCreateFieldProps = (name, structure, expect) => {
       const normalize = createSpy(value => value).andCallThrough()
       expect(change).toNotHaveBeenCalled()
       const result = createFieldProps(getIn, 'foo', { value: 'bar', change, normalize })
-      expect(result.onChange).toBeA('function')
+      expect(result.input.onChange).toBeA('function')
       expect(change).toNotHaveBeenCalled()
-      result.onChange('rabbit')
+      result.input.onChange('rabbit')
       expect(normalize).toHaveBeenCalled()
       expect(change)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith('rabbit')
     })
 
-    it('should provide onUpdate alias for onChange', () => {
-      const result = createFieldProps(getIn, 'foo', { value: 'bar' })
-      expect(result.onUpdate).toBe(result.onChange)
-    })
-
     it('should provide onFocus', () => {
       const focus = createSpy()
       expect(focus).toNotHaveBeenCalled()
       const result = createFieldProps(getIn, 'foo', { value: 'bar', focus })
-      expect(result.onFocus).toBeA('function')
+      expect(result.input.onFocus).toBeA('function')
       expect(focus).toNotHaveBeenCalled()
-      result.onFocus('rabbit')
+      result.input.onFocus('rabbit')
       expect(focus)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith('foo')
@@ -68,12 +63,12 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide onDragStart', () => {
       const result = createFieldProps(getIn, 'foo', { value: 'bar' })
-      expect(result.onDragStart).toBeA('function')
+      expect(result.input.onDragStart).toBeA('function')
     })
 
     it('should provide onDrop', () => {
       const result = createFieldProps(getIn, 'foo', { value: 'bar' })
-      expect(result.onDrop).toBeA('function')
+      expect(result.input.onDrop).toBeA('function')
     })
 
     it('should read active from state', () => {
@@ -203,8 +198,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
       })
       expect(result.initial).toNotExist()
       expect(result.state).toNotExist()
-      expect(result.someOtherProp).toBe('dog')
-      expect(result.className).toBe('my-class')
+      expect(result.input.someOtherProp).toBe('dog')
+      expect(result.input.className).toBe('my-class')
     })
 
     it('should pass through other props using props prop', () => {
@@ -218,25 +213,25 @@ const describeCreateFieldProps = (name, structure, expect) => {
       })
       expect(result.initial).toNotExist()
       expect(result.state).toNotExist()
-      expect(result.someOtherProp).toBe('dog')
-      expect(result.className).toBe('my-class')
+      expect(result.input.someOtherProp).toBe('dog')
+      expect(result.input.className).toBe('my-class')
     })
 
     it('should set checked for checkboxes', () => {
       expect(createFieldProps(getIn, 'foo', {
         state: empty,
         type: 'checkbox'
-      }).checked).toBe(false)
+      }).input.checked).toBe(false)
       expect(createFieldProps(getIn, 'foo', {
         value: true,
         state: empty,
         type: 'checkbox'
-      }).checked).toBe(true)
+      }).input.checked).toBe(true)
       expect(createFieldProps(getIn, 'foo', {
         value: false,
         state: empty,
         type: 'checkbox'
-      }).checked).toBe(false)
+      }).input.checked).toBe(false)
     })
 
     it('should set checked for radio buttons', () => {
@@ -244,26 +239,26 @@ const describeCreateFieldProps = (name, structure, expect) => {
         state: empty,
         type: 'radio',
         _value: 'bar'
-      }).checked).toBe(false)
+      }).input.checked).toBe(false)
       expect(createFieldProps(getIn, 'foo', {
         value: 'bar',
         state: empty,
         type: 'radio',
         _value: 'bar'
-      }).checked).toBe(true)
+      }).input.checked).toBe(true)
       expect(createFieldProps(getIn, 'foo', {
         value: 'baz',
         state: empty,
         type: 'radio',
         _value: 'bar'
-      }).checked).toBe(false)
+      }).input.checked).toBe(false)
     })
 
     it('should default value to [] for multi-selects', () => {
       expect(createFieldProps(getIn, 'foo', {
         state: empty,
         type: 'select-multiple'
-      }).value)
+      }).input.value)
         .toBeA('array')
         .toEqual([])
     })
@@ -272,7 +267,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(createFieldProps(getIn, 'foo', {
         state: empty,
         type: 'file'
-      }).value)
+      }).input.value)
         .toEqual(undefined)
     })
 
@@ -280,7 +275,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
       const result = createFieldProps(getIn, 'foo', {
         state: empty
       })
-      expect(result.value).toBe('')
+      expect(result.input.value).toBe('')
     })
 
     it('should replace undefined value with default value provided', () => {
@@ -291,7 +286,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         state: empty,
         defaultValue
       })
-      expect(result.value).toBe(defaultValue)
+      expect(result.input.value).toBe(defaultValue)
     })
   })
 }
