@@ -31,7 +31,7 @@
   
 ## [`FieldArray`](FieldArray.md)
 
-> The component needed render an array of fields
+> The component needed to render an array of fields
 
 ---
   
