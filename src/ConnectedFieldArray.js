@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import shallowCompare from 'react-addons-shallow-compare'
+import plain from './structure/plain'
 
 const createConnectedFieldArray = ({
   arrayInsert,
@@ -24,6 +25,13 @@ const createConnectedFieldArray = ({
 }, { deepEqual, getIn, size }, name) => {
 
   const propInitialValue = initialValues && getIn(initialValues, name)
+
+  const getSyncError = syncErrors => {
+    // For an array, the error can _ONLY_ be under _error.
+    // This is why this getSyncError is not the same as the
+    // one in Field.
+    return plain.getIn(syncErrors, `${name}._error`)
+  }
 
   class ConnectedFieldArray extends Component {
     shouldComponentUpdate(nextProps) {
@@ -85,14 +93,17 @@ const createConnectedFieldArray = ({
   }, actionCreator => actionCreator.bind(null, name))
   const connector = connect(
     state => {
-      const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue
-      const value = getIn(getFormState(state), `values.${name}`)
+      const formState = getFormState(state)
+      const initial = getIn(formState, `initial.${name}`) || propInitialValue
+      const value = getIn(formState, `values.${name}`)
+      const syncError = getSyncError(getIn(formState, 'syncErrors'))
       const pristine = deepEqual(value, initial)
       return {
-        asyncError: getIn(getFormState(state), `asyncErrors.${name}._error`),
+        asyncError: getIn(formState, `asyncErrors.${name}._error`),
         dirty: !pristine,
         pristine,
-        submitError: getIn(getFormState(state), `submitErrors.${name}._error`),
+        submitError: getIn(formState, `submitErrors.${name}._error`),
+        syncError,
         value
       }
     },

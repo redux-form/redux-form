@@ -135,7 +135,7 @@ describe('structure.plain.deepEqual', () => {
     base1.deep = deep1
 
     const base2 = { a: 1 }
-    const deep2 = { b : 2, base: base2 }
+    const deep2 = { b: 2, base: base2 }
     base2.deep = deep2
 
     testBothWays(base1, base2, true)
@@ -164,7 +164,7 @@ describe('structure.plain.deepEqual', () => {
       }
     }, true)
   })
-  
+
   it('should treat null and undefined as equal', () => {
     testBothWays({
       a: {
@@ -175,6 +175,18 @@ describe('structure.plain.deepEqual', () => {
         b: null
       }
     }, true)
+  })
+
+
+  it('should special case _error key for arrays', () => {
+    const a = [ 'a', 'b' ]
+    const b = [ 'a', 'b' ]
+    b._error = 'something'
+    const c = [ 'a', 'b' ]
+    c._error = 'something'
+
+    testBothWays(a, b, false)
+    testBothWays(b, c, true)
   })
 })
 

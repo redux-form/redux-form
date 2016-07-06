@@ -2,6 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import { mapValues } from 'lodash'
+import plain from './structure/plain'
 
 const createConnectedField = ({
   asyncValidate,
@@ -13,6 +14,13 @@ const createConnectedField = ({
 }, { deepEqual, getIn }, name) => {
 
   const propInitialValue = initialValues && getIn(initialValues, name)
+
+  const getSyncError = syncErrors => {
+    const error = plain.getIn(syncErrors, name)
+    // Because the error for this field might not be at a level in the error structure where
+    // it can be set directly, it might need to be unwrapped from the _error property
+    return error && error._error ? error._error : error
+  }
 
   class ConnectedField extends Component {
     shouldComponentUpdate(nextProps) {
@@ -51,10 +59,6 @@ const createConnectedField = ({
     props: PropTypes.object
   }
 
-  ConnectedField.contextTypes = {
-    _reduxForm: PropTypes.object
-  }
-
   const actions = mapValues({
     blur,
     change,
@@ -62,16 +66,19 @@ const createConnectedField = ({
   }, actionCreator => actionCreator.bind(null, name))
   const connector = connect(
     (state, ownProps) => {
-      const initial = getIn(getFormState(state), `initial.${name}`) || propInitialValue
-      const value = getIn(getFormState(state), `values.${name}`)
+      const formState = getFormState(state)
+      const initial = getIn(formState, `initial.${name}`) || propInitialValue
+      const value = getIn(formState, `values.${name}`)
+      const syncError = getSyncError(getIn(formState, 'syncErrors'))
       const pristine = value === initial
       return {
-        asyncError: getIn(getFormState(state), `asyncErrors.${name}`),
-        asyncValidating: getIn(getFormState(state), 'asyncValidating') === name,
+        asyncError: getIn(formState, `asyncErrors.${name}`),
+        asyncValidating: getIn(formState, 'asyncValidating') === name,
         dirty: !pristine,
         pristine,
-        state: getIn(getFormState(state), `fields.${name}`),
-        submitError: getIn(getFormState(state), `submitErrors.${name}`),
+        state: getIn(formState, `fields.${name}`),
+        submitError: getIn(formState, `submitErrors.${name}`),
+        syncError,
         value,
         _value: ownProps.value // save value passed in (for checkboxes)
       }

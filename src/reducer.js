@@ -2,7 +2,8 @@ import {
   ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
   ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS,
   INITIALIZE, REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION,
-  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
+  START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH,
+  UPDATE_SYNC_ERRORS
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
@@ -244,6 +245,11 @@ const createReducer = structure => {
       let result = state
       fields.forEach(field => result = deleteIn(result, `fields.${field}.touched`))
       return result
+    },
+    [UPDATE_SYNC_ERRORS](state, { payload }) {
+      return Object.keys(payload).length ?
+        setIn(state, 'syncErrors', payload) :
+        deleteIn(state, 'syncErrors')
     }
   }
 

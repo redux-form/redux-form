@@ -342,6 +342,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
       expect(input.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
       expect(input.calls[ 0 ].arguments[ 0 ].error).toBe('bar error')
     })
@@ -654,6 +655,49 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(confirmInput.calls.length).toBe(2)
       expect(confirmInput.calls[ 1 ].arguments[ 0 ].valid).toBe(true)
       expect(confirmInput.calls[ 1 ].arguments[ 0 ].error).toBe(undefined)
+    })
+
+    it('should rerender when sync error is cleared', () => {
+      const store = makeStore()
+      const usernameInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const validate = values => {
+        const username = getIn(values, 'username')
+        return username ? {} : { username: 'Required' }
+      }
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Field name="username" component={usernameInput}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        validate
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // username input rendered
+      expect(usernameInput).toHaveBeenCalled()
+      expect(usernameInput.calls.length).toBe(1)
+
+      // username field has error
+      expect(usernameInput.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
+      expect(usernameInput.calls[ 0 ].arguments[ 0 ].error).toBe('Required')
+
+      // update username field so it passes
+      usernameInput.calls[ 0 ].arguments[ 0 ].input.onChange('erikras')
+
+      // username input rerendered twice, once for value, once for sync error
+      expect(usernameInput.calls.length).toBe(3)
+
+      // should be valid now
+      expect(usernameInput.calls[ 2 ].arguments[ 0 ].valid).toBe(true)
+      expect(usernameInput.calls[ 2 ].arguments[ 0 ].error).toBe(undefined)
     })
   })
 }
