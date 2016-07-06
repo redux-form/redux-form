@@ -82,4 +82,4 @@ function.
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect
 up the inputs to `redux-form` would be the
-[Simple Form Example](http://redux-form.com/6.0.0-rc.2/examples/simple).
+[Simple Form Example](http://redux-form.com/6.0.0-rc.3/examples/simple).
