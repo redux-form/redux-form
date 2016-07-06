@@ -20,7 +20,6 @@ import describeChange from './reducer.change.spec'
 import describeDestroy from './reducer.destroy.spec'
 import describeFocus from './reducer.focus.spec'
 import describeTouch from './reducer.touch.spec'
-import describeUntouch from './reducer.untouch.spec'
 import describeReset from './reducer.reset.spec'
 import describePlugin from './reducer.plugin.spec'
 import describeStartSubmit from './reducer.startSubmit.spec'
@@ -30,6 +29,8 @@ import describeStartAsyncValidation from './reducer.startAsyncValidation.spec'
 import describeStopAsyncValidation from './reducer.stopAsyncValidation.spec'
 import describeRegisterField from './reducer.registerField.spec'
 import describeUnregisterField from './reducer.unregisterField.spec'
+import describeUntouch from './reducer.untouch.spec'
+import describeUpdateSyncErrors from './reducer.updateSyncErrors.spec'
 
 const tests = {
   initialize: describeInitialize,
@@ -49,7 +50,6 @@ const tests = {
   focus: describeFocus,
   reset: describeReset,
   touch: describeTouch,
-  untouch: describeUntouch,
   setSubmitFailed: describeSetSubmitFailed,
   startSubmit: describeStartSubmit,
   stopSubmit: describeStopSubmit,
@@ -57,6 +57,8 @@ const tests = {
   stopAsyncValidation: describeStopAsyncValidation,
   registerField: describeRegisterField,
   unregisterField: describeUnregisterField,
+  untouch: describeUntouch,
+  updateSyncErrors: describeUpdateSyncErrors,
   plugin: describePlugin
 }
 

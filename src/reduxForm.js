@@ -112,10 +112,9 @@ const createReduxForm =
           }
 
           initIfNeeded(nextProps) {
-            if(nextProps) {
+            if (nextProps) {
               const { enableReinitialize } = this.props
-              if((enableReinitialize || !nextProps.initialized) && 
-                !deepEqual(this.props.initialValues, nextProps.initialValues)) {
+              if ((enableReinitialize || !nextProps.initialized) && !deepEqual(this.props.initialValues, nextProps.initialValues)) {
                 this.props.initialize(nextProps.initialValues)
               }
             } else if (this.props.initialValues) {
@@ -123,12 +122,40 @@ const createReduxForm =
             }
           }
 
+          updateSyncErrorsIfNeeded(nextSyncErrors) {
+            const { syncErrors, updateSyncErrors } = this.props
+            const noErrors = !syncErrors || !Object.keys(syncErrors).length
+            const nextNoErrors = !nextSyncErrors || !Object.keys(nextSyncErrors).length
+            if (!(noErrors && nextNoErrors) && !plain.deepEqual(syncErrors, nextSyncErrors)) {
+              updateSyncErrors(nextSyncErrors)
+            }
+          }
+
+          validateIfNeeded(nextProps) {
+            const { validate, values } = this.props
+            if (validate) {
+              if (nextProps) {
+                // not initial render
+                if (!deepEqual(values, nextProps.values)) {
+                  const nextSyncErrors = validate(nextProps.values, nextProps)
+                  this.updateSyncErrorsIfNeeded(nextSyncErrors)
+                }
+              } else {
+                // initial render
+                const nextSyncErrors = validate(values, this.props)
+                this.updateSyncErrorsIfNeeded(nextSyncErrors)
+              }
+            }
+          }
+
           componentWillMount() {
             this.initIfNeeded()
+            this.validateIfNeeded()
           }
 
           componentWillReceiveProps(nextProps) {
             this.initIfNeeded(nextProps)
+            this.validateIfNeeded(nextProps)
           }
 
           shouldComponentUpdate(nextProps) {
@@ -196,13 +223,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                asyncErrors,
-                initialized,
-                trigger: submitting ? 'submit' : 'blur',
-                blurredField: name,
-                pristine,
-                syncValidationPasses
-              })) {
+                  asyncErrors,
+                  initialized,
+                  trigger: submitting ? 'submit' : 'blur',
+                  blurredField: name,
+                  pristine,
+                  syncValidationPasses
+                })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props),
                   startAsyncValidation,
@@ -353,14 +380,14 @@ const createReduxForm =
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
             const submitErrors = getIn(formState, 'submitErrors')
-            const syncErrors = validate && validate(values, props) || {}
+            const syncErrors = getIn(formState, 'syncErrors')
             const hasSyncErrors = plainHasErrors(syncErrors)
             const hasAsyncErrors = hasErrors(asyncErrors)
             const hasSubmitErrors = hasErrors(submitErrors)
             const registeredFields = getIn(formState, 'registeredFields') || []
             const hasFieldWithError = registeredFields && some(registeredFields, ((field) => {
-              return hasError(field, syncErrors, asyncErrors, submitErrors)
-            }))
+                return hasError(field, syncErrors, asyncErrors, submitErrors)
+              }))
             const valid =
               !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors && !hasFieldWithError
             const anyTouched = !!getIn(formState, 'anyTouched')

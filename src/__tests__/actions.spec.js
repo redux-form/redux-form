@@ -4,13 +4,13 @@ import {
   ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
   ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE,
   REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT,
-  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH
+  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS
 } from '../actionTypes'
 import {
   arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
   arraySplice, arraySwap, arrayUnshift, blur, change, destroy, focus, initialize, registerField,
   reset, setSubmitFailed, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
-  touch, unregisterField, untouch
+  touch, unregisterField, untouch, updateSyncErrors
 } from '../actions'
 import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
@@ -456,6 +456,32 @@ describe('actions', () => {
           form: 'myForm',
           fields: [ 'cat', 'dog', 'pig' ]
         }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create updateSyncErrors action', () => {
+    expect(updateSyncErrors('myForm', { foo: 'foo error' }))
+      .toEqual({
+        type: UPDATE_SYNC_ERRORS,
+        meta: {
+          form: 'myForm'
+        },
+        payload: {
+          foo: 'foo error'
+        }
+      })
+      .toPass(isFSA)
+  })
+  
+  it('should create updateSyncErrors action with no errors if none given', () => {
+    expect(updateSyncErrors('myForm'))
+      .toEqual({
+        type: UPDATE_SYNC_ERRORS,
+        meta: {
+          form: 'myForm'
+        },
+        payload: {}
       })
       .toPass(isFSA)
   })

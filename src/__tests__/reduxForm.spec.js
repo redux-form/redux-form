@@ -223,10 +223,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       dispatch(change('testForm', 'foo', 'giraffe')) // no render
 
       dispatch(change('testForm', 'foo', '')) // render 3 (clean/valid)
-      expect(spy.calls.length).toBe(4)
-
-      expect(spy).toHaveBeenCalled()
-      expect(spy.calls.length).toBe(4)
+      expect(spy.calls.length).toBe(5)  // two renders, one to change value, and other to revalidate
 
       expect(spy.calls[ 0 ].arguments[ 0 ].dirty).toBe(false)
       expect(spy.calls[ 0 ].arguments[ 0 ].invalid).toBe(false)
@@ -243,10 +240,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(spy.calls[ 2 ].arguments[ 0 ].pristine).toBe(false)
       expect(spy.calls[ 2 ].arguments[ 0 ].valid).toBe(false)
 
-      expect(spy.calls[ 3 ].arguments[ 0 ].dirty).toBe(false)
-      expect(spy.calls[ 3 ].arguments[ 0 ].invalid).toBe(false)
-      expect(spy.calls[ 3 ].arguments[ 0 ].pristine).toBe(true)
-      expect(spy.calls[ 3 ].arguments[ 0 ].valid).toBe(true)
+      expect(spy.calls[ 4 ].arguments[ 0 ].dirty).toBe(false)
+      expect(spy.calls[ 4 ].arguments[ 0 ].invalid).toBe(false)
+      expect(spy.calls[ 4 ].arguments[ 0 ].pristine).toBe(true)
+      expect(spy.calls[ 4 ].arguments[ 0 ].valid).toBe(true)
     })
 
     it('should initialize values with initialValues on first render', () => {
