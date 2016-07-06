@@ -15,13 +15,13 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
     }))
     expect(state)
       .toEqual(setIn(fromJS({
-          foo: {
-            values: {
-              myField: 'value',
-              myOtherField: 'otherValue'
-            }
+        foo: {
+          values: {
+            myField: 'value',
+            myOtherField: 'otherValue'
           }
-        }),
+        }
+      }),
         'foo.syncErrors',
         {
           myField: 'myField error',
@@ -43,13 +43,13 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
     }))
     expect(state)
       .toEqual(setIn(fromJS({
-          foo: {
-            values: {
-              myField: 'value',
-              myOtherField: 'otherValue'
-            }
+        foo: {
+          values: {
+            myField: 'value',
+            myOtherField: 'otherValue'
           }
-        }),
+        }
+      }),
         'foo.syncErrors',
         {
           myField: { complex: true, text: 'myField error' },

@@ -223,13 +223,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                  asyncErrors,
-                  initialized,
-                  trigger: submitting ? 'submit' : 'blur',
-                  blurredField: name,
-                  pristine,
-                  syncValidationPasses
-                })) {
+                asyncErrors,
+                initialized,
+                trigger: submitting ? 'submit' : 'blur',
+                blurredField: name,
+                pristine,
+                syncValidationPasses
+              })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props),
                   startAsyncValidation,
@@ -372,7 +372,7 @@ const createReduxForm =
 
         const connector = connect(
           (state, props) => {
-            const { form, getFormState, initialValues, validate } = props
+            const { form, getFormState, initialValues } = props
             const formState = getIn(getFormState(state) || empty, form) || empty
             const stateInitial = getIn(formState, 'initial')
             const initial = initialValues || stateInitial || empty
@@ -385,9 +385,8 @@ const createReduxForm =
             const hasAsyncErrors = hasErrors(asyncErrors)
             const hasSubmitErrors = hasErrors(submitErrors)
             const registeredFields = getIn(formState, 'registeredFields') || []
-            const hasFieldWithError = registeredFields && some(registeredFields, ((field) => {
-                return hasError(field, syncErrors, asyncErrors, submitErrors)
-              }))
+            const hasFieldWithError = registeredFields && some(registeredFields,
+              field => hasError(field, syncErrors, asyncErrors, submitErrors))
             const valid =
               !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors && !hasFieldWithError
             const anyTouched = !!getIn(formState, 'anyTouched')
