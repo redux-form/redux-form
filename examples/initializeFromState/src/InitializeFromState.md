@@ -3,7 +3,7 @@
 Values provided to the `initialValues` prop or `reduxForm()` config parameter will be loaded into
 the form state and treated thereafter as "pristine". They will also be the values that will 
 be returned to when `reset()` is dispatched. In addition to saving the "pristine" 
-values, initializing your form will overwrite any existing alues.
+values, initializing your form will overwrite any existing values.
 
 In many applications, these values will be coming from the server and stored in another Redux 
 reducer. To get those values into your `redux-form`-decorated component, you will need to 
