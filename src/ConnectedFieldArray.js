@@ -2,7 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
-import shallowCompare from 'react-addons-shallow-compare'
+import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
 
 const createConnectedFieldArray = ({

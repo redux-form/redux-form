@@ -1,7 +1,7 @@
 import { Component, PropTypes, createElement } from 'react'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
-import shallowCompare from 'react-addons-shallow-compare'
+import shallowCompare from './util/shallowCompare'
 
 const createFieldArray = ({ deepEqual, getIn, size }) => {
 
