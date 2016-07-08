@@ -2,6 +2,7 @@
 *.iml
 coverage
 node_modules
+typings
 dist
 lib
 es
