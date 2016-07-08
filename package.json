@@ -4,6 +4,7 @@
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "jsnext:main": "./es/index.js",
+  "typings": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/erikras/redux-form"
