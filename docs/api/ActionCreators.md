@@ -9,6 +9,11 @@ form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the
 
 > Inserts an item into a field array at the specified index
 
+### `arrayMove(form:String, field:String, from:Number, to:Number)`
+
+> Moves an item from one index in the array to another. In effect, it performs a remove and an 
+insert, so the item already at the `to` position will be bumped to a higher index, not overwritten.
+
 ### `arrayPop(form:String, field:String)`
 
 > Removes an item from the end of a field array
@@ -20,6 +25,10 @@ form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the
 ### `arrayRemove(form:String, field:String, index:Number)`
 
 > Removes an item at the specified index from a field array
+
+### `arrayRemoveAll(form:String, field:String)`
+
+> Removes all the items from the specified array.
 
 ### `arrayShift(form:String, field:String)`
 
