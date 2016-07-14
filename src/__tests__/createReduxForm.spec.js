@@ -1,6 +1,6 @@
 /* eslint react/no-multi-comp:0 */
 import expect, {createSpy} from 'expect';
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes, Children} from 'react';
 import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
@@ -30,6 +30,26 @@ describe('createReduxForm', () => {
     render() {
       return <div />;
     }
+  }
+
+  class Passthrough extends Component {
+    render() {
+     return <div {...this.props} />
+    }
+  }
+
+  class ProviderMock extends Component {
+    getChildContext() {
+      return { store: this.props.store }
+    }
+
+    render() {
+      return Children.only(this.props.children)
+    }
+  }
+
+  ProviderMock.childContextTypes = {
+    store: PropTypes.object.isRequired
   }
 
   const expectField = ({ field, name, value, initial, valid, dirty, error, touched, visited, readonly, autofilled }) => {
