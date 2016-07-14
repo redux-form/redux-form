@@ -1,7 +1,8 @@
 import {makeFieldValue} from './fieldValue';
 
 const makeEntry = (value, previousValue, overwriteValues) => {
-  return makeFieldValue(value === undefined ? {} : {
+  if (value === undefined && previousValue === undefined) return makeFieldValue({});
+  return makeFieldValue({
     initial: value,
     value: overwriteValues ? value : previousValue
   });

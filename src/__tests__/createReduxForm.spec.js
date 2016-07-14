@@ -2255,7 +2255,7 @@ describe('createReduxForm', () => {
 
     const Decorated = reduxForm({
       form,
-      fields: [ 'firstName', 'lastName' ],
+      fields: [ 'firstName', 'lastName', 'instrument' ],
       overwriteOnInitialValuesChange: false
     })(Form);
 
@@ -2301,12 +2301,15 @@ describe('createReduxForm', () => {
     // users changes to George Harrison
     stub.props.fields.firstName.onChange('George');
     stub.props.fields.lastName.onChange('Harrison');
+    stub.props.fields.instrument.onChange('guitar');
 
-    // values are now George Harrison
+    // values are now George Harrison (guitar)
     expect(stub.props.fields.firstName.value).toBe('George');
     expect(stub.props.fields.firstName.pristine).toBe(false);
     expect(stub.props.fields.lastName.value).toBe('Harrison');
     expect(stub.props.fields.lastName.pristine).toBe(false);
+    expect(stub.props.fields.instrument.value).toBe('guitar');
+    expect(stub.props.fields.instrument.pristine).toBe(false);
 
     // change initialValues to Ringo Starr
     const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button');
@@ -2317,6 +2320,8 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.firstName.pristine).toBe(false);
     expect(stub.props.fields.lastName.value).toBe('Harrison');
     expect(stub.props.fields.lastName.pristine).toBe(false);
+    expect(stub.props.fields.instrument.value).toBe('guitar');
+    expect(stub.props.fields.instrument.pristine).toBe(false);
 
     // but, if we reset form
     stub.props.resetForm();
@@ -2326,6 +2331,8 @@ describe('createReduxForm', () => {
     expect(stub.props.fields.firstName.pristine).toBe(true);
     expect(stub.props.fields.lastName.value).toBe('Starr');
     expect(stub.props.fields.lastName.pristine).toBe(true);
+    expect(stub.props.fields.instrument.value).toBe('');
+    expect(stub.props.fields.instrument.pristine).toBe(true);
   });
 
   it('should replace existing values when initialValues changes', () => {
