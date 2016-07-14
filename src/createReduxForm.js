@@ -27,6 +27,14 @@ const createReduxForm =
             this.handleSubmitPassback = this.handleSubmitPassback.bind(this);
           }
 
+          getWrappedInstance() {
+            invariant(withRef,
+              `To access the wrapped instance, you need to specify ` +
+              `{ withRef: true } as the fourth argument of the connect() call.`
+            );
+            return this.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance;
+          }
+
           handleSubmitPassback(submit) {
             this.submit = submit;
           }
@@ -38,21 +46,11 @@ const createReduxForm =
                 {...this.props}
                 ref="wrappedInstance"
                 submitPassback={this.handleSubmitPassback}/>);
-            } else {
-              return (<ReduxFormConnector
-                {...configWithDefaults}
-                {...this.props}
-                submitPassback={this.handleSubmitPassback}/>);
             }
-
-          }
-
-          getWrappedInstance() {
-            invariant(withRef,
-              `To access the wrapped instance, you need to specify ` +
-              `{ withRef: true } as the fourth argument of the connect() call.`
-            );
-            return this.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance;
+            return (<ReduxFormConnector
+              {...configWithDefaults}
+              {...this.props}
+              submitPassback={this.handleSubmitPassback}/>);
           }
         }
         return hoistStatics(ConnectedForm, WrappedComponent);

@@ -144,13 +144,11 @@ const createHigherOrderComponent = (config,
             ...passableProps, // contains dispatch
             ...passedProps
           }} ref="wrappedInstance" />);
-        } else {
-          return (<WrappedComponent {...{
-            ...passableProps, // contains dispatch
-            ...passedProps
-          }}/>);
         }
-
+        return (<WrappedComponent {...{
+          ...passableProps, // contains dispatch
+          ...passedProps
+        }}/>);
       }
     }
     ReduxForm.displayName = `ReduxForm(${getDisplayName(WrappedComponent)})`;

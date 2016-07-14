@@ -40,9 +40,8 @@ const createReduxFormConnector =
             ...passableProps } = this.props; // eslint-disable-line no-redeclare
           if ( withRef ) {
             return <ReduxForm {...passableProps} ref="wrappedInstance"/>;
-          } else {
-            return <ReduxForm {...passableProps}/>;
           }
+          return <ReduxForm {...passableProps}/>;
         }
       }
       ReduxFormConnector.displayName = `ReduxFormConnector(${getDisplayName(WrappedComponent)})`;
