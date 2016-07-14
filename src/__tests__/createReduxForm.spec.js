@@ -34,23 +34,29 @@ describe('createReduxForm', () => {
 
   class Passthrough extends Component {
     render() {
-     return <div {...this.props} />
+      return <div {...this.props} />;
     }
   }
 
   class ProviderMock extends Component {
     getChildContext() {
-      return { store: this.props.store }
+      return {store: this.props.store};
     }
 
     render() {
-      return Children.only(this.props.children)
+      return Children.only(this.props.children);
     }
   }
 
+  ProviderMock.propTypes = {
+    store: PropTypes.object.isRequired,
+    children: PropTypes.object.isRequired
+  };
+
   ProviderMock.childContextTypes = {
-    store: PropTypes.object.isRequired
-  }
+    store: PropTypes.object.isRequired,
+    children: PropTypes.object.isRequired
+  };
 
   const expectField = ({ field, name, value, initial, valid, dirty, error, touched, visited, readonly, autofilled }) => {
     expect(field).toBeA('object');
@@ -2757,60 +2763,60 @@ describe('createReduxForm', () => {
   });
 
   it('should throw when trying to access the wrapped instance if withRef is not specified', () => {
-    const store = createStore(() => ({}))
+    const store = createStore(() => ({}));
 
     class Container extends Component {
       render() {
-        return <Passthrough />
+        return <Passthrough />;
       }
     }
 
-    const decorator = connect(state => state)
-    const Decorated = decorator(Container)
+    const decorator = connect(state => state);
+    const Decorated = decorator(Container);
 
     const tree = TestUtils.renderIntoDocument(
       <ProviderMock store={store}>
         <Decorated />
       </ProviderMock>
-    )
+    );
 
-    const decorated = TestUtils.findRenderedComponentWithType(tree, Decorated)
+    const decorated = TestUtils.findRenderedComponentWithType(tree, Decorated);
     expect(() => decorated.getWrappedInstance()).toThrow(
       /To access the wrapped instance, you need to specify \{ withRef: true \} as the fourth argument of the connect\(\) call\./
-    )
+    );
   });
 
   it('should return the instance of the wrapped component for use in calling child methods', () => {
-    const store = createStore(() => ({}))
+    const store = createStore(() => ({}));
 
     const someData = {
       some: 'data'
-    }
+    };
 
     class Container extends Component {
       someInstanceMethod() {
-        return someData
+        return someData;
       }
 
       render() {
-        return <Passthrough />
+        return <Passthrough />;
       }
     }
 
-    const decorator = connect(state => state, null, null, { withRef: true })
-    const Decorated = decorator(Container)
+    const decorator = connect(state => state, null, null, { withRef: true });
+    const Decorated = decorator(Container);
 
     const tree = TestUtils.renderIntoDocument(
       <ProviderMock store={store}>
         <Decorated />
       </ProviderMock>
-    )
+    );
 
-    const decorated = TestUtils.findRenderedComponentWithType(tree, Decorated)
+    const decorated = TestUtils.findRenderedComponentWithType(tree, Decorated);
 
-    expect(() => decorated.someInstanceMethod()).toThrow()
-    expect(decorated.getWrappedInstance().someInstanceMethod()).toBe(someData)
-    expect(decorated.refs.wrappedInstance.someInstanceMethod()).toBe(someData)
+    expect(() => decorated.someInstanceMethod()).toThrow();
+    expect(decorated.getWrappedInstance().someInstanceMethod()).toBe(someData);
+    expect(decorated.refs.wrappedInstance.someInstanceMethod()).toBe(someData);
   });
 
   it('should change nested fields', () => {
