@@ -78,7 +78,7 @@ function normalizeField(field, fullFieldPath, state, previousState, values, prev
     return nestedState;
   }
 
-  const finalField = state && state[field.key] || {};
+  const finalField = state && Object.assign({}, state[field.key] || {});
   const normalizer = normalizers[fullFieldPath];
 
   finalField.value = normalizer(

@@ -3829,6 +3829,27 @@ describe('reducer', () => {
       expect(isFieldValue(state.foo.my[1].deeply[1].otherKey)).toBe(true);
       expect(isFieldValue(state.foo.my[1].stays)).toBe(true);
     });
+
+    it('should use a copy of the original field', () => {
+
+      const normalize = reducer.normalize({
+        foo: {
+          'name': () => 'normalized',
+        }
+      });
+
+      const state0 = {
+        foo: {
+          name: makeFieldValue({value: 'John Doe'})
+        }
+      };
+
+      const state1 = normalize(state0);
+      expect(state0.foo.name.value).toEqual('John Doe');
+      expect(state1.foo.name.value).toEqual('normalized');
+
+    });
+
   });
 
   it('should flag the correct field as active', () => {
