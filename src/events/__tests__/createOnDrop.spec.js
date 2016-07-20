@@ -12,15 +12,19 @@ describe('createOnDrop', () => {
   it('should return a function that calls change with result from getData', () => {
     const change = createSpy()
     const getData = createSpy().andReturn('bar')
+    const preventDefault = createSpy()
     createOnDrop('foo', change)({
-      dataTransfer: { getData }
+      dataTransfer: { getData },
+      preventDefault
     })
     expect(getData)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith(dataKey)
     expect(change)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'bar')
+      .toHaveBeenCalledWith('bar')
+    expect(preventDefault)
+      .toHaveBeenCalled()
   })
 
 })
