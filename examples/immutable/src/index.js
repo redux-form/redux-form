@@ -2,15 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import { combineReducers } from 'redux-immutablejs'
-import { reducer as reduxFormReducer } from 'redux-form/immutable'
 import { App, Code, Markdown, generateExampleBreadcrumbs } from 'redux-form-website-template'
 import Values from './ImmutableValues'
+import reducer from './reducer'
 
 const dest = document.getElementById('content')
-const reducer = combineReducers({
-  form: reduxFormReducer // mounted under "form"
-})
+
 const store =
   (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(reducer)
 
@@ -26,6 +23,7 @@ let render = () => {
   const readme = require('./Immutable.md')
   const raw = require('!!raw!./ImmutableForm')
   const rawValidate = require('!!raw!./validate')
+  const rawReducer = require('!!raw!./reducer')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -54,6 +52,10 @@ let render = () => {
         <h3>ImmutableForm.js</h3>
 
         <Code source={raw}/>
+
+        <h3>reducer.js</h3>
+
+        <Code source={rawReducer}/>
 
       </App>
     </Provider>,
