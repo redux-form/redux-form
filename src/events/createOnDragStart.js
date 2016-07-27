@@ -1,4 +1,4 @@
-export const dataKey = 'value'
+export const dataKey = 'text'
 const createOnDragStart =
   (name, value) =>
     event => {

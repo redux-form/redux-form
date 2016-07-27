@@ -2,6 +2,7 @@ import { dataKey } from './createOnDragStart'
 const createOnDrop =
   (name, change) =>
     event => {
-      change(name, event.dataTransfer.getData(dataKey))
+      change(event.dataTransfer.getData(dataKey))
+      event.preventDefault()
     }
 export default createOnDrop
