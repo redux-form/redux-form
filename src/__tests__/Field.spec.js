@@ -601,6 +601,189 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderUsername.calls[ 1 ].arguments[ 0 ].input.value).toBe('erikras')
     })
 
+    it('should call format function on first render', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            name: 'Redux Form'
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const format = createSpy(value => value.toLowerCase()).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="name" component={input} format={format}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(format).toHaveBeenCalled()
+      expect(format.calls.length).toBe(1)
+      expect(format.calls[ 0 ].arguments).toEqual([ 'Redux Form' ])
+
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('redux form')
+    })
+
+    it('should call parse function on change', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            name: 'redux form'
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const parse = createSpy(value => value.toLowerCase()).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="name" component={input} parse={parse}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(parse).toNotHaveBeenCalled()
+
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('redux form')
+
+      input.calls[ 0 ].arguments[ 0 ].input.onChange('REDUX FORM ROCKS')
+
+      expect(parse).toHaveBeenCalled()
+      expect(parse.calls.length).toBe(1)
+      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS' ])
+
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('redux form rocks')
+    })
+
+    it('should call parse function on blur', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            name: 'redux form'
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const parse = createSpy(value => value.toLowerCase()).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="name" component={input} parse={parse}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(parse).toNotHaveBeenCalled()
+
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('redux form')
+
+      input.calls[ 0 ].arguments[ 0 ].input.onBlur('REDUX FORM ROCKS')
+
+      expect(parse).toHaveBeenCalled()
+      expect(parse.calls.length).toBe(1)
+      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS' ])
+
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('redux form rocks')
+    })
+
+    it('should parse and format to maintain different type in store', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            age: 42
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const parse = createSpy(value => value && parseInt(value)).andCallThrough()
+      const format = createSpy(value => value && value.toString()).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="age" component={input} format={format} parse={parse}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // format called once
+      expect(format).toHaveBeenCalled()
+      expect(format.calls.length).toBe(1)
+
+      // parse not called yet
+      expect(parse).toNotHaveBeenCalled()
+
+      // input displaying string value
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('42')
+
+      // update value
+      input.calls[ 0 ].arguments[ 0 ].input.onChange('15')
+
+      // parse was called
+      expect(parse).toHaveBeenCalled()
+      expect(parse.calls.length).toBe(1)
+      expect(parse.calls[ 0 ].arguments).toEqual([ '15' ])
+
+      // value in store is number
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              age: 15 // number
+            },
+            registeredFields: [ { name: 'age', type: 'Field' } ]
+          }
+        }
+      })
+
+      // format called again
+      expect(format).toHaveBeenCalled()
+      expect(format.calls.length).toBe(2)
+      expect(format.calls[ 1 ].arguments).toEqual([ 15 ])
+
+      // input rerendered with string value
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('15')
+    })
+
     it('should rerender when sync error changes', () => {
       const store = makeStore({
         testForm: {
