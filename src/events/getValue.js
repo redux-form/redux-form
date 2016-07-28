@@ -36,10 +36,7 @@ const getValue = (event, isReactNative) => {
     }
     return value
   }
-  // not an event, so must be either our value or an object containing our value in the 'value' key
-  return event && event.value !== undefined ?
-    event.value : // extract value from { value: value } structure. https://github.com/nikgraf/belle/issues/58
-    event
+  return event;
 }
 
 export default getValue

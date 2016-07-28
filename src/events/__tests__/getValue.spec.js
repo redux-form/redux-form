@@ -18,13 +18,13 @@ describe('getValue', () => {
     expect(getValue('dog', false)).toBe('dog')
   })
 
-  it('should unwrap value if non-event object containing value key is passed', () => {
-    expect(getValue({ value: 5 }, true)).toBe(5)
-    expect(getValue({ value: 5 }, false)).toBe(5)
-    expect(getValue({ value: true }, true)).toBe(true)
-    expect(getValue({ value: true }, false)).toBe(true)
-    expect(getValue({ value: false }, true)).toBe(false)
-    expect(getValue({ value: false }, false)).toBe(false)
+  it('should not unwrap value if non-event object containing value key is passed', () => {
+    expect(getValue({ value: 5 }, true)).toEqual({ value: 5 })
+    expect(getValue({ value: 5 }, false)).toEqual({ value: 5 })
+    expect(getValue({ value: true }, true)).toEqual({ value: true })
+    expect(getValue({ value: true }, false)).toEqual({ value: true })
+    expect(getValue({ value: false }, true)).toEqual({ value: false })
+    expect(getValue({ value: false }, false)).toEqual({ value: false })
   })
 
   it('should return value if object NOT containing value key is passed', () => {
