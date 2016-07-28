@@ -36,7 +36,7 @@ const getValue = (event, isReactNative) => {
     }
     return value
   }
-  return event;
+  return event
 }
 
 export default getValue
