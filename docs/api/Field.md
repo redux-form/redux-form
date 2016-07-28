@@ -44,10 +44,10 @@ A value to be used if the current value for this field is `undefined` in the Red
 Defaults to `''` to ensure that the input is
 [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components).
 
-#### `withRef : boolean` [optional]
+#### `format : (value) => formattedValue` [optional]
 
-If `true`, the rendered component will be available with the `getRenderedComponent()` method.
-Defaults to `false`. **Cannot be used if your component is a stateless function component.**
+Formats the value from the Redux store to be displayed in the field input. Common use cases are 
+to format `Number`s into currencies or `Date`s into a localized date format.
 
 #### `normalize : (value, previousValue, allValues, previousAllValues) => nextValue` [optional]
 
@@ -81,6 +81,17 @@ useful if you are using TypeScript. This construct is completely optional; the p
 passing props along to your `component` is to give them directly to the `Field` component, but 
 if, for whatever reason, you prefer to bundle them into a separate object, you may do so by 
 passing them into `props`.
+
+#### `parse : (value) => parsedValue` [optional]
+
+Parses the value given from the field input component to the type that you want stored in the 
+Redux store. Common use cases are to parse currencies into `Number`s into currencies or 
+localized date formats into `Date`s.
+
+#### `withRef : boolean` [optional]
+
+If `true`, the rendered component will be available with the `getRenderedComponent()` method.
+Defaults to `false`. **Cannot be used if your component is a stateless function component.**
 
 ## Usage
 

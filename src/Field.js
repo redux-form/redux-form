@@ -59,7 +59,7 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     }
 
     get value() {
-      return this.refs.connected.getWrappedInstance().getValue()
+      return this.refs.connected && this.refs.connected.getWrappedInstance().getValue()
     }
 
     normalize(value) {
@@ -91,7 +91,9 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     name: PropTypes.string.isRequired,
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     defaultValue: PropTypes.any,
+    format: PropTypes.func,
     normalize: PropTypes.func,
+    parse: PropTypes.func,
     props: PropTypes.object
   }
   Field.contextTypes = {

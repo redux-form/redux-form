@@ -2,8 +2,6 @@ import expect, { createSpy } from 'expect'
 import { noop } from 'lodash'
 import createOnBlur from '../createOnBlur'
 
-const prepend = value => `normalized-${value}`
-
 describe('createOnBlur', () => {
   it('should return a function', () => {
     expect(createOnBlur())
@@ -11,10 +9,22 @@ describe('createOnBlur', () => {
       .toBeA('function')
   })
 
-  it('should return a function that calls blur with name and value', () => {
+  it('should parse the value before dispatching action', () => {
     const blur = createSpy()
-    const normalize = createSpy(prepend).andCallThrough()
-    createOnBlur(blur, normalize)('bar')
+    const parse = createSpy(value => `parsed-${value}`).andCallThrough()
+    createOnBlur(blur, { parse })('bar')
+    expect(parse)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('bar')
+    expect(blur)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('parsed-bar')
+  })
+  
+  it('should normalize the value before dispatching action', () => {
+    const blur = createSpy()
+    const normalize = createSpy(value => `normalized-${value}`).andCallThrough()
+    createOnBlur(blur, { normalize })('bar')
     expect(normalize)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith('bar')
@@ -22,34 +32,33 @@ describe('createOnBlur', () => {
       .toHaveBeenCalled()
       .toHaveBeenCalledWith('normalized-bar')
   })
-
-  it('should return a function that calls blur with name and value from event', () => {
+    
+  it('should parse before normalize', () => {
     const blur = createSpy()
-    const normalize = createSpy(prepend).andCallThrough()
-    createOnBlur(blur, normalize)({
-      target: {
-        value: 'bar'
-      },
-      preventDefault: noop,
-      stopPropagation: noop
-    })
-    expect(normalize)
+    const parse = createSpy(value => `parsed-${value}`).andCallThrough()
+    const normalize = createSpy(value => `normalized-${value}`).andCallThrough()
+    createOnBlur(blur, { normalize, parse })('bar')
+    expect(parse)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith('bar')
+    expect(normalize)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('parsed-bar')
     expect(blur)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('normalized-bar')
+      .toHaveBeenCalledWith('normalized-parsed-bar')
   })
-
-  it('should return a function that calls blur and then afterBlur with name and value', () => {
+  
+  it('should call blur then after', () => {
     const blur = createSpy()
-    const normalize = createSpy(prepend).andCallThrough()
-    const afterBlur = createSpy()
-    createOnBlur(blur, normalize, afterBlur)('bar')
+    const parse = createSpy(value => `parsed-${value}`).andCallThrough()
+    const normalize = createSpy(value => `normalized-${value}`).andCallThrough()
+    const after = createSpy()
+    createOnBlur(blur, { parse, normalize, after })('bar')
     expect(blur).toHaveBeenCalled()
     expect(normalize).toHaveBeenCalled()
-    expect(afterBlur)
+    expect(after)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('normalized-bar')
+      .toHaveBeenCalledWith('normalized-parsed-bar')
   })
 })
