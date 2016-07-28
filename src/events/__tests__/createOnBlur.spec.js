@@ -1,5 +1,4 @@
 import expect, { createSpy } from 'expect'
-import { noop } from 'lodash'
 import createOnBlur from '../createOnBlur'
 
 describe('createOnBlur', () => {
