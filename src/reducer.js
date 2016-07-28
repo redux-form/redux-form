@@ -5,6 +5,7 @@ import {
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH,
   UPDATE_SYNC_ERRORS
 } from './actionTypes'
+import 'array-findindex-polyfill'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
 const createReducer = structure => {
