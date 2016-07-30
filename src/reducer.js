@@ -1,7 +1,7 @@
 import {
   ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
   ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS,
-  INITIALIZE, REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION,
+  INITIALIZE, REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, SET_SUBMIT_SUCCEEDED, START_ASYNC_VALIDATION,
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH,
   UPDATE_SYNC_ERRORS
 } from './actionTypes'
@@ -193,6 +193,7 @@ const createReducer = structure => {
       let result = state
       result = deleteIn(result, 'submitting')
       result = deleteIn(result, 'submitFailed')
+      result = deleteIn(result, 'submitSucceeded')
       if (payload && Object.keys(payload).length) {
         const { _error, ...fieldErrors } = payload
         if (_error) {
@@ -205,6 +206,7 @@ const createReducer = structure => {
         }
         result = setIn(result, 'submitFailed', true)
       } else {
+        result = setIn(result, 'submitSucceeded', true)
         result = deleteIn(result, 'error')
         result = deleteIn(result, 'submitErrors')
       }
@@ -213,6 +215,18 @@ const createReducer = structure => {
     [SET_SUBMIT_FAILED](state, { meta: { fields } }) {
       let result = state
       result = setIn(result, 'submitFailed', true)
+      result = deleteIn(result, 'submitSucceeded')
+      result = deleteIn(result, 'submitting')
+      fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
+      if (fields.length) {
+        result = setIn(result, 'anyTouched', true)
+      }
+      return result
+    },
+    [SET_SUBMIT_SUCCEEDED](state, { meta: { fields } }) {
+      let result = state
+      result = deleteIn(result, 'submitFailed')
+      result = setIn(result, 'submitSucceeded', true)
       result = deleteIn(result, 'submitting')
       fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
       if (fields.length) {

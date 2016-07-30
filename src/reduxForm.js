@@ -310,6 +310,7 @@ const createReduxForm =
               reset,
               submitting,
               submitFailed,
+              submitSucceeded,
               touch,
               touchOnBlur,
               touchOnChange,
@@ -337,6 +338,7 @@ const createReduxForm =
               reset,
               submitting,
               submitFailed,
+              submitSucceeded,
               touch,
               untouch,
               valid
@@ -392,6 +394,7 @@ const createReduxForm =
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
+            const submitSucceeded = !!getIn(formState, 'submitSucceeded')
             const error = getIn(formState, 'error')
             return {
               anyTouched,
@@ -405,6 +408,7 @@ const createReduxForm =
               registeredFields,
               submitting,
               submitFailed,
+              submitSucceeded,
               syncErrors,
               values,
               valid

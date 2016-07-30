@@ -25,6 +25,7 @@ import describePlugin from './reducer.plugin.spec'
 import describeStartSubmit from './reducer.startSubmit.spec'
 import describeStopSubmit from './reducer.stopSubmit.spec'
 import describeSetSubmitFailed from './reducer.setSubmitFailed.spec'
+import describeSetSubmitSucceeded from './reducer.setSubmitSuceeded.spec'
 import describeStartAsyncValidation from './reducer.startAsyncValidation.spec'
 import describeStopAsyncValidation from './reducer.stopAsyncValidation.spec'
 import describeRegisterField from './reducer.registerField.spec'
@@ -51,6 +52,7 @@ const tests = {
   reset: describeReset,
   touch: describeTouch,
   setSubmitFailed: describeSetSubmitFailed,
+  setSubmitSucceeded: describeSetSubmitSucceeded,
   startSubmit: describeStartSubmit,
   stopSubmit: describeStopSubmit,
   startAsyncValidation: describeStartAsyncValidation,
@@ -78,7 +80,7 @@ const describeReducer = (name, structure, expect) => {
       const state = { foo: 'bar' }
       expect(reducer(state, { type: 'SOMETHING_ELSE' })).toBe(state)
     })
-    
+
     it('should not modify state when action has form, but unknown type', () => {
       const state = { foo: 'bar' }
       expect(reducer(state, { type: 'SOMETHING_ELSE', form: 'foo' })).toBe(state)

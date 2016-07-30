@@ -11,8 +11,8 @@ export const propTypes = {
   pristine: bool.isRequired,          // true if the values are the same as initialValues
   submitting: bool.isRequired,        // true if the form is in the process of being submitted
   submitFailed: bool.isRequired,      // true if the form was submitted and failed for any reason
+  submitSucceeded: bool.isRequired,   // true if the form was successfully submitted
   valid: bool.isRequired,             // true if there are no validation errors
-
   // Actions:
   asyncValidate: func.isRequired,     // function to trigger async validation
   destroy: func.isRequired,           // action to destroy the form's data in Redux

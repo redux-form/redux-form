@@ -117,6 +117,11 @@ determined by comparing the current data with these initialized values.
 > Starts as `false`. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to 
 `true`. A subsequent successful submit will set it back to `false`.
 
+#### `submitSucceeded : boolean`
+
+> Starts as `false`. If `onSubmit` is called, and succeed to submit , `submitSucceeded` will be set to 
+`true`. A subsequent unsuccessful submit will set it back to `false`.
+
 #### `touch(...field:string) : Function`
 
 > Marks the given fields as "touched" to show errors.

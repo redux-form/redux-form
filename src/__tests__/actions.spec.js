@@ -3,14 +3,14 @@ import expectPredicate from 'expect-predicate'
 import {
   ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
   ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE,
-  REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, START_ASYNC_VALIDATION, START_SUBMIT,
+  REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, SET_SUBMIT_SUCCEEDED,  START_ASYNC_VALIDATION, START_SUBMIT,
   STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS
 } from '../actionTypes'
 import {
   arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
   arraySplice, arraySwap, arrayUnshift, blur, change, destroy, focus, initialize, registerField,
-  reset, setSubmitFailed, startAsyncValidation, startSubmit, stopAsyncValidation, stopSubmit,
-  touch, unregisterField, untouch, updateSyncErrors
+  reset, setSubmitFailed, setSubmitSucceeded, startAsyncValidation, startSubmit, stopAsyncValidation,
+  stopSubmit, touch, unregisterField, untouch, updateSyncErrors
 } from '../actions'
 import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
@@ -404,6 +404,29 @@ describe('actions', () => {
       .toPass(isFSA)
   })
 
+  it('should create setSubmitSucceeded action', () => {
+    expect(setSubmitSucceeded('myForm'))
+      .toEqual({
+        type: SET_SUBMIT_SUCCEEDED,
+        meta: {
+          form: 'myForm',
+          fields: []
+        },
+        error: false
+      })
+      .toPass(isFSA)
+    expect(setSubmitSucceeded('myForm', 'a', 'b', 'c'))
+      .toEqual({
+        type: SET_SUBMIT_SUCCEEDED,
+        meta: {
+          form: 'myForm',
+          fields: [ 'a', 'b', 'c' ]
+        },
+        error: false
+      })
+      .toPass(isFSA)
+  })
+
   it('should create touch action', () => {
     expect(touch('myForm', 'foo', 'bar'))
       .toEqual({
@@ -473,7 +496,7 @@ describe('actions', () => {
       })
       .toPass(isFSA)
   })
-  
+
   it('should create updateSyncErrors action with no errors if none given', () => {
     expect(updateSyncErrors('myForm'))
       .toEqual({
