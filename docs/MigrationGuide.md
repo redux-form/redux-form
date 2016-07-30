@@ -36,14 +36,14 @@ import { reduxForm } from 'redux-form'
 
 class MyForm extends Component {
   render() {
-  
+
     const { fields: { username, password }, handleSubmit } = this.props
-    
+
     return (
       <form onSubmit={handleSubmit}>
-      
+
         <div>
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <div>
             <input type="text" {...username}/>
             {username.touched &&
@@ -51,9 +51,9 @@ class MyForm extends Component {
              <span className="error">{username.error}</span>}
           </div>
         </div>
-        
+
         <div>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <div>
             <input type="password" {...password}/>  // Duplicating same code as above
             {password.touched &&                    // except for "type" prop
@@ -87,31 +87,31 @@ const renderInput = field =>   // Define stateless component to render input and
      field.error &&
      <span className="error">{field.error}</span>}
   </div>
-            
+
 class MyForm extends Component {
   render() {
-  
+
     const { handleSubmit } = this.props       // No fields prop
-    
+
     return (
       <form onSubmit={handleSubmit}>
-      
+
         <div>
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <Field
             name="username"                   // Specify field name
             component={renderInput}           // Specify render component above
             type="text"/>                     // "type" prop will get forwarded to <input>
         </div>
-        
+
         <div>
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <Field
             name="username"                   // Specify field name
             component={renderInput}           // Reuse same render component
             type="password"/>                 // type prop will get forwarded to <input>
         </div>
-        
+
         <button type="submit">Submit</button>
       </form>
     )
@@ -237,7 +237,7 @@ render() {
     <div>
       <ul>
         {awards.map((award, index) => <li key={index}>
-          <label>Award #{index + 1}</label>
+          <label htmlFor="award">Award #{index + 1}</label>
           <input type="text" {...award.input}/>
         </li>)}
       </ul>
@@ -257,7 +257,7 @@ render() {
         <div>
           <ul>
             {awards.map((name, index) => <li key={index}>
-              <label>Award #{index + 1}</label>
+              <label htmlFor="award">Award #{index + 1}</label>
               <Field name={name} type="text" component="input"/>
             </li>)}
           </ul>
