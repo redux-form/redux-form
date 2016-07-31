@@ -223,15 +223,11 @@ const createReducer = structure => {
       }
       return result
     },
-    [SET_SUBMIT_SUCCEEDED](state, { meta: { fields } }) {
+    [SET_SUBMIT_SUCCEEDED](state) {
       let result = state
       result = deleteIn(result, 'submitFailed')
       result = setIn(result, 'submitSucceeded', true)
       result = deleteIn(result, 'submitting')
-      fields.forEach(field => result = setIn(result, `fields.${field}.touched`, true))
-      if (fields.length) {
-        result = setIn(result, 'anyTouched', true)
-      }
       return result
     },
     [TOUCH](state, { meta: { fields } }) {

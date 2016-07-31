@@ -934,7 +934,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               password: {
                 touched: true
               }
-            }
+            },
+            submitSucceeded: true
           }
         }
       })
