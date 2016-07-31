@@ -1,56 +1,56 @@
-import { setSubmitFailed } from '../actions'
+import { setSubmitSucceeded } from '../actions'
 
-const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
-  it('should set submitFailed flag on submitFailed', () => {
+const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
+  it('should set submitSucceeded flag on submitSucceeded', () => {
     const state = reducer(fromJS({
       foo: {
         doesnt: 'matter',
-        should: 'notchange'
+        should: 'change'
       }
-    }), setSubmitFailed('foo'))
+    }), setSubmitSucceeded('foo'))
     expect(state)
       .toEqualMap({
         foo: {
           doesnt: 'matter',
-          should: 'notchange',
-          submitFailed: true
+          should: 'change',
+          submitSucceeded: true
         }
       })
   })
 
-  it('should clear submitting flag on submitFailed', () => {
+  it('should clear submitting flag on submitSucceeded', () => {
     const state = reducer(fromJS({
       foo: {
         doesnt: 'matter',
-        should: 'notchange',
+        should: 'change',
         submitting: true
       }
-    }), setSubmitFailed('foo'))
+    }), setSubmitSucceeded('foo'))
     expect(state)
       .toEqualMap({
         foo: {
           doesnt: 'matter',
-          should: 'notchange',
-          submitFailed: true
+          should: 'change',
+          submitSucceeded: true
         }
       })
   })
 
-  it('should clear submitSucceeded flag on submitFailed', () => {
+  it('should clear submitFailed flag on submitSucceeded', () => {
     const state = reducer(fromJS({
       foo: {
         doesnt: 'matter',
         should: 'notchange',
         submitting: true,
-        submitSucceeded: true
+        submitFailed: true
       }
-    }), setSubmitFailed('foo'))
+    }), setSubmitSucceeded('foo'))
     expect(state)
       .toEqualMap({
         foo: {
           doesnt: 'matter',
           should: 'notchange',
-          submitFailed: true
+          submitSucceeded: true
         }
       })
   })
@@ -64,7 +64,7 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
           c: true
         }
       }
-    }), setSubmitFailed('foo', 'a', 'b', 'c'))
+    }), setSubmitSucceeded('foo', 'a', 'b', 'c'))
     expect(state)
       .toEqualMap({
         foo: {
@@ -85,10 +85,10 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
             }
           },
           anyTouched: true,
-          submitFailed: true
+          submitSucceeded: true
         }
       })
   })
 }
 
-export default describeSetSubmitFailed
+export default describeSetSubmitSucceeded

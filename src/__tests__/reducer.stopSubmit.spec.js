@@ -13,7 +13,8 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
       .toEqualMap({
         foo: {
           doesnt: 'matter',
-          should: 'notchange'
+          should: 'notchange',
+          submitSucceeded: true
         }
       })
   })
@@ -247,7 +248,8 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
                 touched: true
               }
             ]
-          }
+          },
+          submitSucceeded: true
         }
       })
   })
@@ -277,12 +279,13 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
             myField: {
               touched: true
             }
-          }
+          },
+          submitSucceeded: true
         }
       })
   })
 
-  it('should unset submitFailed on stopSubmit with no errors', () => {
+  it('should unset submitFailed and set submitSucceeded on stopSubmit with no errors', () => {
     const state = reducer(fromJS({
       foo: {
         doesnt: 'matter',
@@ -295,7 +298,8 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
       .toEqualMap({
         foo: {
           doesnt: 'matter',
-          should: 'notchange'
+          should: 'notchange',
+          submitSucceeded: true
         }
       })
   })

@@ -26,6 +26,7 @@ import {
   reduxForm,
   reset,
   setSubmitFailed,
+  setSubmitSucceeded,
   startAsyncValidation,
   startSubmit,
   stopAsyncValidation,
@@ -114,6 +115,9 @@ describe('index', () => {
   })
   it('should export setSubmitFailed', () => {
     expect(setSubmitFailed).toExist().toBeA('function')
+  })
+  it('should export setSubmitSucceeded', () => {
+    expect(setSubmitSucceeded).toExist().toBeA('function')
   })
   it('should export stopAsyncValidation', () => {
     expect(stopAsyncValidation).toExist().toBeA('function')
