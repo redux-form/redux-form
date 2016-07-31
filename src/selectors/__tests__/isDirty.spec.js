@@ -1,4 +1,3 @@
-import { createSpy } from 'expect'
 import createIsDirty from '../isDirty'
 import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
