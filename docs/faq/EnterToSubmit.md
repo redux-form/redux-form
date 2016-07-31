@@ -10,13 +10,13 @@ render() {
     <form onSubmit={handleSubmit}>
       <button type="button">Load Data</button>
       <button type="button">Delete Record</button>
-      
-      <label>First Name</label>
+
+      <label htmlFor="firstName">First Name</label>
       <input type="text" {...firstName}/>
-      
-      <label>Last Name</label>
+
+      <label htmlFor="lastName">Last Name</label>
       <input type="text" {...lastName}/>
-      
+
       <button type="submit">Submit</button>
       <button type="button">Do Something Else</button>
     </form>
