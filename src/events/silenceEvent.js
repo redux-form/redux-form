@@ -1,11 +1,11 @@
-import isEvent from './isEvent';
+import isEvent from './isEvent'
 
 const silenceEvent = event => {
-  const is = isEvent(event);
+  const is = isEvent(event)
   if (is) {
-    event.preventDefault();
+    event.preventDefault()
   }
-  return is;
-};
+  return is
+}
 
-export default silenceEvent;
+export default silenceEvent

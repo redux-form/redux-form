@@ -1,54 +1,81 @@
 # Action Creators
 
-`redux-form` exports all of its internal action creators, allowing you complete control to dispatch any action
-you wish. However, **it is *highly* recommended that you use the actions passed as props to your component
-for most of your needs.**
+`redux-form` exports all of its internal action creators, allowing you complete control to
+dispatch any action you wish. However, it is recommended that you use the actions passed as
+props to your component for most of your needs, as they are already bound to `dispatch`, your
+form, and, in the case of field-specific actions such as `CHANGE` or `BLUR`, the specific field.
 
-### `autofill(form:String, field:String, value:String)`
+### `arrayInsert(form:String, field:String, index:Number, value:any)`
 
-> Saves the value to the field and sets its `autofilled` property to `true`.
+> Inserts an item into a field array at the specified index
 
-### `autofillWithKey(form:String, formKey, field:String, value:String)`
+### `arrayMove(form:String, field:String, from:Number, to:Number)`
 
-> Saves the value to the field in the form under the specified `formKey` and sets its `autofilled` property to `true`. For use when using
-[multirecord forms](#/examples/multirecord).
+> Moves an item from one index in the array to another. In effect, it performs a remove and an 
+insert, so the item already at the `to` position will be bumped to a higher index, not overwritten.
 
-### `blur(form:String, field:String, value:String)`
+### `arrayPop(form:String, field:String)`
+
+> Removes an item from the end of a field array
+
+### `arrayPush(form:String, field:String, value:any)`
+
+> Appends an item to the end of a field array
+
+### `arrayRemove(form:String, field:String, index:Number)`
+
+> Removes an item at the specified index from a field array
+
+### `arrayRemoveAll(form:String, field:String)`
+
+> Removes all the items from the specified array.
+
+### `arrayShift(form:String, field:String)`
+
+> Removes an item from the beginning of a field array
+
+### `arraySplice(form:String, field:String, index:Number, removeNum:Number, value:any)`
+
+> **ADVANCED USAGE** - Inserts and/or removes items from a field array. Works similarly to
+[`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice).
+
+### `arraySwap(form:String, field:String, indexA:Number, indexB:Number)`
+
+> Swaps two items at the specified indexes in a field array
+
+### `arrayUnshift(form:String, field:String, value:any)`
+
+> Inserts an item at the beginning of a field array
+
+### `blur(form:String, field:String, value:any)`
 
 > Saves the value to the field.
 
-### `change(form:String, field:String, value:String)`
+### `change(form:String, field:String, value:any)`
 
 > Saves the value to the field.
 
-### `changeWithKey(form:String, formKey, field:String, value:String)`
+### `destroy(form:String)`
 
-> Saves the value to the field in the form under the specified `formKey`. For use when using
-[multirecord forms](#/examples/multirecord).
+> Destroys the form, removing all its state.
 
 ### `focus(form:String, field:String)`
 
 > Marks the given field as `active` and `visited`.
 
-### `initialize(form:String, data:Object, fields:Array<String>)`
+### `initialize(form:String, data:Object)`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
 `dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of
-your form fields. **IMPORTANT:** The fields array passed must be the same as the one given as a [config parameter to
-`reduxForm()`](#/api/reduxForm).
-
-### `initializeWithKey(form:String, formKey, data:Object, fields:Array<String>)`
-
-> Used when editing multiple records with the same form component. Useful when
-[editing multiple records](#/examples/multirecord).
+your form fields.
 
 ### `reset(form:String)`
 
 > Resets the values in the form back to the values past in with the most recent `initialize` action.
 
-### `startAsyncValidation(form:String, field:String)`
+### `startAsyncValidation(form:String)`
 
-> Sets `asyncValidating` to `field` if provided, or `true` if not. 
+> Flips the `asyncValidating` flag `true`.
 
 ### `startSubmit(form:String)`
 
@@ -66,20 +93,6 @@ your form fields. **IMPORTANT:** The fields array passed must be the same as the
 
 > Marks all the fields passed in as `touched`.
 
-### `touchWithKey(form:String, formKey, ...fields:String)`
-
-> Marks all the fields passed in as `touched` in the form at the specified `formKey`. For use with
-[multirecord forms](#/examples/multirecord).
-
 ### `untouch(form:String, ...fields:String)`
 
 > Resets the 'touched' flag for all the fields passed in.
-
-### `untouchWithKey(form:String, formKey, ...fields:String)`
-
-> Resets the `touched` flag for  all the fields passed in on the form at the specified `formKey`. For use
-with [multirecord forms](#/examples/multirecord).
-
-### `destroy(form:String)`
-
-> Destroys the form, removing all its state.

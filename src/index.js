@@ -1,38 +1,38 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import createAll from './createAll';
-
-const isNative =
-  typeof window !== 'undefined' &&
-  window.navigator &&
-  window.navigator.product &&
-  window.navigator.product === 'ReactNative';
+import createAll from './createAll'
+import plain from './structure/plain'
 
 export const {
   actionTypes,
-  addArrayValue,
-  autofill,
-  autofillWithKey,
+  arrayInsert,
+  arrayMove,
+  arrayPop,
+  arrayPush,
+  arrayRemove,
+  arrayRemoveAll,
+  arrayShift,
+  arraySplice,
+  arraySwap,
+  arrayUnshift,
   blur,
   change,
-  changeWithKey,
   destroy,
+  Field,
+  FieldArray,
   focus,
+  formValueSelector,
   reducer,
   reduxForm,
-  removeArrayValue,
-  getValues,
   initialize,
-  initializeWithKey,
   propTypes,
   reset,
+  setSubmitFailed,
+  setSubmitSucceeded,
   startAsyncValidation,
   startSubmit,
   stopAsyncValidation,
   stopSubmit,
-  swapArrayValues,
+  SubmissionError,
   touch,
-  touchWithKey,
   untouch,
-  untouchWithKey
-} = createAll(isNative, React, connect);
+  values
+} = createAll(plain)

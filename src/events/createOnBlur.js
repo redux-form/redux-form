@@ -1,11 +1,29 @@
-import getValue from './getValue';
+import getValue from './getValue'
+import isReactNative from '../isReactNative'
+
 const createOnBlur =
-  (name, blur, isReactNative, afterBlur) =>
+  (blur, { after, normalize, parse } = {}) =>
     event => {
-      const value = getValue(event, isReactNative);
-      blur(name, value);
-      if (afterBlur) {
-        afterBlur(name, value);
+      // read value from input
+      let value = getValue(event, isReactNative)
+
+      // parse value if we have a parser
+      if (parse) {
+        value = parse(value)
       }
-    };
-export default createOnBlur;
+
+      // normalize value
+      if (normalize) {
+        value = normalize(value)
+      }
+
+      // dispatch blur action
+      blur(value)
+
+      // call after callback
+      if (after) {
+        after(value)
+      }
+    }
+
+export default createOnBlur

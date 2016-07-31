@@ -1,64 +1,62 @@
 # Getting Started With `redux-form`
 
-`redux-form` primarily consists of two things: a Redux reducer and a React component decorator.
+`redux-form` primarily consists of four things: 
 
-The reducer listens to dispatched actions from the component to maintain your state in Redux.
-
-The `reduxForm()` decorator decorates a component to enable it as a form. This will 
-create two nested Higher Order Components (HOCs) that will wrap your component: `ReduxFormConnector`
-connects to Redux and `ReduxForm` handles all the dispatching and provides information to your component.
+1. A Redux reducer that listens to dispatched `redux-form` actions to maintain your form state in
+Redux.
+2. A React component decorator that wraps your entire form in a Higher Order Component (HOC) and 
+provides functionality via props.
+3. A `Field` component to connect your individual field inputs to the Redux store.
+4. Various Action Creators for interacting with your forms throughout the application.
 
 ## Implementation Guide
 
 ### Step #1
 
-The first thing that you have to do is to give the `redux-form` reducer to Redux. You will only have to do 
-this once, no matter how many form components your app uses.
+The first thing that you have to do is to give the `redux-form` reducer to Redux. You will only
+have to do this once, no matter how many form components your app uses.
 
 ```js
-import {createStore, combineReducers} from 'redux';
-import {reducer as formReducer} from 'redux-form';
+import { createStore, combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+
 const reducers = {
   // ... your other reducers here ...
-  form: formReducer     // <---- Mounted at 'form'. See note below.
+  form: formReducer     // <---- Mounted at 'form'
 }
-const reducer = combineReducers(reducers);
-const store = createStore(reducer);
+const reducer = combineReducers(reducers)
+const store = createStore(reducer)
 ```
-
-If you're okay with mounting `redux-form` at `form`, skip to __Step #2__.
-
-__NOTE:__ The default mount point for `redux-form` is at `form`. The only good reason to mount it somewhere else is 
-if you already have a reducer mounted at `form` that you cannot move. Since Redux is still so young, it seems 
-unlikely that you have a legacy Redux application that has fixed reducer mount points, but if you absolutely must 
-move it, `redux-form` will let you do that. See the 
-[Alternate Redux Mount Point Example](http://redux-form.com/4.2.0/#/examples/alternate-mount-point) for details.
 
 ### Step #2
 
-Decorate your form component with `reduxForm()`. This will provide your component with `props` allowing you to attach
-your inputs to `redux-form`.
+Decorate your form component with `reduxForm()`. This will provide your component with props that
+provide information about form state and functions to submit your form.
+
+Each input component must be placed inside the `component` prop of a `Field` component. The `Field`
+component will pass props such as `value`, `onChange`, `onBlur`, etc. to the `React.DOM.input` 
+component to populate its value and listen for changes.
   
 ```js
-import React, {Component} from 'react';
-import {reduxForm} from 'redux-form';
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
 
 class ContactForm extends Component {
   render() {
-    const {fields: {firstName, lastName, email}, handleSubmit} = this.props;
+    const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <label for="firstname">First Name</label>
-          <input id="firstname" type="text" placeholder="First Name" {...firstName}/>
+          <label htmlFor="firstName">First Name</label>
+          <Field name="firstName" component="input" type="text"/>
         </div>
         <div>
-          <label for="lastname">Last Name</label>
-          <input id="lastname" type="text" placeholder="Last Name" {...lastName}/>
+          <label htmlFor="lastName">Last Name</label>
+          <Field name="lastName" component="input" type="text"/>
         </div>
         <div>
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="Email" {...email}/>
+          <label htmlFor="email">Email</label>
+          <Field name="email" component="input" type="email"/>
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -66,15 +64,22 @@ class ContactForm extends Component {
   }
 }
 
-ContactForm = reduxForm({ // <----- THIS IS THE IMPORTANT PART!
-  form: 'contact',                           // a unique name for this form
-  fields: ['firstName', 'lastName', 'email'] // all the fields in your form
+// Decorate the form component
+ContactForm = reduxForm({
+  form: 'contact' // a unique name for this form
 })(ContactForm);
 
 export default ContactForm;
 ```
 
-That's it! There is no Step #3!
+### You're done!
 
-If you're starting out with `redux-form`, a good place to continue learning about how to connect up the
-inputs to `redux-form` would be the [Simple Form Example](http://redux-form.com/4.2.0/#/examples/simple).
+Well, almost. You will still need to:
+ 
+* Do something with the data that has been submitted. It will be passed as JSON to your `onSubmit`
+function.
+* Potentially set the form values initially, with the `initialValues` prop.
+
+If you're starting out with `redux-form`, a good place to continue learning about how to connect
+up the inputs to `redux-form` would be the
+[Simple Form Example](http://redux-form.com/6.0.0-rc.3/examples/simple).
