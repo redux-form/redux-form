@@ -83,9 +83,9 @@ import { reduxForm, Field } from 'redux-form' // imported Field
 const renderInput = field =>   // Define stateless component to render input and errors
   <div>
     <input {...field.input}/>  // No type specified. That is specified below in <Field>
-    {field.touched &&
-     field.error &&
-     <span className="error">{field.error}</span>}
+    {field.meta.touched &&
+     field.meta.error &&
+     <span className="error">{field.meta.error}</span>}
   </div>
 
 class MyForm extends Component {
@@ -215,9 +215,7 @@ render() {
 render() {
   return (
     <div>
-      <Field name="contact.shipping.street" component={street =>
-        <input type="text" {...street.input}/>
-      }/>
+      <Field name="contact.shipping.street" component="input" type="text"/>
     </div>
   )
 }
@@ -250,20 +248,21 @@ render() {
 #### `v6`
 
 ```js
+const renderAwards = ({ fields }) =>
+  <div>
+    <ul>
+      {fields.map((name, index) => <li key={index}>
+        <label htmlFor={name}>Award #{index + 1}</label>
+        <Field name={name} type="text" component="input"/>
+      </li>)}
+    </ul>
+    <button onClick={() => fields.push()}>Add Award</button>
+  </div>
+      
 render() {
   return (
     <div>
-      <FieldArray name="awards" component={awards =>
-        <div>
-          <ul>
-            {awards.map((name, index) => <li key={index}>
-              <label htmlFor="award">Award #{index + 1}</label>
-              <Field name={name} type="text" component="input"/>
-            </li>)}
-          </ul>
-          <button onClick={() => awards.push()}>Add Award</button>
-        </div>
-      }/>
+      <FieldArray name="awards" component={renderAwards}/>
     </div>
   )
 }
@@ -330,13 +329,13 @@ more or less changed as follows:
     myField: 'myValue'
   },
   initial: {
-    myField: 'myInitialValue
+    myField: 'myInitialValue'
   },
   asyncErrors: {
-    myField: 'myAsyncError
+    myField: 'myAsyncError'
   },
   submitErrors: {
-    myField: 'mySubmitError
+    myField: 'mySubmitError'
   },
   fields: {
     myField: {
