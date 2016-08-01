@@ -26,5 +26,8 @@ have provided a parser, the value given to `normalize()` will already be parsed.
 
 ## Value Lifecycle
 
-![Value Life Cycle](valueLifecycle.png)
+<div style="text-align: center;">
+<img align="center" src="https://github.com/erikras/redux-form/raw/v6/docs/valueLifecycle
+.png"/>
+</div>
 
