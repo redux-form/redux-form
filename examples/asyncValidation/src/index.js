@@ -33,9 +33,9 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="6.0.0-rc.2"
+        version="6.0.0-rc.4"
         path="/examples/asyncValidation"
-        breadcrumbs={generateExampleBreadcrumbs('asyncValidation', 'Async Validation Example', '6.0.0-rc.2')}>
+        breadcrumbs={generateExampleBreadcrumbs('asyncValidation', 'Async Validation Example', '6.0.0-rc.4')}>
 
         <Markdown content={readme}/>
 
