@@ -26,3 +26,7 @@
 * [6.0.0-alpha.13](http://redux-form.com/6.0.0-alpha.13/)
 * [6.0.0-alpha.14](http://redux-form.com/6.0.0-alpha.14/)
 * [6.0.0-alpha.15](http://redux-form.com/6.0.0-alpha.15/)
+* [6.0.0-rc.1](http://redux-form.com/6.0.0-rc.1/)
+* [6.0.0-rc.2](http://redux-form.com/6.0.0-rc.2/)
+* [6.0.0-rc.3](http://redux-form.com/6.0.0-rc.3/)
+* [6.0.0-rc.4](http://redux-form.com/6.0.0-rc.4/)

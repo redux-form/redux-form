@@ -26,5 +26,5 @@ have provided a parser, the value given to `normalize()` will already be parsed.
 
 ## Value Lifecycle
 
-![Value Life Cycle](valueFlow.png)
+![Value Life Cycle](valueLifecycle.png)
 
