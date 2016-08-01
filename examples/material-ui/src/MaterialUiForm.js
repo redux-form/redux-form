@@ -21,27 +21,28 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = field => (
-  <TextField hintText={field.input.label}
-    floatingLabelText={field.input.label}
-    errorText={field.touched && field.error}
-    {...field.input}
+const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+  <TextField hintText={label}
+    floatingLabelText={label}
+    errorText={touched && error}
+    {...input}
+    {...custom}
   />
 )
 
-const renderCheckbox = field => (
-  <Checkbox label={field.input.label}
-    checked={field.input.value ? true : false}
-    onCheck={field.input.onChange}/>
+const renderCheckbox = ({ input, label }) => (
+  <Checkbox label={label}
+    checked={input.value ? true : false}
+    onCheck={input.onChange}/>
 )
 
-const renderSelectField = field => (
+const renderSelectField = ({ input, label, meta: { touched, error }, children }) => (
   <SelectField
-    floatingLabelText={field.input.label}
-    errorText={field.touched && field.error}
-    {...field.input}
-    onChange={(event, index, value) => field.input.onChange(value)}>
-  </SelectField>
+    floatingLabelText={label}
+    errorText={touched && error}
+    {...input}
+    onChange={(event, index, value) => input.onChange(value)}
+    children={children}/>
 )
 
 const MaterialUiForm = props => {
@@ -78,7 +79,8 @@ const MaterialUiForm = props => {
       </div>
       <div>
         <button type="submit" disabled={pristine || submitting}>Submit</button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values
+        </button>
       </div>
     </form>
   )

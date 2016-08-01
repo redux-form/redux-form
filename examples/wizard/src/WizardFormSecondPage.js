@@ -3,13 +3,14 @@ import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
 import renderField from './renderField'
 
-const renderError = props => props.touched && props.error ? <span>{props.error}</span> : false
+const renderError = ({ meta: { touched, error } }) => touched && error ?
+  <span>{error}</span> : false
 
 const WizardFormSecondPage = (props) => {
   const { handleSubmit, previousPage } = props
   return (
     <form onSubmit={handleSubmit}>
-      <Field name="email" type="email" component={renderField} placeholder="Email"/>
+      <Field name="email" type="email" component={renderField} label="Email"/>
       <div>
         <label>Sex</label>
         <div>

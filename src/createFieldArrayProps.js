@@ -9,11 +9,8 @@ const createFieldArrayProps = (getIn, size, name,
   const length = size(value)
   return {
     fields: {
-      dirty,
-      error,
       forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index)),
       insert: arrayInsert,
-      invalid: !!error,
       length,
       map: callback => (value || []).map((item, index) => callback(`${name}[${index}]`, index)),
       move: arrayMove,
@@ -21,7 +18,6 @@ const createFieldArrayProps = (getIn, size, name,
         arrayPop()
         return getIn(value, length - 1)
       },
-      pristine,
       push: arrayPush,
       remove: arrayRemove,
       removeAll: arrayRemoveAll,
@@ -30,7 +26,13 @@ const createFieldArrayProps = (getIn, size, name,
         return getIn(value, 0)
       },
       swap: arraySwap,
-      unshift: arrayUnshift,
+      unshift: arrayUnshift
+    },
+    meta: {
+      dirty,
+      error,
+      invalid: !!error,
+      pristine,
       valid: !error
     },
     ...props,

@@ -57,20 +57,16 @@ The following properties and methods are available on an instance of a `FieldArr
 
 ## Props
 
-These are props that `FieldArray` will pass to your wrapped component. As you can see, they are
-all under the `fields` key. Any additional props that you pass to `FieldArray` will be passed
-along, but will _not_ be under the `fields` key.
+These are props that `FieldArray` will pass to your wrapped component. **All the props provided
+to your component by `redux-form` are divided into `fields` and `meta` objects.**
 
-#### `fields.dirty : boolean`
+Any additional props that you pass to your `FieldArray` will be in the root of the `props` 
+object, alongside `fields` and `meta`.
+ 
+### Fields Props
 
-> `true` if the any of the fields in the field array have changed from their initialized value.
-Opposite of `pristine`.
-
-#### `fields.error : String` [optional]
-
-> The error for this field array if its value is not passing validation. Both synchronous,
-asynchronous, and submit validation errors will be reported here. Array-specific errors should be
-returned from the validation function as an `_error` key on the array.
+The `fields` object is a "pseudo-array", in that it has many of the same properties and methods 
+as a javascript `Array`, providing both reading and writing functionality.
 
 #### `fields.forEach(callback) : Function`
 
@@ -80,10 +76,6 @@ for more details.
 #### `fields.insert(index:Integer, value:Any) : Function`
 
 > A function to insert a new value into the array at any arbitrary index.
-
-#### `fields.invalid : boolean`
-
-> `true` if the field array value fails validation (has a validation error). Opposite of `valid`.
 
 #### `fields.length : Number`
 
@@ -101,11 +93,6 @@ to the callback. See the section on [Iteration](#iteration) for more details.
 #### `fields.pop() : Function`
 
 > Removes an item from the end of the array. Returns the item removed.
-
-#### `fields.pristine : boolean`
-
-> `true` if the all of the fields in the field array are the same as their initialized
-value. Opposite of `dirty`.
 
 #### `fields.push(value:Any) : Function`
 
@@ -131,7 +118,32 @@ value. Opposite of `dirty`.
 
 > Adds an item to the beginning of the array. Returns nothing.
 
-#### `fields.valid : boolean`
+### Meta Props
+
+The props under the `meta` key are metadata about the state of this field array that `redux-form`
+is tracking for you.
+
+#### `meta.dirty : boolean`
+
+> `true` if the any of the fields in the field array have changed from their initialized value.
+Opposite of `pristine`.
+
+#### `meta.error : String` [optional]
+
+> The error for this field array if its value is not passing validation. Both synchronous,
+asynchronous, and submit validation errors will be reported here. Array-specific errors should be
+returned from the validation function as an `_error` key on the array.
+
+#### `meta.invalid : boolean`
+
+> `true` if the field array value fails validation (has a validation error). Opposite of `valid`.
+
+#### `meta.pristine : boolean`
+
+> `true` if the all of the fields in the field array are the same as their initialized
+value. Opposite of `dirty`.
+
+#### `meta.valid : boolean`
 
 > `true` if the field value passes validation (has no validation errors). Opposite of `invalid`.
 

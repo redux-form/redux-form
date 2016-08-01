@@ -3,13 +3,13 @@ import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
 const colors = [ 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet' ]
 
-const renderColorSelector = field => (
+const renderColorSelector = ({ input, meta: { touched, error } }) => (
   <div>
-    <select {...field.input}>
+    <select {...input}>
       <option value="">Select a color...</option>
       {colors.map(val => <option value={val} key={val}>{val}</option>)}
     </select>
-    {field.touched && field.error && <span>{field.error}</span>}
+    {touched && error && <span>{error}</span>}
   </div>
 )
 
@@ -30,7 +30,7 @@ const WizardFormThirdPage = (props) => {
       <div>
         <label>Notes</label>
         <div>
-          <Field name="notes" component="textarea"/>
+          <Field name="notes" component="textarea" placeholder="Notes"/>
         </div>
       </div>
       <div>

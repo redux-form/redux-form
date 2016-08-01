@@ -291,8 +291,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].pristine).toBe(true)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].dirty).toBe(false)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.pristine).toBe(true)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.dirty).toBe(false)
       expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('bar')
     })
 
@@ -350,8 +350,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
       const checkInputProps = (props, value) => {
-        expect(props.pristine).toBe(true)
-        expect(props.dirty).toBe(false)
+        expect(props.meta.pristine).toBe(true)
+        expect(props.meta.dirty).toBe(false)
         expect(props.input.value).toBe(value)
       }
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], '')
@@ -445,8 +445,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
       const checkInputProps = (props, value) => {
-        expect(props.pristine).toBe(true)
-        expect(props.dirty).toBe(false)
+        expect(props.meta.pristine).toBe(true)
+        expect(props.meta.dirty).toBe(false)
         expect(props.input.value).toBe(value)
       }
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
@@ -542,8 +542,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
       const checkInputProps = (props, value) => {
-        expect(props.pristine).toBe(true)
-        expect(props.dirty).toBe(false)
+        expect(props.meta.pristine).toBe(true)
+        expect(props.meta.dirty).toBe(false)
         expect(props.input.value).toBe(value)
       }
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
@@ -911,10 +911,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       expect(username).toHaveBeenCalled()
-      expect(username.calls[ 0 ].arguments[ 0 ].touched).toBe(false)
+      expect(username.calls[ 0 ].arguments[ 0 ].meta.touched).toBe(false)
 
       expect(password).toHaveBeenCalled()
-      expect(password.calls[ 0 ].arguments[ 0 ].touched).toBe(false)
+      expect(password.calls[ 0 ].arguments[ 0 ].meta.touched).toBe(false)
 
       expect(stub.submit).toBeA('function')
       stub.submit()
@@ -941,10 +941,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       expect(username.calls.length).toBe(2)
-      expect(username.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
+      expect(username.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
 
       expect(password.calls.length).toBe(2)
-      expect(password.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
+      expect(password.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
     })
 
     it('should call onSubmitFail with errors if sync submit fails by throwing SubmissionError', () => {
@@ -1768,10 +1768,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].pristine).toBe(true)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.pristine).toBe(true)
       expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].valid).toBe(true)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].error).toBe(undefined)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.error).toBe(undefined)
 
       const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
       TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
@@ -1793,10 +1793,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(asyncValidate).toNotHaveBeenCalled() // not yet
 
       expect(inputRender.calls.length).toBe(2)  // input rerendered
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].pristine).toBe(false)
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].meta.pristine).toBe(false)
       expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('bar')
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].valid).toBe(true)
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].error).toBe(undefined)
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].meta.error).toBe(undefined)
 
       TestUtils.Simulate.blur(inputElement, { target: { value: 'bar' } })
 
@@ -1830,10 +1830,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
         // input rerendered twice, at start and end of async validation
         expect(inputRender.calls.length).toBe(4)
-        expect(inputRender.calls[ 3 ].arguments[ 0 ].pristine).toBe(false)
+        expect(inputRender.calls[ 3 ].arguments[ 0 ].meta.pristine).toBe(false)
         expect(inputRender.calls[ 3 ].arguments[ 0 ].input.value).toBe('bar')
-        expect(inputRender.calls[ 3 ].arguments[ 0 ].valid).toBe(false)
-        expect(inputRender.calls[ 3 ].arguments[ 0 ].error).toBe('async error')
+        expect(inputRender.calls[ 3 ].arguments[ 0 ].meta.valid).toBe(false)
+        expect(inputRender.calls[ 3 ].arguments[ 0 ].meta.error).toBe('async error')
         done()
       })
     })

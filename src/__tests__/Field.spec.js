@@ -72,8 +72,8 @@ const describeField = (name, structure, combineReducers, expect) => {
           foo: 'bar'
         }
       })
-      expect(props1.pristine).toBe(true)
-      expect(props1.dirty).toBe(false)
+      expect(props1.meta.pristine).toBe(true)
+      expect(props1.meta.dirty).toBe(false)
       const props2 = testProps({
         initial: {
           foo: 'bar'
@@ -82,8 +82,8 @@ const describeField = (name, structure, combineReducers, expect) => {
           foo: 'baz'
         }
       })
-      expect(props2.pristine).toBe(false)
-      expect(props2.dirty).toBe(true)
+      expect(props2.meta.pristine).toBe(false)
+      expect(props2.meta.dirty).toBe(true)
     })
 
     it('should get asyncValidating from Redux state', () => {
@@ -96,7 +96,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         },
         asyncValidating: 'dog'
       })
-      expect(props1.asyncValidating).toBe(false)
+      expect(props1.meta.asyncValidating).toBe(false)
       const props2 = testProps({
         initial: {
           foo: 'bar'
@@ -106,7 +106,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         },
         asyncValidating: 'foo'
       })
-      expect(props2.asyncValidating).toBe(true)
+      expect(props2.meta.asyncValidating).toBe(true)
     })
 
     it('should get sync errors from outer reduxForm component', () => {
@@ -120,7 +120,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       }, {
         validate: () => ({ foo: 'foo error' })
       })
-      expect(props.error).toBe('foo error')
+      expect(props.meta.error).toBe('foo error')
     })
 
     it('should get async errors from Redux state', () => {
@@ -135,7 +135,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           foo: 'foo error'
         }
       })
-      expect(props.error).toBe('foo error')
+      expect(props.meta.error).toBe('foo error')
     })
 
     it('should get submit errors from Redux state', () => {
@@ -150,7 +150,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           foo: 'foo error'
         }
       })
-      expect(props.error).toBe('foo error')
+      expect(props.meta.error).toBe('foo error')
     })
 
     it('should provide name getter', () => {
@@ -343,8 +343,8 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
-      expect(input.calls[ 0 ].arguments[ 0 ].error).toBe('bar error')
+      expect(input.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(false)
+      expect(input.calls[ 0 ].arguments[ 0 ].meta.error).toBe('bar error')
     })
 
     it('should provide access to rendered component', () => {
@@ -409,14 +409,14 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
       expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('fooValue')
-      expect(input.calls[ 0 ].arguments[ 0 ].touched).toBe(false)
+      expect(input.calls[ 0 ].arguments[ 0 ].meta.touched).toBe(false)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('barValue')
-      expect(input.calls[ 1 ].arguments[ 0 ].touched).toBe(true)
+      expect(input.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
     })
 
     it('should rerender when props change', () => {
@@ -443,13 +443,13 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].input.rel).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].rel).toBe('foo')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].input.rel).toBe('qux')
+      expect(input.calls[ 1 ].arguments[ 0 ].rel).toBe('qux')
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
@@ -481,7 +481,7 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].input.rel).toBe('test')
+      expect(input.calls[ 0 ].arguments[ 0 ].rel).toBe('test')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
@@ -825,8 +825,8 @@ const describeField = (name, structure, combineReducers, expect) => {
       // confirm input rendered with error
       expect(confirmInput).toHaveBeenCalled()
       expect(confirmInput.calls.length).toBe(1)
-      expect(confirmInput.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
-      expect(confirmInput.calls[ 0 ].arguments[ 0 ].error).toBe('Must match!')
+      expect(confirmInput.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(false)
+      expect(confirmInput.calls[ 0 ].arguments[ 0 ].meta.error).toBe('Must match!')
 
       // update password field so that they match
       passwordInput.calls[ 0 ].arguments[ 0 ].input.onChange('redux-form rocks')
@@ -836,8 +836,8 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       // confirm input should also rerender, but with no error
       expect(confirmInput.calls.length).toBe(2)
-      expect(confirmInput.calls[ 1 ].arguments[ 0 ].valid).toBe(true)
-      expect(confirmInput.calls[ 1 ].arguments[ 0 ].error).toBe(undefined)
+      expect(confirmInput.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(confirmInput.calls[ 1 ].arguments[ 0 ].meta.error).toBe(undefined)
     })
 
     it('should rerender when sync error is cleared', () => {
@@ -869,8 +869,8 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls.length).toBe(1)
 
       // username field has error
-      expect(usernameInput.calls[ 0 ].arguments[ 0 ].valid).toBe(false)
-      expect(usernameInput.calls[ 0 ].arguments[ 0 ].error).toBe('Required')
+      expect(usernameInput.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(false)
+      expect(usernameInput.calls[ 0 ].arguments[ 0 ].meta.error).toBe('Required')
 
       // update username field so it passes
       usernameInput.calls[ 0 ].arguments[ 0 ].input.onChange('erikras')
@@ -879,8 +879,8 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls.length).toBe(3)
 
       // should be valid now
-      expect(usernameInput.calls[ 2 ].arguments[ 0 ].valid).toBe(true)
-      expect(usernameInput.calls[ 2 ].arguments[ 0 ].error).toBe(undefined)
+      expect(usernameInput.calls[ 2 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(usernameInput.calls[ 2 ].arguments[ 0 ].meta.error).toBe(undefined)
     })
   })
 }

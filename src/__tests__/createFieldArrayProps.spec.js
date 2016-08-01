@@ -23,19 +23,19 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(createFieldArrayProps(...defaultProps, {
         dirty: false,
         pristine: true
-      }).fields.dirty).toBe(false)
+      }).meta.dirty).toBe(false)
       expect(createFieldArrayProps(...defaultProps, {
         dirty: false,
         pristine: true
-      }).fields.pristine).toBe(true)
+      }).meta.pristine).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         dirty: true,
         pristine: false
-      }).fields.dirty).toBe(true)
+      }).meta.dirty).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         dirty: true,
         pristine: false
-      }).fields.pristine).toBe(false)
+      }).meta.pristine).toBe(false)
     })
 
     it('should provide length', () => {
@@ -54,27 +54,27 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should provide errors', () => {
-      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).fields.error).toBe('Sync Error')
-      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).fields.valid).toBe(false)
-      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).fields.invalid).toBe(true)
+      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.error).toBe('Sync Error')
+      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.valid).toBe(false)
+      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.invalid).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
-      }).fields.error).toBe('Async Error')
+      }).meta.error).toBe('Async Error')
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
-      }).fields.valid).toBe(false)
+      }).meta.valid).toBe(false)
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
-      }).fields.invalid).toBe(true)
+      }).meta.invalid).toBe(true)
       expect(createFieldArrayProps(...defaultProps, {
         submitError: 'Submit Error'
-      }).fields.error).toBe('Submit Error')
+      }).meta.error).toBe('Submit Error')
       expect(createFieldArrayProps(...defaultProps, {
         submitError: 'Submit Error'
-      }).fields.valid).toBe(false)
+      }).meta.valid).toBe(false)
       expect(createFieldArrayProps(...defaultProps, {
         submitError: 'Submit Error'
-      }).fields.invalid).toBe(true)
+      }).meta.invalid).toBe(true)
     })
 
     it('should provide move', () => {
