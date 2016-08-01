@@ -15,6 +15,10 @@
         "file": "/docs/MigrationGuide.md",
         "title": "`v6` Migration Guide"
       },
+      "/docs/ValueLifecycle.md": {
+        "file": "/docs/ValueLifecycle.md",
+        "title": "Value Lifecycle"
+      },
       "/docs/faq": {
         "file": "/docs/faq/README.md",
         "title": "FAQ",
@@ -76,6 +80,10 @@
           "/docs/api/ActionCreators.md": {
             "file": "/docs/api/ActionCreators.md",
             "title": "Action Creators"
+          },
+          "/docs/api/Selectors.md": {
+            "file": "/docs/api/Selectors.md",
+            "title": "Selectors"
           },
           "/docs/api/SubmissionError.md": {
             "file": "/docs/api/SubmissionError.md",
