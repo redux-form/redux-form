@@ -16,7 +16,7 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import SubmissionError from '../SubmissionError'
-import { change, initialize } from '../actions'
+import { change } from '../actions'
 
 const describeReduxForm = (name, structure, combineReducers, expect) => {
   const { fromJS, getIn } = structure
