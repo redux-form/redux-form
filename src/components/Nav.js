@@ -46,6 +46,7 @@ class Nav extends Component {
           <a href={url} className={styles.brand}>Redux Form</a>
           {this.renderItem('/docs/GettingStarted.md', 'Getting Started')}
           {this.renderItem('/docs/MigrationGuide.md', '`v6` Migration Guide')}
+          {this.renderItem('/docs/ValueLifecycle.md', 'Value Lifecycle')}
           {this.renderItem('/docs/api', 'API')}
           {this.renderItem('/docs/api/ReduxForm.md', '`reduxForm()`', 1)}
           {this.renderItem('/docs/api/Props.md', '`props`', 1)}
@@ -56,6 +57,7 @@ class Nav extends Component {
           {this.renderItem('/docs/api/ReducerPlugin.md', '`reducer.plugin()`', 2)}
           {this.renderItem('/docs/api/SubmissionError.md', '`SubmissionError`', 1)}
           {this.renderItem('/docs/api/ActionCreators.md', 'Action Creators', 1)}
+          {this.renderItem('/docs/api/Selectors.md', 'Selectors', 1)}
           {this.renderItem('/docs/faq', 'FAQ')}
           {this.renderItem('/examples', 'Examples')}
           {this.renderItem('/examples/simple', 'Simple Form', 1)}
