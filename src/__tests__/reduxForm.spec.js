@@ -16,7 +16,7 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import SubmissionError from '../SubmissionError'
-import { change } from '../actions'
+import { change, initialize } from '../actions'
 
 const describeReduxForm = (name, structure, combineReducers, expect) => {
   const { fromJS, getIn } = structure
@@ -576,6 +576,107 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'baz')
     })
 
+    // Test related to #1436
+    /*
+    it('should allow initialization via action to set pristine', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        deep: {
+          foo: 'baz'
+        }
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        initialValues: initialValues1
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls[ 0 ].arguments[ 0 ].pristine).toBe(true)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.pristine).toBe(true)
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('bar')
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+
+      // initialize with action
+      store.dispatch(initialize('testForm', initialValues2))
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
+            initial: initialValues2,
+            values: initialValues2
+          }
+        }
+      })
+
+      // rerendered
+      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].pristine).toBe(true)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(2)
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].meta.pristine).toBe(true)
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('baz')
+    })
+    */
+
     it('should destroy on unmount by default', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
@@ -877,7 +978,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         testForm: {}
       })
       const username = createSpy(props => <input {...props.input} type="text"/>).andCallThrough()
-      const password = createSpy(props => <input {...props.input} type="password"/>).andCallThrough()
+      const password = createSpy(props => <input {...props.input}
+        type="password"/>).andCallThrough()
 
       const Form = () => (
         <form>
