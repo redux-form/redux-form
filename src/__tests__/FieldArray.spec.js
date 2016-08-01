@@ -89,8 +89,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: [ 'a', 'b', 'c' ]
         }
       })
-      expect(props1.fields.pristine).toBe(true)
-      expect(props1.fields.dirty).toBe(false)
+      expect(props1.meta.pristine).toBe(true)
+      expect(props1.meta.dirty).toBe(false)
       const props2 = testProps({
         initial: {
           foo: [ 'a', 'b', 'c' ]
@@ -99,8 +99,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: [ 'a', 'b' ]
         }
       })
-      expect(props2.fields.pristine).toBe(false)
-      expect(props2.fields.dirty).toBe(true)
+      expect(props2.meta.pristine).toBe(false)
+      expect(props2.meta.dirty).toBe(true)
     })
 
     it('should provide forEach', () => {
@@ -306,7 +306,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       }, {
         validate: () => ({ foo: { _error: 'foo error' } })
       })
-      expect(props.fields.error).toBe('foo error')
+      expect(props.meta.error).toBe('foo error')
     })
 
     it('should get async errors from Redux state', () => {
@@ -320,7 +320,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      expect(props.fields.error).toBe('foo error')
+      expect(props.meta.error).toBe('foo error')
     })
 
     it('should get submit errors from Redux state', () => {
@@ -334,7 +334,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      expect(props.fields.error).toBe('foo error')
+      expect(props.meta.error).toBe('foo error')
     })
 
     it('should provide name getter', () => {
@@ -513,7 +513,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             <div key={index}>
               <Field name={`${name}.library`} component="input"/>
               <Field name={`${name}.author`} component="input"/>
-              <Field name={name} component={props => <strong>{props.error}</strong>}/>
+              <Field name={name} component={props => <strong>{props.meta.error}</strong>}/>
             </div>
           )}
         </div>
@@ -698,7 +698,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
       expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.error)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error)
         .toExist()
         .toBe('No dogs')
 
@@ -706,13 +706,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       expect(renderFieldArray.calls.length).toBe(2)
       expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.error).toNotExist()
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].meta.error).toNotExist()
 
       TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
       expect(renderFieldArray.calls.length).toBe(3)
       expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].fields.length).toBe(2)
-      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].fields.error)
+      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].meta.error)
         .toExist()
         .toBe('Too many')
 
@@ -720,13 +720,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       expect(renderFieldArray.calls.length).toBe(4)
       expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].fields.error).toNotExist()
+      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].meta.error).toNotExist()
 
       TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
       expect(renderFieldArray.calls.length).toBe(5)
       expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.length).toBe(0)
-      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.error)
+      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].meta.error)
         .toExist()
         .toBe('No dogs')
     })

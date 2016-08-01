@@ -9,14 +9,14 @@ const colors = [ { color: 'Red', value: 'ff0000' },
   { color: 'Green', value: '00ff00' },
   { color: 'Blue', value: '0000ff' } ]
 
-const renderDropdownList = field =>
-  <DropdownList {...field.input}/>
+const renderDropdownList = ({ input, ...rest }) =>
+  <DropdownList {...input} {...rest}/>
 
-const renderMultiselect = field =>
-  <Multiselect {...field.input} onBlur={() => field.input.onBlur()}/>
+const renderMultiselect = ({ input, ...rest }) =>
+  <Multiselect {...input} onBlur={() => input.onBlur()} {...rest}/>
 
-const renderSelectList = field =>
-  <SelectList {...field.input} onBlur={() => field.input.onBlur()}/>
+const renderSelectList = ({ input, ...rest }) =>
+  <SelectList {...input} onBlur={() => input.onBlur()} {...rest}/>
 
 let ReactWidgetsForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props

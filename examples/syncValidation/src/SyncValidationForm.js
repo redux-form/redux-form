@@ -23,12 +23,12 @@ const validate = values => {
   return errors
 }
 
-const renderField = field => (
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
-    <label>{field.input.placeholder}</label>
+    <label>{label}</label>
     <div>
-      <input {...field.input}/>
-      {field.touched && field.error && <span>{field.error}</span>}
+      <input {...input} placeholder={label} type={type}/>
+      {touched && error && <span>{error}</span>}
     </div>
   </div>
 )
@@ -37,9 +37,9 @@ const SyncValidationForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
-      <Field name="username" type="text" component={renderField} placeholder="Username"/>
-      <Field name="email" type="email" component={renderField} placeholder="Email"/>
-      <Field name="age" type="number" component={renderField} placeholder="Age"/>
+      <Field name="username" type="text" component={renderField} label="Username"/>
+      <Field name="email" type="email" component={renderField} label="Email"/>
+      <Field name="age" type="number" component={renderField} label="Age"/>
       <div>
         <button type="submit" disabled={submitting}>Submit</button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>

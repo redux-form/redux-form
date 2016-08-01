@@ -2,12 +2,12 @@ import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import validate from './validate'
 
-const renderField = field => (
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
-    <label>{field.input.placeholder}</label>
+    <label>{label}</label>
     <div>
-      <input {...field.input}/>
-      {field.touched && field.error && <span>{field.error}</span>}
+      <input {...input} type={type} placeholder={label}/>
+      {touched && error && <span>{error}</span>}
     </div>
   </div>
 )
@@ -28,19 +28,19 @@ const renderMembers = ({ fields }) => (
           name={`${member}.firstName`}
           type="text"
           component={renderField}
-          placeholder="First Name"/>
+          label="First Name"/>
         <Field
           name={`${member}.lastName`}
           type="text"
           component={renderField}
-          placeholder="Last Name"/>
+          label="Last Name"/>
         <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
       </li>
     )}
   </ul>
 )
 
-const renderHobbies = ({ fields }) => (
+const renderHobbies = ({ fields, meta: { error } }) => (
   <ul>
     <li>
       <button type="button" onClick={() => fields.push()}>Add Hobby</button>
@@ -55,10 +55,10 @@ const renderHobbies = ({ fields }) => (
           name={hobby}
           type="text"
           component={renderField}
-          placeholder={`Hobby #${index + 1}`}/>
+          label={`Hobby #${index + 1}`}/>
       </li>
     )}
-    {fields.error && <li className="error">{fields.error}</li>}
+    {error && <li className="error">{error}</li>}
   </ul>
 )
 
@@ -66,7 +66,7 @@ const FieldArraysForm = (props) => {
   const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
-      <Field name="clubName" type="text" component={renderField} placeholder="Club Name"/>
+      <Field name="clubName" type="text" component={renderField} label="Club Name"/>
       <FieldArray name="members" component={renderMembers}/>
       <div>
         <button type="submit" disabled={submitting}>Submit</button>
