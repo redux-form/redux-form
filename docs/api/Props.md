@@ -31,45 +31,55 @@ class SimpleForm extends Component {
 > #### `array.insert(field:String, index:Number, value:Any) : Function`
 
 > Inserts a value into the given array field in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.move(field:String, from:Number, to:Number) : Function`
 
 > Moves a value at the given `from` index to the given `to` index in the given array field in 
 your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.pop(field:String) : Function`
 
 > Pops a value off of the end of a given array field in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.push(field:String, value:Any) : Function`
 
 > Pushes the given value onto the end of the given array field in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.remove(field:String, index:Number) : Function`
 
 > Removes a value at the given index from the given array field in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.removeAll(field:String) : Function`
 
 > Removes all the values from the given array field in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.shift(field:String) : Function`
 
 > Shifts a value out of the beginning of the given array in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.splice(field:String, index:Number, removeNum:Number, value:Any) : Function`
 
 > Performs an 
 [`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 operation on the given array in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.swap(field:String, indexA:Number, indexB:Number) : Function`
 
 > Swaps two values at the given indexes of the given array field in your form.
+This is a bound action creator, so it returns nothing.
 
 > #### `array.unshift(field:String, value:Any) : Function`
 
 > Unshifts the given value into the beginning of the given array field in your form.
+This is a bound action creator, so it returns nothing.
 
 ### `asyncValidate : Function`
 
@@ -86,6 +96,7 @@ operation on the given array in your form.
 
 > Destroys the form state in the Redux store. By default, this will be called for you in
 `componentWillUnmount()`.
+This is a bound action creator, so it returns nothing.
 
 ### `dirty : boolean`
 
@@ -141,6 +152,7 @@ that as if it were the error for a field called `_error`, and it will be given a
 
 > Initializes the form data to the given values. All `dirty` and `pristine` state will be
 determined by comparing the current data with these initialized values.
+This is a bound action creator, so it returns nothing.
 
 #### `invalid : boolean`
 
@@ -153,6 +165,7 @@ determined by comparing the current data with these initialized values.
 #### `reset() : Function`
 
 > Resets all the values in the form to the initialized state, making it pristine again.
+This is a bound action creator, so it returns nothing.
 
 #### `submitFailed : boolean`
 
@@ -172,10 +185,12 @@ determined by comparing the current data with these initialized values.
 #### `touch(...field:string) : Function`
 
 > Marks the given fields as "touched" to show errors.
+This is a bound action creator, so it returns nothing.
 
 #### `untouch(...field:string) : Function`
 
 > Clears the "touched" flag for the given fields
+This is a bound action creator, so it returns nothing.
 
 #### `valid : boolean`
 
