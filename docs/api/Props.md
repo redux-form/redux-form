@@ -24,6 +24,53 @@ class SimpleForm extends Component {
 
 > `true` if any of the fields have been marked as `touched`, `false` otherwise.
 
+### `array : Object`
+
+> A set of pre-bound action creators for you to operate on array fields in your form.
+
+> #### `array.insert(field:String, index:Number, value:Any) : Function`
+
+> Inserts a value into the given array field in your form.
+
+> #### `array.move(field:String, from:Number, to:Number) : Function`
+
+> Moves a value at the given `from` index to the given `to` index in the given array field in 
+your form.
+
+> #### `array.pop(field:String) : Function`
+
+> Pops a value off of the end of a given array field in your form.
+
+> #### `array.push(field:String, value:Any) : Function`
+
+> Pushes the given value onto the end of the given array field in your form.
+
+> #### `array.remove(field:String, index:Number) : Function`
+
+> Removes a value at the given index from the given array field in your form.
+
+> #### `array.removeAll(field:String) : Function`
+
+> Removes all the values from the given array field in your form.
+
+> #### `array.shift(field:String) : Function`
+
+> Shifts a value out of the beginning of the given array in your form.
+
+> #### `array.splice(field:String, index:Number, removeNum:Number, value:Any) : Function`
+
+> Performs an 
+[`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+operation on the given array in your form.
+
+> #### `array.swap(field:String, indexA:Number, indexB:Number) : Function`
+
+> Swaps two values at the given indexes of the given array field in your form.
+
+> #### `array.unshift(field:String, value:Any) : Function`
+
+> Unshifts the given value into the beginning of the given array field in your form.
+
 ### `asyncValidate : Function`
 
 > A function that may be called to initiate asynchronous validation if asynchronous validation is enabled.
@@ -107,11 +154,6 @@ determined by comparing the current data with these initialized values.
 
 > Resets all the values in the form to the initialized state, making it pristine again.
 
-#### `submitting : boolean`
-
-> Whether or not your form is currently submitting. This prop will only work if you have passed an
-`onSubmit` function that returns a promise. It will be `true` until the promise is resolved or rejected.
-
 #### `submitFailed : boolean`
 
 > Starts as `false`. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to 
@@ -121,6 +163,11 @@ determined by comparing the current data with these initialized values.
 
 > Starts as `false`. If `onSubmit` is called, and succeed to submit , `submitSucceeded` will be set to 
 `true`. A subsequent unsuccessful submit will set it back to `false`.
+
+#### `submitting : boolean`
+
+> Whether or not your form is currently submitting. This prop will only work if you have passed an
+`onSubmit` function that returns a promise. It will be `true` until the promise is resolved or rejected.
 
 #### `touch(...field:string) : Function`
 
