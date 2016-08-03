@@ -71,10 +71,70 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }).toNotThrow()
     })
 
-    it('should provide dispatch prop', () => {
-      expect(propChecker({}).dispatch)
-        .toExist()
-        .toBeA('function')
+    it('should provide a the correct props', () => {
+      const props = propChecker({})
+      expect(Object.keys(props).sort()).toEqual([
+        'anyTouched',
+        'array',
+        'asyncValidate',
+        'asyncValidating',
+        'destroy',
+        'dirty',
+        'dispatch',
+        'error',
+        'form',
+        'handleSubmit',
+        'initialize',
+        'initialized',
+        'invalid',
+        'pristine',
+        'reset',
+        'submitFailed',
+        'submitSucceeded',
+        'submitting',
+        'touch',
+        'untouch',
+        'valid'
+      ])
+      expect(props.anyTouched).toBeA('boolean')
+      expect(props.array).toExist().toBeA('object')
+      expect(Object.keys(props.array).sort()).toEqual([
+        'insert',
+        'move',
+        'pop',
+        'push',
+        'remove',
+        'removeAll',
+        'shift',
+        'splice',
+        'swap',
+        'unshift'
+      ])
+      expect(props.array.insert).toExist().toBeA('function')
+      expect(props.array.move).toExist().toBeA('function')
+      expect(props.array.pop).toExist().toBeA('function')
+      expect(props.array.push).toExist().toBeA('function')
+      expect(props.array.remove).toExist().toBeA('function')
+      expect(props.array.removeAll).toExist().toBeA('function')
+      expect(props.array.shift).toExist().toBeA('function')
+      expect(props.array.splice).toExist().toBeA('function')
+      expect(props.array.swap).toExist().toBeA('function')
+      expect(props.array.unshift).toExist().toBeA('function')
+      expect(props.asyncValidate).toExist().toBeA('function')
+      expect(props.asyncValidating).toBeA('boolean')
+      expect(props.destroy).toExist().toBeA('function')
+      expect(props.dirty).toBeA('boolean')
+      expect(props.form).toExist().toBeA('string')
+      expect(props.handleSubmit).toExist().toBeA('function')
+      expect(props.initialize).toExist().toBeA('function')
+      expect(props.initialized).toBeA('boolean')
+      expect(props.pristine).toBeA('boolean')
+      expect(props.reset).toExist().toBeA('function')
+      expect(props.submitFailed).toBeA('boolean')
+      expect(props.submitSucceeded).toBeA('boolean')
+      expect(props.touch).toExist().toBeA('function')
+      expect(props.untouch).toExist().toBeA('function')
+      expect(props.valid).toBeA('boolean')
     })
 
     it('should provide dirty prop', () => {
