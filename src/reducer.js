@@ -136,7 +136,7 @@ const createReducer = structure => {
       if (registeredFields) {
         result = setIn(result, 'registeredFields', registeredFields)
       }
-      let newValues = mapData;
+      let newValues = mapData
       if (keepDirty && registeredFields) {
         //
         // Keep the value of dirty fields while updating the value of
@@ -154,7 +154,7 @@ const createReducer = structure => {
         const previousValues = getIn(state, 'values')
         const previousInitialValues = getIn(state, 'initial')
         registeredFields.forEach(field => {
-          const name = field.name;
+          const name = field.name
           const previousInitialValue = getIn(previousInitialValues, name)
           const previousValue = getIn(previousValues, name)
           if (!deepEqual(previousValue, previousInitialValue)) {
