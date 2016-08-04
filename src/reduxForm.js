@@ -362,7 +362,8 @@ const createReduxForm =
               submitSucceeded,
               touch,
               untouch,
-              valid
+              valid,
+              values
             }
             const propsToPass = {
               ...(propNamespace ? { [propNamespace]: reduxFormProps } : reduxFormProps),
