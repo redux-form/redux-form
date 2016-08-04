@@ -260,7 +260,8 @@ describe('actions', () => {
       .toEqual({
         type: INITIALIZE,
         meta: {
-          form: 'myForm'
+          form: 'myForm',
+          keepDirty: undefined
         },
         payload: data
       })
