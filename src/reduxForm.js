@@ -119,7 +119,7 @@ const createReduxForm =
             if (nextProps) {
               const { enableReinitialize } = this.props
               if ((enableReinitialize || !nextProps.initialized) && !deepEqual(this.props.initialValues, nextProps.initialValues)) {
-                this.props.initialize(nextProps.initialValues)
+                this.props.initialize(nextProps.initialValues, true)
               }
             } else if (this.props.initialValues) {
               this.props.initialize(this.props.initialValues)
