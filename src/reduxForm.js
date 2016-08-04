@@ -164,7 +164,7 @@ const createReduxForm =
           }
 
           shouldComponentUpdate(nextProps) {
-            if (!config.pure) return true;
+            if (!config.pure) return true
             return Object.keys(nextProps).some(prop => {
               // useful to debug rerenders
               // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
