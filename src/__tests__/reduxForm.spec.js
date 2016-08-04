@@ -94,7 +94,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'submitting',
         'touch',
         'untouch',
-        'valid'
+        'valid',
+        'values'
       ])
       expect(props.anyTouched).toBeA('boolean')
       expect(props.array).toExist().toBeA('object')
@@ -135,6 +136,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(props.touch).toExist().toBeA('function')
       expect(props.untouch).toExist().toBeA('function')
       expect(props.valid).toBeA('boolean')
+      expect(props.values).toBeAn('object')
     })
 
     it('should provide dirty prop', () => {
