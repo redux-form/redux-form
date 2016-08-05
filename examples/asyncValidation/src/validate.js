@@ -1,13 +1,5 @@
-const validate = values => {
-  const errors = {}
-  if (!values.username) {
-    errors.username = 'Required'
-  }
-  if (!values.password) {
-    errors.password = 'Required'
-  }
-  return errors
-}
+import _validate from 'redux-validate'
+
+const validate = _validate([ 'username', 'password' ], 'Required')
 
 export default validate
-

@@ -12,6 +12,7 @@
     "babel-polyfill": "^6.6.1",
     "html-loader": "^0.4.3",
     "json-loader": "^0.5.4",
+    "lodash": "4.14.1",
     "markdown-loader": "^0.1.7",
     "raw-loader": "^0.5.1",
     "react": "^15.0.0-rc.2",
@@ -19,7 +20,8 @@
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
     "redux-form": "file:../../",
-    "redux-form-website-template": "0.0.34"
+    "redux-form-website-template": "0.0.34",
+    "redux-validate": "0.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",

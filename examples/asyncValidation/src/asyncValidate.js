@@ -1,13 +1,14 @@
+import validate from 'redux-validate'
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-const asyncValidate = (values/*, dispatch */) => {
-  return sleep(1000) // simulate server latency
-    .then(() => {
-      if ([ 'john', 'paul', 'george', 'ringo' ].includes(values.username)) {
-        throw { username: 'That username is taken' }
-      }
-    })
-}
+const asyncValidate = validate({
+  username: username =>
+    sleep(1000) // simulate server latency
+      .then(() =>
+        [ 'john', 'paul', 'george', 'ringo' ].includes(username) &&
+          'That username is taken'
+      )
+})
 
 export default asyncValidate
-
