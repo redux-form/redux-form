@@ -1,15 +1,21 @@
 const splice = (array = [], index, removeNum, value) => {
-  const copy = [ ...array ]
-  if (removeNum) {
-    copy.splice(index, removeNum)   // removing
-  } else {
-    if(index < copy.length) {
-      copy.splice(index, 0, value)  // adding
+  if (index < array.length) {
+    if (value != null) {
+      const copy = [ ...array ]
+      copy.splice(index, removeNum, value)   // removing and adding
+      return copy
     } else {
-      copy[index] = value           // outside range, so just set it
+      const copy = [ ...array ]
+      copy.splice(index, removeNum)   // removing
+      return copy
     }
   }
-  return copy
+  if (value != null) {
+    const copy = [ ...array ]
+    copy[index] = value
+    return copy
+  }
+  return array
 }
 
 export default splice

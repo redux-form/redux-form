@@ -44,6 +44,12 @@ describe('structure.plain.splice', () => {
       .toEqual([ 'b', 'c', 'd' ])
   })
 
+  it('should remove in the middle then insert in that position', () => {
+    expect(splice([ 'a', 'b', 'c', 'd' ], 1, 1, 'e'))
+      .toBeA('array')
+      .toEqual([ 'a', 'e', 'c', 'd' ])
+  })
+
   it('should remove at end', () => {
     expect(splice([ 'a', 'b', 'c', 'd' ], 3, 1))
       .toBeA('array')
