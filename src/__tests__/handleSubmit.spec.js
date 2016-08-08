@@ -91,7 +91,7 @@ describe('handleSubmit', () => {
     expect(setSubmitSucceeded).toHaveBeenCalled()
   })
 
-  it('should not submit if async validation fails', done => {
+  it('should not submit if async validation fails', () => {
     const values = { foo: 'bar', baz: 42 }
     const submit = createSpy().andReturn(69)
     const dispatch = noop
@@ -119,11 +119,10 @@ describe('handleSubmit', () => {
         expect(setSubmitFailed)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith('foo', 'baz')
-        done()
       })
   })
 
-  it('should not submit if async validation fails and return rejected promise', done => {
+  it('should not submit if async validation fails and return rejected promise', () => {
     const values = { foo: 'bar', baz: 42 }
     const submit = createSpy().andReturn(69)
     const dispatch = noop
@@ -154,7 +153,6 @@ describe('handleSubmit', () => {
         expect(setSubmitFailed)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith('foo', 'baz')
-        done()
       })
   })
 
@@ -225,7 +223,7 @@ describe('handleSubmit', () => {
       })
   })
 
-  it('should set submit errors if async submit fails', done => {
+  it('should set submit errors if async submit fails', () => {
     const values = { foo: 'bar', baz: 42 }
     const submitErrors = { foo: 'submit error' }
     const submit = createSpy().andReturn(Promise.reject(new SubmissionError(submitErrors)))
@@ -259,11 +257,10 @@ describe('handleSubmit', () => {
           .toHaveBeenCalled()
         expect(setSubmitSucceeded)
           .toNotHaveBeenCalled()
-        done()
       })
   })
 
-  it('should not set errors if rejected value not a SubmissionError', done => {
+  it('should not set errors if rejected value not a SubmissionError', () => {
     const values = { foo: 'bar', baz: 42 }
     const submitErrors = { foo: 'submit error' }
     const submit = createSpy().andReturn(Promise.reject(submitErrors))
@@ -297,11 +294,10 @@ describe('handleSubmit', () => {
           .toHaveBeenCalled()
         expect(setSubmitSucceeded)
           .toNotHaveBeenCalled()
-        done()
       })
   })
 
-  it('should set submit errors if async submit fails and return rejected promise', done => {
+  it('should set submit errors if async submit fails and return rejected promise', () => {
     const values = { foo: 'bar', baz: 42 }
     const submitErrors = { foo: 'submit error' }
     const submit = createSpy().andReturn(Promise.reject(new SubmissionError(submitErrors)))
@@ -335,7 +331,6 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith('foo', 'baz')
         expect(setSubmitFailed).toHaveBeenCalled()
         expect(setSubmitSucceeded).toNotHaveBeenCalled()
-        done()
       })
   })
 })

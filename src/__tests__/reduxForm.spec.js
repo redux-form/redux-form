@@ -1192,7 +1192,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(caught).toNotExist()
     })
 
-    it('should call onSubmitFail if async submit fails', done => {
+    it('should call onSubmitFail if async submit fails', () => {
       const store = makeStore({
         testForm: {}
       })
@@ -1230,7 +1230,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
             .toHaveBeenCalled()
             .toHaveBeenCalledWith(errors, store.dispatch)
           expect(caught).toBe(errors)
-          done()
         })
     })
 
@@ -1277,7 +1276,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(result).toBe(errors)
     })
 
-    it('should call onSubmitFail if async validation prevents submit', done => {
+    it('should call onSubmitFail if async validation prevents submit', () => {
       const store = makeStore({
         testForm: {}
       })
@@ -1319,7 +1318,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
             .toHaveBeenCalled()
             .toHaveBeenCalledWith(errors, store.dispatch)
           expect(error).toBe(errors)
-          done()
         })
     })
 
@@ -1646,7 +1644,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
     })
 
-    it('should not call async validation more than once if submit is clicked fast when handleSubmit receives an event', (done) => {
+    it('should not call async validation more than once if submit is clicked fast when handleSubmit receives an event', () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1659,7 +1657,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         new Promise(resolve => setTimeout(resolve, 100))).andCallThrough()
       const onSubmit = values => {
         expect(values).toEqualMap({ bar: 'foo' })
-        done()
       }
 
       const Form = ({ handleSubmit }) => (
@@ -1698,7 +1695,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
     })
 
-    it('should return rejected promise when submit is rejected', done => {
+    it('should return rejected promise when submit is rejected', () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1728,11 +1725,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       return stub.submit()
         .then(err => {
           expect(err).toBe('Rejection')
-          done()
         })
     })
 
-    it('should not call async validation more than once if submit is clicked fast when handleSubmit receives a function', (done) => {
+    it('should not call async validation more than once if submit is clicked fast when handleSubmit receives a function', () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1745,7 +1741,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         new Promise(resolve => setTimeout(resolve, 100))).andCallThrough()
       const onSubmit = values => {
         expect(values).toEqualMap({ bar: 'foo' })
-        done()
       }
 
       const Form = ({ handleSubmit }) => (
@@ -1884,7 +1879,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender.calls.length).toBe(1)
     })
 
-    it('should call async on blur of async blur field', done => {
+    it('should call async on blur of async blur field', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
@@ -1996,7 +1991,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(inputRender.calls[ 3 ].arguments[ 0 ].input.value).toBe('bar')
         expect(inputRender.calls[ 3 ].arguments[ 0 ].meta.valid).toBe(false)
         expect(inputRender.calls[ 3 ].arguments[ 0 ].meta.error).toBe('async error')
-        done()
       })
     })
 
