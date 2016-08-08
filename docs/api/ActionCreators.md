@@ -63,11 +63,12 @@ insert, so the item already at the `to` position will be bumped to a higher inde
 
 > Marks the given field as `active` and `visited`.
 
-### `initialize(form:String, data:Object)`
+### `initialize(form:String, data:Object, keepDirty:boolean)`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
 `dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of
-your form fields.
+your form fields. If the `keepDirty` parameter is `true`, the values of currently dirty fields will be retained
+to avoid overwriting user edits.
 
 ### `reset(form:String)`
 

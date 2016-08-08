@@ -172,6 +172,96 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+
+  it('should retain dirty values when keepDirty is set', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [
+          { name: 'myField', type: 'Field' }
+        ],
+        values: {
+          myField: 'dirtyValue'
+        },
+        initial: {
+          myField: 'initialValue'
+        }
+      }
+    }), initialize('foo', { myField: 'newValue' }, true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'myField', type: 'Field' }
+          ],
+          values: {
+            myField: 'dirtyValue'
+          },
+          initial: {
+            myField: 'newValue'
+          }
+        }
+      })
+  })
+
+  it('should replace pristine values when keepDirty is set', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [
+          { name: 'myField', type: 'Field' }
+        ],
+        values: {
+          myField: 'initialValue'
+        },
+        initial: {
+          myField: 'initialValue'
+        }
+      }
+    }), initialize('foo', { myField: 'newValue' }, true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'myField', type: 'Field' }
+          ],
+          values: {
+            myField: 'newValue'
+          },
+          initial: {
+            myField: 'newValue'
+          }
+        }
+      })
+  })
+
+  it('should treat a matching dirty value as pristine when keepDirty is set', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [
+          { name: 'myField', type: 'Field' }
+        ],
+        values: {
+          myField: 'newValue'
+        },
+        initial: {
+          myField: 'initialValue'
+        }
+      }
+    }), initialize('foo', { myField: 'newValue' }, true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'myField', type: 'Field' }
+          ],
+          values: {
+            myField: 'newValue'
+          },
+          initial: {
+            myField: 'newValue'
+          }
+        }
+      })
+  })
 }
 
 export default describeInitialize

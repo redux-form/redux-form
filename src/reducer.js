@@ -149,7 +149,7 @@ const createReducer = structure => {
         // Note 2: When a field is dirty, keepDirty is enabled, and the field
         // value is the same as the new initial value for the field, the
         // initialize action causes the field to become pristine. That effect
-        // is probably what we want.
+        // is what we want.
         //
         const previousValues = getIn(state, 'values')
         const previousInitialValues = getIn(state, 'initial')

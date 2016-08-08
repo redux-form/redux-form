@@ -268,6 +268,20 @@ describe('actions', () => {
       .toPass(isFSA)
   })
 
+  it('should create initialize action with a keepDirty value', () => {
+    const data = { a: 8, c: 9 }
+    expect(initialize('myForm', data, true))
+      .toEqual({
+        type: INITIALIZE,
+        meta: {
+          form: 'myForm',
+          keepDirty: true
+        },
+        payload: data
+      })
+      .toPass(isFSA)
+  })
+
   it('should create registerField action', () => {
     expect(registerField('myForm', 'foo', 'Field'))
       .toEqual({
