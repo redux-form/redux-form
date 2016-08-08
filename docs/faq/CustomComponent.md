@@ -9,14 +9,18 @@ and `thingsChanged` props that expect the value to be wrapped in an object under
 would have to do something like:
 
 ```javascript
+const renderMyStrangeInput = field => (
+  <MyStrangeInput 
+    currentValue={{val: field.input.value}}
+    thingsChanged={param => field.input.onChange(param.val)}/> 
+)
+
+...
+
 render() {
   return (
     <div>
-      <Field name="myField" component={props =>
-        <MyStrangeInput 
-          currentValue={{val: props.value}}
-          thingsChanged={param => props.onChange(param.val)}/>
-      }/>
+      <Field name="myField" component={renderMyStrangeInput}/>
     </div>
   );
 }
