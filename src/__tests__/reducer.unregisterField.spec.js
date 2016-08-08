@@ -21,6 +21,22 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
     expect(state)
       .toEqual(initialState)
   })
+  
+  it('should do nothing if the field is not registered', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [ 
+          { name: 'bar', type: 'field' }
+        ]
+      }
+    }), unregisterField('foo', 'baz'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [ { name: 'bar', type: 'field' } ]
+        }
+      })
+  })
 }
 
 export default describeUnregisterField
