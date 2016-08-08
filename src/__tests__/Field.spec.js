@@ -86,6 +86,29 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props2.meta.dirty).toBe(true)
     })
 
+    it('should allow an empty value from Redux state to be pristine', () => {
+      const props1 = testProps({
+        initial: {
+          foo: 'bar'
+        },
+        values: {
+          foo: ''
+        }
+      })
+      expect(props1.meta.pristine).toBe(false)
+      expect(props1.meta.dirty).toBe(true)
+      const props2 = testProps({
+        initial: {
+          foo: ''
+        },
+        values: {
+          foo: ''
+        }
+      })
+      expect(props2.meta.pristine).toBe(true)
+      expect(props2.meta.dirty).toBe(false)
+    })
+
     it('should get asyncValidating from Redux state', () => {
       const props1 = testProps({
         initial: {
