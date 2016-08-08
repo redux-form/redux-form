@@ -25,6 +25,7 @@
 * [FAQ](http://redux-form.com/6.0.0-rc.4/docs/faq/)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
 
-##📺 Videos
+## Videos
 
-- [Abstracting Form State with Redux Form at JS Channel Bengaluru 2016](https://youtu.be/eDTi7lYR1VU)
+- [Abstracting Form State with Redux Form at JS Channel - Bengaluru 2016](https://youtu.be/eDTi7lYR1VU)
+[![Abstracting Form State with Redux Form at JS Channel - Bengaluru 2016](docs/video-thumb.jpg)](https://youtu.be/eDTi7lYR1VU)
