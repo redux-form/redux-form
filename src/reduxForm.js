@@ -10,10 +10,9 @@ import handleSubmit from './handleSubmit'
 import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
-import createHasErrors from './hasErrors'
-import createHasError from './hasError'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import plain from './structure/plain'
+import createIsValid from './selectors/isValid'
 
 const isClassComponent = Component => Boolean(
   Component &&
@@ -75,10 +74,8 @@ const checkSubmit = submit => {
  */
 const createReduxForm =
   structure => {
-    const { deepEqual, empty, getIn, setIn, fromJS, some } = structure
-    const hasErrors = createHasErrors(structure)
-    const hasError = createHasError(structure)
-    const plainHasErrors = createHasErrors(plain)
+    const { deepEqual, empty, getIn, setIn, fromJS } = structure
+    const isValid = createIsValid(structure)
     return initialConfig => {
       const config = {
         touchOnBlur: true,
@@ -405,16 +402,9 @@ const createReduxForm =
             const values = getIn(formState, 'values') || initial
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
-            const submitErrors = getIn(formState, 'submitErrors')
             const syncErrors = getIn(formState, 'syncErrors')
-            const hasSyncErrors = plainHasErrors(syncErrors)
-            const hasAsyncErrors = hasErrors(asyncErrors)
-            const hasSubmitErrors = hasErrors(submitErrors)
             const registeredFields = getIn(formState, 'registeredFields') || []
-            const hasFieldWithError = registeredFields && some(registeredFields,
-              field => hasError(field, syncErrors, asyncErrors, submitErrors))
-            const valid =
-              !hasSyncErrors && !hasAsyncErrors && !hasSubmitErrors && !hasFieldWithError
+            const valid = isValid(form, getFormState)(state)
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')

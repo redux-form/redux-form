@@ -110,6 +110,21 @@ const describeHasError = (name, structure, expect) => {
         expect(hasError(field, null, null, error)).toBe(false)
       }
     })
+
+    it('should return true if a Field that has an object value has an _error', () => {
+      const field = fromJS({ name: 'foo', type: 'Field' })
+      const plainError = {
+        foo: {
+          _error: 'An error'
+        }
+      }
+
+      expect(hasError(field, plainError)).toBe(true)
+
+      const error = fromJS(plainError)
+      expect(hasError(field, null, error)).toBe(true)
+      expect(hasError(field, null, null, error)).toBe(true)
+    })
   })
 }
 
