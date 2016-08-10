@@ -9,7 +9,7 @@ import 'array-findindex-polyfill'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
 const createReducer = structure => {
-  const { splice, empty, getIn, setIn, deleteIn, fromJS, size, some } = structure
+  const { splice, empty, getIn, setIn, deleteIn, fromJS, size, some, deepEqual } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
     const existing = getIn(state, `${key}.${field}`)
@@ -130,14 +130,41 @@ const createReducer = structure => {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { payload }) {
+    [INITIALIZE](state, { payload, meta: { keepDirty } }) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
       const registeredFields = getIn(state, 'registeredFields')
       if (registeredFields) {
         result = setIn(result, 'registeredFields', registeredFields)
       }
-      result = setIn(result, 'values', mapData)
+      let newValues = mapData
+      if (keepDirty && registeredFields) {
+        //
+        // Keep the value of dirty fields while updating the value of
+        // pristine fields. This way, apps can reinitialize forms while
+        // avoiding stomping on user edits.
+        //
+        // Note 1: The initialize action replaces all initial values
+        // regardless of keepDirty.
+        //
+        // Note 2: When a field is dirty, keepDirty is enabled, and the field
+        // value is the same as the new initial value for the field, the
+        // initialize action causes the field to become pristine. That effect
+        // is what we want.
+        //
+        const previousValues = getIn(state, 'values')
+        const previousInitialValues = getIn(state, 'initial')
+        registeredFields.forEach(field => {
+          const name = field.name
+          const previousInitialValue = getIn(previousInitialValues, name)
+          const previousValue = getIn(previousValues, name)
+          if (!deepEqual(previousValue, previousInitialValue)) {
+            // This field was dirty. Restore the dirty value.
+            newValues = setIn(newValues, name, previousValue)
+          }
+        })
+      }
+      result = setIn(result, 'values', newValues)
       result = setIn(result, 'initial', mapData)
       return result
     },

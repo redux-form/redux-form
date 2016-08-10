@@ -53,13 +53,22 @@ component is unmounted. Defaults to `true`.
 #### `enableReinitialize : boolean` [optional]
 
 > When set to `true`, the form will reinitialize every time the `initialValues` prop changes.
-Defaults to `false`.
+Defaults to `false`.  If the `keepDirtyOnReinitialize` option is also set, the form
+will retain the value of dirty fields when reinitializing.
 
 #### `getFormState : Function` [optional]
 
 > A function that takes the entire Redux state and returns the state slice which corresponds to 
 where the `redux-form` reducer was mounted. This functionality is rarely needed, and defaults to
 assuming that the reducer is mounted under the `form` key.
+
+#### `keepDirtyOnReinitialize : Function` [optional]
+
+> When set to `true` and `enableReinitialize` is also set, the form will retain the value
+of dirty fields when reinitializing. When this option is not set (the default), reinitializing
+the form replaces all field values. This option is useful in situations where the form has
+live updates or continues to be editable after form submission; it prevents
+reinitialization from overwriting user changes.
 
 #### `initialValues : Object<String, String>` [optional]
 

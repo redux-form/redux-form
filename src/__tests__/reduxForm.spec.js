@@ -636,6 +636,331 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'baz')
     })
 
+    it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        deep: {
+          foo: 'baz'
+        }
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true,
+        keepDirtyOnReinitialize: true
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state}/>
+              </Provider>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      const checkInputProps = (props, value, dirty) => {
+        expect(props.meta.pristine).toBe(!dirty)
+        expect(props.meta.dirty).toBe(dirty)
+        expect(props.input.value).toBe(value)
+      }
+      checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar', false)
+
+      // Change the input value.
+      const onChange = inputRender.calls[ 0 ].arguments[ 0 ].input.onChange
+      onChange('dirtyvalue')
+
+      // Expect rerenders due to the change.
+      expect(formRender.calls.length).toBe(2)
+      expect(inputRender.calls.length).toBe(2)
+
+      // Reinitialize the form
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(initButton)
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
+            initial: initialValues2,
+            values: {
+              deep: {
+                foo: 'dirtyvalue'
+              }
+            }
+          }
+        }
+      })
+
+      // Expect the form not to rerender, since the value did not change.
+      expect(formRender.calls.length).toBe(2)
+
+      // should rerender input with the dirty value.
+      expect(inputRender.calls.length).toBe(2)
+      checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'dirtyvalue', true)
+    })
+
+    it('should not retain dirty fields if keepDirtyOnReinitialize is not set', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        deep: {
+          foo: 'baz'
+        }
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state}/>
+              </Provider>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      const checkInputProps = (props, value, dirty) => {
+        expect(props.meta.pristine).toBe(!dirty)
+        expect(props.meta.dirty).toBe(dirty)
+        expect(props.input.value).toBe(value)
+      }
+      checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar', false)
+
+      // Change the input value.
+      const onChange = inputRender.calls[ 0 ].arguments[ 0 ].input.onChange
+      onChange('dirtyvalue')
+
+      // Expect rerenders due to the change.
+      expect(formRender.calls.length).toBe(2)
+      expect(inputRender.calls.length).toBe(2)
+
+      // Reinitialize the form
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(initButton)
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
+            initial: initialValues2,
+            values: initialValues2
+          }
+        }
+      })
+
+      // Expect the form to rerender, since the value was replaced.
+      expect(formRender.calls.length).toBe(3)
+
+      // should rerender input with the pristine value.
+      expect(inputRender.calls.length).toBe(3)
+      checkInputProps(inputRender.calls[ 2 ].arguments[ 0 ], 'baz', false)
+    })
+
+    it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        deep: {
+          foo: 'futurevalue'
+        }
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true,
+        keepDirtyOnReinitialize: true
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state}/>
+              </Provider>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container/>)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      const checkInputProps = (props, value, dirty) => {
+        expect(props.meta.pristine).toBe(!dirty)
+        expect(props.meta.dirty).toBe(dirty)
+        expect(props.input.value).toBe(value)
+      }
+      checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar', false)
+
+      // Change the input value.
+      const onChange = inputRender.calls[ 0 ].arguments[ 0 ].input.onChange
+      onChange('futurevalue')
+
+      // Expect rerenders due to the change.
+      expect(formRender.calls.length).toBe(2)
+      expect(inputRender.calls.length).toBe(2)
+
+      // Reinitialize the form
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(initButton)
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              {
+                name: 'deep.foo',
+                type: 'Field'
+              }
+            ],
+            initial: initialValues2,
+            values: initialValues2
+          }
+        }
+      })
+
+      // Expect the form to rerender only once more because the value did
+      // not change.
+      expect(formRender.calls.length).toBe(3)
+
+      // should rerender input with the new value that is now pristine.
+      expect(inputRender.calls.length).toBe(3)
+      checkInputProps(inputRender.calls[ 2 ].arguments[ 0 ], 'futurevalue', false)
+    })
+
     // Test related to #1436
     /*
     it('should allow initialization via action to set pristine', () => {

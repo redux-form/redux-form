@@ -86,6 +86,7 @@ const createReduxForm =
         destroyOnUnmount: true,
         shouldAsyncValidate: defaultShouldAsyncValidate,
         enableReinitialize: false,
+        keepDirtyOnReinitialize: false,
         getFormState: state => getIn(state, 'form'),
         ...initialConfig
       }
@@ -119,7 +120,8 @@ const createReduxForm =
             if (nextProps) {
               const { enableReinitialize } = this.props
               if ((enableReinitialize || !nextProps.initialized) && !deepEqual(this.props.initialValues, nextProps.initialValues)) {
-                this.props.initialize(nextProps.initialValues)
+                const keepDirty = nextProps.initialized && this.props.keepDirtyOnReinitialize
+                this.props.initialize(nextProps.initialValues, keepDirty)
               }
             } else if (this.props.initialValues) {
               this.props.initialize(this.props.initialValues)
@@ -315,6 +317,7 @@ const createReduxForm =
               initialized,
               initialValues,
               invalid,
+              keepDirtyOnReinitialize,
               pristine,
               propNamespace,
               registeredFields,
