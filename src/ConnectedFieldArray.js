@@ -96,6 +96,7 @@ const createConnectedFieldArray = ({
       const formState = getFormState(state)
       const initial = getIn(formState, `initial.${name}`) || propInitialValue
       const value = getIn(formState, `values.${name}`)
+      const submitting = getSyncError(getIn(formState, 'submitting'))
       const syncError = getSyncError(getIn(formState, 'syncErrors'))
       const pristine = deepEqual(value, initial)
       return {
@@ -103,6 +104,7 @@ const createConnectedFieldArray = ({
         dirty: !pristine,
         pristine,
         submitError: getIn(formState, `submitErrors.${name}._error`),
+        submitting,
         syncError,
         value
       }
