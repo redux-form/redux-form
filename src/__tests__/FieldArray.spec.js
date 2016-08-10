@@ -206,7 +206,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       expect(props.fields.removeAll).toBeA('function')
     })
-    
+
     it('should provide swap', () => {
       const props = testProps({
         values: {

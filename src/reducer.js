@@ -20,10 +20,11 @@ const createReducer = structure => {
   const rootKeys = [ 'values', 'fields', 'submitErrors', 'asyncErrors' ]
   const arraySplice = (state, field, index, removeNum, value) => {
     let result = state
+    const nonValuesValue = value != null ? empty : undefined
     result = doSplice(result, 'values', field, index, removeNum, value, true)
-    result = doSplice(result, 'fields', field, index, removeNum, empty)
-    result = doSplice(result, 'submitErrors', field, index, removeNum, empty)
-    result = doSplice(result, 'asyncErrors', field, index, removeNum, empty)
+    result = doSplice(result, 'fields', field, index, removeNum, nonValuesValue)
+    result = doSplice(result, 'submitErrors', field, index, removeNum, nonValuesValue)
+    result = doSplice(result, 'asyncErrors', field, index, removeNum, nonValuesValue)
     return result
   }
 
@@ -52,7 +53,7 @@ const createReducer = structure => {
       const length = array ? size(array) : 0
       return length ? arraySplice(state, field, length - 1, 1) : state
     },
-    [ARRAY_PUSH](state, { meta: { field }, payload }) {
+    [ARRAY_PUSH](state, { meta: { field }, payload = empty }) {
       const array = getIn(state, `values.${field}`)
       const length = array ? size(array) : 0
       return arraySplice(state, field, length, 0, payload)
