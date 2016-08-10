@@ -4,7 +4,7 @@ Below are a list of examples that demonstrate the capabilities of `redux-form` f
 learning purposes.
 
 Each example is its own standalone web app with hot reloading. To run them locally, clone the 
-`redux-form` repository, `cd` into an example folder, and run `npm install` and `npm start`. Then
+`redux-form` repository, run `npm install`, `cd` into an example folder, and run `npm install` and `npm start`. Then
 open [`localhost:3030`](http://localhost:3030) in your browser.
 
 
