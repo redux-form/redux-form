@@ -35,8 +35,8 @@ const api = {
     expect.assert(
       deepEqualValues(this.actual, fromJS(expected)),
       'expected...\n%s\n...but found...\n%s',
-      this.actual,
-      fromJS(expected)
+      fromJS(expected),
+      this.actual
     )
     return this
   }

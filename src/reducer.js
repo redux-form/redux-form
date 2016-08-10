@@ -251,6 +251,9 @@ const createReducer = structure => {
       if (size(registeredFields) <= 1 && fieldIndex >= 0) {
         return deleteInWithCleanUp(state, 'registeredFields')
       }
+      if (fieldIndex < 0) {
+        return state
+      }
       return setIn(state, 'registeredFields', splice(registeredFields, fieldIndex, 1))
     },
     [UNTOUCH](state, { meta: { fields } }) {
