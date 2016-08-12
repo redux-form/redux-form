@@ -36,4 +36,4 @@ const propTypes = {
   untouch: func.isRequired            // action to mark fields as untouched
 }
 
-export default propTypes;
+export default propTypes
