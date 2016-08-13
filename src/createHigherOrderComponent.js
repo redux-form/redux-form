@@ -12,6 +12,9 @@ import silenceEvents from './events/silenceEvents';
 import silenceEvent from './events/silenceEvent';
 import wrapMapDispatchToProps from './wrapMapDispatchToProps';
 import wrapMapStateToProps from './wrapMapStateToProps';
+import createInitializeState from './createInitializeState'
+
+const isInitialFormState = (state) => deepEqual(state, initialState)
 
 /**
  * Creates a HOC that knows how to create redux-connected sub-components.
@@ -33,7 +36,10 @@ const createHigherOrderComponent = (config,
         // bind functions
         this.asyncValidate = this.asyncValidate.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.fields = readFields(props, {}, {}, this.asyncValidate, isReactNative);
+        const form = isInitialFormState(props.form) ?
+          createInitializeState(props.initialValues, config.fields, undefined, true, false) :
+          props.form
+        this.fields = readFields({ ...props, form }, {}, {}, this.asyncValidate, isReactNative);
         const {submitPassback} = this.props;
         submitPassback(() => this.handleSubmit());  // wrapped in function to disallow params
       }
