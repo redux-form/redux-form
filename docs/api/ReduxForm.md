@@ -34,10 +34,10 @@ Defaults to `[]`.
 > See [Asynchronous Blur Validation Example](http://redux-form.com/6.0.0-rc.4/examples/asyncValidation/)
 for more details.
 
-#### `asyncValidate : (values:Object, dispatch:Function, props:Object) => Promise<undefined, errors:Object>` [optional]
+#### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
 
-> a function that takes all the form values, the `dispatch` function, and the `props` given
-to your component, and 
+> a function that takes all the form values, the `dispatch` function, the `props` given
+to your component and the current blurred field, and
 returns a Promise that will resolve if the validation is passed, or will reject with an
 object of validation errors
 in the form `{ field1: <String>, field2: <String> }`.
@@ -58,7 +58,7 @@ will retain the value of dirty fields when reinitializing.
 
 #### `getFormState : Function` [optional]
 
-> A function that takes the entire Redux state and returns the state slice which corresponds to 
+> A function that takes the entire Redux state and returns the state slice which corresponds to
 where the `redux-form` reducer was mounted. This functionality is rarely needed, and defaults to
 assuming that the reducer is mounted under the `form` key.
 
@@ -107,7 +107,7 @@ called with the following parameters:
 
 > A callback function that will be called when a submission succeeds.  It will be called with the
 following parameters:
-                                                                      
+
 > ##### `result : Object`
 
 > Any result that `onSubmit` has returned
@@ -137,8 +137,8 @@ Your `shouldAsyncValidate()` function will be given an object with the following
 
 > ##### `trigger : String` [required]
 
-> The reason to possibly run async validation. It will either be: `'blur'` or `'submit'`, 
-depending on whether an async blur field had triggered the async validation or if submitting the 
+> The reason to possibly run async validation. It will either be: `'blur'` or `'submit'`,
+depending on whether an async blur field had triggered the async validation or if submitting the
 form has triggered it, respectively.
 
 > ##### `blurredField : string` [optional]
@@ -216,7 +216,7 @@ Resets the form to the `initialValues`. It will be `pristine` after reset.
 
 #### `submit() : Promise`
 
-Submits the form. [You'd never have guessed that, right?] Returns a promise that will be resolved 
+Submits the form. [You'd never have guessed that, right?] Returns a promise that will be resolved
 when the form is submitted successfully, or rejected if the submission fails.
 
 #### `valid : boolean`
@@ -229,6 +229,5 @@ The current values of all the fields in the form.
 
 #### `wrappedInstance : ReactElement`
 
-A reference to the instance of the component you decorated with `reduxForm()`. Mainly useful for 
+A reference to the instance of the component you decorated with `reduxForm()`. Mainly useful for
 testing.
-
