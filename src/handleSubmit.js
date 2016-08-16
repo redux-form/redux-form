@@ -10,7 +10,7 @@ const handleSubmit = (submit, values, props, asyncValidate) => {
   touch(...fields); // touch all fields
   if (isValid(syncErrors)) {
     const doSubmit = () => {
-      const result = submit(values, dispatch);
+      const result = submit(values, dispatch, props);
       if (isPromise(result)) {
         startSubmit();
         return result.then(submitResult => {
