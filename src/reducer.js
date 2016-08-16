@@ -205,6 +205,8 @@ const createReducer = structure => {
         const { _error, ...fieldErrors } = payload
         if (_error) {
           result = setIn(result, 'error', _error)
+        } else {
+          result = deleteIn(result, 'error')
         }
         if (Object.keys(fieldErrors).length) {
           result = setIn(result, 'asyncErrors', fromJS(fieldErrors))
@@ -226,6 +228,8 @@ const createReducer = structure => {
         const { _error, ...fieldErrors } = payload
         if (_error) {
           result = setIn(result, 'error', _error)
+        } else {
+          result = deleteIn(result, 'error')
         }
         if (Object.keys(fieldErrors).length) {
           result = setIn(result, 'submitErrors', fromJS(fieldErrors))
@@ -289,9 +293,24 @@ const createReducer = structure => {
       return result
     },
     [UPDATE_SYNC_ERRORS](state, { payload }) {
-      return Object.keys(payload).length ?
-        setIn(state, 'syncErrors', payload) :
-        deleteIn(state, 'syncErrors')
+      let result = state
+      if (payload && Object.keys(payload).length) {
+        const { _error, ...fieldErrors } = payload
+        if (_error) {
+          result = setIn(result, 'error', _error)
+        } else {
+          result = deleteIn(result, 'error')
+        }
+        if (Object.keys(payload).length) {
+          result = setIn(result, 'syncErrors', payload)
+        } else {
+          result = deleteIn(result, 'syncErrors')
+        }
+      } else {
+        result = deleteIn(result, 'error')
+        result = deleteIn(result, 'syncErrors')
+      }
+      return result
     }
   }
 
