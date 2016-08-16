@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "es6"
+  },
+  "files": [
+    "index.d.ts"
+  ]
+}

@@ -3,5 +3,8 @@
   "main": "./index.d.ts",
   "globalDependencies": {
     "react": "registry:dt/react#0.14.0+20160630100702"
+  },
+  "dependencies": {
+    "redux": "npm:redux"
   }
 }
