@@ -75,6 +75,7 @@ const createConnectedField = ({
       const initialState = getIn(formState, `initial.${name}`)
       const initial = initialState === undefined ? propInitialValue : initialState
       const value = getIn(formState, `values.${name}`)
+      const submitting = getSyncError(getIn(formState, 'submitting'))
       const syncError = getSyncError(getIn(formState, 'syncErrors'))
       const pristine = value === initial
       return {
@@ -84,6 +85,7 @@ const createConnectedField = ({
         pristine,
         state: getIn(formState, `fields.${name}`),
         submitError: getIn(formState, `submitErrors.${name}`),
+        submitting,
         syncError,
         value,
         _value: ownProps.value // save value passed in (for checkboxes)
