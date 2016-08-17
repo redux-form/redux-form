@@ -307,6 +307,30 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(spy.calls[ 4 ].arguments[ 0 ].valid).toBe(true)
     })
 
+    it('should rerender on every change if pure is false', () => {
+      const spy = createSpy()
+      const { dispatch } = propChecker({}, spy, {
+        pure: false
+      })
+      expect(spy.calls.length).toBe(2)  // twice, second one is for after field registration
+
+      // simulate typing the word "giraffe"
+      dispatch(change('testForm', 'foo', 'g'))
+      expect(spy.calls.length).toBe(3)
+      dispatch(change('testForm', 'foo', 'gi'))
+      expect(spy.calls.length).toBe(4)
+      dispatch(change('testForm', 'foo', 'gir'))
+      expect(spy.calls.length).toBe(5)
+      dispatch(change('testForm', 'foo', 'gira'))
+      expect(spy.calls.length).toBe(6)
+      dispatch(change('testForm', 'foo', 'giraf'))
+      expect(spy.calls.length).toBe(7)
+      dispatch(change('testForm', 'foo', 'giraff'))
+      expect(spy.calls.length).toBe(8)
+      dispatch(change('testForm', 'foo', 'giraffe'))
+      expect(spy.calls.length).toBe(9)
+    })
+
     it('should initialize values with initialValues on first render', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()

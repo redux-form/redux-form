@@ -122,6 +122,16 @@ following parameters:
 under the key specified. Useful if using other decorator libraries on the same component to avoid
 prop namespace collisions.
 
+#### `pure : boolean` [optional]
+
+> If true, implements `shouldComponentUpdate` and shallowly compares _only the Redux-connected 
+props_ that are needed to manage the form state, preventing unnecessary 
+updates, assuming that the component is a “pure” component and does not rely on any input or
+state other than its props and the selected Redux store’s state. Defaults to `true`.
+
+> Similar to the `pure` parameter in [`react-redux`'s `connect()`
+API](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
+
 #### `shouldAsyncValidate(params) : boolean` [optional]
 
 > An optional function you may provide to have full control over when async validation happens.
