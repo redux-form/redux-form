@@ -5,6 +5,11 @@ The `Fields` component is similar to the
 fields at a time. Rather than passing a single `name` prop, `Fields` takes an array of names in 
 the `names` prop.
 
+**IMPORTANT: Connecting to multiple fields should be used sparingly, as it will require the 
+entire `<Fields>` component to re-render every time any of the fields it is connected to change. 
+This can be a performance bottleneck. Unless you absolutely need to, you should connect to your 
+fields individually with `<Field>`.**
+
 ## Importing
 
 ```javascript
