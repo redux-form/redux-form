@@ -1,11 +1,11 @@
 import plainGetIn from './structure/plain/getIn'
 
-const getErrorKey = (name, type) => {
+const getErrorKeys = (name, type) => {
   switch (type) {
     case 'Field':
-      return name
+      return [ name, `${name}._error` ]
     case 'FieldArray':
-      return `${name}._error`
+      return [ `${name}._error` ]
   }
 }
 
@@ -16,17 +16,27 @@ const createHasError = ({ getIn }) => {
     if (!syncErrors && !asyncErrors && !submitErrors) {
       return false
     }
-    const errorKey = getErrorKey(name, type)
-    const syncError = plainGetIn(syncErrors, errorKey)
-    if (syncError && typeof syncError === 'string') {
+    const errorKeys = getErrorKeys(name, type)
+
+    const syncError = errorKeys.reduce((error, errorKey) => {
+      const curError = plainGetIn(syncErrors, errorKey)
+      return curError ? error + curError : error
+    }, null)
+    if (syncError != null) {
       return true
     }
-    const asyncError = getIn(asyncErrors, errorKey)
-    if (asyncError && typeof asyncError === 'string') {
+    const asyncError = errorKeys.reduce((error, errorKey) => {
+      const curError = getIn(asyncErrors, errorKey)
+      return curError ? error + curError : error
+    }, null)
+    if (asyncError != null) {
       return true
     }
-    const submitError = getIn(submitErrors, errorKey)
-    if (submitError && typeof submitError === 'string') {
+    const submitError = errorKeys.reduce((error, errorKey) => {
+      const curError = getIn(submitErrors, errorKey)
+      return curError ? error + curError : error
+    }, null)
+    if (submitError != null) {
       return true
     }
 
