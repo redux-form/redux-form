@@ -988,104 +988,104 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     // Test related to #1436
     /*
-    it('should allow initialization via action to set pristine', () => {
-      const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const formRender = createSpy()
-      const initialValues1 = {
-        deep: {
-          foo: 'bar'
-        }
-      }
-      const initialValues2 = {
-        deep: {
-          foo: 'baz'
-        }
-      }
+     it('should allow initialization via action to set pristine', () => {
+     const store = makeStore({})
+     const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+     const formRender = createSpy()
+     const initialValues1 = {
+     deep: {
+     foo: 'bar'
+     }
+     }
+     const initialValues2 = {
+     deep: {
+     foo: 'baz'
+     }
+     }
 
-      class Form extends Component {
-        render() {
-          formRender(this.props)
-          return (
-            <form>
-              <Field name="deep.foo" component={inputRender} type="text"/>
-            </form>
-          )
-        }
-      }
-      const Decorated = reduxForm({
-        form: 'testForm',
-        initialValues: initialValues1
-      })(Form)
+     class Form extends Component {
+     render() {
+     formRender(this.props)
+     return (
+     <form>
+     <Field name="deep.foo" component={inputRender} type="text"/>
+     </form>
+     )
+     }
+     }
+     const Decorated = reduxForm({
+     form: 'testForm',
+     initialValues: initialValues1
+     })(Form)
 
-      TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <Decorated/>
-        </Provider>
-      )
-      expect(store.getState()).toEqualMap({
-        form: {
-          testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
-            initial: initialValues1,
-            values: initialValues1
-          }
-        }
-      })
-      expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
-      expect(formRender.calls[ 0 ].arguments[ 0 ].pristine).toBe(true)
+     TestUtils.renderIntoDocument(
+     <Provider store={store}>
+     <Decorated/>
+     </Provider>
+     )
+     expect(store.getState()).toEqualMap({
+     form: {
+     testForm: {
+     registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+     initial: initialValues1,
+     values: initialValues1
+     }
+     }
+     })
+     expect(formRender).toHaveBeenCalled()
+     expect(formRender.calls.length).toBe(1)
+     expect(formRender.calls[ 0 ].arguments[ 0 ].pristine).toBe(true)
 
-      expect(inputRender).toHaveBeenCalled()
-      expect(inputRender.calls.length).toBe(1)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.pristine).toBe(true)
-      expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('bar')
+     expect(inputRender).toHaveBeenCalled()
+     expect(inputRender.calls.length).toBe(1)
+     expect(inputRender.calls[ 0 ].arguments[ 0 ].meta.pristine).toBe(true)
+     expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('bar')
 
-      // check initialized state
-      expect(store.getState()).toEqualMap({
-        form: {
-          testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
-            initial: initialValues1,
-            values: initialValues1
-          }
-        }
-      })
+     // check initialized state
+     expect(store.getState()).toEqualMap({
+     form: {
+     testForm: {
+     registeredFields: [
+     {
+     name: 'deep.foo',
+     type: 'Field'
+     }
+     ],
+     initial: initialValues1,
+     values: initialValues1
+     }
+     }
+     })
 
-      // initialize with action
-      store.dispatch(initialize('testForm', initialValues2))
+     // initialize with action
+     store.dispatch(initialize('testForm', initialValues2))
 
-      // check initialized state
-      expect(store.getState()).toEqualMap({
-        form: {
-          testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
-            initial: initialValues2,
-            values: initialValues2
-          }
-        }
-      })
+     // check initialized state
+     expect(store.getState()).toEqualMap({
+     form: {
+     testForm: {
+     registeredFields: [
+     {
+     name: 'deep.foo',
+     type: 'Field'
+     }
+     ],
+     initial: initialValues2,
+     values: initialValues2
+     }
+     }
+     })
 
-      // rerendered
-      expect(formRender.calls.length).toBe(2)
-      expect(formRender.calls[ 1 ].arguments[ 0 ].pristine).toBe(true)
+     // rerendered
+     expect(formRender.calls.length).toBe(2)
+     expect(formRender.calls[ 1 ].arguments[ 0 ].pristine).toBe(true)
 
-      expect(inputRender).toHaveBeenCalled()
-      expect(inputRender.calls.length).toBe(2)
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].meta.pristine).toBe(true)
-      expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('baz')
-    })
-    */
+     expect(inputRender).toHaveBeenCalled()
+     expect(inputRender.calls.length).toBe(2)
+     expect(inputRender.calls[ 1 ].arguments[ 0 ].meta.pristine).toBe(true)
+     expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('baz')
+     })
+     */
 
     it('should destroy on unmount by default', () => {
       const store = makeStore({})
@@ -2445,6 +2445,115 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(decorated.refs.wrapped.getWrappedInstance().getFieldList()).toEqual([])
+    })
+
+    it('should not reinitialize values on remount if destroyOnMount is false', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const initialValues = {
+        foo: 'fooInitial'
+      }
+      class Form extends Component {
+        render() {
+          return (
+            <form>
+              <Field name="foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        destroyOnUnmount: false
+      })(Form)
+      class Container extends Component {
+        constructor() {
+          super()
+          this.state = { showForm: true }
+        }
+
+        render() {
+          const { showForm } = this.state
+          return (
+            <div>
+              {showForm && <Decorated initialValues={initialValues}/>}
+              <button onClick={() => this.setState({ showForm: !showForm })}>Toggle Form</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Container/>
+        </Provider>
+      )
+
+      // initialized form state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            initial: { foo: 'fooInitial' },
+            values: { foo: 'fooInitial' },
+            registeredFields: [ { name: 'foo', type: 'Field' } ]
+          }
+        }
+      })
+
+      // rendered with initial value
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+      expect(inputRender.calls[0].arguments[0].input.value).toBe('fooInitial')
+
+      // change value
+      inputRender.calls[0].arguments[0].input.onChange('fooChanged')
+
+      // updated form state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            initial: { foo: 'fooInitial' },
+            values: { foo: 'fooChanged' },
+            registeredFields: [ { name: 'foo', type: 'Field' } ]
+          }
+        }
+      })
+
+      // rendered with changed value
+      expect(inputRender.calls.length).toBe(2)
+      expect(inputRender.calls[1].arguments[0].input.value).toBe('fooChanged')
+
+      // unmount form
+      const toggle = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(toggle)
+
+      // form state not destroyed (just fields unregistered)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            initial: { foo: 'fooInitial' },
+            values: { foo: 'fooChanged' }
+          }
+        }
+      })
+
+      // mount form
+      TestUtils.Simulate.click(toggle)
+
+      // form state not overwritten (fields re-registered)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            initial: { foo: 'fooInitial' },
+            values: { foo: 'fooChanged' },
+            registeredFields: [ { name: 'foo', type: 'Field' } ]
+          }
+        }
+      })
+      
+      // input rendered with changed value
+      expect(inputRender.calls.length).toBe(3)
+      expect(inputRender.calls[2].arguments[0].input.value).toBe('fooChanged')
     })
   })
 }
