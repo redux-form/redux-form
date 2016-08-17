@@ -22,7 +22,6 @@ const createFieldArrayProps = (getIn, size, name,
       push: arrayPush,
       reduce: (callback, initial) => (value || [])
         .reduce((accumulator, item, index) => callback(accumulator, `${name}[${index}]`, index), initial),
-      move: arrayMove,
       remove: arrayRemove,
       removeAll: arrayRemoveAll,
       shift: () => {

@@ -757,7 +757,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       }
     }
     const TestForm = reduxForm({ form: 'testForm' })(Form)
-    const dom = TestUtils.renderIntoDocument(
+    TestUtils.renderIntoDocument(
       <Provider store={store}>
         <TestForm/>
       </Provider>

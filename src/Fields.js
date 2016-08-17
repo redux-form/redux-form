@@ -84,7 +84,7 @@ const createFields = ({ deepEqual, getIn }) => {
   }
 
   Fields.propTypes = {
-    names: (props, propName, componentName) => validateNameProp(props[ propName ]),
+    names: (props, propName) => validateNameProp(props[ propName ]),
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     defaultValue: PropTypes.any,
     format: PropTypes.func,

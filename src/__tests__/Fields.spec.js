@@ -14,8 +14,6 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
 const describeFields = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
   const Fields = createFields(structure)
