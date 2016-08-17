@@ -82,6 +82,7 @@ const createConnectedFields = ({
           const initial = initialState === undefined ? propInitialValue : initialState
           const value = getIn(formState, `values.${name}`)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
+          const submitting = getIn(formState, 'submitting')
           const pristine = value === initial
           accumulator[ name ] = {
             asyncError: getIn(formState, `asyncErrors.${name}`),
@@ -90,6 +91,7 @@ const createConnectedFields = ({
             pristine,
             state: getIn(formState, `fields.${name}`),
             submitError: getIn(formState, `submitErrors.${name}`),
+            submitting,
             syncError,
             value,
             _value: ownProps.value // save value passed in (for checkboxes)

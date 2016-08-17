@@ -143,6 +143,10 @@ returned from the validation function as an `_error` key on the array.
 > `true` if the all of the fields in the field array are the same as their initialized
 value. Opposite of `dirty`.
 
+#### `meta.submitting : boolean`
+
+> `true` if the field is currently being submitted
+
 #### `meta.valid : boolean`
 
 > `true` if the field value passes validation (has no validation errors). Opposite of `invalid`.

@@ -75,7 +75,7 @@ const createConnectedField = ({
       const initialState = getIn(formState, `initial.${name}`)
       const initial = initialState === undefined ? propInitialValue : initialState
       const value = getIn(formState, `values.${name}`)
-      const submitting = getSyncError(getIn(formState, 'submitting'))
+      const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'))
       const pristine = value === initial
       return {

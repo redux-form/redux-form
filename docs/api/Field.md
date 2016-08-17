@@ -280,6 +280,10 @@ asynchronous, and submit validation errors will be reported here.
 
 > `true` if the field value is the same as its initialized value. Opposite of `dirty`.
 
+#### `meta.submitting : boolean`
+
+> `true` if the field is currently being submitted
+
 #### `meta.touched : boolean`
 
 > `true` if the field has been touched. By default this will be set when the field is blurred.

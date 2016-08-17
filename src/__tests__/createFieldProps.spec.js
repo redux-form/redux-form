@@ -95,6 +95,18 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(activeResult.meta.active).toBe(true)
     })
 
+    it('should pass along submitting flag', () => {
+      const notSubmittingResult = createFieldProps(getIn, 'foo', {
+        value: 'bar'
+      })
+      expect(notSubmittingResult.meta.submitting).toBe(false)
+      const submittingResult = createFieldProps(getIn, 'foo', {
+        value: 'bar',
+        submitting: true
+      })
+      expect(submittingResult.meta.submitting).toBe(true)
+    })
+
     it('should read touched from state', () => {
       const untouchedResult = createFieldProps(getIn, 'foo', {
         value: 'bar',
