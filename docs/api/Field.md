@@ -126,7 +126,7 @@ import MyCustomInput from './MyCustomInput'
 
 ...
 
-<Field component={MyCustomInput}/>
+<Field name="myField" component={MyCustomInput}/>
 ```
 
 To learn what props will be passed to your component, see the [Props](#props) section below.

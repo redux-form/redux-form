@@ -20,7 +20,7 @@
     "prepublish": "npm run test && npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
     "test:watch": "npm test -- --watch",
-    "test:cov": "babel-node ./node_modules/isparta/bin/isparta cover ./node_modules/mocha/bin/_mocha -- --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
+    "test:cov": "nyc --reporter=lcov npm test",
     "test:codecov": "cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "keywords": [
@@ -74,10 +74,10 @@
     "expect-immutable": "0.0.3",
     "expect-predicate": "^1.0.0",
     "flux-standard-action": "^0.6.1",
-    "isparta": "4.0.0",
     "jsdom": "^9.1.0",
     "lodash-webpack-plugin": "^0.9.0",
     "mocha": "^3.0.2",
+    "nyc": "^8.1.0",
     "react": "^15.2.0",
     "react-addons-test-utils": "^15.2.0",
     "react-dom": "^15.2.0",

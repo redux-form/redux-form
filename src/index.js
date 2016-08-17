@@ -17,6 +17,7 @@ export const {
   change,
   destroy,
   Field,
+  Fields,
   FieldArray,
   focus,
   formValueSelector,

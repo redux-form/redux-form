@@ -29,6 +29,12 @@
 
 ---
   
+## [`Fields`](Fields.md)
+
+> The component that can to connect multiple inputs to `redux-form`.
+
+---
+  
 ## [`FieldArray`](FieldArray.md)
 
 > The component needed to render an array of fields

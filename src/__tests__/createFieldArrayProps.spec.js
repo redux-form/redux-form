@@ -223,6 +223,46 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(callback.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2 ])
     })
 
+    it('should provide reduce', () => {
+      const callback = createSpy((accumulator, name) => ({
+        ...accumulator,
+        [name]: { whatever: true, name }
+      })).andCallThrough()
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ])
+      })
+      expect(result.fields.reduce).toBeA('function')
+      expect(callback).toNotHaveBeenCalled()
+      const reduceResult = result.fields.reduce(callback, {})
+      expect(size(reduceResult), 3)
+      expect(reduceResult['foo[0]']).toEqual({ whatever: true, name: 'foo[0]' })
+      expect(reduceResult['foo[1]']).toEqual({ whatever: true, name: 'foo[1]' })
+      expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
+      expect(callback).toHaveBeenCalled()
+      expect(callback.calls.length).toBe(3)
+      expect(callback.calls[ 0 ].arguments).toEqual([ {}, 'foo[0]', 0 ])
+      expect(callback.calls[ 1 ].arguments).toEqual([ {
+        'foo[0]': { whatever: true, name: 'foo[0]' }
+      }, 'foo[1]', 1 ])
+      expect(callback.calls[ 2 ].arguments).toEqual([ {
+        'foo[0]': { whatever: true, name: 'foo[0]' },
+        'foo[1]': { whatever: true, name: 'foo[1]' }
+      }, 'foo[2]', 2 ])
+    })
+
+    it('should provide reduce when no value', () => {
+      const callback = createSpy((accumulator, name) => ({
+        ...accumulator,
+        [name]: { whatever: true, name }
+      })).andCallThrough()
+      const result = createFieldArrayProps(...defaultProps, {})
+      expect(result.fields.reduce).toBeA('function')
+      expect(callback).toNotHaveBeenCalled()
+      const reduceResult = result.fields.reduce(callback, {})
+      expect(size(reduceResult), 0)
+      expect(callback).toNotHaveBeenCalled()
+    })
+
     it('should provide swap', () => {
       const arraySwap = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
@@ -235,6 +275,13 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(arraySwap)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(0, 2)
+    })
+
+    it('should provide a _isFieldArray meta prop', () => {
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ])
+      })
+      expect(result.fields._isFieldArray).toBe(true)
     })
   })
 }

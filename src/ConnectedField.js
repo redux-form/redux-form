@@ -43,13 +43,18 @@ const createConnectedField = ({
       const { component, withRef, ...rest } = this.props
       const props = createFieldProps(getIn,
         name,
-        rest,
+        {
+          ...rest,
+          blur,
+          change,
+          focus
+        },
         asyncValidate
       )
       if (withRef) {
         props.ref = 'renderedComponent'
       }
-      if(typeof component === 'string') {
+      if (typeof component === 'string') {
         const { input, meta, ...custom } = props // eslint-disable-line no-unused-vars
         // flatten input into other props
         return createElement(component, { ...input, ...custom })
@@ -65,11 +70,6 @@ const createConnectedField = ({
     props: PropTypes.object
   }
 
-  const actions = mapValues({
-    blur,
-    change,
-    focus
-  }, actionCreator => actionCreator.bind(null, name))
   const connector = connect(
     (state, ownProps) => {
       const formState = getFormState(state)
@@ -90,7 +90,7 @@ const createConnectedField = ({
         _value: ownProps.value // save value passed in (for checkboxes)
       }
     },
-    actions,
+    undefined,
     undefined,
     { withRef: true }
   )

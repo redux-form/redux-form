@@ -1,6 +1,7 @@
 import createReducer from './reducer'
 import createReduxForm from './reduxForm'
 import createField from './Field'
+import createFields from './Fields'
 import createFieldArray from './FieldArray'
 import createFormValueSelector from './formValueSelector'
 import createValues from './values'
@@ -19,6 +20,7 @@ const createAll = structure => ({
   actionTypes,
   ...actions,
   Field: createField(structure),
+  Fields: createFields(structure),
   FieldArray: createFieldArray(structure),
   formValueSelector: createFormValueSelector(structure),
   getFormValues: createGetFormValues(structure),
