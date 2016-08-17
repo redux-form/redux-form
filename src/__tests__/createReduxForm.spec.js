@@ -2763,7 +2763,7 @@ describe('createReduxForm', () => {
   });
 
   it('should throw when trying to access the wrapped instance if withRef is not specified', () => {
-    const store = createStore(() => ({}));
+    const store = makeStore();
 
     class Container extends Component {
       render() {
@@ -2771,29 +2771,33 @@ describe('createReduxForm', () => {
       }
     }
 
-    const decorator = connect(state => state);
-    const Decorated = decorator(Container);
+    const DecoratedForm = reduxForm({
+      form: 'withoutRefTest',
+      fields: ['foo', 'bar']
+    })(Container);
 
-    const tree = TestUtils.renderIntoDocument(
-      <ProviderMock store={store}>
-        <Decorated />
-      </ProviderMock>
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <DecoratedForm />
+      </Provider>
     );
 
-    const decorated = TestUtils.findRenderedComponentWithType(tree, Decorated);
+    const decorated = TestUtils.findRenderedComponentWithType(dom, DecoratedForm);
     expect(() => decorated.getWrappedInstance()).toThrow(
       /To access the wrapped instance, you need to specify \{ withRef: true \} as the fourth argument of the connect\(\) call\./
     );
   });
 
   it('should return the instance of the wrapped component for use in calling child methods', () => {
-    const store = createStore(() => ({}));
+
+    const store = makeStore();
 
     const someData = {
       some: 'data'
     };
 
     class Container extends Component {
+
       someInstanceMethod() {
         return someData;
       }
@@ -2803,16 +2807,18 @@ describe('createReduxForm', () => {
       }
     }
 
-    const decorator = connect(state => state, null, null, { withRef: true });
-    const Decorated = decorator(Container);
+    const DecoratedForm = reduxForm({
+      form: 'withRefTest',
+      fields: ['foo', 'bar']
+    }, null, null, null, {withRef: true})(Container);
 
-    const tree = TestUtils.renderIntoDocument(
-      <ProviderMock store={store}>
-        <Decorated />
-      </ProviderMock>
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <DecoratedForm />
+      </Provider>
     );
 
-    const decorated = TestUtils.findRenderedComponentWithType(tree, Decorated);
+    const decorated = TestUtils.findRenderedComponentWithType(dom, DecoratedForm);
 
     expect(() => decorated.someInstanceMethod()).toThrow();
     expect(decorated.getWrappedInstance().someInstanceMethod()).toBe(someData);
