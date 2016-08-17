@@ -10,6 +10,7 @@ import createReduxForm from '../reduxForm'
 import createReducer from '../reducer'
 import createFieldArray from '../FieldArray'
 import createField from '../Field'
+import createFields from '../Fields'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
@@ -22,6 +23,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
   const FieldArray = createFieldArray(structure)
   const Field = createField(structure)
+  const Fields = createFields(structure)
   const reducer = createReducer(structure)
   const { fromJS, getIn, size } = structure
   const makeStore = (initial) => createStore(
@@ -32,7 +34,6 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       return <div>TEST INPUT</div>
     }
   }
-
 
   const testProps = (state, config = {}) => {
     const store = makeStore({ testForm: state })
@@ -114,9 +115,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[0].arguments).toEqual([ 'foo[0]', 0 ])
-      expect(iterate.calls[1].arguments).toEqual([ 'foo[1]', 1 ])
-      expect(iterate.calls[2].arguments).toEqual([ 'foo[2]', 2 ])
+      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0 ])
+      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1 ])
+      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2 ])
     })
 
     it('should provide map', () => {
@@ -130,9 +131,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.fields.map(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[0].arguments).toEqual([ 'foo[0]', 0 ])
-      expect(iterate.calls[1].arguments).toEqual([ 'foo[1]', 1 ])
-      expect(iterate.calls[2].arguments).toEqual([ 'foo[2]', 2 ])
+      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0 ])
+      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1 ])
+      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2 ])
     })
 
     it('should provide insert', () => {
@@ -247,9 +248,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
       expect(renderArray).toHaveBeenCalled()
       expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].fields.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].otherProp).toBe('dog')
-      expect(renderArray.calls[0].arguments[0].anotherProp).toBe('cat')
+      expect(renderArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderArray.calls[ 0 ].arguments[ 0 ].otherProp).toBe('dog')
+      expect(renderArray.calls[ 0 ].arguments[ 0 ].anotherProp).toBe('cat')
     })
 
     it('should provide access to rendered component', () => {
@@ -730,6 +731,45 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         .toExist()
         .toBe('No dogs')
     })
+  })
+
+  it('should work with Fields', () => {
+    const store = makeStore({
+      testForm: {
+        values: {
+          foo: [ 'firstValue', 'secondValue' ]
+        }
+      }
+    })
+    const renderField = createSpy(field => <input {...field.input}/>)
+
+    const renderFields = createSpy(({ foo }) => <div>{foo.map(renderField)}</div>).andCallThrough()
+
+    const component = createSpy(({ fields }) => <div>
+      <Fields names={fields} component={renderFields}/>
+    </div>).andCallThrough()
+
+    class Form extends Component {
+      render() {
+        return (<div>
+          <FieldArray name="foo" component={component}/>
+        </div>)
+      }
+    }
+    const TestForm = reduxForm({ form: 'testForm' })(Form)
+    TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <TestForm/>
+      </Provider>
+    )
+    expect(renderFields).toHaveBeenCalled()
+    expect(renderFields.calls.length).toBe(1)
+    expect(renderFields.calls[ 0 ].arguments[ 0 ].foo.length).toBe(2)
+
+    expect(renderField).toHaveBeenCalled()
+    expect(renderField.calls.length).toBe(2)
+    expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('firstValue')
+    expect(renderField.calls[ 1 ].arguments[ 0 ].input.value).toBe('secondValue')
   })
 }
 

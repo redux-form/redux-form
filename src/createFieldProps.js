@@ -37,21 +37,30 @@ const processProps = (type, props, _value) => {
 
 const createFieldProps = (getIn, name,
   {
-    asyncError, asyncValidating, blur, change, defaultValue = '', dirty, focus, format, normalize,
-    parse, pristine, props, state, submitError, value, _value, syncError, ...custom
+    asyncError, asyncValidating, blur, change, defaultValue = '', dirty, dispatch, focus, format,
+    normalize, parse, pristine, props, state, submitError, value, _value, syncError, ...custom
   }, asyncValidate = noop) => {
   const error = syncError || asyncError || submitError
-  const onChange = createOnChange(change, { normalize, parse })
+  const boundNormalize = normalize && (value => normalize(name, value))
+  const boundChange = value => dispatch(change(name, value))
+  const onChange = createOnChange(boundChange, {
+    normalize: boundNormalize,
+    parse
+  })
   const fieldValue = value == null ? defaultValue : value
 
   return {
     input: processProps(custom.type, {
       name,
-      onBlur: createOnBlur(blur, { normalize, parse, after: asyncValidate.bind(null, name) }),
+      onBlur: createOnBlur(value => dispatch(blur(name, value)), {
+        normalize: boundNormalize,
+        parse,
+        after: asyncValidate.bind(null, name)
+      }),
       onChange,
       onDragStart: createOnDragStart(name, fieldValue),
-      onDrop: createOnDrop(name, change),
-      onFocus: createOnFocus(name, focus),
+      onDrop: createOnDrop(name, boundChange),
+      onFocus: createOnFocus(name, () => dispatch(focus(name))),
       value: format ? format(fieldValue) : fieldValue
     }, _value),
     meta: {

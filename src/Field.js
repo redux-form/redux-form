@@ -62,14 +62,14 @@ const createField = ({ deepEqual, getIn, setIn }) => {
       return this.refs.connected && this.refs.connected.getWrappedInstance().getValue()
     }
 
-    normalize(value) {
+    normalize(name, value) {
       const { normalize } = this.props
       if (!normalize) {
         return value
       }
       const previousValues = this.context._reduxForm.getValues()
       const previousValue = this.value
-      const nextValues = setIn(previousValues, this.props.name, value)
+      const nextValues = setIn(previousValues, name, value)
       return normalize(
         value,
         previousValue,

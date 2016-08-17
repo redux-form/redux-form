@@ -9,6 +9,7 @@ const createFieldArrayProps = (getIn, size, name,
   const length = size(value)
   return {
     fields: {
+      _isFieldArray: true,
       forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index)),
       insert: arrayInsert,
       length,
@@ -19,6 +20,8 @@ const createFieldArrayProps = (getIn, size, name,
         return getIn(value, length - 1)
       },
       push: arrayPush,
+      reduce: (callback, initial) => (value || [])
+        .reduce((accumulator, item, index) => callback(accumulator, `${name}[${index}]`, index), initial),
       remove: arrayRemove,
       removeAll: arrayRemoveAll,
       shift: () => {
