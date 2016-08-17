@@ -1,7 +1,7 @@
 import { PropTypes } from 'react'
 const { any, bool, func, shape } = PropTypes
 
-export const propTypes = {
+const propTypes = {
   // State:
   asyncValidating: bool.isRequired,   // true if async validation is running
   dirty: bool.isRequired,             // true if any values are different from initialValues
@@ -35,3 +35,5 @@ export const propTypes = {
   touch: func.isRequired,             // action to mark fields as touched
   untouch: func.isRequired            // action to mark fields as untouched
 }
+
+export default propTypes
