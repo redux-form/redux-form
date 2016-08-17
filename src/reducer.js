@@ -295,7 +295,7 @@ const createReducer = structure => {
     [UPDATE_SYNC_ERRORS](state, { payload }) {
       let result = state
       if (payload && Object.keys(payload).length) {
-        const { _error, ...fieldErrors } = payload
+        const { _error } = payload
         if (_error) {
           result = setIn(result, 'error', _error)
         } else {
