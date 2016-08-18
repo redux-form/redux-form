@@ -93,6 +93,10 @@
             "file": "/docs/api/Field.md",
             "title": "`Field`"
           },
+          "/docs/api/Fields.md": {
+            "file": "/docs/api/Fields.md",
+            "title": "`Fields`"
+          },
           "/docs/api/FormValueSelector.md": {
             "file": "/docs/api/FormValueSelector.md",
             "title": "`formValueSelector()`"
