@@ -167,6 +167,15 @@ validation errors and AJAX or server errors.
 }/>
 ```
 
+## `mapStateToProps` and `mapDispatchToProps`
+
+In `v5`, the `reduxForm()` decorator allowed these parameters to be given and it passed them 
+along to `react-redux`'s `connect()` API.
+
+`v6` no longer does this. You will need to separately decorate your form component with `connect()`
+yourself if you need to access other values in the Redux store or bind action creators to 
+`dispatch`.
+
 ## Sync Validation
 
 Sync validation is exactly the same as in `v5`. The only small difference is that if you are 
