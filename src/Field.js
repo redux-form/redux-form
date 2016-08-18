@@ -32,6 +32,10 @@ const createField = ({ deepEqual, getIn, setIn }) => {
         // name changed, regenerate connected field
         this.ConnectedField =
           createConnectedField(this.context._reduxForm, { deepEqual, getIn }, nextProps.name)
+        // unregister old name
+        this.context._reduxForm.unregister(this.props.name)
+        // register new name
+        this.context._reduxForm.register(nextProps.name, 'Field')
       }
     }
 

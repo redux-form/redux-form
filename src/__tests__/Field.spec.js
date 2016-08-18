@@ -442,6 +442,48 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
     })
 
+    it('should re-register when name changes', () => {
+      const store = makeStore()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { field: 'foo' }
+        }
+
+        render() {
+          return (<div>
+            <Field name={this.state.field} component="input"/>
+            <button onClick={() => this.setState({ field: 'bar' })}>Change</button>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo', type: 'Field' } ]
+          }
+        }
+      })
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'bar', type: 'Field' } ]
+          }
+        }
+      })
+    })
+
     it('should rerender when props change', () => {
       const store = makeStore()
       const input = createSpy(props => <input {...props.input}/>).andCallThrough()
