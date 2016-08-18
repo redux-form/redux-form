@@ -2259,6 +2259,46 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender.calls[ 1 ].arguments[ 0 ].error).toBe('form wide sync error')
     })
 
+    it('should allow for sync errors to be objects', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+      const renderInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const error = {
+        complex: 'object',
+        manyKeys: true
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={renderInput} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        validate: () => ({ foo: error })
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].valid).toBe(false)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].invalid).toBe(true)
+
+      expect(renderInput).toHaveBeenCalled()
+      expect(renderInput.calls.length).toBe(1)
+      expect(renderInput.calls[ 0 ].arguments[ 0 ].meta.error).toEqual(error)
+    })
+
     it('should call async on blur of async blur field', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
