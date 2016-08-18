@@ -1623,7 +1623,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmitFail)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(errors, store.dispatch)
-      expect(result).toBe(errors)
+      expect(result).toEqual(errors)
     })
 
     it('should call onSubmitFail if async validation prevents submit', () => {
@@ -2229,6 +2229,36 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender.calls.length).toBe(1)
     })
 
+    it('should provide error prop from sync validation', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        validate: () => ({ _error: 'form wide sync error' })
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].error).toBe('form wide sync error')
+    })
+
     it('should call async on blur of async blur field', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
@@ -2503,10 +2533,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // rendered with initial value
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
-      expect(inputRender.calls[0].arguments[0].input.value).toBe('fooInitial')
+      expect(inputRender.calls[ 0 ].arguments[ 0 ].input.value).toBe('fooInitial')
 
       // change value
-      inputRender.calls[0].arguments[0].input.onChange('fooChanged')
+      inputRender.calls[ 0 ].arguments[ 0 ].input.onChange('fooChanged')
 
       // updated form state
       expect(store.getState()).toEqualMap({
@@ -2521,7 +2551,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       // rendered with changed value
       expect(inputRender.calls.length).toBe(2)
-      expect(inputRender.calls[1].arguments[0].input.value).toBe('fooChanged')
+      expect(inputRender.calls[ 1 ].arguments[ 0 ].input.value).toBe('fooChanged')
 
       // unmount form
       const toggle = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -2550,10 +2580,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      
+
       // input rendered with changed value
       expect(inputRender.calls.length).toBe(3)
-      expect(inputRender.calls[2].arguments[0].input.value).toBe('fooChanged')
+      expect(inputRender.calls[ 2 ].arguments[ 0 ].input.value).toBe('fooChanged')
     })
   })
 }
