@@ -126,12 +126,12 @@ const createReduxForm =
             }
           }
 
-          updateSyncErrorsIfNeeded(nextSyncErrors) {
-            const { syncErrors, updateSyncErrors } = this.props
-            const noErrors = !syncErrors || !Object.keys(syncErrors).length
-            const nextNoErrors = !nextSyncErrors || !Object.keys(nextSyncErrors).length
-            if (!(noErrors && nextNoErrors) && !plain.deepEqual(syncErrors, nextSyncErrors)) {
-              updateSyncErrors(nextSyncErrors)
+          updateSyncErrorsIfNeeded(nextSyncErrors, nextError) {
+            const { error, syncErrors, updateSyncErrors } = this.props
+            const noErrors = (!syncErrors || !Object.keys(syncErrors).length) && !error
+            const nextNoErrors = (!nextSyncErrors || !Object.keys(nextSyncErrors).length) && !nextError
+            if (!(noErrors && nextNoErrors) && (!plain.deepEqual(syncErrors, nextSyncErrors) || !plain.deepEqual(error, nextError))) {
+              updateSyncErrors(nextSyncErrors, nextError)
             }
           }
 
@@ -141,13 +141,13 @@ const createReduxForm =
               if (nextProps) {
                 // not initial render
                 if (!deepEqual(values, nextProps.values)) {
-                  const nextSyncErrors = validate(nextProps.values, nextProps)
-                  this.updateSyncErrorsIfNeeded(nextSyncErrors)
+                  const { _error, ...nextSyncErrors } = validate(nextProps.values, nextProps)
+                  this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
                 }
               } else {
                 // initial render
-                const nextSyncErrors = validate(values, this.props)
-                this.updateSyncErrorsIfNeeded(nextSyncErrors)
+                const { _error, ...nextSyncErrors } = validate(values, this.props)
+                this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
               }
             }
           }
@@ -404,7 +404,7 @@ const createReduxForm =
             const values = getIn(formState, 'values') || initial
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
-            const syncErrors = getIn(formState, 'syncErrors')
+            const syncErrors = getIn(formState, 'syncErrors') || {}
             const registeredFields = getIn(formState, 'registeredFields') || []
             const valid = isValid(form, getFormState)(state)
             const anyTouched = !!getIn(formState, 'anyTouched')

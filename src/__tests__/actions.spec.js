@@ -506,7 +506,10 @@ describe('actions', () => {
           form: 'myForm'
         },
         payload: {
-          foo: 'foo error'
+          error: undefined,
+          syncErrors: {
+            foo: 'foo error'
+          }
         }
       })
       .toPass(isFSA)
@@ -519,7 +522,10 @@ describe('actions', () => {
         meta: {
           form: 'myForm'
         },
-        payload: {}
+        payload: {
+          error: undefined,
+          syncErrors: {}
+        }
       })
       .toPass(isFSA)
   })

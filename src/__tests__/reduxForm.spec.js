@@ -2259,6 +2259,42 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender.calls[ 1 ].arguments[ 0 ].error).toBe('form wide sync error')
     })
 
+    it('should properly remove error prop from sync validation', () => {
+      const store = makeStore({})
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={input} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        validate: values => getIn(values, 'foo') ? {} : { _error: 'form wide sync error' }
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].error).toBe('form wide sync error')
+
+      input.calls[0].arguments[0].input.onChange('bar')
+
+      expect(formRender.calls.length).toBe(4)
+      expect(formRender.calls[ 3 ].arguments[ 0 ].error).toNotExist()
+    })
+
     it('should allow for sync errors to be objects', () => {
       const store = makeStore({})
       const formRender = createSpy()

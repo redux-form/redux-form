@@ -116,5 +116,5 @@ export const unregisterField = (form, name) =>
 export const untouch = (form, ...fields) =>
   ({ type: UNTOUCH, meta: { form, fields } })
 
-export const updateSyncErrors = (form, syncErrors = {}) =>
-  ({ type: UPDATE_SYNC_ERRORS, meta: { form }, payload: syncErrors })
+export const updateSyncErrors = (form, syncErrors = {}, error) =>
+  ({ type: UPDATE_SYNC_ERRORS, meta: { form }, payload: { syncErrors, error } })

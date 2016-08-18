@@ -38,9 +38,8 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
         }
       }
     }), updateSyncErrors('foo', {
-      myField: 'myField error',
-      _error: 'form wide error'
-    }))
+      myField: 'myField error'
+    }, 'form wide error'))
     expect(state)
       .toEqualMap(setIn(fromJS({
         foo: {
