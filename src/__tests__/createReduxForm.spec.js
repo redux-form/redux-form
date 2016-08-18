@@ -38,26 +38,6 @@ describe('createReduxForm', () => {
     }
   }
 
-  class ProviderMock extends Component {
-    getChildContext() {
-      return {store: this.props.store};
-    }
-
-    render() {
-      return Children.only(this.props.children);
-    }
-  }
-
-  ProviderMock.propTypes = {
-    store: PropTypes.object.isRequired,
-    children: PropTypes.object.isRequired
-  };
-
-  ProviderMock.childContextTypes = {
-    store: PropTypes.object.isRequired,
-    children: PropTypes.object.isRequired
-  };
-
   const expectField = ({ field, name, value, initial, valid, dirty, error, touched, visited, readonly, autofilled }) => {
     expect(field).toBeA('object');
     expect(field.name).toBe(name);
