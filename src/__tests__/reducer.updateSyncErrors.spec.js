@@ -29,6 +29,34 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
         }))
   })
 
+  it('should update form-wide error', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'value',
+          myOtherField: 'otherValue'
+        }
+      }
+    }), updateSyncErrors('foo', {
+      myField: 'myField error',
+      _error: 'form wide error'
+    }))
+    expect(state)
+      .toEqualMap(setIn(fromJS({
+        foo: {
+          values: {
+            myField: 'value',
+            myOtherField: 'otherValue'
+          },
+          error: 'form wide error'
+        }
+      }),
+        'foo.syncErrors',
+        {
+          myField: 'myField error'
+        }))
+  })
+
   it('should update complex sync errors', () => {
     const state = reducer(fromJS({
       foo: {
