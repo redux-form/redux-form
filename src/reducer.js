@@ -289,9 +289,18 @@ const createReducer = structure => {
       return result
     },
     [UPDATE_SYNC_ERRORS](state, { payload }) {
-      return Object.keys(payload).length ?
-        setIn(state, 'syncErrors', payload) :
-        deleteIn(state, 'syncErrors')
+      let result = state
+      if(Object.keys(payload).length) {
+        const { _error, ...fieldErrors } = payload
+        result = setIn(result, 'syncErrors', fieldErrors)
+        if (_error) {
+          result = setIn(result, 'error', _error)
+        }
+      } else {
+        result = deleteIn(result, 'error')
+        result = deleteIn(result, 'syncErrors')
+      }
+      return result
     }
   }
 
