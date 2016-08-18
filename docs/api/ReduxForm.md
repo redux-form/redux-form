@@ -62,13 +62,13 @@ will retain the value of dirty fields when reinitializing.
 where the `redux-form` reducer was mounted. This functionality is rarely needed, and defaults to
 assuming that the reducer is mounted under the `form` key.
 
-#### `keepDirtyOnReinitialize : Function` [optional]
+#### `keepDirtyOnReinitialize : boolean` [optional]
 
 > When set to `true` and `enableReinitialize` is also set, the form will retain the value
 of dirty fields when reinitializing. When this option is not set (the default), reinitializing
 the form replaces all field values. This option is useful in situations where the form has
 live updates or continues to be editable after form submission; it prevents
-reinitialization from overwriting user changes.
+reinitialization from overwriting user changes. Defaults to `false`.
 
 #### `initialValues : Object<String, String>` [optional]
 
