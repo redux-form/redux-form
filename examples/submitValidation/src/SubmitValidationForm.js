@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import submit from './submit'
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
@@ -14,7 +15,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
 const SubmitValidationForm = (props) => {
   const { error, handleSubmit, pristine, reset, submitting } = props
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(submit)}>
       <Field name="username" type="text" component={renderField} label="Username"/>
       <Field name="password" type="password" component={renderField} label="Password"/>
       {error && <strong>{error}</strong>}

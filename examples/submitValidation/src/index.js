@@ -14,7 +14,6 @@ const store =
 
 let render = () => {
   const SubmitValidationForm = require('./SubmitValidationForm').default
-  const submit = require('./submit').default
   const readme = require('./SubmitValidation.md')
   const raw = require('!!raw!./SubmitValidationForm')
   const rawSubmit = require('!!raw!./submit')
@@ -33,7 +32,7 @@ let render = () => {
 
         <h2>Form</h2>
 
-        <SubmitValidationForm onSubmit={submit}/>
+        <SubmitValidationForm/>
 
         <Values form="submitValidation"/>
 
