@@ -176,6 +176,13 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props.meta.error).toBe('foo error')
     })
 
+    it('should provide meta.dispatch', () => {
+      const props = testProps({})
+      expect(props.meta.dispatch)
+        .toExist()
+        .toBeA('function')
+    })
+
     it('should provide name getter', () => {
       const store = makeStore({
         testForm: {
