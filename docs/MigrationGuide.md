@@ -4,28 +4,28 @@
 
 ## Inversion of Control
 
-In `v5`, only the outer form component was connected to the Redux state, and the props for each 
-field were passed in via the form component. The problem with this is that the _entire_ form 
+In `v5`, only the outer form component was connected to the Redux state, and the props for each
+field were passed in via the form component. The problem with this is that the _entire_ form
 component had to rerender _on every single keypress_ that changed a form value. This was fine for
 small login forms, but lead to extremely slow performance on larger forms with dozens or hundreds
 of fields.
 
 **In `v6`, every single field is connected to the Redux store.** The outer form component is also
-connected, but is connected in such a manner that does not require it to refresh every time a 
+connected, but is connected in such a manner that does not require it to refresh every time a
 value changes.
 
-Because of this inversion of control, **there is no incremental upgrade path**. I would love to 
-provide new API and provide deprecation warnings on the old API, but there is just no path from 
+Because of this inversion of control, **there is no incremental upgrade path**. I would love to
+provide new API and provide deprecation warnings on the old API, but there is just no path from
 here to there that allows for such a transition.
 
-The `v6` `Field` API was designed, however, in such a way as to minimize the migration pains. 
+The `v6` `Field` API was designed, however, in such a way as to minimize the migration pains.
 This document will outline the minimum migration distance from `v5` to `v6`.
 
 ## Goodbye `fields`... Hello `Field`!
 
-In `v5`, you were required to provide an array of `fields` names, and then a `fields` object prop 
+In `v5`, you were required to provide an array of `fields` names, and then a `fields` object prop
 was provided to your decorated component. The mechanism that generates the props (`value`,
-`onChange`, `onBlur`, etc.) for your input from the string name of your field is the new `Field` 
+`onChange`, `onBlur`, etc.) for your input from the string name of your field is the new `Field`
 component.
 
 #### `v5`
@@ -61,7 +61,7 @@ class MyForm extends Component {
              <span className="error">{password.error}</span>}
           </div>
         </div>
-        
+
         <button type="submit">Submit</button>
       </form>
     )
@@ -125,13 +125,13 @@ export default reduxForm({
 ```
 
 In `v5` the field name strings were all bundled together as input and the field objects came out
-bundled together as output (of `redux-form`), and now, in `v6`, the conversion from field name to 
+bundled together as output (of `redux-form`), and now, in `v6`, the conversion from field name to
 field object is done one at a time at the location of each field.
 
 ## `handleSubmit` and `onSubmit`
 
-The only thing that has changed about form submission is that your submit validation 
-errors must now be wrapped in a `SubmissionError` object. This is to distinguish between 
+The only thing that has changed about form submission is that your submit validation
+errors must now be wrapped in a `SubmissionError` object. This is to distinguish between
 validation errors and AJAX or server errors.
 [See discussion on PR #602](https://github.com/erikras/redux-form/pull/602)
 
@@ -169,26 +169,26 @@ validation errors and AJAX or server errors.
 
 ## `mapStateToProps` and `mapDispatchToProps`
 
-In `v5`, the `reduxForm()` decorator allowed these parameters to be given and it passed them 
+In `v5`, the `reduxForm()` decorator allowed these parameters to be given and it passed them
 along to `react-redux`'s `connect()` API.
 
 `v6` no longer does this. You will need to separately decorate your form component with `connect()`
-yourself if you need to access other values in the Redux store or bind action creators to 
+yourself if you need to access other values in the Redux store or bind action creators to
 `dispatch`.
 
 ## Sync Validation
 
-Sync validation is exactly the same as in `v5`. The only small difference is that if you are 
+Sync validation is exactly the same as in `v5`. The only small difference is that if you are
 using ImmutableJS, the `values` given to your sync validation function will be an an
 `Immutable.Map`. The errors returned, however, should be a in a plain JS object, like always.
 
 ## Initialization with `initialValues`
 
-Nothing has changed with this, apart from fixing some pesky bugs like 
+Nothing has changed with this, apart from fixing some pesky bugs like
 [#514](https://github.com/erikras/redux-form/issues/514),
 [#621](https://github.com/erikras/redux-form/issues/621),
 [#628](https://github.com/erikras/redux-form/issues/628), and
-[#756](https://github.com/erikras/redux-form/issues/756). In `v6`, each field will have its 
+[#756](https://github.com/erikras/redux-form/issues/756). In `v6`, each field will have its
 initial value on the very first render.
 
 ## Async Validation
@@ -203,7 +203,7 @@ There is no mystery to deep fields in `v6`. You simply use dot-syntax on your fi
 
 ```js
 render() {
-  const { 
+  const {
     fields: {
       contact: {
         shipping: { street }
@@ -214,7 +214,7 @@ render() {
     <div>
       <input type="text" {...street}/>
     </div>
-  )  
+  )
 }
 ```
 
@@ -232,7 +232,7 @@ render() {
 
 ## Field Arrays
 
-To get the field array object that was passed as a prop to the whole form in `v5`, you must use 
+To get the field array object that was passed as a prop to the whole form in `v5`, you must use
 the `FieldArray` component, much like the `Field` component is used.
 
 #### `v5`
@@ -267,7 +267,7 @@ const renderAwards = ({ fields }) =>
     </ul>
     <button onClick={() => fields.push()}>Add Award</button>
   </div>
-      
+
 render() {
   return (
     <div>
@@ -306,13 +306,13 @@ const upper = value => value && value.toUpperCase()
 <Field name="myUppercaseField" component="input" normalize={upper}/>
 ```
 
-See the [Normalizing Example](http://redux-form.com/6.0.0-rc.5/examples/normalizing/) for 
+See the [Normalizing Example](http://redux-form.com/6.0.0-rc.5/examples/normalizing/) for
 more details.
 
 ## Listening to other actions
 
-The `plugin()` API is identical to that of `v5`. However, the internal structure of the form 
-state _has_ changed, so your plugin reducer that was modifying it will need to be updated. It 
+The `plugin()` API is identical to that of `v5`. However, the internal structure of the form
+state _has_ changed, so your plugin reducer that was modifying it will need to be updated. It
 more or less changed as follows:
 
 #### `v5`
@@ -354,3 +354,11 @@ more or less changed as follows:
   }
 }
 ```
+
+## Known Issues
+
+### react-hot-loader
+
+If you are using react-hot-loader 1.X and see the error `Uncaught TypeError: Cannot read property 'wrapped' of undefined` then you will need to upgrade react-hot-loader to 3.X.
+
+While react-hot-loader v3 is still in beta, the best documentation is available [in this annotated commit](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915) and in the [this example](https://github.com/gaearon/redux-devtools/tree/master/examples/todomvc) and [this example](https://github.com/gaearon/redux-devtools/tree/master/examples/counter).
