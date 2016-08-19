@@ -267,6 +267,10 @@ input element.
 
 > `true` if the field value has changed from its initialized value. Opposite of `pristine`.
 
+#### `meta.dispatch : Function`
+
+> The Redux `dispatch` function.
+
 #### `meta.error : String` [optional]
 
 > The error for this field if its value is not passing validation. Both synchronous,
