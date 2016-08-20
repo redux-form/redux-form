@@ -134,13 +134,16 @@ that as if it were the error for a field called `_error`, and it will be given a
 > To recap, there are two ways to use `handleSubmit`:
 
 > **1. pass it a function to call**
+
 ```javascript
 <button onClick={handleSubmit(data => {
   // do something with data. validation will have been called at this point,
   // so you know the data is valid
 })}>Submit</button>
 ```
+
 > **2. pass in such a function as the onSubmit prop to your decorated component**
+
 ```javascript
 <MyDecoratedForm onSubmit={data => {
   // do something with data. validation will have been called at this point,
