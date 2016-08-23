@@ -2,8 +2,11 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
-import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
+
+const propsToNotUpdateFor = [
+  'value'
+]
 
 const createConnectedFieldArray = ({
   arrayInsert,
@@ -35,7 +38,13 @@ const createConnectedFieldArray = ({
 
   class ConnectedFieldArray extends Component {
     shouldComponentUpdate(nextProps) {
-      return shallowCompare(this, nextProps)
+      return Object.keys(nextProps).some(prop => {
+        // useful to debug rerenders
+        // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
+        //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
+        // }
+        return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
+      })
     }
 
     get dirty() {
