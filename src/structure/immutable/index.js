@@ -6,6 +6,7 @@ import plainGetIn from '../plain/getIn'
 
 const structure = {
   empty: Map(),
+  emptyList: List(),
   getIn: (state, field) =>
     Map.isMap(state) || List.isList(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
   setIn: (state, field, value) => state.setIn(toPath(field), value),

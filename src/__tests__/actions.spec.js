@@ -1,16 +1,62 @@
 import expect from 'expect'
 import expectPredicate from 'expect-predicate'
 import {
-  ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
-  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE,
-  REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, SET_SUBMIT_SUCCEEDED,  START_ASYNC_VALIDATION, START_SUBMIT,
-  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS
+  ARRAY_INSERT,
+  ARRAY_MOVE,
+  ARRAY_POP,
+  ARRAY_PUSH,
+  ARRAY_REMOVE,
+  ARRAY_REMOVE_ALL,
+  ARRAY_SHIFT,
+  ARRAY_SPLICE,
+  ARRAY_SWAP,
+  ARRAY_UNSHIFT,
+  BLUR,
+  CHANGE,
+  DESTROY,
+  FOCUS,
+  INITIALIZE,
+  REGISTER_FIELD,
+  RESET,
+  SET_SUBMIT_FAILED,
+  SET_SUBMIT_SUCCEEDED,
+  START_ASYNC_VALIDATION,
+  START_SUBMIT,
+  STOP_ASYNC_VALIDATION,
+  STOP_SUBMIT,
+  TOUCH,
+  UNREGISTER_FIELD,
+  UNTOUCH,
+  UPDATE_SYNC_ERRORS
 } from '../actionTypes'
 import {
-  arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
-  arraySplice, arraySwap, arrayUnshift, blur, change, destroy, focus, initialize, registerField,
-  reset, setSubmitFailed, setSubmitSucceeded, startAsyncValidation, startSubmit, stopAsyncValidation,
-  stopSubmit, touch, unregisterField, untouch, updateSyncErrors
+  arrayInsert,
+  arrayMove,
+  arrayPop,
+  arrayPush,
+  arrayRemove,
+  arrayRemoveAll,
+  arrayShift,
+  arraySplice,
+  arraySwap,
+  arrayUnshift,
+  blur,
+  change,
+  destroy,
+  focus,
+  initialize,
+  registerField,
+  reset,
+  setSubmitFailed,
+  setSubmitSucceeded,
+  startAsyncValidation,
+  startSubmit,
+  stopAsyncValidation,
+  stopSubmit,
+  touch,
+  unregisterField,
+  untouch,
+  updateSyncErrors
 } from '../actions'
 import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
@@ -66,6 +112,17 @@ describe('actions', () => {
           field: 'myField'
         },
         payload: 'foo'
+      })
+      .toPass(isFSA)
+
+    expect(arrayPush('myForm', 'myField'))
+      .toEqual({
+        type: ARRAY_PUSH,
+        meta: {
+          form: 'myForm',
+          field: 'myField'
+        },
+        payload: undefined
       })
       .toPass(isFSA)
   })

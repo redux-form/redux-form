@@ -2,14 +2,19 @@ import { List } from 'immutable'
 
 export default (list = List.isList(list) || List(), index, removeNum, value) => {
   if (index < list.count()) {
+    if (value === undefined && !removeNum) { // inserting undefined
+      // first insert null and then re-set it to undefined
+      return list.splice(index, 0, null).set(index, undefined)
+    }
     if (value != null) {
       return list.splice(index, removeNum, value)  // removing and adding
     } else {
       return list.splice(index, removeNum)  // removing
     }
   }
-  if (value != null) {
-    return list.set(index, value)
+  if (removeNum) { // trying to remove non-existant item: return original array
+    return list
   }
-  return list
+  // trying to add outside of range: just set value
+  return list.set(index, value)
 }
