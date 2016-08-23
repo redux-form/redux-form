@@ -82,7 +82,7 @@ import { reduxForm, Field } from 'redux-form' // imported Field
 
 const renderInput = field =>   // Define stateless component to render input and errors
   <div>
-    <input {...field.input}/>  // No type specified. That is specified below in <Field>
+    <input {...field.input} type={field.type}/>  // Type specified below in <Field>
     {field.meta.touched &&
      field.meta.error &&
      <span className="error">{field.meta.error}</span>}
@@ -101,7 +101,7 @@ class MyForm extends Component {
           <Field
             name="username"                   // Specify field name
             component={renderInput}           // Specify render component above
-            type="text"/>                     // "type" prop will get forwarded to <input>
+            type="text"/>                     // "type" prop passed to renderInput
         </div>
 
         <div>
@@ -109,7 +109,7 @@ class MyForm extends Component {
           <Field
             name="username"                   // Specify field name
             component={renderInput}           // Reuse same render component
-            type="password"/>                 // type prop will get forwarded to <input>
+            type="password"/>                 // "type" prop passed to renderInput
         </div>
 
         <button type="submit">Submit</button>
@@ -306,7 +306,8 @@ const upper = value => value && value.toUpperCase()
 <Field name="myUppercaseField" component="input" normalize={upper}/>
 ```
 
-See the [Normalizing Example](http://redux-form.com/6.0.0-rc.5/examples/normalizing/) for
+See the [Normalizing Example](http://redux-form.com/6.0.0-rc.5/examples/normalizing/) and
+[Value Lifecycle](http://redux-form.com/6.0.0-rc.5/docs/ValueLifecycle.md/) for
 more details.
 
 ## Listening to other actions
