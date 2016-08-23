@@ -92,6 +92,16 @@ This is a bound action creator, so it returns nothing.
 > * `true` - Asynchronous validation is currently running in preparation to submit a form
 > * a `string` - The name of the field that just blurred to trigger asynchronous validation
 
+### `blur(field:String, value:any) : Function`
+
+> Marks a field as blurred in the Redux store.
+This is a bound action creator, so it returns nothing.
+
+### `change(field:String, value:any) : Function`
+
+> Changes the value of a field in the Redux store.
+This is a bound action creator, so it returns nothing.
+
 ### `destroy() : Function`
 
 > Destroys the form state in the Redux store. By default, this will be called for you in
