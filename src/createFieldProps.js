@@ -37,7 +37,7 @@ const processProps = (type, props, _value) => {
 
 const createFieldProps = (getIn, name,
   {
-    asyncError, asyncValidating, blur, change, defaultValue = '', dirty, dispatch, focus, format,
+    asyncError, asyncValidating, blur, change, dirty, dispatch, focus, format,
     normalize, parse, pristine, props, state, submitError, submitting, value, _value, syncError,
     ...custom
   }, asyncValidate = noop) => {
@@ -48,7 +48,7 @@ const createFieldProps = (getIn, name,
     normalize: boundNormalize,
     parse
   })
-  const fieldValue = value == null ? defaultValue : value
+  const fieldValue = value == null ? '' : value
 
   return {
     input: processProps(custom.type, {

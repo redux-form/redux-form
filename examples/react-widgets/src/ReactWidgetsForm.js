@@ -13,7 +13,10 @@ const renderDropdownList = ({ input, ...rest }) =>
   <DropdownList {...input} {...rest}/>
 
 const renderMultiselect = ({ input, ...rest }) =>
-  <Multiselect {...input} onBlur={() => input.onBlur()} {...rest}/>
+  <Multiselect {...input}
+    onBlur={() => input.onBlur()}
+    value={input.value || []} // requires value to be an array
+    {...rest}/>
 
 const renderSelectList = ({ input, ...rest }) =>
   <SelectList {...input} onBlur={() => input.onBlur()} {...rest}/>
@@ -36,7 +39,6 @@ let ReactWidgetsForm = props => {
         <Field
           name="hobbies"
           component={renderMultiselect}
-          defaultValue={[]}
           data={[ 'Guitar', 'Cycling', 'Hiking' ]}/>
       </div>
       <div>

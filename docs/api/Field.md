@@ -36,12 +36,6 @@ be as simple as `'firstName'` or as complicated as
 A `Component`, stateless function, or string corresponding to a default JSX element.
 See the [Usage](#usage) section below for details.
 
-#### `defaultValue : any` [optional]
-
-A value to be used if the current value for this field is `undefined` in the Redux Store.
-Defaults to `''` to ensure that the input is
-[controlled](https://facebook.github.io/react/docs/forms.html#controlled-components).
-
 #### `format : (value) => formattedValue` [optional]
 
 Formats the value from the Redux store to be displayed in the field input. Common use cases are 
@@ -244,10 +238,11 @@ in the event for giving the field it is dropped into.
 #### `input.value: any`
 
 > The value of this form field. It will be a boolean for checkboxes, and a string for all other
-input types. If there is no value in the Redux state for this field, it will default to the
-`defaultValue` prop given to `Field`. If no such `defaultValue` is specified, it will be `''`.
-This is to ensure that the input is
+input types. If there is no value in the Redux state for this field, it will default to 
+`''`. This is to ensure that the input is
 [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components).
+If you require that the value be of another type (e.g. `Date` or `Number`), you _must_ provide 
+`initialValues` to your form with the desired type of this field.
 
 ### Meta Props
 

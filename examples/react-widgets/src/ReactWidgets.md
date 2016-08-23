@@ -7,7 +7,7 @@ Very few modifications are needed. All of these can be done as props to the `Fie
 
 * `Multiselect`
   * Needs `onBlur` to be rewritten ignoring the parameter
-  * Needs `defaultValue` of `[]` to be provided
+  * Needs value to be an array, so default it to `[]`
 * `SelectList`
   * Needs `onBlur` to be rewritten ignoring the parameter
   
