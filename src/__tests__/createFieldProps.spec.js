@@ -298,17 +298,6 @@ const describeCreateFieldProps = (name, structure, expect) => {
       })
       expect(result.input.value).toBe('')
     })
-
-    it('should replace undefined value with default value provided', () => {
-      const defaultValue = {
-        foo: 'some complex value'
-      }
-      const result = createFieldProps(getIn, 'foo', {
-        state: empty,
-        defaultValue
-      })
-      expect(result.input.value).toBe(defaultValue)
-    })
   })
 }
 
