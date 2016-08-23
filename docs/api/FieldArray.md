@@ -90,33 +90,57 @@ to the callback. See the section on [Iteration](#iteration) for more details.
 
 > Moves an element from one index in the array to another.
 
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
+
 #### `fields.pop() : Function`
 
 > Removes an item from the end of the array. Returns the item removed.
+
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
 
 #### `fields.push(value:Any) : Function`
 
 > Adds a value to the end of the array. Returns nothing.
 
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
+
 #### `fields.remove(index:Integer) : Function`
 
 > Removes an item from the array at an arbitrary index. Returns nothing.
+
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
 
 #### `fields.removeAll() : Function`
 
 > Removes all the values from the array.
 
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
+
 #### `fields.shift() : Function`
 
 > Removes an item from beginning of the array. Returns the item removed..
+
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
 
 #### `fields.swap(indexA:Integer, indexB:Integer) : Function`
 
 > Swaps two items in the array at the given indexes. Returns nothing.
 
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
+
 #### `fields.unshift(value:Any) : Function`
 
 > Adds an item to the beginning of the array. Returns nothing.
+
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.
 
 ### Meta Props
 
