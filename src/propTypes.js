@@ -27,6 +27,8 @@ const propTypes = {
     unshift: func.isRequired          // function to unshift a value into an array field
   }),
   asyncValidate: func.isRequired,     // function to trigger async validation
+  blur: func.isRequired,              // action to mark a field as blurred
+  change: func.isRequired,            // action to change the value of a field
   destroy: func.isRequired,           // action to destroy the form's data in Redux
   dispatch: func.isRequired,          // the Redux dispatch action
   handleSubmit: func.isRequired,      // function to submit the form

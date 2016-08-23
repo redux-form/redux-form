@@ -348,6 +348,8 @@ const createReduxForm =
               anyTouched,
               asyncValidate: this.asyncValidate,
               asyncValidating,
+              blur,
+              change,
               destroy,
               dirty,
               dispatch,

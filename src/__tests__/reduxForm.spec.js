@@ -78,6 +78,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'array',
         'asyncValidate',
         'asyncValidating',
+        'blur',
+        'change',
         'destroy',
         'dirty',
         'dispatch',
