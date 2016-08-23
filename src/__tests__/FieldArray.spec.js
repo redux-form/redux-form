@@ -652,6 +652,70 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(component.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
     })
 
+    it('should rerender when items added or removed', () => {
+      const store = makeStore({})
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+          <button className="add" onClick={() => fields.push()}>Add Dog</button>
+          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+
+      // add field
+      TestUtils.Simulate.click(addButton)
+
+      // field array rerendered, length is 1
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+
+      // add field
+      TestUtils.Simulate.click(addButton)
+
+      // field array rerendered, length is 2
+      expect(renderFieldArray.calls.length).toBe(3)
+      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].fields.length).toBe(2)
+
+      // add field
+      TestUtils.Simulate.click(addButton)
+
+      // field array rerendered, length is 3
+      expect(renderFieldArray.calls.length).toBe(4)
+      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].fields.length).toBe(3)
+
+      // remove field
+      TestUtils.Simulate.click(removeButton)
+
+      // field array rerendered, length is 2
+      expect(renderFieldArray.calls.length).toBe(5)
+      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.length).toBe(2)
+
+      // add field
+      TestUtils.Simulate.click(addButton)
+
+      // field array rerendered, length is 3
+      expect(renderFieldArray.calls.length).toBe(6)
+      expect(renderFieldArray.calls[ 5 ].arguments[ 0 ].fields.length).toBe(3)
+    })
+
     it('should rerender when array sync error appears or disappears', () => {
       const store = makeStore({
         testForm: {
