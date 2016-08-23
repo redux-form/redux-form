@@ -77,8 +77,7 @@ const createFieldProps = (getIn, name,
       valid: !error,
       visited: state && !!getIn(state, 'visited')
     },
-    ...props,
-    ...custom
+    custom: { ...custom, ...props }
   }
 }
 

@@ -219,8 +219,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
       })
       expect(result.initial).toNotExist()
       expect(result.state).toNotExist()
-      expect(result.someOtherProp).toBe('dog')
-      expect(result.className).toBe('my-class')
+      expect(result.custom.someOtherProp).toBe('dog')
+      expect(result.custom.className).toBe('my-class')
     })
 
     it('should pass through other props using props prop', () => {
@@ -234,8 +234,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
       })
       expect(result.initial).toNotExist()
       expect(result.state).toNotExist()
-      expect(result.someOtherProp).toBe('dog')
-      expect(result.className).toBe('my-class')
+      expect(result.custom.someOtherProp).toBe('dog')
+      expect(result.custom.className).toBe('my-class')
     })
 
     it('should set checked for checkboxes', () => {
