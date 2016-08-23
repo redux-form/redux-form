@@ -493,17 +493,18 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => <div>{props.highlighted}<input {...props.input}/></div>).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
-          this.state = { foo: 'foo' }
+          this.state = { highlighted: 0 }
         }
 
         render() {
+          const { highlighted } = this.state
           return (<div>
-            <Field name="foo" rel={this.state.foo} component={input}/>
-            <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
+            <Field name="foo" highlighted={highlighted} component={input}/>
+            <button onClick={() => this.setState({ highlighted: highlighted + 1 })}>Change</button>
           </div>)
         }
       }
@@ -515,13 +516,13 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].rel).toBe('foo')
+      expect(input.calls[ 0 ].arguments[ 0 ].highlighted).toBe(0)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].rel).toBe('qux')
+      expect(input.calls[ 1 ].arguments[ 0 ].highlighted).toBe(1)
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
