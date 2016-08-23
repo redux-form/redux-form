@@ -8,7 +8,7 @@ import addExpectations from './addExpectations'
 
 const describeCreateFieldProps = (name, structure, expect) => {
   const { fromJS, getIn, size } = structure
-  const defaultProps = [ getIn, size, 'foo' ]
+  const defaultProps = [ getIn, 'foo' ]
 
   describe(name, () => {
     it('should pass props through', () => {
@@ -40,16 +40,20 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide length', () => {
       expect(createFieldArrayProps(...defaultProps, {
-        value: fromJS([])
+        value: fromJS([]),
+        length: 0
       }).fields.length).toBe(0)
       expect(createFieldArrayProps(...defaultProps, {
-        value: fromJS([ 'a' ])
+        value: fromJS([ 'a' ]),
+        length: 1
       }).fields.length).toBe(1)
       expect(createFieldArrayProps(...defaultProps, {
-        value: fromJS([ 'a', 'b' ])
+        value: fromJS([ 'a', 'b' ]),
+        length: 2
       }).fields.length).toBe(2)
       expect(createFieldArrayProps(...defaultProps, {
-        value: fromJS([ 'a', 'b', 'c' ])
+        value: fromJS([ 'a', 'b', 'c' ]),
+        length: 3
       }).fields.length).toBe(3)
     })
 
@@ -109,6 +113,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
       const arrayPop = createSpy()
       const result = createFieldArrayProps(...defaultProps, {
         value: fromJS([ 'a', 'b', 'c' ]),
+        length: 3,
         arrayPop
       })
       expect(result.fields.pop).toBeA('function')
@@ -207,7 +212,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
     it('should provide map', () => {
       const callback = createSpy(name => ({ whatever: true, name })).andCallThrough()
       const result = createFieldArrayProps(...defaultProps, {
-        value: fromJS([ 'a', 'b', 'c' ])
+        value: fromJS([ 'a', 'b', 'c' ]),
+        length: 3
       })
       expect(result.fields.map).toBeA('function')
       expect(callback).toNotHaveBeenCalled()
@@ -229,7 +235,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
         [name]: { whatever: true, name }
       })).andCallThrough()
       const result = createFieldArrayProps(...defaultProps, {
-        value: fromJS([ 'a', 'b', 'c' ])
+        value: fromJS([ 'a', 'b', 'c' ]),
+        length: 3
       })
       expect(result.fields.reduce).toBeA('function')
       expect(callback).toNotHaveBeenCalled()

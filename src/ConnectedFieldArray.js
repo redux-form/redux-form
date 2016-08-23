@@ -67,7 +67,6 @@ const createConnectedFieldArray = ({
       const { component, withRef, ...rest } = this.props
       const props = createFieldArrayProps(
         getIn,
-        size,
         name,
         rest
       )
@@ -114,7 +113,8 @@ const createConnectedFieldArray = ({
         submitError: getIn(formState, `submitErrors.${name}._error`),
         submitting,
         syncError,
-        value
+        value,
+        length: size(value)
       }
     },
     actions,
