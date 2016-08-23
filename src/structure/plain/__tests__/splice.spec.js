@@ -2,35 +2,40 @@ import expect from 'expect'
 import splice from '../splice'
 
 describe('structure.plain.splice', () => {
-  it('should insert even when initial array is undefined', () => {
-    expect(splice(undefined, 2, 0, 'foo'))  // really goes to index 0
-      .toBeA('array')
-      .toEqual([ , , 'foo' ])  // eslint-disable-line no-sparse-arrays
-  })
+  const testInsertWithValue = value => {
+    it('should insert even when initial array is undefined', () => {
+      expect(splice(undefined, 2, 0, value))  // really goes to index 0
+        .toBeA('array')
+        .toEqual([ , , value ])  // eslint-disable-line no-sparse-arrays
+    })
 
-  it('should insert at start', () => {
-    expect(splice([ 'b', 'c', 'd' ], 0, 0, 'a'))
-      .toBeA('array')
-      .toEqual([ 'a', 'b', 'c', 'd' ])
-  })
+    it(`should insert ${value} at start`, () => {
+      expect(splice([ 'b', 'c', 'd' ], 0, 0, value))
+        .toBeA('array')
+        .toEqual([ value, 'b', 'c', 'd' ])
+    })
 
-  it('should insert at end', () => {
-    expect(splice([ 'a', 'b', 'c' ], 3, 0, 'd'))
-      .toBeA('array')
-      .toEqual([ 'a', 'b', 'c', 'd' ])
-  })
+    it(`should insert ${value} at end`, () => {
+      expect(splice([ 'a', 'b', 'c' ], 3, 0, value))
+        .toBeA('array')
+        .toEqual([ 'a', 'b', 'c', value ])
+    })
 
-  it('should insert in middle', () => {
-    expect(splice([ 'a', 'b', 'd' ], 2, 0, 'c'))
-      .toBeA('array')
-      .toEqual([ 'a', 'b', 'c', 'd' ])
-  })
+    it(`should insert ${value} in middle`, () => {
+      expect(splice([ 'a', 'b', 'd' ], 2, 0, value))
+        .toBeA('array')
+        .toEqual([ 'a', 'b', value, 'd' ])
+    })
 
-  it('should insert in out of range', () => {
-    expect(splice([ 'a', 'b', 'c' ], 5, 0, 'f'))
-      .toBeA('array')
-      .toEqual([ 'a', 'b', 'c', , , 'f' ])  // eslint-disable-line no-sparse-arrays
-  })
+    it(`should insert ${value} when index is out of range`, () => {
+      expect(splice([ 'a', 'b', 'c' ], 5, 0, value))
+        .toBeA('array')
+        .toEqual([ 'a', 'b', 'c', , , value ])  // eslint-disable-line no-sparse-arrays
+    })
+  }
+
+  testInsertWithValue('value')
+  testInsertWithValue(undefined)
 
   it('should return empty array when removing and initial array is undefined', () => {
     expect(splice(undefined, 2, 1))

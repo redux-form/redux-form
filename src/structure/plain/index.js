@@ -7,6 +7,7 @@ import { some } from 'lodash'
 
 const structure = {
   empty: {},
+  emptyList: [],
   getIn,
   setIn,
   deepEqual,
