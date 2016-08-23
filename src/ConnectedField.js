@@ -40,7 +40,7 @@ const createConnectedField = ({
 
     render() {
       const { component, withRef, ...rest } = this.props
-      const props = createFieldProps(getIn,
+      const { custom, ...props } = createFieldProps(getIn,
         name,
         {
           ...rest,
@@ -54,11 +54,11 @@ const createConnectedField = ({
         props.ref = 'renderedComponent'
       }
       if (typeof component === 'string') {
-        const { input, meta, ...custom } = props // eslint-disable-line no-unused-vars
+        const { input, meta } = props // eslint-disable-line no-unused-vars
         // flatten input into other props
         return createElement(component, { ...input, ...custom })
       } else {
-        return createElement(component, props)
+        return createElement(component, { ...props, ...custom })
       }
     }
   }

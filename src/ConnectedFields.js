@@ -42,9 +42,9 @@ const createConnectedFields = ({
     render() {
       const { component, withRef, _fields, ...rest } = this.props
 
-      const props = Object.keys(_fields).reduce((accumulator, name) => {
+      const { custom, ...props } = Object.keys(_fields).reduce((accumulator, name) => {
         const connectedProps = _fields[ name ]
-        const fieldProps = createFieldProps(getIn,
+        const { custom, ...fieldProps } = createFieldProps(getIn,
           name,
           {
             ...connectedProps,
@@ -55,13 +55,14 @@ const createConnectedFields = ({
           },
           asyncValidate
         )
+        accumulator.custom = custom
         return plain.setIn(accumulator, name, fieldProps)
       }, {})
       if (withRef) {
         props.ref = 'renderedComponent'
       }
 
-      return createElement(component, props)
+      return createElement(component, { ...props, ...custom })
     }
   }
 

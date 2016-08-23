@@ -584,17 +584,18 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFields = createSpy(props => <div>{props.highlighted}<input {...props.foo.input}/></div>).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
-          this.state = { foo: 'foo' }
+          this.state = { highlighted: 0 }
         }
 
         render() {
+          const { highlighted } = this.state
           return (<div>
-            <Fields names={[ 'foo' ]} rel={this.state.foo} component={input}/>
-            <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
+            <Fields names={[ 'foo' ]} highlighted={highlighted} component={renderFields}/>
+            <button onClick={() => this.setState({ highlighted: highlighted + 1 })}>Change</button>
           </div>)
         }
       }
@@ -604,15 +605,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
           <TestForm/>
         </Provider>
       )
-      expect(input).toHaveBeenCalled()
-      expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].foo.rel).toBe('foo')
+      expect(renderFields).toHaveBeenCalled()
+      expect(renderFields.calls.length).toBe(1)
+      expect(renderFields.calls[ 0 ].arguments[ 0 ].highlighted).toBe(0)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].foo.rel).toBe('qux')
+      expect(renderFields.calls.length).toBe(2)
+      expect(renderFields.calls[ 1 ].arguments[ 0 ].highlighted).toBe(1)
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
@@ -644,7 +645,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].myField.rel).toBe('test')
+      expect(input.calls[ 0 ].arguments[ 0 ].rel).toBe('test')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
@@ -988,6 +989,57 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // should be valid now
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.valid).toBe(true)
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.error).toBe(undefined)
+    })
+
+    it('should provide correct prop structure', () => {
+      const store = makeStore()
+      const renderFields = createSpy(() => <div/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Fields
+              names={[ 'foo', 'bar', 'deep.dive', 'array[0]', 'array[1]' ]}
+              component={renderFields}
+              someCustomProp="testing"
+              anotherCustomProp={42}
+              customBooleanFlag/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(renderFields).toHaveBeenCalled()
+      const fields = renderFields.calls[ 0 ].arguments[ 0 ]
+
+      const expectField = field => {
+        expect(field).toExist()
+        expect(field.input).toExist()
+        expect(field.input.onChange).toBeA('function')
+        expect(field.input.onBlur).toBeA('function')
+        expect(field.input.onFocus).toBeA('function')
+        expect(field.meta).toExist()
+        expect(field.meta.pristine).toBe(true)
+        expect(field.meta.dirty).toBe(false)
+        expect(field.someCustomProp).toNotExist()
+        expect(field.anotherCustomProp).toNotExist()
+        expect(field.customBooleanFlag).toNotExist()
+      }
+
+      expectField(fields.foo)
+      expectField(fields.bar)
+      expect(fields.deep).toExist()
+      expectField(fields.deep.dive)
+      expect(fields.array).toExist()
+      expectField(fields.array[0])
+      expectField(fields.array[1])
+      expect(fields.someCustomProp).toBe('testing')
+      expect(fields.anotherCustomProp).toBe(42)
+      expect(fields.customBooleanFlag).toBe(true)
     })
   })
 }
