@@ -34,15 +34,13 @@ const createReducer = structure => {
   const {
     deepEqual,
     empty,
-    emptyList,
     getIn,
     setIn,
     deleteIn,
     fromJS,
     size,
     some,
-    splice,
-    unshift
+    splice
   } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
