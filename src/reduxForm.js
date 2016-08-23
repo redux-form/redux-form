@@ -358,6 +358,7 @@ const createReduxForm =
               handleSubmit: this.submit,
               initialize,
               initialized,
+              initialValues,
               invalid,
               pristine,
               reset,

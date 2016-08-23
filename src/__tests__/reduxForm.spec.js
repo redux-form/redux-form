@@ -86,6 +86,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'error',
         'form',
         'handleSubmit',
+        'initialValues',
         'initialize',
         'initialized',
         'invalid',
@@ -373,6 +374,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(props.pristine).toBe(true)
         expect(props.dirty).toBe(false)
         expect(props.initialized).toBe(false) // will be true on second render
+        expect(props.initialValues).toEqualMap(initialValues)
       }
       checkProps(formRender.calls[ 0 ].arguments[ 0 ])
 
