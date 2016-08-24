@@ -99,22 +99,21 @@ const describeIsInvalid = (name, structure, expect) => {
       }))).toBe(true)
     })
 
-    it('should return true when there is a global sync error', () => {
-      expect(isInvalid('foo')(setIn(fromJS({
+    it('should return true when there is a global error', () => {
+      expect(isInvalid('foo')(fromJS({
         form: {
           foo: {
             values: {
               dog: 'Odie',
               cat: 'Garfield'
             },
+            error: 'Bad Data',
             registeredFields: [
               { name: 'dog', type: 'Field' },
               { name: 'cat', type: 'Field' }
             ]
           }
         }
-      }), 'form.foo.syncErrors', {
-        _error: 'Bad data'
       }))).toBe(true)
     })
 
@@ -180,26 +179,6 @@ const describeIsInvalid = (name, structure, expect) => {
       }))).toBe(true)
     })
 
-    it('should return true when there is a global async error', () => {
-      expect(isInvalid('foo')(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: [
-              { name: 'dog', type: 'Field' },
-              { name: 'cat', type: 'Field' }
-            ],
-            asyncErrors: {
-              _error: 'Bad data'
-            }
-          }
-        }
-      }))).toBe(true)
-    })
-
     it('should return false when there are submit errors for a NON-registered field', () => {
       expect(isInvalid('foo')(fromJS({
         form: {
@@ -256,26 +235,6 @@ const describeIsInvalid = (name, structure, expect) => {
               cats: {
                 _error: 'Too many cats'
               }
-            }
-          }
-        }
-      }))).toBe(true)
-    })
-
-    it('should return true when there is a global submit error', () => {
-      expect(isInvalid('foo')(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: [
-              { name: 'dog', type: 'Field' },
-              { name: 'cat', type: 'Field' }
-            ],
-            submitErrors: {
-              _error: 'Bad data'
             }
           }
         }
