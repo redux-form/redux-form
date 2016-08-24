@@ -8,7 +8,7 @@ const describeSetDirty = (reducer, expect, { fromJS }) => () => {
           myField: 'initialValue'
         }
       }
-    }), destroy('foo'))
+    }), setDirty('foo'))
     expect(state)
       .toEqualMap({
         foo: {
