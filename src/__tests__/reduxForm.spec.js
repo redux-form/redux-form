@@ -2292,11 +2292,15 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
       expect(formRender.calls[ 1 ].arguments[ 0 ].error).toBe('form wide sync error')
+      expect(formRender.calls[ 1 ].arguments[ 0 ].valid).toBe(false)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].invalid).toBe(true)
 
       input.calls[0].arguments[0].input.onChange('bar')
 
       expect(formRender.calls.length).toBe(4)
       expect(formRender.calls[ 3 ].arguments[ 0 ].error).toNotExist()
+      expect(formRender.calls[ 3 ].arguments[ 0 ].valid).toBe(true)
+      expect(formRender.calls[ 3 ].arguments[ 0 ].invalid).toBe(false)
     })
 
     it('should allow for sync errors to be objects', () => {

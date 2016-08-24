@@ -11,36 +11,16 @@ const getErrorKeys = (name, type) => {
 
 const createHasError = ({ getIn }) => {
   const hasError = (field, syncErrors, asyncErrors, submitErrors) => {
-    const name = getIn(field, 'name')
-    const type = getIn(field, 'type')
     if (!syncErrors && !asyncErrors && !submitErrors) {
       return false
     }
-    const errorKeys = getErrorKeys(name, type)
 
-    const syncError = errorKeys.reduce((error, errorKey) => {
-      const curError = plainGetIn(syncErrors, errorKey)
-      return curError ? error + curError : error
-    }, null)
-    if (syncError != null) {
-      return true
-    }
-    const asyncError = errorKeys.reduce((error, errorKey) => {
-      const curError = getIn(asyncErrors, errorKey)
-      return curError ? error + curError : error
-    }, null)
-    if (asyncError != null) {
-      return true
-    }
-    const submitError = errorKeys.reduce((error, errorKey) => {
-      const curError = getIn(submitErrors, errorKey)
-      return curError ? error + curError : error
-    }, null)
-    if (submitError != null) {
-      return true
-    }
-
-    return false
+    const name = getIn(field, 'name')
+    const type = getIn(field, 'type')
+    return getErrorKeys(name, type).some(key =>
+      plainGetIn(syncErrors, key) ||
+      getIn(asyncErrors, key) ||
+      getIn(submitErrors, key))
   }
   return hasError
 }
