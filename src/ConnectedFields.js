@@ -83,7 +83,8 @@ const createConnectedFields = ({
           const value = getIn(formState, `values.${name}`)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
           const submitting = getIn(formState, 'submitting')
-          const pristine = value === initial
+          const setDirty = getIn(formState, 'setDirty') || false
+          const pristine = value === initial && !setDirty
           accumulator[ name ] = {
             asyncError: getIn(formState, `asyncErrors.${name}`),
             asyncValidating: getIn(formState, 'asyncValidating') === name,

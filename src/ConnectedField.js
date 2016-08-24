@@ -76,7 +76,8 @@ const createConnectedField = ({
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'))
-      const pristine = value === initial
+      const setDirty = getIn(formState, 'setDirty') || false
+      const pristine = value === initial && !setDirty
       return {
         asyncError: getIn(formState, `asyncErrors.${name}`),
         asyncValidating: getIn(formState, 'asyncValidating') === name,
