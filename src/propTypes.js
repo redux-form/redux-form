@@ -5,6 +5,7 @@ const propTypes = {
   // State:
   asyncValidating: bool.isRequired,   // true if async validation is running
   dirty: bool.isRequired,             // true if any values are different from initialValues
+  setDirty: func.isRequired,          // function to manually set form as dirty
   error: any,                         // form-wide error from '_error' key in validation result
   invalid: bool.isRequired,           // true if there are any validation errors
   initialized: bool.isRequired,       // true if the form has been initialized

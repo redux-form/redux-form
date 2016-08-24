@@ -18,6 +18,7 @@ import {
   INITIALIZE,
   REGISTER_FIELD,
   RESET,
+  SET_DIRTY,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
   START_ASYNC_VALIDATION,
@@ -47,6 +48,7 @@ import {
   initialize,
   registerField,
   reset,
+  setDirty,
   setSubmitFailed,
   setSubmitSucceeded,
   startAsyncValidation,
@@ -449,6 +451,17 @@ describe('actions', () => {
         },
         payload: errors,
         error: true
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create setDirty action', () => {
+    expect(setDirty('myForm'))
+      .toEqual({
+        type: SET_DIRTY,
+        meta: {
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })

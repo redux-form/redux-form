@@ -16,6 +16,7 @@ import {
   INITIALIZE,
   REGISTER_FIELD,
   RESET,
+  SET_DIRTY,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
   START_ASYNC_VALIDATION,
@@ -271,6 +272,9 @@ const createReducer = structure => {
         result = deleteIn(result, 'submitErrors')
       }
       return result
+    },
+    [SET_DIRTY](state) {
+      return setIn(state, 'setDirty', true)
     },
     [SET_SUBMIT_FAILED](state, { meta: { fields } }) {
       let result = state

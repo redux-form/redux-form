@@ -31,6 +31,7 @@ export const {
   reducer,
   reduxForm,
   reset,
+  setDirty,
   setSubmitFailed,
   setSubmitSucceeded,
   startAsyncValidation,

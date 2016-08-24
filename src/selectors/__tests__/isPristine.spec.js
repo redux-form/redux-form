@@ -55,6 +55,24 @@ const describeIsPristine = (name, structure, expect) => {
       }))).toBe(false)
     })
 
+    it('should return false when setDirty is true', () => {
+      expect(isPristine('foo')(fromJS({
+        form: {
+          foo: {
+            initial: {
+              dog: 'Snoopy',
+              cat: 'Garfield'
+            },
+            values: {
+              dog: 'Snoopy',
+              cat: 'Garfield'
+            },
+            setDirty: true
+          }
+        }
+      }))).toBe(false)
+    })
+
     it('should use getFormState if provided', () => {
       expect(isPristine('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
         someOtherSlice: {

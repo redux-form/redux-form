@@ -25,6 +25,7 @@ import {
   reducer,
   reduxForm,
   reset,
+  setDirty,
   setSubmitFailed,
   setSubmitSucceeded,
   startAsyncValidation,
@@ -112,6 +113,9 @@ describe('index', () => {
   })
   it('should export startSubmit', () => {
     expect(startSubmit).toExist().toBeA('function')
+  })
+  it('should export setDirty', () => {
+    expect(setDirty).toExist().toBeA('function')
   })
   it('should export setSubmitFailed', () => {
     expect(setSubmitFailed).toExist().toBeA('function')

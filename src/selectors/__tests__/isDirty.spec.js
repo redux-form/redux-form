@@ -55,6 +55,24 @@ const describeIsDirty = (name, structure, expect) => {
       }))).toBe(true)
     })
 
+    it('should return true when setDirty is true', () => {
+      expect(isDirty('foo')(fromJS({
+        form: {
+          foo: {
+            initial: {
+              dog: 'Snoopy',
+              cat: 'Garfield'
+            },
+            values: {
+              dog: 'Snoopy',
+              cat: 'Garfield'
+            },
+            setDirty: true
+          }
+        }
+      }))).toBe(true)
+    })
+
     it('should use getFormState if provided', () => {
       expect(isDirty('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
         someOtherSlice: {

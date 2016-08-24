@@ -184,6 +184,11 @@ This is a bound action creator, so it returns nothing.
 > Resets all the values in the form to the initialized state, making it pristine again.
 This is a bound action creator, so it returns nothing.
 
+#### `setDirty() : Function`
+
+> Manually sets `dirty` to `true` and `pristine` to `false`.
+This is a bound action creator, so it returns nothing.
+
 #### `submitFailed : boolean`
 
 > Starts as `false`. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to 
