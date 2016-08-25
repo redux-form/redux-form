@@ -13,6 +13,7 @@ import {
   arraySplice,
   arraySwap,
   arrayUnshift,
+  autofill,
   blur,
   change,
   destroy,
@@ -70,6 +71,9 @@ describe('index', () => {
   })
   it('should export arrayUnshift', () => {
     expect(arrayUnshift).toExist().toBeA('function')
+  })
+  it('should export autofill', () => {
+    expect(autofill).toExist().toBeA('function')
   })
   it('should export blur', () => {
     expect(blur).toExist().toBeA('function')

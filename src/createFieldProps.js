@@ -65,8 +65,9 @@ const createFieldProps = (getIn, name,
       value: format ? format(fieldValue) : fieldValue
     }, _value),
     meta: {
-      active: state && !!getIn(state, 'active'),
+      active: !!(state && getIn(state, 'active')),
       asyncValidating,
+      autofilled: !!(state && getIn(state, 'autofilled')),
       dirty,
       dispatch,
       error,
@@ -75,7 +76,7 @@ const createFieldProps = (getIn, name,
       submitting: !!submitting,
       touched: !!(state && getIn(state, 'touched')),
       valid: !error,
-      visited: state && !!getIn(state, 'visited')
+      visited: !!(state && getIn(state, 'visited'))
     },
     custom: { ...custom, ...props }
   }

@@ -14,6 +14,7 @@ export const {
   arraySwap,
   arrayUnshift,
   blur,
+  autofill,
   change,
   destroy,
   Field,

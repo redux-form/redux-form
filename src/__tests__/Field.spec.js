@@ -132,6 +132,86 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props2.meta.asyncValidating).toBe(true)
     })
 
+    it('should get active from Redux state', () => {
+      const props1 = testProps({
+        values: {
+          foo: 'bar'
+        }
+      })
+      expect(props1.meta.active).toBe(false)
+      const props2 = testProps({
+        values: {
+          foo: 'bar'
+        },
+        fields: {
+          foo: {
+            active: true
+          }
+        }
+      })
+      expect(props2.meta.active).toBe(true)
+    })
+
+    it('should get autofilled from Redux state', () => {
+      const props1 = testProps({
+        values: {
+          foo: 'bar'
+        }
+      })
+      expect(props1.meta.autofilled).toBe(false)
+      const props2 = testProps({
+        values: {
+          foo: 'bar'
+        },
+        fields: {
+          foo: {
+            autofilled: true
+          }
+        }
+      })
+      expect(props2.meta.autofilled).toBe(true)
+    })
+
+    it('should get touched from Redux state', () => {
+      const props1 = testProps({
+        values: {
+          foo: 'bar'
+        }
+      })
+      expect(props1.meta.touched).toBe(false)
+      const props2 = testProps({
+        values: {
+          foo: 'bar'
+        },
+        fields: {
+          foo: {
+            touched: true
+          }
+        }
+      })
+      expect(props2.meta.touched).toBe(true)
+    })
+
+    it('should get visited from Redux state', () => {
+      const props1 = testProps({
+        values: {
+          foo: 'bar'
+        }
+      })
+      expect(props1.meta.visited).toBe(false)
+      const props2 = testProps({
+        values: {
+          foo: 'bar'
+        },
+        fields: {
+          foo: {
+            visited: true
+          }
+        }
+      })
+      expect(props2.meta.visited).toBe(true)
+    })
+
     it('should get sync errors from outer reduxForm component', () => {
       const props = testProps({
         initial: {

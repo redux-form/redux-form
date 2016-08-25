@@ -9,6 +9,7 @@ import {
   ARRAY_SPLICE,
   ARRAY_SWAP,
   ARRAY_UNSHIFT,
+  AUTOFILL,
   BLUR,
   CHANGE,
   DESTROY,
@@ -119,6 +120,14 @@ const createReducer = structure => {
     [ARRAY_UNSHIFT](state, { meta: { field }, payload }) {
       return arraySplice(state, field, 0, 0, payload)
     },
+    [AUTOFILL](state, { meta: { field }, payload }) {
+      let result = state
+      result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
+      result = deleteInWithCleanUp(result, `submitErrors.${field}`)
+      result = setIn(result, `fields.${field}.autofilled`, true)
+      result = setIn(result, `values.${field}`, payload)
+      return result
+    },
     [BLUR](state, { meta: { field, touch }, payload }) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
@@ -147,6 +156,7 @@ const createReducer = structure => {
       }
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
       result = deleteInWithCleanUp(result, `submitErrors.${field}`)
+      result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
       if (touch) {
         result = setIn(result, `fields.${field}.touched`, true)
         result = setIn(result, 'anyTouched', true)
