@@ -36,6 +36,12 @@ const renderCheckbox = ({ input, label }) => (
     onCheck={input.onChange}/>
 )
 
+const renderRadioGroup = ({ input, ...rest }) => (
+  <RadioButtonGroup {...input} {...rest}
+    valueSelected={input.value}
+    onChange={(event, value) => input.onChange(value)}/>
+)
+
 const renderSelectField = ({ input, label, meta: { touched, error }, children }) => (
   <SelectField
     floatingLabelText={label}
@@ -59,7 +65,7 @@ const MaterialUiForm = props => {
         <Field name="email" component={renderTextField} label="Email"/>
       </div>
       <div>
-        <Field name="sex" component={RadioButtonGroup}>
+        <Field name="sex" component={renderRadioGroup}>
           <RadioButton value="male" label="male"/>
           <RadioButton value="female" label="female"/>
         </Field>
