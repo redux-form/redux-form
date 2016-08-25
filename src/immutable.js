@@ -13,6 +13,7 @@ export const {
   arraySplice,
   arraySwap,
   arrayUnshift,
+  autofill,
   blur,
   change,
   destroy,

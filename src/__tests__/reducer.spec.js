@@ -15,6 +15,7 @@ import describeArrayShift from './reducer.arrayShift.spec'
 import describeArraySplice from './reducer.arraySplice.spec'
 import describeArraySwap from './reducer.arraySwap.spec'
 import describeArrayUnshift from './reducer.arrayUnshift.spec'
+import describeAutofill from './reducer.autofill.spec'
 import describeBlur from './reducer.blur.spec'
 import describeChange from './reducer.change.spec'
 import describeDestroy from './reducer.destroy.spec'
@@ -45,6 +46,7 @@ const tests = {
   arraySplice: describeArraySplice,
   arraySwap: describeArraySwap,
   arrayUnshift: describeArrayUnshift,
+  autofill: describeAutofill,
   blur: describeBlur,
   change: describeChange,
   destroy: describeDestroy,

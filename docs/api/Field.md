@@ -254,6 +254,12 @@ tracking for you.
 > `true` if this field currently has focus. It will only work if you are passing `onFocus` to your
 input element.
 
+#### `meta.autofilled : boolean`
+
+> `true` if this field has been set with the `AUTOFILL` action and has not since been changed 
+with a `CHANGE` action. This is useful to render the field in a way that the user can tell that 
+the value was autofilled for them.
+
 #### `meta.asyncValidating : boolean`
 
 > `true` if the form is currently running asynchronous validation because this field was blurred.

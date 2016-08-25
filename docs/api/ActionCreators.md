@@ -47,6 +47,10 @@ insert, so the item already at the `to` position will be bumped to a higher inde
 
 > Inserts an item at the beginning of a field array
 
+### `autofill(form:String, field:String, value:String)`
+
+> Saves the value to the field and sets its `autofilled` property to `true`.
+
 ### `blur(form:String, field:String, value:any)`
 
 > Saves the value to the field.

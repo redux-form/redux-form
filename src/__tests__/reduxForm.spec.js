@@ -78,6 +78,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'array',
         'asyncValidate',
         'asyncValidating',
+        'autofill',
         'blur',
         'change',
         'destroy',
@@ -2559,6 +2560,82 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(decorated.refs.wrapped.getWrappedInstance().getFieldList()).toEqual([])
+    })
+
+    it('should set autofilled and unset it on change', () => {
+      const store = makeStore({})
+
+      const renderInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderForm = createSpy()
+      const onSubmit = createSpy()
+      class Form extends Component {
+        render() {
+          renderForm(this.props)
+          return (
+            <form onSubmit={this.props.handleSubmit}>
+              <Field name="myField" component={renderInput}/>
+            </form>
+          )
+        }
+      }
+
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated onSubmit={onSubmit}/>
+        </Provider>
+      )
+
+      expect(renderForm).toHaveBeenCalled()
+      expect(renderForm.calls.length).toBe(1)
+      expect(renderForm.calls[0].arguments[0].autofill).toBeA('function')
+
+      // check field
+      expect(renderInput).toHaveBeenCalled()
+      expect(renderInput.calls.length).toBe(1)
+      expect(renderInput.calls[0].arguments[0].input.value).toBe('')
+      expect(renderInput.calls[0].arguments[0].meta.autofilled).toBe(false)
+
+      const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+
+      // test submit
+      expect(onSubmit).toNotHaveBeenCalled()
+      TestUtils.Simulate.submit(form)
+      expect(onSubmit).toHaveBeenCalled()
+      expect(onSubmit.calls.length).toBe(1)
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({})
+      expect(renderInput.calls.length).toBe(2)  // touched by submit
+
+      // autofill field
+      renderForm.calls[0].arguments[0].autofill('myField', 'autofilled value')
+
+      // check field
+      expect(renderInput).toHaveBeenCalled()
+      expect(renderInput.calls.length).toBe(3)
+      expect(renderInput.calls[2].arguments[0].input.value).toBe('autofilled value')
+      expect(renderInput.calls[2].arguments[0].meta.autofilled).toBe(true)
+
+      // test submitting autofilled value
+      TestUtils.Simulate.submit(form)
+      expect(onSubmit.calls.length).toBe(2)
+      expect(onSubmit.calls[1].arguments[0]).toEqualMap({ myField: 'autofilled value' })
+
+      // user edits field
+      renderInput.calls[1].arguments[0].input.onChange('user value')
+
+      // check field
+      expect(renderInput).toHaveBeenCalled()
+      expect(renderInput.calls.length).toBe(4)
+      expect(renderInput.calls[3].arguments[0].input.value).toBe('user value')
+      expect(renderInput.calls[3].arguments[0].meta.autofilled).toBe(false)
+
+      // why not test submitting again?
+      TestUtils.Simulate.submit(form)
+      expect(onSubmit.calls.length).toBe(3)
+      expect(onSubmit.calls[2].arguments[0]).toEqualMap({ myField: 'user value' })
     })
 
     it('should not reinitialize values on remount if destroyOnMount is false', () => {
