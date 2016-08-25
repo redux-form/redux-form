@@ -2408,7 +2408,12 @@ describe('createReduxForm', () => {
     const store = makeStore();
     const form = 'testForm';
     const initialValues = { firstName: 'Bobby', lastName: 'Tables', age: 12 };
-    const onSubmit = createSpy().andReturn(Promise.resolve());
+    const onSubmit = createSpy().andCall((values, dispatch, props) => {
+      expect(values).toEqual(initialValues);
+      expect(dispatch).toEqual(store.dispatch);
+      expect(props.testProp).toEqual(1337);
+      return Promise.resolve();
+    });
     const Decorated = reduxForm({
       form,
       fields: [ 'firstName', 'lastName', 'age' ],
@@ -2429,7 +2434,7 @@ describe('createReduxForm', () => {
       render() {
         return (
           <div>
-            <Decorated ref="myForm"/>
+            <Decorated ref="myForm" testProp={1337} />
             <button type="button" onClick={this.submitFromParent}>Submit From Parent</button>
           </div>
         );
@@ -2449,8 +2454,7 @@ describe('createReduxForm', () => {
     TestUtils.Simulate.click(button);
 
     expect(onSubmit)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(initialValues, store.dispatch);
+      .toHaveBeenCalled();
   });
 
   it('submitting from parent should fail if sync validation errors', () => {

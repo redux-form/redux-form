@@ -111,7 +111,7 @@ describe('handleSubmit', () => {
       .toHaveBeenCalledWith();
     expect(submit)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith(values, dispatch);
+      .toHaveBeenCalledWith(values, dispatch, props);
     expect(startSubmit).toNotHaveBeenCalled();
     expect(stopSubmit).toNotHaveBeenCalled();
     expect(submitFailed).toNotHaveBeenCalled();
@@ -233,7 +233,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, dispatch);
+          .toHaveBeenCalledWith(values, dispatch, props);
         expect(startSubmit).toNotHaveBeenCalled();
         expect(stopSubmit).toNotHaveBeenCalled();
         expect(submitFailed).toNotHaveBeenCalled();
@@ -276,7 +276,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, dispatch);
+          .toHaveBeenCalledWith(values, dispatch, props);
         expect(startSubmit).toHaveBeenCalled();
         expect(stopSubmit)
           .toHaveBeenCalled()
@@ -322,7 +322,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, dispatch);
+          .toHaveBeenCalledWith(values, dispatch, props);
         expect(startSubmit).toHaveBeenCalled();
         expect(stopSubmit)
           .toHaveBeenCalled()
@@ -372,7 +372,7 @@ describe('handleSubmit', () => {
           .toHaveBeenCalledWith();
         expect(submit)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, dispatch);
+          .toHaveBeenCalledWith(values, dispatch, props);
         expect(startSubmit).toHaveBeenCalled();
         expect(stopSubmit)
           .toHaveBeenCalled()
