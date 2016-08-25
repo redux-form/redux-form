@@ -2580,7 +2580,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
 
       const Decorated = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
