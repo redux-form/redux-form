@@ -5,18 +5,18 @@ that does not have `type="button"` specified. The recommended way to structure y
 
 ```javascript
 render() {
-  const {fields: {firstName, lastName}, handleSubmit} = this.props;
+  const {fields: {firstName, lastName}, handleSubmit} = this.props.fields;
   return (
     <form onSubmit={handleSubmit}>
       <button type="button">Load Data</button>
       <button type="button">Delete Record</button>
-      
-      <label for="firstname">First Name</label>
-      <input id="firstname" type="text" {...firstName}/>
-      
-      <label for="lastname">Last Name</label>
-      <input id="lastname" type="text" {...lastName}/>
-      
+
+      <label htmlFor="firstName">First Name</label>
+      <input type="text" {...firstName}/>
+
+      <label htmlFor="lastName">Last Name</label>
+      <input type="text" {...lastName}/>
+
       <button type="submit">Submit</button>
       <button type="button">Do Something Else</button>
     </form>

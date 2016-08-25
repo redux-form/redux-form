@@ -1,17 +1,17 @@
 const isChecked = value => {
   if (typeof value === 'boolean') {
-    return value;
+    return value
   }
   if (typeof value === 'string') {
-    const lower = value.toLowerCase();
+    const lower = value.toLowerCase()
     if (lower === 'true') {
-      return true;
+      return true
     }
     if (lower === 'false') {
-      return false;
+      return false
     }
   }
-  return undefined;
-};
+  return undefined
+}
 
-export default isChecked;
+export default isChecked

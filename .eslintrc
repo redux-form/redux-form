@@ -1,5 +1,6 @@
 {
-  "extends": "eslint-config-airbnb",
+  "extends": "eslint-config-rackt",
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "mocha": true,
@@ -8,17 +9,7 @@
   "rules": {
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
-    "react/react-in-jsx-scope": 2,
-    "comma-dangle": 0,  // not sure why airbnb turned this on. gross!
-    "indent": [2, 2, {"SwitchCase": 1}],
-    "spaced-comment": 0,
-    "no-redeclare": 0,
-    "no-console": 2,
-
-    //Temporarirly disabled due to a possible bug in babel-eslint (todomvc example)
-    "block-scoped-var": 0,
-    // Temporarily disabled for test/* until babel/babel-eslint#33 is resolved
-    "padded-blocks": 0
+    "react/jsx-no-undef": 2
   },
   "plugins": [
     "react"

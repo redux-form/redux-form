@@ -1,43 +1,63 @@
-import expect, {createSpy} from 'expect';
-import createOnBlur from '../createOnBlur';
+import expect, { createSpy } from 'expect'
+import createOnBlur from '../createOnBlur'
 
 describe('createOnBlur', () => {
   it('should return a function', () => {
     expect(createOnBlur())
       .toExist()
-      .toBeA('function');
-  });
+      .toBeA('function')
+  })
 
-  it('should return a function that calls blur with name and value', () => {
-    const blur = createSpy();
-    createOnBlur('foo', blur)('bar');
+  it('should parse the value before dispatching action', () => {
+    const blur = createSpy()
+    const parse = createSpy(value => `parsed-${value}`).andCallThrough()
+    createOnBlur(blur, { parse })('bar')
+    expect(parse)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('bar')
     expect(blur)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'bar');
-  });
-
-  it('should return a function that calls blur with name and value from event', () => {
-    const blur = createSpy();
-    createOnBlur('foo', blur)({
-      target: {
-        value: 'bar'
-      },
-      preventDefault: () => null,
-      stopPropagation: () => null
-    });
+      .toHaveBeenCalledWith('parsed-bar')
+  })
+  
+  it('should normalize the value before dispatching action', () => {
+    const blur = createSpy()
+    const normalize = createSpy(value => `normalized-${value}`).andCallThrough()
+    createOnBlur(blur, { normalize })('bar')
+    expect(normalize)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('bar')
     expect(blur)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'bar');
-  });
-
-  it('should return a function that calls blur and then afterBlur with name and value', () => {
-    const blur = createSpy();
-    const afterBlur = createSpy();
-    createOnBlur('foo', blur, false, afterBlur)('bar');
-    expect(blur).toHaveBeenCalled();
-    expect(afterBlur)
+      .toHaveBeenCalledWith('normalized-bar')
+  })
+    
+  it('should parse before normalize', () => {
+    const blur = createSpy()
+    const parse = createSpy(value => `parsed-${value}`).andCallThrough()
+    const normalize = createSpy(value => `normalized-${value}`).andCallThrough()
+    createOnBlur(blur, { normalize, parse })('bar')
+    expect(parse)
       .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'bar');
-  });
-
-});
+      .toHaveBeenCalledWith('bar')
+    expect(normalize)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('parsed-bar')
+    expect(blur)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('normalized-parsed-bar')
+  })
+  
+  it('should call blur then after', () => {
+    const blur = createSpy()
+    const parse = createSpy(value => `parsed-${value}`).andCallThrough()
+    const normalize = createSpy(value => `normalized-${value}`).andCallThrough()
+    const after = createSpy()
+    createOnBlur(blur, { parse, normalize, after })('bar')
+    expect(blur).toHaveBeenCalled()
+    expect(normalize).toHaveBeenCalled()
+    expect(after)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('normalized-parsed-bar')
+  })
+})

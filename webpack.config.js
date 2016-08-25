@@ -1,34 +1,35 @@
-'use strict';
-var webpack = require('webpack');
-var env = process.env.NODE_ENV;
-var plugins = [
-  new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(env)
-  }),
-  new webpack.optimize.OccurenceOrderPlugin()
-];
+'use strict'
+var webpack = require('webpack')
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
-if (env === 'production') {
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-        warnings: false
-      }
-    })
-  );
-}
+var env = process.env.NODE_ENV
 
 var reactExternal = {
   root: 'React',
   commonjs2: 'react',
   commonjs: 'react',
   amd: 'react'
-};
+}
 
-module.exports = {
+var reduxExternal = {
+  root: 'Redux',
+  commonjs2: 'redux',
+  commonjs: 'redux',
+  amd: 'redux'
+}
+
+var reactReduxExternal = {
+  root: 'ReactRedux',
+  commonjs2: 'react-redux',
+  commonjs: 'react-redux',
+  amd: 'react-redux'
+}
+
+var config = {
   externals: {
-    'react': reactExternal
+    'react': reactExternal,
+    'redux': reduxExternal,
+    'react-redux': reactReduxExternal
   },
   module: {
     loaders: [
@@ -39,8 +40,27 @@ module.exports = {
     library: 'ReduxForm',
     libraryTarget: 'umd'
   },
-  plugins: plugins,
-  resolve: {
-    extensions: ['', '.js']
-  }
-};
+  plugins: [
+    new LodashModuleReplacementPlugin,
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(env)
+    })
+  ]
+}
+
+if (env === 'production') {
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        warnings: false
+      }
+    })
+  )
+  config.plugins.push(new webpack.optimize.DedupePlugin())
+}
+
+module.exports = config

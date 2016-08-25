@@ -1,8 +1,8 @@
-export const dataKey = 'value';
+export const dataKey = 'text'
 const createOnDragStart =
-  (name, getValue) =>
+  (name, value) =>
     event => {
-      event.dataTransfer.setData(dataKey, getValue());
-    };
+      event.dataTransfer.setData(dataKey, value)
+    }
 
-export default createOnDragStart;
+export default createOnDragStart

@@ -34,21 +34,21 @@ const store = createStore(reducer);
 another page, which will cause `redux-form`'s default behavior of destroying the form data in the reducer in 
 `componentWillUnmount`.
 
-### C) You can call `this.props.resetForm()` from inside your form after your submission succeeds.
+### C) You can call `this.props.reset()` from inside your form after your submission succeeds.
 
 ```javascript
 submitMyForm(data) {
-  const {createRecord, resetForm} = this.props;
+  const { createRecord, reset } = this.props;
   return createRecord(data).then(() => {
-    resetForm();
+    reset();
     // do other success stuff
   });
 }
 
 render() {
-  const {handleSubmit, submitMyForm} = this.props;
+  const { handleSubmit } = this.props;
   return (
-    <form onSubmit={handleSubmit(submitMyForm.bind(this))}>
+    <form onSubmit={handleSubmit(this.submitMyForm.bind(this))}>
       // inputs
     </form>
   );

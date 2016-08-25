@@ -1,8 +1,9 @@
 # Can I submit my form using websockets?
   
-Yes. `redux-form` has built-in support for managing `submitting` state and errors using promises, but you can easily 
-replicate its behavior using any other asynchronous paradigm. All you need do is to dispatch the `START_SUBMIT` and
-`STOP_SUBMIT` actions yourself using the exported [Action Creators](#/api/action-creators).
+Yes. `redux-form` has built-in support for managing `submitting` state and errors using promises,
+but you can easily replicate its behavior using any other asynchronous paradigm. All you need do
+is to dispatch the `START_SUBMIT` and `STOP_SUBMIT` actions yourself using the exported
+[Action Creators](#/api/action-creators).
 
 ```javascript
 import {startSubmit, stopSubmit} from 'redux-form';
@@ -26,11 +27,12 @@ function submitForm(data, dispatch) {
 }
 ```
 
-The `submitForm` function can then be passed either as an `onSubmit` prop to your decorated form or as a parameter to
-`handleSubmit()` inside your form component. For more on this, look at [the `handleSubmit()` docs](#/api/props).
+The `submitForm` function can then be passed either as an `onSubmit` prop to your decorated form
+or as a parameter to `handleSubmit()` inside your form component. For more on this, look at
+[the `handleSubmit()` docs](#/api/props).
 
 ---
 
 Thanks to [Vlad Shcherbin](https://github.com/VladShcherbin) for presenting
-[his solution](https://github.com/erikras/redux-form/issues/450#issuecomment-166457681), from which this answer was 
-modeled.
+[his solution](https://github.com/erikras/redux-form/issues/450#issuecomment-166457681), from
+which this answer was modeled.

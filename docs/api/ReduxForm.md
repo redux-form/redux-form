@@ -1,122 +1,186 @@
-# `reduxForm(config:Object, mapStateToProps?, mapDispatchToProps?, mergeProps?, options?)`
+# `reduxForm(config:Object)`
 
-Creates a decorator with which you use `redux-form` to connect your form component to Redux. It takes a `config`
-parameter and then optionally `mapStateToProps`, `mapDispatchToProps`, `mergeProps` and `options` parameters which
-[correspond exactly to the parameters taken by `react-redux`'s `connect()`
-function](https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options),
-allowing you to connect your form component to other state in Redux.
+Creates a decorator with which you use `redux-form` to connect your form component to Redux.
+It takes a `config` parameter which lets you configure your form.
 
-The keys in the `config` parameter are as follows.
+## Importing
 
 ```javascript
 var reduxForm = require('redux-form').reduxForm;  // ES5
 ```
 ```javascript
-import {reduxForm} from 'redux-form';  // ES6
+import { reduxForm } from 'redux-form';  // ES6
 ```
 
 ## Config Properties
 
-**IMPORTANT: All of these configuration options may be passed into `reduxForm()` at "design time" or passed in as
-props to your component at runtime.**
+**IMPORTANT: All of these configuration options may be passed into `reduxForm()` at "design time"
+or passed in as props to your component at runtime.**
 
 ### Required
 
-#### `fields : Array<String>` [required]
-
-> a list of all your fields in your form. You may change these dynamically at runtime.
-
 #### `form : String` [required]
 
-> the name of your form and the key to where your form's state will be mounted under the `redux-form` reducer
+> the name of your form and the key to where your form's state will be mounted under the
+`redux-form` reducer
 
 ### Optional
 
-#### -`alwaysAsyncValidate : boolean` [optional]
-
-> By default, async blur validation is only triggered if synchronous validation passes, and the form is dirty or was
-never initialized (or if submitting). Sometimes it may be desirable to trigger asynchronous validation even in these
-cases, for example if all validation is performed asynchronously and you want to display validation messages if a
-user does not change a field, but does touch and blur it. Setting alwaysAsyncValidate to `true` will always run
-asynchronous validation on blur, even if the form is pristine or sync validation fails.
-
-
 #### -`asyncBlurFields : Array<String>` [optional]
 
-> field names for which `onBlur` should trigger a call to the `asyncValidate` function. Defaults to `[]`.
+> field names for which `onBlur` should trigger a call to the `asyncValidate` function.
+Defaults to `[]`.
 
-> See [Asynchronous Blur Validation Example](../../examples/asynchronous-blur-validation) for more
-details.
+> See [Asynchronous Blur Validation Example](http://redux-form.com/6.0.0/examples/asyncValidation/)
+for more details.
 
-#### `asyncValidate : (values:Object, dispatch:Function, props:Object) => Promise<undefined, errors:Object>` [optional]
+#### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
 
-> a function that takes all the form values, the `dispatch` function, and the `props` given to your component, and
-returns a Promise that will resolve if the validation is passed, or will reject with an object of validation errors
+> a function that takes all the form values, the `dispatch` function, the `props` given
+to your component and the current blurred field, and
+returns a Promise that will resolve if the validation is passed, or will reject with an
+object of validation errors
 in the form `{ field1: <String>, field2: <String> }`.
 
-> See [Asynchronous Blur Validation Example](../../examples/asynchronous-blur-validation) for more
-details.
+> See [Asynchronous Blur Validation Example](http://redux-form.com/6.0.0/examples/asyncValidation/)
+for more details.
 
 #### `destroyOnUnmount : boolean` [optional]
 
-> Whether or not to automatically destroy your form's state in the Redux store when your component is unmounted.
-Defaults to `true`.
+> Whether or not to automatically destroy your form's state in the Redux store when your
+component is unmounted. Defaults to `true`.
 
-#### `formKey : String` [optional]
+#### `enableReinitialize : boolean` [optional]
 
-> The key for your sub-form.
-
-> See [Multirecord Example](../../examples/multirecord) for more details.
+> When set to `true`, the form will reinitialize every time the `initialValues` prop changes.
+Defaults to `false`.  If the `keepDirtyOnReinitialize` option is also set, the form
+will retain the value of dirty fields when reinitializing.
 
 #### `getFormState : Function` [optional]
 
-> A function that takes the entire Redux state and the `reduxMountPoint` (which defaults to `"form"`). It defaults to:
-`(state, reduxMountPoint) => state[reduxMountPoint]`. The only reason you should provide this is if you are keeping
-your Redux state as something other than plain javascript objects, e.g. an
-[`Immutable.Map`](https://github.com/facebook/immutable-js).
+> A function that takes the entire Redux state and returns the state slice which corresponds to
+where the `redux-form` reducer was mounted. This functionality is rarely needed, and defaults to
+assuming that the reducer is mounted under the `form` key.
+
+#### `keepDirtyOnReinitialize : boolean` [optional]
+
+> When set to `true` and `enableReinitialize` is also set, the form will retain the value
+of dirty fields when reinitializing. When this option is not set (the default), reinitializing
+the form replaces all field values. This option is useful in situations where the form has
+live updates or continues to be editable after form submission; it prevents
+reinitialization from overwriting user changes. Defaults to `false`.
 
 #### `initialValues : Object<String, String>` [optional]
 
-> The values with which to initialize your form in `componentWillMount()`. Particularly useful when
-[Editing Multiple Records](../../examples/multirecord), but can also be used with single-record
-forms. The values
-should be in the form `{ field1: 'value1', field2: 'value2' }`.
+> The values with which to initialize your form in `componentWillMount()`.
+The values should be in the form `{ field1: 'value1', field2: 'value2' }`.
 
 #### `onSubmit : Function` [optional]
 
-> The function to call with the form data when the `handleSubmit()` is fired from within the form component. If you
-do not specify it as a prop here, you must pass it as a parameter to `handleSubmit()` inside your form component.
+> The function to call with the form data when the `handleSubmit()` is fired from within the
+form component. If you do not specify it as a prop here, you must pass it as a parameter to
+`handleSubmit()` inside your form component.
 
 > If your `onSubmit` function returns a promise, the `submitting` property will be set to
-`true` until the promise has been resolved or rejected. If it is rejected with an object matching
-`{ field1: 'error', field2: 'error' }` then the submission errors will be added to each field (to the
-`error` prop) just like async validation errors are. If there is an error that is not specific
-to any field, but applicable to the entire form, you may pass that as if it were the error for a field
+`true` until the promise has been resolved or rejected. If it is rejected with a
+`redux-form` `SubmissionError` containing errors in the form
+`{ field1: 'error', field2: 'error' }` then the submission errors will be added to each field
+(to the `error` prop) just like async validation errors are. If there is an error that is not
+specific to any field, but applicable to the entire form, you may pass that as if it were the
+error for a field
 called `_error`, and it will be given as the `error` prop.
 
-#### `propNamespace : string` [optional]
+#### `onSubmitFail : Function` [optional]
 
-> If specified, all the props normally passed into your decorated component directly will be passed under the key
-specified. Useful if using other decorator libraries on the same component to avoid prop namespace collisions.
+> A callback function that will be called when a submission fails for whatever reason. It will be
+called with the following parameters:
 
-#### `readonly : boolean` [optional]
+> ##### `errors : Object`
 
-> if `true`, the decorated component will not be passed any of the `onX` functions as props that will allow
-it to mutate the state. Useful for decorating another component that is not your form, but that needs to know
-about the state of your form.
+> The errors that caused the submission to fail.
 
-#### `reduxMountPoint : String` [optional]
+> ##### `dispatch : Function`
 
-> The use of this property is highly discouraged, but if you absolutely need to mount your `redux-form` reducer at
-somewhere other than `form` in your Redux state, you will need to specify the key you mounted it under with this
-property. Defaults to `'form'`.
+> The Redux `dispatch` function.
 
-> See [Alternate Mount Point Example](../../examples/alternate-mount-point) for more details.
+#### `onSubmitSuccess : Function` [optional]
 
-#### `returnRejectedSubmitPromise : boolean` [optional]
+> A callback function that will be called when a submission succeeds.  It will be called with the
+following parameters:
 
-> If set to `true`, a failed submit will return a rejected promise. Defaults to `false`. Only use this if you need to
-detect submit failures and run some code when a submit fails.
+> ##### `result : Object`
+
+> Any result that `onSubmit` has returned
+
+> ##### `dispatch : Function`
+
+> The Redux `dispatch` function.
+
+#### `propNamespace : String` [optional]
+
+> If specified, all the props normally passed into your decorated component directly will be passed
+under the key specified. Useful if using other decorator libraries on the same component to avoid
+prop namespace collisions.
+
+#### `pure : boolean` [optional]
+
+> If true, implements `shouldComponentUpdate` and shallowly compares _only the Redux-connected 
+props_ that are needed to manage the form state, preventing unnecessary 
+updates, assuming that the component is a “pure” component and does not rely on any input or
+state other than its props and the selected Redux store’s state. Defaults to `true`.
+
+> Similar to the `pure` parameter in [`react-redux`'s `connect()`
+API](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
+
+#### `shouldAsyncValidate(params) : boolean` [optional]
+
+> An optional function you may provide to have full control over when async validation happens.
+Your `shouldAsyncValidate()` function will be given an object with the following values:
+
+> ##### `asyncErrors : Object` [optional]
+
+> Any existing asynchronous validation errors
+
+> ##### `initialized : boolean` [required]
+
+> `true` if the form has ever been initialized with initial values
+
+> ##### `trigger : String` [required]
+
+> The reason to possibly run async validation. It will either be: `'blur'` or `'submit'`,
+depending on whether an async blur field had triggered the async validation or if submitting the
+form has triggered it, respectively.
+
+> ##### `blurredField : string` [optional]
+
+> The name of the field that has triggered the async validation. May be `undefined`.
+
+> ##### `pristine : boolean` [required]
+
+> `true` if the form is pristine, `false` if it is dirty
+
+> ##### `syncValidationPasses : boolean` [required]
+
+> `true` if synchronous validation is passing, `false` if it is failing.
+
+> The default behavior is:
+
+> ```js
+  if(!syncValidationPasses) {
+    return false
+  }
+  switch(trigger) {
+    case 'blur':
+      // blurring
+      return true
+    case 'submit':
+      // submitting, so only async validate if form is dirty or was never initialized
+      // conversely, DON'T async validate if the form is pristine just as it was initialized
+      return !pristine || !initialized
+    default:
+      return false
+  }
+```
 
 #### `touchOnBlur : boolean` [optional]
 
@@ -132,4 +196,48 @@ detect submit failures and run some code when a submit fails.
 If validation passes, it should return `{}`. If validation fails, it should return the validation errors in the
 form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
-> See [Synchronous Validation Example](../../examples/synchronous-validation) for more details.
+> See [Synchronous Validation Example](http://redux-form.com/6.0.0/examples/syncValidation/)
+for more details.
+
+## Instance API
+
+The following are methods or properties that you can access on an instance of your decorated form
+component.
+
+#### `dirty : boolean`
+
+`true` when the current form values are different from the `initialValues`, `false` otherwise.
+
+#### `invalid : boolean`
+
+`true` when the form is invalid (has validation errors), `false` otherwise.
+
+#### `pristine : boolean`
+
+`true` when the current form values are the same as the `initialValues`, `false` otherwise.
+
+#### `registeredFields : Array`
+
+An array of objects with fields `name` and `type` for each field representing all the fields in the form. Mainly useful for testing.
+
+#### `reset() : void`
+
+Resets the form to the `initialValues`. It will be `pristine` after reset.
+
+#### `submit() : Promise`
+
+Submits the form. [You'd never have guessed that, right?] Returns a promise that will be resolved
+when the form is submitted successfully, or rejected if the submission fails.
+
+#### `valid : boolean`
+
+`true` when the form is valid (has no validation errors), `false` otherwise.
+
+#### `values : Object`
+
+The current values of all the fields in the form.
+
+#### `wrappedInstance : ReactElement`
+
+A reference to the instance of the component you decorated with `reduxForm()`. Mainly useful for
+testing.

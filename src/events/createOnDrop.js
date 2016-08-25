@@ -1,7 +1,8 @@
-import {dataKey} from './createOnDragStart';
+import { dataKey } from './createOnDragStart'
 const createOnDrop =
   (name, change) =>
     event => {
-      change(name, event.dataTransfer.getData(dataKey));
-    };
-export default createOnDrop;
+      change(event.dataTransfer.getData(dataKey))
+      event.preventDefault()
+    }
+export default createOnDrop
