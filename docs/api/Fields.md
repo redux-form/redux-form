@@ -1,7 +1,7 @@
 # `Fields`
 
 The `Fields` component is similar to the
-[`Field`](http://redux-form.com/6.0.0/docs/api/Field.md/) component, but operates on multiple
+[`Field`](http://redux-form.com/6.0.1/docs/api/Field.md/) component, but operates on multiple
 fields at a time. Rather than passing a single `name` prop, `Fields` takes an array of names in 
 the `names` prop.
 
@@ -24,7 +24,7 @@ import { Fields } from 'redux-form';  // ES6
 #### `names : Array<String>` [required]
 
 An array of strings (or the pseudo-array `fields` provided by
-[`FieldArray`](http://redux-form.com/6.0.0/docs/api/FieldArray.md/)),
+[`FieldArray`](http://redux-form.com/6.0.1/docs/api/FieldArray.md/)),
 in dot-and-bracket notation, corresponding to form values. They may
 be as simple as `'firstName'` or as complicated as
 `contact.billing.address[2].phones[1].areaCode`. See the [Usage](#usage) section below for details.
@@ -138,7 +138,7 @@ For example, if your `names` are `[ 'name.first', 'name.last', 'email' ]`, the `
 ## Props
 
 The props that `Fields` will pass to your component are [the same `input` and `meta` structures 
-that `Field` generates](http://redux-form.com/6.0.0/docs/api/Field.md/#props), except that
+that `Field` generates](http://redux-form.com/6.0.1/docs/api/Field.md/#props), except that
 they are broken up into the structure of the fields you gave as `names`. 
 
 Any additional props that you pass to `Field` will be included at the root of the props structure
