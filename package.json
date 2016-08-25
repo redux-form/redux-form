@@ -21,7 +21,7 @@
     "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
     "test:watch": "npm test -- --watch",
     "test:cov": "nyc --reporter=lcov --reporter=text npm test",
-    "test:codecov": "cat ./coverage/coverage.json | ./node_modules/codecov.io/bin/codecov.io.js"
+    "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "keywords": [
     "react",
@@ -63,6 +63,7 @@
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-2": "^6.1.18",
     "babel-register": "^6.3.13",
+    "codecov.io": "^0.1.6",
     "cross-env": "^2.0.0",
     "eslint": "^3.3.1",
     "eslint-config-rackt": "^1.1.1",
