@@ -1,4 +1,4 @@
-# Synchronous Validation Example
+# Field Arrays Example
 
 ## To run locally
 
