@@ -18,11 +18,11 @@ import {
 
 MyComponent = connect(
   state => ({
-    values: getFormValues('myForm'),
-    dirty: isDirty('myForm'),
-    pristine: isPristine('myForm'),
-    valid: isValid('myForm'),
-    invalid: isInvalid('myForm')
+    values: getFormValues('myForm')(state),
+    dirty: isDirty('myForm')(state),
+    pristine: isPristine('myForm')(state),
+    valid: isValid('myForm')(state),
+    invalid: isInvalid('myForm')(state)
   })
 )(MyComponent)
 ```
