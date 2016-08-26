@@ -6,7 +6,7 @@ import mkdirp from 'mkdirp'
 import forIn from 'lodash.forin'
 
 const fetch = createFetch(
-  base('https://raw.githubusercontent.com/erikras/redux-form/v6'),
+  base('https://raw.githubusercontent.com/erikras/redux-form/master'),
   accept('text/plain'),
   parseText()
 )
