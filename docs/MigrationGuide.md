@@ -105,9 +105,9 @@ class MyForm extends Component {
         </div>
 
         <div>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="password">Password</label>
           <Field
-            name="username"                   // Specify field name
+            name="password"                   // Specify field name
             component={renderInput}           // Reuse same render component
             type="password"/>                 // "type" prop passed to renderInput
         </div>
