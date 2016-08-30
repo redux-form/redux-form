@@ -1,5 +1,7 @@
 # Selectors
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/tree/master/src/selectors)
+
 `redux-form` provides a set of useful Redux state
 [**selectors**](http://redux.js.org/docs/recipes/ComputingDerivedData.html) that may be used in 
 any part of your application to query the state of any of your forms.
