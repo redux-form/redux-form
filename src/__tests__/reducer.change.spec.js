@@ -207,8 +207,7 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: 'different'
-          },
-          error: 'some global error' // unaffected by CHANGE
+          }
         }
       })
   })
