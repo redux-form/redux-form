@@ -1,5 +1,7 @@
 # `reduxForm(config:Object)`
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reduxForm.js)
+
 Creates a decorator with which you use `redux-form` to connect your form component to Redux.
 It takes a `config` parameter which lets you configure your form.
 
