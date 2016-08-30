@@ -19,7 +19,7 @@
 
 > Returns a form reducer that will also pass each action through additional reducers specified.
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js#L369)
+> [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js#L369)
 
 ---
 
