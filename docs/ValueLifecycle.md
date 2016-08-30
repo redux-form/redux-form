@@ -27,7 +27,6 @@ have provided a parser, the value given to `normalize()` will already be parsed.
 ## Value Lifecycle
 
 <div style="text-align: center;">
-<img align="center" src="https://github.com/erikras/redux-form/raw/v6/docs/valueLifecycle
-.png"/>
+<img align="center" src="https://github.com/erikras/redux-form/raw/master/docs/valueLifecycle.png"/>
 </div>
 
