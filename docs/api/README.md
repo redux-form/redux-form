@@ -13,11 +13,13 @@
 
 > The form reducer. Should be given to mounted to your Redux state at `form`.
 
+> [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js)
+
 > ### [`reducer.plugin(Object<String, Function>)`](ReducerPlugin.md)
 
 > Returns a form reducer that will also pass each action through additional reducers specified.
 
-> [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js)
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js#L369)
 
 ---
 
