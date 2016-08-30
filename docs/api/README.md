@@ -5,6 +5,9 @@
 > The decorator you use to connect your form component to Redux.
 [See details](ReduxForm.md).
 
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/reduxForm.js)
+
 ---
   
 ## [`reducer`](Reducer.md)
@@ -15,11 +18,17 @@
 
 > Returns a form reducer that will also pass each action through additional reducers specified.
 
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js)
+
 ---
   
 ## [`props`](Props.md)
 
 > The props passed into your decorated form component.
+
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/reduxForm.js#L347)
 
 ---
   
@@ -27,11 +36,17 @@
 
 > The component needed to connect any input to `redux-form`.
 
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/Field.js)
+
 ---
   
 ## [`Fields`](Fields.md)
 
 > The component that can to connect multiple inputs to `redux-form`.
+
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/Fields.js)
 
 ---
   
@@ -39,11 +54,17 @@
 
 > The component needed to render an array of fields
 
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/FieldArray.js)
+
 ---
   
 ## [`formValueSelector(form:String, [getFormState:Function])`](FormValueSelector.md)
 
 > Creates a selector for use in `connect()`ing to form values in the Redux store.
+
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/formValueSelector.js)
 
 ---
   
@@ -51,10 +72,16 @@
 
 > A special error type for returning submit validation errors
 
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/SubmissionError.js)
+
 ---
   
 ## [Action Creators](ActionCreators.md)
 
 > `redux-form` exports all of its internal action creators.
+
+> [`View source on
+> GitHub`](https://github.com/erikras/redux-form/blob/master/src/actions.js)
 
 ---
