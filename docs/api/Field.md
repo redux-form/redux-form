@@ -192,8 +192,10 @@ The following properties and methods are available on an instance of a `Field` c
 
 ## Props
 
-These are props that `Field` will pass to your wrapped component. **All the props provided to your 
-component by `redux-form` are divided into `input` and `meta` objects.**
+These are props that `Field` will pass to your wrapped component. **The props provided by `redux-form`
+are divided into `input` and `meta` objects.**
+
+**Any custom props passed to `Field` will be merged into the props object on the same level as the `input` and `meta` objects.**
  
 ### Input Props
 
