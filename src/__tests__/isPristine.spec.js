@@ -72,4 +72,8 @@ describe('isPristine', () => {
     tryBothWays({foo: 7, bar: 9, when: date}, {foo: 7, bar: 9, when: date}, true);
   });
 
+  it('should return false when one value is null the other is 0 (number)', () => {
+    tryBothWays(null, 0, false);
+  });
+
 });
