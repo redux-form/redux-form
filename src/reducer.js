@@ -157,6 +157,7 @@ const createReducer = structure => {
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
       result = deleteInWithCleanUp(result, `submitErrors.${field}`)
       result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
+      result = deleteInWithCleanUp(result, 'error')
       if (touch) {
         result = setIn(result, `fields.${field}.touched`, true)
         result = setIn(result, 'anyTouched', true)
