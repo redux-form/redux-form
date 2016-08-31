@@ -1,5 +1,7 @@
 # `SubmissionError`
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/SubmissionError.js)
+
 A throwable error that is used to return submit validation errors from `onSubmit`. The purpose
 being to distinguish promise rejection because of validation errors from promise rejection because
 of AJAX I/O problems or other server errors.

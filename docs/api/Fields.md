@@ -1,5 +1,7 @@
 # `Fields`
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Fields.js)
+
 The `Fields` component is similar to the
 [`Field`](http://redux-form.com/6.0.1/docs/api/Field.md/) component, but operates on multiple
 fields at a time. Rather than passing a single `name` prop, `Fields` takes an array of names in 

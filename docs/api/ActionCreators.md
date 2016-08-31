@@ -1,5 +1,7 @@
 # Action Creators
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/actions.js)
+
 `redux-form` exports all of its internal action creators, allowing you complete control to
 dispatch any action you wish. However, it is recommended that you use the actions passed as
 props to your component for most of your needs, as they are already bound to `dispatch`, your

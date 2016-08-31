@@ -1,5 +1,7 @@
 # `reducer`
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js)
+
 > The form reducer. Should be given to mounted to your Redux state at `form`.
 
 > If you absolutely must mount it somewhere other than `form`, you may provide a

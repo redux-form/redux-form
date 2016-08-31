@@ -1,5 +1,7 @@
 # `props`
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reduxForm.js#L347)
+
 > The `props` listed on this page are are the `props` that `redux-form` generates to give
 to your decorated form component. The `props` that _you pass into your wrapped component_ are
 listed [here](http://redux-form.com/6.0.1/docs/api/ReduxForm.md/).

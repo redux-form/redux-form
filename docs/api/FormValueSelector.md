@@ -1,5 +1,7 @@
 # `formValueSelector(form:String, [getFormState:Function])`
 
+[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/formValueSelector.js)
+
 > A "selector" API to make it easier to `connect()` to form values. `formValueSelector` _creates_
 a selector function for your form that can be used with your field names.
 
