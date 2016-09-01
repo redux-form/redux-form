@@ -33,8 +33,8 @@ let render = () => {
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
         version="6.0.1"
-        path="/examples/syncValidation"
-        breadcrumbs={generateExampleBreadcrumbs('syncValidation',
+        path="/examples/normalizing"
+        breadcrumbs={generateExampleBreadcrumbs('normalizing',
           'Field Normalizing Example', '6.0.1')}>
 
         <Markdown content={readme}/>
