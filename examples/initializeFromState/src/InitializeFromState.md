@@ -15,8 +15,8 @@ methods to reinitialize the form component with new "pristine" values:
 
 1. Pass a `enableReinitialize` prop or `reduxForm()` config parameter set to `true` to allow the
 form the reinitialize with new "pristine" values every time the `initialValues` prop changes. To
-keep dirty form values when reinitialize, you can set `keepDirtyOnReinitialize` to true. By
-default, reinitialize the form replaces all dirty values.
+keep dirty form values when it reinitializes, you can set `keepDirtyOnReinitialize` to true. By
+default, reinitializing the form replaces all dirty values with "pristine" values.
 
 2. Dispatch the `INITIALIZE` action (using the action creator provided by `redux-form`).
 
