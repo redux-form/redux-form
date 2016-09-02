@@ -33,6 +33,31 @@ describe('structure.plain.getIn', () => {
     expect(getIn(state, 'foo.bar[1].dog')).toBe(42)
   })
 
+  it('should get a value nested 1 level', () => {
+    expect(getIn({ foo: { bar: 42 } }, 'foo.bar')).toBe(42)
+  })
+
+  it('should get a value nested 2 levels', () => {
+    expect(getIn({ foo: { bar: { baz: 42 } } }, 'foo.bar.baz')).toBe(42)
+  })
+
+  it('should get a value nested 3 levels', () => {
+    expect(getIn({ foo: { bar: { baz: { yolanda: 42 } } } }, 'foo.bar.baz.yolanda')).toBe(42)
+  })
+
+  it('should return undefined if the requested level does not exist', () => {
+    expect(getIn({}, 'foo')).toBe(undefined)
+    expect(getIn({}, 'foo.bar')).toBe(undefined)
+    expect(getIn({}, 'foo.bar.baz')).toBe(undefined)
+    expect(getIn({}, 'foo.bar.baz.yolanda')).toBe(undefined)
+  })
+
+  it('should return undefined for invalid/empty path', () => {
+    expect(getIn({ foo: 42 }, undefined)).toBe(undefined)
+    expect(getIn({ foo: 42 }, null)).toBe(undefined)
+    expect(getIn({ foo: 42 }, '')).toBe(undefined)
+  })
+
   it('should get string keys on arrays', () => {
     const array = [ 1, 2, 3 ]
     array.stringKey = 'hello'
