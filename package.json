@@ -59,7 +59,7 @@
     "babel-plugin-syntax-async-functions": "^6.5.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
     "babel-plugin-transform-regenerator": "^6.6.5",
-    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-es2015-no-commonjs": "0.0.2",
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-2": "^6.1.18",
     "babel-register": "^6.3.13",
