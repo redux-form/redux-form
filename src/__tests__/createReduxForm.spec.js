@@ -32,6 +32,12 @@ describe('createReduxForm', () => {
     }
   }
 
+  class Passthrough extends Component {
+    render() {
+      return <div {...this.props} />;
+    }
+  }
+
   const expectField = ({ field, name, value, initial, valid, dirty, error, touched, visited, readonly, autofilled }) => {
     expect(field).toBeA('object');
     expect(field.name).toBe(name);
@@ -2741,6 +2747,69 @@ describe('createReduxForm', () => {
         <Decorated initialValues={{mingzi: 'Bob'}}/>
       </Provider>
     );
+  });
+
+  it('should throw when trying to access the wrapped instance if withRef is not specified', () => {
+    const store = makeStore();
+
+    class Container extends Component {
+      render() {
+        return <Passthrough />;
+      }
+    }
+
+    const DecoratedForm = reduxForm({
+      form: 'withoutRefTest',
+      fields: ['foo', 'bar']
+    })(Container);
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <DecoratedForm />
+      </Provider>
+    );
+
+    const decorated = TestUtils.findRenderedComponentWithType(dom, DecoratedForm);
+    expect(() => decorated.getWrappedInstance()).toThrow(
+      /To access the wrapped instance, you need to specify \{ withRef: true \} as the fourth argument of the connect\(\) call\./
+    );
+  });
+
+  it('should return the instance of the wrapped component for use in calling child methods', () => {
+
+    const store = makeStore();
+
+    const someData = {
+      some: 'data'
+    };
+
+    class Container extends Component {
+
+      someInstanceMethod() {
+        return someData;
+      }
+
+      render() {
+        return <Passthrough />;
+      }
+    }
+
+    const DecoratedForm = reduxForm({
+      form: 'withRefTest',
+      fields: ['foo', 'bar']
+    }, null, null, null, {withRef: true})(Container);
+
+    const dom = TestUtils.renderIntoDocument(
+      <Provider store={store}>
+        <DecoratedForm />
+      </Provider>
+    );
+
+    const decorated = TestUtils.findRenderedComponentWithType(dom, DecoratedForm);
+
+    expect(() => decorated.someInstanceMethod()).toThrow();
+    expect(decorated.getWrappedInstance().someInstanceMethod()).toBe(someData);
+    expect(decorated.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.someInstanceMethod()).toBe(someData);
   });
 
   it('should change nested fields', () => {
