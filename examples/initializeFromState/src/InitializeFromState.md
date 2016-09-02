@@ -10,9 +10,11 @@ reducer. To get those values into your `redux-form`-decorated component, you wil
 `connect()` to the Redux state yourself and map from the data reducer to the `initialValues`
 prop.
 
-You may only initialize a form component _once_ via `initialValues`. If you wish to change the 
-"pristine" values again, you will need to dispatch the `INITIALIZE` action yourself (using the 
-action creator provided by `redux-form`).
+By default, you may only initialize a form component _once_ via `initialValues`. You can also
+provide a `enableReinitialize` prop set to `true` to allow the form the reinitialize every time
+the `initialValues` prop changes. If you wish to change the "pristine" values again, you will 
+need to dispatch the `INITIALIZE` action yourself (using the action creator provided by 
+`redux-form`).
 
 The following example references an external `account` reducer, which simply takes an object of
 values and saves it in the store under `account.data` when you dispatch the `load` action by
