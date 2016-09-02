@@ -10,9 +10,15 @@ reducer. To get those values into your `redux-form`-decorated component, you wil
 `connect()` to the Redux state yourself and map from the data reducer to the `initialValues`
 prop.
 
-You may only initialize a form component _once_ via `initialValues`. If you wish to change the 
-"pristine" values again, you will need to dispatch the `INITIALIZE` action yourself (using the 
-action creator provided by `redux-form`).
+By default, you may only initialize a form component _once_ via `initialValues`. There are two
+methods to reinitialize the form component with new "pristine" values:
+
+1. Pass a `enableReinitialize` prop or `reduxForm()` config parameter set to `true` to allow the
+form the reinitialize with new "pristine" values every time the `initialValues` prop changes. To
+keep dirty form values when it reinitializes, you can set `keepDirtyOnReinitialize` to true. By
+default, reinitializing the form replaces all dirty values with "pristine" values.
+
+2. Dispatch the `INITIALIZE` action (using the action creator provided by `redux-form`).
 
 The following example references an external `account` reducer, which simply takes an object of
 values and saves it in the store under `account.data` when you dispatch the `load` action by
