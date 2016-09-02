@@ -23,6 +23,8 @@ export default function isPristine(initial, data) {
     }
   } else if (initial || data) { // allow '' to equate to undefined or null
     return initial === data;
+  } else if (initial === null && data === 0 || initial === 0 && data === null) {
+    return false;
   }
   return true;
 }
