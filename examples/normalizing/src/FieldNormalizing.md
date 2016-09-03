@@ -22,7 +22,7 @@ greater than `max`, and you cannot set `max` to be less than `min`.
 ## Running this example locally
 
 To run this example locally on your machine clone the `redux-form` repository,
-then `cd redux-form` to change to the repo directory, and run `npm install.
+then `cd redux-form` to change to the repo directory, and run `npm install`.
 
 Then either run `npm run example:normalizing` or manually run the
 following commands:

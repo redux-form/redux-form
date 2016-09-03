@@ -26,7 +26,7 @@ The errors are displayed in the exact same way as validation errors created by
 ## Running this example locally
 
 To run this example locally on your machine clone the `redux-form` repository,
-then `cd redux-form` to change to the repo directory, and run `npm install.
+then `cd redux-form` to change to the repo directory, and run `npm install`.
 
 Then either run `npm run example:asyncValidation` or manually run the
 following commands:

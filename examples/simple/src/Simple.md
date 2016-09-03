@@ -21,7 +21,7 @@ This form does no validation. To learn about how to do client-side validation, s
 ## Running this example locally
 
 To run this example locally on your machine clone the `redux-form` repository,
-then `cd redux-form` to change to the repo directory, and run `npm install.
+then `cd redux-form` to change to the repo directory, and run `npm install`.
 
 Then either run `npm run example:simple` or manually run the
 following commands:
