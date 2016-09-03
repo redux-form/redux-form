@@ -3,9 +3,24 @@
 Below are a list of examples that demonstrate the capabilities of `redux-form` for testing and
 learning purposes.
 
-Each example is its own standalone web app with hot reloading. To run them locally, clone the 
-`redux-form` repository, run `npm install`, `cd` into an example folder, and run `npm install` and `npm start`. Then
-open [`localhost:3030`](http://localhost:3030) in your browser.
+Each example is its own standalone web app with hot reloading. To prepare for running the
+examples locally, clone the `redux-form` repository and run `npm install` to install the
+necessary dependencies for `redux-form`. Then you can run the examples locally using either
+two methods:
+
+1. Run `npm run example:EXAMPLE_FOLDER` (Remember to replace EXAMPLE\_FOLDER with the name of the 
+folder for the example you want to run like `npm run example:simple` or `npm run example:material-ui`)
+
+2. Manually run the following commands:
+```
+# Remember to replace EXAMPLE_FOLDER with the name of the example's folder
+cd ./examples/EXAMPLE_FOLDER
+npm install
+npm start
+```
+
+After following either of these methods, open [`localhost:3030`](http://localhost:3030) in your
+browser to view the example running locally on your machine.
 
 
 ---
