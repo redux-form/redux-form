@@ -24,7 +24,7 @@ Also note that a general form-wide error can be returned via the special `_error
 To run this example locally on your machine clone the `redux-form` repository,
 then `cd redux-form` to change to the repo directory, and run `npm install`.
 
-Then either run `npm run example:submitValidation` or manually run the
+Then run `npm run example:submitValidation` or manually run the
 following commands:
 ```
 cd ./examples/submitValidation

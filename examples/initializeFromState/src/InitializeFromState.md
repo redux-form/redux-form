@@ -29,7 +29,7 @@ clicking the "Load Account" button.
 To run this example locally on your machine clone the `redux-form` repository,
 then `cd redux-form` to change to the repo directory, and run `npm install`.
 
-Then either run `npm run example:initializeFromState` or manually run the
+Then run `npm run example:initializeFromState` or manually run the
 following commands:
 ```
 cd ./examples/initializeFromState
