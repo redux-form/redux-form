@@ -23,8 +23,11 @@ export default function isPristine(initial, data) {
     }
   } else if (initial || data) { // allow '' to equate to undefined or null
     return initial === data;
-  } else if (initial === null && data === 0 || initial === 0 && data === null) {
-    return false;
+  } else if (Number.isNaN(initial) && Number.isNaN(data)) {
+    // Equality for NaN always results in false, thus the special case
+    return true;
+  } else if ((initial === 0 || initial === null || Number.isNaN(initial)) && (data === null || data === 0 || Number.isNaN(data))) {
+    return initial === data;
   }
   return true;
 }

@@ -76,4 +76,16 @@ describe('isPristine', () => {
     tryBothWays(null, 0, false);
   });
 
+  it('should return false when one value is null the other is NaN', () => {
+    tryBothWays(NaN, null, false);
+  });
+
+  it('should return false when one value is 0 the other is NaN', () => {
+    tryBothWays(NaN, 0, false);
+  });
+
+  it('should return true when both values are NaN', () => {
+    expect(isPristine(NaN, NaN)).toBe(true);
+  });
+
 });
