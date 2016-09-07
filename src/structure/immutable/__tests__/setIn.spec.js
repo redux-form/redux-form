@@ -262,4 +262,32 @@ describe('structure.immutable.setIn', () => {
     let b2 = b.get(2)
     expect(b2).toEqual('three')
   })
+  it('should add to an existing List item', function () {
+    let initial = fromJS({
+      a: {
+        b: [
+          {
+            c: '123'
+          }
+        ]
+      }
+    })
+
+    let result = setIn(initial, 'a.b[0].d', '12')
+
+    let a = result.get('a')
+    expect(a).toExist('a missing')
+
+    let b = a.get('b')
+    expect(b).toExist('b missing')
+
+    let b0 = b.get(0)
+    expect(b0).toExist()
+
+    let b0d = b0.get('d')
+    expect(b0d).toEqual('12')
+
+    let b0c = b0.get('c')
+    expect(b0c).toEqual('123')
+  })
 })
