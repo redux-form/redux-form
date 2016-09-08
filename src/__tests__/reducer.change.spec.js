@@ -201,12 +201,40 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         },
         error: 'some global error'
       }
-    }), change('foo', 'myField', 'different', false))
+    }), change('foo', 'myField', 'different', false, true))
     expect(state)
       .toEqualMap({
         foo: {
           values: {
             myField: 'different'
+          }
+        }
+      })
+  })
+
+  it('should set value on change and NOT remove field-level submit errors', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'initial'
+        },
+        asyncErrors: {
+          myField: 'async error'
+        },
+        submitErrors: {
+          myField: 'submit error'
+        },
+        error: 'some global error'
+      }
+    }), change('foo', 'myField', 'different', false, false))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            myField: 'different'
+          },
+          submitErrors: {
+            myField: 'submit error'
           }
         }
       })

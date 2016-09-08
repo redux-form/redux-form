@@ -56,8 +56,8 @@ export const autofill = (form, field, value) =>
 export const blur = (form, field, value, touch) =>
   ({ type: BLUR, meta: { form, field, touch }, payload: value })
 
-export const change = (form, field, value, touch) =>
-  ({ type: CHANGE, meta: { form, field, touch }, payload: value })
+export const change = (form, field, value, touch, clearErrors) =>
+  ({ type: CHANGE, meta: { form, field, touch, clearErrors }, payload: value })
 
 export const destroy = (form) =>
   ({ type: DESTROY, meta: { form } })
