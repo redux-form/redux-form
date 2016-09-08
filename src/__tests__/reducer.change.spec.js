@@ -212,14 +212,14 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       })
   })
 
-  it('should set value on change and NOT remove field-level submit errors', () => {
+  it('should NOT remove field-level submit errors and global errors if clearErrorsOnChange is disabled', () => {
     const state = reducer(fromJS({
       foo: {
         values: {
           myField: 'initial'
         },
         asyncErrors: {
-          myField: 'async error'
+          myField: 'async error' // only this will be removed
         },
         submitErrors: {
           myField: 'submit error'
@@ -235,7 +235,8 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
           },
           submitErrors: {
             myField: 'submit error'
-          }
+          },
+          error: 'some global error'
         }
       })
   })
