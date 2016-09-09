@@ -192,9 +192,9 @@ form has triggered it, respectively.
 
 > marks fields as `touched` when the change action is fired. Defaults to `false`.
 
-#### `clearErrorsOnChange : boolean` [optional]
+#### `persistentSubmitErrors : boolean` [optional]
 
-> removes existing submit errors from the field when the change action is fired. Defaults to `true`.
+> do not remove submit errors when the change action is fired. Defaults to `false`.
 
 #### `validate : (values:Object, props:Object) => errors:Object` [optional]
 

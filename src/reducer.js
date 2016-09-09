@@ -146,7 +146,7 @@ const createReducer = structure => {
       }
       return result
     },
-    [CHANGE](state, { meta: { field, touch, clearErrors }, payload }) {
+    [CHANGE](state, { meta: { field, touch, persistentSubmitErrors }, payload }) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
       if (initial === undefined && payload === '') {
@@ -155,11 +155,11 @@ const createReducer = structure => {
         result = setIn(result, `values.${field}`, payload)
       }
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
-      if (clearErrors) {
+      if (!persistentSubmitErrors) {
         result = deleteInWithCleanUp(result, `submitErrors.${field}`)
       }
       result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
-      if (clearErrors) {
+      if (!persistentSubmitErrors) {
         result = deleteInWithCleanUp(result, 'error')
       }
       if (touch) {

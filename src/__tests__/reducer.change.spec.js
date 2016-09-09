@@ -201,7 +201,7 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         },
         error: 'some global error'
       }
-    }), change('foo', 'myField', 'different', false, true))
+    }), change('foo', 'myField', 'different', false))
     expect(state)
       .toEqualMap({
         foo: {
@@ -212,7 +212,7 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       })
   })
 
-  it('should NOT remove field-level submit errors and global errors if clearErrorsOnChange is disabled', () => {
+  it('should NOT remove field-level submit errors and global errors if persistentSubmitErrors is enabled', () => {
     const state = reducer(fromJS({
       foo: {
         values: {
@@ -226,7 +226,7 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         },
         error: 'some global error'
       }
-    }), change('foo', 'myField', 'different', false, false))
+    }), change('foo', 'myField', 'different', false, true))
     expect(state)
       .toEqualMap({
         foo: {

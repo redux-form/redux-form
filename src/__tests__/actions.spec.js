@@ -282,7 +282,7 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           touch: false,
-          clearErrors: true
+          persistentSubmitErrors: true
         },
         payload: 'bar'
       })
@@ -294,7 +294,7 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           touch: true,
-          clearErrors: false
+          persistentSubmitErrors: false
         },
         payload: 7
       })

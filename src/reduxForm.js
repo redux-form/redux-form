@@ -80,7 +80,7 @@ const createReduxForm =
       const config = {
         touchOnBlur: true,
         touchOnChange: false,
-        clearErrorsOnChange: true,
+        persistentSubmitErrors: false,
         destroyOnUnmount: true,
         shouldAsyncValidate: defaultShouldAsyncValidate,
         enableReinitialize: false,
@@ -336,7 +336,7 @@ const createReduxForm =
               touch,
               touchOnBlur,
               touchOnChange,
-              clearErrorsOnChange,
+              persistentSubmitErrors,
               syncErrors,
               unregisterField,
               untouch,
@@ -397,7 +397,7 @@ const createReduxForm =
           validate: PropTypes.func,
           touchOnBlur: PropTypes.bool,
           touchOnChange: PropTypes.bool,
-          clearErrorsOnChange: PropTypes.bool, 
+          persistentSubmitErrors: PropTypes.bool, 
           registeredFields: PropTypes.any
         }
 
@@ -443,7 +443,7 @@ const createReduxForm =
             const boundFormACs = mapValues(formActions, bindForm)
             const boundArrayACs = mapValues(arrayActions, bindForm)
             const boundBlur = (field, value) => blur(initialProps.form, field, value, !!initialProps.touchOnBlur)
-            const boundChange = (field, value) => change(initialProps.form, field, value, !!initialProps.touchOnChange, !!initialProps.clearErrorsOnChange)
+            const boundChange = (field, value) => change(initialProps.form, field, value, !!initialProps.touchOnChange, !!initialProps.persistentSubmitErrors)
             const boundFocus = bindForm(focus)
 
             // Wrap action creators with `dispatch`
