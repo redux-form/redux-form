@@ -273,6 +273,8 @@ const createReducer = structure => {
         const { _error, ...fieldErrors } = payload
         if (_error) {
           result = setIn(result, 'error', _error)
+        } else {
+          result = deleteIn(result, 'error')
         }
         if (Object.keys(fieldErrors).length) {
           result = setIn(result, 'submitErrors', fromJS(fieldErrors))
