@@ -270,7 +270,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         },
         submitting: true
       }
-    }), stopSubmit('foo', {_error: 'some global error'}))
+    }), stopSubmit('foo', { _error: 'some global error' }))
     expect(state)
       .toEqualMap({
         foo: {
@@ -333,7 +333,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         submitting: true,
         error: 'some global error'
       }
-    }), stopSubmit('foo', {myField: 'some submit error'}))
+    }), stopSubmit('foo', { myField: 'some submit error' }))
     expect(state)
       .toEqualMap({
         foo: {
