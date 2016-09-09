@@ -3,14 +3,11 @@ import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 
-const createConnectedFields = ({
-  asyncValidate,
-  blur,
-  change,
-  focus,
-  getFormState,
-  initialValues
-}, { deepEqual, getIn }, names) => {
+const propsToNotUpdateFor = [
+  '_reduxForm'
+]
+
+const createConnectedFields = ({ deepEqual, getIn }) => {
 
   const getSyncError = (syncErrors, name) => {
     const error = plain.getIn(syncErrors, name)
@@ -21,7 +18,11 @@ const createConnectedFields = ({
 
   class ConnectedFields extends Component {
     shouldComponentUpdate(nextProps) {
-      return !deepEqual(this.props, nextProps)
+      const nextPropsKeys = Object.keys(nextProps)
+      const thisPropsKeys = Object.keys(this.props)
+      return nextPropsKeys.length == thisPropsKeys.length && nextPropsKeys.some(prop => {
+        return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
+      })
     }
 
     isDirty() {
@@ -40,8 +41,8 @@ const createConnectedFields = ({
     }
 
     render() {
-      const { component, withRef, _fields, ...rest } = this.props
-
+      const { component, withRef, _fields, _reduxForm, ...rest } = this.props
+      const { asyncValidate, blur, change, focus } = _reduxForm
       const { custom, ...props } = Object.keys(_fields).reduce((accumulator, name) => {
         const connectedProps = _fields[ name ]
         const { custom, ...fieldProps } = createFieldProps(getIn,
@@ -74,12 +75,12 @@ const createConnectedFields = ({
 
   const connector = connect(
     (state, ownProps) => {
+      const { names, _reduxForm: { initialValues, getFormState } } = ownProps
       const formState = getFormState(state)
       return {
         _fields: names.reduce((accumulator, name) => {
           const initialState = getIn(formState, `initial.${name}`)
-          const propInitialValue = initialValues && getIn(initialValues, name)
-          const initial = initialState === undefined ? propInitialValue : initialState
+          const initial = initialState !== undefined ? initialState : (initialValues && getIn(initialValues, name)) 
           const value = getIn(formState, `values.${name}`)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
           const submitting = getIn(formState, 'submitting')

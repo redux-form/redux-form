@@ -15,16 +15,17 @@ const validateNameProp = prop => {
 
 const createFields = ({ deepEqual, getIn }) => {
 
+  const ConnectedFields = createConnectedFields({
+    deepEqual,
+    getIn
+  })
+  
   class Fields extends Component {
     constructor(props, context) {
       super(props, context)
       if (!context._reduxForm) {
         throw new Error('Fields must be inside a component decorated with reduxForm()')
       }
-      this.ConnectedFields = createConnectedFields(context._reduxForm, {
-        deepEqual,
-        getIn
-      }, this.names)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -42,9 +43,11 @@ const createFields = ({ deepEqual, getIn }) => {
 
     componentWillReceiveProps(nextProps) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
-        // names changed, regenerate connected field
-        this.ConnectedFields =
-          createConnectedFields(this.context._reduxForm, { deepEqual, getIn }, nextProps.names)
+        const { register, unregister } = this.context._reduxForm
+        // unregister old name
+        this.props.names.forEach(unregister)
+        // register new name
+        nextProps.names.forEach(name => register(name, 'Field'))
       }
     }
 
@@ -76,8 +79,9 @@ const createFields = ({ deepEqual, getIn }) => {
     }
 
     render() {
-      return createElement(this.ConnectedFields, {
+      return createElement(ConnectedFields, {
         ...this.props,
+        _reduxForm: this.context._reduxForm,
         ref: 'connected'
       })
     }
