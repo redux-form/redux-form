@@ -192,6 +192,10 @@ form has triggered it, respectively.
 
 > marks fields as `touched` when the change action is fired. Defaults to `false`.
 
+#### `persistentSubmitErrors : boolean` [optional]
+
+> do not remove submit errors when the change action is fired. Defaults to `false`.
+
 #### `validate : (values:Object, props:Object) => errors:Object` [optional]
 
 > a synchronous validation function that takes the form values and props passed into your component.

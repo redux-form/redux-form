@@ -333,4 +333,20 @@ describe('handleSubmit', () => {
         expect(setSubmitSucceeded).toNotHaveBeenCalled()
       })
   })
+
+  it('should submit when there are old submit errors and persistentSubmitErrors is enabled', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const submit = createSpy().andReturn(69)
+    const startSubmit = createSpy()
+    const stopSubmit = createSpy()
+    const touch = createSpy()
+    const setSubmitFailed = createSpy()
+    const setSubmitSucceeded = createSpy()
+    const asyncValidate = createSpy()
+    const props = { startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values, persistentSubmitErrors: true }
+
+    handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+
+    expect(submit).toHaveBeenCalled()
+  })
 })

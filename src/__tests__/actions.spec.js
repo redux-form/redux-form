@@ -275,24 +275,26 @@ describe('actions', () => {
   })
 
   it('should create change action', () => {
-    expect(change('myForm', 'myField', 'bar', false))
+    expect(change('myForm', 'myField', 'bar', false, true))
       .toEqual({
         type: CHANGE,
         meta: {
           form: 'myForm',
           field: 'myField',
-          touch: false
+          touch: false,
+          persistentSubmitErrors: true
         },
         payload: 'bar'
       })
       .toPass(isFSA)
-    expect(change('myForm', 'myField', 7, true))
+    expect(change('myForm', 'myField', 7, true, false))
       .toEqual({
         type: CHANGE,
         meta: {
           form: 'myForm',
           field: 'myField',
-          touch: true
+          touch: true,
+          persistentSubmitErrors: false
         },
         payload: 7
       })

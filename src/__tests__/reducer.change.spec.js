@@ -212,6 +212,35 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       })
   })
 
+  it('should NOT remove field-level submit errors and global errors if persistentSubmitErrors is enabled', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'initial'
+        },
+        asyncErrors: {
+          myField: 'async error' // only this will be removed
+        },
+        submitErrors: {
+          myField: 'submit error'
+        },
+        error: 'some global error'
+      }
+    }), change('foo', 'myField', 'different', false, true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            myField: 'different'
+          },
+          submitErrors: {
+            myField: 'submit error'
+          },
+          error: 'some global error'
+        }
+      })
+  })
+
   it('should set nested value on change with empty state', () => {
     const state = reducer(undefined, change('foo', 'myField.mySubField', 'myValue', false))
     expect(state)

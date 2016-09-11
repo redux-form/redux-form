@@ -202,7 +202,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
       })
   })
 
-  it('should unset field submit errors on stopSubmit', () => {
+  it('should unset field submit errors on stopSubmit with no errors', () => {
     const state = reducer(fromJS({
       foo: {
         values: {
@@ -254,7 +254,41 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
       })
   })
 
-  it('should unset global errors on stopSubmit', () => {
+  it('should unset field submit errors on stopSubmit with global errors', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'myValue'
+        },
+        submitErrors: {
+          myField: 'some submit error'
+        },
+        fields: {
+          myField: {
+            touched: true
+          }
+        },
+        submitting: true
+      }
+    }), stopSubmit('foo', { _error: 'some global error' }))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            myField: 'myValue'
+          },
+          fields: {
+            myField: {
+              touched: true
+            }
+          },
+          error: 'some global error',
+          submitFailed: true
+        }
+      })
+  })
+
+  it('should unset global errors on stopSubmit with no errors', () => {
     const state = reducer(fromJS({
       foo: {
         values: {
@@ -281,6 +315,40 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
             }
           },
           submitSucceeded: true
+        }
+      })
+  })
+
+  it('should unset global errors on stopSubmit with field errors', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'myValue'
+        },
+        fields: {
+          myField: {
+            touched: true
+          }
+        },
+        submitting: true,
+        error: 'some global error'
+      }
+    }), stopSubmit('foo', { myField: 'some submit error' }))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            myField: 'myValue'
+          },
+          submitErrors: {
+            myField: 'some submit error'
+          },
+          fields: {
+            myField: {
+              touched: true
+            }
+          },
+          submitFailed: true
         }
       })
   })
