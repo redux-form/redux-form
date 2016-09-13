@@ -184,6 +184,20 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(errorResult.meta.invalid).toBe(true)
     })
 
+    it('should read sync warnings from prop', () => {
+      const noWarningResult = createFieldProps(getIn, 'foo', {
+        value: 'bar',
+        state: empty
+      })
+      expect(noWarningResult.meta.warning).toNotExist()
+      const warningResult = createFieldProps(getIn, 'foo', {
+        value: 'bar',
+        state: empty,
+        syncWarning: 'This is an warning'
+      })
+      expect(warningResult.meta.warning).toBe('This is an warning')
+    })
+
     it('should read async errors from state', () => {
       const noErrorResult = createFieldProps(getIn, 'foo', {
         value: 'bar',

@@ -38,10 +38,11 @@ const processProps = (type, props, _value) => {
 const createFieldProps = (getIn, name,
   {
     asyncError, asyncValidating, blur, change, dirty, dispatch, focus, format,
-    normalize, parse, pristine, props, state, submitError, submitting, value, _value, syncError,
-    ...custom
+    normalize, parse, pristine, props, state, submitError, submitting, value,
+    _value, syncError, syncWarning, ...custom
   }, asyncValidate = noop) => {
   const error = syncError || asyncError || submitError
+  const warning = syncWarning
   const boundParse = parse && (value => parse(value, name))
   const boundNormalize = normalize && (value => normalize(name, value))
   const boundChange = value => dispatch(change(name, value))
@@ -73,6 +74,7 @@ const createFieldProps = (getIn, name,
       dirty,
       dispatch,
       error,
+      warning,
       invalid: !!error,
       pristine,
       submitting: !!submitting,

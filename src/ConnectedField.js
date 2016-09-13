@@ -16,6 +16,13 @@ const createConnectedField = ({ deepEqual, getIn }) => {
     return error && error._error ? error._error : error
   }
 
+  const getSyncWarning = (syncWarnings, name) => {
+    const warning = plain.getIn(syncWarnings, name)
+    // Because the warning for this field might not be at a level in the warning structure where
+    // it can be set directly, it might need to be unwrapped from the _warning property
+    return warning && warning._warning ? warning._warning : warning
+  }
+
   class ConnectedField extends Component {
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
@@ -78,6 +85,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
+      const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)
       const pristine = value === initial
       return {
         asyncError: getIn(formState, `asyncErrors.${name}`),
@@ -88,6 +96,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
         submitError: getIn(formState, `submitErrors.${name}`),
         submitting,
         syncError,
+        syncWarning,
         value,
         _value: ownProps.value // save value passed in (for checkboxes)
       }

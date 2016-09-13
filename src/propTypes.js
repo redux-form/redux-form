@@ -6,6 +6,7 @@ const propTypes = {
   asyncValidating: bool.isRequired,   // true if async validation is running
   dirty: bool.isRequired,             // true if any values are different from initialValues
   error: any,                         // form-wide error from '_error' key in validation result
+  warning: any,                       // form-wide warning from '_warning' key in validation result
   invalid: bool.isRequired,           // true if there are any validation errors
   initialized: bool.isRequired,       // true if the form has been initialized
   pristine: bool.isRequired,          // true if the values are the same as initialValues
