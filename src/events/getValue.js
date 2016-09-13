@@ -25,6 +25,9 @@ const getValue = (event, isReactNative) => {
     if (type === 'checkbox') {
       return checked;
     }
+    if (type === 'radio') {
+      return checked ? value : '';
+    }
     if (type === 'file') {
       return files || dataTransfer && dataTransfer.files;
     }
