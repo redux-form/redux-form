@@ -275,5 +275,17 @@ describe('structure.immutable.deepEqual', () => {
       }
     }), true)
   })
+
+  it('should treat false and undefined as equal', () => {
+    testBothWays(fromJS({
+      a: {
+        b: false
+      }
+    }), fromJS({
+      a: {
+        b: undefined
+      }
+    }), true)
+  })
 })
 
