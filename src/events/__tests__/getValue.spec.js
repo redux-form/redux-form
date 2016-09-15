@@ -285,5 +285,44 @@ describe('getValue', () => {
       }
     }, false)).toBe('foo');
   });
-
+  it('should return event.target.value if radio and checked', () => {
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'radio',
+        checked: true,
+        value: 'foo'
+      }
+    }, true)).toBe('foo');
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'radio',
+        checked: true,
+        value: 'foo'
+      }
+    }, false)).toBe('foo');
+  });
+  it('should return empty string if radio and not checked', () => {
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'radio',
+        checked: false,
+        value: 'foo'
+      }
+    }, true)).toBe('');
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'radio',
+        checked: false,
+        value: 'foo'
+      }
+    }, false)).toBe('');
+  });
 });
