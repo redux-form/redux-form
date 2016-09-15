@@ -104,6 +104,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props2.meta.dirty).toBe(true)
     })
 
+    it('should get touched from Redux state', () => {
+      const props1 = testProps({
+        values: {
+          foo: 'bar'
+        }
+      })
+      expect(props1.meta.touched).toBe(false)
+      const props2 = testProps({
+        values: {
+          foo: 'bar'
+        },
+        fields: {
+          foo: {
+            touched: true
+          }
+        }
+      })
+      expect(props2.meta.touched).toBe(true)
+    })
+
+
     it('should provide forEach', () => {
       const props = testProps({
         values: {

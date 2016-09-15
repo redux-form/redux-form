@@ -8,11 +8,15 @@
 `getFormState(state)` function to the `reduxForm()` decorator, to get the slice of the Redux 
 state where you have mounted the `redux-form` reducer.
 
+> If you're using Immutablejs to manage your Redux state, you MUST import the reducer from 'redux-form/immutable'.
+
 ### ES5 Example
 
 ```javascript
 var redux = require('redux');
 var formReducer = require('redux-form').reducer;
+// Or with Immutablejs:
+// var formReducer = require('redux-form/immutable').reducer;
 
 var reducers = {
   // ... your other reducers here ...
@@ -27,6 +31,8 @@ var store = redux.createStore(reducer);
 ```javascript
 import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+// Or with Immutablejs:
+// import { reducer as formReducer } from 'redux-form/immutable';
 
 const reducers = {
   // ... your other reducers here ...

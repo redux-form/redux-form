@@ -31,7 +31,8 @@ const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
         foo: {
           doesnt: 'matter',
           should: 'change',
-          submitSucceeded: true
+          submitSucceeded: true,
+          submitting: true
         }
       })
   })
@@ -50,7 +51,8 @@ const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
         foo: {
           doesnt: 'matter',
           should: 'notchange',
-          submitSucceeded: true
+          submitSucceeded: true,
+          submitting: true
         }
       })
   })

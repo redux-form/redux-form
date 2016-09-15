@@ -18,3 +18,16 @@ show validation errors once your field has been touched, a flag that is set for 
 when the onBlur event occurs on your field. When you submit the form, all the fields are marked as
 touched, allowing any of their validation errors to show.
 
+## Running this example locally
+
+To run this example locally on your machine clone the `redux-form` repository,
+then `cd redux-form` to change to the repo directory, and run `npm install`.
+
+Then run `npm run example:syncValidation` or manually run the
+following commands:
+```
+cd ./examples/syncValidation
+npm install
+npm start
+```
+

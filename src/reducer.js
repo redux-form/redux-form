@@ -304,7 +304,6 @@ const createReducer = structure => {
       let result = state
       result = deleteIn(result, 'submitFailed')
       result = setIn(result, 'submitSucceeded', true)
-      result = deleteIn(result, 'submitting')
       return result
     },
     [TOUCH](state, { meta: { fields } }) {

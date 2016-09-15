@@ -24,3 +24,19 @@ The following example references an external `account` reducer, which simply tak
 values and saves it in the store under `account.data` when you dispatch the `load` action by
 clicking the "Load Account" button.
 
+## Running this example locally
+
+To run this example locally on your machine clone the `redux-form` repository,
+then `cd redux-form` to change to the repo directory, and run `npm install`.
+
+Then run `npm run example:initializeFromState` or manually run the
+following commands:
+```
+cd ./examples/initializeFromState
+npm install
+npm start
+```
+
+Then open [`localhost:3030`](http://localhost:3030) in your
+browser to view the example running locally on your machine.
+

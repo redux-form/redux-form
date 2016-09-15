@@ -18,3 +18,20 @@ most recent change
 This allows you to do things like restrict one field value based on the value of another field, 
 like the `min` and `max` fields in the example below. Notice that you cannot set `min` to be 
 greater than `max`, and you cannot set `max` to be less than `min`.
+
+## Running this example locally
+
+To run this example locally on your machine clone the `redux-form` repository,
+then `cd redux-form` to change to the repo directory, and run `npm install`.
+
+Then run `npm run example:normalizing` or manually run the
+following commands:
+```
+cd ./examples/normalizing
+npm install
+npm start
+```
+
+Then open [`localhost:3030`](http://localhost:3030) in your
+browser to view the example running locally on your machine.
+

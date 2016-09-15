@@ -5,14 +5,14 @@ import shallowCompare from './util/shallowCompare'
 
 const createFieldArray = ({ deepEqual, getIn, size }) => {
 
+  const ConnectedFieldArray = createConnectedFieldArray({ deepEqual, getIn, size })
+
   class FieldArray extends Component {
     constructor(props, context) {
       super(props, context)
       if (!context._reduxForm) {
         throw new Error('FieldArray must be inside a component decorated with reduxForm()')
       }
-      this.ConnectedFieldArray =
-        createConnectedFieldArray(context._reduxForm, { deepEqual, getIn, size }, props.name)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -25,13 +25,10 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
 
     componentWillReceiveProps(nextProps) {
       if (this.props.name !== nextProps.name) {
-        // name changed, regenerate connected field
-        this.ConnectedFieldArray =
-          createConnectedFieldArray(this.context._reduxForm, {
-            deepEqual,
-            getIn,
-            size
-          }, nextProps.name)
+        // unregister old name
+        this.context._reduxForm.unregister(this.props.name)
+        // register new name
+        this.context._reduxForm.register(nextProps.name, 'FieldArray')
       }
     }
 
@@ -63,9 +60,10 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     }
 
     render() {
-      return createElement(this.ConnectedFieldArray, {
+      return createElement(ConnectedFieldArray, {
         ...this.props,
         syncError: this.syncError,
+        _reduxForm: this.context._reduxForm,
         ref: 'connected'
       })
     }

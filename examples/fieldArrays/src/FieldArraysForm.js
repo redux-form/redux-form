@@ -12,10 +12,11 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 )
 
-const renderMembers = ({ fields }) => (
+const renderMembers = ({ fields, meta: { touched, error } }) => (
   <ul>
     <li>
       <button type="button" onClick={() => fields.push({})}>Add Member</button>
+      {touched && error && <span>{error}</span>}
     </li>
     {fields.map((member, index) =>
       <li key={index}>

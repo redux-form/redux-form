@@ -65,6 +65,7 @@ const createFieldProps = (getIn, name,
       value: format ? format(fieldValue) : fieldValue
     }, _value),
     meta: {
+      ...state,
       active: !!(state && getIn(state, 'active')),
       asyncValidating,
       autofilled: !!(state && getIn(state, 'autofilled')),
