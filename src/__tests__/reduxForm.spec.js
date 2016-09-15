@@ -127,6 +127,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(props.array.unshift).toExist().toBeA('function')
       expect(props.asyncValidate).toExist().toBeA('function')
       expect(props.asyncValidating).toBeA('boolean')
+      expect(props.autofill).toExist().toBeA('function')
+      expect(props.blur).toExist().toBeA('function')
+      expect(props.change).toExist().toBeA('function')
       expect(props.destroy).toExist().toBeA('function')
       expect(props.dirty).toBeA('boolean')
       expect(props.form).toExist().toBeA('string')
@@ -2745,6 +2748,106 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // input rendered with changed value
       expect(inputRender.calls.length).toBe(3)
       expect(inputRender.calls[ 2 ].arguments[ 0 ].input.value).toBe('fooChanged')
+    })
+
+    it('should provide dispatch-bound blur() that modifies values', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo', type: 'Field' } ]
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(formRender.calls[0].arguments[0].blur).toBeA('function')
+      formRender.calls[0].arguments[0].blur('foo', 'newValue')
+
+      // check modified state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo', type: 'Field' } ],
+            values: { foo: 'newValue' },
+            fields: { foo: { touched: true } },
+            anyTouched: true
+          }
+        }
+      })
+
+      // rerendered again because now dirty
+      expect(formRender.calls.length).toBe(2)
+    })
+
+    it('should provide dispatch-bound change() that modifies values', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo', type: 'Field' } ]
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(formRender.calls[0].arguments[0].change).toBeA('function')
+      formRender.calls[0].arguments[0].change('foo', 'newValue')
+
+      // check modified state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo', type: 'Field' } ],
+            values: { foo: 'newValue' }
+          }
+        }
+      })
+
+      // rerendered again because now dirty
+      expect(formRender.calls.length).toBe(2)
     })
   })
 }

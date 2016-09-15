@@ -464,8 +464,10 @@ const createReduxForm =
             const computedActions = {
               ...connectedFormACs,
               ...boundArrayACs,
-              blur: boundBlur,
-              change: boundChange,
+              ...bindActionCreators({
+                blur: boundBlur,
+                change: boundChange
+              }, dispatch),
               array: connectedArrayACs,
               focus: boundFocus,
               dispatch
