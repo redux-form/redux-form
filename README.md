@@ -20,12 +20,12 @@
 
 ## Documentation
 
-* [Getting Started](http://redux-form.com/6.0.4/docs/GettingStarted.md/)
-* [Examples](http://redux-form.com/6.0.4/examples/)
-* [API](http://redux-form.com/6.0.4/docs/api/)
-* [FAQ](http://redux-form.com/6.0.4/docs/faq/)
+* [Getting Started](http://redux-form.com/6.0.5/docs/GettingStarted.md/)
+* [Examples](http://redux-form.com/6.0.5/examples/)
+* [API](http://redux-form.com/6.0.5/docs/api/)
+* [FAQ](http://redux-form.com/6.0.5/docs/faq/)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
-* [Older Documentation](http://redux-form.com/6.0.4/docs/DocumentationVersions.md/)
+* [Older Documentation](http://redux-form.com/6.0.5/docs/DocumentationVersions.md/)
 
 ## Videos
 
