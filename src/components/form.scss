@@ -128,7 +128,7 @@ form {
       margin: 0;
       padding: 15px;
       background-image: linear-gradient(#efefef, #eee);
-      clear:both;
+      clear: both;
       ul li {
         background-image: linear-gradient(#ccefcc, #cec);
         &:nth-child(odd) {
@@ -168,6 +168,11 @@ form {
             @include fa-plus;
             margin-right: 5px;
           }
+        }
+        & > span {
+          display: block;
+          margin-top: 10px;
+          @include error;
         }
       }
     }
