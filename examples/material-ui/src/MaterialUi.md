@@ -8,7 +8,7 @@ component as custom component.
 
 For controls like `SelectField` we need to simulate the `onChange` manually. As props
 have been exposed in `redux-form` you can fire `onChange` manually.
-Read more [here](http://redux-form.com/6.0.3/docs/api/Field.md/#usage).
+Read more [here](http://redux-form.com/6.0.4/docs/api/Field.md/#usage).
 
 The delay between when you click "Submit" and when the alert dialog pops up is intentional,
 to simulate server latency.
