@@ -1,6 +1,7 @@
 import { Map, Iterable, List, fromJS } from 'immutable'
 import { toPath } from 'lodash'
 import deepEqual from './deepEqual'
+import setIn from './setIn'
 import splice from './splice'
 import plainGetIn from '../plain/getIn'
 
@@ -9,7 +10,7 @@ const structure = {
   emptyList: List(),
   getIn: (state, field) =>
     Map.isMap(state) || List.isList(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
-  setIn: (state, field, value) => state.setIn(toPath(field), value),
+  setIn,
   deepEqual,
   deleteIn: (state, field) => state.deleteIn(toPath(field)),
   fromJS: jsValue => fromJS(jsValue, (key, value) =>
