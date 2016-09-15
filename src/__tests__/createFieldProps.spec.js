@@ -107,6 +107,35 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(submittingResult.meta.submitting).toBe(true)
     })
 
+    it('should pass along all custom state props', () => {
+      const pristineResult = createFieldProps(getIn, 'foo', {
+        value: 'bar'
+      })
+      expect(pristineResult.meta.customProp).toBe(undefined)
+      const customResult = createFieldProps(getIn, 'foo', {
+        value: 'bar',
+        state: {
+          customProp: 'my-custom-prop'
+        }
+      })
+      expect(customResult.meta.customProp).toBe('my-custom-prop')
+    })
+
+    it('should not override canonical props with custom props', () => {
+      const pristineResult = createFieldProps(getIn, 'foo', {
+        value: 'bar'
+      })
+      expect(pristineResult.meta.customProp).toBe(undefined)
+      const customResult = createFieldProps(getIn, 'foo', {
+        value: 'bar',
+        submitting: true,
+        state: {
+          submitting: false
+        }
+      })
+      expect(customResult.meta.submitting).toBe(true)
+    })
+
     it('should read touched from state', () => {
       const untouchedResult = createFieldProps(getIn, 'foo', {
         value: 'bar',
