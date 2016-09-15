@@ -6,16 +6,18 @@ import shallowCompare from './util/shallowCompare'
 
 const createField = ({ deepEqual, getIn, setIn }) => {
 
+  const ConnectedField = createConnectedField({
+    deepEqual,
+    getIn
+  })
+
   class Field extends Component {
     constructor(props, context) {
       super(props, context)
       if (!context._reduxForm) {
         throw new Error('Field must be inside a component decorated with reduxForm()')
       }
-      this.ConnectedField = createConnectedField(context._reduxForm, {
-        deepEqual,
-        getIn
-      }, props.name)
+
       this.normalize = this.normalize.bind(this)
     }
 
@@ -29,9 +31,6 @@ const createField = ({ deepEqual, getIn, setIn }) => {
 
     componentWillReceiveProps(nextProps) {
       if (this.props.name !== nextProps.name) {
-        // name changed, regenerate connected field
-        this.ConnectedField =
-          createConnectedField(this.context._reduxForm, { deepEqual, getIn }, nextProps.name)
         // unregister old name
         this.context._reduxForm.unregister(this.props.name)
         // register new name
@@ -83,9 +82,10 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     }
 
     render() {
-      return createElement(this.ConnectedField, {
+      return createElement(ConnectedField, {
         ...this.props,
         normalize: this.normalize,
+        _reduxForm: this.context._reduxForm,
         ref: 'connected'
       })
     }
