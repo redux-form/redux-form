@@ -32,9 +32,9 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="6.0.2"
+        version="6.0.3"
         path="/examples/immutable"
-        breadcrumbs={generateExampleBreadcrumbs('immutable', 'Immutable JS Example', '6.0.2')}>
+        breadcrumbs={generateExampleBreadcrumbs('immutable', 'Immutable JS Example', '6.0.3')}>
 
         <Markdown content={readme}/>
 

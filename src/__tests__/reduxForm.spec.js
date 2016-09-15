@@ -2908,6 +2908,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         })
       })
     })
+    
     it('startSubmit in onSubmit sync', () => {
       const store = makeStore({})
       class Form extends Component {
