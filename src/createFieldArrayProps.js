@@ -2,7 +2,7 @@ const createFieldArrayProps = (getIn, name,
   {
     arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
     arraySplice, arraySwap, arrayUnshift, asyncError, // eslint-disable-line no-unused-vars
-    dirty, length, pristine, submitError,
+    dirty, length, pristine, submitError, state,
     submitFailed, submitting, // eslint-disable-line no-unused-vars
     syncError, value, props, ...rest
   }) => {
@@ -37,6 +37,7 @@ const createFieldArrayProps = (getIn, name,
       invalid: !!error,
       pristine,
       submitting,
+      touched: !!(state && getIn(state, 'touched')),
       valid: !error
     },
     ...props,

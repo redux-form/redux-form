@@ -85,6 +85,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         asyncError: getIn(formState, `asyncErrors.${name}._error`),
         dirty: !pristine,
         pristine,
+        state: getIn(formState, `fields.${name}`),
         submitError: getIn(formState, `submitErrors.${name}._error`),
         submitting,
         syncError,
