@@ -122,7 +122,7 @@ const createReduxForm =
                 const keepDirty = nextProps.initialized && this.props.keepDirtyOnReinitialize
                 this.props.initialize(nextProps.initialValues, keepDirty)
               }
-            } else if(this.props.initialValues && (!this.props.initialized || enableReinitialize)) {
+            } else if (this.props.initialValues && (!this.props.initialized || enableReinitialize)) {
               this.props.initialize(this.props.initialValues)
             }
           }
@@ -349,8 +349,7 @@ const createReduxForm =
               anyTouched,
               asyncValidate: this.asyncValidate,
               asyncValidating,
-              blur,
-              change,
+              ...bindActionCreators({ blur, change }, dispatch),
               destroy,
               dirty,
               dispatch,
@@ -396,7 +395,7 @@ const createReduxForm =
           validate: PropTypes.func,
           touchOnBlur: PropTypes.bool,
           touchOnChange: PropTypes.bool,
-          persistentSubmitErrors: PropTypes.bool, 
+          persistentSubmitErrors: PropTypes.bool,
           registeredFields: PropTypes.any
         }
 
@@ -463,10 +462,8 @@ const createReduxForm =
             const computedActions = {
               ...connectedFormACs,
               ...boundArrayACs,
-              ...bindActionCreators({
-                blur: boundBlur,
-                change: boundChange
-              }, dispatch),
+              blur: boundBlur,
+              change: boundChange,
               array: connectedArrayACs,
               focus: boundFocus,
               dispatch
