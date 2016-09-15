@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - Value Lifecycle</title>
+    <link href="http://redux-form.com/6.0.4/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="content">
+    <div class="app___3P8ep hasNav___1KF_W" data-reactroot="" data-reactid="1" data-react-checksum="-827970740"><div class="nav___11xa5" data-reactid="2"><button type="button" data-reactid="3"></button><div class="overlay___1GMox" data-reactid="4"><i class="fa fa-times" data-reactid="5"></i><!-- react-text: 6 --> Close<!-- /react-text --></div><div class="placeholder___TzF1K" data-reactid="7"></div><nav class="menu___12xDU" data-reactid="8"><a href="http://redux-form.com/6.0.4" class="brand___1qRUu" data-reactid="9">Redux Form</a><a href="http://redux-form.com/6.0.4/docs/GettingStarted.md" class="" data-reactid="10">Getting Started</a><a href="http://redux-form.com/6.0.4/docs/MigrationGuide.md" class="" data-reactid="11"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.4/docs/ValueLifecycle.md" class="active___2eU59" data-reactid="12">Value Lifecycle</a><a href="http://redux-form.com/6.0.4/docs/api" class="" data-reactid="13">API</a><a href="http://redux-form.com/6.0.4/docs/api/ReduxForm.md" class="indent1___4iVnL" data-reactid="14"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.4/docs/api/Props.md" class="indent1___4iVnL" data-reactid="15"><code>props</code></a><a href="http://redux-form.com/6.0.4/docs/api/Field.md" class="indent1___4iVnL" data-reactid="16"><code>Field</code></a><a href="http://redux-form.com/6.0.4/docs/api/Fields.md" class="indent1___4iVnL" data-reactid="17"><code>Fields</code></a><a href="http://redux-form.com/6.0.4/docs/api/FieldArray.md" class="indent1___4iVnL" data-reactid="18"><code>FieldArray</code></a><a href="http://redux-form.com/6.0.4/docs/api/FormValueSelector.md" class="indent1___4iVnL" data-reactid="19"><code>formValueSelector()</code></a><a href="http://redux-form.com/6.0.4/docs/api/Reducer.md" class="indent1___4iVnL" data-reactid="20"><code>reducer</code></a><a href="http://redux-form.com/6.0.4/docs/api/ReducerPlugin.md" class="indent2___2PiOO" data-reactid="21"><code>reducer.plugin()</code></a><a href="http://redux-form.com/6.0.4/docs/api/SubmissionError.md" class="indent1___4iVnL" data-reactid="22"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.4/docs/api/ActionCreators.md" class="indent1___4iVnL" data-reactid="23">Action Creators</a><a href="http://redux-form.com/6.0.4/docs/api/Selectors.md" class="indent1___4iVnL" data-reactid="24">Selectors</a><a href="http://redux-form.com/6.0.4/docs/faq" class="" data-reactid="25">FAQ</a><a href="http://redux-form.com/6.0.4/examples" class="" data-reactid="26">Examples</a><a href="http://redux-form.com/6.0.4/examples/simple" class="indent1___4iVnL" data-reactid="27">Simple Form</a><a href="http://redux-form.com/6.0.4/examples/syncValidation" class="indent1___4iVnL" data-reactid="28">Sync Validation</a><a href="http://redux-form.com/6.0.4/examples/submitValidation" class="indent1___4iVnL" data-reactid="29">Submit Validation</a><a href="http://redux-form.com/6.0.4/examples/asyncValidation" class="indent1___4iVnL" data-reactid="30">Async Validation</a><a href="http://redux-form.com/6.0.4/examples/initializeFromState" class="indent1___4iVnL" data-reactid="31">Initializing from State</a><a href="http://redux-form.com/6.0.4/examples/selectingFormValues" class="indent1___4iVnL" data-reactid="32">Selecting Form Values</a><a href="http://redux-form.com/6.0.4/examples/fieldArrays" class="indent1___4iVnL" data-reactid="33">Field Arrays</a><a href="http://redux-form.com/6.0.4/examples/normalizing" class="indent1___4iVnL" data-reactid="34">Normalizing</a><a href="http://redux-form.com/6.0.4/examples/immutable" class="indent1___4iVnL" data-reactid="35">Immutable JS</a><a href="http://redux-form.com/6.0.4/examples/wizard" class="indent1___4iVnL" data-reactid="36">Wizard Form</a><a href="http://redux-form.com/6.0.4/examples/material-ui" class="indent1___4iVnL" data-reactid="37">Material UI</a><a href="http://redux-form.com/6.0.4/examples/react-widgets" class="indent1___4iVnL" data-reactid="38">React Widgets</a><a href="http://redux-form.com/6.0.4/docs/DocumentationVersions.md" class="" data-reactid="39">Older Versions</a></nav></div><div class="contentAndFooter___kE2nt" data-reactid="40"><div class="topNav___sBW8S" data-reactid="41"><a href="http://redux-form.com" class="brand___YAZl-" data-reactid="42"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank" data-reactid="43"><i class="fa fa-fw fa-github" data-reactid="44"></i></a></div><div class="content___3TVHp" data-reactid="45"><div data-reactid="46"><ol class="breadcrumbs___1BHo6" data-reactid="47"><li data-reactid="48"><a href="http://redux-form.com/6.0.4/" data-reactid="49">Redux Form</a></li><li data-reactid="50">Value Lifecycle</li></ol><div data-reactid="51"><h1 id="understanding-field-value-lifecycle">Understanding Field Value Lifecycle</h1>
+<p>It&#39;s important to understand how your field value is flowing through <code>redux-form</code>.</p>
+<h2 id="value-lifecycle-hooks">Value Lifecycle Hooks</h2>
+<p><code>redux-form</code> provides three value lifecycle hooks, provided as props to the <code>Field</code> component. 
+<strong>They are all optional.</strong></p>
+<h3 id="-format-value-any-string-"><code>format(value:Any) =&gt; String</code></h3>
+<blockquote>
+<p>Formats the value from the Redux store to be used for your input component. Common use cases are 
+for maintaining data as <code>Number</code>s or <code>Date</code>s in the store, but formatting them a specific way in 
+your input.</p>
+</blockquote>
+<h3 id="-parse-value-string-any-"><code>parse(value:String) =&gt; Any</code></h3>
+<blockquote>
+<p>Parses a string input by the user into the data type that you want to use in the Redux store.
+Common use cases are for maintaining data as <code>Number</code>s or <code>Date</code>s in the store.</p>
+</blockquote>
+<h3 id="-normalize-value-any-previousvalue-any-allvalues-object-previousallvalues-object-any-"><code>normalize(value:Any, previousValue:Any, allValues:Object, previousAllValues:Object) =&gt; Any</code></h3>
+<blockquote>
+<p>Allows you to add logic based on all your form values to put a constraint on the value of the 
+current field. Common use cases include making sure that <code>minDate</code> is before <code>maxDate</code>. If you 
+have provided a parser, the value given to <code>normalize()</code> will already be parsed.</p>
+</blockquote>
+<h2 id="value-lifecycle">Value Lifecycle</h2>
+<div style="text-align: center;">
+<img align="center" src="https://github.com/erikras/redux-form/raw/master/docs/valueLifecycle.png"/>
+</div>
+
+</div></div></div><div class="footer___1oh0h" data-reactid="52"><div data-reactid="53">Created by Erik Rasmussen</div><div data-reactid="54"><!-- react-text: 55 -->Got questions? Ask for help:<!-- /react-text --><a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank" data-reactid="56"><i class="fa fa-fw fa-stack-overflow" data-reactid="57"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank" data-reactid="58"><i class="fa fa-fw fa-github" data-reactid="59"></i></a></div><div data-reactid="60"><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="61"><!-- react-text: 62 -->Follow @<!-- /react-text --><!-- react-text: 63 -->erikras<!-- /react-text --></a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="64"><!-- react-text: 65 -->Follow @<!-- /react-text --><!-- react-text: 66 -->ReduxForm<!-- /react-text --></a></div></div></div></div>
+  </div>
+  <script src="http://redux-form.com/6.0.4/bundle.js"></script>
+  <script>initReact({"version":"6.0.4","path":"/docs/ValueLifecycle.md","breadcrumbs":[{"path":"http://redux-form.com/6.0.4/","title":"Redux Form"},{"path":"http://redux-form.com/6.0.4/docs/ValueLifecycle.md","title":"Value Lifecycle"}]})</script>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>
