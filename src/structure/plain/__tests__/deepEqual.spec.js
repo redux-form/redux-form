@@ -188,5 +188,17 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(a, b, false)
     testBothWays(b, c, true)
   })
+
+  it('should treat false and undefined as equal', () => {
+    testBothWays({
+      a: {
+        b: false
+      }
+    }, {
+      a: {
+        b: undefined
+      }
+    }, true)
+  })
 })
 

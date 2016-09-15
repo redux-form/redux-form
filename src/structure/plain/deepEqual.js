@@ -2,8 +2,9 @@ import { isEqualWith } from 'lodash'
 
 const customizer = (obj, other) => {
   if (obj == other) return true
-  if (obj == null && other === '') return true
-  if (obj === '' && other == null) return true
+  if ((obj == null || obj === '' || obj === false) &&
+    (other == null || other === '' || other === false)) return true
+
   if (obj && other && obj._error !== other._error) return false
 }
 

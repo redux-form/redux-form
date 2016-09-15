@@ -256,9 +256,8 @@ const createReduxForm =
               return promise
             }
             this.submitPromise = promise
-            return promise.then(this.submitCompleted, err => {
+            return promise.then(this.submitCompleted, () => {
               this.submitCompleted()
-              return Promise.reject(err)
             })
           }
 
