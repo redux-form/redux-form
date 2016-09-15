@@ -7,6 +7,8 @@ if you are using a library, like [`redux-immutable`](https://github.com/gajus/re
 with Immutable JS, you can use the "immutable" version of `redux-form` by importing from 
 `redux-form/immutable` instead of `redux-form`.
 
+Also do not forget to import your form reducer from `redux-form/immutable` as well.
+
 ```js
 import { reduxForm } from 'redux-form/immutable'
 ```
