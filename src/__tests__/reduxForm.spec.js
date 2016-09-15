@@ -10,6 +10,7 @@ import createReducer from '../reducer'
 import createReduxForm from '../reduxForm'
 import createField from '../Field'
 import createFieldArray from '../FieldArray'
+import { startSubmit } from '../actions'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
@@ -2848,6 +2849,116 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       // rerendered again because now dirty
       expect(formRender.calls.length).toBe(2)
+    })
+
+    it('startSubmit in onSubmit promise', () => {
+      const store = makeStore({})
+      class Form extends Component {
+        render() {
+          const { handleSubmit } = this.props
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const resolvedProm = Promise.resolve()
+      const Decorated = reduxForm({
+        form: 'testForm',
+        destroyOnUnmount: false,
+        onSubmit(data, dispatch) {
+          dispatch(startSubmit('testForm'))
+
+          return resolvedProm
+        }
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      // unmount form
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+      stub.submit()
+
+
+      return resolvedProm.then(() => {
+        // form state not destroyed (just fields unregistered)
+        expect(store.getState()).toEqualMap({
+          form: {
+            testForm: {
+              anyTouched: true,
+              fields: {
+                foo: {
+                  touched: true
+                }
+              },
+              registeredFields: [
+                {
+                  name: 'foo',
+                  type: 'Field'
+                }
+              ],
+              submitSucceeded: true
+            }
+          }
+        })
+      })
+    })
+    it('startSubmit in onSubmit sync', () => {
+      const store = makeStore({})
+      class Form extends Component {
+        render() {
+          const { handleSubmit } = this.props
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        destroyOnUnmount: false,
+        onSubmit(data, dispatch) {
+          dispatch(startSubmit('testForm'))
+        }
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      // unmount form
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+      stub.submit()
+
+      // form state not destroyed (just fields unregistered)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            anyTouched: true,
+            fields: {
+              foo: {
+                touched: true
+              }
+            },
+            registeredFields: [
+              {
+                name: 'foo',
+                type: 'Field'
+              }
+            ],
+            submitting: true,
+            submitSucceeded: true
+          }
+        }
+      })
     })
   })
 }
