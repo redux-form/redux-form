@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Redux Form - `FieldArray`</title>
+    <link href="http://redux-form.com/6.0.3/bundle.css"
+      media="screen, projection" rel="stylesheet" type="text/css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css"
+          media="screen, projection" rel="stylesheet" type="text/css"/>
+    <meta itemprop="name" content="Redux Form"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Redux Form"/>
+    <meta property="og:site_name" content="Redux Form"/>
+    <meta property="og:description" content="The best way to manage your form state in Redux."/>
+    <meta property="og:image" content="logo.png"/>
+    <meta property="twitter:site" content="@erikras"/>
+    <meta property="twitter:creator" content="@erikras"/>
+    <style type="text/css">
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <div id="content">
+    <div class="app___3P8ep hasNav___1KF_W" data-reactroot="" data-reactid="1" data-react-checksum="1909977654"><div class="nav___11xa5" data-reactid="2"><button type="button" data-reactid="3"></button><div class="overlay___1GMox" data-reactid="4"><i class="fa fa-times" data-reactid="5"></i><!-- react-text: 6 --> Close<!-- /react-text --></div><div class="placeholder___TzF1K" data-reactid="7"></div><nav class="menu___12xDU" data-reactid="8"><a href="http://redux-form.com/6.0.3" class="brand___1qRUu" data-reactid="9">Redux Form</a><a href="http://redux-form.com/6.0.3/docs/GettingStarted.md" class="" data-reactid="10">Getting Started</a><a href="http://redux-form.com/6.0.3/docs/MigrationGuide.md" class="" data-reactid="11"><code>v6</code> Migration Guide</a><a href="http://redux-form.com/6.0.3/docs/ValueLifecycle.md" class="" data-reactid="12">Value Lifecycle</a><a href="http://redux-form.com/6.0.3/docs/api" class="" data-reactid="13">API</a><a href="http://redux-form.com/6.0.3/docs/api/ReduxForm.md" class="indent1___4iVnL" data-reactid="14"><code>reduxForm()</code></a><a href="http://redux-form.com/6.0.3/docs/api/Props.md" class="indent1___4iVnL" data-reactid="15"><code>props</code></a><a href="http://redux-form.com/6.0.3/docs/api/Field.md" class="indent1___4iVnL" data-reactid="16"><code>Field</code></a><a href="http://redux-form.com/6.0.3/docs/api/Fields.md" class="indent1___4iVnL" data-reactid="17"><code>Fields</code></a><a href="http://redux-form.com/6.0.3/docs/api/FieldArray.md" class="indent1___4iVnL active___2eU59" data-reactid="18"><code>FieldArray</code></a><a href="http://redux-form.com/6.0.3/docs/api/FormValueSelector.md" class="indent1___4iVnL" data-reactid="19"><code>formValueSelector()</code></a><a href="http://redux-form.com/6.0.3/docs/api/Reducer.md" class="indent1___4iVnL" data-reactid="20"><code>reducer</code></a><a href="http://redux-form.com/6.0.3/docs/api/ReducerPlugin.md" class="indent2___2PiOO" data-reactid="21"><code>reducer.plugin()</code></a><a href="http://redux-form.com/6.0.3/docs/api/SubmissionError.md" class="indent1___4iVnL" data-reactid="22"><code>SubmissionError</code></a><a href="http://redux-form.com/6.0.3/docs/api/ActionCreators.md" class="indent1___4iVnL" data-reactid="23">Action Creators</a><a href="http://redux-form.com/6.0.3/docs/api/Selectors.md" class="indent1___4iVnL" data-reactid="24">Selectors</a><a href="http://redux-form.com/6.0.3/docs/faq" class="" data-reactid="25">FAQ</a><a href="http://redux-form.com/6.0.3/examples" class="" data-reactid="26">Examples</a><a href="http://redux-form.com/6.0.3/examples/simple" class="indent1___4iVnL" data-reactid="27">Simple Form</a><a href="http://redux-form.com/6.0.3/examples/syncValidation" class="indent1___4iVnL" data-reactid="28">Sync Validation</a><a href="http://redux-form.com/6.0.3/examples/submitValidation" class="indent1___4iVnL" data-reactid="29">Submit Validation</a><a href="http://redux-form.com/6.0.3/examples/asyncValidation" class="indent1___4iVnL" data-reactid="30">Async Validation</a><a href="http://redux-form.com/6.0.3/examples/initializeFromState" class="indent1___4iVnL" data-reactid="31">Initializing from State</a><a href="http://redux-form.com/6.0.3/examples/selectingFormValues" class="indent1___4iVnL" data-reactid="32">Selecting Form Values</a><a href="http://redux-form.com/6.0.3/examples/fieldArrays" class="indent1___4iVnL" data-reactid="33">Field Arrays</a><a href="http://redux-form.com/6.0.3/examples/normalizing" class="indent1___4iVnL" data-reactid="34">Normalizing</a><a href="http://redux-form.com/6.0.3/examples/immutable" class="indent1___4iVnL" data-reactid="35">Immutable JS</a><a href="http://redux-form.com/6.0.3/examples/wizard" class="indent1___4iVnL" data-reactid="36">Wizard Form</a><a href="http://redux-form.com/6.0.3/examples/material-ui" class="indent1___4iVnL" data-reactid="37">Material UI</a><a href="http://redux-form.com/6.0.3/examples/react-widgets" class="indent1___4iVnL" data-reactid="38">React Widgets</a><a href="http://redux-form.com/6.0.3/docs/DocumentationVersions.md" class="" data-reactid="39">Older Versions</a></nav></div><div class="contentAndFooter___kE2nt" data-reactid="40"><div class="topNav___sBW8S" data-reactid="41"><a href="http://redux-form.com" class="brand___YAZl-" data-reactid="42"></a><a class="github___3-vRv" href="https://github.com/erikras/redux-form" title="Github" target="_blank" data-reactid="43"><i class="fa fa-fw fa-github" data-reactid="44"></i></a></div><div class="content___3TVHp" data-reactid="45"><div data-reactid="46"><ol class="breadcrumbs___1BHo6" data-reactid="47"><li data-reactid="48"><a href="http://redux-form.com/6.0.3/" data-reactid="49">Redux Form</a></li><li data-reactid="50"><a href="http://redux-form.com/6.0.3/docs/api" data-reactid="51">API</a></li><li data-reactid="52"><code>FieldArray</code></li></ol><div data-reactid="53"><h1 id="-fieldarray-"><code>FieldArray</code></h1>
+<p><a href="https://github.com/erikras/redux-form/blob/master/src/FieldArray.js"><code>View source on GitHub</code></a></p>
+<p>The <code>FieldArray</code> component is how you render an array of fields. It works a lot like <code>Field</code>.
+With <code>Field</code>, you give a <code>name</code>, referring to the location of the field in the Redux state, and a
+<code>component</code> to render the field, which is given the props to connect the field to the Redux state.</p>
+<p>With <code>FieldArray</code>, you provide a <code>name</code> just like with <code>Field</code>, but the <code>component</code> you give to
+<code>FieldArray</code> will be given a set of props to query, update, and iterate through the field array.</p>
+<h2 id="importing">Importing</h2>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >var</span> FieldArray <span class="token operator" >=</span> <span class="token function" >require</span><span class="token punctuation" >(</span><span class="token string" >'redux-form'</span><span class="token punctuation" >)</span><span class="token punctuation" >.</span>FieldArray<span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES5</span>
+</code></pre>
+<pre class="language-jsx"><code class="language-jsx">
+<span class="token keyword" >import</span> <span class="token punctuation" >{</span> FieldArray <span class="token punctuation" >}</span> <span class="token keyword" >from</span> <span class="token string" >'redux-form'</span><span class="token punctuation" >;</span>  <span class="token comment" spellcheck="true">// ES6</span>
+</code></pre>
+
+<h2 id="props-you-can-pass-to-fieldarray-">Props you can pass to <code>FieldArray</code></h2>
+<h4 id="-name-string-required-"><code>name : String</code> [required]</h4>
+<p>A string path, in dot-and-bracket notation, corresponding to a value in the form values. It may
+be as simple as <code>&#39;firstName&#39;</code> or as complicated as
+<code>contact.billing.address[2].phones[1].areaCode</code>.</p>
+<h4 id="-component-component-function-required-"><code>component : Component|Function</code> [required]</h4>
+<p>A <code>Component</code> or stateless function to render the field array.</p>
+<h4 id="-withref-boolean-optional-"><code>withRef : boolean</code> [optional]</h4>
+<p>If <code>true</code>, the rendered component will be available with the <code>getRenderedComponent()</code> method.
+Defaults to <code>false</code>. <strong>Cannot be used if your component is a stateless function component.</strong></p>
+<h4 id="-props-object-optional-"><code>props : object</code> [optional]</h4>
+<p>Object with custom props to pass through the <code>FieldArray</code> component into a component provided
+to <code>component</code> prop. This props will be merged to props provided by <code>FieldArray</code> itself.</p>
+<h2 id="instance-api">Instance API</h2>
+<p>The following properties and methods are available on an instance of a <code>FieldArray</code> component.</p>
+<h4 id="-name-string-"><code>name : String</code></h4>
+<blockquote>
+<p>The <code>name</code> prop that you passed in.</p>
+</blockquote>
+<h4 id="-valid-boolean-"><code>valid : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if this field passes validation, <code>false</code> otherwise.</p>
+</blockquote>
+<h4 id="-getrenderedcomponent-"><code>getRenderedComponent()</code></h4>
+<blockquote>
+<p>Returns the instance of the rendered component. For this to work, you must provide a
+<code>withRef</code> prop, and your component must not be a stateless function component.</p>
+</blockquote>
+<h2 id="props">Props</h2>
+<p>These are props that <code>FieldArray</code> will pass to your wrapped component. <strong>All the props provided
+to your component by <code>redux-form</code> are divided into <code>fields</code> and <code>meta</code> objects.</strong></p>
+<p>Any additional props that you pass to your <code>FieldArray</code> will be in the root of the <code>props</code> 
+object, alongside <code>fields</code> and <code>meta</code>.</p>
+<h3 id="fields-props">Fields Props</h3>
+<p>The <code>fields</code> object is a &quot;pseudo-array&quot;, in that it has many of the same properties and methods 
+as a javascript <code>Array</code>, providing both reading and writing functionality.</p>
+<h4 id="-fields-foreach-callback-function-"><code>fields.forEach(callback) : Function</code></h4>
+<blockquote>
+<p>A method to iterate over each value of the array. See the section on <a href="#iteration">Iteration</a>
+for more details.</p>
+</blockquote>
+<h4 id="-fields-insert-index-integer-value-any-function-"><code>fields.insert(index:Integer, value:Any) : Function</code></h4>
+<blockquote>
+<p>A function to insert a new value into the array at any arbitrary index.</p>
+</blockquote>
+<h4 id="-fields-length-number-"><code>fields.length : Number</code></h4>
+<blockquote>
+<p>The current length of the array.</p>
+</blockquote>
+<h4 id="-fields-map-callback-function-"><code>fields.map(callback) : Function</code></h4>
+<blockquote>
+<p>A method to iterate over each value of the array. Returns an array of the results of each call
+to the callback. See the section on <a href="#iteration">Iteration</a> for more details.</p>
+</blockquote>
+<h4 id="-fields-move-from-integer-to-integer-function-"><code>fields.move(from:Integer, to:Integer) : Function</code></h4>
+<blockquote>
+<p>Moves an element from one index in the array to another.</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h4 id="-fields-pop-function-"><code>fields.pop() : Function</code></h4>
+<blockquote>
+<p>Removes an item from the end of the array. Returns the item removed.</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h4 id="-fields-push-value-any-function-"><code>fields.push(value:Any) : Function</code></h4>
+<blockquote>
+<p>Adds a value to the end of the array. Returns nothing.</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h4 id="-fields-remove-index-integer-function-"><code>fields.remove(index:Integer) : Function</code></h4>
+<blockquote>
+<p>Removes an item from the array at an arbitrary index. Returns nothing.</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h4 id="-fields-removeall-function-"><code>fields.removeAll() : Function</code></h4>
+<blockquote>
+<p>Removes all the values from the array.</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h4 id="-fields-shift-function-"><code>fields.shift() : Function</code></h4>
+<blockquote>
+<p>Removes an item from beginning of the array. Returns the item removed..</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h4 id="-fields-swap-indexa-integer-indexb-integer-function-"><code>fields.swap(indexA:Integer, indexB:Integer) : Function</code></h4>
+<blockquote>
+<p>Swaps two items in the array at the given indexes. Returns nothing.</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h4 id="-fields-unshift-value-any-function-"><code>fields.unshift(value:Any) : Function</code></h4>
+<blockquote>
+<p>Adds an item to the beginning of the array. Returns nothing.</p>
+<p>This is not a mutator; it dispatches an action which updates the state in Redux, which will
+cause your component to rerender.</p>
+</blockquote>
+<h3 id="meta-props">Meta Props</h3>
+<p>The props under the <code>meta</code> key are metadata about the state of this field array that <code>redux-form</code>
+is tracking for you.</p>
+<h4 id="-meta-dirty-boolean-"><code>meta.dirty : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the any of the fields in the field array have changed from their initialized value.
+Opposite of <code>pristine</code>.</p>
+</blockquote>
+<h4 id="-meta-error-string-optional-"><code>meta.error : String</code> [optional]</h4>
+<blockquote>
+<p>The error for this field array if its value is not passing validation. Both synchronous,
+asynchronous, and submit validation errors will be reported here. Array-specific errors should be
+returned from the validation function as an <code>_error</code> key on the array.</p>
+</blockquote>
+<h4 id="-meta-invalid-boolean-"><code>meta.invalid : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field array value fails validation (has a validation error). Opposite of <code>valid</code>.</p>
+</blockquote>
+<h4 id="-meta-pristine-boolean-"><code>meta.pristine : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the all of the fields in the field array are the same as their initialized
+value. Opposite of <code>dirty</code>.</p>
+</blockquote>
+<h4 id="-meta-submitting-boolean-"><code>meta.submitting : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field is currently being submitted</p>
+</blockquote>
+<h4 id="-meta-valid-boolean-"><code>meta.valid : boolean</code></h4>
+<blockquote>
+<p><code>true</code> if the field value passes validation (has no validation errors). Opposite of <code>invalid</code>.</p>
+</blockquote>
+<h2 id="iteration">Iteration</h2>
+<p>When you iterate through a field array with either <code>forEach()</code> or <code>map()</code>, your callback will be
+passed two parameters:</p>
+<h4 id="-name-string-"><code>name : String</code></h4>
+<blockquote>
+<p>The name needed to give to <code>Field</code> to render the fields in this array. If the <code>name</code> prop you
+give to <code>FieldArray</code> is <code>&#39;foo.bar&#39;</code>, and there are three items in the array, your callback will
+be called three times, with <code>&#39;foo.bar[0]&#39;</code>, <code>&#39;foo.bar[1]&#39;</code>, and <code>&#39;foo.bar[2]&#39;</code>.</p>
+</blockquote>
+<h4 id="-index-number-"><code>index : Number</code></h4>
+<blockquote>
+<p>The index of the item in the array.</p>
+</blockquote>
+</div></div></div><div class="footer___1oh0h" data-reactid="54"><div data-reactid="55">Created by Erik Rasmussen</div><div data-reactid="56"><!-- react-text: 57 -->Got questions? Ask for help:<!-- /react-text --><a class="help___3OayI" href="https://stackoverflow.com/questions/ask?tags=redux-form" title="Stack Overflow" target="_blank" data-reactid="58"><i class="fa fa-fw fa-stack-overflow" data-reactid="59"></i></a><a class="help___3OayI" href="https://github.com/erikras/redux-form/issues/new" title="Github" target="_blank" data-reactid="60"><i class="fa fa-fw fa-github" data-reactid="61"></i></a></div><div data-reactid="62"><a href="https://twitter.com/erikras" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="63"><!-- react-text: 64 -->Follow @<!-- /react-text --><!-- react-text: 65 -->erikras<!-- /react-text --></a><a href="https://twitter.com/ReduxForm" class="twitter-follow-button" data-show-count="false" data-size="large" data-reactid="66"><!-- react-text: 67 -->Follow @<!-- /react-text --><!-- react-text: 68 -->ReduxForm<!-- /react-text --></a></div></div></div></div>
+  </div>
+  <script src="http://redux-form.com/6.0.3/bundle.js"></script>
+  <script>initReact({"version":"6.0.3","path":"/docs/api/FieldArray.md","breadcrumbs":[{"path":"http://redux-form.com/6.0.3/","title":"Redux Form"},{"path":"http://redux-form.com/6.0.3/docs/api","title":"API"},{"path":"http://redux-form.com/6.0.3/docs/api/FieldArray.md","title":"`FieldArray`"}]})</script>
+  <script>
+    (function(i,s,o,g,r,a,m){i[ 'GoogleAnalyticsObject' ] = r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-69298417-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+  </html>
