@@ -20,3 +20,19 @@ This is because proper use of Immutable JS involves doing as little `toJS`/`from
 possible, and `redux-form` does not know or care which form you want your data in, so it gives it
 to you in the form that it is stored.
 
+## Running this example locally
+
+To run this example locally on your machine clone the `redux-form` repository,
+then `cd redux-form` to change to the repo directory, and run `npm install`.
+
+Then run `npm run example:immutable` or manually run the
+following commands:
+```
+cd ./examples/immutable
+npm install
+npm start
+```
+
+Then open [`localhost:3030`](http://localhost:3030) in your
+browser to view the example running locally on your machine.
+

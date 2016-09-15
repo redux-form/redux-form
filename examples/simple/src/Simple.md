@@ -17,3 +17,17 @@ simulate server latency.
 
 This form does no validation. To learn about how to do client-side validation, see the 
 [Synchronous Validation](../../syncValidation) example.
+
+## Running this example locally
+
+To run this example locally on your machine clone the `redux-form` repository,
+then `cd redux-form` to change to the repo directory, and run `npm install`.
+
+Then run `npm run example:simple` or manually run the
+following commands:
+```
+cd ./examples/simple
+npm install
+npm start
+```
+
