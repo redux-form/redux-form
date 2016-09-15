@@ -42,7 +42,7 @@
   "dependencies": {
     "array-findindex-polyfill": "^0.1.0",
     "deep-equal": "^1.0.1",
-    "es6-error": "^3.0.0",
+    "es6-error": "^3.1.0",
     "hoist-non-react-statics": "^1.0.5",
     "invariant": "^2.2.1",
     "is-promise": "^2.1.0",
