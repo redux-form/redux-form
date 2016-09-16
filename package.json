@@ -50,7 +50,7 @@
   "bugs": {
     "url": "https://github.com/erikras/redux-form/issues"
   },
-  "homepage": "https://redux-form.com/",
+  "homepage": "http://redux-form.com/",
   "dependencies": {
     "array-findindex-polyfill": "^0.1.0",
     "deep-equal": "^1.0.1",
