@@ -23,7 +23,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
-      return nextPropsKeys.length == thisPropsKeys.length && nextPropsKeys.some(prop => {
+      return nextPropsKeys.length !== thisPropsKeys.length || nextPropsKeys.some(prop => {
         // useful to debug rerenders
         // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
         //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
