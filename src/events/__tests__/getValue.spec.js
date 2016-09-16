@@ -165,7 +165,7 @@ describe('getValue', () => {
       },
     }, false)).toEqual(expected);
   });
-  it('should return a number type for numeric inputs', () => {
+  it('should return a number type for numeric inputs, when a value is set', () => {
     expect(getValue({
       preventDefault: () => null,
       stopPropagation: () => null,
@@ -198,6 +198,14 @@ describe('getValue', () => {
         value: '3.1415'
       }
     }, false)).toBe(3.1415);
+    expect(getValue({
+      preventDefault: () => null,
+      stopPropagation: () => null,
+      target: {
+        type: 'range',
+        value: ''
+      }
+    }, false)).toBe('');
   });
   it('should return event.target.value if not file or checkbox', () => {
     expect(getValue({
