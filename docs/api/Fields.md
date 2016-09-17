@@ -36,10 +36,13 @@ be as simple as `'firstName'` or as complicated as
 A `Component` or stateless function that will be given all the props necessary to render the 
 field inputs. See the [Usage](#usage) section below for details.
 
-#### `format : (value) => formattedValue` [optional]
+#### `format : (value, name) => formattedValue` [optional]
 
 Formats the value from the Redux store to be displayed in the field input. Common use cases are 
 to format `Number`s into currencies or `Date`s into a localized date format.
+
+`format` is called with the field `value` and `name` as arguments and should return the
+new formatted value to be displayed in the field input.
 
 #### `props : object` [optional]
 
@@ -50,11 +53,14 @@ passing props along to your `component` is to give them directly to the `Fields`
 if, for whatever reason, you prefer to bundle them into a separate object, you may do so by 
 passing them into `props`.
 
-#### `parse : (value) => parsedValue` [optional]
+#### `parse : (value, name) => parsedValue` [optional]
 
 Parses the value given from the field input component to the type that you want stored in the 
 Redux store. Common use cases are to parse currencies into `Number`s into currencies or 
 localized date formats into `Date`s.
+
+`parse` is called with the field `value` and `name` as arguments and should return the new
+parsed value to be stored in the Redux store.
 
 #### `withRef : boolean` [optional]
 
