@@ -1,6 +1,9 @@
 # Documentation Versions
 
 * [6.0.5](http://redux-form.com/6.0.5/)
+* [6.0.4](http://redux-form.com/6.0.4/)
+* [6.0.2](http://redux-form.com/6.0.2/)
+* [6.0.1](http://redux-form.com/6.0.1/)
 * [6.0.0-rc.5](http://redux-form.com/6.0.0-rc.5/)
 * [6.0.0-rc.4](http://redux-form.com/6.0.0-rc.4/)
 * [6.0.0-rc.3](http://redux-form.com/6.0.0-rc.3/)
@@ -16,8 +19,6 @@
 * [6.0.0-alpha.6](http://redux-form.com/6.0.0-alpha.6/)
 * [6.0.0-alpha.5](http://redux-form.com/6.0.0-alpha.5/)
 * [6.0.0-alpha.4](http://redux-form.com/6.0.0-alpha.4/)
-
-
 * [5.3.3](http://redux-form.com/5.3.3/)
 * [5.3.1](http://redux-form.com/5.3.1/)
 * [5.3.0](http://redux-form.com/5.3.0/)
