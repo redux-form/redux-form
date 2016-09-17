@@ -42,11 +42,12 @@ const createFieldProps = (getIn, name,
     ...custom
   }, asyncValidate = noop) => {
   const error = syncError || asyncError || submitError
+  const boundParse = parse && (value => parse(value, name))
   const boundNormalize = normalize && (value => normalize(name, value))
   const boundChange = value => dispatch(change(name, value))
   const onChange = createOnChange(boundChange, {
     normalize: boundNormalize,
-    parse
+    parse: boundParse
   })
   const fieldValue = value == null ? '' : value
 
@@ -55,14 +56,14 @@ const createFieldProps = (getIn, name,
       name,
       onBlur: createOnBlur(value => dispatch(blur(name, value)), {
         normalize: boundNormalize,
-        parse,
+        parse: boundParse,
         after: asyncValidate.bind(null, name)
       }),
       onChange,
       onDragStart: createOnDragStart(name, fieldValue),
       onDrop: createOnDrop(name, boundChange),
       onFocus: createOnFocus(name, () => dispatch(focus(name))),
-      value: format ? format(fieldValue) : fieldValue
+      value: format ? format(fieldValue, name) : fieldValue
     }, _value),
     meta: {
       ...state,
