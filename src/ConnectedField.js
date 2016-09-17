@@ -20,7 +20,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
-      return nextPropsKeys.length == thisPropsKeys.length && nextPropsKeys.some(prop => {
+      return nextPropsKeys.length !== thisPropsKeys.length || nextPropsKeys.some(prop => {
         return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
       })
     }
