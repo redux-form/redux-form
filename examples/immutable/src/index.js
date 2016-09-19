@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { App, Code, Markdown, generateExampleBreadcrumbs } from 'redux-form-website-template'
-import { combineReducers } from 'redux-immutablejs'
-import { reducer as form } from 'redux-form/immutable' // <--- immutable import
 import Values from './ImmutableValues'
+import reducer from './reducer'
 
 const dest = document.getElementById('content')
 
-const reducer = combineReducers({ form })
 const store =
   (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(reducer)
 
@@ -25,6 +23,7 @@ let render = () => {
   const readme = require('./Immutable.md')
   const raw = require('!!raw!./ImmutableForm')
   const rawValidate = require('!!raw!./validate')
+  const rawReducer = require('!!raw!./reducer')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -45,6 +44,10 @@ let render = () => {
         <Values form="immutableExample"/>
 
         <h2>Code</h2>
+
+        <h3>reducer.js</h3>
+
+        <Code source={rawReducer}/>
 
         <h3>validate.js</h3>
 
@@ -84,6 +87,7 @@ if (module.hot) {
   module.hot.accept('./ImmutableForm', rerender)
   module.hot.accept('./Immutable.md', rerender)
   module.hot.accept('!!raw!./ImmutableForm', rerender)
+  module.hot.accept('!!raw!./reducer', rerender)
   module.hot.accept('!!raw!./validate', rerender)
 }
 
