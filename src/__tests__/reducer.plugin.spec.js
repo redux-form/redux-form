@@ -1,4 +1,7 @@
-const describePlugin = (vanillaReducer, expect, { fromJS, deleteIn }) => () => {
+import { CHANGE } from '../actionTypes'
+import { change } from '../actions'
+
+const describePlugin = (vanillaReducer, expect, { fromJS, deleteIn, getIn, setIn }) => () => {
   it('should initialize state when a plugin is given', () => {
     const reducer = vanillaReducer.plugin({
       foo: state => state
@@ -111,6 +114,53 @@ const describePlugin = (vanillaReducer, expect, { fromJS, deleteIn }) => () => {
           fields: {
             cat: { touched: true },
             rat: { touched: true }
+          }
+        }
+      })
+  })
+  
+  it('should be provided the state from before the vanillaReducer', () => {
+    const state1 = fromJS({
+      foo: {
+        values: {
+          cat: 'beta',
+          lastCat: 'alpha' 
+        },
+        fields: {
+          cat: { touched: false },
+          lastCat: { touched: false }
+        }
+      }
+    })
+
+    // this plugin will change the value we are after so we can confirm we get the real starting state
+    const intermediatePlugin = (state) => setIn(state, 'values.cat', 'zed')
+    
+    const plugin = (state, action, startingState) => {
+      if (action.type === CHANGE && action.meta.field === 'cat') {
+        let result = state
+        result = setIn(result, 'values.lastCat', getIn(startingState, 'values.cat'))
+        result = setIn(result, 'fields.lastCat.touched', action.meta.touch)
+        return result
+      }
+      return state
+    }
+
+    const reducer = vanillaReducer.plugin({ foo: intermediatePlugin }).plugin({ foo: plugin })
+    
+    const state2 = reducer(state1, change('foo', 'cat', 'charlie', true, false))
+    
+    expect(state2)
+      .toEqualMap({
+        foo: {
+          anyTouched: true,
+          values: {
+            cat: 'zed',
+            lastCat: 'beta'
+          },
+          fields: {
+            cat: { touched: true },
+            lastCat: { touched: true }
           }
         }
       })
