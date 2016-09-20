@@ -381,7 +381,7 @@ const createReducer = structure => {
           .keys(reducers)
           .reduce((accumulator, key) => {
             const previousState = getIn(accumulator, key)
-            const nextState = reducers[ key ](previousState, action)
+            const nextState = reducers[ key ](previousState, action, getIn(state, key))
             return nextState === previousState ?
               accumulator :
               setIn(accumulator, key, nextState)
