@@ -138,10 +138,10 @@ const describePlugin = (vanillaReducer, expect, { fromJS, deleteIn, getIn, setIn
     
     const plugin = (state, action, startingState) => {
       if (action.type === CHANGE && action.meta.field === 'cat') {
-         let result = state
-         result = setIn(result, 'values.lastCat', getIn(startingState, 'values.cat'))
-         result = setIn(result, 'fields.lastCat.touched', action.meta.touch)
-         return result
+        let result = state
+        result = setIn(result, 'values.lastCat', getIn(startingState, 'values.cat'))
+        result = setIn(result, 'fields.lastCat.touched', action.meta.touch)
+        return result
       }
       return state
     }
