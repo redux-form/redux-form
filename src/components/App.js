@@ -8,13 +8,13 @@ import cx from 'classnames'
 
 const App = ({ children, path, version, breadcrumbs }) => {
   const isHome = path === '/'
-  const url = `http://redux-form.com/${version}`
+  const url = `https://redux-form.com/${version}`
   return (
     <div className={cx(styles.app, { [styles.hasNav]: !isHome })}>
       {!isHome && <Nav path={path} url={url}/>}
       <div className={styles.contentAndFooter}>
         <div className={styles.topNav}>
-          <a href="http://redux-form.com" className={styles.brand}/>
+          <a href="https://redux-form.com" className={styles.brand}/>
           <a className={styles.github}
             href="https://github.com/erikras/redux-form"
             title="Github"
