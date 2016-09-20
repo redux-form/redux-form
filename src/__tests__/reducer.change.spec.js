@@ -112,6 +112,27 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       })
   })
 
+  it('should remove a value if on change is set with false', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: true
+        }
+      }
+    }), change('foo', 'myField', false, true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          anyTouched: true,
+          fields: {
+            myField: {
+              touched: true
+            }
+          }
+        }
+      })
+  })
+
   it('should NOT remove a value if on change is set with \'\' if it\'s an array field', () => {
     const state = reducer(fromJS({
       foo: {
