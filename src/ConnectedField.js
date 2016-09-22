@@ -52,7 +52,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
         asyncValidate
       )
       if (withRef) {
-        props.ref = 'renderedComponent'
+        custom.ref = 'renderedComponent'
       }
       if (typeof component === 'string') {
         const { input, meta } = props // eslint-disable-line no-unused-vars
