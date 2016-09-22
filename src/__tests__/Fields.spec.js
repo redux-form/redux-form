@@ -737,7 +737,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
       expect(format).toHaveBeenCalled()
       expect(format.calls.length).toBe(1)
-      expect(format.calls[ 0 ].arguments).toEqual([ 'Redux Form' ])
+      expect(format.calls[ 0 ].arguments).toEqual([ 'Redux Form', 'name' ])
 
       expect(input.calls[ 0 ].arguments[ 0 ].name.input.value).toBe('redux form')
     })
@@ -777,7 +777,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
       expect(parse).toHaveBeenCalled()
       expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS' ])
+      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS', 'name' ])
 
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].name.input.value).toBe('redux form rocks')
@@ -818,7 +818,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
       expect(parse).toHaveBeenCalled()
       expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS' ])
+      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS', 'name' ])
 
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].name.input.value).toBe('redux form rocks')
@@ -868,7 +868,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // parse was called
       expect(parse).toHaveBeenCalled()
       expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ '15' ])
+      expect(parse.calls[ 0 ].arguments).toEqual([ '15', 'age' ])
 
       // value in store is number
       expect(store.getState()).toEqualMap({
@@ -885,7 +885,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // format called again
       expect(format).toHaveBeenCalled()
       expect(format.calls.length).toBe(2)
-      expect(format.calls[ 1 ].arguments).toEqual([ 15 ])
+      expect(format.calls[ 1 ].arguments).toEqual([ 15, 'age' ])
 
       // input rerendered with string value
       expect(input.calls.length).toBe(2)
