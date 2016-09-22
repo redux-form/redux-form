@@ -4,9 +4,10 @@ const createFieldArrayProps = (getIn, name,
     arraySplice, arraySwap, arrayUnshift, asyncError, // eslint-disable-line no-unused-vars
     dirty, length, pristine, submitError, state,
     submitFailed, submitting, // eslint-disable-line no-unused-vars
-    syncError, value, props, ...rest
+    syncError, syncWarning, value, props, ...rest
   }) => {
   const error = syncError || asyncError || submitError
+  const warning = syncWarning
   return {
     fields: {
       _isFieldArray: true,
@@ -34,6 +35,7 @@ const createFieldArrayProps = (getIn, name,
     meta: {
       dirty,
       error,
+      warning,
       invalid: !!error,
       pristine,
       submitting,

@@ -160,6 +160,11 @@ Opposite of `pristine`.
 asynchronous, and submit validation errors will be reported here. Array-specific errors should be
 returned from the validation function as an `_error` key on the array.
 
+#### `meta.warning : String` [optional]
+
+> The warning for this field array if its value is not passing warning validation. Array-specific
+errors should be returned from the validation function as an `_warning` key on the array.
+
 #### `meta.invalid : boolean`
 
 > `true` if the field array value fails validation (has a validation error). Opposite of `valid`.

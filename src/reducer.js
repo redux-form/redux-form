@@ -26,7 +26,8 @@ import {
   TOUCH,
   UNREGISTER_FIELD,
   UNTOUCH,
-  UPDATE_SYNC_ERRORS
+  UPDATE_SYNC_ERRORS,
+  UPDATE_SYNC_WARNINGS
 } from './actionTypes'
 import 'array-findindex-polyfill'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
@@ -347,6 +348,20 @@ const createReducer = structure => {
         result = setIn(result, 'syncErrors', syncErrors)
       } else {
         result = deleteIn(result, 'syncErrors')
+      }
+      return result
+    },
+    [UPDATE_SYNC_WARNINGS](state, { payload: { syncWarnings, warning } }) {
+      let result = state
+      if (warning) {
+        result = setIn(result, 'warning', warning)
+      } else {
+        result = deleteIn(result, 'warning')
+      }
+      if (Object.keys(syncWarnings).length) {
+        result = setIn(result, 'syncWarnings', syncWarnings)
+      } else {
+        result = deleteIn(result, 'syncWarnings')
       }
       return result
     }

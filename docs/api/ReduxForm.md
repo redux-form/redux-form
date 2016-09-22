@@ -205,6 +205,13 @@ form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => (
 > See [Synchronous Validation Example](http://redux-form.com/6.0.5/examples/syncValidation/)
 for more details.
 
+#### `warn : (values:Object, props:Object) => warnings:Object` [optional]
+
+> a synchronous warning function that takes the form values and props passed into your component. Warnings work
+the same as validations, but do not mark a form as invalid. If the warning check passes, it should return `{}`.
+If the check fails, it should return the warnings in the form `{ field1: <String>, field2: <String> }`.
+Defaults to `(values, props) => ({})`.
+
 ## Instance API
 
 The following are methods or properties that you can access on an instance of your decorated form

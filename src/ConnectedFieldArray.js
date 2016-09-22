@@ -19,6 +19,13 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
     return plain.getIn(syncErrors, `${name}._error`)
   }
 
+  const getSyncWarning = (syncWarnings, name) => {
+    // For an array, the warning can _ONLY_ be under _warning.
+    // This is why this getSyncError is not the same as the
+    // one in Field.
+    return plain.getIn(syncWarnings, `${name}._warning`)
+  }
+
   class ConnectedFieldArray extends Component {
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
@@ -83,6 +90,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
+      const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)
       const pristine = deepEqual(value, initial)
       return {
         asyncError: getIn(formState, `asyncErrors.${name}._error`),
@@ -92,6 +100,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         submitError: getIn(formState, `submitErrors.${name}._error`),
         submitting,
         syncError,
+        syncWarning,
         value,
         length: size(value)
       }

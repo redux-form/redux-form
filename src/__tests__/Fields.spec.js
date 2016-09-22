@@ -184,6 +184,20 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(props.foo.meta.error).toBe('foo error')
     })
 
+    it('should get sync warnings from outer reduxForm component', () => {
+      const props = testProps({
+        initial: {
+          foo: 'bar'
+        },
+        values: {
+          foo: 'bar'
+        }
+      }, {
+        warn: () => ({ foo: 'foo warning' })
+      })
+      expect(props.foo.meta.warning).toBe('foo warning')
+    })
+
     it('should get async errors from Redux state', () => {
       const props = testProps({
         initial: {
@@ -456,6 +470,74 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(input.calls.length).toBe(1)
       expect(input.calls[ 0 ].arguments[ 0 ].authors[ 0 ].meta.valid).toBe(false)
       expect(input.calls[ 0 ].arguments[ 0 ].authors[ 0 ].meta.error).toBe('Object Error')
+    })
+
+    it('should provide sync warning for array field', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [ 'bar' ]
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const warn = () => ({ foo: [ 'first warning', 'second warning' ] })
+      class Form extends Component {
+        render() {
+          return <div><Fields names={[ 'foo[0]', 'foo[1]' ]} component={input}/></div>
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        warn
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 0 ].meta.warning).toBe('first warning')
+      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 1 ].meta.warning).toBe('second warning')
+    })
+
+    it('should provide sync warning for array-of-objects field', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            authors: [
+              {
+                firstName: 'Erik',
+                lastName: 'Rasmussen'
+              }
+            ]
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const warn = () => ({
+        authors: [
+          { _warning: 'Object Error' }
+        ]
+      })
+      class Form extends Component {
+        render() {
+          return <div><Fields names={[ 'authors[0]' ]} component={input}/></div>
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        warn
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].authors[ 0 ].meta.warning).toBe('Object Error')
     })
 
     it('should provide access to rendered component', () => {
@@ -989,6 +1071,101 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // should be valid now
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.valid).toBe(true)
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.error).toBe(undefined)
+    })
+
+    it('should rerender when sync warning changes', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            password: 'redux-form sucks',
+            confirm: 'redux-form rocks'
+          }
+        }
+      })
+      const passwordInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const confirmInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const warn = values => {
+        const password = getIn(values, 'password')
+        const confirm = getIn(values, 'confirm')
+        return password === confirm ? {} : { confirm: 'Should match. Or not. Whatever.' }
+      }
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Fields names={[ 'password' ]} component={passwordInput}/>
+            <Fields names={[ 'confirm' ]} component={confirmInput}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        warn
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // password input rendered
+      expect(passwordInput).toHaveBeenCalled()
+      expect(passwordInput.calls.length).toBe(1)
+
+      // confirm input rendered with warning
+      expect(confirmInput).toHaveBeenCalled()
+      expect(confirmInput.calls.length).toBe(1)
+      expect(confirmInput.calls[ 0 ].arguments[ 0 ].confirm.meta.warning).toBe('Should match. Or not. Whatever.')
+
+      // update password field so that they match
+      passwordInput.calls[ 0 ].arguments[ 0 ].password.input.onChange('redux-form rocks')
+
+      // password input rerendered
+      expect(passwordInput.calls.length).toBe(2)
+
+      // confirm input should also rerender, but with no warning
+      expect(confirmInput.calls.length).toBe(2)
+      expect(confirmInput.calls[ 1 ].arguments[ 0 ].confirm.meta.warning).toBe(undefined)
+    })
+
+    it('should rerender when sync warning is cleared', () => {
+      const store = makeStore()
+      const usernameInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const warn = values => {
+        const username = getIn(values, 'username')
+        return username ? {} : { username: 'Recommended' }
+      }
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Fields names={[ 'username' ]} component={usernameInput}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        warn
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // username input rendered
+      expect(usernameInput).toHaveBeenCalled()
+      expect(usernameInput.calls.length).toBe(1)
+
+      // username field has warning
+      expect(usernameInput.calls[ 0 ].arguments[ 0 ].username.meta.warning).toBe('Recommended')
+
+      // update username field so it passes
+      usernameInput.calls[ 0 ].arguments[ 0 ].username.input.onChange('erikras')
+
+      // username input rerendered twice, once for value, once for sync warning
+      expect(usernameInput.calls.length).toBe(3)
+
+      // should be valid now
+      expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.warning).toBe(undefined)
     })
 
     it('should provide correct prop structure', () => {

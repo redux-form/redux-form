@@ -6,6 +6,7 @@ const customizer = (obj, other) => {
     (other == null || other === '' || other === false)) return true
 
   if (obj && other && obj._error !== other._error) return false
+  if (obj && other && obj._warning !== other._warning) return false
 }
 
 const deepEqual = (a, b) => isEqualWith(a, b, customizer)

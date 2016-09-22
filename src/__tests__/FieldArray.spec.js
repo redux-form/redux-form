@@ -331,6 +331,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props.meta.error).toBe('foo error')
     })
 
+    it('should get sync warnings from outer reduxForm component', () => {
+      const props = testProps({
+        values: {
+          foo: 'bar'
+        }
+      }, {
+        warn: () => ({ foo: { _warning: 'foo warning' } })
+      })
+      expect(props.meta.warning).toBe('foo warning')
+    })
+
     it('should get async errors from Redux state', () => {
       const props = testProps({
         values: {
@@ -559,6 +570,60 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
       const error = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
       domExpect(error)
+        .toExist()
+        .toHaveText('Too awesome!')
+    })
+
+    it('should provide sync warning for array field', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [
+              {
+                library: 'redux-form',
+                author: 'erikras'
+              }
+            ]
+          }
+        }
+      })
+      const warn = () => ({
+        foo: [
+          {
+            _warning: 'Too awesome!'
+          }
+        ]
+      })
+      const renderArray = ({ fields }) =>
+        <div>
+          {fields.map((name, index) =>
+            <div key={index}>
+              <Field name={`${name}.library`} component="input"/>
+              <Field name={`${name}.author`} component="input"/>
+              <Field name={name} component={props => <strong>{props.meta.warning}</strong>}/>
+            </div>
+          )}
+        </div>
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <FieldArray name="foo" component={renderArray}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        warn
+      })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const warning = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
+      domExpect(warning)
         .toExist()
         .toHaveText('Too awesome!')
     })
@@ -813,6 +878,86 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls.length).toBe(5)
       expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.length).toBe(0)
       expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].meta.error)
+        .toExist()
+        .toBe('No dogs')
+    })
+
+    it('should rerender when array sync warning appears or disappears', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            dogs: []
+          }
+        }
+      })
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map((field, index) => <div key={index}>{field}</div>)}
+          <button className="add" onClick={() => fields.push()}>Add Dog</button>
+          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm',
+        warn: values => {
+          const dogs = getIn(values, 'dogs')
+          const warnings = {
+            dogs: []
+          }
+          if (dogs && size(dogs) === 0) {
+            warnings.dogs._warning = 'No dogs'
+          }
+          if (dogs && size(dogs) > 1) {
+            warnings.dogs._warning = 'Too many'
+          }
+          return warnings
+        }
+      })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
+
+      // length is 0, ERROR!
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.warning)
+        .toExist()
+        .toBe('No dogs')
+
+      TestUtils.Simulate.click(addButton) // length goes to 1, no warning yet
+
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].meta.warning).toNotExist()
+
+      TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
+
+      expect(renderFieldArray.calls.length).toBe(3)
+      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].fields.length).toBe(2)
+      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].meta.warning)
+        .toExist()
+        .toBe('Too many')
+
+      TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
+
+      expect(renderFieldArray.calls.length).toBe(4)
+      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].meta.warning).toNotExist()
+
+      TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
+
+      expect(renderFieldArray.calls.length).toBe(5)
+      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].meta.warning)
         .toExist()
         .toBe('No dogs')
     })

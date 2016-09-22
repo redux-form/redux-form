@@ -58,6 +58,7 @@ const propsToNotUpdateFor = [
   'initialized',
   'initialValues',
   'syncErrors',
+  'syncWarnings',
   'values',
   'registeredFields'
 ]
@@ -153,14 +154,42 @@ const createReduxForm =
             }
           }
 
+          updateSyncWarningsIfNeeded(nextSyncWarnings, nextWarning) {
+            const { warning, syncWarnings, updateSyncWarnings } = this.props
+            const noWarnings = (!syncWarnings || !Object.keys(syncWarnings).length) && !warning
+            const nextNoWarnings = (!nextSyncWarnings || !Object.keys(nextSyncWarnings).length) && !nextWarning
+            if (!(noWarnings && nextNoWarnings) && (!plain.deepEqual(syncWarnings, nextSyncWarnings) || !plain.deepEqual(warning, nextWarning))) {
+              updateSyncWarnings(nextSyncWarnings, nextWarning)
+            }
+          }
+
+          warnIfNeeded(nextProps) {
+            const { warn, values } = this.props
+            if (warn) {
+              if (nextProps) {
+                // not initial render
+                if (!deepEqual(values, nextProps.values)) {
+                  const { _warning, ...nextSyncWarnings } = warn(nextProps.values, nextProps)
+                  this.updateSyncWarningsIfNeeded(nextSyncWarnings, _warning)
+                }
+              } else {
+                // initial render
+                const { _warning, ...nextSyncWarnings } = warn(values, this.props)
+                this.updateSyncWarningsIfNeeded(nextSyncWarnings, _warning)
+              }
+            }
+          }
+
           componentWillMount() {
             this.initIfNeeded()
             this.validateIfNeeded()
+            this.warnIfNeeded()
           }
 
           componentWillReceiveProps(nextProps) {
             this.initIfNeeded(nextProps)
             this.validateIfNeeded(nextProps)
+            this.warnIfNeeded(nextProps)
           }
 
           shouldComponentUpdate(nextProps) {
@@ -335,11 +364,14 @@ const createReduxForm =
               touchOnChange,
               persistentSubmitErrors,
               syncErrors,
+              syncWarnings,
               unregisterField,
               untouch,
               updateSyncErrors,
+              updateSyncWarnings,
               valid,
               values,
+              warning,
               ...rest
             } = this.props
             /* eslint-enable no-unused-vars */
@@ -365,7 +397,8 @@ const createReduxForm =
               submitSucceeded,
               touch,
               untouch,
-              valid
+              valid,
+              warning
             }
             const propsToPass = {
               ...(propNamespace ? { [propNamespace]: reduxFormProps } : reduxFormProps),
@@ -391,6 +424,7 @@ const createReduxForm =
           onSubmitSuccess: PropTypes.func,
           propNameSpace: PropTypes.string,
           validate: PropTypes.func,
+          warn: PropTypes.func,
           touchOnBlur: PropTypes.bool,
           touchOnChange: PropTypes.bool,
           persistentSubmitErrors: PropTypes.bool,
@@ -407,6 +441,7 @@ const createReduxForm =
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
             const syncErrors = getIn(formState, 'syncErrors') || {}
+            const syncWarnings = getIn(formState, 'syncWarnings') || {}
             const registeredFields = getIn(formState, 'registeredFields') || []
             const valid = isValid(form, getFormState)(state)
             const anyTouched = !!getIn(formState, 'anyTouched')
@@ -414,6 +449,7 @@ const createReduxForm =
             const submitFailed = !!getIn(formState, 'submitFailed')
             const submitSucceeded = !!getIn(formState, 'submitSucceeded')
             const error = getIn(formState, 'error')
+            const warning = getIn(formState, 'warning')
             return {
               anyTouched,
               asyncErrors,
@@ -428,8 +464,10 @@ const createReduxForm =
               submitFailed,
               submitSucceeded,
               syncErrors,
+              syncWarnings,
               values,
-              valid
+              valid,
+              warning
             }
           },
           (dispatch, initialProps) => {

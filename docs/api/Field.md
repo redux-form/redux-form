@@ -287,6 +287,10 @@ the value was autofilled for them.
 > The error for this field if its value is not passing validation. Both synchronous,
 asynchronous, and submit validation errors will be reported here.
 
+#### `meta.warning : String` [optional]
+
+> The warning for this field if its value is not passing warning validation.
+
 #### `meta.invalid : boolean`
 
 > `true` if the field value fails validation (has a validation error). Opposite of `valid`.
