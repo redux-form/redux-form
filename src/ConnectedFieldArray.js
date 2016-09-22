@@ -54,7 +54,10 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       const props = createFieldArrayProps(
         getIn,
         name,
-        rest
+        {
+          ...rest,
+          name
+        }
       )
       if (withRef) {
         props.ref = 'renderedComponent'
