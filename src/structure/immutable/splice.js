@@ -1,6 +1,8 @@
 import { List } from 'immutable'
 
-export default (list = List.isList(list) || List(), index, removeNum, value) => {
+export default (list, index, removeNum, value) => {
+  list = List.isList(list) ? list : List()
+
   if (index < list.count()) {
     if (value === undefined && !removeNum) { // inserting undefined
       // first insert null and then re-set it to undefined
