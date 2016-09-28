@@ -83,7 +83,7 @@ function.
 import ContactForm from './ContactForm';
 
 class ContactPage extends React.Component {
-  handleSubmit(values) {
+  handleSubmit = (values) => {
     // Do something with the form values
     console.log(values);
   }
