@@ -1,7 +1,7 @@
 # Async Blur Validation Example
 
 The recommended way to provide server-side validation is to use
-[Submit Validation](../../submitValidation), but there may be instances when you want to run
+[Submit Validation](../submitValidation), but there may be instances when you want to run
 server-side validation _while the form is being filled out_. The classic example of this
 letting someone choose a value, like a username, that must be unique within your system.
 
@@ -16,12 +16,12 @@ they are blurred with the `asyncBlurFields` config property.
 
 1. Asynchronous validation _will_ be called before the `onSubmit` is fired, but if all
 you care about is validation `onSubmit`, you should use
-[Submit Validation](../../submitValidation).
+[Submit Validation](../submitValidation).
 2. Asynchronous validation will _not_ be called if synchronous validation is failing
 _for the field just blurred_.
 
 The errors are displayed in the exact same way as validation errors created by
-[Synchronous Validation](../../syncValidation).
+[Synchronous Validation](../syncValidation).
 
 ## Running this example locally
 

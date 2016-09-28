@@ -12,7 +12,7 @@ decorated component_. In which case, you would use `onClick={this.props.handleSu
 inside your decorated component to cause it to fire when the submit button is clicked.
 
 The errors are displayed in the exact same way as validation errors created by
-[Synchronous Validation](../../syncValidation), but they are returned from the `onSubmit`
+[Synchronous Validation](../syncValidation), but they are returned from the `onSubmit`
 function wrapped in a `SubmissionError`. This is to differentiate validation errors from I/O 
 errors, like HTTP `400` or `500` errors, which will also cause the submission promise to be
 rejected.
