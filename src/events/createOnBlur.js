@@ -12,7 +12,7 @@ const createOnBlur =
       let distanceFromEnd = -1
       let validInputTypes = [ 'text', 'search', 'url', 'tel', 'password' ]
       // get distance between caret and end of original value
-      if (isEvent(event) && validInputTypes.includes(event.target.type)) {
+      if (isEvent(event) && validInputTypes.indexOf(event.target.type) !== -1) {
         distanceFromEnd = value.length - event.target.selectionEnd
       }
 
