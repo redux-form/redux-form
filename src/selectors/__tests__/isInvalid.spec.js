@@ -99,7 +99,7 @@ const describeIsInvalid = (name, structure, expect) => {
       }))).toBe(true)
     })
 
-    it('should return true when there is a global error', () => {
+    it('should return true when there is a syncValidateFailed', () => {
       expect(isInvalid('foo')(fromJS({
         form: {
           foo: {
@@ -108,6 +108,7 @@ const describeIsInvalid = (name, structure, expect) => {
               cat: 'Garfield'
             },
             error: 'Bad Data',
+            syncValidateFailed: true,
             registeredFields: [
               { name: 'dog', type: 'Field' },
               { name: 'cat', type: 'Field' }
