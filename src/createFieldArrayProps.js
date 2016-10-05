@@ -16,6 +16,7 @@ const createFieldArrayProps = (getIn, name,
       length,
       map: callback => (value || []).map((item, index) => callback(`${name}[${index}]`, index)),
       move: arrayMove,
+      name,
       pop: () => {
         arrayPop()
         return getIn(value, length - 1)

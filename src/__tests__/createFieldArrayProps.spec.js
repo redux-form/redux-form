@@ -291,6 +291,13 @@ const describeCreateFieldProps = (name, structure, expect) => {
       })
       expect(result.fields._isFieldArray).toBe(true)
     })
+
+    it('should pass name through to the fields prop', () => {
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ])
+      })
+      expect(result.fields.name).toBe('foo')
+    })
   })
 }
 
