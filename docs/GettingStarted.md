@@ -78,6 +78,23 @@ Well, almost. You will still need to:
  
 * Do something with the data that has been submitted. It will be passed as JSON to your `onSubmit`
 function.
+
+```
+import ContactForm from './ContactForm';
+
+class ContactPage extends React.Component {
+  handleSubmit = (values) => {
+    // Do something with the form values
+    console.log(values);
+  }
+  render() {
+    return (
+      <ContactForm onSubmit={this.handleSubmit} />
+    );
+  }
+}
+
+```
 * Potentially set the form values initially, with the `initialValues` prop.
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect
