@@ -222,3 +222,8 @@ This is a bound action creator, so it returns nothing.
 #### `valid : boolean`
 
 > `true` if the form passes validation (has no validation errors). Opposite of `invalid`.
+
+#### `warning : any`
+
+> A generic warning for the entire form given by the `_warning` key in the result from the
+synchronous warning function.

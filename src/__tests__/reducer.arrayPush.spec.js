@@ -83,6 +83,26 @@ const describeArrayPush = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+
+  it('should handle a null leaf value', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          steps: null
+        }
+      }
+    }), arrayPush('foo', 'steps', 'value'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            steps: [
+              'value'
+            ]
+          }
+        }
+      })
+  })
 }
 
 export default describeArrayPush

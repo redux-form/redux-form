@@ -33,6 +33,7 @@ import describeRegisterField from './reducer.registerField.spec'
 import describeUnregisterField from './reducer.unregisterField.spec'
 import describeUntouch from './reducer.untouch.spec'
 import describeUpdateSyncErrors from './reducer.updateSyncErrors.spec'
+import describeUpdateSyncWarnings from './reducer.updateSyncWarnings.spec'
 
 const tests = {
   initialize: describeInitialize,
@@ -63,6 +64,7 @@ const tests = {
   unregisterField: describeUnregisterField,
   untouch: describeUntouch,
   updateSyncErrors: describeUpdateSyncErrors,
+  updateSyncWarnings: describeUpdateSyncWarnings,
   plugin: describePlugin
 }
 

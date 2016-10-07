@@ -1,4 +1,6 @@
-const splice = (array = [], index, removeNum, value) => {
+const splice = (array, index, removeNum, value) => {
+  array = array || []
+
   if (index < array.length) {
     if (value === undefined && !removeNum) { // inserting undefined
       const copy = [ ...array ]

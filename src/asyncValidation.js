@@ -9,7 +9,7 @@ const asyncValidation = (fn, start, stop, field) => {
   const handleErrors = rejected => errors => {
     if (errors && Object.keys(errors).length) {
       stop(errors)
-      return Promise.reject(errors)
+      return errors
     } else if (rejected) {
       stop()
       throw new Error('Asynchronous validation promise was rejected without errors.')

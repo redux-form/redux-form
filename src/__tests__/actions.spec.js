@@ -27,7 +27,8 @@ import {
   TOUCH,
   UNREGISTER_FIELD,
   UNTOUCH,
-  UPDATE_SYNC_ERRORS
+  UPDATE_SYNC_ERRORS,
+  UPDATE_SYNC_WARNINGS
 } from '../actionTypes'
 import {
   arrayInsert,
@@ -56,7 +57,8 @@ import {
   touch,
   unregisterField,
   untouch,
-  updateSyncErrors
+  updateSyncErrors,
+  updateSyncWarnings
 } from '../actions'
 import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
@@ -584,6 +586,38 @@ describe('actions', () => {
         payload: {
           error: undefined,
           syncErrors: {}
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create updateSyncWarnings action', () => {
+    expect(updateSyncWarnings('myForm', { foo: 'foo warning' }))
+      .toEqual({
+        type: UPDATE_SYNC_WARNINGS,
+        meta: {
+          form: 'myForm'
+        },
+        payload: {
+          warning: undefined,
+          syncWarnings: {
+            foo: 'foo warning'
+          }
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create updateSyncWarnings action with no warnings if none given', () => {
+    expect(updateSyncWarnings('myForm'))
+      .toEqual({
+        type: UPDATE_SYNC_WARNINGS,
+        meta: {
+          form: 'myForm'
+        },
+        payload: {
+          warning: undefined,
+          syncWarnings: {}
         }
       })
       .toPass(isFSA)

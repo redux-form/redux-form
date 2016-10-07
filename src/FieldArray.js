@@ -63,6 +63,7 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
       return createElement(ConnectedFieldArray, {
         ...this.props,
         syncError: this.syncError,
+        syncWarning: this.syncWarning,
         _reduxForm: this.context._reduxForm,
         ref: 'connected'
       })

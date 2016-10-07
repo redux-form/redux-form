@@ -122,6 +122,41 @@ describe('handleSubmit', () => {
       })
   })
 
+  it('should call onSubmitFail with async errors and dispatch if async validation fails and onSubmitFail is defined', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const submit = createSpy().andReturn(69)
+    const dispatch = noop
+    const startSubmit = createSpy()
+    const stopSubmit = createSpy()
+    const onSubmitFail = createSpy()
+    const touch = createSpy()
+    const setSubmitFailed = createSpy()
+    const setSubmitSucceeded = createSpy()
+    const asyncValidate = createSpy().andReturn(Promise.reject(values))
+    const props = { dispatch, onSubmitFail, startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
+
+    return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+      .catch(result => {
+        expect(result).toBe(values)
+        expect(asyncValidate)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith()
+        expect(submit).toNotHaveBeenCalled()
+        expect(startSubmit).toNotHaveBeenCalled()
+        expect(stopSubmit).toNotHaveBeenCalled()
+        expect(onSubmitFail)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith(values, dispatch)
+        expect(touch)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith('foo', 'baz')
+        expect(setSubmitSucceeded).toNotHaveBeenCalled()
+        expect(setSubmitFailed)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith('foo', 'baz')
+      })
+  })
+
   it('should not submit if async validation fails and return rejected promise', () => {
     const values = { foo: 'bar', baz: 42 }
     const submit = createSpy().andReturn(69)

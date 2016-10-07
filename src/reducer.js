@@ -26,7 +26,8 @@ import {
   TOUCH,
   UNREGISTER_FIELD,
   UNTOUCH,
-  UPDATE_SYNC_ERRORS
+  UPDATE_SYNC_ERRORS,
+  UPDATE_SYNC_WARNINGS
 } from './actionTypes'
 import 'array-findindex-polyfill'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
@@ -159,9 +160,7 @@ const createReducer = structure => {
         result = deleteInWithCleanUp(result, `submitErrors.${field}`)
       }
       result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
-      if (!persistentSubmitErrors) {
-        result = deleteInWithCleanUp(result, 'error')
-      }
+      result = deleteInWithCleanUp(result, 'syncValidateFailed')
       if (touch) {
         result = setIn(result, `fields.${field}.touched`, true)
         result = setIn(result, 'anyTouched', true)
@@ -338,6 +337,11 @@ const createReducer = structure => {
     },
     [UPDATE_SYNC_ERRORS](state, { payload: { syncErrors, error } }) {
       let result = state
+      if (error || Object.keys(syncErrors).length) {
+        result = setIn(result, 'syncValidateFailed', true)
+      } else {
+        result = deleteIn(result, 'syncValidateFailed')
+      }
       if (error) {
         result = setIn(result, 'error', error)
       } else {
@@ -347,6 +351,20 @@ const createReducer = structure => {
         result = setIn(result, 'syncErrors', syncErrors)
       } else {
         result = deleteIn(result, 'syncErrors')
+      }
+      return result
+    },
+    [UPDATE_SYNC_WARNINGS](state, { payload: { syncWarnings, warning } }) {
+      let result = state
+      if (warning) {
+        result = setIn(result, 'warning', warning)
+      } else {
+        result = deleteIn(result, 'warning')
+      }
+      if (Object.keys(syncWarnings).length) {
+        result = setIn(result, 'syncWarnings', syncWarnings)
+      } else {
+        result = deleteIn(result, 'syncWarnings')
       }
       return result
     }
@@ -381,7 +399,7 @@ const createReducer = structure => {
           .keys(reducers)
           .reduce((accumulator, key) => {
             const previousState = getIn(accumulator, key)
-            const nextState = reducers[ key ](previousState, action)
+            const nextState = reducers[ key ](previousState, action, getIn(state, key))
             return nextState === previousState ?
               accumulator :
               setIn(accumulator, key, nextState)

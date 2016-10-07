@@ -5,6 +5,10 @@ validation function that takes an object of form values and returns an object of
 This is done by providing the validation function to the decorator as a config parameter, or
 to the decorated form component as a prop.
 
+Additionally, you can provide redux-form with a warn function with the same type signature as
+your validation function. Warnings are errors that do not mark a form as invalid, allowing for
+two tiers of severity for errors.
+
 The example validation function is purely for simplistic demonstration value. In your 
 application, you will want to build some type of reusable system of validators.
 

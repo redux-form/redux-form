@@ -2,7 +2,7 @@ import {
   ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
   ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, AUTOFILL, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE,
   REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, SET_SUBMIT_SUCCEEDED, START_ASYNC_VALIDATION, START_SUBMIT,
-  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS
+  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS, UPDATE_SYNC_WARNINGS
 } from './actionTypes'
 
 export const arrayInsert = (form, field, index, value) =>
@@ -121,3 +121,6 @@ export const untouch = (form, ...fields) =>
 
 export const updateSyncErrors = (form, syncErrors = {}, error) =>
   ({ type: UPDATE_SYNC_ERRORS, meta: { form }, payload: { syncErrors, error } })
+
+export const updateSyncWarnings = (form, syncWarnings = {}, warning) =>
+  ({ type: UPDATE_SYNC_WARNINGS, meta: { form }, payload: { syncWarnings, warning } })

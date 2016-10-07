@@ -72,7 +72,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }).toNotThrow()
     })
 
-    it('should provide a the correct props', () => {
+    it('should provide the correct props', () => {
       const props = propChecker({})
       expect(Object.keys(props).sort()).toEqual([
         'anyTouched',
@@ -100,7 +100,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'submitting',
         'touch',
         'untouch',
-        'valid'
+        'valid',
+        'warning'
       ])
       expect(props.anyTouched).toBeA('boolean')
       expect(props.array).toExist().toBeA('object')
@@ -2302,10 +2303,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       input.calls[0].arguments[0].input.onChange('bar')
 
-      expect(formRender.calls.length).toBe(3)
-      expect(formRender.calls[ 2 ].arguments[ 0 ].error).toNotExist()
-      expect(formRender.calls[ 2 ].arguments[ 0 ].valid).toBe(true)
-      expect(formRender.calls[ 2 ].arguments[ 0 ].invalid).toBe(false)
+      expect(formRender.calls.length).toBe(4)
+      expect(formRender.calls[ 3 ].arguments[ 0 ].error).toNotExist()
+      expect(formRender.calls[ 3 ].arguments[ 0 ].valid).toBe(true)
+      expect(formRender.calls[ 3 ].arguments[ 0 ].invalid).toBe(false)
     })
 
     it('should allow for sync errors to be objects', () => {
@@ -2346,6 +2347,110 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(renderInput).toHaveBeenCalled()
       expect(renderInput.calls.length).toBe(1)
       expect(renderInput.calls[ 0 ].arguments[ 0 ].meta.error).toEqual(error)
+    })
+
+    it('should provide warning prop from sync warning', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        warn: () => ({ _warning: 'form wide sync warning' })
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].warning).toBe('form wide sync warning')
+    })
+
+    it('should properly remove warning prop from sync warning', () => {
+      const store = makeStore({})
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={input} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        warn: values => getIn(values, 'foo') ? {} : { _warning: 'form wide sync warning' }
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls[ 1 ].arguments[ 0 ].warning).toBe('form wide sync warning')
+
+      input.calls[0].arguments[0].input.onChange('bar')
+
+      // expect(formRender.calls.length).toBe(4) // TODO: this gets called an extra time (4 instead of 3). why?
+      expect(formRender.calls[ 3 ].arguments[ 0 ].warning).toNotExist()
+    })
+
+    it('should allow for sync warnings to be objects', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+      const renderInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const warning = {
+        complex: 'object',
+        manyKeys: true
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={renderInput} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        warn: () => ({ foo: warning })
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      // expect(formRender.calls.length).toBe(2) // TODO: This gets called only once. Why?
+
+      expect(renderInput).toHaveBeenCalled()
+      expect(renderInput.calls.length).toBe(1)
+      expect(renderInput.calls[ 0 ].arguments[ 0 ].meta.warning).toEqual(warning)
     })
 
     it('should call async on blur of async blur field', () => {

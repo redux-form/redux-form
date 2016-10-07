@@ -61,6 +61,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.error).toBe('Sync Error')
       expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.valid).toBe(false)
       expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.invalid).toBe(true)
+      expect(createFieldArrayProps(...defaultProps, { syncWarning: 'Sync Warning' }).meta.warning).toBe('Sync Warning')
       expect(createFieldArrayProps(...defaultProps, {
         asyncError: 'Async Error'
       }).meta.error).toBe('Async Error')
@@ -289,6 +290,13 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: fromJS([ 'a', 'b', 'c' ])
       })
       expect(result.fields._isFieldArray).toBe(true)
+    })
+
+    it('should pass name through to the fields prop', () => {
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ])
+      })
+      expect(result.fields.name).toBe('foo')
     })
   })
 }

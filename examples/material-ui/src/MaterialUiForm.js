@@ -42,13 +42,14 @@ const renderRadioGroup = ({ input, ...rest }) => (
     onChange={(event, value) => input.onChange(value)}/>
 )
 
-const renderSelectField = ({ input, label, meta: { touched, error }, children }) => (
+const renderSelectField = ({ input, label, meta: { touched, error }, children, ...custom }) => (
   <SelectField
     floatingLabelText={label}
     errorText={touched && error}
     {...input}
     onChange={(event, index, value) => input.onChange(value)}
-    children={children}/>
+    children={children}
+    {...custom}/>
 )
 
 const MaterialUiForm = props => {

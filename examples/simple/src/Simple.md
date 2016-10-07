@@ -16,7 +16,7 @@ The delay between when you click "Submit" and when the alert dialog pops up is i
 simulate server latency.
 
 This form does no validation. To learn about how to do client-side validation, see the 
-[Synchronous Validation](../../syncValidation) example.
+[Synchronous Validation](../syncValidation) example.
 
 ## Running this example locally
 
