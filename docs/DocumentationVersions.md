@@ -1,6 +1,6 @@
 # Documentation Versions
 
-* [6.0.5](https://redux-form.com/6.0.5/)
+* [6.1.0](https://redux-form.com/6.1.0/)
 * [6.0.4](https://redux-form.com/6.0.4/)
 * [6.0.2](https://redux-form.com/6.0.2/)
 * [6.0.1](https://redux-form.com/6.0.1/)

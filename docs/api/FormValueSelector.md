@@ -19,7 +19,7 @@ import { formValueSelector } from 'redux-form';  // ES6
 ### `form : String` [required]
 
 > The name of the form you are connecting to. Must be the same as the `form` config value you 
-gave to [`reduxForm()`](https://redux-form.com/6.0.5/docs/api/ReduxForm.md/).
+gave to [`reduxForm()`](https://redux-form.com/6.1.0/docs/api/ReduxForm.md/).
 
 ### `getFormState : Function` [optional]
 
@@ -105,4 +105,4 @@ connect(
 ## Example
 
 See the
-[Selecting Form Values](https://redux-form.com/6.0.5/examples/selectingFormValues/) example.
+[Selecting Form Values](https://redux-form.com/6.1.0/examples/selectingFormValues/) example.

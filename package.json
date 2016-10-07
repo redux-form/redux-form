@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "6.0.5",
+  "version": "6.1.0",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "jsnext:main": "./es/index.js",

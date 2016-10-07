@@ -306,8 +306,8 @@ const upper = value => value && value.toUpperCase()
 <Field name="myUppercaseField" component="input" normalize={upper}/>
 ```
 
-See the [Normalizing Example](https://redux-form.com/6.0.5/examples/normalizing/) and
-[Value Lifecycle](https://redux-form.com/6.0.5/docs/ValueLifecycle.md/) for
+See the [Normalizing Example](https://redux-form.com/6.1.0/examples/normalizing/) and
+[Value Lifecycle](https://redux-form.com/6.1.0/docs/ValueLifecycle.md/) for
 more details.
 
 ## Listening to other actions
