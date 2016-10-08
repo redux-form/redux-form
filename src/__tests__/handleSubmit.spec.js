@@ -179,7 +179,9 @@ describe('handleSubmit', () => {
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .then(() => expect(true).toBe(false, 'Expected to fail'))
+      .then(() => {
+        throw new Error('Expected to fail')
+      })
       .catch(result => {
         expect(result).toBe(asyncErrors)
         expect(asyncValidate)
