@@ -108,7 +108,7 @@ describe('handleSubmit', () => {
         throw new Error('Expected to fail')
       })
       .catch(result => {
-        expect(result).toBe(undefined)
+        expect(result).toBe(values)
         expect(asyncValidate)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith()
