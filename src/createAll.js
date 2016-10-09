@@ -6,6 +6,7 @@ import createFieldArray from './FieldArray'
 import createFormValueSelector from './formValueSelector'
 import createValues from './values'
 import createGetFormValues from './selectors/getFormValues'
+import createGetFormSyncErrors from './selectors/getFormSyncErrors'
 import createIsDirty from './selectors/isDirty'
 import createIsInvalid from './selectors/isInvalid'
 import createIsPristine from './selectors/isPristine'
@@ -24,6 +25,7 @@ const createAll = structure => ({
   FieldArray: createFieldArray(structure),
   formValueSelector: createFormValueSelector(structure),
   getFormValues: createGetFormValues(structure),
+  getFormSyncErrors: createGetFormSyncErrors(structure),
   isDirty: createIsDirty(structure),
   isInvalid: createIsInvalid(structure),
   isPristine: createIsPristine(structure),
