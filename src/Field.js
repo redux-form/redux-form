@@ -2,6 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 import shallowCompare from './util/shallowCompare'
+import prefixName from './util/prefixName'
 
 
 const createField = ({ deepEqual, getIn, setIn }) => {
@@ -32,9 +33,9 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     componentWillReceiveProps(nextProps) {
       if (this.props.name !== nextProps.name) {
         // unregister old name
-        this.context._reduxForm.unregister(this.props.name)
+        this.context._reduxForm.unregister(this.name)
         // register new name
-        this.context._reduxForm.register(nextProps.name, 'Field')
+        this.context._reduxForm.register(prefixName(this.context, nextProps.name), 'Field')
       }
     }
 
@@ -50,7 +51,7 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     }
 
     get name() {
-      return this.props.name
+      return prefixName(this.context, this.props.name)
     }
 
     get dirty() {
@@ -84,6 +85,7 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     render() {
       return createElement(ConnectedField, {
         ...this.props,
+        name: this.name,
         normalize: this.normalize,
         _reduxForm: this.context._reduxForm,
         ref: 'connected'
