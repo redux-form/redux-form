@@ -2,7 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
 import shallowCompare from './util/shallowCompare'
-import prefixName from './utils/prefixName'
+import prefixName from './util/prefixName'
 
 const createFieldArray = ({ deepEqual, getIn, size }) => {
 

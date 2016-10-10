@@ -3,7 +3,7 @@ import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
 import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
-import prefixName from './utils/prefixName'
+import prefixName from './util/prefixName'
 
 const validateNameProp = prop => {
   if (!prop) {
