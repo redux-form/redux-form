@@ -160,7 +160,7 @@ const createReducer = structure => {
         result = deleteInWithCleanUp(result, `submitErrors.${field}`)
       }
       result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
-      result = deleteInWithCleanUp(result, 'syncValidateFailed')
+      result = deleteInWithCleanUp(result, 'syncError')
       if (touch) {
         result = setIn(result, `fields.${field}.touched`, true)
         result = setIn(result, 'anyTouched', true)
@@ -337,15 +337,12 @@ const createReducer = structure => {
     },
     [UPDATE_SYNC_ERRORS](state, { payload: { syncErrors, error } }) {
       let result = state
-      if (error || Object.keys(syncErrors).length) {
-        result = setIn(result, 'syncValidateFailed', true)
-      } else {
-        result = deleteIn(result, 'syncValidateFailed')
-      }
       if (error) {
         result = setIn(result, 'error', error)
+        result = setIn(result, 'syncError', true)
       } else {
         result = deleteIn(result, 'error')
+        result = deleteIn(result, 'syncError')
       }
       if (Object.keys(syncErrors).length) {
         result = setIn(result, 'syncErrors', syncErrors)

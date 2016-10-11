@@ -6,8 +6,8 @@ const createIsValid = structure => {
   return (form, getFormState = state => getIn(state, 'form')) =>
     state => {
       const formState = getFormState(state)
-      const syncValidateFailed = getIn(formState, `${form}.syncValidateFailed`)
-      if (syncValidateFailed) {
+      const syncError = getIn(formState, `${form}.syncError`)
+      if (syncError) {
         return false
       }
       const syncErrors = getIn(formState, `${form}.syncErrors`)

@@ -19,8 +19,7 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           values: {
             myField: 'value',
             myOtherField: 'otherValue'
-          },
-          syncValidateFailed: true
+          }
         }
       }),
         'foo.syncErrors',
@@ -48,7 +47,7 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
             myField: 'value',
             myOtherField: 'otherValue'
           },
-          syncValidateFailed: true,
+          syncError: true,
           error: 'form wide error'
         }
       }),
@@ -76,8 +75,7 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           values: {
             myField: 'value',
             myOtherField: 'otherValue'
-          },
-          syncValidateFailed: true
+          }
         }
       }),
         'foo.syncErrors',
@@ -94,7 +92,6 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           myField: 'value',
           myOtherField: 'otherValue'
         },
-        syncValidateFailed: true,
         syncErrors: {
           myField: 'myField error',
           myOtherField: 'myOtherField error'

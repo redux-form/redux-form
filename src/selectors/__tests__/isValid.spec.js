@@ -99,7 +99,7 @@ const describeIsValid = (name, structure, expect) => {
       }))).toBe(false)
     })
 
-    it('should return false when there is a syncValidateFailed', () => {
+    it('should return false when there is a syncError', () => {
       expect(isValid('foo')(fromJS({
         form: {
           foo: {
@@ -108,7 +108,7 @@ const describeIsValid = (name, structure, expect) => {
               cat: 'Garfield'
             },
             error: 'Bad data',
-            syncValidateFailed: true,
+            syncError: true,
             registeredFields: [
               { name: 'dog', type: 'Field' },
               { name: 'cat', type: 'Field' }
