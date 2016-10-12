@@ -1,0 +1,32 @@
+import React, { Component, PropTypes } from 'react'
+import prefixName from './util/prefixName'
+
+class FormSection extends Component {
+  getChildContext() {
+    const { context, props: { name } } = this
+    return {
+      _reduxForm: {
+        ...context._reduxForm,
+        sectionPrefix: prefixName(context, name)
+      }
+    }
+  }
+
+  render() {
+    return <div>{this.props.children}</div>
+  }
+}
+
+FormSection.propTypes = {
+  name: PropTypes.string.isRequired
+}
+
+FormSection.childContextTypes = {
+  _reduxForm: PropTypes.object.isRequired
+}
+
+FormSection.contextTypes = {
+  _reduxForm: PropTypes.object
+}
+
+export default FormSection
