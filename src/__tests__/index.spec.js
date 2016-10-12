@@ -19,6 +19,7 @@ import {
   destroy,
   Field,
   FieldArray,
+  FormSection,
   focus,
   formValueSelector,
   initialize,
@@ -89,6 +90,9 @@ describe('index', () => {
   })
   it('should export FieldArray', () => {
     expect(FieldArray).toExist().toBeA('function')
+  })
+  it('should export FormSection', () => {
+    expect(FormSection).toExist().toBeA('function')
   })
   it('should export focus', () => {
     expect(focus).toExist().toBeA('function')
