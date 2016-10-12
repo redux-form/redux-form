@@ -7,7 +7,7 @@ It does this by prefixing the name of `Field`, `Fields` and `FieldArray` childre
 
 ### `name : String` [required]
 
-> The name all child fields should be prefixed with. Should not contain dots (`.`) or square brackets (`[]`).  
+> The name all child fields should be prefixed with. 
 
 ## Example usage
 
@@ -60,9 +60,9 @@ class OrderForm extends Component {
 //don't forget to connect OrderForm with reduxForm()
 ```
 
-The full names of the fields in the above example will end up looking something like 'buyer.address.streetName` which in turn results in 
+The full names of the fields in the above example will end up looking something like `buyer.address.streetName` which in turn results in 
 the following result structure:
-```json
+```js
 {
     buyer: {
         givenName: "xxx",
