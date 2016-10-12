@@ -9,7 +9,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
 
   touch(...fields) // mark all fields as touched
 
-  // XXX: Always submitting when persistentSubmitErrors is enabled ignores sync errors. 
+  // XXX: Always submitting when persistentSubmitErrors is enabled ignores sync errors.
   // It would be better to check whether the form as any other errors except submit errors.
   // This would either require changing the meaning of `valid` (maybe breaking change),
   // having a more complex conditional in here, or executing sync validation in here
@@ -58,15 +58,19 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
     const asyncValidateResult = asyncValidate && asyncValidate()
     if (asyncValidateResult) {
       return asyncValidateResult
-        .then(
-          doSubmit,
-          asyncErrors => {
-            setSubmitFailed(...fields)
-            if (onSubmitFail) {
-              onSubmitFail(asyncErrors, dispatch)
-            }
-            return Promise.reject(asyncErrors)
-          })
+        .then(asyncErrors => {
+          if (asyncErrors) {
+            throw asyncErrors
+          }
+          return doSubmit()
+        })
+        .catch(asyncErrors => {
+          setSubmitFailed(...fields)
+          if (onSubmitFail) {
+            onSubmitFail(asyncErrors, dispatch)
+          }
+          return Promise.reject(asyncErrors)
+        })
     } else {
       return doSubmit()
     }

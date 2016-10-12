@@ -100,12 +100,15 @@ describe('handleSubmit', () => {
     const touch = createSpy()
     const setSubmitFailed = createSpy()
     const setSubmitSucceeded = createSpy()
-    const asyncValidate = createSpy().andReturn(Promise.reject())
+    const asyncValidate = createSpy().andReturn(Promise.resolve(values))
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+      .then(() => {
+        throw new Error('Expected to fail')
+      })
       .catch(result => {
-        expect(result).toBe(undefined)
+        expect(result).toBe(values)
         expect(asyncValidate)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith()
@@ -132,10 +135,13 @@ describe('handleSubmit', () => {
     const touch = createSpy()
     const setSubmitFailed = createSpy()
     const setSubmitSucceeded = createSpy()
-    const asyncValidate = createSpy().andReturn(Promise.reject(values))
+    const asyncValidate = createSpy().andReturn(Promise.resolve(values))
     const props = { dispatch, onSubmitFail, startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+      .then(() => {
+        throw new Error('Expected to fail')
+      })
       .catch(result => {
         expect(result).toBe(values)
         expect(asyncValidate)
@@ -173,6 +179,9 @@ describe('handleSubmit', () => {
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+      .then(() => {
+        throw new Error('Expected to fail')
+      })
       .catch(result => {
         expect(result).toBe(asyncErrors)
         expect(asyncValidate)
