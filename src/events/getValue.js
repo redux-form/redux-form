@@ -31,9 +31,6 @@ const getValue = (event, isReactNative) => {
     if (type === 'select-multiple') {
       return getSelectedValues(event.target.options)
     }
-    if (value !== '' && (type === 'number' || type === 'range')) {
-      return parseFloat(value)
-    }
     return value
   }
   return event
