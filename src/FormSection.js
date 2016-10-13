@@ -2,6 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import prefixName from './util/prefixName'
 
 class FormSection extends Component {
+  constructor(props, context) {
+    super(props, context)
+    if (!context._reduxForm) {
+      throw new Error('FormSection must be inside a component decorated with reduxForm()')
+    }
+  }
+
   getChildContext() {
     const { context, props: { name } } = this
     return {
