@@ -6,8 +6,7 @@ const validate = values => {
   if (!values.members || !values.members.length) {
     errors.members = { _error: 'At least one member must be entered' }
   } else {
-    const membersArrayErrors = []
-    values.members.forEach((member, memberIndex) => {
+    const membersArrayErrors = values.members.map((member, memberIndex) => {
       const memberErrors = {}
       if (!member || !member.firstName) {
         memberErrors.firstName = 'Required'
