@@ -36,7 +36,6 @@ const validate = values => {
           membersArrayErrors[memberIndex] = memberErrors
         }
       }
-      return memberErrors
     })
     if(membersArrayErrors.length) {
       errors.members = membersArrayErrors
