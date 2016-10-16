@@ -35,7 +35,22 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
         //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
         // }
-        return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
+        const propsNotEqual = !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
+
+        if (!propsNotEqual && prop === 'state') {
+          const statePropsToCheck = [ 'touched', 'autofilled', 'active', 'visited' ]
+
+          return statePropsToCheck.some(statePropToCheck => {
+            if (this.props[ prop ] && nextProps[ prop ]) {
+              return !deepEqual(this.props[ prop ][ statePropToCheck ], nextProps[ prop ][ statePropToCheck ])
+            }
+
+            return false
+          })
+
+        }
+
+        return propsNotEqual
       })
     }
 
