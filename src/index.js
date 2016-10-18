@@ -23,6 +23,7 @@ export const {
   focus,
   formValueSelector,
   getFormValues,
+  getFormSyncErrors,
   initialize,
   isDirty,
   isInvalid,
