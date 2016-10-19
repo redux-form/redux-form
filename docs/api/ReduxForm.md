@@ -126,13 +126,38 @@ prop namespace collisions.
 
 #### `pure : boolean` [optional]
 
-> If true, implements `shouldComponentUpdate` and shallowly compares _only the Redux-connected 
-props_ that are needed to manage the form state, preventing unnecessary 
+> If true, implements `shouldComponentUpdate` and shallowly compares _only the Redux-connected
+props_ that are needed to manage the form state, preventing unnecessary
 updates, assuming that the component is a “pure” component and does not rely on any input or
 state other than its props and the selected Redux store’s state. Defaults to `true`.
 
 > Similar to the `pure` parameter in [`react-redux`'s `connect()`
 API](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
+
+#### `shouldValidate(params) : boolean` [optional]
+
+> An optional function you may provide to have full control over when sync validation happens.
+Your `shouldValidate()` function will be given an object with the following values:
+
+> ##### `values : Object`
+
+> The values in the form of `{ field1: 'value1', field2: 'value2' }`.
+
+> ##### `nextProps : Object`
+
+> The next props.
+
+> ##### `props : Object`
+
+> The current props.
+
+> ##### `initialRender : boolean`
+
+> `true` if the form is being initially rendered.
+
+> ##### `structure : Object`
+
+> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
 
 #### `shouldAsyncValidate(params) : boolean` [optional]
 

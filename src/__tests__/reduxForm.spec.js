@@ -30,9 +30,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     const makeStore = (initial = {}) => createStore(
       combineReducers({ form: reducer }), fromJS({ form: initial }))
 
-    const propChecker = (formState, renderSpy = noop, config = {}) => {
-      const store = makeStore({ testForm: formState })
-      class Form extends Component {
+    const makeForm = (renderSpy = noop) => {
+      return class Form extends Component {
         render() {
           renderSpy(this.props)
           return (
@@ -42,12 +41,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
+    }
+
+    const renderForm = (Form, formState, config = {}) => {
+      const store = makeStore({ testForm: formState })
       const Decorated = reduxForm({ form: 'testForm', ...config })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      return TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated/>
         </Provider>
       )
+    }
+
+    const propChecker = (formState, renderSpy = noop, config = {}) => {
+      const Form = makeForm(renderSpy)
+      const dom = renderForm(Form, formState, config)
       return TestUtils.findRenderedComponentWithType(dom, Form).props
     }
 
@@ -2568,6 +2576,56 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
     })
 
+    describe('validateIfNeeded', () => {
+
+      it('should not call validate if shouldValidate returns false', () => {
+        const validate = createSpy().andReturn({})
+        const shouldValidate = createSpy().andReturn(false)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { validate, shouldValidate })
+
+        // initial render
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(true)
+        expect(validate).toNotHaveBeenCalled()
+
+        shouldValidate.reset()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
+        expect(validate).toNotHaveBeenCalled()
+      })
+
+      it('should call validate if shouldValidate returns true', () => {
+        const validate = createSpy().andReturn({})
+        const shouldValidate = createSpy().andReturn(true)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { validate, shouldValidate })
+
+        // initial render
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(true)
+        expect(validate).toHaveBeenCalled()
+
+        shouldValidate.reset()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
+        expect(validate).toHaveBeenCalled()
+      })
+
+    })
+
     it('should not call async validate if shouldAsyncValidate returns false', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
@@ -3013,7 +3071,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         })
       })
     })
-    
+
     it('startSubmit in onSubmit sync', () => {
       const store = makeStore({})
       class Form extends Component {
