@@ -258,13 +258,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                asyncErrors,
-                initialized,
-                trigger: submitting ? 'submit' : 'blur',
-                blurredField: name,
-                pristine,
-                syncValidationPasses
-              })) {
+                  asyncErrors,
+                  initialized,
+                  trigger: submitting ? 'submit' : 'blur',
+                  blurredField: name,
+                  pristine,
+                  syncValidationPasses
+                })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props, name),
                   startAsyncValidation,
@@ -433,11 +433,25 @@ const createReduxForm =
 
         const connector = connect(
           (state, props) => {
-            const { form, getFormState, initialValues } = props
+            const { form, getFormState, initialValues, enableReinitialize, keepDirtyOnReinitialize } = props
             const formState = getIn(getFormState(state) || empty, form) || empty
             const stateInitial = getIn(formState, 'initial')
-            const initial = initialValues || stateInitial || empty
-            const values = getIn(formState, 'values') || initial
+
+            const shouldUpdateInitialValues = !deepEqual(initialValues, stateInitial) && enableReinitialize
+            const shouldResetValues = shouldUpdateInitialValues && !keepDirtyOnReinitialize;
+
+            let initial = initialValues || stateInitial || empty
+
+            if (shouldUpdateInitialValues) {
+              initial = stateInitial 
+            }
+
+            let values = getIn(formState, 'values') || initial
+
+            if (shouldResetValues) {
+              values = initial
+            }
+
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
             const syncErrors = getIn(formState, 'syncErrors') || {}
