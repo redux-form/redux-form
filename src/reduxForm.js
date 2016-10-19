@@ -437,13 +437,13 @@ const createReduxForm =
             const formState = getIn(getFormState(state) || empty, form) || empty
             const stateInitial = getIn(formState, 'initial')
 
-            const shouldUpdateInitialValues = !deepEqual(initialValues, stateInitial) && enableReinitialize
-            const shouldResetValues = shouldUpdateInitialValues && !keepDirtyOnReinitialize;
+            const shouldUpdateInitialValues = enableReinitialize && !deepEqual(initialValues, stateInitial)
+            const shouldResetValues = shouldUpdateInitialValues && !keepDirtyOnReinitialize
 
             let initial = initialValues || stateInitial || empty
 
             if (shouldUpdateInitialValues) {
-              initial = stateInitial 
+              initial = stateInitial
             }
 
             let values = getIn(formState, 'values') || initial
