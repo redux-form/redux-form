@@ -11,6 +11,7 @@ import createIsDirty from './selectors/isDirty'
 import createIsInvalid from './selectors/isInvalid'
 import createIsPristine from './selectors/isPristine'
 import createIsValid from './selectors/isValid'
+import FormSection from './FormSection'
 import SubmissionError from './SubmissionError'
 import propTypes from './propTypes'
 import * as actions from './actions'
@@ -23,6 +24,7 @@ const createAll = structure => ({
   Field: createField(structure),
   Fields: createFields(structure),
   FieldArray: createFieldArray(structure),
+  FormSection: FormSection,
   formValueSelector: createFormValueSelector(structure),
   getFormValues: createGetFormValues(structure),
   getFormSyncErrors: createGetFormSyncErrors(structure),

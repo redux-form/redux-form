@@ -20,6 +20,7 @@ export const {
   Field,
   Fields,
   FieldArray,
+  FormSection,
   focus,
   formValueSelector,
   getFormValues,

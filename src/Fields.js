@@ -3,6 +3,7 @@ import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
 import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
+import prefixName from './util/prefixName'
 
 const validateNameProp = prop => {
   if (!prop) {
@@ -37,22 +38,26 @@ const createFields = ({ deepEqual, getIn }) => {
       if(error) {
         throw error
       }
-      const { _reduxForm: { register } } = this.context
-      this.names.forEach(name => register(name, 'Field'))
+      const { context } = this  
+      const { _reduxForm: { register } } = context
+      this.names.forEach(name => register(prefixName(context, name), 'Field'))
     }
 
     componentWillReceiveProps(nextProps) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
-        const { register, unregister } = this.context._reduxForm
+        const { context } = this
+        const { register, unregister } = context._reduxForm
         // unregister old name
-        this.props.names.forEach(unregister)
+        this.props.names.forEach(name => unregister(prefixName(context, name)))
         // register new name
-        nextProps.names.forEach(name => register(name, 'Field'))
+        nextProps.names.forEach(name => register(prefixName(context, name), 'Field'))
       }
     }
 
     componentWillUnmount() {
-      this.names.forEach(this.context._reduxForm.unregister)
+      const { context } = this
+      const { unregister } = context._reduxForm
+      this.props.names.forEach(name => unregister(prefixName(context, name)))
     }
 
     getRenderedComponent() {
@@ -79,8 +84,10 @@ const createFields = ({ deepEqual, getIn }) => {
     }
 
     render() {
+      const { context } = this
       return createElement(ConnectedFields, {
         ...this.props,
+        names: this.props.names.map(name => prefixName(context, name)),
         _reduxForm: this.context._reduxForm,
         ref: 'connected'
       })

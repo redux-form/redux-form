@@ -8,6 +8,7 @@ import TestUtils from 'react-addons-test-utils'
 import createReduxForm from '../reduxForm'
 import createReducer from '../reducer'
 import createField from '../Field'
+import FormSection from '../FormSection'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
@@ -570,6 +571,58 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('barValue')
       expect(input.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
+    })
+
+    it('should prefix name when inside FormSection', () => {
+      const store = makeStore()
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <Field name="bar" component="input"/>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo.bar', type: 'Field' } ]
+          }
+        }
+      })
+    })
+
+    it('should prefix name when inside multiple FormSections', () => {
+      const store = makeStore()
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <FormSection name="fighter">
+              <Field name="bar" component="input"/>
+            </FormSection>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ { name: 'foo.fighter.bar', type: 'Field' } ]
+          }
+        }
+      })
     })
 
     it('should re-register when name changes', () => {

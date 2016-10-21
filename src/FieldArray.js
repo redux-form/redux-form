@@ -2,6 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
 import shallowCompare from './util/shallowCompare'
+import prefixName from './util/prefixName'
 
 const createFieldArray = ({ deepEqual, getIn, size }) => {
 
@@ -26,9 +27,9 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     componentWillReceiveProps(nextProps) {
       if (this.props.name !== nextProps.name) {
         // unregister old name
-        this.context._reduxForm.unregister(this.props.name)
+        this.context._reduxForm.unregister(this.name)
         // register new name
-        this.context._reduxForm.register(nextProps.name, 'FieldArray')
+        this.context._reduxForm.register(prefixName(this.context, nextProps.name), 'FieldArray')
       }
     }
 
@@ -37,7 +38,7 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     }
 
     get name() {
-      return this.props.name
+      return prefixName(this.context, this.props.name)
     }
 
     get dirty() {
@@ -62,6 +63,7 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     render() {
       return createElement(ConnectedFieldArray, {
         ...this.props,
+        name: this.name,
         syncError: this.syncError,
         syncWarning: this.syncWarning,
         _reduxForm: this.context._reduxForm,

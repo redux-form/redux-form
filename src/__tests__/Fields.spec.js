@@ -8,6 +8,7 @@ import TestUtils from 'react-addons-test-utils'
 import createReduxForm from '../reduxForm'
 import createReducer from '../reducer'
 import createFields from '../Fields'
+import FormSection from '../FormSection'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
@@ -663,6 +664,66 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].bar.input.value).toBe('barValue')
       expect(input.calls[ 1 ].arguments[ 0 ].bar.meta.touched).toBe(true)
     })
+
+
+    it('should prefix name when inside FormSection', () => {
+      const store = makeStore()
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <Fields names={[ 'foo', 'bar' ]} component="input"/>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ 
+              { name: 'foo.foo', type: 'Field' },
+              { name: 'foo.bar', type: 'Field' }              
+            ]
+          }
+        }
+      })
+    })
+
+    it('should prefix name when inside multiple FormSections', () => {
+      const store = makeStore()
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <FormSection name="fighter">
+              <Fields names={[ 'foo', 'bar' ]} component="input"/>
+            </FormSection>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [ 
+              { name: 'foo.fighter.foo', type: 'Field' },
+              { name: 'foo.fighter.bar', type: 'Field' }              
+            ]
+          }
+        }
+      })
+    })
+
 
     it('should rerender when props change', () => {
       const store = makeStore()

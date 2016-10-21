@@ -112,6 +112,7 @@ const createReduxForm =
                 getFormState: state => getIn(this.props.getFormState(state), this.props.form),
                 asyncValidate: this.asyncValidate,
                 getValues: this.getValues,
+                sectionPrefix: undefined,
                 register: this.register,
                 unregister: this.unregister
               }

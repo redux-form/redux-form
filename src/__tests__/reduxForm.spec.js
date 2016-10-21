@@ -10,6 +10,7 @@ import createReducer from '../reducer'
 import createReduxForm from '../reduxForm'
 import createField from '../Field'
 import createFieldArray from '../FieldArray'
+import FormSection from '../FormSection'
 import { startSubmit } from '../actions'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
@@ -1358,6 +1359,49 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.click(button)
 
       expect(stub.fieldList).toEqual(fromJS([ 'bar', 'barArray' ]))
+    })
+
+    it('should keep a list of registered fields inside a FormSection', () => {
+      const store = makeStore({})
+      const noopRender = () => <div/>
+
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { showBar: false }
+        }
+
+        render() {
+          const { showBar } = this.state
+          return (
+            <form>
+              <FormSection name="sec">
+                {!showBar && <Field name="foo" component="input" type="text"/>}
+                {!showBar && <FieldArray name="fooArray" component={noopRender} type="text"/>}
+                {showBar && <Field name="bar" component="input" type="text"/>}
+                {showBar && <FieldArray name="barArray" component={noopRender} type="text"/>}
+                <button onClick={() => this.setState({ showBar: true })}>Show Bar</button>
+              </FormSection>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+      expect(stub.fieldList).toEqual(fromJS([ 'sec.foo', 'sec.fooArray' ]))
+
+      // switch fields
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(stub.fieldList).toEqual(fromJS([ 'sec.bar', 'sec.barArray' ]))
     })
 
     it('should provide valid/invalid/values/dirty/pristine getters', () => {
