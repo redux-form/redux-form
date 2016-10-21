@@ -11,6 +11,7 @@ import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
+import defaultShouldValidate from './defaultShouldValidate'
 import plain from './structure/plain'
 import createIsValid from './selectors/isValid'
 
@@ -84,6 +85,7 @@ const createReduxForm =
         persistentSubmitErrors: false,
         destroyOnUnmount: true,
         shouldAsyncValidate: defaultShouldAsyncValidate,
+        shouldValidate: defaultShouldValidate,
         enableReinitialize: false,
         keepDirtyOnReinitialize: false,
         getFormState: state => getIn(state, 'form'),
@@ -138,18 +140,25 @@ const createReduxForm =
           }
 
           validateIfNeeded(nextProps) {
-            const { validate, values } = this.props
+            const { shouldValidate, validate, values } = this.props
             if (validate) {
-              if (nextProps) {
-                // not initial render
-                if (!deepEqual(values, nextProps.values)) {
+              const initialRender = nextProps === undefined
+              const shouldValidateResult = shouldValidate({
+                values,
+                nextProps,
+                props: this.props,
+                initialRender,
+                structure
+              })
+
+              if (shouldValidateResult) {
+                if (initialRender) {
+                  const { _error, ...nextSyncErrors } = validate(values, this.props)
+                  this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
+                } else {
                   const { _error, ...nextSyncErrors } = validate(nextProps.values, nextProps)
                   this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
                 }
-              } else {
-                // initial render
-                const { _error, ...nextSyncErrors } = validate(values, this.props)
-                this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
               }
             }
           }
@@ -352,6 +361,7 @@ const createReduxForm =
               setSubmitFailed,
               setSubmitSucceeded,
               shouldAsyncValidate,
+              shouldValidate,
               startAsyncValidation,
               startSubmit,
               stopAsyncValidation,
