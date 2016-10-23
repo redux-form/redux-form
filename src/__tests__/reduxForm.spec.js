@@ -3129,4 +3129,4 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 }
 
 describeReduxForm('reduxForm.plain', plain, plainCombineReducers, addExpectations(plainExpectations))
-// describeReduxForm('reduxForm.immutable', immutable, immutableCombineReducers, addExpectations(immutableExpectations))
+describeReduxForm('reduxForm.immutable', immutable, immutableCombineReducers, addExpectations(immutableExpectations))
