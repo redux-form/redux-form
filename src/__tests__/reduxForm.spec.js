@@ -640,7 +640,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
 
-      // Expect rerenders due to initialization.
+      // Expect renders due to initialization.
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
 
@@ -650,7 +650,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // Expect that input value has been initialized
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
 
-      // change input value and check if it is dirty and not pristine
+      // Change input value and check if it is dirty and not pristine
       const onChange = inputRender.calls[ 0 ].arguments[ 0 ].input.onChange
       onChange('dirtyvalue')
 
@@ -661,10 +661,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(2)
 
-      // Expect that input value has been changed
+      // Expect that input value has been changed and is dirty now
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'dirtyvalue', false, true)
 
-      // Re-initialize form and check if it pristine and not dirty
+      // Re-initialize form and check if it is pristine and not dirty
       const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
@@ -691,7 +691,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(3)
 
-      // Expect that input value has been re-initialized
+      // Expect that input value has been re-initialized and is not dirty anymore
       checkInputProps(inputRender.calls[ 2 ].arguments[ 0 ], 'baz')
     })
 
