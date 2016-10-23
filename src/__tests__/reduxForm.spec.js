@@ -912,40 +912,67 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       checkInputProps(inputRender.calls[ 2 ].arguments[ 0 ], 'baz', false)
     })
 
-    it('should be pristine after initialize() if enableReinitialize', () => {
+    it.only('should be pristine after initialize() if enableReinitialize', () => {
       const store = makeStore({})
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const propsOnLastRender = (componentSpy) => componentSpy.calls[ componentSpy.calls.length - 1 ].arguments[ 0 ]
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
 
-      const Form = createSpy(() => (
-        <form>
-          <Field name="bar" component={input} type="text"/>
-        </form>
-      )).andCallThrough()
-
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
       const Decorated = reduxForm({
         form: 'testForm',
-        initialValues: { bar: 'initialBar' },
-        enableReinitialize: true,
+        enableReinitialize: true
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <Decorated/>
-        </Provider>
-      )
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
 
-      inputOnLastRender(input).onChange('newBar')
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state}/>
+              </Provider>
+            </div>
+          )
+        }
+      }
 
-      expect(inputOnLastRender(input).value).toBe('newBar')
-      expect(propsOnLastRender(Form).pristine).toBe(false, 'Form should not have been pristine')
+      TestUtils.renderIntoDocument(<Container/>)
 
-      store.dispatch(initialize('testForm', { bar : 'newBar' }))
+      propsOnLastRender(inputRender).input.onChange('newBar')
 
-      expect(propsOnLastRender(Form).pristine).toBe(true, 'Form should have been pristine after initialize')
-    })
-    
-    const propsOnLastRender = (componentSpy) => componentSpy.calls[ componentSpy.calls.length - 1 ].arguments[ 0 ]
-    const inputOnLastRender = (componentSpy) => propsOnLastRender(componentSpy).input
+      expect(propsOnLastRender(inputRender).input.value).toBe('newBar')
+      expect(propsOnLastRender(inputRender).meta.pristine).toBe(false, 'Input should not have been pristine')
+      expect(propsOnLastRender(formRender).pristine).toBe(false, 'Form should not have been pristine')
+
+      store.dispatch(initialize('testForm', { 
+        deep: {
+          foo: 'baz'
+        } 
+      }))
+
+      expect(propsOnLastRender(inputRender).input.value).toBe('baz')
+      expect(propsOnLastRender(inputRender).meta.pristine).toBe(true, 'Input should have been pristine after initialize')
+      expect(propsOnLastRender(formRender).pristine).toBe(true, 'Form should have been pristine after initialize')      
+    }) 
 
     it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
       const store = makeStore({})
