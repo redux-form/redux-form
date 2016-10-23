@@ -622,6 +622,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
 
       const dom = TestUtils.renderIntoDocument(<Container/>)
+
+      const checkInputProps = (props, value, pristine = true, dirty = false) => {
+        expect(props.meta.pristine).toBe(pristine)
+        expect(props.meta.dirty).toBe(dirty)
+        expect(props.input.value).toBe(value)
+      }
+
+      // Check initial state
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
@@ -631,34 +639,36 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
+
+      // Expect rerenders due to initialization.
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender.calls.length).toBe(1)
-      const checkInputProps = (props, value, pristine = true, dirty = false) => {
-        expect(props.meta.pristine).toBe(pristine)
-        expect(props.meta.dirty).toBe(dirty)
-        expect(props.input.value).toBe(value)
-      }
+      expect(inputRender.calls.length).toBe(1)      
+
+      // Expect that input value has been initialized
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
 
       // change input value and check if it is dirty and not pristine
       const onChange = inputRender.calls[ 0 ].arguments[ 0 ].input.onChange
       onChange('dirtyvalue')
 
+      // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(2)
+
+      // Expect that input value has been changed
       checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'dirtyvalue', false, true)
 
-      // re-initialize form and check if it pristine and not dirty
+      // Re-initialize form and check if it pristine and not dirty
       const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
-      // check initialized state
+      // Check re-initialized state
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
@@ -674,11 +684,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
 
+      // Expect rerenders due to the re-initialization.
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(3) // form should not 
+      expect(formRender.calls.length).toBe(3)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(3)
+
+      // Expect that input value has been re-initialized
       checkInputProps(inputRender.calls[ 2 ].arguments[ 0 ], 'baz')
     })
 
