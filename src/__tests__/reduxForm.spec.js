@@ -636,14 +636,25 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
-      const checkInputProps = (props, value) => {
-        expect(props.meta.pristine).toBe(true)
-        expect(props.meta.dirty).toBe(false)
+      const checkInputProps = (props, value, pristine = true, dirty = false) => {
+        expect(props.meta.pristine).toBe(pristine)
+        expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
       }
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
 
-      // initialize
+      // change input value and check if it is dirty and not pristine
+      const onChange = inputRender.calls[ 0 ].arguments[ 0 ].input.onChange
+      onChange('dirtyvalue')
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(2)
+      checkInputProps(inputRender.calls[ 1 ].arguments[ 0 ], 'dirtyvalue', false, true)
+
+      // re-initialize form and check if it pristine and not dirty
       const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
@@ -663,16 +674,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
 
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(3) // form should not 
 
-      // Latest value should be `baz`
-      checkInputProps(inputRender.calls[ inputRender.calls.length - 1 ].arguments[ 0 ], 'baz')
-
-      // TODO note from ncphillips: I'm pretty skeptical that these are useful assertion
-      // should rerender input with new value
-      expect(inputRender.calls.length).toBe(2)
-      
-      // rerendered twice because prop changed and values initialized
-      expect(formRender.calls.length).toBe(3)
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(3)
+      checkInputProps(inputRender.calls[ 2 ].arguments[ 0 ], 'baz')
     })
 
     it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
