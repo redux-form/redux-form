@@ -912,7 +912,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       checkInputProps(inputRender.calls[ 2 ].arguments[ 0 ], 'baz', false)
     })
 
-    it.only('should be pristine after initialize() if enableReinitialize', () => {
+    it('should be pristine after initialize() if enableReinitialize', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
