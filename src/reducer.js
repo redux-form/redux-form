@@ -200,7 +200,7 @@ const createReducer = structure => {
         const previousValues = getIn(state, 'values')
         const previousInitialValues = getIn(state, 'initial')
         registeredFields.forEach(field => {
-          const name = field.name
+          const name = getIn(field, 'name')
           const previousInitialValue = getIn(previousInitialValues, name)
           const previousValue = getIn(previousValues, name)
           if (!deepEqual(previousValue, previousInitialValue)) {
