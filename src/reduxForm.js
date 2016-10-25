@@ -444,11 +444,25 @@ const createReduxForm =
 
         const connector = connect(
           (state, props) => {
-            const { form, getFormState, initialValues } = props
+            const { form, getFormState, initialValues, enableReinitialize, keepDirtyOnReinitialize } = props
             const formState = getIn(getFormState(state) || empty, form) || empty
             const stateInitial = getIn(formState, 'initial')
-            const initial = initialValues || stateInitial || empty
-            const values = getIn(formState, 'values') || initial
+
+            const shouldUpdateInitialValues = enableReinitialize && !deepEqual(initialValues, stateInitial)
+            const shouldResetValues = shouldUpdateInitialValues && !keepDirtyOnReinitialize
+
+            let initial = initialValues || stateInitial || empty
+
+            if (shouldUpdateInitialValues) {
+              initial = stateInitial
+            }
+
+            let values = getIn(formState, 'values') || initial
+
+            if (shouldResetValues) {
+              values = initial
+            }
+
             const pristine = deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
             const syncErrors = getIn(formState, 'syncErrors') || {}
