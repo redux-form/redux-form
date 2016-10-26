@@ -25,7 +25,11 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
         if (onSubmitFail) {
           onSubmitFail(error, dispatch)
         }
-        return error
+        if (error) {
+          return error  
+        } else {
+          throw submitError
+        }
       }
       if (isPromise(result)) {
         startSubmit()
