@@ -393,4 +393,21 @@ describe('handleSubmit', () => {
 
     expect(submit).toHaveBeenCalled()
   })
+
+  it('should not swallow errors', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const submit = createSpy().andThrow(new Error('spline reticulation failed'))
+    const startSubmit = createSpy()
+    const stopSubmit = createSpy()
+    const touch = createSpy()
+    const setSubmitFailed = createSpy()
+    const setSubmitSucceeded = createSpy()
+    const asyncValidate = createSpy()
+    const props = { startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
+
+    expect(
+      () => handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+    ).toThrow('spline reticulation failed')
+    expect(submit).toHaveBeenCalled()
+  })
 })
