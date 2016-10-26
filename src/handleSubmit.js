@@ -25,8 +25,9 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
         if (onSubmitFail) {
           onSubmitFail(error, dispatch)
         }
-        if (error) {
-          return error  
+        if (error || onSubmitFail) {
+          // if you've provided an onSubmitFail callback, don't re-throw the error
+          return error
         } else {
           throw submitError
         }
