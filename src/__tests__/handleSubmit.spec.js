@@ -317,9 +317,14 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy().andReturn(Promise.resolve())
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
 
+    const resolveSpy = createSpy()
+    const errorSpy = createSpy()
+
     return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-      .then(result => {
-        expect(result).toBe(undefined)
+      .then(resolveSpy, errorSpy)
+      .then(() => {
+        expect(resolveSpy).toNotHaveBeenCalled()
+        expect(errorSpy).toHaveBeenCalledWith(submitErrors)
         expect(asyncValidate)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith()
@@ -392,5 +397,47 @@ describe('handleSubmit', () => {
     handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
 
     expect(submit).toHaveBeenCalled()
+  })
+
+  it('should not swallow errors', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const submit = createSpy().andThrow(new Error('spline reticulation failed'))
+    const startSubmit = createSpy()
+    const stopSubmit = createSpy()
+    const touch = createSpy()
+    const setSubmitFailed = createSpy()
+    const setSubmitSucceeded = createSpy()
+    const asyncValidate = createSpy()
+    const props = { startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
+
+    expect(
+      () => handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+    ).toThrow('spline reticulation failed')
+    expect(submit).toHaveBeenCalled()
+  })
+
+  it('should not swallow async errors', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const submit = createSpy().andReturn(
+      Promise.reject(new Error('spline reticulation failed'))
+    )
+    const startSubmit = createSpy()
+    const stopSubmit = createSpy()
+    const touch = createSpy()
+    const setSubmitFailed = createSpy()
+    const setSubmitSucceeded = createSpy()
+    const asyncValidate = createSpy()
+    const props = { startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
+
+    const resultSpy = createSpy()
+    const errorSpy = createSpy()
+
+    return handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+      .then(resultSpy, errorSpy)
+      .then(() => {
+        expect(submit).toHaveBeenCalled()
+        expect(resultSpy).toNotHaveBeenCalled('promise should not have resolved')
+        expect(errorSpy).toHaveBeenCalled('promise should have rejected')
+      })
   })
 })
