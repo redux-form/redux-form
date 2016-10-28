@@ -94,7 +94,7 @@ const createReduxForm =
       }
 
       return WrappedComponent => {
-        let instances = 0;
+        let instances = 0
 
         class Form extends Component {
           constructor(props) {
@@ -107,7 +107,7 @@ const createReduxForm =
             this.unregister = this.unregister.bind(this)
             this.submitCompleted = this.submitCompleted.bind(this)
 
-            instances++;
+            instances++
           }
 
           getChildContext() {
@@ -225,9 +225,9 @@ const createReduxForm =
               destroy()
             }
 
-            this.unmounted = true;
+            this.unmounted = true
 
-            instances--;
+            instances--
           }
 
           getValues() {
