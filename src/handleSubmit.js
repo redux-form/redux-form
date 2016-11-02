@@ -1,4 +1,5 @@
 import isPromise from 'is-promise'
+import Promise from 'promise'
 import SubmissionError from './SubmissionError'
 
 const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
@@ -9,88 +10,86 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
 
   touch(...fields) // mark all fields as touched
 
+  let doStopSubmit = () => {}
+  const doStartSubmit = () => {
+    doStopSubmit = stopSubmit
+    startSubmit()
+  }
+  
   // XXX: Always submitting when persistentSubmitErrors is enabled ignores sync errors.
   // It would be better to check whether the form as any other errors except submit errors.
   // This would either require changing the meaning of `valid` (maybe breaking change),
   // having a more complex conditional in here, or executing sync validation in here
   // the same way as async validation is executed.
-  if (valid || persistentSubmitErrors) {
-    const doSubmit = () => {
-      let result
-      try {
-        result = submit(values, dispatch, props)
-      } catch (submitError) {
-        const error = submitError instanceof SubmissionError ? submitError.errors : undefined
-        setSubmitFailed(...fields)
-        if (onSubmitFail) {
-          onSubmitFail(error, dispatch)
-        }
-        if (error || onSubmitFail) {
-          // if you've provided an onSubmitFail callback, don't re-throw the error
-          return error
-        } else {
-          throw submitError
-        }
+
+  let asyncValidationFailed = false
+  return Promise.resolve()
+    .then(() => {
+      if (!valid && !persistentSubmitErrors) {
+        throw new SubmissionError(syncErrors)
       }
-      if (isPromise(result)) {
-        startSubmit()
-        return result
-          .then(submitResult => {
-            stopSubmit()
-            setSubmitSucceeded()
-            if (onSubmitSuccess) {
-              onSubmitSuccess(submitResult, dispatch)
+    })
+    
+    .then(() => {
+      if (asyncValidate) {
+        return Promise.resolve(asyncValidate())
+          .then(asyncErrors => {
+            if (asyncErrors) {
+              asyncValidationFailed = true
+              throw new SubmissionError(asyncErrors)
             }
-            return submitResult
-          }, submitError => {
-            const error = submitError instanceof SubmissionError ? submitError.errors : undefined
-            stopSubmit(error)
-            setSubmitFailed(...fields)
-            if (onSubmitFail) {
-              onSubmitFail(error, dispatch)
+          }, asyncErrors => {
+            asyncValidationFailed = true
+            if (!(asyncErrors instanceof Error)) {
+              throw new SubmissionError(asyncErrors)
             }
-            if (error || onSubmitFail) {
-              // if you've provided an onSubmitFail callback, don't re-throw the error
-              return error
-            } else {
-              throw submitError
-            }
+            throw asyncErrors
           })
-      } else {
-        setSubmitSucceeded()
-        if (onSubmitSuccess) {
-          onSubmitSuccess(result, dispatch)
-        }
+      }
+    })
+    
+    .then(() => {
+      const result = submit(values, dispatch, props)
+
+      if (isPromise(result)) {
+        doStartSubmit()
       }
       return result
-    }
+    })
+    
+    .then(result => {
+      doStopSubmit()
+      setSubmitSucceeded()
+      if (onSubmitSuccess) {
+        onSubmitSuccess(result, dispatch)
+      }
+      
+      return result
+    })
+    
+    .catch(submitError => {
+      const errors = submitError instanceof SubmissionError ? submitError.errors : undefined
+      doStopSubmit(errors)
+      
+      setSubmitFailed(...fields)
 
-    const asyncValidateResult = asyncValidate && asyncValidate()
-    if (asyncValidateResult) {
-      return asyncValidateResult
-        .then(asyncErrors => {
-          if (asyncErrors) {
-            throw asyncErrors
-          }
-          return doSubmit()
-        })
-        .catch(asyncErrors => {
-          setSubmitFailed(...fields)
-          if (onSubmitFail) {
-            onSubmitFail(asyncErrors, dispatch)
-          }
-          return Promise.reject(asyncErrors)
-        })
-    } else {
-      return doSubmit()
-    }
-  } else {
-    setSubmitFailed(...fields)
-    if (onSubmitFail) {
-      onSubmitFail(syncErrors, dispatch)
-    }
-    return syncErrors
-  }
+      if (onSubmitFail) {
+        onSubmitFail(errors, dispatch, submitError)
+      }
+
+      if (errors) {
+        if (asyncValidationFailed) {
+          return Promise.reject(errors)
+        } else {
+          return errors
+        }
+      } else {
+        if (!onSubmitFail) {
+          return Promise.reject(submitError)
+        }
+      }
+    })
+  
 }
 
 export default handleSubmit

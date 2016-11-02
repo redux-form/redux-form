@@ -3,7 +3,6 @@ import hoistStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { mapValues } from 'lodash'
-import isPromise from 'is-promise'
 import getDisplayName from './util/getDisplayName'
 import * as importedActions from './actions'
 import handleSubmit from './handleSubmit'
@@ -291,9 +290,6 @@ const createReduxForm =
           }
 
           listenToSubmit(promise) {
-            if (!isPromise(promise)) {
-              return promise
-            }
             this.submitPromise = promise
             return promise.then(this.submitCompleted)
           }

@@ -16,18 +16,19 @@ describe('handleSubmit', () => {
     const props = { startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
 
     handleSubmit(submit, props, false, asyncValidate, [ 'foo', 'baz' ])
-
-    expect(submit).toNotHaveBeenCalled()
-    expect(startSubmit).toNotHaveBeenCalled()
-    expect(stopSubmit).toNotHaveBeenCalled()
-    expect(touch)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'baz')
-    expect(asyncValidate).toNotHaveBeenCalled()
-    expect(setSubmitSucceeded).toNotHaveBeenCalled()
-    expect(setSubmitFailed)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'baz')
+      .then(() => {
+        expect(submit).toNotHaveBeenCalled()
+        expect(startSubmit).toNotHaveBeenCalled()
+        expect(stopSubmit).toNotHaveBeenCalled()
+        expect(touch)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith('foo', 'baz')
+        expect(asyncValidate).toNotHaveBeenCalled()
+        expect(setSubmitSucceeded).toNotHaveBeenCalled()
+        expect(setSubmitFailed)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith('foo', 'baz')
+      })
   })
 
   it('should stop and return errors if sync validation fails', () => {
@@ -49,20 +50,21 @@ describe('handleSubmit', () => {
       values
     }
 
-    const result = handleSubmit(submit, props, false, asyncValidate, [ 'foo', 'baz' ])
-
-    expect(asyncValidate).toNotHaveBeenCalled()
-    expect(submit).toNotHaveBeenCalled()
-    expect(startSubmit).toNotHaveBeenCalled()
-    expect(stopSubmit).toNotHaveBeenCalled()
-    expect(touch)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'baz')
-    expect(setSubmitSucceeded).toNotHaveBeenCalled()
-    expect(setSubmitFailed)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'baz')
-    expect(result).toBe(syncErrors)
+    handleSubmit(submit, props, false, asyncValidate, [ 'foo', 'baz' ])
+      .then(result => {
+        expect(asyncValidate).toNotHaveBeenCalled()
+        expect(submit).toNotHaveBeenCalled()
+        expect(startSubmit).toNotHaveBeenCalled()
+        expect(stopSubmit).toNotHaveBeenCalled()
+        expect(touch)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith('foo', 'baz')
+        expect(setSubmitSucceeded).toNotHaveBeenCalled()
+        expect(setSubmitFailed)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith('foo', 'baz')
+        expect(result).toBe(syncErrors)
+      })
   })
 
   it('should return result of sync submit', () => {
@@ -77,18 +79,20 @@ describe('handleSubmit', () => {
     const asyncValidate = undefined
     const props = { dispatch, startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
 
-    expect(handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])).toBe(69)
-
-    expect(submit)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(values, dispatch, props)
-    expect(startSubmit).toNotHaveBeenCalled()
-    expect(stopSubmit).toNotHaveBeenCalled()
-    expect(touch)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith('foo', 'baz')
-    expect(setSubmitFailed).toNotHaveBeenCalled()
-    expect(setSubmitSucceeded).toHaveBeenCalled()
+    handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+      .then(result => {
+        expect(result).toBe(69)
+        expect(submit)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith(values, dispatch, props)
+        expect(startSubmit).toNotHaveBeenCalled()
+        expect(stopSubmit).toNotHaveBeenCalled()
+        expect(touch)
+          .toHaveBeenCalled()
+          .toHaveBeenCalledWith('foo', 'baz')
+        expect(setSubmitFailed).toNotHaveBeenCalled()
+        expect(setSubmitSucceeded).toHaveBeenCalled()
+      })
   })
 
   it('should not submit if async validation fails', () => {
@@ -152,7 +156,9 @@ describe('handleSubmit', () => {
         expect(stopSubmit).toNotHaveBeenCalled()
         expect(onSubmitFail)
           .toHaveBeenCalled()
-          .toHaveBeenCalledWith(values, dispatch)
+        expect(onSubmitFail.calls[0].arguments[0]).toEqual(values)
+        expect(onSubmitFail.calls[0].arguments[1]).toEqual(dispatch)
+        expect(onSubmitFail.calls[0].arguments[2]).toBeA(SubmissionError)
         expect(touch)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith('foo', 'baz')
@@ -385,7 +391,7 @@ describe('handleSubmit', () => {
 
   it('should submit when there are old submit errors and persistentSubmitErrors is enabled', () => {
     const values = { foo: 'bar', baz: 42 }
-    const submit = createSpy().andReturn(69)
+    const submit = createSpy()
     const startSubmit = createSpy()
     const stopSubmit = createSpy()
     const touch = createSpy()
@@ -395,8 +401,9 @@ describe('handleSubmit', () => {
     const props = { startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values, persistentSubmitErrors: true }
 
     handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-
-    expect(submit).toHaveBeenCalled()
+      .then(() => {
+        expect(submit).toHaveBeenCalled()
+      })
   })
 
   it('should not swallow errors', () => {
@@ -410,10 +417,11 @@ describe('handleSubmit', () => {
     const asyncValidate = createSpy()
     const props = { startSubmit, stopSubmit, touch, setSubmitFailed, setSubmitSucceeded, values }
 
-    expect(
-      () => handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
-    ).toThrow('spline reticulation failed')
-    expect(submit).toHaveBeenCalled()
+    handleSubmit(submit, props, true, asyncValidate, [ 'foo', 'baz' ])
+      .catch(error => {
+        expect(error).toBe(new Error('spline reticulation failed'))
+        expect(submit).toHaveBeenCalled()
+      })
   })
 
   it('should not swallow async errors', () => {

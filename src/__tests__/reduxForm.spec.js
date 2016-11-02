@@ -1578,33 +1578,34 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(stub.submit).toBeA('function')
       stub.submit()
-
-      expect(store.getState()).toEqualMap({
-        form: {
-          testForm: {
-            registeredFields: [
-              { name: 'username', type: 'Field' },
-              { name: 'password', type: 'Field' }
-            ],
-            anyTouched: true,
-            fields: {
-              username: {
-                touched: true
-              },
-              password: {
-                touched: true
+        .then(() => {
+          expect(store.getState()).toEqualMap({
+            form: {
+              testForm: {
+                registeredFields: [
+                  { name: 'username', type: 'Field' },
+                  { name: 'password', type: 'Field' }
+                ],
+                anyTouched: true,
+                fields: {
+                  username: {
+                    touched: true
+                  },
+                  password: {
+                    touched: true
+                  }
+                },
+                submitSucceeded: true
               }
-            },
-            submitSucceeded: true
-          }
-        }
-      })
-
-      expect(username.calls.length).toBe(2)
-      expect(username.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
-
-      expect(password.calls.length).toBe(2)
-      expect(password.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
+            }
+          })
+  
+          expect(username.calls.length).toBe(2)
+          expect(username.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
+  
+          expect(password.calls.length).toBe(2)
+          expect(password.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
+        })
     })
 
     it('should call onSubmitFail with errors if sync submit fails by throwing SubmissionError', () => {
@@ -1641,12 +1642,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail).toNotHaveBeenCalled()
 
-      const caught = stub.submit()
-
-      expect(onSubmitFail)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith(errors, store.dispatch)
-      expect(caught).toBe(errors)
+      stub.submit()
+        .then(caught => {
+          expect(onSubmitFail)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(caught).toBe(errors)
+        })
     })
 
     it('should call onSubmitFail with undefined if sync submit fails by throwing other error', () => {
@@ -1682,12 +1684,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail).toNotHaveBeenCalled()
 
-      const caught = stub.submit()
-
-      expect(onSubmitFail)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith(undefined, store.dispatch)
-      expect(caught).toNotExist()
+      stub.submit()
+        .then(caught => {
+          expect(onSubmitFail)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(undefined, store.dispatch)
+          expect(caught).toNotExist()
+        })
     })
 
     it('should call onSubmitFail if async submit fails', () => {
@@ -1726,7 +1729,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         .then(caught => {
           expect(onSubmitFail)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
+          expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[2]).toBeA(SubmissionError)
           expect(caught).toBe(errors)
         })
     })
@@ -1766,12 +1771,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmitFail).toNotHaveBeenCalled()
       expect(onSubmit).toNotHaveBeenCalled()
 
-      const result = stub.submit()
-      expect(onSubmit).toNotHaveBeenCalled()
-      expect(onSubmitFail)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith(errors, store.dispatch)
-      expect(result).toEqual(errors)
+      stub.submit()
+        .then(result => {
+          expect(onSubmit).toNotHaveBeenCalled()
+          expect(onSubmitFail)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(result).toEqual(errors)
+        })
     })
 
     it('should call onSubmitFail if async validation prevents submit', () => {
@@ -1814,7 +1821,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           expect(onSubmit).toNotHaveBeenCalled()
           expect(onSubmitFail)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
+          expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[2]).toBeA(SubmissionError)
           expect(error).toBe(errors)
         })
     })
@@ -1851,12 +1860,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitSuccess).toNotHaveBeenCalled()
 
-      const returned = stub.submit()
-
-      expect(onSubmitSuccess)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith(result, store.dispatch)
-      expect(returned).toBe(result)
+      stub.submit()
+        .then(returned => {
+          expect(onSubmitSuccess)
+            .toHaveBeenCalled()
+            .toHaveBeenCalledWith(result, store.dispatch)
+          expect(returned).toBe(result)
+        })
     })
 
     it('should call onSubmitSuccess if async submit succeeds', () => {
@@ -1930,9 +1940,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(stub.submit).toBeA('function')
 
-      const caught = stub.submit()
-
-      expect(caught).toBe(errors)
+      stub.submit()
+        .catch(caught => {
+          expect(caught).toBe(errors)
+        })
     })
 
     it('should submit when submit() called and onSubmit provided as config param', () => {
@@ -1983,9 +1994,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
       const submit = createSpy()
 
+      let submitPromise = null;
       const Form = ({ handleSubmit }) =>
         (
-          <form onSubmit={handleSubmit(submit)}>
+          <form onSubmit={function () {
+            submitPromise = handleSubmit(submit).apply(this, arguments)
+            return submitPromise
+          }}>
             <Field name="bar" component="textarea"/>
             <input type="submit" value="Submit"/>
           </form>
@@ -2007,7 +2022,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       TestUtils.Simulate.submit(form)
 
-      expect(submit).toHaveBeenCalled()
+      submitPromise.then(() => {
+        expect(submit).toHaveBeenCalled()
+      })
     })
 
     it('should be fine if form is not yet in Redux store', () => {
@@ -2137,9 +2154,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(stub.submit).toBeA('function')
       stub.submit()
-
-      expect(asyncValidate).toHaveBeenCalled()
-      expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+        .then(() => {
+          expect(asyncValidate).toHaveBeenCalled()
+          expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+        })
     })
 
     it('should not call async validation more than once if submit is clicked fast when handleSubmit receives an event', () => {
@@ -2157,8 +2175,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
 
+      let submitPromise = null
       const Form = ({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={function () {
+          submitPromise = handleSubmit.apply(this, arguments) || submitPromise
+          return submitPromise
+        }}>
           <Field name="bar" component={input} type="text"/>
         </form>
       )
@@ -2188,9 +2210,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
       TestUtils.Simulate.submit(form)
 
-      expect(asyncValidate).toHaveBeenCalled()
-      expect(asyncValidate.calls.length).toBe(1)
-      expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+      submitPromise
+        .then(() => {
+          expect(asyncValidate).toHaveBeenCalled()
+          expect(asyncValidate.calls.length).toBe(1)
+          expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+        })
     })
 
     it('should return rejected promise when submit is rejected', () => {
@@ -2241,8 +2266,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
 
+      let submitPromise = null
       const Form = ({ handleSubmit }) => (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={function () {
+          submitPromise = handleSubmit(onSubmit).apply(this, arguments) || submitPromise
+          return submitPromise
+        }}>
           <Field name="bar" component={input} type="text"/>
         </form>
       )
@@ -2271,9 +2300,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
       TestUtils.Simulate.submit(form)
 
-      expect(asyncValidate).toHaveBeenCalled()
-      expect(asyncValidate.calls.length).toBe(1)
-      expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+      submitPromise
+        .then(() => {
+          expect(asyncValidate).toHaveBeenCalled()
+          expect(asyncValidate.calls.length).toBe(1)
+          expect(asyncValidate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ bar: 'foo' })
+        })
     })
 
     it('should reset when reset() called', () => {
@@ -2865,11 +2897,17 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const renderInput = createSpy(props => <input {...props.input}/>).andCallThrough()
       const renderForm = createSpy()
       const onSubmit = createSpy()
+
+      let submitPromise = null
+      
       class Form extends Component {
         render() {
           renderForm(this.props)
           return (
-            <form onSubmit={this.props.handleSubmit}>
+            <form onSubmit={() => {
+              submitPromise = this.props.handleSubmit.apply(this, arguments)
+              return submitPromise
+            }}>
               <Field name="myField" component={renderInput}/>
             </form>
           )
@@ -2901,38 +2939,47 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // test submit
       expect(onSubmit).toNotHaveBeenCalled()
       TestUtils.Simulate.submit(form)
-      expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({})
-      expect(renderInput.calls.length).toBe(2)  // touched by submit
+      submitPromise
+        .then(() => {
+          expect(onSubmit).toHaveBeenCalled()
+          expect(onSubmit.calls.length).toBe(1)
+          expect(onSubmit.calls[0].arguments[0]).toEqualMap({})
+          expect(renderInput.calls.length).toBe(2)  // touched by submit
 
-      // autofill field
-      renderForm.calls[0].arguments[0].autofill('myField', 'autofilled value')
+          // autofill field
+          renderForm.calls[0].arguments[0].autofill('myField', 'autofilled value')
 
-      // check field
-      expect(renderInput).toHaveBeenCalled()
-      expect(renderInput.calls.length).toBe(3)
-      expect(renderInput.calls[2].arguments[0].input.value).toBe('autofilled value')
-      expect(renderInput.calls[2].arguments[0].meta.autofilled).toBe(true)
+          // check field
+          expect(renderInput).toHaveBeenCalled()
+          expect(renderInput.calls.length).toBe(3)
+          expect(renderInput.calls[2].arguments[0].input.value).toBe('autofilled value')
+          expect(renderInput.calls[2].arguments[0].meta.autofilled).toBe(true)
 
-      // test submitting autofilled value
-      TestUtils.Simulate.submit(form)
-      expect(onSubmit.calls.length).toBe(2)
-      expect(onSubmit.calls[1].arguments[0]).toEqualMap({ myField: 'autofilled value' })
+          // test submitting autofilled value
+          TestUtils.Simulate.submit(form)
+          return submitPromise
+        })
+        .then(() => {
+          expect(onSubmit.calls.length).toBe(2)
+          expect(onSubmit.calls[1].arguments[0]).toEqualMap({ myField: 'autofilled value' })
 
-      // user edits field
-      renderInput.calls[1].arguments[0].input.onChange('user value')
+          // user edits field
+          renderInput.calls[1].arguments[0].input.onChange('user value')
 
-      // check field
-      expect(renderInput).toHaveBeenCalled()
-      expect(renderInput.calls.length).toBe(4)
-      expect(renderInput.calls[3].arguments[0].input.value).toBe('user value')
-      expect(renderInput.calls[3].arguments[0].meta.autofilled).toBe(false)
+          // check field
+          expect(renderInput).toHaveBeenCalled()
+          expect(renderInput.calls.length).toBe(4)
+          expect(renderInput.calls[3].arguments[0].input.value).toBe('user value')
+          expect(renderInput.calls[3].arguments[0].meta.autofilled).toBe(false)
 
-      // why not test submitting again?
-      TestUtils.Simulate.submit(form)
-      expect(onSubmit.calls.length).toBe(3)
-      expect(onSubmit.calls[2].arguments[0]).toEqualMap({ myField: 'user value' })
+          // why not test submitting again?
+          TestUtils.Simulate.submit(form)
+          return submitPromise
+        })
+        .then(() => {
+          expect(onSubmit.calls.length).toBe(3)
+          expect(onSubmit.calls[2].arguments[0]).toEqualMap({ myField: 'user value' })
+        })
     })
 
     it('should not reinitialize values on remount if destroyOnMount is false', () => {
@@ -3176,30 +3223,28 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // unmount form
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
       stub.submit()
-
-
-      return resolvedProm.then(() => {
-        // form state not destroyed (just fields unregistered)
-        expect(store.getState()).toEqualMap({
-          form: {
-            testForm: {
-              anyTouched: true,
-              fields: {
-                foo: {
-                  touched: true
-                }
-              },
-              registeredFields: [
-                {
-                  name: 'foo',
-                  type: 'Field'
-                }
-              ],
-              submitSucceeded: true
+        .then(() => {
+          // form state not destroyed (just fields unregistered)
+          expect(store.getState()).toEqualMap({
+            form: {
+              testForm: {
+                anyTouched: true,
+                fields: {
+                  foo: {
+                    touched: true
+                  }
+                },
+                registeredFields: [
+                  {
+                    name: 'foo',
+                    type: 'Field'
+                  }
+                ],
+                submitSucceeded: true
+              }
             }
-          }
+          })
         })
-      })
     })
 
     it('startSubmit in onSubmit sync', () => {
@@ -3231,28 +3276,29 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // unmount form
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
       stub.submit()
-
-      // form state not destroyed (just fields unregistered)
-      expect(store.getState()).toEqualMap({
-        form: {
-          testForm: {
-            anyTouched: true,
-            fields: {
-              foo: {
-                touched: true
+        .then(() => {
+          // form state not destroyed (just fields unregistered)
+          expect(store.getState()).toEqualMap({
+            form: {
+              testForm: {
+                anyTouched: true,
+                fields: {
+                  foo: {
+                    touched: true
+                  }
+                },
+                registeredFields: [
+                  {
+                    name: 'foo',
+                    type: 'Field'
+                  }
+                ],
+                submitting: true,
+                submitSucceeded: true
               }
-            },
-            registeredFields: [
-              {
-                name: 'foo',
-                type: 'Field'
-              }
-            ],
-            submitting: true,
-            submitSucceeded: true
-          }
-        }
-      })
+            }
+          })
+        })
     })
   })
 }
