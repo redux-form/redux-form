@@ -1994,7 +1994,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
       const submit = createSpy()
 
-      let submitPromise = null;
+      let submitPromise = null
       const Form = ({ handleSubmit }) =>
         (
           <form onSubmit={function () {
