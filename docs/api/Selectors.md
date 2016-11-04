@@ -13,6 +13,7 @@ form, and create a selector for whatever form state the selector is for.
 import {
   getFormValues,
   getFormSyncErrors,
+  getFormSubmitErrors,
   isDirty,
   isPristine,
   isValid,
@@ -23,6 +24,7 @@ MyComponent = connect(
   state => ({
     values: getFormValues('myForm')(state),
     syncErrors: getFormSyncErrors('myForm')(state),
+    submitErrors: getFormSubmitErrors('myForm')(state),
     dirty: isDirty('myForm')(state),
     pristine: isPristine('myForm')(state),
     valid: isValid('myForm')(state),
@@ -40,6 +42,10 @@ MyComponent = connect(
 ### `getFormSyncErrors(formName:String)` returns `(state) => formSyncErrors:Object`
 
 > Returns the form synchronous validation errors.
+
+### `getFormSubmitErrors(formName:String)` returns `(state) => formSubmitErrors:Object`
+
+> Returns the form submit validation errors.
 
 ### `isDirty(formName:String)` returns `(state) => dirty:boolean`
 
