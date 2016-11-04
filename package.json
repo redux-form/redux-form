@@ -3,6 +3,7 @@
   "version": "6.1.1",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
+  "module": "./es/index.js",
   "jsnext:main": "./es/index.js",
   "repository": {
     "type": "git",
