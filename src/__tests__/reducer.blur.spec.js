@@ -148,27 +148,6 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
       })
   })
 
-  it('should remove a value if on blur is set with false', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: true
-        }
-      }
-    }), blur('foo', 'myField', false, true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          fields: {
-            myField: {
-              touched: true
-            }
-          }
-        }
-      })
-  })
-
   it('should allow setting an initialized field to \'\'', () => {
     const state = reducer(fromJS({
       foo: {
