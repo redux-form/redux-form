@@ -96,6 +96,10 @@ to avoid overwriting user edits.
 
 > Flips the `asyncValidating` flag `false` and populates `asyncError` for each field.
 
+### `submit(form:String)`
+
+> Triggers a submission of the specified form.
+
 ### `touch(form:String, ...fields:String)`
 
 > Marks all the fields passed in as `touched`.

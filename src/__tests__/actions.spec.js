@@ -13,6 +13,7 @@ import {
   ARRAY_UNSHIFT,
   BLUR,
   CHANGE,
+  CLEAR_SUBMIT,
   DESTROY,
   FOCUS,
   INITIALIZE,
@@ -24,6 +25,7 @@ import {
   START_SUBMIT,
   STOP_ASYNC_VALIDATION,
   STOP_SUBMIT,
+  SUBMIT,
   TOUCH,
   UNREGISTER_FIELD,
   UNTOUCH,
@@ -43,6 +45,7 @@ import {
   arrayUnshift,
   blur,
   change,
+  clearSubmit,
   destroy,
   focus,
   initialize,
@@ -54,6 +57,7 @@ import {
   startSubmit,
   stopAsyncValidation,
   stopSubmit,
+  submit,
   touch,
   unregisterField,
   untouch,
@@ -315,6 +319,17 @@ describe('actions', () => {
       .toPass(isFSA)
   })
 
+  it('should create clear submit action', () => {
+    expect(clearSubmit('myForm'))
+      .toEqual({
+        type: CLEAR_SUBMIT,
+        meta: {
+          form: 'myForm'
+        }
+      })
+      .toPass(isFSA)
+  })
+
   it('should create initialize action', () => {
     const data = { a: 8, c: 9 }
     expect(initialize('myForm', data))
@@ -453,6 +468,17 @@ describe('actions', () => {
         },
         payload: errors,
         error: true
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create submit action', () => {
+    expect(submit('myForm'))
+      .toEqual({
+        type: SUBMIT,
+        meta: {
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })

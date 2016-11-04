@@ -12,20 +12,13 @@ const reducer = combineReducers({
 const store =
   (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(reducer)
 
-const showResults = values =>
-  new Promise(resolve => {
-    setTimeout(() => {  // simulate server latency
-      window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
-      resolve()
-    }, 500)
-  })
-
 let render = () => {
-  const AsyncValidationForm = require('./AsyncValidationForm').default
-  const readme = require('./AsyncValidation.md')
-  const raw = require('!!raw!./AsyncValidationForm')
-  const rawValidate = require('!!raw!./validate')
-  const rawAsyncValidate = require('!!raw!./asyncValidate')
+  const RemoteSubmitForm = require('./RemoteSubmitForm').default
+  const RemoteSubmitButton = require('./RemoteSubmitButton').default
+  const readme = require('./RemoteSubmit.md')
+  const raw = require('!!raw!./RemoteSubmitForm')
+  const rawButton = require('!!raw!./RemoteSubmitButton')
+  const rawSubmit = require('!!raw!./submit')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -34,30 +27,32 @@ let render = () => {
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
         version="6.2.0"
-        path="/examples/asyncValidation"
-        breadcrumbs={generateExampleBreadcrumbs('asyncValidation', 'Async Validation Example', '6.2.0')}>
+        path="/examples/remoteSubmit"
+        breadcrumbs={generateExampleBreadcrumbs('remoteSubmit', 'Remote Submit Example', '6.2.0')}>
 
         <Markdown content={readme}/>
 
         <h2>Form</h2>
 
-        <AsyncValidationForm onSubmit={showResults}/>
+        <RemoteSubmitForm/>
 
-        <Values form="asyncValidation"/>
+        <RemoteSubmitButton/>
+
+        <Values form="remoteSubmit"/>
 
         <h2>Code</h2>
 
-        <h4>validate.js</h4>
+        <h4>submit.js</h4>
 
-        <Code source={rawValidate}/>
+        <Code source={rawSubmit}/>
 
-        <h4>asyncValidate.js</h4>
-
-        <Code source={rawAsyncValidate}/>
-
-        <h4>AsyncValidationForm.js</h4>
+        <h4>RemoteSubmitForm.js</h4>
 
         <Code source={raw}/>
+
+        <h4>RemoteSubmitButton.js</h4>
+
+        <Code source={rawButton}/>
 
       </App>
     </Provider>,
@@ -86,11 +81,13 @@ if (module.hot) {
   const rerender = () => {
     setTimeout(render)
   }
-  module.hot.accept('./AsyncValidationForm', rerender)
-  module.hot.accept('./AsyncValidation.md', rerender)
-  module.hot.accept('!!raw!./AsyncValidationForm', rerender)
-  module.hot.accept('!!raw!./asyncValidate', rerender)
-  module.hot.accept('!!raw!./validate', rerender)
+  module.hot.accept('./RemoteSubmitForm', rerender)
+  module.hot.accept('./RemoteSubmitButton', rerender)
+  module.hot.accept('./RemoteSubmit.md', rerender)
+  module.hot.accept('./submit', rerender)
+  module.hot.accept('!!raw!./RemoteSubmitForm', rerender)
+  module.hot.accept('!!raw!./RemoteSubmitButton', rerender)
+  module.hot.accept('!!raw!./submit', rerender)
 }
 
 render()

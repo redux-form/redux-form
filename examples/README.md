@@ -61,6 +61,12 @@ browser to view the example running locally on your machine.
 
 ---
 
+### [Remote Submit](remoteSubmit)
+
+> How to use submit your form via a dispatched Redux action.
+
+---
+
 ### [Normalizing](normalizing)
 
 > How to use normalize your form values.

@@ -11,14 +11,21 @@ import createReduxForm from '../reduxForm'
 import createField from '../Field'
 import createFieldArray from '../FieldArray'
 import FormSection from '../FormSection'
-import { startSubmit } from '../actions'
+import {
+  change,
+  clearSubmit,
+  initialize,
+  setSubmitSucceeded,
+  startSubmit,
+  submit,
+  touch
+} from '../actions'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import SubmissionError from '../SubmissionError'
-import { change, initialize } from '../actions'
 
 const describeReduxForm = (name, structure, combineReducers, expect) => {
   const { fromJS, getIn } = structure
@@ -28,8 +35,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
   const reducer = createReducer(structure)
 
   describe(name, () => {
-    const makeStore = (initial = {}) => createStore(
-      combineReducers({ form: reducer }), fromJS({ form: initial }))
+    const makeStore = (initial = {}, logger) => {
+      const reducers = { form: reducer }
+      if(logger) {
+        reducers.logger = logger
+      }
+      return createStore(combineReducers(reducers), fromJS({ form: initial }))
+    }
 
     const makeForm = (renderSpy = noop) => {
       return class Form extends Component {
@@ -91,6 +103,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'autofill',
         'blur',
         'change',
+        'clearSubmit',
         'destroy',
         'dirty',
         'dispatch',
@@ -104,10 +117,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'pristine',
         'pure',
         'reset',
+        'submit',
         'submitFailed',
         'submitSucceeded',
         'submitting',
         'touch',
+        'triggerSubmit',
         'untouch',
         'valid',
         'warning'
@@ -3253,6 +3268,69 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
+    })
+
+    it('submits when the SUBMIT action is dispatched', () => {
+      const logger = createSpy((state = {}) => state).andCallThrough()
+      const store = makeStore({}, logger)
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const onSubmit = createSpy()
+
+      class Form extends Component {
+        render() {
+          const { handleSubmit } = this.props
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="foo" component={inputRender}/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      let callIndex = logger.calls.length
+
+      // update input
+      inputRender.calls[0].arguments[0].input.onChange('hello')
+
+      // check that change action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(change('testForm', 'foo', 'hello', false, false))
+
+      // dispatch submit action
+      store.dispatch(submit('testForm'))
+
+      // check that submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(submit('testForm'))
+
+      // check that clear submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(clearSubmit('testForm'))
+
+      // check that touch action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(touch('testForm', 'foo'))
+
+      // check that submit succeeded action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(setSubmitSucceeded('testForm'))
+
+      // check no additional actions dispatched
+      expect(logger.calls.length).toBe(callIndex)
+
+      expect(onSubmit).toHaveBeenCalled()
+      expect(onSubmit.calls.length).toBe(1)
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
     })
   })
 }

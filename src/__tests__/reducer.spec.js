@@ -18,6 +18,7 @@ import describeArrayUnshift from './reducer.arrayUnshift.spec'
 import describeAutofill from './reducer.autofill.spec'
 import describeBlur from './reducer.blur.spec'
 import describeChange from './reducer.change.spec'
+import describeClearSubmit from './reducer.clearSubmit.spec'
 import describeDestroy from './reducer.destroy.spec'
 import describeFocus from './reducer.focus.spec'
 import describeTouch from './reducer.touch.spec'
@@ -29,6 +30,7 @@ import describeSetSubmitFailed from './reducer.setSubmitFailed.spec'
 import describeSetSubmitSucceeded from './reducer.setSubmitSuceeded.spec'
 import describeStartAsyncValidation from './reducer.startAsyncValidation.spec'
 import describeStopAsyncValidation from './reducer.stopAsyncValidation.spec'
+import describeSubmit from './reducer.submit.spec'
 import describeRegisterField from './reducer.registerField.spec'
 import describeUnregisterField from './reducer.unregisterField.spec'
 import describeUntouch from './reducer.untouch.spec'
@@ -50,6 +52,7 @@ const tests = {
   autofill: describeAutofill,
   blur: describeBlur,
   change: describeChange,
+  clearSubmit: describeClearSubmit,
   destroy: describeDestroy,
   focus: describeFocus,
   reset: describeReset,
@@ -60,6 +63,7 @@ const tests = {
   stopSubmit: describeStopSubmit,
   startAsyncValidation: describeStartAsyncValidation,
   stopAsyncValidation: describeStopAsyncValidation,
+  submit: describeSubmit,
   registerField: describeRegisterField,
   unregisterField: describeUnregisterField,
   untouch: describeUntouch,

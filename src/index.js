@@ -41,6 +41,7 @@ export const {
   startSubmit,
   stopAsyncValidation,
   stopSubmit,
+  submit,
   SubmissionError,
   touch,
   untouch,

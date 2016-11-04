@@ -145,6 +145,14 @@ const createReduxForm =
             }
           }
 
+          submitIfNeeded(nextProps) {
+            const { clearSubmit, triggerSubmit } = this.props
+            if(!triggerSubmit && nextProps.triggerSubmit) {
+              clearSubmit()
+              this.submit()
+            }
+          }
+
           validateIfNeeded(nextProps) {
             const { shouldValidate, validate, values } = this.props
             if (validate) {
@@ -205,6 +213,7 @@ const createReduxForm =
             this.initIfNeeded(nextProps)
             this.validateIfNeeded(nextProps)
             this.warnIfNeeded(nextProps)
+            this.submitIfNeeded(nextProps)
           }
 
           shouldComponentUpdate(nextProps) {
@@ -447,6 +456,7 @@ const createReduxForm =
           warn: PropTypes.func,
           touchOnBlur: PropTypes.bool,
           touchOnChange: PropTypes.bool,
+          triggerSubmit: PropTypes.bool,
           persistentSubmitErrors: PropTypes.bool,
           registeredFields: PropTypes.any
         }
@@ -484,6 +494,7 @@ const createReduxForm =
             const submitSucceeded = !!getIn(formState, 'submitSucceeded')
             const error = getIn(formState, 'error')
             const warning = getIn(formState, 'warning')
+            const triggerSubmit = getIn(formState, 'triggerSubmit')
             return {
               anyTouched,
               asyncErrors,
@@ -499,6 +510,7 @@ const createReduxForm =
               submitSucceeded,
               syncErrors,
               syncWarnings,
+              triggerSubmit,
               values,
               valid,
               warning

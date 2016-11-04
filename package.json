@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "6.1.1",
+  "version": "6.2.0",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "module": "./es/index.js",
@@ -33,7 +33,7 @@
     "prepublish": "npm run test && npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
     "test:watch": "npm test -- --watch",
-    "test:cov": "nyc --reporter=lcov --reporter=text npm test",
+    "test:cov": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
     "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "keywords": [
@@ -55,50 +55,52 @@
   "dependencies": {
     "array-findindex-polyfill": "^0.1.0",
     "deep-equal": "^1.0.1",
-    "es6-error": "^3.1.0",
+    "es6-error": "^4.0.0",
     "hoist-non-react-statics": "^1.0.5",
     "invariant": "^2.2.1",
     "is-promise": "^2.1.0",
-    "lodash": "^4.12.0",
-    "lodash-es": "^4.12.0",
+    "lodash": "^4.16.6",
+    "lodash-es": "^4.16.6",
     "shallowequal": "^0.2.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.3.17",
-    "babel-core": "^6.3.26",
-    "babel-eslint": "^6.0.5",
-    "babel-loader": "^6.2.0",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-eslint": "^7.1.0",
+    "babel-loader": "^6.2.7",
+    "babel-plugin-istanbul": "^2.0.3",
     "babel-plugin-lodash": "^3.1.2",
     "babel-plugin-syntax-async-functions": "^6.5.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
     "babel-plugin-transform-regenerator": "^6.6.5",
     "babel-preset-es2015-no-commonjs": "0.0.2",
     "babel-preset-react": "^6.1.18",
-    "babel-preset-stage-2": "^6.1.18",
-    "babel-register": "^6.3.13",
+    "babel-preset-stage-2": "^6.18.0",
+    "babel-register": "^6.18.0",
     "codecov.io": "^0.1.6",
-    "cross-env": "^2.0.0",
-    "eslint": "^3.3.1",
+    "cross-env": "^3.1.3",
+    "eslint": "^3.9.1",
     "eslint-config-rackt": "^1.1.1",
-    "eslint-plugin-react": "^6.1.2",
+    "eslint-plugin-react": "^6.5.0",
     "expect": "^1.14.0",
     "expect-element": "^1.1.1",
     "expect-immutable": "0.0.3",
     "expect-predicate": "^1.0.0",
-    "flux-standard-action": "^0.6.1",
-    "jsdom": "^9.1.0",
-    "lodash-webpack-plugin": "^0.10.0",
+    "flux-standard-action": "^1.0.0",
+    "jsdom": "^9.8.3",
+    "lodash-webpack-plugin": "^0.10.3",
     "mocha": "^3.0.2",
-    "nyc": "^8.1.0",
+    "nyc": "^8.4.0",
     "react": "^15.3.1",
     "react-addons-test-utils": "^15.3.1",
     "react-dom": "^15.3.1",
     "react-redux": "^4.4.1",
     "redux": "^3.3.1",
     "redux-immutablejs": "0.0.8",
-    "rifraf": "^2.0.2",
+    "rifraf": "^2.0.3",
     "rimraf": "^2.5.1",
-    "webpack": "^1.13.2"
+    "stringstream": "0.0.5",
+    "webpack": "^1.13.3"
   },
   "peerDependencies": {
     "react": "^15.0.0",
@@ -112,6 +114,13 @@
     "dist",
     "immutable.js"
   ],
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  },
   "npmName": "redux-form",
   "npmFileMap": [
     {

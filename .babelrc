@@ -4,6 +4,9 @@
     "development": {
       "plugins": ["lodash", "transform-es2015-modules-commonjs"]
     },
+    "test": {
+      "plugins": ["lodash", "transform-es2015-modules-commonjs", "istanbul"]
+    },
     "production": {
       "plugins": ["lodash", "transform-es2015-modules-commonjs"]
     },

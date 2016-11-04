@@ -12,6 +12,7 @@ import {
   AUTOFILL,
   BLUR,
   CHANGE,
+  CLEAR_SUBMIT,
   DESTROY,
   FOCUS,
   INITIALIZE,
@@ -23,6 +24,7 @@ import {
   START_SUBMIT,
   STOP_ASYNC_VALIDATION,
   STOP_SUBMIT,
+  SUBMIT,
   TOUCH,
   UNREGISTER_FIELD,
   UNTOUCH,
@@ -166,6 +168,9 @@ const createReducer = structure => {
       }
       return result
     },
+    [CLEAR_SUBMIT](state) {
+      return deleteIn(state, 'triggerSubmit')
+    },
     [FOCUS](state, { meta: { field } }) {
       let result = state
       const previouslyActive = getIn(state, 'active')
@@ -236,6 +241,9 @@ const createReducer = structure => {
         result = setIn(result, 'initial', values)
       }
       return result
+    },
+    [SUBMIT](state) {
+      return setIn(state, 'triggerSubmit', true)
     },
     [START_ASYNC_VALIDATION](state, { meta: { field } }) {
       return setIn(state, 'asyncValidating', field || true)

@@ -1,8 +1,10 @@
 import {
   ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
-  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, AUTOFILL, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE,
+  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, AUTOFILL, BLUR, CHANGE, CLEAR_SUBMIT, DESTROY, FOCUS,
+  INITIALIZE,
   REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, SET_SUBMIT_SUCCEEDED, START_ASYNC_VALIDATION, START_SUBMIT,
-  STOP_ASYNC_VALIDATION, STOP_SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS, UPDATE_SYNC_WARNINGS
+  STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS,
+  UPDATE_SYNC_WARNINGS
 } from './actionTypes'
 
 export const arrayInsert = (form, field, index, value) =>
@@ -59,6 +61,9 @@ export const blur = (form, field, value, touch) =>
 export const change = (form, field, value, touch, persistentSubmitErrors) =>
   ({ type: CHANGE, meta: { form, field, touch, persistentSubmitErrors }, payload: value })
 
+export const clearSubmit = (form) =>
+  ({ type: CLEAR_SUBMIT, meta: { form } })
+
 export const destroy = (form) =>
   ({ type: DESTROY, meta: { form } })
 
@@ -103,6 +108,9 @@ export const stopSubmit = (form, errors) => {
   }
   return action
 }
+
+export const submit = (form) =>
+  ({ type: SUBMIT, meta: { form } })
 
 export const setSubmitFailed = (form, ...fields) =>
   ({ type: SET_SUBMIT_FAILED, meta: { form, fields }, error: true })
