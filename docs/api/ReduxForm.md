@@ -92,6 +92,20 @@ specific to any field, but applicable to the entire form, you may pass that as i
 error for a field
 called `_error`, and it will be given as the `error` prop.
 
+> `onSubmit` will be called with the following parameters:
+
+> ##### `values : Object`
+
+> The field values in the form of `{ field1: 'value1', field2: 'value2' }`.
+
+> ##### `dispatch : Function`
+
+> The Redux `dispatch` function.
+
+> ##### `props : Object`
+
+> The props passed into your decorated component.
+
 #### `onSubmitFail : Function` [optional]
 
 > A callback function that will be called when a submission fails for whatever reason. It will be
