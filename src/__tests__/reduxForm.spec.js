@@ -2441,8 +2441,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         enableReinitialize: true,
         initialValues: { foo: 'bar' },
         validate: (values) => {
-          expect(values).toExist();
-          return {};
+          expect(values).toExist()
+          return {}
         }
       })(Form)
 
