@@ -132,7 +132,7 @@ const createReduxForm =
                 this.props.initialize(nextProps.initialValues, keepDirty)
               }
             } else if (this.props.initialValues && (!this.props.initialized || enableReinitialize)) {
-              this.props.initialize(this.props.initialValues)
+              this.props.initialize(this.props.initialValues, this.props.keepDirtyOnReinitialize)
             }
           }
 
