@@ -206,32 +206,40 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }).dirty).toBe(true)
       })
     })
-    
 
-    it('should provide pristine prop', () => {
-      expect(propChecker({}).pristine).toBe(true)
-      expect(propChecker({
-        // no initial values
-        values: {
-          foo: 'bar'
-        }
-      }).pristine).toBe(false)
-      expect(propChecker({
-        initial: {
-          foo: 'bar'
-        },
-        values: {
-          foo: 'bar'
-        }
-      }).pristine).toBe(true)
-      expect(propChecker({
-        initial: {
-          foo: 'bar'
-        },
-        values: {
-          foo: 'baz'
-        }
-      }).pristine).toBe(false)
+
+    describe('pristine prop', () => {
+      it('should be `true` when a form receives no props', () => {
+        expect(propChecker({}).pristine).toBe(true)
+      })
+      it('should be `false` when a form receives only `values`', () => {
+        expect(propChecker({
+          // no initial values
+          values: {
+            foo: 'bar'
+          }
+        }).pristine).toBe(false)
+      })
+      it('should be `true` when a form receives matching equal `initial` and `values`', () => {
+        expect(propChecker({
+          initial: {
+            foo: 'bar'
+          },
+          values: {
+            foo: 'bar'
+          }
+        }).pristine).toBe(true)
+      })
+      it('should be `false` when a form receives non-equal `initial` and `values`', () => {
+        expect(propChecker({
+          initial: {
+            foo: 'bar'
+          },
+          values: {
+            foo: 'baz'
+          }
+        }).pristine).toBe(false)
+      })
     })
 
     it('should provide valid prop', () => {
