@@ -132,7 +132,7 @@ const createReduxForm =
                 this.props.initialize(nextProps.initialValues, keepDirty)
               }
             } else if (this.props.initialValues && (!this.props.initialized || enableReinitialize)) {
-              this.props.initialize(this.props.initialValues)
+              this.props.initialize(this.props.initialValues, this.props.keepDirtyOnReinitialize)
             }
           }
 
@@ -256,7 +256,7 @@ const createReduxForm =
           }
 
           unregister(name) {
-            if (!this.destroyed && (!this.unmounted || !instances)) {
+            if (this.props.destroyOnUnmount && !this.destroyed && (!this.unmounted || !instances)) {
               this.props.unregisterField(name)
             }
           }
