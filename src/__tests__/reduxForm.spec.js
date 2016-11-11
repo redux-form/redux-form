@@ -669,7 +669,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender.calls.length).toBe(1)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender.calls.length).toBe(1)      
+      expect(inputRender.calls.length).toBe(1)
 
       // Expect that input value has been initialized
       checkInputProps(inputRender.calls[ 0 ].arguments[ 0 ], 'bar')
@@ -987,16 +987,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propsOnLastRender(inputRender).meta.pristine).toBe(false, 'Input should not have been pristine')
       expect(propsOnLastRender(formRender).pristine).toBe(false, 'Form should not have been pristine')
 
-      store.dispatch(initialize('testForm', { 
+      store.dispatch(initialize('testForm', {
         deep: {
           foo: 'baz'
-        } 
+        }
       }))
 
       expect(propsOnLastRender(inputRender).input.value).toBe('baz')
       expect(propsOnLastRender(inputRender).meta.pristine).toBe(true, 'Input should have been pristine after initialize')
-      expect(propsOnLastRender(formRender).pristine).toBe(true, 'Form should have been pristine after initialize')      
-    }) 
+      expect(propsOnLastRender(formRender).pristine).toBe(true, 'Form should have been pristine after initialize')
+    })
 
     it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
       const store = makeStore({})
@@ -2421,6 +2421,40 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
       expect(formRender.calls[ 1 ].arguments[ 0 ].error).toBe('form wide sync error')
+    })
+
+    it('values passed to sync validation function should be defined', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true,
+        initialValues: { foo: 'bar' },
+        validate: (values) => {
+          expect(values).toExist()
+          return {}
+        }
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
     })
 
     it('should properly remove error prop from sync validation', () => {
