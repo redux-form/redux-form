@@ -287,6 +287,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           ]
         }, true)
       })
+      
+      it('should be `true` when `errors` has an array containing strings', () => {
+        // Note: I didn't write the isValid, but my intuition tells me this seems incorrect. – ncphillips
+        checkValidPropGivenErrors({
+          myArrayField: [ 'baz' ]
+        }, true)
+      })
+      
     })
 
     it('should provide invalid prop', () => {
