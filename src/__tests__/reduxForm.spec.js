@@ -243,19 +243,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     })
 
     describe('valid prop', () => {
-      it('should default to `true`', () => {
-        expect(propChecker({}).valid).toBe(true)
-      })
-
       const checkValidPropGivenErrors = (errors, expectation) => {
+        // Check Sync Errors
         expect(propChecker({}, undefined, {
           validate: () => (errors)
         }).valid).toBe(expectation)
         
+        // Check Async Errors
         expect(propChecker({ 
           asyncErrors: errors 
         }).valid).toBe(expectation)
       }
+      
+      it('should default to `true`', () => {
+        checkValidPropGivenErrors({}, true);
+      })
       
       it('should be `false` when `errors` has a `string` property', () => {
         checkValidPropGivenErrors({ foo: 'bar' }, false)
@@ -297,16 +299,43 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       
     })
 
-    it('should provide invalid prop', () => {
-      expect(propChecker({}).invalid).toBe(false)
-      expect(propChecker({}, undefined, {
-        validate: () => ({ foo: 'sync error' })
-      }).invalid).toBe(true)
-      expect(propChecker({
-        asyncErrors: {
-          foo: 'bar'
-        }
-      }).invalid).toBe(true)
+    describe('invalid prop', () => {
+      
+      const checkInvalidPropGivenErrors = (errors, expectation) => {
+        // Check Sync Errors
+        expect(propChecker({}, undefined, {
+          validate: () => (errors)
+        }).invalid).toBe(expectation)
+
+        // Check Async Errors
+        expect(propChecker({
+          asyncErrors: errors
+        }).invalid).toBe(expectation)
+      }
+      
+      it('should default to `false`', () => {
+        checkInvalidPropGivenErrors({}, false)
+      })
+      
+      it('should be `true` when errors has a `string` propertry', () => {
+        checkInvalidPropGivenErrors({ foo: 'sync error' }, true)
+      })
+       
+      it('should be `true` when errors has a `number` property', () => {
+        checkInvalidPropGivenErrors({ foo: 12 }, true)
+      })
+      
+      it('should be `false` when errors has only an `undefined` property', () => {
+        checkInvalidPropGivenErrors({ foo: undefined }, false)
+      })
+      
+      it('should be `false` when errors has only a `null` property', () => {
+        checkInvalidPropGivenErrors({ foo: null }, false)
+      })
+      
+      it('should be `false` when errors has only an empty array', () => {
+        checkInvalidPropGivenErrors({ myArrayField: [ ] }, false)
+      })
     })
 
     it('should provide submitting prop', () => {
