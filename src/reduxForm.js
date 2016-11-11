@@ -473,7 +473,7 @@ const createReduxForm =
             let initial = initialValues || stateInitial || empty
 
             if (shouldUpdateInitialValues) {
-              initial = stateInitial
+              initial = stateInitial || empty
             }
 
             let values = getIn(formState, 'values') || initial
