@@ -174,10 +174,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     })
 
     describe('dirty prop', () => {
-      it('should be `false` when a form receives no props', () => {
+      it('should default `false`', () => {
         expect(propChecker({}).dirty).toBe(false)
       })
-      it('should be `true` when a form receives only `values`', () => {
+      it('should be `true` when `state.values` exists but `state.initial` does not exist', () => {
         expect(propChecker({
           // no initial values
           values: {
@@ -185,7 +185,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }).dirty).toBe(true) 
       })
-      it('should be `false` when a form receives matching equal `initial` and `values`', () => {
+      it('should be `false` when `state.initial` equals `state.values`', () => {
         expect(propChecker({
           initial: {
             foo: 'bar'
@@ -195,7 +195,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }).dirty).toBe(false)
       })
-      it('should be `true` when a form receives non-equal `initial` and `values`', () => {
+      it('should be `true` when `state.initial` does not equal `state.values`', () => {
         expect(propChecker({
           initial: {
             foo: 'bar'
@@ -209,10 +209,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
 
     describe('pristine prop', () => {
-      it('should be `true` when a form receives no props', () => {
+      it('should default to `true`', () => {
         expect(propChecker({}).pristine).toBe(true)
       })
-      it('should be `false` when a form receives only `values`', () => {
+      it('should be `false` when `state.values` exists but `state.initial` does not exist', () => {
         expect(propChecker({
           // no initial values
           values: {
@@ -220,7 +220,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }).pristine).toBe(false)
       })
-      it('should be `true` when a form receives matching equal `initial` and `values`', () => {
+      it('should be `true` when `state.initial` equals `state.values`', () => {
         expect(propChecker({
           initial: {
             foo: 'bar'
@@ -230,7 +230,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }).pristine).toBe(true)
       })
-      it('should be `false` when a form receives non-equal `initial` and `values`', () => {
+      it('should be `false` when the `state.values` does not equal `state.initial`', () => {
         expect(propChecker({
           initial: {
             foo: 'bar'
@@ -242,26 +242,51 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
     })
 
-    it('should provide valid prop', () => {
-      expect(propChecker({}).valid).toBe(true)
-      expect(propChecker({}, undefined, {
-        validate: () => ({ foo: 'sync error' })
-      }).valid).toBe(false)
-      expect(propChecker({
-        asyncErrors: {
-          foo: 'bar'
-        }
-      }).valid).toBe(false)
-      expect(propChecker({
-        asyncErrors: {
-          nested: {
-            myArrayField: [
-              undefined,
-              undefined
-            ]
-          }
-        }
-      }).valid).toBe(true)
+    describe('valid prop', () => {
+      it('should default to `true`', () => {
+        expect(propChecker({}).valid).toBe(true)
+      })
+
+      const checkValidPropGivenErrors = (errors, expectation) => {
+        expect(propChecker({}, undefined, {
+          validate: () => (errors)
+        }).valid).toBe(expectation)
+        
+        expect(propChecker({ 
+          asyncErrors: errors 
+        }).valid).toBe(expectation)
+      }
+      
+      it('should be `false` when `errors` has a `string` property', () => {
+        checkValidPropGivenErrors({ foo: 'bar' }, false)
+      })
+
+      it('should be `false` when `errors` has a `number` property', () => {
+        checkValidPropGivenErrors({ foo: 42 }, false)
+      })
+
+      it('should be `true` when `errors` has an `undefined` property', () => {
+        checkValidPropGivenErrors({ foo: undefined }, true)
+      })
+
+      it('should be `true` when `errors` has a `null` property', () => {
+        checkValidPropGivenErrors({ foo: null }, true)
+      })
+      
+      it('should be `true` when `errors` has an empty array', () => {
+        checkValidPropGivenErrors({
+          myArrayField: [ ]
+        }, true)
+      })
+      
+      it('should be `true` when `errors` has an array with only `undefined` values', () => {
+        checkValidPropGivenErrors({
+          myArrayField: [
+            undefined,
+            undefined
+          ]
+        }, true)
+      })
     })
 
     it('should provide invalid prop', () => {
