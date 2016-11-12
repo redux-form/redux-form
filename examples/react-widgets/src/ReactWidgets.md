@@ -10,7 +10,9 @@ Very few modifications are needed. All of these can be done as props to the `Fie
   * Needs value to be an array, so default it to `[]`
 * `SelectList`
   * Needs `onBlur` to be rewritten ignoring the parameter
-  
+* `DateTimePicker`
+  * Needs value to be a date or null.
+
 For more information, see the `react-widgets` docs.
 
 The delay between when you click "Submit" and when the alert dialog pops up is intentional,
