@@ -256,7 +256,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       
       it('should default to `true`', () => {
-        checkValidPropGivenErrors({}, true);
+        checkValidPropGivenErrors({}, true)
       })
       
       it('should be `false` when `errors` has a `string` property', () => {
