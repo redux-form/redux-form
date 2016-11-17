@@ -1742,7 +1742,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(errors, store.dispatch)
+      expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
+      expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
+      expect(onSubmitFail.calls[0].arguments[2]).toBeA(SubmissionError)
       expect(caught).toBe(errors)
     })
 
@@ -1783,7 +1785,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(undefined, store.dispatch)
+      expect(onSubmitFail.calls[0].arguments[0]).toEqual(undefined)
+      expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
+      expect(onSubmitFail.calls[0].arguments[2]).toBeA(Error)
       expect(caught).toNotExist()
     })
 
@@ -1823,7 +1827,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         .then(caught => {
           expect(onSubmitFail)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
+          expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[2]).toBeA(SubmissionError)
           expect(caught).toBe(errors)
         })
     })
@@ -1867,7 +1873,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toNotHaveBeenCalled()
       expect(onSubmitFail)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(errors, store.dispatch)
+      expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
+      expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
+      expect(onSubmitFail.calls[0].arguments[2]).toBe(null)
       expect(result).toEqual(errors)
     })
 
@@ -1911,7 +1919,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           expect(onSubmit).toNotHaveBeenCalled()
           expect(onSubmitFail)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(errors, store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
+          expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
+          expect(onSubmitFail.calls[0].arguments[2]).toBe(null)
           expect(error).toBe(errors)
         })
     })
