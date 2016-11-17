@@ -119,6 +119,10 @@ called with the following parameters:
 
 > The Redux `dispatch` function.
 
+##### `submitError : Error`
+
+> The error object that caused the submission to fail. If `errors` is set this will be most likely a `SubmissionError`, otherwise it can be any error or null.
+ 
 #### `onSubmitSuccess : Function` [optional]
 
 > A callback function that will be called when a submission succeeds.  It will be called with the
