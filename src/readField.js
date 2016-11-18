@@ -80,10 +80,14 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       const nextPath = `${pathToHere}${key}[${index}]${rest ? '.' : ''}`;
       const nextPrefix = `${prefix}${key}[]${rest ? '.' : ''}`;
 
-      const result = readField(fieldState, rest, nextPath, dest, syncErrors,
+      let result = readField(fieldState, rest, nextPath, dest, syncErrors,
         asyncValidate, isReactNative, props, callback, nextPrefix);
-      if (!rest && fieldArray[index] !== result) {
-        // if nothing after [] in field name, assign directly to array
+      if (fieldArray[index] !== result) {
+        if (rest) {
+          // if something's after [] in field name, the array item is an object field
+          // we need it to compare !== to the original (so react re-renders appropriately)
+          result = {...dest};
+        }
         fieldArray[index] = result;
         changed = true;
       }
