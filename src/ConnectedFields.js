@@ -49,7 +49,7 @@ const createConnectedFields = ({ deepEqual, getIn }) => {
 
     render() {
       const { component, withRef, _fields, _reduxForm, ...rest } = this.props
-      const { asyncValidate, blur, change, focus } = _reduxForm
+      const { asyncValidate, blur, change, focus, sectionPrefix } = _reduxForm
       const { custom, ...props } = Object.keys(_fields).reduce((accumulator, name) => {
         const connectedProps = _fields[ name ]
         const { custom, ...fieldProps } = createFieldProps(getIn,
@@ -64,7 +64,8 @@ const createConnectedFields = ({ deepEqual, getIn }) => {
           asyncValidate
         )
         accumulator.custom = custom
-        return plain.setIn(accumulator, name, fieldProps)
+        const fieldName = sectionPrefix ? name.replace(`${sectionPrefix}.`, '') : name
+        return plain.setIn(accumulator, fieldName, fieldProps)
       }, {})
       if (withRef) {
         props.ref = 'renderedComponent'
