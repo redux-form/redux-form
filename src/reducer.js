@@ -183,6 +183,17 @@ const createReducer = structure => {
     [INITIALIZE](state, { payload, meta: { keepDirty } }) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
+
+      // persist old warnings, they will get recalculated if the new form values are different from the old values
+      const warning = getIn(state, 'warning')
+      if (warning) {
+        result = setIn(result, 'warning', warning)
+      }
+      const syncWarnings = getIn(state, 'syncWarnings')
+      if (syncWarnings) {
+        result = setIn(result, 'syncWarnings', syncWarnings)
+      }
+
       const registeredFields = getIn(state, 'registeredFields')
       if (registeredFields) {
         result = setIn(result, 'registeredFields', registeredFields)

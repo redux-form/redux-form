@@ -262,6 +262,44 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+
+  it('should persist warnings if they exist', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [
+          { name: 'myField', type: 'Field' }
+        ],
+        values: {
+          myField: 'newValue'
+        },
+        initial: {
+          myField: 'initialValue'
+        },
+        warning: 'form wide warning',
+        syncWarnings: {
+          myField: 'field warning'
+        }
+      }
+    }), initialize('foo', { myField: 'newValue' }, true))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'myField', type: 'Field' }
+          ],
+          values: {
+            myField: 'newValue'
+          },
+          initial: {
+            myField: 'newValue'
+          },
+          warning: 'form wide warning',
+          syncWarnings: {
+            myField: 'field warning'
+          }
+        }
+      })
+  })
 }
 
 export default describeInitialize
