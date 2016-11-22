@@ -8,6 +8,7 @@ import TestUtils from 'react-addons-test-utils'
 import createReduxForm from '../reduxForm'
 import createReducer from '../reducer'
 import createField from '../Field'
+import createFields from '../Fields'
 import createFieldArray from '../FieldArray'
 import FormSection from '../FormSection'
 import plain from '../structure/plain'
@@ -19,6 +20,7 @@ import addExpectations from './addExpectations'
 const describeFormSection = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
+  const Fields = createFields(structure)
   const FieldArray = createFieldArray(structure)
   const reducer = createReducer(structure)
   const { fromJS } = structure
@@ -83,6 +85,68 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
               }
             },
             registeredFields: [ { name: 'foo.bar', type: 'Field' } ]
+          }
+        }
+      })
+    })
+
+
+    it('should update Fields values at the right depth', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: {
+              bar: '42',
+              baz: '100'
+            }
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.bar.input}/>).andCallThrough()
+
+      class Form extends Component {
+        render() {
+          return (
+            <FormSection name="foo">
+              <Fields names={[ 'bar', 'baz' ]} component={input}/>
+            </FormSection>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+
+      // input displaying string value
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].bar.input.value).toBe('42')
+      expect(input.calls[ 0 ].arguments[ 0 ].baz.input.value).toBe('100')
+
+      // update value
+      input.calls[ 0 ].arguments[ 0 ].bar.input.onChange('15')
+
+      // input displaying updated string value
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].bar.input.value).toBe('15')
+
+      
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              foo: {
+                bar: '15',
+                baz: '100'
+              }
+            },
+            registeredFields: [ 
+              { name: 'foo.bar', type: 'Field' },
+              { name: 'foo.baz', type: 'Field' }
+            ]
           }
         }
       })
