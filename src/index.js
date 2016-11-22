@@ -34,6 +34,7 @@ export const {
   propTypes,
   reducer,
   reduxForm,
+  registerField,
   reset,
   setSubmitFailed,
   setSubmitSucceeded,
@@ -44,6 +45,7 @@ export const {
   submit,
   SubmissionError,
   touch,
+  unregisterField,
   untouch,
   values
 } = createAll(plain)

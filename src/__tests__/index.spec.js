@@ -26,6 +26,7 @@ import {
   propTypes,
   reducer,
   reduxForm,
+  registerField,
   reset,
   setSubmitFailed,
   setSubmitSucceeded,
@@ -35,6 +36,7 @@ import {
   stopSubmit,
   SubmissionError,
   touch,
+  unregisterField,
   untouch,
   values
 } from '../index'
@@ -112,6 +114,9 @@ describe('index', () => {
   it('should export reduxForm', () => {
     expect(reduxForm).toExist().toBeA('function')
   })
+  it('should export registerField', () => {
+    expect(registerField).toExist().toBeA('function')
+  })
   it('should export reset', () => {
     expect(reset).toExist().toBeA('function')
   })
@@ -138,6 +143,9 @@ describe('index', () => {
   })
   it('should export touch', () => {
     expect(touch).toExist().toBeA('function')
+  })
+  it('should export unregisterField', () => {
+    expect(unregisterField).toExist().toBeA('function')
   })
   it('should export untouch', () => {
     expect(untouch).toExist().toBeA('function')

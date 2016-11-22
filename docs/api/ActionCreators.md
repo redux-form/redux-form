@@ -76,6 +76,10 @@ insert, so the item already at the `to` position will be bumped to a higher inde
 your form fields. If the `keepDirty` parameter is `true`, the values of currently dirty fields will be retained
 to avoid overwriting user edits.
 
+### `registerField(form:String, name:String, type:String)`
+
+> Registers a field with the form. The `type` parameter can be `Field` or `FieldArray`.
+
 ### `reset(form:String)`
 
 > Resets the values in the form back to the values past in with the most recent `initialize` action.
@@ -103,6 +107,10 @@ to avoid overwriting user edits.
 ### `touch(form:String, ...fields:String)`
 
 > Marks all the fields passed in as `touched`.
+
+### `unregisterField(form:String, name:String)`
+
+> Unregisters a field with the form.
 
 ### `untouch(form:String, ...fields:String)`
 
