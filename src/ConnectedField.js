@@ -2,9 +2,8 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
-import getValue from './events/getValue'
+import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
-import isReactNative from './isReactNative'
 
 const propsToNotUpdateFor = [
   '_reduxForm'
@@ -59,18 +58,8 @@ const createConnectedField = ({ deepEqual, getIn }) => {
 
     handleChange(event) {
       const { name, dispatch, parse, normalize, _reduxForm } = this.props
-      // read value from input
-      let value = getValue(event, isReactNative)
+      const value = onChangeValue(event, { parse, normalize })
 
-      // parse value if we have a parser
-      if (parse) {
-        value = parse(value)
-      }
-
-      // normalize value
-      if (normalize) {
-        value = normalize(value)
-      }
       dispatch(_reduxForm.change(name, value))
     }
 
@@ -81,23 +70,12 @@ const createConnectedField = ({ deepEqual, getIn }) => {
 
     handleBlur(event) {
       const { name, dispatch, parse, normalize, _reduxForm } = this.props
-      // read value from input
-      let value = getValue(event, isReactNative)
-
-      // parse value if we have a parser
-      if (parse) {
-        value = parse(name, value)
-      }
-
-      // normalize value
-      if (normalize) {
-        value = normalize(name, value)
-      }
+      const value = onChangeValue(event, { parse, normalize })
 
       // dispatch blur action
       dispatch(_reduxForm.blur(name, value))
 
-      // call after callback
+      // call post-blur callback
       if (_reduxForm.asyncValidate) {
         _reduxForm.asyncValidate(name, value)
       }
@@ -125,7 +103,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
           onChange: this.handleChange,
           onDrop: this.handleDrop,
           onDragStart: this.handleDragStart,
-          onFocus: this.handleFocus,
+          onFocus: this.handleFocus
         }
       )
       if (withRef) {
