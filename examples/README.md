@@ -43,7 +43,7 @@ browser to view the example running locally on your machine.
 
 ---
   
-### [Aynchronous Blur Validation](asyncValidation)
+### [Asynchronous Blur Validation](asyncValidation)
 
 > How to run asynchronous server-side validation on your form when certain fields lose focus.
 
