@@ -1,4 +1,4 @@
-# Aynchronous Blur Validation Example
+# Asynchronous Blur Validation Example
 
 ## To run locally
 
