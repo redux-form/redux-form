@@ -50,7 +50,16 @@ const createFieldProps = (getIn, name,
     normalize: boundNormalize,
     parse: boundParse
   })
-  const fieldValue = value == null ? '' : value
+
+  const formatFieldValue = (value, format) => {
+    if (format === null) {
+      return value
+    }
+    const defaultFormattedValue = value == null ? '' : value
+    return format ? format(value, name) : defaultFormattedValue
+  }
+
+  const formattedFieldValue = formatFieldValue(value, format)
 
   return {
     input: processProps(custom.type, {
@@ -61,10 +70,10 @@ const createFieldProps = (getIn, name,
         after: asyncValidate.bind(null, name)
       }),
       onChange,
-      onDragStart: createOnDragStart(name, fieldValue),
+      onDragStart: createOnDragStart(name, formattedFieldValue),
       onDrop: createOnDrop(name, boundChange),
       onFocus: createOnFocus(name, () => dispatch(focus(name))),
-      value: format ? format(fieldValue, name) : fieldValue
+      value: formattedFieldValue
     }, _value),
     meta: {
       ...state,
