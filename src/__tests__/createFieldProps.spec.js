@@ -341,6 +341,15 @@ const describeCreateFieldProps = (name, structure, expect) => {
       })
       expect(result.input.value).toBe('')
     })
+
+    it('should not format value when format prop is null', () => {
+      const result = createFieldProps(getIn, 'foo', {
+        state: empty,
+        value: null,
+        format: null
+      })
+      expect(result.input.value).toBe(null)
+    })
   })
 }
 

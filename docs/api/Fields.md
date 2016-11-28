@@ -44,6 +44,8 @@ to format `Number`s into currencies or `Date`s into a localized date format.
 `format` is called with the field `value` and `name` as arguments and should return the
 new formatted value to be displayed in the field input.
 
+To respect React 15 input behavior there is `defaultFormat = value => value == null ? '' : value` internally used. To disable that you can pass `null` as `format` prop.
+
 #### `props : object` [optional]
 
 Object with custom props to pass through the `Fields` component into a component provided
