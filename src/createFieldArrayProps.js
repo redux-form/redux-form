@@ -8,13 +8,13 @@ const createFieldArrayProps = (getIn, name,
   }) => {
   const error = syncError || asyncError || submitError
   const warning = syncWarning
-  return {
+  const finalProps = {
     fields: {
       _isFieldArray: true,
-      forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index)),
+      forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index, finalProps.fields)),
       insert: arrayInsert,
       length,
-      map: callback => (value || []).map((item, index) => callback(`${name}[${index}]`, index)),
+      map: callback => (value || []).map((item, index) => callback(`${name}[${index}]`, index, finalProps.fields)),
       move: arrayMove,
       name,
       pop: () => {
@@ -23,7 +23,7 @@ const createFieldArrayProps = (getIn, name,
       },
       push: arrayPush,
       reduce: (callback, initial) => (value || [])
-        .reduce((accumulator, item, index) => callback(accumulator, `${name}[${index}]`, index), initial),
+        .reduce((accumulator, item, index) => callback(accumulator, `${name}[${index}]`, index, finalProps.fields), initial),
       remove: arrayRemove,
       removeAll: arrayRemoveAll,
       shift: () => {
@@ -46,6 +46,7 @@ const createFieldArrayProps = (getIn, name,
     ...props,
     ...rest
   }
+  return finalProps
 }
 
 export default createFieldArrayProps
