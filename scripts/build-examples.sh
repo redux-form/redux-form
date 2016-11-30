@@ -29,8 +29,8 @@ do
     rm -rf node_modules/redux-form
     rm -rf node_modules/redux-form-website-template
   fi
-  npm install
+  yarn
   cd ..
 done
-
-
+tput bel
+say "The examples are built"
