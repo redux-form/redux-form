@@ -29,7 +29,7 @@ do
     rm -rf node_modules/redux-form
     rm -rf node_modules/redux-form-website-template
   fi
-  yarn
+  npm install
   cd ..
 done
 tput bel
