@@ -196,3 +196,35 @@ be called three times, with `'foo.bar[0]'`, `'foo.bar[1]'`, and `'foo.bar[2]'`.
 #### `index : Number`
 
 > The index of the item in the array.
+
+#### `fields : Object`
+
+> A reference to the [`fields` prop](#fields-props) to allow for the access to `swap`, `remove`,
+`pop`, etc., without requiring closure scoping.
+```javascript
+const renderSubFields = (member, index, fields) => (
+    <li key={index}>
+      <button
+        type="button"
+        title="Remove Member"
+        onClick={() => fields.remove(index)}/>
+      <h4>Member #{index + 1}</h4>
+      <Field
+        name={`${member}.firstName`}
+        type="text"
+        component={renderField}
+        label="First Name"/>
+      <Field
+        name={`${member}.lastName`}
+        type="text"
+        component={renderField}
+        label="Last Name"/>
+    </li>
+)
+const renderMembers = ({ fields }) => (
+  <ul>
+    <button type="button" onClick={() => fields.push({})}>Add Member</button>
+    {fields.map(renderSubFields)}
+  </ul>
+)
+```

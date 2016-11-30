@@ -136,9 +136,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0 ])
-      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1 ])
-      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2 ])
+      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0, props.fields ])
+      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1, props.fields ])
+      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2, props.fields ])
     })
 
     it('should provide map', () => {
@@ -152,9 +152,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.fields.map(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0 ])
-      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1 ])
-      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2 ])
+      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0, props.fields ])
+      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1, props.fields ])
+      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2, props.fields ])
     })
 
     it('should provide insert', () => {
