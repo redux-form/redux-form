@@ -105,6 +105,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'autofill',
         'blur',
         'change',
+        'clearAsyncError',
         'clearSubmit',
         'destroy',
         'dirty',
@@ -183,7 +184,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           values: {
             foo: 'bar'
           }
-        }).dirty).toBe(true) 
+        }).dirty).toBe(true)
       })
       it('should be `false` when `state.initial` equals `state.values`', () => {
         expect(propChecker({
@@ -248,17 +249,17 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(propChecker({}, undefined, {
           validate: () => (errors)
         }).valid).toBe(expectation)
-        
+
         // Check Async Errors
-        expect(propChecker({ 
-          asyncErrors: errors 
+        expect(propChecker({
+          asyncErrors: errors
         }).valid).toBe(expectation)
       }
-      
+
       it('should default to `true`', () => {
         checkValidPropGivenErrors({}, true)
       })
-      
+
       it('should be `false` when `errors` has a `string` property', () => {
         checkValidPropGivenErrors({ foo: 'bar' }, false)
       })
@@ -274,13 +275,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       it('should be `true` when `errors` has a `null` property', () => {
         checkValidPropGivenErrors({ foo: null }, true)
       })
-      
+
       it('should be `true` when `errors` has an empty array', () => {
         checkValidPropGivenErrors({
           myArrayField: [ ]
         }, true)
       })
-      
+
       it('should be `true` when `errors` has an array with only `undefined` values', () => {
         checkValidPropGivenErrors({
           myArrayField: [
@@ -289,18 +290,18 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           ]
         }, true)
       })
-      
+
       it('should be `true` when `errors` has an array containing strings', () => {
         // Note: I didn't write the isValid, but my intuition tells me this seems incorrect. – ncphillips
         checkValidPropGivenErrors({
           myArrayField: [ 'baz' ]
         }, true)
       })
-      
+
     })
 
     describe('invalid prop', () => {
-      
+
       const checkInvalidPropGivenErrors = (errors, expectation) => {
         // Check Sync Errors
         expect(propChecker({}, undefined, {
@@ -312,27 +313,27 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           asyncErrors: errors
         }).invalid).toBe(expectation)
       }
-      
+
       it('should default to `false`', () => {
         checkInvalidPropGivenErrors({}, false)
       })
-      
+
       it('should be `true` when errors has a `string` propertry', () => {
         checkInvalidPropGivenErrors({ foo: 'sync error' }, true)
       })
-       
+
       it('should be `true` when errors has a `number` property', () => {
         checkInvalidPropGivenErrors({ foo: 12 }, true)
       })
-      
+
       it('should be `false` when errors has only an `undefined` property', () => {
         checkInvalidPropGivenErrors({ foo: undefined }, false)
       })
-      
+
       it('should be `false` when errors has only a `null` property', () => {
         checkInvalidPropGivenErrors({ foo: null }, false)
       })
-      
+
       it('should be `false` when errors has only an empty array', () => {
         checkInvalidPropGivenErrors({ myArrayField: [ ] }, false)
       })
@@ -2846,7 +2847,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(propsAtNthRender(inputRender, 3).meta.error).toBe('async error')
       })
     })
-    
+
 
     describe('validateIfNeeded', () => {
 
