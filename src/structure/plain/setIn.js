@@ -15,7 +15,7 @@ const setInWithPath = (state, value, path, pathIndex) => {
   }
 
   if (Array.isArray(state)) {
-    const copy = state.slice()
+    const copy = [].concat(state)
     copy[first] = next
     return copy
   }
