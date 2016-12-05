@@ -20,7 +20,13 @@ class FormSection extends Component {
   }
 
   render() {
-    return <div>{this.props.children}</div>
+    const { children } = this.props
+
+    if (React.isValidElement(children)) {
+      return children
+    }
+
+    return <div>{children}</div>
   }
 }
 
