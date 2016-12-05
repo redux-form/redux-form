@@ -11,16 +11,16 @@ const describeClearAsyncError = (reducer, expect, { fromJS }) => () => {
 
   it('should clear async errors with previous state', () => {
     const state = reducer(fromJS({
-      foo: {
+      myForm: {
         asyncErrors: {
           foo: 'some validation message here',
           baar: 'second validation message'
         }
       }
-    }), clearAsyncError('foo'))
+    }), clearAsyncError('myForm', 'foo'))
     expect(state)
       .toEqualMap({
-        foo: {
+        myForm: {
           asyncErrors: {
             baar: 'second validation message'
           }

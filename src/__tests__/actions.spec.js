@@ -30,7 +30,8 @@ import {
   UNREGISTER_FIELD,
   UNTOUCH,
   UPDATE_SYNC_ERRORS,
-  UPDATE_SYNC_WARNINGS
+  UPDATE_SYNC_WARNINGS,
+  CLEAR_ASYNC_ERROR
 } from '../actionTypes'
 import {
   arrayInsert,
@@ -62,7 +63,8 @@ import {
   unregisterField,
   untouch,
   updateSyncErrors,
-  updateSyncWarnings
+  updateSyncWarnings,
+  clearAsyncError
 } from '../actions'
 import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
@@ -644,6 +646,18 @@ describe('actions', () => {
         payload: {
           warning: undefined,
           syncWarnings: {}
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create clearAsyncError action', () => {
+    expect(clearAsyncError('myForm', 'foo'))
+      .toEqual({
+        type: CLEAR_ASYNC_ERROR,
+        meta: {
+          form: 'myForm',
+          field: 'foo'
         }
       })
       .toPass(isFSA)
