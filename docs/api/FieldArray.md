@@ -125,7 +125,7 @@ cause your component to rerender.
 
 #### `fields.shift() : Function`
 
-> Removes an item from beginning of the array. Returns the item removed..
+> Removes an item from beginning of the array. Returns the item removed.
 
 > This is not a mutator; it dispatches an action which updates the state in Redux, which will
 cause your component to rerender.
