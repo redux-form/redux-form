@@ -198,6 +198,16 @@ const createReducer = structure => {
         result = setIn(result, 'syncWarnings', syncWarnings)
       }
 
+      // persist old errors, they will get recalculated if the new form values are different from the old values
+      const error = getIn(state, 'error')
+      if (error) {
+        result = setIn(result, 'error', error)
+      }
+      const syncErrors = getIn(state, 'syncErrors')
+      if (syncErrors) {
+        result = setIn(result, 'syncErrors', syncErrors)
+      }
+
       const registeredFields = getIn(state, 'registeredFields')
       if (registeredFields) {
         result = setIn(result, 'registeredFields', registeredFields)
