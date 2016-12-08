@@ -39,7 +39,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
   describe(name, () => {
     const makeStore = (initial = {}, logger) => {
       const reducers = { form: reducer }
-      if(logger) {
+      if (logger) {
         reducers.logger = logger
       }
       return createStore(combineReducers(reducers), fromJS({ form: initial }))
@@ -183,7 +183,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           values: {
             foo: 'bar'
           }
-        }).dirty).toBe(true) 
+        }).dirty).toBe(true)
       })
       it('should be `false` when `state.initial` equals `state.values`', () => {
         expect(propChecker({
@@ -248,17 +248,17 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(propChecker({}, undefined, {
           validate: () => (errors)
         }).valid).toBe(expectation)
-        
+
         // Check Async Errors
-        expect(propChecker({ 
-          asyncErrors: errors 
+        expect(propChecker({
+          asyncErrors: errors
         }).valid).toBe(expectation)
       }
-      
+
       it('should default to `true`', () => {
         checkValidPropGivenErrors({}, true)
       })
-      
+
       it('should be `false` when `errors` has a `string` property', () => {
         checkValidPropGivenErrors({ foo: 'bar' }, false)
       })
@@ -274,13 +274,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       it('should be `true` when `errors` has a `null` property', () => {
         checkValidPropGivenErrors({ foo: null }, true)
       })
-      
+
       it('should be `true` when `errors` has an empty array', () => {
         checkValidPropGivenErrors({
-          myArrayField: [ ]
+          myArrayField: []
         }, true)
       })
-      
+
       it('should be `true` when `errors` has an array with only `undefined` values', () => {
         checkValidPropGivenErrors({
           myArrayField: [
@@ -289,18 +289,18 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           ]
         }, true)
       })
-      
+
       it('should be `true` when `errors` has an array containing strings', () => {
         // Note: I didn't write the isValid, but my intuition tells me this seems incorrect. – ncphillips
         checkValidPropGivenErrors({
           myArrayField: [ 'baz' ]
         }, true)
       })
-      
+
     })
 
     describe('invalid prop', () => {
-      
+
       const checkInvalidPropGivenErrors = (errors, expectation) => {
         // Check Sync Errors
         expect(propChecker({}, undefined, {
@@ -312,29 +312,29 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           asyncErrors: errors
         }).invalid).toBe(expectation)
       }
-      
+
       it('should default to `false`', () => {
         checkInvalidPropGivenErrors({}, false)
       })
-      
+
       it('should be `true` when errors has a `string` propertry', () => {
         checkInvalidPropGivenErrors({ foo: 'sync error' }, true)
       })
-       
+
       it('should be `true` when errors has a `number` property', () => {
         checkInvalidPropGivenErrors({ foo: 12 }, true)
       })
-      
+
       it('should be `false` when errors has only an `undefined` property', () => {
         checkInvalidPropGivenErrors({ foo: undefined }, false)
       })
-      
+
       it('should be `false` when errors has only a `null` property', () => {
         checkInvalidPropGivenErrors({ foo: null }, false)
       })
-      
+
       it('should be `false` when errors has only an empty array', () => {
-        checkInvalidPropGivenErrors({ myArrayField: [ ] }, false)
+        checkInvalidPropGivenErrors({ myArrayField: [] }, false)
       })
     })
 
@@ -1742,9 +1742,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail)
         .toHaveBeenCalled()
-      expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
-      expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
-      expect(onSubmitFail.calls[0].arguments[2]).toBeA(SubmissionError)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 0 ]).toEqual(errors)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 1 ]).toEqual(store.dispatch)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 2 ]).toBeA(SubmissionError)
       expect(caught).toBe(errors)
     })
 
@@ -1785,9 +1785,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitFail)
         .toHaveBeenCalled()
-      expect(onSubmitFail.calls[0].arguments[0]).toEqual(undefined)
-      expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
-      expect(onSubmitFail.calls[0].arguments[2]).toBeA(Error)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 0 ]).toEqual(undefined)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 1 ]).toEqual(store.dispatch)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 2 ]).toBeA(Error)
       expect(caught).toNotExist()
     })
 
@@ -1827,9 +1827,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         .then(caught => {
           expect(onSubmitFail)
             .toHaveBeenCalled()
-          expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
-          expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
-          expect(onSubmitFail.calls[0].arguments[2]).toBeA(SubmissionError)
+          expect(onSubmitFail.calls[ 0 ].arguments[ 0 ]).toEqual(errors)
+          expect(onSubmitFail.calls[ 0 ].arguments[ 1 ]).toEqual(store.dispatch)
+          expect(onSubmitFail.calls[ 0 ].arguments[ 2 ]).toBeA(SubmissionError)
           expect(caught).toBe(errors)
         })
     })
@@ -1873,9 +1873,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toNotHaveBeenCalled()
       expect(onSubmitFail)
         .toHaveBeenCalled()
-      expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
-      expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
-      expect(onSubmitFail.calls[0].arguments[2]).toBe(null)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 0 ]).toEqual(errors)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 1 ]).toEqual(store.dispatch)
+      expect(onSubmitFail.calls[ 0 ].arguments[ 2 ]).toBe(null)
       expect(result).toEqual(errors)
     })
 
@@ -1919,9 +1919,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           expect(onSubmit).toNotHaveBeenCalled()
           expect(onSubmitFail)
             .toHaveBeenCalled()
-          expect(onSubmitFail.calls[0].arguments[0]).toEqual(errors)
-          expect(onSubmitFail.calls[0].arguments[1]).toEqual(store.dispatch)
-          expect(onSubmitFail.calls[0].arguments[2]).toBe(null)
+          expect(onSubmitFail.calls[ 0 ].arguments[ 0 ]).toEqual(errors)
+          expect(onSubmitFail.calls[ 0 ].arguments[ 1 ]).toEqual(store.dispatch)
+          expect(onSubmitFail.calls[ 0 ].arguments[ 2 ]).toBe(null)
           expect(error).toBe(errors)
         })
     })
@@ -2580,7 +2580,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propsAtNthRender(formRender, 1).valid).toBe(false)
       expect(propsAtNthRender(formRender, 1).invalid).toBe(true)
 
-      input.calls[0].arguments[0].input.onChange('bar')
+      input.calls[ 0 ].arguments[ 0 ].input.onChange('bar')
 
       expect(formRender.calls.length).toBe(4)
       expect(propsAtNthRender(formRender, 3).error).toNotExist()
@@ -2688,7 +2688,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender.calls.length).toBe(2)
       expect(propsAtNthRender(formRender, 1).warning).toBe('form wide sync warning')
 
-      input.calls[0].arguments[0].input.onChange('bar')
+      input.calls[ 0 ].arguments[ 0 ].input.onChange('bar')
 
       // expect(formRender.calls.length).toBe(4) // TODO: this gets called an extra time (4 instead of 3). why?
       expect(propsAtNthRender(formRender, 3).warning).toNotExist()
@@ -2846,7 +2846,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(propsAtNthRender(inputRender, 3).meta.error).toBe('async error')
       })
     })
-    
+
 
     describe('validateIfNeeded', () => {
 
@@ -2859,7 +2859,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
-        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(true)
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(true)
         expect(validate).toNotHaveBeenCalled()
 
         shouldValidate.reset()
@@ -2869,7 +2869,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldValidate).toHaveBeenCalled()
-        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(false)
         expect(validate).toNotHaveBeenCalled()
       })
 
@@ -2882,7 +2882,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
-        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(true)
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(true)
         expect(validate).toHaveBeenCalled()
 
         shouldValidate.reset()
@@ -2892,7 +2892,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldValidate).toHaveBeenCalled()
-        expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(false)
         expect(validate).toHaveBeenCalled()
       })
 
@@ -3030,13 +3030,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(renderForm).toHaveBeenCalled()
       expect(renderForm.calls.length).toBe(1)
-      expect(renderForm.calls[0].arguments[0].autofill).toBeA('function')
+      expect(renderForm.calls[ 0 ].arguments[ 0 ].autofill).toBeA('function')
 
       // check field
       expect(renderInput).toHaveBeenCalled()
       expect(renderInput.calls.length).toBe(1)
-      expect(renderInput.calls[0].arguments[0].input.value).toBe('')
-      expect(renderInput.calls[0].arguments[0].meta.autofilled).toBe(false)
+      expect(renderInput.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+      expect(renderInput.calls[ 0 ].arguments[ 0 ].meta.autofilled).toBe(false)
 
       const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
 
@@ -3045,36 +3045,36 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({})
+      expect(onSubmit.calls[ 0 ].arguments[ 0 ]).toEqualMap({})
       expect(renderInput.calls.length).toBe(2)  // touched by submit
 
       // autofill field
-      renderForm.calls[0].arguments[0].autofill('myField', 'autofilled value')
+      renderForm.calls[ 0 ].arguments[ 0 ].autofill('myField', 'autofilled value')
 
       // check field
       expect(renderInput).toHaveBeenCalled()
       expect(renderInput.calls.length).toBe(3)
-      expect(renderInput.calls[2].arguments[0].input.value).toBe('autofilled value')
-      expect(renderInput.calls[2].arguments[0].meta.autofilled).toBe(true)
+      expect(renderInput.calls[ 2 ].arguments[ 0 ].input.value).toBe('autofilled value')
+      expect(renderInput.calls[ 2 ].arguments[ 0 ].meta.autofilled).toBe(true)
 
       // test submitting autofilled value
       TestUtils.Simulate.submit(form)
       expect(onSubmit.calls.length).toBe(2)
-      expect(onSubmit.calls[1].arguments[0]).toEqualMap({ myField: 'autofilled value' })
+      expect(onSubmit.calls[ 1 ].arguments[ 0 ]).toEqualMap({ myField: 'autofilled value' })
 
       // user edits field
-      renderInput.calls[1].arguments[0].input.onChange('user value')
+      renderInput.calls[ 1 ].arguments[ 0 ].input.onChange('user value')
 
       // check field
       expect(renderInput).toHaveBeenCalled()
       expect(renderInput.calls.length).toBe(4)
-      expect(renderInput.calls[3].arguments[0].input.value).toBe('user value')
-      expect(renderInput.calls[3].arguments[0].meta.autofilled).toBe(false)
+      expect(renderInput.calls[ 3 ].arguments[ 0 ].input.value).toBe('user value')
+      expect(renderInput.calls[ 3 ].arguments[ 0 ].meta.autofilled).toBe(false)
 
       // why not test submitting again?
       TestUtils.Simulate.submit(form)
       expect(onSubmit.calls.length).toBe(3)
-      expect(onSubmit.calls[2].arguments[0]).toEqualMap({ myField: 'user value' })
+      expect(onSubmit.calls[ 2 ].arguments[ 0 ]).toEqualMap({ myField: 'user value' })
     })
 
     it('should not reinitialize values on remount if destroyOnMount is false', () => {
@@ -3219,8 +3219,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
 
-      expect(formRender.calls[0].arguments[0].blur).toBeA('function')
-      formRender.calls[0].arguments[0].blur('foo', 'newValue')
+      expect(formRender.calls[ 0 ].arguments[ 0 ].blur).toBeA('function')
+      formRender.calls[ 0 ].arguments[ 0 ].blur('foo', 'newValue')
 
       // check modified state
       expect(store.getState()).toEqualMap({
@@ -3270,8 +3270,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
 
-      expect(formRender.calls[0].arguments[0].change).toBeA('function')
-      formRender.calls[0].arguments[0].change('foo', 'newValue')
+      expect(formRender.calls[ 0 ].arguments[ 0 ].change).toBeA('function')
+      formRender.calls[ 0 ].arguments[ 0 ].change('foo', 'newValue')
 
       // check modified state
       expect(store.getState()).toEqualMap({
@@ -3371,7 +3371,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         </Provider>
       )
 
-      // unmount form
+      // submit form
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
       stub.submit()
 
@@ -3396,6 +3396,69 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
+    })
+
+    it('submits even if submit errors exist', () => {
+      const store = makeStore({})
+      let count = 0
+      const onSubmit = createSpy(() => new Promise(resolve => {
+        count++
+        if (count === 1) { // first time throw exception
+          throw new SubmissionError({ _error: 'Bad human!' })
+        }
+        resolve()
+      })).andCallThrough()
+      const renderSpy = createSpy(() => {
+      })
+
+      class Form extends Component {
+        render() {
+          const { handleSubmit, error, valid } = this.props
+          renderSpy(valid, error)
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="foo" component="input" type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(renderSpy).toHaveBeenCalled()
+      expect(renderSpy.calls.length).toBe(1)
+      expect(renderSpy.calls[ 0 ].arguments[ 0 ]).toBe(true)
+      expect(renderSpy.calls[ 0 ].arguments[ 1 ]).toBe(undefined)
+      expect(onSubmit).toNotHaveBeenCalled()
+
+      // submit form
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+      return stub.submit()
+        .then(() => {
+          expect(onSubmit).toHaveBeenCalled()
+          expect(onSubmit.calls.length).toBe(1)
+
+          expect(renderSpy.calls.length).toBe(4)
+          expect(renderSpy.calls[ 3 ].arguments[ 0 ]).toBe(false)
+          expect(renderSpy.calls[ 3 ].arguments[ 1 ]).toBe('Bad human!')
+        })
+        .then(() => stub.submit()) // call submit again!
+        .then(() => {
+          expect(onSubmit.calls.length).toBe(2)
+
+          expect(renderSpy.calls.length).toBe(6)
+          expect(renderSpy.calls[ 5 ].arguments[ 0 ]).toBe(true)
+          expect(renderSpy.calls[ 5 ].arguments[ 1 ]).toBe(undefined)
+        })
+
     })
 
     it('submits when the SUBMIT action is dispatched', () => {
@@ -3428,29 +3491,29 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       let callIndex = logger.calls.length
 
       // update input
-      inputRender.calls[0].arguments[0].input.onChange('hello')
+      inputRender.calls[ 0 ].arguments[ 0 ].input.onChange('hello')
 
       // check that change action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
+      expect(logger.calls[ callIndex++ ].arguments[ 1 ])
         .toEqual(change('testForm', 'foo', 'hello', false, false))
 
       // dispatch submit action
       store.dispatch(submit('testForm'))
 
       // check that submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
+      expect(logger.calls[ callIndex++ ].arguments[ 1 ])
         .toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
+      expect(logger.calls[ callIndex++ ].arguments[ 1 ])
         .toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
+      expect(logger.calls[ callIndex++ ].arguments[ 1 ])
         .toEqual(touch('testForm', 'foo'))
 
       // check that submit succeeded action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
+      expect(logger.calls[ callIndex++ ].arguments[ 1 ])
         .toEqual(setSubmitSucceeded('testForm'))
 
       // check no additional actions dispatched
@@ -3458,7 +3521,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[ 0 ].arguments[ 0 ]).toEqualMap({ foo: 'hello' })
     })
   })
 }
