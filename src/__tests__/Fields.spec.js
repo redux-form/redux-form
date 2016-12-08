@@ -668,10 +668,14 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should prefix name when inside FormSection', () => {
       const store = makeStore()
+      const renderFields = ({ foo, bar }) => <div>
+        <input {...foo.input}/>
+        <input {...bar.input}/>
+      </div>
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
-            <Fields names={[ 'foo', 'bar' ]} component="input"/>
+            <Fields names={[ 'foo', 'bar' ]} component={renderFields}/>
           </FormSection>)
         }
       }
@@ -696,11 +700,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should prefix name when inside multiple FormSections', () => {
       const store = makeStore()
+      const renderFields = ({ foo, bar }) => <div>
+        <input {...foo.input}/>
+        <input {...bar.input}/>
+      </div>
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
             <FormSection name="fighter">
-              <Fields names={[ 'foo', 'bar' ]} component="input"/>
+              <Fields names={[ 'foo', 'bar' ]} component={renderFields}/>
             </FormSection>
           </FormSection>)
         }
