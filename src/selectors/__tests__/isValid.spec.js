@@ -9,20 +9,21 @@ const describeIsValid = (name, structure, expect) => {
   const isValid = createIsValid(structure)
 
   const { fromJS, getIn, setIn } = structure
+  const getFormState = state => getIn(state, 'form')
 
   describe(name, () => {
     it('should return a function', () => {
-      expect(isValid('foo')).toBeA('function')
+      expect(isValid('foo', getFormState)).toBeA('function')
     })
 
     it('should return true when form data not present', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {}
       }))).toBe(true)
     })
 
     it('should return true when there are no errors', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -38,7 +39,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return true when there are sync errors for a NON-registered field', () => {
-      expect(isValid('foo')(setIn(fromJS({
+      expect(isValid('foo', getFormState)(setIn(fromJS({
         form: {
           foo: {
             values: {
@@ -60,7 +61,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return false when there are sync errors for registered fields', () => {
-      expect(isValid('foo')(setIn(fromJS({
+      expect(isValid('foo', getFormState)(setIn(fromJS({
         form: {
           foo: {
             values: {
@@ -79,7 +80,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return false with sync error for registered array field', () => {
-      expect(isValid('foo')(setIn(fromJS({
+      expect(isValid('foo', getFormState)(setIn(fromJS({
         form: {
           foo: {
             values: {
@@ -100,7 +101,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return false when there is a syncError', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -119,7 +120,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return true when there are async errors for a NON-registered field', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -139,7 +140,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return false when there are async errors for registered fields', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -159,7 +160,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return false with async error for registered array field', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -181,7 +182,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return true when there are submit errors for a NON-registered field', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -201,7 +202,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return false when there are submit errors for registered fields', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -221,7 +222,7 @@ const describeIsValid = (name, structure, expect) => {
     })
 
     it('should return false with submit error for registered array field', () => {
-      expect(isValid('foo')(fromJS({
+      expect(isValid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -240,6 +241,62 @@ const describeIsValid = (name, structure, expect) => {
           }
         }
       }))).toBe(false)
+    })
+
+    it('should return false when there is a form-wide submit error', () => {
+      expect(isValid('foo', getFormState)(fromJS({
+        form: {
+          foo: {
+            values: {
+              dog: 'Odie',
+              cat: 'Garfield'
+            },
+            registeredFields: [
+              { name: 'dog', type: 'Field' },
+              { name: 'cat', type: 'Field' }
+            ],
+            error: 'Form wide'
+          }
+        }
+      }))).toBe(false)
+    })
+
+    it('should return true when there are submit errors for registered fields but told to ignore submit errors', () => {
+      expect(isValid('foo', getFormState, true)(fromJS({
+        form: {
+          foo: {
+            values: {
+              dog: 'Odie',
+              cat: 'Garfield'
+            },
+            registeredFields: [
+              { name: 'dog', type: 'Field' },
+              { name: 'cat', type: 'Field' }
+            ],
+            submitErrors: {
+              dog: 'Too old'
+            }
+          }
+        }
+      }))).toBe(true)
+    })
+
+    it('should return true when there is a form-wide submit error, but ignoring submit errors', () => {
+      expect(isValid('foo', getFormState, true)(fromJS({
+        form: {
+          foo: {
+            values: {
+              dog: 'Odie',
+              cat: 'Garfield'
+            },
+            registeredFields: [
+              { name: 'dog', type: 'Field' },
+              { name: 'cat', type: 'Field' }
+            ],
+            error: 'Form wide'
+          }
+        }
+      }))).toBe(true)
     })
 
     it('should use getFormState if provided', () => {

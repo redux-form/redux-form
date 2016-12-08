@@ -375,14 +375,14 @@ const createReduxForm =
               // submitOrEvent is an event: fire submit if not already submitting
               if (!this.submitPromise) {
                 return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
-                  this.props, this.isValid(), this.asyncValidate, this.getFieldList()))
+                  this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
               }
             } else {
               // submitOrEvent is the submit function: return deferred submit thunk
               return silenceEvents(() =>
               !this.submitPromise &&
               this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
-                this.props, this.isValid(), this.asyncValidate, this.getFieldList())))
+                this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList())))
             }
           }
 
@@ -451,6 +451,7 @@ const createReduxForm =
               updateSyncErrors,
               updateSyncWarnings,
               valid,
+              validExceptSubmit,
               values,
               warning,
               ...rest
@@ -539,7 +540,8 @@ const createReduxForm =
             const syncErrors = getIn(formState, 'syncErrors') || {}
             const syncWarnings = getIn(formState, 'syncWarnings') || {}
             const registeredFields = getIn(formState, 'registeredFields') || []
-            const valid = isValid(form, getFormState)(state)
+            const valid = isValid(form, getFormState, false)(state)
+            const validExceptSubmit = isValid(form, getFormState, true)(state)
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
@@ -565,6 +567,7 @@ const createReduxForm =
               triggerSubmit,
               values,
               valid,
+              validExceptSubmit,
               warning
             }
           },
