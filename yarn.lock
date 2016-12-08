@@ -2962,9 +2962,9 @@ qs@~1.2.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-1.2.2.tgz#19b57ff24dc2a99ce1f8bdf6afcda59f8ef61f88"
 
-qs@~6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.0.tgz#f403b264f23bc01228c74131b407f18d5ea5d442"
+qs@~6.3.1:
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.1.tgz#f403b264f23bc01228c74131b407f18d5ea5d442"
 
 querystring-es3@~0.2.0:
   version "0.2.1"
@@ -3174,7 +3174,7 @@ request@^2.55.0, request@^2.75.0:
     mime-types "~2.1.7"
     node-uuid "~1.4.7"
     oauth-sign "~0.8.1"
-    qs "~6.3.0"
+    qs "~6.3.1"
     stringstream "~0.0.4"
     tough-cookie "~2.3.0"
     tunnel-agent "~0.4.1"
@@ -3821,8 +3821,8 @@ yargs-parser@^4.0.2:
     camelcase "^3.0.0"
 
 yargs@^6.0.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-6.3.0.tgz#19c6dbb768744d571eb6ebae0c174cf2f71b188d"
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-6.3.1.tgz#19c6dbb768744d571eb6ebae0c174cf2f71b188d"
   dependencies:
     camelcase "^3.0.0"
     cliui "^3.2.0"
