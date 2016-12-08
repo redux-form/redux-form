@@ -99,4 +99,4 @@ class ContactPage extends React.Component {
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect
 up the inputs to `redux-form` would be the
-[Simple Form Example](https://redux-form.com/6.2.1/examples/simple).
+[Simple Form Example](https://redux-form.com/6.3.0/examples/simple).
