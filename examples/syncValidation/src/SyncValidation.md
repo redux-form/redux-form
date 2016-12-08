@@ -1,9 +1,14 @@
 # Synchronous Validation Example
 
-To provide synchronous client-side validation, you will need to provide redux-form with a 
+There are two ways to provide synchronous client-side validation to your form.
+
+The first is to provide redux-form with a
 validation function that takes an object of form values and returns an object of errors.
 This is done by providing the validation function to the decorator as a config parameter, or
 to the decorated form component as a prop.
+
+The second is to use individual validators for each field. See
+[Field-Level Validation Example](http://redux-form.com/6.2.1/examples/fieldLevelValidation/).
 
 Additionally, you can provide redux-form with a warn function with the same type signature as
 your validation function. Warnings are errors that do not mark a form as invalid, allowing for

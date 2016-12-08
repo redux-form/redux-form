@@ -669,7 +669,8 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const input = createSpy(props => <div>{props.highlighted}<input {...props.input}/></div>).andCallThrough()
+      const input = createSpy(props => <div>{props.highlighted}<input {...props.input}/>
+      </div>).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -1225,6 +1226,88 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       // should be valid now
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].meta.warning).toBe(undefined)
+    })
+
+    it('should sync validate with field level validator', () => {
+      const store = makeStore()
+      const usernameInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const required = createSpy(value => value == null ? 'Required' : undefined).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Field name="username" component={usernameInput} validate={required}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // username input rendered
+      expect(usernameInput).toHaveBeenCalled()
+      expect(usernameInput.calls.length).toBe(2)
+      expect(required).toHaveBeenCalled()
+      expect(required.calls.length).toBe(1)
+
+      // username field has error
+      expect(usernameInput.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(false)
+      expect(usernameInput.calls[ 1 ].arguments[ 0 ].meta.error).toBe('Required')
+
+      // update username field so it passes
+      usernameInput.calls[ 0 ].arguments[ 0 ].input.onChange('erikras')
+
+      // username input rerendered twice, once for value, once for sync error
+      expect(usernameInput.calls.length).toBe(4)
+
+      // should be valid now
+      expect(usernameInput.calls[ 3 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(usernameInput.calls[ 3 ].arguments[ 0 ].meta.error).toBe(undefined)
+    })
+
+    it('should sync warn with field level warning function', () => {
+      const store = makeStore()
+      const usernameInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const required = createSpy(value => value == null ? 'Recommended' : undefined).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Field name="username" component={usernameInput} warn={required}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // username input rendered
+      expect(usernameInput).toHaveBeenCalled()
+      expect(usernameInput.calls.length).toBe(2)
+      expect(required).toHaveBeenCalled()
+      expect(required.calls.length).toBe(1)
+
+      // username field has warning
+      expect(usernameInput.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(usernameInput.calls[ 1 ].arguments[ 0 ].meta.warning).toBe('Recommended')
+
+      // update username field so it passes
+      usernameInput.calls[ 0 ].arguments[ 0 ].input.onChange('erikras')
+
+      // username input rerendered twice, once for value, once for sync warning
+      expect(usernameInput.calls.length).toBe(4)
+
+      // should be valid now
+      expect(usernameInput.calls[ 3 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(usernameInput.calls[ 3 ].arguments[ 0 ].meta.warning).toBe(undefined)
     })
   })
 }
