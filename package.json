@@ -20,6 +20,7 @@
     "example": "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
     "example:asyncValidation": "form=asyncValidation npm run example",
     "example:fieldArrays": "form=fieldArrays npm run example",
+    "example:fieldLevelValidation": "form=fieldLevelValidation npm run example",
     "example:immutable": "form=immutable npm run example",
     "example:initializeFromState": "form=initializeFromState npm run example",
     "example:material-ui": "form=material-ui npm run example",

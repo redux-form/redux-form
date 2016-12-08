@@ -27,7 +27,12 @@ const createField = ({ deepEqual, getIn, setIn }) => {
     }
 
     componentWillMount() {
-      this.context._reduxForm.register(this.name, 'Field')
+      this.context._reduxForm.register(
+        this.name,
+        'Field',
+        () => this.props.validate,
+        () => this.props.warn
+      )
     }
 
     componentWillReceiveProps(nextProps) {
