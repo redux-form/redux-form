@@ -106,6 +106,7 @@ const createReduxForm =
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
             this.submitCompleted = this.submitCompleted.bind(this)
+            this.submitFailed = this.submitFailed.bind(this)
 
             instances++
           }
@@ -308,12 +309,17 @@ const createReduxForm =
             return result
           }
 
+          submitFailed(error) {
+            delete this.submitPromise
+            throw error
+          }
+
           listenToSubmit(promise) {
             if (!isPromise(promise)) {
               return promise
             }
             this.submitPromise = promise
-            return promise.then(this.submitCompleted)
+            return promise.then(this.submitCompleted, this.submitFailed)
           }
 
           submit(submitOrEvent) {
