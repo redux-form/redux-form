@@ -12,6 +12,7 @@ const createFieldArrayProps = (getIn, name,
     fields: {
       _isFieldArray: true,
       forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index, finalProps.fields)),
+      get: index => value && getIn(value, index),
       insert: arrayInsert,
       length,
       map: callback => (value || []).map((item, index) => callback(`${name}[${index}]`, index, finalProps.fields)),
