@@ -64,6 +64,7 @@ class Nav extends Component {
           {this.renderItem('/examples', 'Examples')}
           {this.renderItem('/examples/simple', 'Simple Form', 1)}
           {this.renderItem('/examples/syncValidation', 'Sync Validation', 1)}
+          {this.renderItem('/examples/fieldLevelValidation', 'Field-Level Validation', 1)}
           {this.renderItem('/examples/submitValidation', 'Submit Validation', 1)}
           {this.renderItem('/examples/asyncValidation', 'Async Validation', 1)}
           {this.renderItem('/examples/initializeFromState', 'Initializing from State', 1)}
