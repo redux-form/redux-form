@@ -220,6 +220,14 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(result.fields.get(2)).toBe('c')
     })
 
+    it('should provide getAll', () => {
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ])
+      })
+      expect(result.fields.getAll).toBeA('function')
+      expect(result.fields.getAll()).toEqualMap([ 'a', 'b', 'c' ])
+    })
+
     it('should provide map', () => {
       const callback = createSpy(name => ({ whatever: true, name })).andCallThrough()
       const result = createFieldArrayProps(...defaultProps, {
