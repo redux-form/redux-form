@@ -7,7 +7,7 @@ to your decorated form component. The `props` that _you pass into your wrapped c
 listed [here](https://redux-form.com/6.3.0/docs/api/ReduxForm.md/).
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of these
-[`propTypes`](https://github.com/erikras/redux-form/blob/master/src/propTypes.js), 
+[`propTypes`](https://github.com/erikras/redux-form/blob/master/src/propTypes.js),
 so you may import them, like so:
 
 ```javascript
@@ -37,7 +37,7 @@ This is a bound action creator, so it returns nothing.
 
 > #### `array.move(field:String, from:Number, to:Number) : Function`
 
-> Moves a value at the given `from` index to the given `to` index in the given array field in 
+> Moves a value at the given `from` index to the given `to` index in the given array field in
 your form.
 This is a bound action creator, so it returns nothing.
 
@@ -68,7 +68,7 @@ This is a bound action creator, so it returns nothing.
 
 > #### `array.splice(field:String, index:Number, removeNum:Number, value:Any) : Function`
 
-> Performs an 
+> Performs an
 [`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 operation on the given array in your form.
 This is a bound action creator, so it returns nothing.
@@ -89,16 +89,16 @@ This is a bound action creator, so it returns nothing.
 
 ### `asyncValidating : String | boolean`
 
-> This value will be either: 
+> This value will be either:
 > * `false` - No asynchronous validation is currently happening
 > * `true` - Asynchronous validation is currently running in preparation to submit a form
 > * a `string` - The name of the field that just blurred to trigger asynchronous validation
 
 ### `autofill(field:String, value:any) : Function`
 
-> Sets the value and marks the field as `autofilled` in the Redux Store. This is useful when a 
-a field needs to be set programmatically, but in a way that lets the user know (via a styling 
-change using the `autofilled` prop in `Field`) that it has been autofilled for them 
+> Sets the value and marks the field as `autofilled` in the Redux Store. This is useful when a
+a field needs to be set programmatically, but in a way that lets the user know (via a styling
+change using the `autofilled` prop in `Field`) that it has been autofilled for them
 programmatically.
 This is a bound action creator, so it returns nothing.
 
@@ -110,6 +110,11 @@ This is a bound action creator, so it returns nothing.
 ### `change(field:String, value:any) : Function`
 
 > Changes the value of a field in the Redux store.
+This is a bound action creator, so it returns nothing.
+
+### `clearAsyncError(field:String) : Function`
+
+> Clear async error of a field in the Redux store.
 This is a bound action creator, so it returns nothing.
 
 ### `destroy() : Function`
@@ -196,12 +201,12 @@ This is a bound action creator, so it returns nothing.
 
 #### `submitFailed : boolean`
 
-> Starts as `false`. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to 
+> Starts as `false`. If `onSubmit` is called, and fails to submit _for any reason_, `submitFailed` will be set to
 `true`. A subsequent successful submit will set it back to `false`.
 
 #### `submitSucceeded : boolean`
 
-> Starts as `false`. If `onSubmit` is called, and succeed to submit , `submitSucceeded` will be set to 
+> Starts as `false`. If `onSubmit` is called, and succeed to submit , `submitSucceeded` will be set to
 `true`. A subsequent unsuccessful submit will set it back to `false`.
 
 #### `submitting : boolean`

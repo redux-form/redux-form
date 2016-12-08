@@ -1,7 +1,7 @@
 import {
   ARRAY_INSERT, ARRAY_MOVE, ARRAY_POP, ARRAY_PUSH, ARRAY_REMOVE, ARRAY_REMOVE_ALL, ARRAY_SHIFT,
-  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, AUTOFILL, BLUR, CHANGE, CLEAR_SUBMIT, DESTROY, FOCUS,
-  INITIALIZE,
+  ARRAY_SPLICE, ARRAY_SWAP, ARRAY_UNSHIFT, AUTOFILL, BLUR, CHANGE, CLEAR_SUBMIT, CLEAR_ASYNC_ERROR,
+  DESTROY, FOCUS, INITIALIZE,
   REGISTER_FIELD, RESET, SET_SUBMIT_FAILED, SET_SUBMIT_SUCCEEDED, START_ASYNC_VALIDATION, START_SUBMIT,
   STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT, TOUCH, UNREGISTER_FIELD, UNTOUCH, UPDATE_SYNC_ERRORS,
   UPDATE_SYNC_WARNINGS
@@ -63,6 +63,9 @@ export const change = (form, field, value, touch, persistentSubmitErrors) =>
 
 export const clearSubmit = (form) =>
   ({ type: CLEAR_SUBMIT, meta: { form } })
+
+export const clearAsyncError = (form, field) =>
+  ({ type: CLEAR_ASYNC_ERROR, meta: { form, field } })
 
 export const destroy = (form) =>
   ({ type: DESTROY, meta: { form } })

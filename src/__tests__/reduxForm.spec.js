@@ -105,6 +105,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'autofill',
         'blur',
         'change',
+        'clearAsyncError',
         'clearSubmit',
         'destroy',
         'dirty',

@@ -13,6 +13,7 @@ import {
   BLUR,
   CHANGE,
   CLEAR_SUBMIT,
+  CLEAR_ASYNC_ERROR,
   DESTROY,
   FOCUS,
   INITIALIZE,
@@ -170,6 +171,9 @@ const createReducer = structure => {
     },
     [CLEAR_SUBMIT](state) {
       return deleteIn(state, 'triggerSubmit')
+    },
+    [CLEAR_ASYNC_ERROR](state, { meta: { field } } ) {
+      return deleteIn(state, `asyncErrors.${field}`)
     },
     [FOCUS](state, { meta: { field } }) {
       let result = state
