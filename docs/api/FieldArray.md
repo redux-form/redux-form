@@ -83,6 +83,15 @@ as a javascript `Array`, providing both reading and writing functionality.
 > A method to iterate over each value of the array. See the section on [Iteration](#iteration)
 > for more details.
 
+#### `fields.get(index) : Function`
+
+> A method to get a single value from the array value.
+
+#### `fields.getAll() : Function`
+
+> A method to get all the values in the array. If you are using ImmutableJS, it will be an
+ImmutableJS `List`.
+
 #### `fields.insert(index:Integer, value:Any) : Function`
 
 > A function to insert a new value into the array at any arbitrary index.
