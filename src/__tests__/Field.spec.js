@@ -853,6 +853,41 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderUsername.calls[ 1 ].arguments[ 0 ].input.value).toBe('erikras')
     })
 
+    it('should call asyncValidate function on blur', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = createSpy(props => <input {...props.input}/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input"/>
+              <Field name="author" component="input"/>
+              <Field name="username" component={renderUsername}/>
+            </div>
+          )
+        }
+      }
+      const asyncValidate = createSpy(() => new Promise(resolve => resolve())).andCallThrough()
+      const TestForm = reduxForm({ form: 'testForm', asyncValidate })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      renderUsername.calls[ 0 ].arguments[ 0 ].input.onBlur('ERIKRAS')
+
+      expect(asyncValidate).toHaveBeenCalled()
+    })
+
     it('should call handle on focus', () => {
       const store = makeStore({
         testForm: {
@@ -882,7 +917,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderTitle.calls[ 1 ].arguments[ 0 ].meta.visited).toBe(true)
     })
 
-    it('should call handle on drag start', () => {
+    it('should call handle on drag start with value', () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -912,6 +947,38 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(dragSpy)
         .toHaveBeenCalled()
         .toHaveBeenCalledWith(dataKey, 'Redux Form')
+    })
+
+    it('should call handle on drag start without value', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: null
+          }
+        }
+      })
+      const renderTitle = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const dragSpy = createSpy((key, val) => val).andCallThrough()
+      const event = dragStartMock(dragSpy)
+      class Form extends Component {
+        render() {
+          return (
+            <Field name="title" component={renderTitle} />
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(dragSpy).toNotHaveBeenCalled()
+      renderTitle.calls[ 0 ].arguments[ 0 ].input.onDragStart(event)
+      expect(dragSpy)
+        .toHaveBeenCalled()
+        .toHaveBeenCalledWith(dataKey, '')
     })
 
     it('should call handle on drop', () => {
