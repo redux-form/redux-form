@@ -1,11 +1,11 @@
-const getEvent = (rest = {}) => ({
+const getEvent = rest => ({
   stopPropagation: id => id,
   preventDefault: id => id,
   ...rest
 })
 
 export function valueMock(value) {
-  return getEvent({ target: { value }})
+  return getEvent({ target: { value } })
 }
 
 export function dragStartMock(setData) {
