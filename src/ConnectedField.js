@@ -58,7 +58,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
 
     handleChange(event) {
       const { name, dispatch, parse, normalize, _reduxForm } = this.props
-      const value = onChangeValue(event, { parse, normalize })
+      const value = onChangeValue(event, { name, parse, normalize })
 
       dispatch(_reduxForm.change(name, value))
     }
@@ -70,7 +70,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
 
     handleBlur(event) {
       const { name, dispatch, parse, normalize, _reduxForm } = this.props
-      const value = onChangeValue(event, { parse, normalize })
+      const value = onChangeValue(event, { name, parse, normalize })
 
       // dispatch blur action
       dispatch(_reduxForm.blur(name, value))

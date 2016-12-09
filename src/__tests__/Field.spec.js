@@ -14,6 +14,7 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
+import { valueMock } from '../util/eventMocks'
 
 const describeField = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
@@ -773,7 +774,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(normalize).toNotHaveBeenCalled()
 
       expect(renderUsername.calls[ 0 ].arguments[ 0 ].input.value).toBe('oldusername')
-      renderUsername.calls[ 0 ].arguments[ 0 ].input.onChange('ERIKRAS')
+      renderUsername.calls[ 0 ].arguments[ 0 ].input.onChange(valueMock('ERIKRAS'))
 
       expect(normalize)
         .toHaveBeenCalled()
