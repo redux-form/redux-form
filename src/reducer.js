@@ -13,6 +13,7 @@ import {
   BLUR,
   CHANGE,
   CLEAR_SUBMIT,
+  CLEAR_ASYNC_ERROR,
   DESTROY,
   FOCUS,
   INITIALIZE,
@@ -171,6 +172,9 @@ const createReducer = structure => {
     [CLEAR_SUBMIT](state) {
       return deleteIn(state, 'triggerSubmit')
     },
+    [CLEAR_ASYNC_ERROR](state, { meta: { field } } ) {
+      return deleteIn(state, `asyncErrors.${field}`)
+    },
     [FOCUS](state, { meta: { field } }) {
       let result = state
       const previouslyActive = getIn(state, 'active')
@@ -192,6 +196,16 @@ const createReducer = structure => {
       const syncWarnings = getIn(state, 'syncWarnings')
       if (syncWarnings) {
         result = setIn(result, 'syncWarnings', syncWarnings)
+      }
+
+      // persist old errors, they will get recalculated if the new form values are different from the old values
+      const error = getIn(state, 'error')
+      if (error) {
+        result = setIn(result, 'error', error)
+      }
+      const syncErrors = getIn(state, 'syncErrors')
+      if (syncErrors) {
+        result = setIn(result, 'syncErrors', syncErrors)
       }
 
       const registeredFields = getIn(state, 'registeredFields')

@@ -38,6 +38,16 @@ const createFieldProps = (getIn, name,
   const warning = syncWarning
   const fieldValue = value == null ? '' : value
 
+  const formatFieldValue = (value, format) => {
+    if (format === null) {
+      return value
+    }
+    const defaultFormattedValue = value == null ? '' : value
+    return format ? format(value, name) : defaultFormattedValue
+  }
+
+  const formattedFieldValue = formatFieldValue(value, format)
+
   return {
     input: processProps(custom.type, {
       name,
@@ -46,7 +56,7 @@ const createFieldProps = (getIn, name,
       onDragStart,
       onDrop,
       onFocus,
-      value: format ? format(fieldValue, name) : fieldValue
+      value: formattedFieldValue
     }, _value),
     meta: {
       ...state,

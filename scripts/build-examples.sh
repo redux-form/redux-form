@@ -32,5 +32,5 @@ do
   npm install
   cd ..
 done
-
-
+tput bel
+say "The examples are built"

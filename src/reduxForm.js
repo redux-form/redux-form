@@ -2,7 +2,7 @@ import { Component, PropTypes, createElement } from 'react'
 import hoistStatics from 'hoist-non-react-statics'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { mapValues } from 'lodash'
+import { mapValues, merge } from 'lodash'
 import isPromise from 'is-promise'
 import getDisplayName from './util/getDisplayName'
 import * as importedActions from './actions'
@@ -13,6 +13,7 @@ import asyncValidation from './asyncValidation'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import defaultShouldValidate from './defaultShouldValidate'
 import plain from './structure/plain'
+import generateValidator from './generateValidator'
 import createIsValid from './selectors/isValid'
 
 const isClassComponent = Component => Boolean(
@@ -106,6 +107,11 @@ const createReduxForm =
             this.register = this.register.bind(this)
             this.unregister = this.unregister.bind(this)
             this.submitCompleted = this.submitCompleted.bind(this)
+            this.submitFailed = this.submitFailed.bind(this)
+            this.fieldValidators = {}
+            this.lastFieldValidatorKeys = []
+            this.fieldWarners = {}
+            this.lastFieldWarnerKeys = []
 
             instances++
           }
@@ -147,7 +153,7 @@ const createReduxForm =
 
           submitIfNeeded(nextProps) {
             const { clearSubmit, triggerSubmit } = this.props
-            if(!triggerSubmit && nextProps.triggerSubmit) {
+            if (!triggerSubmit && nextProps.triggerSubmit) {
               clearSubmit()
               this.submit()
             }
@@ -155,24 +161,29 @@ const createReduxForm =
 
           validateIfNeeded(nextProps) {
             const { shouldValidate, validate, values } = this.props
-            if (validate) {
+            const fieldLevelValidate = this.generateValidator()
+            if (validate || fieldLevelValidate) {
               const initialRender = nextProps === undefined
+              const fieldValidatorKeys = Object.keys(this.fieldValidators)
               const shouldValidateResult = shouldValidate({
                 values,
                 nextProps,
                 props: this.props,
                 initialRender,
+                lastFieldValidatorKeys: this.lastFieldValidatorKeys,
+                fieldValidatorKeys,
                 structure
               })
 
               if (shouldValidateResult) {
-                if (initialRender) {
-                  const { _error, ...nextSyncErrors } = validate(values, this.props)
-                  this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
-                } else {
-                  const { _error, ...nextSyncErrors } = validate(nextProps.values, nextProps)
-                  this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
-                }
+                const propsToValidate = initialRender ? this.props : nextProps
+                const { _error, ...nextSyncErrors } = merge(
+                  validate ? validate(propsToValidate.values, propsToValidate) : {},
+                  fieldLevelValidate ?
+                    fieldLevelValidate(propsToValidate.values, propsToValidate) : {}
+                )
+                this.lastFieldValidatorKeys = fieldValidatorKeys
+                this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
               }
             }
           }
@@ -187,17 +198,29 @@ const createReduxForm =
           }
 
           warnIfNeeded(nextProps) {
-            const { warn, values } = this.props
-            if (warn) {
-              if (nextProps) {
-                // not initial render
-                if (!deepEqual(values, nextProps.values)) {
-                  const { _warning, ...nextSyncWarnings } = warn(nextProps.values, nextProps)
-                  this.updateSyncWarningsIfNeeded(nextSyncWarnings, _warning)
-                }
-              } else {
-                // initial render
-                const { _warning, ...nextSyncWarnings } = warn(values, this.props)
+            const { shouldValidate, warn, values } = this.props
+            const fieldLevelWarn = this.generateWarner()
+            if (warn || fieldLevelWarn) {
+              const initialRender = nextProps === undefined
+              const fieldWarnerKeys = Object.keys(this.fieldWarners)
+              const shouldWarnResult = shouldValidate({
+                values,
+                nextProps,
+                props: this.props,
+                initialRender,
+                lastFieldValidatorKeys: this.lastFieldWarnerKeys,
+                fieldValidatorKeys: fieldWarnerKeys,
+                structure
+              })
+
+              if (shouldWarnResult) {
+                const propsToWarn = initialRender ? this.props : nextProps
+                const { _warning, ...nextSyncWarnings } = merge(
+                  warn ? warn(propsToWarn.values, propsToWarn) : {},
+                  fieldLevelWarn ?
+                    fieldLevelWarn(propsToWarn.values, propsToWarn) : {}
+                )
+                this.lastFieldWarnerKeys = fieldWarnerKeys
                 this.updateSyncWarningsIfNeeded(nextSyncWarnings, _warning)
               }
             }
@@ -251,18 +274,48 @@ const createReduxForm =
             return this.props.pristine
           }
 
-          register(name, type) {
+          register(name, type, getValidator, getWarner) {
             this.props.registerField(name, type)
+            if (getValidator) {
+              this.fieldValidators[ name ] = getValidator
+            }
+            if (getWarner) {
+              this.fieldWarners[ name ] = getWarner
+            }
           }
 
           unregister(name) {
             if (this.props.destroyOnUnmount && !this.destroyed && (!this.unmounted || !instances)) {
               this.props.unregisterField(name)
+              delete this.fieldValidators[ name ]
+              delete this.fieldWarners[ name ]
             }
           }
 
           getFieldList() {
             return this.props.registeredFields.map((field) => getIn(field, 'name'))
+          }
+
+          generateValidator() {
+            const validators = {}
+            Object.keys(this.fieldValidators).forEach(name => {
+              const validator = this.fieldValidators[ name ]()
+              if (validator) {
+                validators[ name ] = validator
+              }
+            })
+            return Object.keys(validators).length ? generateValidator(validators, structure) : undefined
+          }
+
+          generateWarner() {
+            const warners = {}
+            Object.keys(this.fieldWarners).forEach(name => {
+              const warner = this.fieldWarners[ name ]()
+              if (warner) {
+                warners[ name ] = warner
+              }
+            })
+            return Object.keys(warners).length ? generateValidator(warners, structure) : undefined
           }
 
           asyncValidate(name, value) {
@@ -308,12 +361,17 @@ const createReduxForm =
             return result
           }
 
+          submitFailed(error) {
+            delete this.submitPromise
+            throw error
+          }
+
           listenToSubmit(promise) {
             if (!isPromise(promise)) {
               return promise
             }
             this.submitPromise = promise
-            return promise.then(this.submitCompleted)
+            return promise.then(this.submitCompleted, this.submitFailed)
           }
 
           submit(submitOrEvent) {
@@ -323,14 +381,14 @@ const createReduxForm =
               // submitOrEvent is an event: fire submit if not already submitting
               if (!this.submitPromise) {
                 return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
-                  this.props, this.isValid(), this.asyncValidate, this.getFieldList()))
+                  this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
               }
             } else {
               // submitOrEvent is the submit function: return deferred submit thunk
               return silenceEvents(() =>
               !this.submitPromise &&
               this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
-                this.props, this.isValid(), this.asyncValidate, this.getFieldList())))
+                this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList())))
             }
           }
 
@@ -399,6 +457,7 @@ const createReduxForm =
               updateSyncErrors,
               updateSyncWarnings,
               valid,
+              validExceptSubmit,
               values,
               warning,
               ...rest
@@ -487,7 +546,8 @@ const createReduxForm =
             const syncErrors = getIn(formState, 'syncErrors') || {}
             const syncWarnings = getIn(formState, 'syncWarnings') || {}
             const registeredFields = getIn(formState, 'registeredFields') || []
-            const valid = isValid(form, getFormState)(state)
+            const valid = isValid(form, getFormState, false)(state)
+            const validExceptSubmit = isValid(form, getFormState, true)(state)
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
@@ -513,6 +573,7 @@ const createReduxForm =
               triggerSubmit,
               values,
               valid,
+              validExceptSubmit,
               warning
             }
           },

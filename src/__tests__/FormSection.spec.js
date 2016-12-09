@@ -37,6 +37,39 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       }).toThrow(/must be inside a component decorated with reduxForm/)
     })
 
+
+    it('should not wrap in unnecessary div', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: {
+              bar: '42'
+            }
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return (
+            <FormSection name="foo">
+              <Field name="bar" component="input"/>
+            </FormSection>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      const divTags = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'div')
+
+      expect(divTags.length).toEqual(0)
+    })
+
+
     it('should update Field values at the right depth', () => {
       const store = makeStore({
         testForm: {
@@ -75,13 +108,13 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('15')
 
-      
+
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
               foo: {
-                bar: '15' 
+                bar: '15'
               }
             },
             registeredFields: [ { name: 'foo.bar', type: 'Field' } ]
@@ -133,7 +166,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       expect(input.calls.length).toBe(2)
       expect(input.calls[ 1 ].arguments[ 0 ].bar.input.value).toBe('15')
 
-      
+
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
@@ -143,7 +176,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 baz: '100'
               }
             },
-            registeredFields: [ 
+            registeredFields: [
               { name: 'foo.bar', type: 'Field' },
               { name: 'foo.baz', type: 'Field' }
             ]
@@ -171,7 +204,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           <button className="add" onClick={() => fields.push('fish')}>Add Dog</button>
           <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
         </div>)).andCallThrough()
-        
+
       class Form extends Component {
         render() {
           return (
@@ -187,7 +220,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           <TestForm/>
         </Provider>
       )
-      
+
       const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
       const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
       TestUtils.Simulate.click(addButton)
@@ -200,7 +233,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 bar: [ 'dog', 'cat', 'fish' ]
               }
             },
-            registeredFields: [ 
+            registeredFields: [
               { name: 'foo.bar', type: 'FieldArray' },
               { name: 'foo.bar[0]', type: 'Field' },
               { name: 'foo.bar[1]', type: 'Field' },
@@ -220,10 +253,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 bar: [ 'dog', 'cat' ]
               }
             },
-            registeredFields: [ 
+            registeredFields: [
               { name: 'foo.bar', type: 'FieldArray' },
               { name: 'foo.bar[0]', type: 'Field' },
-              { name: 'foo.bar[1]', type: 'Field' } 
+              { name: 'foo.bar[1]', type: 'Field' }
             ]
           }
         }

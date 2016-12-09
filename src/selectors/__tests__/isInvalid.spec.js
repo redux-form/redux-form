@@ -9,20 +9,21 @@ const describeIsInvalid = (name, structure, expect) => {
   const isInvalid = createIsInvalid(structure)
 
   const { fromJS, getIn, setIn } = structure
+  const getFormState = state => getIn(state, 'form')
 
   describe(name, () => {
     it('should return a function', () => {
-      expect(isInvalid('foo')).toBeA('function')
+      expect(isInvalid('foo', getFormState)).toBeA('function')
     })
 
     it('should return false when form data not present', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {}
       }))).toBe(false)
     })
 
     it('should return false when there are no errors', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -38,7 +39,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return false when there are sync errors for a NON-registered field', () => {
-      expect(isInvalid('foo')(setIn(fromJS({
+      expect(isInvalid('foo', getFormState)(setIn(fromJS({
         form: {
           foo: {
             values: {
@@ -60,7 +61,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return true when there are sync errors for registered fields', () => {
-      expect(isInvalid('foo')(setIn(fromJS({
+      expect(isInvalid('foo', getFormState)(setIn(fromJS({
         form: {
           foo: {
             values: {
@@ -79,7 +80,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return true with sync error for registered array field', () => {
-      expect(isInvalid('foo')(setIn(fromJS({
+      expect(isInvalid('foo', getFormState)(setIn(fromJS({
         form: {
           foo: {
             values: {
@@ -100,7 +101,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return true when there is a syncError', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -119,7 +120,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return false when there are async errors for a NON-registered field', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -139,7 +140,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return true when there are async errors for registered fields', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -159,7 +160,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return true with async error for registered array field', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -181,7 +182,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return false when there are submit errors for a NON-registered field', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -201,7 +202,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return true when there are submit errors for registered fields', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {
@@ -221,7 +222,7 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return true with submit error for registered array field', () => {
-      expect(isInvalid('foo')(fromJS({
+      expect(isInvalid('foo', getFormState)(fromJS({
         form: {
           foo: {
             values: {

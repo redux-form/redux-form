@@ -4,6 +4,11 @@ import createConnectedFieldArray from './ConnectedFieldArray'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 
+const wrapError = (fn, key) => fn && ((...args) => {
+  const result = fn(...args)
+  return result && { [key]: result }
+})
+
 const createFieldArray = ({ deepEqual, getIn, size }) => {
 
   const ConnectedFieldArray = createConnectedFieldArray({ deepEqual, getIn, size })
@@ -21,7 +26,12 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     }
 
     componentWillMount() {
-      this.context._reduxForm.register(this.name, 'FieldArray')
+      this.context._reduxForm.register(
+        this.name,
+        'FieldArray',
+        () => wrapError(this.props.validate, '_error'),
+        () => wrapError(this.props.warn, '_warning')
+      )
     }
 
     componentWillReceiveProps(nextProps) {

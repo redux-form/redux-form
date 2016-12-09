@@ -36,6 +36,12 @@ browser to view the example running locally on your machine.
 > How to add synchronous client-side validation to your form.
 
 ---
+
+### [Field-Level Validation](syncValidation)
+
+> How to add field-level client-side validation to your form.
+
+---
   
 ### [Submit Validation](submitValidation)
 
@@ -43,7 +49,7 @@ browser to view the example running locally on your machine.
 
 ---
   
-### [Aynchronous Blur Validation](asyncValidation)
+### [Asynchronous Blur Validation](asyncValidation)
 
 > How to run asynchronous server-side validation on your form when certain fields lose focus.
 

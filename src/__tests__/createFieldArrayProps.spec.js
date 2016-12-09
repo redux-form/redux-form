@@ -205,9 +205,27 @@ const describeCreateFieldProps = (name, structure, expect) => {
       result.fields.forEach(callback)
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(3)
-      expect(callback.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0 ])
-      expect(callback.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1 ])
-      expect(callback.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2 ])
+      expect(callback.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0, result.fields ])
+      expect(callback.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1, result.fields ])
+      expect(callback.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2, result.fields ])
+    })
+
+    it('should provide get', () => {
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ])
+      })
+      expect(result.fields.get).toBeA('function')
+      expect(result.fields.get(0)).toBe('a')
+      expect(result.fields.get(1)).toBe('b')
+      expect(result.fields.get(2)).toBe('c')
+    })
+
+    it('should provide getAll', () => {
+      const result = createFieldArrayProps(...defaultProps, {
+        value: fromJS([ 'a', 'b', 'c' ])
+      })
+      expect(result.fields.getAll).toBeA('function')
+      expect(result.fields.getAll()).toEqualMap([ 'a', 'b', 'c' ])
     })
 
     it('should provide map', () => {
@@ -225,9 +243,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(getIn(mapResult, 2)).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(3)
-      expect(callback.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0 ])
-      expect(callback.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1 ])
-      expect(callback.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2 ])
+      expect(callback.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0, result.fields ])
+      expect(callback.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1, result.fields ])
+      expect(callback.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2, result.fields ])
     })
 
     it('should provide reduce', () => {
@@ -248,14 +266,14 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(3)
-      expect(callback.calls[ 0 ].arguments).toEqual([ {}, 'foo[0]', 0 ])
+      expect(callback.calls[ 0 ].arguments).toEqual([ {}, 'foo[0]', 0, result.fields ])
       expect(callback.calls[ 1 ].arguments).toEqual([ {
         'foo[0]': { whatever: true, name: 'foo[0]' }
-      }, 'foo[1]', 1 ])
+      }, 'foo[1]', 1, result.fields ])
       expect(callback.calls[ 2 ].arguments).toEqual([ {
         'foo[0]': { whatever: true, name: 'foo[0]' },
         'foo[1]': { whatever: true, name: 'foo[1]' }
-      }, 'foo[2]', 2 ])
+      }, 'foo[2]', 2, result.fields ])
     })
 
     it('should provide reduce when no value', () => {

@@ -11,7 +11,7 @@ describe('defaultShouldValidate', () => {
     })).toBe(true)
   })
 
-  const itValidateChange = (structure) => {
+  const describeDefaultShouldValidate = (structure) => {
     const { fromJS } = structure
 
     it('should validate if values have changed', () => {
@@ -43,8 +43,41 @@ describe('defaultShouldValidate', () => {
         }
       }), false)
     })
+    it('should validate if field validator keys have changed', () => {
+      expect(defaultShouldValidate({
+        initialRender: false,
+        structure,
+        values: fromJS({
+          foo: 'fooValue'
+        }),
+        nextProps: {
+          values: fromJS({
+            foo: 'fooValue'
+          })
+        },
+        lastFieldValidatorKeys: [],
+        fieldValidatorKeys: [ 'foo' ]
+      }), true)
+    })
+
+    it('should not validate if field validator keys have not changed', () => {
+      expect(defaultShouldValidate({
+        initialRender: false,
+        structure,
+        values: fromJS({
+          foo: 'fooInitial'
+        }),
+        nextProps: {
+          values: fromJS({
+            foo: 'fooInitial'
+          })
+        },
+        lastFieldValidatorKeys: [ 'foo' ],
+        fieldValidatorKeys: [ 'foo' ]
+      }), false)
+    })
   }
 
-  itValidateChange(plain)
-  itValidateChange(immutable)
+  describeDefaultShouldValidate(plain)
+  describeDefaultShouldValidate(immutable)
 })

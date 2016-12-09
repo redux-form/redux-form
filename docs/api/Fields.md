@@ -44,6 +44,8 @@ to format `Number`s into currencies or `Date`s into a localized date format.
 `format` is called with the field `value` and `name` as arguments and should return the
 new formatted value to be displayed in the field input.
 
+To respect React 15 input behavior there is `defaultFormat = value => value == null ? '' : value` internally used. To disable that you can pass `null` as `format` prop.
+
 #### `props : object` [optional]
 
 Object with custom props to pass through the `Fields` component into a component provided
@@ -146,7 +148,7 @@ For example, if your `names` are `[ 'name.first', 'name.last', 'email' ]`, the `
 ## Props
 
 The props that `Fields` will pass to your component are [the same `input` and `meta` structures 
-that `Field` generates](https://redux-form.com/6.2.0/docs/api/Field.md/#props), except that
+that `Field` generates](https://redux-form.com/6.3.1/docs/api/Field.md/#props), except that
 they are broken up into the structure of the fields you gave as `names`. 
 
 Any additional props that you pass to `Field` will be included at the root of the props structure
