@@ -975,6 +975,40 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].name.input.value).toBe('redux form rocks')
     })
 
+    it('should handle on focus', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            name: 'redux form'
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Fields names={[ 'name' ]} component={input}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].name.meta.visited).toBe(false)
+
+      input.calls[ 0 ].arguments[ 0 ].name.input.onFocus()
+
+      expect(input.calls.length).toBe(2)
+      expect(input.calls[ 1 ].arguments[ 0 ].name.meta.visited).toBe(true)
+    })
+
     it('should parse and format to maintain different type in store', () => {
       const store = makeStore({
         testForm: {
