@@ -16,4 +16,18 @@ describe('#eventMocks', () => {
 
     expect(event.target.value).toEqual('value')
   })
+
+  it('should create a drag start mock', () => {
+    const fn = id => id
+    const event = mocks.dragStartMock(fn)
+
+    expect(event.dataTransfer.setData).toBe(fn)
+  })
+
+  it('should create a drop mock', () => {
+    const fn = id => id
+    const event = mocks.dropMock(fn)
+
+    expect(event.dataTransfer.getData).toBe(fn)
+  })
 })
