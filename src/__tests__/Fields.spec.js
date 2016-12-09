@@ -14,6 +14,7 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
+import { valueMock } from '../util/eventMocks'
 
 const describeFields = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
@@ -841,7 +842,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(inputPair2.calls[ 0 ].arguments[ 0 ].ewe.input.value).toBe('eweValue')
       expect(inputPair2.calls[ 0 ].arguments[ 0 ].fox.input.value).toBe('foxValue')
 
-      inputPair1.calls[ 0 ].arguments[ 0 ].dog.input.onChange('FIDO')
+      inputPair1.calls[ 0 ].arguments[ 0 ].dog.input.onChange(valueMock('FIDO'))
 
       // input pair 1 should be rerendered
       expect(inputPair1.calls.length).toBe(2)

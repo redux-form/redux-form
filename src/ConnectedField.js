@@ -98,7 +98,6 @@ const createConnectedField = ({ deepEqual, getIn }) => {
         name,
         {
           ...rest,
-          name,
           onBlur: this.handleBlur,
           onChange: this.handleChange,
           onDrop: this.handleDrop,
