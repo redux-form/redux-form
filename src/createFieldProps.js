@@ -36,7 +36,6 @@ const createFieldProps = (getIn, name,
   }) => {
   const error = syncError || asyncError || submitError
   const warning = syncWarning
-  const fieldValue = value == null ? '' : value
 
   const formatFieldValue = (value, format) => {
     if (format === null) {
