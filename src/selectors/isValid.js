@@ -3,7 +3,7 @@ import createHasError from '../hasError'
 const createIsValid = structure => {
   const { getIn } = structure
   const hasError = createHasError(structure)
-  return (form, getFormState, ignoreSubmitErrors) =>
+  return (form, getFormState = state => getIn(state, 'form'), ignoreSubmitErrors = false) =>
     state => {
       const formState = getFormState(state)
       const syncError = getIn(formState, `${form}.syncError`)

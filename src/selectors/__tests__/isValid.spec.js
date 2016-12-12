@@ -318,6 +318,12 @@ const describeIsValid = (name, structure, expect) => {
         }
       }))).toBe(false)
     })
+
+    it('should have default getFormState', () => {
+      expect(isValid('foo')(fromJS({
+        form: {}
+      }))).toBe(true)
+    })
   })
 }
 
