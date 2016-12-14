@@ -12,6 +12,9 @@ import createIsDirty from './selectors/isDirty'
 import createIsInvalid from './selectors/isInvalid'
 import createIsPristine from './selectors/isPristine'
 import createIsValid from './selectors/isValid'
+import createIsSubmitting from './selectors/isSubmitting'
+import createHasSubmitSucceeded from './selectors/hasSubmitSucceeded'
+import createHasSubmitFailed from './selectors/hasSubmitFailed'
 import FormSection from './FormSection'
 import SubmissionError from './SubmissionError'
 import propTypes from './propTypes'
@@ -34,6 +37,9 @@ const createAll = structure => ({
   isInvalid: createIsInvalid(structure),
   isPristine: createIsPristine(structure),
   isValid: createIsValid(structure),
+  isSubmitting: createIsSubmitting(structure),
+  hasSubmitSucceeded: createHasSubmitSucceeded(structure),
+  hasSubmitFailed: createHasSubmitFailed(structure),
   propTypes,
   reduxForm: createReduxForm(structure),
   reducer: createReducer(structure),
