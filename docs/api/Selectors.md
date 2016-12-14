@@ -17,7 +17,10 @@ import {
   isDirty,
   isPristine,
   isValid,
-  isInvalid
+  isInvalid,
+  isSubmitting,
+  hasSubmitSucceeded,
+  hasSubmitFailed
 } from 'redux-form'
 
 MyComponent = connect(
@@ -28,7 +31,10 @@ MyComponent = connect(
     dirty: isDirty('myForm')(state),
     pristine: isPristine('myForm')(state),
     valid: isValid('myForm')(state),
-    invalid: isInvalid('myForm')(state)
+    invalid: isInvalid('myForm')(state),
+    submitting: isSubmitting('myForm')(state),
+    submitSucceeded: hasSubmitSucceeded('myForm')(state),
+    submitFailed: hasSubmitFailed('myForm')(state)
   })
 )(MyComponent)
 ```
@@ -66,3 +72,15 @@ of `isInvalid`.
 
 > Returns `true` if the form is invalid, i.e. has sync, async, or submission errors. The opposite
 of `isValid`.
+
+### `isSubmitting(formName:String)` returns `(state) => submitting:boolean`
+
+> Returns `true` if the form is submitting.
+
+### `hasSubmitSucceeded(formName:String)` returns `(state) => submitSucceeded:boolean`
+
+> Returns `true` if the form has previously been successfully submitted.
+
+### `hasSubmitFailed(formName:String)` returns `(state) => submitFailed:boolean`
+
+> Returns `true` if the form has previously failed to submit.
