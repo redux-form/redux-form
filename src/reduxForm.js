@@ -525,7 +525,7 @@ const createReduxForm =
             const { form, getFormState, initialValues, enableReinitialize, keepDirtyOnReinitialize } = props
             const formState = getIn(getFormState(state) || empty, form) || empty
             const stateInitial = getIn(formState, 'initial')
-            const initialized = !!stateInitial;
+            const initialized = !!stateInitial
 
             const shouldUpdateInitialValues = enableReinitialize && initialized && !deepEqual(initialValues, stateInitial)
             const shouldResetValues = shouldUpdateInitialValues && !keepDirtyOnReinitialize
