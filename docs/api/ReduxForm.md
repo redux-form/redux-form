@@ -58,6 +58,10 @@ component is unmounted. Defaults to `true`.
 Defaults to `false`.  If the `keepDirtyOnReinitialize` option is also set, the form
 will retain the value of dirty fields when reinitializing.
 
+#### `forceUnregisterOnUnmount : boolean` [optional]
+
+> Whether or not to force unregistration of fields -- use in conjunction with `destroyOnUnmount`. Useful for wizard-type forms where you want to destroy fields as they unmount, but not the form's state. Defaults to `false`, as forms are normally unregistered on unmount. 
+
 #### `getFormState : Function` [optional]
 
 > A function that takes the entire Redux state and returns the state slice which corresponds to
