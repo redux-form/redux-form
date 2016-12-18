@@ -91,6 +91,7 @@ const createReduxForm =
         keepDirtyOnReinitialize: false,
         getFormState: state => getIn(state, 'form'),
         pure: true,
+        forceUnregisterOnUnmount: false,
         ...initialConfig
       }
 
@@ -285,7 +286,7 @@ const createReduxForm =
           }
 
           unregister(name) {
-            if (this.props.destroyOnUnmount && !this.destroyed && (!this.unmounted || !instances)) {
+            if ((this.props.destroyOnUnmount || this.props.forceUnregisterOnUnmount) && !this.destroyed && (!this.unmounted || !instances)) {
               this.props.unregisterField(name)
               delete this.fieldValidators[ name ]
               delete this.fieldWarners[ name ]
@@ -418,6 +419,7 @@ const createReduxForm =
               change,
               destroy,
               destroyOnUnmount,
+              forceUnregisterOnUnmount,
               dirty,
               dispatch,
               enableReinitialize,
@@ -505,6 +507,7 @@ const createReduxForm =
         }
         Form.propTypes = {
           destroyOnUnmount: PropTypes.bool,
+          forceUnregisterOnUnmount: PropTypes.bool,
           form: PropTypes.string.isRequired,
           initialValues: PropTypes.object,
           getFormState: PropTypes.func,
