@@ -2809,7 +2809,7 @@ describe('createReduxForm', () => {
 
     expect(() => decorated.someInstanceMethod()).toThrow();
     expect(decorated.getWrappedInstance().someInstanceMethod()).toBe(someData);
-    expect(decorated.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.someInstanceMethod()).toBe(someData);
+    expect(decorated.refs.wrappedInstance.refs.wrappedInstance.getWrappedInstance().refs.wrappedInstance.someInstanceMethod()).toBe(someData);
   });
 
   it('should change nested fields', () => {

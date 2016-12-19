@@ -32,7 +32,7 @@ const createReduxForm =
               `To access the wrapped instance, you need to specify ` +
               `{ withRef: true } as the fourth argument of the connect() call.`
             );
-            return this.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance.refs.wrappedInstance;
+            return this.refs.wrappedInstance.refs.wrappedInstance.getWrappedInstance().refs.wrappedInstance;
           }
 
           handleSubmitPassback(submit) {
