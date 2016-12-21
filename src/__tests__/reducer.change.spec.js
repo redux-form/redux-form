@@ -213,7 +213,7 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       })
   })
   
-  it('should set value on change and remove field-level submit and async errors', () => {
+  it("shouldn't fail on submitError for array", () => {
     const state = reducer(fromJS({
       foo: {
         values: {
