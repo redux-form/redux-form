@@ -16,7 +16,7 @@ const deleteInWithPath = (state, first, ...rest) => {
       }
       return state
     }
-    if (first in state) {
+    if (typeof state === 'object' && first in state) {
       const result = deleteInWithPath(state && state[ first ], ...rest)
       return state[ first ] === result ? state : {
         ...state,
