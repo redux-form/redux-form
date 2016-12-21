@@ -2902,7 +2902,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should not call async validate if shouldAsyncValidate returns false', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const asyncValidate = createSpy().andReturn(Promise.reject({ foo: 'bad user!' }))
+      const asyncValidate = createSpy(() => Promise.reject({ foo: 'bad user!' }))
       const shouldAsyncValidate = createSpy().andReturn(false)
 
       const Form = () =>

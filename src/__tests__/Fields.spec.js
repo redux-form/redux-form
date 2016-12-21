@@ -1134,12 +1134,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // update username field so it passes
       usernameInput.calls[ 0 ].arguments[ 0 ].username.input.onChange('erikras')
 
-      // username input rerendered twice, once for value, once for sync error
-      expect(usernameInput.calls.length).toBe(3)
+      // username input rerendered
+      expect(usernameInput.calls.length).toBe(2)
 
       // should be valid now
-      expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.valid).toBe(true)
-      expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.error).toBe(undefined)
+      expect(usernameInput.calls[ 1 ].arguments[ 0 ].username.meta.valid).toBe(true)
+      expect(usernameInput.calls[ 1 ].arguments[ 0 ].username.meta.error).toBe(undefined)
     })
 
     it('should rerender when sync warning changes', () => {
@@ -1230,11 +1230,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // update username field so it passes
       usernameInput.calls[ 0 ].arguments[ 0 ].username.input.onChange('erikras')
 
-      // username input rerendered twice, once for value, once for sync warning
-      expect(usernameInput.calls.length).toBe(3)
+      // username input rerendered
+      expect(usernameInput.calls.length).toBe(2)
 
       // should be valid now
-      expect(usernameInput.calls[ 2 ].arguments[ 0 ].username.meta.warning).toBe(undefined)
+      expect(usernameInput.calls[ 1 ].arguments[ 0 ].username.meta.warning).toBe(undefined)
     })
 
     it('should provide correct prop structure', () => {

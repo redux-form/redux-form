@@ -712,12 +712,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
 
-      expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      // should validate twice, once for new field, and again to validate new field
+      expect(noMoreThanTwo.calls.length).toBe(3)
+      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
 
-      expect(renderArray.calls.length).toBe(3)
-      expect(renderArray.calls[ 2 ].arguments[ 0 ].meta.valid).toBe(false)
-      expect(renderArray.calls[ 2 ].arguments[ 0 ].meta.error).toBe('Too many')
+      // should rerender
+      expect(renderArray.calls.length).toBe(2)
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(false)
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.error).toBe('Too many')
     })
 
     it('should provide field-level sync warning for array field', () => {
@@ -764,12 +766,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
 
-      expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      // should validate twice, once for new field, and again to validate new field
+      expect(noMoreThanTwo.calls.length).toBe(3)
+      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
 
-      expect(renderArray.calls.length).toBe(3)
-      expect(renderArray.calls[ 2 ].arguments[ 0 ].meta.valid).toBe(true) // just a warning
-      expect(renderArray.calls[ 2 ].arguments[ 0 ].meta.warning).toBe('Too many')
+      // should rerender
+      expect(renderArray.calls.length).toBe(2)
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(true) // just a warning
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.warning).toBe('Too many')
     })
 
     it('should reconnect when props change', () => {
