@@ -179,9 +179,9 @@ const createReduxForm =
               if (shouldValidateResult) {
                 const propsToValidate = initialRender ? this.props : nextProps
                 const { _error, ...nextSyncErrors } = merge(
-                  validate ? validate(propsToValidate.values, propsToValidate) : {},
+                  validate ? validate(propsToValidate.values, propsToValidate) || {} : {},
                   fieldLevelValidate ?
-                    fieldLevelValidate(propsToValidate.values, propsToValidate) : {}
+                    fieldLevelValidate(propsToValidate.values, propsToValidate) || {} : {}
                 )
                 this.lastFieldValidatorKeys = fieldValidatorKeys
                 this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
