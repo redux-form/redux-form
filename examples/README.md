@@ -37,7 +37,7 @@ browser to view the example running locally on your machine.
 
 ---
 
-### [Field-Level Validation](syncValidation)
+### [Field-Level Validation](fieldLevelValidation)
 
 > How to add field-level client-side validation to your form.
 
