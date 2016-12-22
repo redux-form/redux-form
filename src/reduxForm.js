@@ -126,7 +126,8 @@ const createReduxForm =
                 getValues: this.getValues,
                 sectionPrefix: undefined,
                 register: this.register,
-                unregister: this.unregister
+                unregister: this.unregister,
+                registerInnerOnSubmit: innerOnSubmit => this.innerOnSubmit = innerOnSubmit
               }
             }
           }
@@ -381,7 +382,7 @@ const createReduxForm =
             if (!submitOrEvent || silenceEvent(submitOrEvent)) {
               // submitOrEvent is an event: fire submit if not already submitting
               if (!this.submitPromise) {
-                return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
+                return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit || this.innerOnSubmit),
                   this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
               }
             } else {
