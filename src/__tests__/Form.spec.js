@@ -128,7 +128,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
         }
       }
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm/>
         </Provider>
