@@ -2,6 +2,8 @@ import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
+import onChangeValue from './events/onChangeValue'
+import { dataKey } from './util/eventConsts'
 
 const propsToNotUpdateFor = [
   '_reduxForm'
@@ -24,6 +26,16 @@ const createConnectedField = ({ deepEqual, getIn }) => {
   }
 
   class ConnectedField extends Component {
+    constructor(props) {
+      super(props)
+
+      this.handleChange = this.handleChange.bind(this)
+      this.handleFocus = this.handleFocus.bind(this)
+      this.handleBlur = this.handleBlur.bind(this)
+      this.handleDragStart = this.handleDragStart.bind(this)
+      this.handleDrop = this.handleDrop.bind(this)
+    }
+
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
@@ -44,19 +56,54 @@ const createConnectedField = ({ deepEqual, getIn }) => {
       return this.refs.renderedComponent
     }
 
+    handleChange(event) {
+      const { name, dispatch, parse, normalize, _reduxForm } = this.props
+      const value = onChangeValue(event, { name, parse, normalize })
+
+      dispatch(_reduxForm.change(name, value))
+    }
+
+    handleFocus() {
+      const { name, dispatch, _reduxForm } = this.props
+      dispatch(_reduxForm.focus(name))
+    }
+
+    handleBlur(event) {
+      const { name, dispatch, parse, normalize, _reduxForm } = this.props
+      const value = onChangeValue(event, { name, parse, normalize })
+
+      // dispatch blur action
+      dispatch(_reduxForm.blur(name, value))
+
+      // call post-blur callback
+      if (_reduxForm.asyncValidate) {
+        _reduxForm.asyncValidate(name, value)
+      }
+    }
+
+    handleDragStart(event) {
+      const { value } = this.props
+      event.dataTransfer.setData(dataKey, value == null ? '' : value)
+    }
+
+    handleDrop(event) {
+      const { name, dispatch, _reduxForm } = this.props
+      dispatch(_reduxForm.change(name, event.dataTransfer.getData(dataKey)))
+      event.preventDefault()
+    }
+
     render() {
-      const { component, withRef, name, _reduxForm, ...rest } = this.props
-      const { asyncValidate, blur, change, focus } = _reduxForm
+      const { component, withRef, name, ...rest } = this.props
       const { custom, ...props } = createFieldProps(getIn,
         name,
         {
           ...rest,
-          name,
-          blur,
-          change,
-          focus
-        },
-        asyncValidate
+          onBlur: this.handleBlur,
+          onChange: this.handleChange,
+          onDrop: this.handleDrop,
+          onDragStart: this.handleDragStart,
+          onFocus: this.handleFocus
+        }
       )
       if (withRef) {
         custom.ref = 'renderedComponent'
