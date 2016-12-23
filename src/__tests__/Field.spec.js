@@ -579,7 +579,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore()
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
+          return (<FormSection name="foo" component="span">
             <Field name="bar" component="input"/>
           </FormSection>)
         }

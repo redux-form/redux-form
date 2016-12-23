@@ -9,6 +9,15 @@ It does this by prefixing the name of `Field`, `Fields` and `FieldArray` childre
 
 > The name all child fields should be prefixed with. 
 
+### `component : String | Component` [optional]
+
+> If you give `FormSection` more than one child element, it will be forced to create a component
+to wrap them with. You can specify what type of component you would like it to be (`div`,
+`section`, `span`). Defaults to `'div'`.
+
+> Note that any additional props (e.g. 'className', 'style') that you pass to `FormSection` will be
+passed along to the wrapper component.
+
 ## Example usage
 
 An example use case for `FormSection` is an order form where it's possible to have enter the details of a buyer and a separate recipient.
