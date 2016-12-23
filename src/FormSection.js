@@ -20,18 +20,19 @@ class FormSection extends Component {
   }
 
   render() {
-    const { children } = this.props
+    const { className, children } = this.props
 
     if (React.isValidElement(children)) {
       return children
     }
 
-    return <div>{children}</div>
+    return <div className={className}>{children}</div>
   }
 }
 
 FormSection.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  className: PropTypes.string,
 }
 
 FormSection.childContextTypes = {
