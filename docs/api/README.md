@@ -55,6 +55,23 @@
 
 ---
 
+## [`FormSection`](FormSection.md)
+
+> The component needed to prefix the names of a group of fields.
+
+> [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/FormSection.js)
+
+---
+
+## [`Form`](Form.md)
+
+> A simple wrapper for the React `<form>` component that allows
+the surrounding `redux-form`-decorated component to trigger its `onSubmit` function.
+
+> [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Form.js)
+
+---
+
 ## [`formValueSelector(form:String, [getFormState:Function])`](FormValueSelector.md)
 
 > Creates a selector for use in `connect()`ing to form values in the Redux store.

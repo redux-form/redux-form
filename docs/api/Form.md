@@ -9,8 +9,8 @@ It is only useful if you are:
   `onSubmit={this.props.handleSubmit(this.mySubmitFunction)}` to your `<form>`
   component
 - **AND EITHER:**
-  - initiating your submission via the [`submit()` Instance API](http://redux-form.com/6.3.1/docs/api/ReduxForm.md/#-submit-promise-) (i.e. calling it directly on a reference to your decorated form component)
-  - initiating your submission by [dispatching the `submit(form)` action](http://redux-form.com/6.3.1/examples/remoteSubmit/)
+  - initiating your submission via the [`submit()` Instance API](http://redux-form.com/6.4.0/docs/api/ReduxForm.md/#-submit-promise-) (i.e. calling it directly on a reference to your decorated form component)
+  - initiating your submission by [dispatching the `submit(form)` action](http://redux-form.com/6.4.0/examples/remoteSubmit/)
 
 If you are passing in your `onSubmit` function as a config parameter or prop, this component will do nothing for you.
 
