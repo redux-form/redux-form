@@ -16,6 +16,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
         result = submit(values, dispatch, props)
       } catch (submitError) {
         const error = submitError instanceof SubmissionError ? submitError.errors : undefined
+        stopSubmit(error)
         setSubmitFailed(...fields)
         if (onSubmitFail) {
           onSubmitFail(error, dispatch, submitError)

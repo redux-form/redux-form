@@ -14,6 +14,7 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
+import SubmissionError from '../SubmissionError'
 import { submit } from '../actions'
 
 const describeForm = (name, structure, combineReducers, expect) => {
@@ -80,11 +81,11 @@ const describeForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const onSubmit = createSpy()
+      const onSubmit = createSpy().andReturn(7)
       class TestForm extends Component {
         render() {
           return (
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={this.props.handleSubmit(onSubmit)}>
               <Field name="foo" component="input"/>
             </Form>
           )
@@ -102,7 +103,8 @@ const describeForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toNotHaveBeenCalled()
 
-      decoratedForm.submit()
+      const result = decoratedForm.submit()
+      expect(result).toBe(7)
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
@@ -121,7 +123,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
       class TestForm extends Component {
         render() {
           return (
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={this.props.handleSubmit(onSubmit)}>
               <Field name="foo" component="input"/>
             </Form>
           )
@@ -141,6 +143,50 @@ const describeForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
       expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
+    })
+
+    it('should properly handle submission errors', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: 42
+          }
+        }
+      })
+      const onSubmit = createSpy().andThrow(new SubmissionError({ _error: 'Invalid' }))
+      const formRender = createSpy()
+      class TestForm extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <Form onSubmit={this.props.handleSubmit(onSubmit)}>
+              <Field name="foo" component="input"/>
+            </Form>
+          )
+        }
+      }
+      const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <DecoratedTestForm/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      const decoratedForm = TestUtils.findRenderedComponentWithType(dom, DecoratedTestForm)
+
+      expect(onSubmit).toNotHaveBeenCalled()
+
+      decoratedForm.submit()
+
+      expect(onSubmit).toHaveBeenCalled()
+      expect(onSubmit.calls.length).toBe(1)
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
+
+      expect(formRender.calls.length).toBe(3)
+      expect(formRender.calls[2].arguments[0].error).toBe('Invalid')
     })
   })
 }

@@ -182,7 +182,7 @@ const createReduxForm =
                 const { _error, ...nextSyncErrors } = merge(
                   validate ? validate(propsToValidate.values, propsToValidate) || {} : {},
                   fieldLevelValidate ?
-                    fieldLevelValidate(propsToValidate.values, propsToValidate) || {} : {}
+                  fieldLevelValidate(propsToValidate.values, propsToValidate) || {} : {}
                 )
                 this.lastFieldValidatorKeys = fieldValidatorKeys
                 this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
@@ -341,13 +341,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                asyncErrors,
-                initialized,
-                trigger: submitting ? 'submit' : 'blur',
-                blurredField: name,
-                pristine,
-                syncValidationPasses
-              })) {
+                  asyncErrors,
+                  initialized,
+                  trigger: submitting ? 'submit' : 'blur',
+                  blurredField: name,
+                  pristine,
+                  syncValidationPasses
+                })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props, name),
                   startAsyncValidation,
@@ -382,15 +382,21 @@ const createReduxForm =
             if (!submitOrEvent || silenceEvent(submitOrEvent)) {
               // submitOrEvent is an event: fire submit if not already submitting
               if (!this.submitPromise) {
-                return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit || this.innerOnSubmit),
-                  this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
+                if (this.innerOnSubmit) {
+                  // will call "submitOrEvent is the submit function" block below
+                  return this.innerOnSubmit()
+                } else {
+                  return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
+                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
+                }
               }
             } else {
               // submitOrEvent is the submit function: return deferred submit thunk
-              return silenceEvents(() =>
-              !this.submitPromise &&
-              this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
-                this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList())))
+              return silenceEvents(() => {
+                return !this.submitPromise &&
+                  this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
+                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
+              })
             }
           }
 
