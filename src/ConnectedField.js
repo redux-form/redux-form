@@ -93,7 +93,15 @@ const createConnectedField = ({ deepEqual, getIn }) => {
     }
 
     render() {
-      const { component, withRef, name, ...rest } = this.props
+      const {
+        component,
+        withRef,
+        name,
+        // remove props that are part of redux internals:
+        _reduxForm, // eslint-disable-line no-unused-vars
+        normalize,  // eslint-disable-line no-unused-vars
+        ...rest
+      } = this.props
       const { custom, ...props } = createFieldProps(getIn,
         name,
         {

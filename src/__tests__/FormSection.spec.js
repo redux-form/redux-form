@@ -37,7 +37,6 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       }).toThrow(/must be inside a component decorated with reduxForm/)
     })
 
-
     it('should not wrap in unnecessary div', () => {
       const store = makeStore({
         testForm: {
@@ -67,6 +66,48 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       const divTags = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'div')
 
       expect(divTags.length).toEqual(0)
+    })
+
+    it('should pass along unused props to div', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: {
+              bar: '42'
+            }
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return (
+            <FormSection name="foo"
+              component="section"
+              className="form-section"
+              style={{ fontWeight: 'bold' }}>
+              <Field name="bar" component="input"/>
+              <Field name="baz" component="input"/>
+            </FormSection>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      const section = TestUtils.findRenderedDOMComponentWithTag(dom, 'section')
+
+      // 🤢 This line is DISGUSTING!! Is there a better way to get the props on the <section> ??
+      const props = section[Object.keys(section)[0]]._currentElement.props
+
+      expect(props.name).toNotExist()
+      expect(props.component).toNotExist()
+      expect(props.className).toBe('form-section')
+      expect(props.style).toExist()
+      expect(props.style.fontWeight).toBe('bold')
     })
 
 
