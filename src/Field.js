@@ -5,11 +5,12 @@ import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 
 
-const createField = ({ deepEqual, getIn, setIn }) => {
+const createField = ({ deepEqual, getIn, setIn, toJS }) => {
 
   const ConnectedField = createConnectedField({
     deepEqual,
-    getIn
+    getIn,
+    toJS
   })
 
   class Field extends Component {

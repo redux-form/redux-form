@@ -9,7 +9,7 @@ const propsToNotUpdateFor = [
   '_reduxForm'
 ]
 
-const createConnectedField = ({ deepEqual, getIn }) => {
+const createConnectedField = ({ deepEqual, getIn, toJS }) => {
 
   const getSyncError = (syncErrors, name) => {
     const error = plain.getIn(syncErrors, name)
@@ -102,7 +102,7 @@ const createConnectedField = ({ deepEqual, getIn }) => {
         normalize,  // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
-      const { custom, ...props } = createFieldProps(getIn,
+      const { custom, ...props } = createFieldProps({ getIn, toJS },
         name,
         {
           ...rest,

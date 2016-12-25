@@ -15,7 +15,8 @@ const structure = {
   fromJS: value => value,
   size: array => array ? array.length : 0,
   some,
-  splice
+  splice,
+  toJS: value => value
 }
 
 export default structure
