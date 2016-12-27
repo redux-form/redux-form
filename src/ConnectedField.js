@@ -149,6 +149,7 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
         pristine,
         state: getIn(formState, `fields.${name}`),
         submitError: getIn(formState, `submitErrors.${name}`),
+        submitFailed: getIn(formState, 'submitFailed'),
         submitting,
         syncError,
         syncWarning,

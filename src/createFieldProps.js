@@ -31,7 +31,7 @@ const processProps = (type, props, _value) => {
 const createFieldProps = ({ getIn, toJS }, name,
   {
     asyncError, asyncValidating, onBlur, onChange, onDrop, onDragStart, dirty, dispatch, onFocus, format,
-    pristine, props, state, submitError, submitting, value,
+    pristine, props, state, submitError, submitFailed, submitting, value,
     _value, syncError, syncWarning, ...custom
   }) => {
   const error = syncError || asyncError || submitError
@@ -69,6 +69,7 @@ const createFieldProps = ({ getIn, toJS }, name,
       invalid: !!error,
       pristine,
       submitting: !!submitting,
+      submitFailed: !!submitFailed,
       touched: !!(state && getIn(state, 'touched')),
       valid: !error,
       visited: !!(state && getIn(state, 'visited'))
