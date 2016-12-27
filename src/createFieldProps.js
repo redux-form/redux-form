@@ -28,7 +28,7 @@ const processProps = (type, props, _value) => {
   return props
 }
 
-const createFieldProps = (getIn, name,
+const createFieldProps = ({ getIn, toJS }, name,
   {
     asyncError, asyncValidating, onBlur, onChange, onDrop, onDragStart, dirty, dispatch, onFocus, format,
     pristine, props, state, submitError, submitting, value,
@@ -58,7 +58,7 @@ const createFieldProps = (getIn, name,
       value: formattedFieldValue
     }, _value),
     meta: {
-      ...state,
+      ...toJS(state),
       active: !!(state && getIn(state, 'active')),
       asyncValidating,
       autofilled: !!(state && getIn(state, 'autofilled')),
