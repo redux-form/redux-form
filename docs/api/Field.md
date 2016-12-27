@@ -313,6 +313,10 @@ tracking for you.
 
 > `true` if the field is currently being submitted
 
+#### `meta.submitFailed : boolean`
+
+> `true` if the form had `onSubmit` called and failed to submit _for any reason_. A subsequent successful submit will set it back to false.
+
 #### `meta.touched : boolean`
 
 > `true` if the field has been touched. By default this will be set when the field is blurred.
