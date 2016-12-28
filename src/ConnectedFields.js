@@ -8,7 +8,7 @@ const propsToNotUpdateFor = [
   '_reduxForm'
 ]
 
-const createConnectedFields = ({ deepEqual, getIn }) => {
+const createConnectedFields = ({ deepEqual, getIn, toJS }) => {
 
   const getSyncError = (syncErrors, name) => {
     const error = plain.getIn(syncErrors, name)
@@ -98,7 +98,7 @@ const createConnectedFields = ({ deepEqual, getIn }) => {
       const { sectionPrefix } = _reduxForm
       const { custom, ...props } = Object.keys(_fields).reduce((accumulator, name) => {
         const connectedProps = _fields[ name ]
-        const { custom, ...fieldProps } = createFieldProps(getIn,
+        const { custom, ...fieldProps } = createFieldProps({ getIn, toJS },
           name,
           {
             ...connectedProps,
