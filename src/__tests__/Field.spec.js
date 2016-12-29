@@ -900,7 +900,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <Field name="title" component={renderTitle} />
+            <Field name="title" component={renderTitle}/>
           )
         }
       }
@@ -931,7 +931,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <Field name="title" component={renderTitle} />
+            <Field name="title" component={renderTitle}/>
           )
         }
       }
@@ -963,7 +963,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <Field name="title" component={renderTitle} />
+            <Field name="title" component={renderTitle}/>
           )
         }
       }
@@ -996,7 +996,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <Field name="title" component={renderTitle} />
+            <Field name="title" component={renderTitle}/>
           )
         }
       }
@@ -1472,6 +1472,48 @@ const describeField = (name, structure, combineReducers, expect) => {
       // should be valid now
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].meta.valid).toBe(true)
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].meta.warning).toBe(undefined)
+    })
+
+    it('should not generate any warnings by passing api props into custom', () => {
+      const store = makeStore()
+      const renderSpy = createSpy()
+      class InputComponent extends Component {
+        render() {
+          renderSpy(this.props)
+          return <input {...this.props.input}/>
+        }
+      }
+      const apiProps = {
+        // all the official API props you can pass to Field
+        component: InputComponent,
+        name: 'foo',
+        normalize: x => x,
+        parse: x => x,
+        props: {},
+        format: x => x,
+        validate: () => undefined,
+        warn: () => undefined,
+        withRef: true
+      }
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Field {...apiProps}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(renderSpy).toHaveBeenCalled()
+      const props = renderSpy.calls[0].arguments[0]
+      Object.keys(apiProps).forEach(key => expect(props[key]).toNotExist())
     })
   })
 }
