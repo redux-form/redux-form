@@ -30,9 +30,29 @@ const processProps = (type, props, _value) => {
 
 const createFieldProps = ({ getIn, toJS }, name,
   {
-    asyncError, asyncValidating, onBlur, onChange, onDrop, onDragStart, dirty, dispatch, onFocus, format,
-    pristine, props, state, submitError, submitting, value,
-    _value, syncError, syncWarning, ...custom
+    asyncError,
+    asyncValidating,
+    onBlur,
+    onChange,
+    onDrop,
+    onDragStart,
+    dirty,
+    dispatch,
+    onFocus,
+    format,
+    parse,  // eslint-disable-line no-unused-vars
+    pristine,
+    props,
+    state,
+    submitError,
+    submitting,
+    syncError,
+    syncWarning,
+    validate,  // eslint-disable-line no-unused-vars
+    value,
+    _value,
+    warn,  // eslint-disable-line no-unused-vars
+    ...custom
   }) => {
   const error = syncError || asyncError || submitError
   const warning = syncWarning
