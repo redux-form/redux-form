@@ -212,9 +212,9 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
-  
+
   it("shouldn't fail on submitError for array", () => {
-    const state = reducer(fromJS({
+    const plainJs = {
       foo: {
         values: {
           myField: 'initial'
@@ -223,18 +223,32 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
           myField: 'async error'
         },
         submitErrors: {
-          fieldArray: 'submit error'
+          fieldArray: []
         },
         error: 'some global error'
       }
-    }), change('foo', 'fieldArray[0].Text', 'different', false))
+    }
+    plainJs.foo.submitErrors.fieldArray._error = 'submit error'
+    const state = reducer(fromJS(plainJs),
+      change('foo', 'fieldArray[0].Text', 'different', false))
     expect(state)
       .toEqualMap({
         foo: {
-          values: {
-            myField: 'different'
+          asyncErrors: {
+            myField: 'async error'
           },
-          error: 'some global error'
+          error: 'some global error',
+          submitErrors: {
+            fieldArray: []
+          },
+          values: {
+            fieldArray: [
+              {
+                Text: 'different'
+              }
+            ],
+            myField: 'initial'
+          }
         }
       })
   })
