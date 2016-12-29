@@ -7,6 +7,7 @@ import createFormValueSelector from './formValueSelector'
 import createValues from './values'
 import createGetFormValues from './selectors/getFormValues'
 import createGetFormSyncErrors from './selectors/getFormSyncErrors'
+import createGetFormAsyncErrors from './selectors/getFormAsyncErrors'
 import createGetFormSubmitErrors from './selectors/getFormSubmitErrors'
 import createIsDirty from './selectors/isDirty'
 import createIsInvalid from './selectors/isInvalid'
@@ -34,6 +35,7 @@ const createAll = structure => ({
   formValueSelector: createFormValueSelector(structure),
   getFormValues: createGetFormValues(structure),
   getFormSyncErrors: createGetFormSyncErrors(structure),
+  getFormAsyncErrors: createGetFormAsyncErrors(structure),
   getFormSubmitErrors: createGetFormSubmitErrors(structure),
   isDirty: createIsDirty(structure),
   isInvalid: createIsInvalid(structure),
