@@ -94,6 +94,18 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(submittingResult.meta.submitting).toBe(true)
     })
 
+    it('should pass along submitFailed flag', () => {
+      const notFailedResult = createFieldProps({ getIn, toJS }, 'foo', {
+        value: 'bar'
+      })
+      expect(notFailedResult.meta.submitFailed).toBe(false)
+      const failedResult = createFieldProps({ getIn, toJS }, 'foo', {
+        value: 'bar',
+        submitFailed: true
+      })
+      expect(failedResult.meta.submitFailed).toBe(true)
+    })
+
     it('should pass along all custom state props', () => {
       const pristineResult = createFieldProps({ getIn, toJS }, 'foo', {
         value: 'bar'
