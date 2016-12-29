@@ -273,6 +273,13 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props.meta.error).toBe('foo error')
     })
 
+    it('should get submitFailed prop from Redux state', () => {
+      const props = testProps({
+        submitFailed: true
+      })
+      expect(props.meta.submitFailed).toBe(true)
+    })
+
     it('should provide meta.dispatch', () => {
       const props = testProps({})
       expect(props.meta.dispatch)
