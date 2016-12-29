@@ -1570,6 +1570,49 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('firstValue')
       expect(renderField.calls[ 1 ].arguments[ 0 ].input.value).toBe('secondValue')
     })
+
+    it('should get() actual current value from redux store', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            dogs: [ 'Fido', 'Snoopy' ]
+          }
+        }
+      })
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // field array rendered
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
+      expect(renderFieldArray.calls[0].arguments[0].fields.get(0)).toBe('Fido')
+
+      // change first field
+      renderField.calls[ 0 ].arguments[ 0 ].input.onChange('Odie')
+
+      // field array NOT rerendered
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
+
+      // but get() should get the new value
+      expect(renderFieldArray.calls[0].arguments[0].fields.get(0)).toBe('Odie')
+    })
   })
 }
 
