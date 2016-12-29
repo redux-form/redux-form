@@ -1473,6 +1473,32 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].meta.valid).toBe(true)
       expect(usernameInput.calls[ 2 ].arguments[ 0 ].meta.warning).toBe(undefined)
     })
+
+    it('should pass `name` along to underlying component', () => {
+      const store = makeStore()
+      const usernameInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Field name="username" component={usernameInput}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // username input rendered
+      expect(usernameInput).toHaveBeenCalled()
+
+      // username field got name
+      expect(usernameInput.calls[ 0 ].arguments[ 0 ].name).toBe('username')
+    })
   })
 }
 
