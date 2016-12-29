@@ -212,6 +212,32 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+  
+  it("shouldn't fail on submitError for array", () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: 'initial'
+        },
+        asyncErrors: {
+          myField: 'async error'
+        },
+        submitErrors: {
+          fieldArray: 'submit error'
+        },
+        error: 'some global error'
+      }
+    }), change('foo', 'fieldArray[0].Text', 'different', false))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            myField: 'different'
+          },
+          error: 'some global error'
+        }
+      })
+  })
 
   it('should NOT remove field-level submit errors and global errors if persistentSubmitErrors is enabled', () => {
     const state = reducer(fromJS({
