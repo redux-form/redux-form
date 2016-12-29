@@ -8,83 +8,83 @@ import addExpectations from './addExpectations'
 
 const describeCreateFieldProps = (name, structure, expect) => {
   const { fromJS, getIn, size } = structure
-  const defaultProps = [ getIn, 'foo' ]
+  const defaultParams = [ getIn, 'foo', () => 69 ]
 
   describe(name, () => {
     it('should pass props through', () => {
-      expect(createFieldArrayProps(...defaultProps, { otherProp: 'hello' }).otherProp).toBe('hello')
+      expect(createFieldArrayProps(...defaultParams, { otherProp: 'hello' }).otherProp).toBe('hello')
     })
 
     it('should pass props through using props prop', () => {
-      expect(createFieldArrayProps(...defaultProps, { props: { otherProp: 'hello' } }).otherProp).toBe('hello')
+      expect(createFieldArrayProps(...defaultParams, { props: { otherProp: 'hello' } }).otherProp).toBe('hello')
     })
 
     it('should pass dirty/pristine through', () => {
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         dirty: false,
         pristine: true
       }).meta.dirty).toBe(false)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         dirty: false,
         pristine: true
       }).meta.pristine).toBe(true)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         dirty: true,
         pristine: false
       }).meta.dirty).toBe(true)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         dirty: true,
         pristine: false
       }).meta.pristine).toBe(false)
     })
 
     it('should provide length', () => {
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         value: fromJS([]),
         length: 0
       }).fields.length).toBe(0)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a' ]),
         length: 1
       }).fields.length).toBe(1)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b' ]),
         length: 2
       }).fields.length).toBe(2)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ]),
         length: 3
       }).fields.length).toBe(3)
     })
 
     it('should provide errors', () => {
-      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.error).toBe('Sync Error')
-      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.valid).toBe(false)
-      expect(createFieldArrayProps(...defaultProps, { syncError: 'Sync Error' }).meta.invalid).toBe(true)
-      expect(createFieldArrayProps(...defaultProps, { syncWarning: 'Sync Warning' }).meta.warning).toBe('Sync Warning')
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, { syncError: 'Sync Error' }).meta.error).toBe('Sync Error')
+      expect(createFieldArrayProps(...defaultParams, { syncError: 'Sync Error' }).meta.valid).toBe(false)
+      expect(createFieldArrayProps(...defaultParams, { syncError: 'Sync Error' }).meta.invalid).toBe(true)
+      expect(createFieldArrayProps(...defaultParams, { syncWarning: 'Sync Warning' }).meta.warning).toBe('Sync Warning')
+      expect(createFieldArrayProps(...defaultParams, {
         asyncError: 'Async Error'
       }).meta.error).toBe('Async Error')
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         asyncError: 'Async Error'
       }).meta.valid).toBe(false)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         asyncError: 'Async Error'
       }).meta.invalid).toBe(true)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         submitError: 'Submit Error'
       }).meta.error).toBe('Submit Error')
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         submitError: 'Submit Error'
       }).meta.valid).toBe(false)
-      expect(createFieldArrayProps(...defaultProps, {
+      expect(createFieldArrayProps(...defaultParams, {
         submitError: 'Submit Error'
       }).meta.invalid).toBe(true)
     })
 
     it('should provide move', () => {
       const arrayMove = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ]),
         arrayMove
       })
@@ -98,7 +98,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide push', () => {
       const arrayPush = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b' ]),
         arrayPush
       })
@@ -112,7 +112,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide pop', () => {
       const arrayPop = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ]),
         length: 3,
         arrayPop
@@ -127,7 +127,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide insert', () => {
       const arrayInsert = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b' ]),
         arrayInsert
       })
@@ -141,7 +141,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide remove', () => {
       const arrayRemove = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b' ]),
         arrayRemove
       })
@@ -155,7 +155,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide removeAll', () => {
       const arrayRemoveAll = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b' ]),
         arrayRemoveAll
       })
@@ -169,7 +169,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide unshift', () => {
       const arrayUnshift = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b' ]),
         arrayUnshift
       })
@@ -183,7 +183,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide shift', () => {
       const arrayShift = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ]),
         arrayShift
       })
@@ -197,7 +197,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide forEach', () => {
       const callback = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ])
       })
       expect(result.fields.forEach).toBeA('function')
@@ -210,18 +210,18 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(callback.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2, result.fields ])
     })
 
-    it('should provide get', () => {
-      const result = createFieldArrayProps(...defaultProps, {
-        value: fromJS([ 'a', 'b', 'c' ])
-      })
+    it('should provide get that uses passed in getValue', () => {
+      const value = fromJS([ 'a', 'b', 'c' ])
+      const getValue = index => value && getIn(value, index) + 'DOG'
+      const result = createFieldArrayProps(getIn, 'foo', getValue, { value })
       expect(result.fields.get).toBeA('function')
-      expect(result.fields.get(0)).toBe('a')
-      expect(result.fields.get(1)).toBe('b')
-      expect(result.fields.get(2)).toBe('c')
+      expect(result.fields.get(0)).toBe('aDOG')
+      expect(result.fields.get(1)).toBe('bDOG')
+      expect(result.fields.get(2)).toBe('cDOG')
     })
 
     it('should provide getAll', () => {
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ])
       })
       expect(result.fields.getAll).toBeA('function')
@@ -230,7 +230,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide map', () => {
       const callback = createSpy(name => ({ whatever: true, name })).andCallThrough()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ]),
         length: 3
       })
@@ -253,7 +253,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         ...accumulator,
         [name]: { whatever: true, name }
       })).andCallThrough()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ]),
         length: 3
       })
@@ -281,7 +281,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         ...accumulator,
         [name]: { whatever: true, name }
       })).andCallThrough()
-      const result = createFieldArrayProps(...defaultProps, {})
+      const result = createFieldArrayProps(...defaultParams, {})
       expect(result.fields.reduce).toBeA('function')
       expect(callback).toNotHaveBeenCalled()
       const reduceResult = result.fields.reduce(callback, {})
@@ -291,7 +291,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide swap', () => {
       const arraySwap = createSpy()
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         arraySwap,
         value: fromJS([ 'a', 'b', 'c' ])
       })
@@ -304,14 +304,14 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should provide a _isFieldArray meta prop', () => {
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ])
       })
       expect(result.fields._isFieldArray).toBe(true)
     })
 
     it('should pass name through to the fields prop', () => {
-      const result = createFieldArrayProps(...defaultProps, {
+      const result = createFieldArrayProps(...defaultParams, {
         value: fromJS([ 'a', 'b', 'c' ])
       })
       expect(result.fields.name).toBe('foo')

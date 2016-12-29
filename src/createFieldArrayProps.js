@@ -1,4 +1,4 @@
-const createFieldArrayProps = (getIn, name,
+const createFieldArrayProps = (getIn, name, getValue,
   {
     arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
     arraySplice, arraySwap, arrayUnshift, asyncError, // eslint-disable-line no-unused-vars
@@ -12,7 +12,7 @@ const createFieldArrayProps = (getIn, name,
     fields: {
       _isFieldArray: true,
       forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index, finalProps.fields)),
-      get: index => value && getIn(value, index),
+      get: getValue,
       getAll: () => value,
       insert: arrayInsert,
       length,

@@ -27,6 +27,11 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
   }
 
   class ConnectedFieldArray extends Component {
+    constructor() {
+      super()
+      this.getValue = this.getValue.bind(this)
+    }
+
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
@@ -55,12 +60,22 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       return this.refs.renderedComponent
     }
 
+    getValue(index) {
+      return this.props.value && getIn(this.props.value, index)
+    }
+
     render() {
-      /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "^_reduxForm$" }]*/
-      const { component, withRef, name, _reduxForm, ...rest } = this.props
+      const {
+        component,
+        withRef,
+        name,
+        _reduxForm, // eslint-disable-line no-unused-vars
+        ...rest
+      } = this.props
       const props = createFieldArrayProps(
         getIn,
         name,
+        this.getValue,
         {
           ...rest,
           name
