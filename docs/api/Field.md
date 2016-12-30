@@ -297,10 +297,6 @@ tracking for you.
 > The error for this field if its value is not passing validation. Both synchronous,
 > asynchronous, and submit validation errors will be reported here.
 
-#### `meta.warning : String` [optional]
-
-> The warning for this field if its value is not passing warning validation.
-
 #### `meta.invalid : boolean`
 
 > `true` if the field value fails validation (has a validation error). Opposite of `valid`.
@@ -329,3 +325,7 @@ tracking for you.
 
 > `true` if this field has ever had focus. It will only work if you are passing `onFocus` to
 > your input element.
+
+#### `meta.warning : String` [optional]
+
+> The warning for this field if its value is not passing warning validation.
