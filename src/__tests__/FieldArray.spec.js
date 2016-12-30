@@ -722,6 +722,62 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.error).toBe('Too many')
     })
 
+    it('should provide field-level sync error (with multiple validators) for array field', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [ 'dog', 'cat' ]
+          }
+        }
+      })
+      const renderArray = createSpy(({ fields }) =>
+        <div>
+          {fields.map((name, index) => <Field name={`${name}`} component="input" key={index}/>)}
+        </div>).andCallThrough()
+      const atLeastOne = createSpy(value =>
+        value && size(value) < 1 ? 'Too few' : undefined).andCallThrough()
+      const noMoreThanTwo = createSpy(value =>
+        value && size(value) > 2 ? 'Too many' : undefined).andCallThrough()
+
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <FieldArray name="foo" component={renderArray} validate={[ atLeastOne, noMoreThanTwo ]}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(renderArray).toHaveBeenCalled()
+      expect(renderArray.calls.length).toBe(1)
+      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.error).toNotExist()
+
+      expect(noMoreThanTwo).toHaveBeenCalled()
+      expect(noMoreThanTwo.calls.length).toBe(1)
+      expect(noMoreThanTwo.calls[ 0 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat' ])
+
+      renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
+
+      // should validate twice, once for new field, and again to validate new field
+      expect(noMoreThanTwo.calls.length).toBe(3)
+      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+
+      // should rerender
+      expect(renderArray.calls.length).toBe(2)
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(false)
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.error).toBe('Too many')
+    })
+
     it('should provide field-level sync warning for array field', () => {
       const store = makeStore({
         testForm: {
@@ -742,6 +798,62 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           return (
             <div>
               <FieldArray name="foo" component={renderArray} warn={noMoreThanTwo}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(renderArray).toHaveBeenCalled()
+      expect(renderArray.calls.length).toBe(1)
+      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(true)
+      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.warning).toNotExist()
+
+      expect(noMoreThanTwo).toHaveBeenCalled()
+      expect(noMoreThanTwo.calls.length).toBe(1)
+      expect(noMoreThanTwo.calls[ 0 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat' ])
+
+      renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
+
+      // should validate twice, once for new field, and again to validate new field
+      expect(noMoreThanTwo.calls.length).toBe(3)
+      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+
+      // should rerender
+      expect(renderArray.calls.length).toBe(2)
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(true) // just a warning
+      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.warning).toBe('Too many')
+    })
+
+    it('should provide field-level sync warning (with multiple validators) for array field', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [ 'dog', 'cat' ]
+          }
+        }
+      })
+      const renderArray = createSpy(({ fields }) =>
+        <div>
+          {fields.map((name, index) => <Field name={`${name}`} component="input" key={index}/>)}
+        </div>).andCallThrough()
+      const atLeastOne = createSpy(value =>
+        value && size(value) < 1 ? 'Too few' : undefined).andCallThrough()
+      const noMoreThanTwo = createSpy(value =>
+        value && size(value) > 2 ? 'Too many' : undefined).andCallThrough()
+
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <FieldArray name="foo" component={renderArray} warn={[ atLeastOne, noMoreThanTwo ]}/>
             </div>
           )
         }

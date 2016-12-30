@@ -4,9 +4,16 @@ import createConnectedFieldArray from './ConnectedFieldArray'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 
+const toArray = value => Array.isArray(value) ? value : [ value ]
+
 const wrapError = (fn, key) => fn && ((...args) => {
-  const result = fn(...args)
-  return result && { [key]: result }
+  const validators = toArray(fn)
+  for (const validator of validators) {
+    const result = validator(...args)
+    if (result) {
+      return { [key]: result }
+    }
+  }
 })
 
 const createFieldArray = ({ deepEqual, getIn, size }) => {
