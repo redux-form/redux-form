@@ -1,7 +1,7 @@
 # Field-Level Validation Example
 
 As well as allowing you to provide a validation function to validate all the values in your form
-at once, see [Synchronous Validation Example](http://redux-form.com/6.4.2/examples/syncValidation/),
+at once, see [Synchronous Validation Example](http://redux-form.com/6.4.3/examples/syncValidation/),
 you may also provide individual value validation functions for each `Field` or `FieldArray`.
 
 The parameters to the validation function are:
