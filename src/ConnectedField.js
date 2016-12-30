@@ -100,6 +100,8 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
         // remove props that are part of redux internals:
         _reduxForm, // eslint-disable-line no-unused-vars
         normalize,  // eslint-disable-line no-unused-vars
+        parse, // eslint-disable-line no-unused-vars
+        format, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
       const { custom, ...props } = createFieldProps({ getIn, toJS },
