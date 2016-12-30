@@ -1522,6 +1522,43 @@ const describeField = (name, structure, combineReducers, expect) => {
       const props = renderSpy.calls[0].arguments[0]
       Object.keys(apiProps).forEach(key => expect(props[key]).toNotExist())
     })
+
+    it('should only rerender field that has changed', () => {
+      const store = makeStore()
+      const input1 = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input2 = createSpy(props => <input {...props.input}/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (<div>
+            <Field name="input1" component={input1}/>
+            <Field name="input2" component={input2}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(input1).toHaveBeenCalled()
+      expect(input1.calls.length).toBe(1)
+      expect(input1.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+
+      expect(input2).toHaveBeenCalled()
+      expect(input2.calls.length).toBe(1)
+      expect(input2.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+
+      // change input #1
+      input1.calls[ 0 ].arguments[ 0 ].input.onChange('foo')
+
+      // expect input #1 to have been rerendered
+      expect(input1.calls.length).toBe(2)
+      expect(input1.calls[ 1 ].arguments[ 0 ].input.value).toBe('foo')
+
+      // expect input #2 to NOT have been rerendered
+      expect(input2.calls.length).toBe(1)
+    })
   })
 }
 
