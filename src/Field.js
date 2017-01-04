@@ -104,6 +104,11 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     format: PropTypes.func,
     normalize: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    onDragStart: PropTypes.func,
+    onDrop: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object
   }
