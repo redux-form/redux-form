@@ -72,13 +72,41 @@ would pass `value => value.toUpperCase()`. The parameters to your normalize func
 > All the values in the entire form before the current change. This will be an Immutable `Map` if
 > you are using Immutable JS.
 
+#### `onBlur : (event, newValue, previousValue) => void` [optional]
+
+A callback that will be called whenever an `onBlur` event is fired from the underlying input.
+If you call `event.preventDefault()`, the `BLUR` action will _NOT_ be dispatched, and the value
+and focus state will not be updated in the Redux store.
+
+#### `onChange : (event, newValue, previousValue) => void` [optional]
+
+A callback that will be called whenever an `onChange` event is fired from the underlying input.
+If you call `event.preventDefault()`, the `CHANGE` action will _NOT_ be dispatched, and the value
+will not be updated in the Redux store.
+
+#### `onDragStart : (event) => void` [optional]
+
+A callback that will be called whenever an `onDragStart` event is fired from the underlying input.
+
+#### `onDrop : (event, newValue, previousValue) => void` [optional]
+
+A callback that will be called whenever an `onDrop` event is fired from the underlying input.
+If you call `event.preventDefault()`, the `CHANGE` action will _NOT_ be dispatched, and the value
+will not be updated in the Redux store.
+
+#### `onFocus : (event) => void` [optional]
+
+A callback that will be called whenever an `onFocus` event is fired from the underlying input.
+If you call `event.preventDefault()`, the `FOCUS` action will _NOT_ be dispatched, and
+the focus state will not be updated in the Redux store.
+
 #### `props : object` [optional]
 
 Object with custom props to pass through the `Field` component into a component provided
 to `component` prop. This props will be merged to props provided by `Field` itself. This _may_ be
-useful if you are using TypeScript. This construct is completely optional; the primary way of 
-passing props along to your `component` is to give them directly to the `Field` component, but 
-if, for whatever reason, you prefer to bundle them into a separate object, you may do so by 
+useful if you are using TypeScript. This construct is completely optional; the primary way of
+passing props along to your `component` is to give them directly to the `Field` component, but
+if, for whatever reason, you prefer to bundle them into a separate object, you may do so by
 passing them into `props`.
 
 #### `parse : (value, name) => parsedValue` [optional]
