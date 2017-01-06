@@ -325,6 +325,10 @@ tracking for you.
 > The error for this field if its value is not passing validation. Both synchronous,
 > asynchronous, and submit validation errors will be reported here.
 
+#### `meta.form : String`
+
+> The name of the `form`. Could be useful if you want to manually dispatch actions.
+
 #### `meta.invalid : boolean`
 
 > `true` if the field value fails validation (has a validation error). Opposite of `valid`.
