@@ -17,6 +17,8 @@ import addExpectations from './addExpectations'
 import { dragStartMock, dropMock } from '../util/eventMocks'
 import { dataKey } from '../util/eventConsts'
 
+const testFormName = 'testForm'
+
 const describeField = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
@@ -32,13 +34,13 @@ const describeField = (name, structure, combineReducers, expect) => {
   }
 
   const testProps = (state, config = {}) => {
-    const store = makeStore({ testForm: state })
+    const store = makeStore({ [testFormName]: state })
     class Form extends Component {
       render() {
         return <div><Field name="foo" component={TestInput}/></div>
       }
     }
-    const TestForm = reduxForm({ form: 'testForm', ...config })(Form)
+    const TestForm = reduxForm({ form: testFormName, ...config })(Form)
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
         <TestForm/>
@@ -213,6 +215,11 @@ const describeField = (name, structure, combineReducers, expect) => {
         }
       })
       expect(props2.meta.visited).toBe(true)
+    })
+
+    it('should pass in the form name as meta.form', () => {
+      const props = testProps()
+      expect(props.meta.form).toBe(testFormName)
     })
 
     it('should get sync errors from outer reduxForm component', () => {
