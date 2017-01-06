@@ -60,7 +60,7 @@ will retain the value of dirty fields when reinitializing.
 
 #### `forceUnregisterOnUnmount : boolean` [optional]
 
-> Whether or not to force unregistration of fields -- use in conjunction with `destroyOnUnmount`. Useful for wizard-type forms where you want to destroy fields as they unmount, but not the form's state. Defaults to `false`, as forms are normally unregistered on unmount. 
+> Whether or not to force unregistration of fields -- use in conjunction with `destroyOnUnmount`. Useful for wizard-type forms where you want to destroy fields as they unmount, but not the form's state. Defaults to `false`, as forms are normally unregistered on unmount.
 
 #### `getFormState : Function` [optional]
 
@@ -126,7 +126,11 @@ called with the following parameters:
 ##### `submitError : Error`
 
 > The error object that caused the submission to fail. If `errors` is set this will be most likely a `SubmissionError`, otherwise it can be any error or null.
- 
+
+> ##### `props : Object`
+
+> The props passed into your decorated component.
+
 #### `onSubmitSuccess : Function` [optional]
 
 > A callback function that will be called when a submission succeeds.  It will be called with the
@@ -139,6 +143,10 @@ following parameters:
 > ##### `dispatch : Function`
 
 > The Redux `dispatch` function.
+
+> ##### `props : Object`
+
+> The props passed into your decorated component.
 
 #### `propNamespace : String` [optional]
 
