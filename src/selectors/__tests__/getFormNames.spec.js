@@ -12,11 +12,11 @@ const describeGetFormNames = (name, structure, expect) => {
 
   describe(name, () => {
     it('should return a function', () => {
-      expect(getFormNames('foo')).toBeA('function')
+      expect(getFormNames()).toBeA('function')
     })
 
     it('should get the form names from state', () => {
-      expect(getFormNames('foo')(fromJS({
+      expect(getFormNames()(fromJS({
         form: {
           foo: {
             values: {
@@ -35,7 +35,7 @@ const describeGetFormNames = (name, structure, expect) => {
     })
 
     it('should use getFormState if provided', () => {
-      expect(getFormNames('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
+      expect(getFormNames(state => getIn(state, 'someOtherSlice'))(fromJS({
         someOtherSlice: {
           foo: {
             values: {

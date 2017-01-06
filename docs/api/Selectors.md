@@ -61,7 +61,7 @@ MyComponent = connect(
 
 > Returns the form submit validation errors.
 
-### `getFormNames(formName:String)` returns `(state) => formNames:Array`
+### `getFormNames()` returns `(state) => formNames:Array`
 
 > Gets the names of all the forms currently managed by Redux-Form.
 
