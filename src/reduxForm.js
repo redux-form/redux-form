@@ -552,7 +552,7 @@ const createReduxForm =
               values = initial
             }
 
-            const pristine = deepEqual(initial, values)
+            const pristine = shouldResetValues || deepEqual(initial, values)
             const asyncErrors = getIn(formState, 'asyncErrors')
             const syncErrors = getIn(formState, 'syncErrors') || {}
             const syncWarnings = getIn(formState, 'syncWarnings') || {}
