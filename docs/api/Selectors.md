@@ -6,8 +6,14 @@
 [**selectors**](http://redux.js.org/docs/recipes/ComputingDerivedData.html) that may be used in
 any part of your application to query the state of any of your forms.
 
-All of the selectors listed below have the same usage pattern: they all take the name of the
-form, and create a selector for whatever form state the selector is for.
+All of the selectors listed below have the same usage pattern: they all (apart from
+getFormNames) take the name of the form, and create a selector for whatever form state
+the selector is for.
+
+They also all take an undocumented final parameter `getFormState()` that is
+used to select the mount point of the `redux-form` reducer from the root Redux reducer (it
+defaults to `state => state.form`, assuming that you have mounted the `redux-form` reducer under
+`form`.
 
 ```js
 import {
@@ -15,6 +21,7 @@ import {
   getFormSyncErrors,
   getFormAsyncErrors,
   getFormSubmitErrors,
+  getFormNames,
   isDirty,
   isPristine,
   isValid,
@@ -30,6 +37,7 @@ MyComponent = connect(
     syncErrors: getFormSyncErrors('myForm')(state),
     asyncErrors: getFormAsyncErrors('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
+    names: getFormNames('myForm')(state),
     dirty: isDirty('myForm')(state),
     pristine: isPristine('myForm')(state),
     valid: isValid('myForm')(state),
@@ -58,6 +66,17 @@ MyComponent = connect(
 ### `getFormSubmitErrors(formName:String)` returns `(state) => formSubmitErrors:Object`
 
 > Returns the form submit validation errors.
+
+### `getFormNames()` returns `(state) => formNames:Array`
+
+> Gets the names of all the forms currently managed by Redux-Form.
+
+> The reason that this is a function that returns a function is twofold:
+
+> 1. symmetry with the other selectors
+> 2. to allow for the `getFormState` parameter described at the top of this page.
+
+> If you are using ImmutableJS, it will return a `List`.
 
 ### `isDirty(formName:String)` returns `(state) => dirty:boolean`
 

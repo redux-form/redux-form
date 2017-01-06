@@ -411,7 +411,7 @@ const createReducer = structure => {
         return state
       }
       if (action.type === DESTROY) {
-        return deleteInWithCleanUp(state, action.meta.form)
+        return action.meta.form.reduce((result, form) => deleteInWithCleanUp(result, form), state)
       }
       const formState = getIn(state, form)
       const result = reducer(formState, action)
