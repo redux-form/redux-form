@@ -2,16 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { load as loadAccount } from './account'
-const data = null
-// const data = {  // used to populate "account" reducer when "Load" is clicked
-  // firstName: 'Jane',
-  // lastName: 'Doe',
-  // age: '42',
-  // sex: 'female',
-  // employed: true,
-  // favoriteColor: 'Blue',
-  // bio: 'Born to write amazing Redux code.'
-// }
+const data = {  // used to populate "account" reducer when "Load" is clicked
+  firstName: 'Jane',
+  lastName: 'Doe',
+  age: '42',
+  sex: 'female',
+  employed: true,
+  favoriteColor: 'Blue',
+  bio: 'Born to write amazing Redux code.'
+}
 const colors = [ 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet' ]
 
 let InitializeFromStateForm = props => {
