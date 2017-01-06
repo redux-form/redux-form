@@ -591,15 +591,24 @@ const createReduxForm =
           (dispatch, initialProps) => {
             const bindForm = actionCreator => actionCreator.bind(null, initialProps.form)
 
+            const AddFormToMeta = (actionCreator) => {
+              return (...args) => {
+                const action = actionCreator(...args)
+
+                action.meta = merge(action.meta || {}, { form: initialProps.form })
+
+                dispatch(action)
+              }
+            }
+
+            const connectedFormACs = mapValues(formActions, AddFormToMeta)
             // Bind the first parameter on `props.form`
-            const boundFormACs = mapValues(formActions, bindForm)
             const boundArrayACs = mapValues(arrayActions, bindForm)
             const boundBlur = (field, value) => blur(initialProps.form, field, value, !!initialProps.touchOnBlur)
             const boundChange = (field, value) => change(initialProps.form, field, value, !!initialProps.touchOnChange, !!initialProps.persistentSubmitErrors)
             const boundFocus = bindForm(focus)
 
             // Wrap action creators with `dispatch`
-            const connectedFormACs = bindActionCreators(boundFormACs, dispatch)
             const connectedArrayACs = {
               insert: bindActionCreators(boundArrayACs.arrayInsert, dispatch),
               move: bindActionCreators(boundArrayACs.arrayMove, dispatch),
