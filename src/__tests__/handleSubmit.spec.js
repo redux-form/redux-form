@@ -155,6 +155,7 @@ describe('handleSubmit', () => {
         expect(onSubmitFail.calls[0].arguments[0]).toEqual(values)
         expect(onSubmitFail.calls[0].arguments[1]).toEqual(dispatch)
         expect(onSubmitFail.calls[0].arguments[2]).toBe(null)
+        expect(onSubmitFail.calls[0].arguments[3]).toEqual(props)
         expect(touch)
           .toHaveBeenCalled()
           .toHaveBeenCalledWith('foo', 'baz')

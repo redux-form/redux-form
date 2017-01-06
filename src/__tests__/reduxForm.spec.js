@@ -1959,11 +1959,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitSuccess).toNotHaveBeenCalled()
 
+      const calledProps = stub.refs.wrapped.wrappedInstance.props
+
       const returned = stub.submit()
 
       expect(onSubmitSuccess)
         .toHaveBeenCalled()
-        .toHaveBeenCalledWith(result, store.dispatch)
+        .toHaveBeenCalledWith(result, store.dispatch, calledProps)
       expect(returned).toBe(result)
     })
 
@@ -1999,11 +2001,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmitSuccess).toNotHaveBeenCalled()
 
+      const calledProps = stub.refs.wrapped.wrappedInstance.props
+
       return stub.submit()
         .then(returned => {
           expect(onSubmitSuccess)
             .toHaveBeenCalled()
-            .toHaveBeenCalledWith(result, store.dispatch)
+            .toHaveBeenCalledWith(result, store.dispatch, calledProps)
           expect(returned).toBe(result)
         })
     })
