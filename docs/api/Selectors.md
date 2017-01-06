@@ -15,6 +15,7 @@ import {
   getFormSyncErrors,
   getFormAsyncErrors,
   getFormSubmitErrors,
+  getFormNames,
   isDirty,
   isPristine,
   isValid,
@@ -30,6 +31,7 @@ MyComponent = connect(
     syncErrors: getFormSyncErrors('myForm')(state),
     asyncErrors: getFormAsyncErrors('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
+    names: getFormNames('myForm')(state),
     dirty: isDirty('myForm')(state),
     pristine: isPristine('myForm')(state),
     valid: isValid('myForm')(state),
@@ -58,6 +60,12 @@ MyComponent = connect(
 ### `getFormSubmitErrors(formName:String)` returns `(state) => formSubmitErrors:Object`
 
 > Returns the form submit validation errors.
+
+### `getFormNames(formName:String)` returns `(state) => formNames:Array`
+
+> Gets the names of all the forms currently managed by Redux-Form.
+
+> If you are using ImmutableJS, it will return a `List`.
 
 ### `isDirty(formName:String)` returns `(state) => dirty:boolean`
 

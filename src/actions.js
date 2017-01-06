@@ -67,7 +67,7 @@ export const clearSubmit = (form) =>
 export const clearAsyncError = (form, field) =>
   ({ type: CLEAR_ASYNC_ERROR, meta: { form, field } })
 
-export const destroy = (form) =>
+export const destroy = (...form) =>
   ({ type: DESTROY, meta: { form } })
 
 export const focus = (form, field) =>
