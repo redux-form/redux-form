@@ -32,7 +32,6 @@ import {
   UPDATE_SYNC_ERRORS,
   UPDATE_SYNC_WARNINGS
 } from './actionTypes'
-import 'array-findindex-polyfill'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 
 const createReducer = structure => {
@@ -172,7 +171,7 @@ const createReducer = structure => {
     [CLEAR_SUBMIT](state) {
       return deleteIn(state, 'triggerSubmit')
     },
-    [CLEAR_ASYNC_ERROR](state, { meta: { field } } ) {
+    [CLEAR_ASYNC_ERROR](state, { meta: { field } }) {
       return deleteIn(state, `asyncErrors.${field}`)
     },
     [FOCUS](state, { meta: { field } }) {
@@ -351,8 +350,12 @@ const createReducer = structure => {
         return state
       }
 
-      const fieldIndex = registeredFields.findIndex((value) => {
-        return getIn(value, 'name') === name
+      let fieldIndex = -1
+      registeredFields.some((value, index) => {
+        if (getIn(value, 'name') === name) {
+          fieldIndex = index
+          return true // short circuit iteration
+        }
       })
       if (size(registeredFields) <= 1 && fieldIndex >= 0) {
         return deleteInWithCleanUp(state, 'registeredFields')
