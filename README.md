@@ -12,6 +12,7 @@
 
 `redux-form` works with [React Redux](https://github.com/rackt/react-redux) to enable an html form in
 [React](https://github.com/facebook/react) to use [Redux](https://github.com/rackt/redux) to store all of its state.
+[![Beerpay](https://beerpay.io/erikras/redux-form/badge.svg)](https://beerpay.io/erikras/redux-form)
 
 [<img src="logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
