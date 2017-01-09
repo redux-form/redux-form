@@ -43,9 +43,9 @@ import { Field, reduxForm } from 'redux-form';
 
 class ContactForm extends Component {
   render() {
-    const { handleSubmit } = this.props;
+    const { onSubmit } = this.props;
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
           <Field name="firstName" component="input" type="text"/>
