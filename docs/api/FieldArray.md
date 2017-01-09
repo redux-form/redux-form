@@ -54,7 +54,8 @@ The following properties and methods are available on an instance of a `FieldArr
 
 #### `name : String`
 
-> The `name` prop that you passed in.
+> When nested in `FormSection`, returns the `name` prop prefixed with the `FormSection` name.
+Otherwise, returns the `name` prop that you passed in.
 
 #### `valid : boolean`
 

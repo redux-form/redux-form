@@ -126,7 +126,8 @@ The following properties and methods are available on an instance of a `Field` c
 
 #### `names : Array<String>`
 
-> The `names` prop that you passed in.
+> When nested in `FormSection`, returns the `names` prop prefixed with the `FormSection` name.
+Otherwise, returns a copy of the `names` prop that you passed in.
 
 #### `pristine : boolean`
 
