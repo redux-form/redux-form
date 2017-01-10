@@ -12,7 +12,7 @@ const structure = {
   empty: Map(),
   emptyList,
   getIn: (state, field) =>
-    Map.isMap(state) || List.isList(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
+    Iterable.isIterable(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
   setIn,
   deepEqual,
   deleteIn: (state, field) => state.deleteIn(toPath(field)),
