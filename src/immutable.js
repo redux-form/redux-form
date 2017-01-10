@@ -25,6 +25,9 @@ export const {
   focus,
   formValueSelector,
   getFormValues,
+  getFormSyncErrors,
+  getFormAsyncErrors,
+  getFormSubmitErrors,
   initialize,
   isDirty,
   isInvalid,
@@ -36,6 +39,7 @@ export const {
   propTypes,
   reducer,
   reduxForm,
+  registerField,
   reset,
   setSubmitFailed,
   setSubmitSucceeded,
@@ -46,6 +50,7 @@ export const {
   submit,
   SubmissionError,
   touch,
+  unregisterField,
   untouch,
   values
 } = createAll(immutable)

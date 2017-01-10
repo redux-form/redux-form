@@ -4,24 +4,29 @@ import expectedPropTypes from '../propTypes'
 import {
   actionTypes,
   arrayInsert,
+  arrayMove,
   arrayPop,
   arrayPush,
   arrayRemove,
+  arrayRemoveAll,
   arrayShift,
   arraySplice,
   arraySwap,
   arrayUnshift,
+  autofill,
   blur,
   change,
   destroy,
   Field,
   FieldArray,
+  FormSection,
   focus,
   formValueSelector,
   initialize,
   propTypes,
   reducer,
   reduxForm,
+  registerField,
   reset,
   setSubmitFailed,
   setSubmitSucceeded,
@@ -31,6 +36,7 @@ import {
   stopSubmit,
   SubmissionError,
   touch,
+  unregisterField,
   untouch,
   values
 } from '../immutable'
@@ -42,6 +48,9 @@ describe('immutable', () => {
   it('should export arrayInsert', () => {
     expect(arrayInsert).toExist().toBeA('function')
   })
+  it('should export arrayMove', () => {
+    expect(arrayMove).toExist().toBeA('function')
+  })
   it('should export arrayPop', () => {
     expect(arrayPop).toExist().toBeA('function')
   })
@@ -50,6 +59,9 @@ describe('immutable', () => {
   })
   it('should export arrayRemove', () => {
     expect(arrayRemove).toExist().toBeA('function')
+  })
+  it('should export arrayRemoveAll', () => {
+    expect(arrayRemoveAll).toExist().toBeA('function')
   })
   it('should export arrayShift', () => {
     expect(arrayShift).toExist().toBeA('function')
@@ -62,6 +74,9 @@ describe('immutable', () => {
   })
   it('should export arrayUnshift', () => {
     expect(arrayUnshift).toExist().toBeA('function')
+  })
+  it('should export autofill', () => {
+    expect(autofill).toExist().toBeA('function')
   })
   it('should export blur', () => {
     expect(blur).toExist().toBeA('function')
@@ -77,6 +92,9 @@ describe('immutable', () => {
   })
   it('should export FieldArray', () => {
     expect(FieldArray).toExist().toBeA('function')
+  })
+  it('should export FormSection', () => {
+    expect(FormSection).toExist().toBeA('function')
   })
   it('should export focus', () => {
     expect(focus).toExist().toBeA('function')
@@ -95,6 +113,9 @@ describe('immutable', () => {
   })
   it('should export reduxForm', () => {
     expect(reduxForm).toExist().toBeA('function')
+  })
+  it('should export registerField', () => {
+    expect(registerField).toExist().toBeA('function')
   })
   it('should export reset', () => {
     expect(reset).toExist().toBeA('function')
@@ -122,6 +143,9 @@ describe('immutable', () => {
   })
   it('should export touch', () => {
     expect(touch).toExist().toBeA('function')
+  })
+  it('should export unregisterField', () => {
+    expect(unregisterField).toExist().toBeA('function')
   })
   it('should export untouch', () => {
     expect(untouch).toExist().toBeA('function')
