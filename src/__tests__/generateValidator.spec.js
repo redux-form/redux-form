@@ -10,6 +10,7 @@ const describeGenerateValidator = (name, structure, expect) => {
   const { fromJS } = structure
   const required = value => value == null ? 'Required' : undefined
   const minValue = min => value => value && value < min ? 'Too low' : undefined
+  const withProps = (value, values, props) => props.valid ? undefined : 'Invalid'
 
   describe(name, () => {
     it('should return a function', () => {
@@ -78,6 +79,33 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(minValueSpy.calls[ 2 ].arguments[ 0 ]).toBe(4)
       expect(minValueSpy.calls[ 2 ].arguments[ 1 ]).toEqual(values3)
       expect(result3).toEqual({})
+    })
+
+    it('allows validation to refer to props', () => {
+      const withPropsSpy = createSpy(withProps).andCallThrough()
+      const props1 = { valid: false }
+      const props2 = { valid: true }
+      const validator = generateValidator({ foo: withPropsSpy }, structure)
+
+      expect(withPropsSpy).toNotHaveBeenCalled()
+
+      const values = fromJS({})
+      const result1 = validator(values, props1)
+      expect(withPropsSpy).toHaveBeenCalled()
+      expect(withPropsSpy.calls.length).toBe(1)
+      expect(withPropsSpy.calls[ 0 ].arguments[ 0 ]).toBe(undefined)
+      expect(withPropsSpy.calls[ 0 ].arguments[ 1 ]).toEqual(values)
+      expect(withPropsSpy.calls[ 0 ].arguments[ 2 ]).toEqual(props1)
+      expect(result1).toEqual({
+        foo: 'Invalid'
+      })
+
+      const result2 = validator(values, props2)
+      expect(withPropsSpy.calls.length).toBe(2)
+      expect(withPropsSpy.calls[ 1 ].arguments[ 0 ]).toBe(undefined)
+      expect(withPropsSpy.calls[ 1 ].arguments[ 1 ]).toEqual(values)
+      expect(withPropsSpy.calls[ 1 ].arguments[ 2 ]).toEqual(props2)
+      expect(result2).toEqual({})
     })
 
     it('should validate deep fields', () => {
