@@ -931,6 +931,45 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderTitle.calls[ 1 ].arguments[ 0 ].meta.visited).toBe(true)
     })
 
+    it('should not change the value of a radio when blur', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            sex: 'male'
+          }
+        }
+      })
+      const renderSex = createSpy(props => <input {...props.input}/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input"/>
+              <Field name="author" component="input"/>
+              <Field name="sex" value="female" type="radio" component={renderSex} />
+              <Field name="sex" value="male" type="radio" component={renderSex} />
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(renderSex.calls[ 0 ].arguments[ 0 ].input.checked).toBe(false)
+      expect(renderSex.calls[ 1 ].arguments[ 0 ].input.checked).toBe(true)
+      renderSex.calls[ 0 ].arguments[ 0 ].input.onBlur('female')
+
+      expect(renderSex.calls[ 2 ].arguments[ 0 ].input.checked).toBe(false)
+      expect(renderSex.calls[ 3 ].arguments[ 0 ].input.checked).toBe(true)
+    })
+
+
     it('should call handle on drag start with value', () => {
       const store = makeStore({
         testForm: {
@@ -1812,7 +1851,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderInput.calls.length).toBe(1)
       expect(renderInput.calls[ 0 ].arguments[ 0 ].meta.active).toBe(false)
     })
-    
+
     it('should allow onDrop callback', () => {
       const store = makeStore()
       const renderInput = createSpy(props => <input {...props.input}/>).andCallThrough()
