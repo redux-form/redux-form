@@ -2901,7 +2901,107 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(validate).toHaveBeenCalled()
       })
 
+      it('should pass values and props to validate if called', () => {
+        const propsSpy = createSpy()
+        const validate = createSpy().andReturn({})
+        const shouldValidate = args => {
+          propsSpy(args.props)
+          return true
+        }
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { validate, shouldValidate })
+
+        validate.reset()
+
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        // compare values
+        expect(validate.calls[ 0 ].arguments[ 0 ]).toEqualMap({ foo: 'bar' })
+
+        // compare props
+        const propArray = Object.keys(propsSpy.calls[ 0 ].arguments[ 0 ])
+        expect(Object.keys(validate.calls[ 0 ].arguments[ 1 ])).toEqual(propArray)
+      })
+
     })
+
+
+    describe('warnIfNeeded', () => {
+
+      it('should not call warn if shouldValidate returns false', () => {
+        const warn = createSpy().andReturn({})
+        const shouldValidate = createSpy().andReturn(false)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { warn, shouldValidate })
+
+        // initial render
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(true)
+        expect(warn).toNotHaveBeenCalled()
+
+        shouldValidate.reset()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(false)
+        expect(warn).toNotHaveBeenCalled()
+      })
+
+      it('should call warn if shouldValidate returns true', () => {
+        const warn = createSpy().andReturn({})
+        const shouldValidate = createSpy().andReturn(true)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { warn, shouldValidate })
+
+        // initial render
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(true)
+        expect(warn).toHaveBeenCalled()
+
+        shouldValidate.reset()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldValidate).toHaveBeenCalled()
+        expect(shouldValidate.calls[ 0 ].arguments[ 0 ].initialRender).toBe(false)
+        expect(warn).toHaveBeenCalled()
+      })
+
+      it('should pass values and props to warn if called', () => {
+        const propsSpy = createSpy()
+        const warn = createSpy().andReturn({})
+        const shouldValidate = args => {
+          propsSpy(args.props)
+          return true
+        }
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { warn, shouldValidate })
+
+        warn.reset()
+
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        // compare values
+        expect(warn.calls[ 0 ].arguments[ 0 ]).toEqualMap({ foo: 'bar' })
+
+        // compare props
+        const propArray = Object.keys(propsSpy.calls[ 0 ].arguments[ 0 ])
+        expect(Object.keys(warn.calls[ 0 ].arguments[ 1 ])).toEqual(propArray)
+      })
+
+    })
+
 
     it('should not call async validate if shouldAsyncValidate returns false', () => {
       const store = makeStore({})
