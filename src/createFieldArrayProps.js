@@ -11,12 +11,12 @@ const createFieldArrayProps = (getIn, name, getValue,
   const finalProps = {
     fields: {
       _isFieldArray: true,
-      forEach: callback => (value || []).forEach((item, index) => callback(`${name}[${index}]`, index, finalProps.fields)),
+      forEach: callback => (value || []).forEach((item, index) => callback(item, index, finalProps.fields)),
       get: getValue,
       getAll: () => value,
       insert: arrayInsert,
       length,
-      map: callback => (value || []).map((item, index) => callback(`${name}[${index}]`, index, finalProps.fields)),
+      map: callback => (value || []).map((item, index) => callback(item, index, finalProps.fields)),
       move: arrayMove,
       name,
       pop: () => {
@@ -25,7 +25,7 @@ const createFieldArrayProps = (getIn, name, getValue,
       },
       push: arrayPush,
       reduce: (callback, initial) => (value || [])
-        .reduce((accumulator, item, index) => callback(accumulator, `${name}[${index}]`, index, finalProps.fields), initial),
+        .reduce((accumulator, item, index) => callback(accumulator, item, index, finalProps.fields), initial),
       remove: arrayRemove,
       removeAll: arrayRemoveAll,
       shift: () => {
