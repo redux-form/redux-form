@@ -73,8 +73,13 @@ export const destroy = (...form) =>
 export const focus = (form, field) =>
   ({ type: FOCUS, meta: { form, field } })
 
-export const initialize = (form, values, keepDirty) =>
-  ({ type: INITIALIZE, meta: { form, keepDirty }, payload: values })
+export const initialize = (form, values, keepDirty, otherMeta = {}) => {
+  if (keepDirty instanceof Object) {
+    otherMeta = keepDirty
+    keepDirty = false
+  }
+  return { type: INITIALIZE, meta: { form, keepDirty, ...otherMeta }, payload: values }
+}
 
 export const registerField = (form, name, type) =>
   ({ type: REGISTER_FIELD, meta: { form }, payload: { name, type } })

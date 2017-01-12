@@ -183,7 +183,7 @@ const createReducer = structure => {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { payload, meta: { keepDirty } }) {
+    [INITIALIZE](state, { payload, meta: { keepDirty, keepSubmitSucceeded } }) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
 
@@ -237,6 +237,9 @@ const createReducer = structure => {
             newValues = setIn(newValues, name, previousValue)
           }
         })
+      }
+      if (keepSubmitSucceeded && getIn(state, 'submitSucceeded')) {
+        result = setIn(result, 'submitSucceeded', true) 
       }
       result = setIn(result, 'values', newValues)
       result = setIn(result, 'initial', mapData)

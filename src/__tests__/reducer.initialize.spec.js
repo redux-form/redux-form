@@ -172,6 +172,37 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+  
+  it('should not retain submitSucceeded when keepSubmitSucceeded is not set', () => {
+    const state = reducer(fromJS({
+      foo: {
+        submitSucceeded: true 
+      }
+    }), initialize('foo', {}))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {},
+          initial: {}
+        }
+      })    
+  })
+  
+  it('should retain submitSucceeded when keepSubmitSucceeded is set', () => {
+    const state = reducer(fromJS({
+      foo: {
+        submitSucceeded: true 
+      }
+    }), initialize('foo', {}, { keepSubmitSucceeded: true }))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {},
+          initial: {},
+          submitSucceeded: true 
+        }
+      })    
+  })
 
   it('should retain dirty values when keepDirty is set', () => {
     const state = reducer(fromJS({
@@ -255,6 +286,36 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
           ],
           values: {
             myField: 'newValue'
+          },
+          initial: {
+            myField: 'newValue'
+          }
+        }
+      })
+  })
+  
+  it('allows passing keepDirty in options argument', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [
+          { name: 'myField', type: 'Field' }
+        ],
+        values: {
+          myField: 'dirtyValue'
+        },
+        initial: {
+          myField: 'initialValue'
+        }
+      }
+    }), initialize('foo', { myField: 'newValue' }, { keepDirty: true }))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'myField', type: 'Field' }
+          ],
+          values: {
+            myField: 'dirtyValue'
           },
           initial: {
             myField: 'newValue'
