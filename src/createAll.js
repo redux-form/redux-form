@@ -6,6 +6,7 @@ import createFieldArray from './FieldArray'
 import createFormValueSelector from './formValueSelector'
 import createValues from './values'
 import createGetFormValues from './selectors/getFormValues'
+import createGetFormInitialValues from './selectors/getFormInitialValues'
 import createGetFormSyncErrors from './selectors/getFormSyncErrors'
 import createGetFormAsyncErrors from './selectors/getFormAsyncErrors'
 import createGetFormSubmitErrors from './selectors/getFormSubmitErrors'
@@ -34,6 +35,7 @@ const createAll = structure => ({
   FormSection,
   formValueSelector: createFormValueSelector(structure),
   getFormValues: createGetFormValues(structure),
+  getFormInitialValues: createGetFormInitialValues(structure),
   getFormSyncErrors: createGetFormSyncErrors(structure),
   getFormAsyncErrors: createGetFormAsyncErrors(structure),
   getFormSubmitErrors: createGetFormSubmitErrors(structure),

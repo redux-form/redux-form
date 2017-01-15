@@ -25,6 +25,7 @@ import {
   focus,
   formValueSelector,
   getFormValues,
+  getFormInitialValues,
   getFormSyncErrors,
   getFormAsyncErrors,
   getFormSubmitErrors,
@@ -124,6 +125,9 @@ describe('immutable', () => {
   })
   it('should export getFormValues', () => {
     expect(getFormValues).toExist().toBeA('function')
+  })
+  it('should export getFormInitialValues', () => {
+    expect(getFormInitialValues).toExist().toBeA('function')
   })
   it('should export getFormSyncErrors', () => {
     expect(getFormSyncErrors).toExist().toBeA('function')
