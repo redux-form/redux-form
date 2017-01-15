@@ -19,7 +19,7 @@ const describeGetFormInitialValues = (name, structure, expect) => {
       expect(getFormInitialValues('foo')(fromJS({
         form: {
           foo: {
-            initialValues: {
+            initial: {
               dog: 'Snoopy',
               cat: 'Garfield'
             }
@@ -35,7 +35,7 @@ const describeGetFormInitialValues = (name, structure, expect) => {
       expect(getFormInitialValues('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
         someOtherSlice: {
           foo: {
-            initialValues: {
+            initial: {
               dog: 'Snoopy',
               cat: 'Garfield'
             }
