@@ -70,16 +70,15 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         withRef,
         name,
         _reduxForm, // eslint-disable-line no-unused-vars
+        validate, // eslint-disable-line no-unused-vars
+        warn, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
       const props = createFieldArrayProps(
         getIn,
         name,
         this.getValue,
-        {
-          ...rest,
-          name
-        }
+        rest
       )
       if (withRef) {
         props.ref = 'renderedComponent'
