@@ -37,6 +37,48 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
         }
       })
   })
+
+  it('should set count to zero when not destroyOnUnmount', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [ { name: 'bar', type: 'field' } ]
+      }
+    }), unregisterField('foo', 'bar', false))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [ { name: 'bar', type: 'field', count: 0 } ]
+        }
+      })
+  })
+
+  it('should remove field count when field is registered twice', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [ { name: 'bar', type: 'field', count: 2 } ]
+      }
+    }), unregisterField('foo', 'bar'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [ { name: 'bar', type: 'field' } ]
+        }
+      })
+  })
+
+  it('should decrease count if the field is registered multiple times', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: [ { name: 'bar', type: 'field', count: 8 } ]
+      }
+    }), unregisterField('foo', 'bar'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [ { name: 'bar', type: 'field', count: 7 } ]
+        }
+      })
+  })
 }
 
 export default describeUnregisterField

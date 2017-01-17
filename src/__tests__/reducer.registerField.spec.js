@@ -30,15 +30,55 @@ const describeRegisterField = (reducer, expect, { fromJS }) => () => {
       })
   })
 
-  it('should do nothing if the field already exists', () => {
+  it('should remove count if the field is not destroyed on unmount', () => {
     const initialState = fromJS({
       foo: {
-        registeredFields: [ { name: 'bar', type: 'FieldArray' } ]
+        registeredFields: [ { name: 'bar', type: 'Field', count: 0 } ]
+      }
+    })
+    const state = reducer(initialState, registerField('foo', 'bar', 'Field'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'bar', type: 'Field' }
+          ]
+        }
+      })
+  })
+
+  it('should increase count if the field already exists', () => {
+    const initialState = fromJS({
+      foo: {
+        registeredFields: [ { name: 'bar', type: 'Field' } ]
+      }
+    })
+    const state = reducer(initialState, registerField('foo', 'bar', 'Field'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'bar', type: 'Field', count: 2 }
+          ]
+        }
+      })
+  })
+
+  it('should increase count if the field is registered multiple times', () => {
+    const initialState = fromJS({
+      foo: {
+        registeredFields: [ { name: 'bar', type: 'Field', count: 7 } ]
       }
     })
     const state = reducer(initialState, registerField('foo', 'bar', 'Field' ))
     expect(state)
-      .toEqual(initialState)
+      .toEqualMap({
+        foo: {
+          registeredFields: [
+            { name: 'bar', type: 'Field', count: 8 }
+          ]
+        }
+      })
   })
 }
 

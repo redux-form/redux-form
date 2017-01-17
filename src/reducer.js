@@ -43,7 +43,6 @@ const createReducer = structure => {
     deleteIn,
     fromJS,
     size,
-    some,
     splice
   } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
@@ -248,12 +247,33 @@ const createReducer = structure => {
     [REGISTER_FIELD](state, { payload: { name, type } }) {
       let result = state
       const registeredFields = getIn(result, 'registeredFields')
-      if (some(registeredFields, (field) => getIn(field, 'name') === name)) {
-        return state
+      let fieldIndex = -1
+      let field
+      if (registeredFields) {
+        registeredFields.some((value, index) => {
+          if (getIn(value, 'name') === name) {
+            fieldIndex = index
+            field = value
+            return true // short circuit iteration
+          }
+        })
+      }
+      if (fieldIndex > -1) {
+        let count = getIn(field, 'count')
+        if (count === undefined) {
+          count = 1
+        }
+        if (count === 0) {
+          field = deleteIn(field, 'count')
+        } else {
+          field = setIn(field, 'count', count + 1)
+        }
+        result = setIn(result, 'registeredFields', splice(registeredFields, fieldIndex, 1, field))
+        return result
       }
 
       const mapData = fromJS({ name, type })
-      result = setIn(state, 'registeredFields', splice(registeredFields, size(registeredFields), 0, mapData))
+      result = setIn(result, 'registeredFields', splice(registeredFields, size(registeredFields), 0, mapData))
       return result
     },
     [RESET](state) {
@@ -345,7 +365,7 @@ const createReducer = structure => {
       result = setIn(result, 'anyTouched', true)
       return result
     },
-    [UNREGISTER_FIELD](state, { payload: { name } }) {
+    [UNREGISTER_FIELD](state, { payload: { name, destroyOnUnmount } }) {
       const registeredFields = getIn(state, 'registeredFields')
 
       // in case the form was destroyed and registeredFields no longer exists
@@ -354,17 +374,32 @@ const createReducer = structure => {
       }
 
       let fieldIndex = -1
+      let field
       registeredFields.some((value, index) => {
         if (getIn(value, 'name') === name) {
           fieldIndex = index
+          field = value
           return true // short circuit iteration
         }
       })
-      if (size(registeredFields) <= 1 && fieldIndex >= 0) {
-        return deleteInWithCleanUp(state, 'registeredFields')
-      }
+
       if (fieldIndex < 0) {
         return state
+      }
+      let count = getIn(field, 'count')
+      if (count === undefined) {
+        count = 1
+      }
+      if (count > 1 || !destroyOnUnmount) {
+        if (count === 2) {
+          field = deleteIn(field, 'count')
+        } else {
+          field = setIn(field, 'count', count - 1)
+        }
+        return setIn(state, 'registeredFields', splice(registeredFields, fieldIndex, 1, field))
+      }
+      if (size(registeredFields) <= 1) {
+        return deleteInWithCleanUp(state, 'registeredFields')
       }
       return setIn(state, 'registeredFields', splice(registeredFields, fieldIndex, 1))
     },
