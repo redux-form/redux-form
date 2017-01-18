@@ -14,12 +14,13 @@ const validateNameProp = prop => {
   }
 }
 
-const createFields = ({ deepEqual, getIn, toJS }) => {
+const createFields = ({ deepEqual, getIn, toJS, size }) => {
 
   const ConnectedFields = createConnectedFields({
     deepEqual,
     getIn,
-    toJS
+    toJS,
+    size
   })
   
   class Fields extends Component {
