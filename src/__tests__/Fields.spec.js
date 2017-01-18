@@ -608,10 +608,10 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'dog', type: 'Field' },
-              { name: 'cat', type: 'Field' }
-            ]
+            registeredFields: {
+              dog: { name: 'dog', type: 'Field', count: 1 },
+              cat: { name: 'cat', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -622,10 +622,10 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'cow', type: 'Field' },
-              { name: 'ewe', type: 'Field' }
-            ]
+            registeredFields: {
+              cow: { name: 'cow', type: 'Field', count: 1 },
+              ewe: { name: 'ewe', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -748,10 +748,10 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ 
-              { name: 'foo.foo', type: 'Field' },
-              { name: 'foo.bar', type: 'Field' }              
-            ]
+            registeredFields: {
+              'foo.foo': { name: 'foo.foo', type: 'Field', count: 1 },
+              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 }              
+            }
           }
         }
       })
@@ -782,10 +782,10 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ 
-              { name: 'foo.fighter.foo', type: 'Field' },
-              { name: 'foo.fighter.bar', type: 'Field' }              
-            ]
+            registeredFields: {
+              'foo.fighter.foo': { name: 'foo.fighter.foo', type: 'Field', count: 1 },
+              'foo.fighter.bar': { name: 'foo.fighter.bar', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -1121,7 +1121,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
             values: {
               age: 15 // number
             },
-            registeredFields: [ { name: 'age', type: 'Field' } ]
+            registeredFields: { age: { name: 'age', type: 'Field', count: 1 } }
           }
         }
       })

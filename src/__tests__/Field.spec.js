@@ -647,7 +647,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo.bar', type: 'Field' } ]
+            registeredFields: { 'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 } }
           }
         }
       })
@@ -674,7 +674,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo.fighter.bar', type: 'Field' } ]
+            registeredFields: { 'foo.fighter.bar': { name: 'foo.fighter.bar', type: 'Field', count: 1 } }
           }
         }
       })
@@ -705,7 +705,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -716,7 +716,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'bar', type: 'Field' } ]
+            registeredFields: { bar: { name: 'bar', type: 'Field', count: 1 } }
           }
         }
       })
@@ -1275,7 +1275,7 @@ const describeField = (name, structure, combineReducers, expect) => {
             values: {
               age: 15 // number
             },
-            registeredFields: [ { name: 'age', type: 'Field' } ]
+            registeredFields: { age: { name: 'age', type: 'Field', count: 1 } }
           }
         }
       })

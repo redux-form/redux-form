@@ -4,7 +4,7 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
   it('should remove a field from registeredFields', () => {
     const state = reducer(fromJS({
       foo: {
-        registeredFields: [ { name: 'bar', type: 'field' } ]
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } }
       }
     }), unregisterField('foo', 'bar'))
     expect(state)
@@ -25,15 +25,15 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
   it('should do nothing if the field is not registered', () => {
     const state = reducer(fromJS({
       foo: {
-        registeredFields: [ 
-          { name: 'bar', type: 'field' }
-        ]
+        registeredFields: {
+          bar: { name: 'bar', type: 'Field', count: 1 }
+        }
       }
     }), unregisterField('foo', 'baz'))
     expect(state)
       .toEqualMap({
         foo: {
-          registeredFields: [ { name: 'bar', type: 'field' } ]
+          registeredFields: { bar: { name: 'bar', type: 'Field', count: 1 } }
         }
       })
   })
@@ -41,27 +41,13 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
   it('should set count to zero when not destroyOnUnmount', () => {
     const state = reducer(fromJS({
       foo: {
-        registeredFields: [ { name: 'bar', type: 'field' } ]
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } }
       }
     }), unregisterField('foo', 'bar', false))
     expect(state)
       .toEqualMap({
         foo: {
-          registeredFields: [ { name: 'bar', type: 'field', count: 0 } ]
-        }
-      })
-  })
-
-  it('should remove field count when field is registered twice', () => {
-    const state = reducer(fromJS({
-      foo: {
-        registeredFields: [ { name: 'bar', type: 'field', count: 2 } ]
-      }
-    }), unregisterField('foo', 'bar'))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          registeredFields: [ { name: 'bar', type: 'field' } ]
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 0 } }
         }
       })
   })
@@ -69,13 +55,13 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
   it('should decrease count if the field is registered multiple times', () => {
     const state = reducer(fromJS({
       foo: {
-        registeredFields: [ { name: 'bar', type: 'field', count: 8 } ]
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 8 } }
       }
     }), unregisterField('foo', 'bar'))
     expect(state)
       .toEqualMap({
         foo: {
-          registeredFields: [ { name: 'bar', type: 'field', count: 7 } ]
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 7 } }
         }
       })
   })

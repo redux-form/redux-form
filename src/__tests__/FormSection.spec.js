@@ -158,7 +158,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 bar: '15'
               }
             },
-            registeredFields: [ { name: 'foo.bar', type: 'Field' } ]
+            registeredFields: { 'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 } }
           }
         }
       })
@@ -217,10 +217,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 baz: '100'
               }
             },
-            registeredFields: [
-              { name: 'foo.bar', type: 'Field' },
-              { name: 'foo.baz', type: 'Field' }
-            ]
+            registeredFields: {
+              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 },
+              'foo.baz': { name: 'foo.baz', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -274,12 +274,12 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 bar: [ 'dog', 'cat', 'fish' ]
               }
             },
-            registeredFields: [
-              { name: 'foo.bar', type: 'FieldArray' },
-              { name: 'foo.bar[0]', type: 'Field' },
-              { name: 'foo.bar[1]', type: 'Field' },
-              { name: 'foo.bar[2]', type: 'Field' }
-            ]
+            registeredFields: {
+              'foo.bar': { name: 'foo.bar', type: 'FieldArray', count: 1 },
+              'foo.bar[0]': { name: 'foo.bar[0]', type: 'Field', count: 1 },
+              'foo.bar[1]': { name: 'foo.bar[1]', type: 'Field', count: 1 },
+              'foo.bar[2]': { name: 'foo.bar[2]', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -294,11 +294,11 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 bar: [ 'dog', 'cat' ]
               }
             },
-            registeredFields: [
-              { name: 'foo.bar', type: 'FieldArray' },
-              { name: 'foo.bar[0]', type: 'Field' },
-              { name: 'foo.bar[1]', type: 'Field' }
-            ]
+            registeredFields: {
+              'foo.bar': { name: 'foo.bar', type: 'FieldArray', count: 1 },
+              'foo.bar[0]': { name: 'foo.bar[0]', type: 'Field', count: 1 },
+              'foo.bar[1]': { name: 'foo.bar[1]', type: 'Field', count: 1 }
+            }
           }
         }
       })

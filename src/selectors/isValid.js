@@ -1,7 +1,7 @@
 import createHasError from '../hasError'
 
 const createIsValid = structure => {
-  const { getIn } = structure
+  const { getIn, keys } = structure
   const hasError = createHasError(structure)
   return (form, getFormState = state => getIn(state, 'form'), ignoreSubmitErrors = false) =>
     state => {
@@ -25,8 +25,14 @@ const createIsValid = structure => {
         return true
       }
 
-      const registeredFields = getIn(formState, `${form}.registeredFields`) || []
-      return !registeredFields.some(field => hasError(field, syncErrors, asyncErrors, submitErrors))
+      const registeredFields = getIn(formState, `${form}.registeredFields`)
+      if (!registeredFields) {
+        return true
+      }
+      
+      return !keys(registeredFields).filter(
+        name => getIn(registeredFields, `['${name}'].count`) > 0).some(
+          name => hasError(getIn(registeredFields, `['${name}']`), syncErrors, asyncErrors, submitErrors))
     }
 }
 

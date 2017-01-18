@@ -42,6 +42,7 @@ const createReducer = structure => {
     setIn,
     deleteIn,
     fromJS,
+    keys,
     size,
     splice
   } = structure
@@ -227,8 +228,7 @@ const createReducer = structure => {
         //
         const previousValues = getIn(state, 'values')
         const previousInitialValues = getIn(state, 'initial')
-        registeredFields.forEach(field => {
-          const name = getIn(field, 'name')
+        keys(registeredFields).forEach(name => {
           const previousInitialValue = getIn(previousInitialValues, name)
           const previousValue = getIn(previousValues, name)
           if (!deepEqual(previousValue, previousInitialValue)) {
@@ -245,36 +245,15 @@ const createReducer = structure => {
       return result
     },
     [REGISTER_FIELD](state, { payload: { name, type } }) {
-      let result = state
-      const registeredFields = getIn(result, 'registeredFields')
-      let fieldIndex = -1
-      let field
-      if (registeredFields) {
-        registeredFields.some((value, index) => {
-          if (getIn(value, 'name') === name) {
-            fieldIndex = index
-            field = value
-            return true // short circuit iteration
-          }
-        })
+      const key = `registeredFields['${name}']`
+      let field = getIn(state, key)
+      if (field) {
+        const count = getIn(field, 'count') + 1
+        field = setIn(field, 'count', count)
+      } else {
+        field = fromJS({ name, type, count: 1 })
       }
-      if (fieldIndex > -1) {
-        let count = getIn(field, 'count')
-        if (count === undefined) {
-          count = 1
-        }
-        if (count === 0) {
-          field = deleteIn(field, 'count')
-        } else {
-          field = setIn(field, 'count', count + 1)
-        }
-        result = setIn(result, 'registeredFields', splice(registeredFields, fieldIndex, 1, field))
-        return result
-      }
-
-      const mapData = fromJS({ name, type })
-      result = setIn(result, 'registeredFields', splice(registeredFields, size(registeredFields), 0, mapData))
-      return result
+      return setIn(state, key, field)
     },
     [RESET](state) {
       let result = empty
@@ -366,42 +345,24 @@ const createReducer = structure => {
       return result
     },
     [UNREGISTER_FIELD](state, { payload: { name, destroyOnUnmount } }) {
-      const registeredFields = getIn(state, 'registeredFields')
-
-      // in case the form was destroyed and registeredFields no longer exists
-      if (!registeredFields) {
-        return state
+      let result = state
+      const key = `registeredFields['${name}']`
+      let field = getIn(result, key)
+      if (!field) {
+        return result
       }
 
-      let fieldIndex = -1
-      let field
-      registeredFields.some((value, index) => {
-        if (getIn(value, 'name') === name) {
-          fieldIndex = index
-          field = value
-          return true // short circuit iteration
+      const count = getIn(field, 'count') - 1
+      if (count <= 0 && destroyOnUnmount) {
+        result = deleteIn(result, key)
+        if (deepEqual(getIn(result, 'registeredFields'), empty)) {
+          result = deleteIn(result, 'registeredFields')
         }
-      })
-
-      if (fieldIndex < 0) {
-        return state
+      } else {
+        field = setIn(field, 'count', count)
+        result = setIn(result, key, field)
       }
-      let count = getIn(field, 'count')
-      if (count === undefined) {
-        count = 1
-      }
-      if (count > 1 || !destroyOnUnmount) {
-        if (count === 2) {
-          field = deleteIn(field, 'count')
-        } else {
-          field = setIn(field, 'count', count - 1)
-        }
-        return setIn(state, 'registeredFields', splice(registeredFields, fieldIndex, 1, field))
-      }
-      if (size(registeredFields) <= 1) {
-        return deleteInWithCleanUp(state, 'registeredFields')
-      }
-      return setIn(state, 'registeredFields', splice(registeredFields, fieldIndex, 1))
+      return result
     },
     [UNTOUCH](state, { meta: { fields } }) {
       let result = state
