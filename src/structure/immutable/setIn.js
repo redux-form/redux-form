@@ -3,12 +3,12 @@ import { toPath } from 'lodash'
 
 const arrayPattern = /\[(\d+)\]/
 
-const undefinedArrayMerge = (previous, next) =>  
-  next !== undefined 
-    ? next 
+const undefinedArrayMerge = (previous, next) =>
+  next !== undefined
+    ? next
     : previous
 
-const mergeLists = (original, value) => 
+const mergeLists = (original, value) =>
   original && List.isList(original)
     ? original.mergeDeepWith(undefinedArrayMerge, value)
     : value
@@ -23,32 +23,25 @@ const mergeLists = (original, value) =>
  * undefined (which is the case for list / arrays).
  */
 export default function setIn(state, field, value) {
+  const path = toPath(field)
   if (!field || typeof field !== 'string' || !arrayPattern.test(field)) {
-    return state.setIn(toPath(field), value)
+    return state.setIn(path, value)
   }
 
   return state.withMutations(mutable => {
-    let arraySafePath = field.split('.')
-    let pathSoFar = null
+    for (let pathIndex = 0; pathIndex < path.length - 1; ++pathIndex) {
+      const nextPart = path[pathIndex + 1]
+      if (isNaN(nextPart)) {
+        continue
+      }
 
-    for (let partIndex in arraySafePath) {
-      let part = arraySafePath[partIndex]
-      let match = arrayPattern.exec(part)
-
-      pathSoFar = pathSoFar === null ? part : `${pathSoFar}.${part}`
-
-      if (!match) continue
- 
-      let arr = []
-      arr[parseInt(match[1])] = partIndex + 1 >= arraySafePath.length 
-        ? new Map() 
-        : undefined
-
+      const arr = []
+      arr[nextPart] = new Map()
       mutable = mutable.updateIn(
-        toPath(pathSoFar).slice(0, -1), 
+        path.slice(0, pathIndex + 1),
         value => mergeLists(value, new List(arr)))
     }
 
-    return mutable.setIn(toPath(field), value)
+    return mutable.setIn(path, value)
   })
 }

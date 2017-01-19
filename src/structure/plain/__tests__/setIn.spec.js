@@ -23,6 +23,14 @@ describe('structure.plain.setIn', () => {
       .toBe('second')
   })
 
+  it('should handle nested array paths', () => {
+    const result = setIn({}, 'a.b[2][1]', 'success')
+    const b = []
+    b[2] = []
+    b[2][1] = 'success'
+    expect(result).toEqual({ a: { b } })
+  })
+
   it('should set and shallow keys without mutating state', () => {
     const state = { foo: 'bar' }
     expect(setIn(state, 'foo', 'baz'))
