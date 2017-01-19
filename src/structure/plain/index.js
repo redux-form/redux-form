@@ -4,7 +4,6 @@ import setIn from './setIn'
 import deepEqual from './deepEqual'
 import deleteIn from './deleteIn'
 import keys from './keys'
-import { some } from 'lodash'
 
 const structure = {
   empty: {},
@@ -16,7 +15,6 @@ const structure = {
   fromJS: value => value,
   keys,
   size: array => array ? array.length : 0,
-  some,
   splice,
   toJS: value => value
 }
