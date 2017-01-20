@@ -741,6 +741,145 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(component.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
     })
 
+    it('should not prefix name in fields map callback when inside FormSection', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: { bar: [ { val: 'dog' }, { val: 'cat' } ] }
+          }
+        }
+      })
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <FieldArray name="bar" component={TestArray} />
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'foo.bar', type: 'FieldArray' },
+              { name: 'foo.bar[0].val', type: 'Field' },
+              { name: 'foo.bar[1].val', type: 'Field' }
+            ],
+            values: {
+              foo: { bar: [ { val: 'dog' }, { val: 'cat' } ] }
+            }
+          }
+        }
+      })
+
+      const components = TestUtils.scryRenderedComponentsWithType(dom, TestComponent)
+      expect(components[0].props.input.name).toBe('foo.bar[0].val')
+      expect(components[1].props.input.name).toBe('foo.bar[1].val')
+    })
+    it('should prefix name getter when inside FormSection', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: { bar: [ { val: 'dog' }, { val: 'cat' } ] }
+          }
+        }
+      })
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <FieldArray name="bar" component={TestArray} />
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      expect(stub.name).toBe('foo.bar')
+    })
+
+    it('should not prefix name in fields map callback when inside multiple FormSection', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: { fighter: { bar: [ { val: 'dog' }, { val: 'cat' } ] } }
+          }
+        }
+      })
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <FormSection name="fighter">
+              <FieldArray name="bar" component={TestArray} />
+            </FormSection>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'foo.fighter.bar', type: 'FieldArray' },
+              { name: 'foo.fighter.bar[0].val', type: 'Field' },
+              { name: 'foo.fighter.bar[1].val', type: 'Field' }
+            ],
+            values: {
+              foo: { fighter: { bar: [ { val: 'dog' }, { val: 'cat' } ] } }
+            }
+          }
+        }
+      })
+
+      const components = TestUtils.scryRenderedComponentsWithType(dom, TestComponent)
+      expect(components[0].props.input.name).toBe('foo.fighter.bar[0].val')
+      expect(components[1].props.input.name).toBe('foo.fighter.bar[1].val')
+    })
+    it('should prefix name getter when inside multiple FormSection', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: { fighter: { bar: [ { val: 'dog' }, { val: 'cat' } ] } }
+          }
+        }
+      })
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <FormSection name="fighter">
+              <FieldArray name="bar" component={TestArray} />
+            </FormSection>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
+      expect(stub.name).toBe('foo.fighter.bar')
+    })
+
     it('should provide field-level sync error for array field', () => {
       const store = makeStore({
         testForm: {

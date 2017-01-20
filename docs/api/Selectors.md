@@ -18,6 +18,7 @@ defaults to `state => state.form`, assuming that you have mounted the `redux-for
 ```js
 import {
   getFormValues,
+  getFormInitialValues,
   getFormSyncErrors,
   getFormAsyncErrors,
   getFormSubmitErrors,
@@ -34,6 +35,7 @@ import {
 MyComponent = connect(
   state => ({
     values: getFormValues('myForm')(state),
+    initialValues: getFormInitialValues('myForm')(state),
     syncErrors: getFormSyncErrors('myForm')(state),
     asyncErrors: getFormAsyncErrors('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
@@ -54,6 +56,10 @@ MyComponent = connect(
 ### `getFormValues(formName:String)` returns `(state) => formValues:Object`
 
 > Gets the form values. Shocking, right?
+
+### `getFormInitialValues(formName:String)` returns `(state) => formInitialValues:Object`
+
+> Gets the form's initial values.
 
 ### `getFormSyncErrors(formName:String)` returns `(state) => formSyncErrors:Object`
 

@@ -41,7 +41,7 @@ const createFields = ({ deepEqual, getIn, toJS }) => {
       }
       const { context } = this  
       const { _reduxForm: { register } } = context
-      this.names.forEach(name => register(prefixName(context, name), 'Field'))
+      this.names.forEach(name => register(name, 'Field'))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -69,7 +69,8 @@ const createFields = ({ deepEqual, getIn, toJS }) => {
     }
 
     get names() {
-      return this.props.names
+      const { context } = this
+      return this.props.names.map(name => prefixName(context, name))
     }
 
     get dirty() {

@@ -77,6 +77,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       const props = createFieldArrayProps(
         getIn,
         name,
+        _reduxForm.sectionPrefix,
         this.getValue,
         rest
       )

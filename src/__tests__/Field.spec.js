@@ -589,6 +589,45 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].meta.touched).toBe(true)
     })
 
+    it('should prefix name getter when inside FormSection', () => {
+      const store = makeStore()
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo" component="span">
+            <Field name="bar" component="input"/>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.name).toBe('foo.bar')
+    })
+    it('should prefix name getter when inside multiple FormSection', () => {
+      const store = makeStore()
+      class Form extends Component {
+        render() {
+          return (<FormSection name="foo">
+            <FormSection name="fighter">
+              <Field name="bar" component="input"/>
+            </FormSection>
+          </FormSection>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const stub = TestUtils.findRenderedComponentWithType(dom, Field)
+      expect(stub.name).toBe('foo.fighter.bar')
+    })
+
     it('should prefix name when inside FormSection', () => {
       const store = makeStore()
       class Form extends Component {
