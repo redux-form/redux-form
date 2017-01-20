@@ -1380,6 +1380,72 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(fields.anotherCustomProp).toBe(42)
       expect(fields.customBooleanFlag).toBe(true)
     })
+
+    it('should provide correct prop structure after names change', () => {
+      const store = makeStore()
+      const renderFields = createSpy(() => <div/>).andCallThrough()
+      class Form extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { names: [ 'foo', 'bar', 'deep.dive', 'array[0]' ] }
+          this.changeNames = this.changeNames.bind(this) 
+        }
+        changeNames() {
+          this.setState({ names: [ 'fighter', 'fly.high', 'array[1]' ] })
+        }
+        render() {
+          return (<div>
+            <Fields
+              names={this.state.names}
+              component={renderFields}
+              someCustomProp="testing"
+              anotherCustomProp={42}
+              customBooleanFlag/>
+            <button type="button" onClick={this.changeNames} />
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+      expect(renderFields).toHaveBeenCalled()
+      expect(renderFields.calls.length).toBe(2)
+      const fields = renderFields.calls[ 1 ].arguments[ 0 ]
+
+      const expectField = field => {
+        expect(field).toExist()
+        expect(field.input).toExist()
+        expect(field.input.onChange).toBeA('function')
+        expect(field.input.onBlur).toBeA('function')
+        expect(field.input.onFocus).toBeA('function')
+        expect(field.meta).toExist()
+        expect(field.meta.pristine).toBe(true)
+        expect(field.meta.dirty).toBe(false)
+        expect(field.someCustomProp).toNotExist()
+        expect(field.anotherCustomProp).toNotExist()
+        expect(field.customBooleanFlag).toNotExist()
+      }
+
+      expectField(fields.fighter)
+      expect(fields.fly).toExist()
+      expectField(fields.fly.high)
+      expect(fields.array).toExist()
+      expectField(fields.array[1])
+      expect(fields.someCustomProp).toBe('testing')
+      expect(fields.anotherCustomProp).toBe(42)
+      expect(fields.customBooleanFlag).toBe(true)
+
+      expect(fields.foo).toNotExist()
+      expect(fields.bar).toNotExist()
+      expect(fields.deep).toNotExist()
+      expect(fields.array[0]).toNotExist()
+    })
   })
 }
 

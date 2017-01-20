@@ -8,7 +8,7 @@ const propsToNotUpdateFor = [
   '_reduxForm'
 ]
 
-const createConnectedFields = ({ deepEqual, getIn, toJS }) => {
+const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
 
   const getSyncError = (syncErrors, name) => {
     const error = plain.getIn(syncErrors, name)
@@ -32,19 +32,45 @@ const createConnectedFields = ({ deepEqual, getIn, toJS }) => {
       this.handleFocus = this.handleFocus.bind(this)
       this.handleBlur = this.handleBlur.bind(this)
 
-      this.onChangeFns = Object.keys(props._fields).reduce((acc, name) => ({
-        ...acc, [name]: event => this.handleChange(name, event)
-      }), {})
+      this.onChangeFns = props.names.reduce((acc, name) => {
+        acc[name] = event => this.handleChange(name, event)
+        return acc
+      }, {})
 
-      this.onFocusFns = Object.keys(props._fields).reduce((acc, name) => ({
-        ...acc, [name]: () => this.handleFocus(name)
-      }), {})
+      this.onFocusFns = props.names.reduce((acc, name) => {
+        acc[name] = () => this.handleFocus(name)
+        return acc
+      }, {})
 
-      this.onBlurFns = Object.keys(props._fields).reduce((acc, name) => ({
-        ...acc, [name]: event => this.handleBlur(name, event)
-      }), {})
+      this.onBlurFns = props.names.reduce((acc, name) => {
+        acc[name] = event => this.handleBlur(name, event)
+        return acc
+      }, {})
     }
 
+    componentWillReceiveProps(nextProps) {
+      if (this.props.names !== nextProps.names &&
+        (size(this.props.names) !== size(nextProps.names) ||
+        nextProps.names.some(nextName => !this.props._fields[nextName]))) {
+
+        // names is changed. The cached event handlers need to be updated
+        this.onChangeFns = nextProps.names.reduce((acc, name) => {
+          acc[name] = event => this.handleChange(name, event)
+          return acc
+        }, {})
+
+        this.onFocusFns = nextProps.names.reduce((acc, name) => {
+          acc[name] = () => this.handleFocus(name)
+          return acc
+        }, {})
+
+        this.onBlurFns = nextProps.names.reduce((acc, name) => {
+          acc[name] = event => this.handleBlur(name, event)
+          return acc
+        }, {})
+      }
+    }
+    
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
