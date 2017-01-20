@@ -25,6 +25,7 @@ export const {
   focus,
   formValueSelector,
   getFormValues,
+  getFormInitialValues,
   getFormSyncErrors,
   getFormAsyncErrors,
   getFormSubmitErrors,
