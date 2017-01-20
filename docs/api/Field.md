@@ -222,7 +222,8 @@ The following properties and methods are available on an instance of a `Field` c
 
 #### `name : String`
 
-> The `name` prop that you passed in.
+> When nested in `FormSection`, returns the `name` prop prefixed with the `FormSection` name.
+Otherwise, returns the `name` prop that you passed in.
 
 #### `pristine : boolean`
 
@@ -259,7 +260,8 @@ to be destructured into your `<input/>` component.
 
 #### `input.name : String`
 
-> The name prop passed in.
+> When nested in `FormSection`, returns the `name` prop prefixed with the `FormSection` name.
+Otherwise, returns the `name` prop that you passed in.
 
 #### `input.onBlur(eventOrValue) : Function`
 

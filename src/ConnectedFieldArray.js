@@ -69,12 +69,13 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         component,
         withRef,
         name,
-        _reduxForm, // eslint-disable-line no-unused-vars
+        _reduxForm,
         ...rest
       } = this.props
       const props = createFieldArrayProps(
         getIn,
         name,
+        _reduxForm.sectionPrefix,
         this.getValue,
         {
           ...rest,
