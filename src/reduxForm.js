@@ -77,7 +77,7 @@ const checkSubmit = submit => {
  */
 const createReduxForm =
   structure => {
-    const { deepEqual, empty, getIn, setIn, fromJS } = structure
+    const { deepEqual, empty, getIn, setIn, keys, fromJS } = structure
     const isValid = createIsValid(structure)
     return initialConfig => {
       const config = {
@@ -96,8 +96,6 @@ const createReduxForm =
       }
 
       return WrappedComponent => {
-        let instances = 0
-
         class Form extends Component {
           constructor(props) {
             super(props)
@@ -113,8 +111,6 @@ const createReduxForm =
             this.lastFieldValidatorKeys = []
             this.fieldWarners = {}
             this.lastFieldWarnerKeys = []
-
-            instances++
           }
 
           getChildContext() {
@@ -258,10 +254,6 @@ const createReduxForm =
               this.destroyed = true
               destroy()
             }
-
-            this.unmounted = true
-
-            instances--
           }
 
           getValues() {
@@ -287,15 +279,28 @@ const createReduxForm =
           }
 
           unregister(name) {
-            if ((this.props.destroyOnUnmount || this.props.forceUnregisterOnUnmount) && !this.destroyed && (!this.unmounted || !instances)) {
-              this.props.unregisterField(name)
-              delete this.fieldValidators[ name ]
-              delete this.fieldWarners[ name ]
+            if (!this.destroyed) {
+              if (this.props.destroyOnUnmount || this.props.forceUnregisterOnUnmount) {
+                this.props.unregisterField(name)
+                delete this.fieldValidators[name]
+                delete this.fieldWarners[name]
+              } else {
+                this.props.unregisterField(name, false)
+              }
             }
           }
 
           getFieldList() {
-            return this.props.registeredFields.map((field) => getIn(field, 'name'))
+            let registeredFields = this.props.registeredFields
+            let list = []
+            if (!registeredFields) {
+              return list
+            }
+            let keySeq = keys(registeredFields)
+            return fromJS(keySeq.reduce((acc, key) => {
+              acc.push(key)
+              return acc
+            }, list))
           }
 
           generateValidator() {
@@ -556,7 +561,7 @@ const createReduxForm =
             const asyncErrors = getIn(formState, 'asyncErrors')
             const syncErrors = getIn(formState, 'syncErrors') || {}
             const syncWarnings = getIn(formState, 'syncWarnings') || {}
-            const registeredFields = getIn(formState, 'registeredFields') || []
+            const registeredFields = getIn(formState, 'registeredFields')
             const valid = isValid(form, getFormState, false)(state)
             const validExceptSubmit = isValid(form, getFormState, true)(state)
             const anyTouched = !!getIn(formState, 'anyTouched')

@@ -31,6 +31,23 @@ describe('structure.immutable.setIn', () => {
       .toBeA(List)
       .toEqual(fromJS([ 'success' ]))
   })
+  it('should handle nested array paths', () => {
+    const result = setIn(new Map(), 'a.b[2][1]', 'success')
+
+    const a = result.get('a')
+    expect(a).toExist('a missing')
+
+    const b = a.get('b')
+    expect(b)
+      .toExist('b missing')
+      .toBeA(List)
+
+    const b2 = b.get(2)
+    expect(b2)
+      .toExist('b[2] missing')
+      .toBeA(List)
+      .toEqual(fromJS([ undefined, 'success' ]))
+  })
   it('should handle array paths with successive sets', () => {
     let result = setIn(new Map(), 'a.b[2]', 'success')
     result = setIn(result, 'a.b[0]', 'success')

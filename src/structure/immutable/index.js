@@ -20,7 +20,6 @@ const structure = {
     Iterable.isIndexed(value) ? value.toList() : value.toMap()),
   keys,
   size: list => list ? list.size : 0,
-  some: (iterable, callback) => Iterable.isIterable(iterable) ? iterable.some(callback) : false,
   splice,
   toJS: value => Iterable.isIterable(value) ? value.toJS() : value
 }

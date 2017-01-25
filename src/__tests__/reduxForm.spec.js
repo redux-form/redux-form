@@ -476,7 +476,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             initial: initialValues,
             values: initialValues,
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -541,7 +541,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -565,12 +565,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+            },
             initial: initialValues,
             values: initialValues
           }
@@ -634,7 +631,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } },
             initial: initialValues1,
             values: initialValues1
           }
@@ -660,12 +657,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+            },
             initial: initialValues1,
             values: initialValues1
           }
@@ -739,7 +733,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } },
             initial: initialValues1,
             values: initialValues1
           }
@@ -778,12 +772,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+            },
             initial: initialValues2,
             values: initialValues2
           }
@@ -854,7 +845,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } },
             initial: initialValues1,
             values: initialValues1
           }
@@ -888,12 +879,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+            },
             initial: initialValues2,
             values: {
               deep: {
@@ -964,7 +952,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } },
             initial: initialValues1,
             values: initialValues1
           }
@@ -998,12 +986,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+            },
             initial: initialValues2,
             values: initialValues2
           }
@@ -1133,7 +1118,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } },
             initial: initialValues1,
             values: initialValues1
           }
@@ -1167,12 +1152,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              {
-                name: 'deep.foo',
-                type: 'Field'
-              }
-            ],
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+            },
             initial: initialValues2,
             values: initialValues2
           }
@@ -1228,7 +1210,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
      expect(store.getState()).toEqualMap({
      form: {
      testForm: {
-     registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+     registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } },
      initial: initialValues1,
      values: initialValues1
      }
@@ -1247,12 +1229,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
      expect(store.getState()).toEqualMap({
      form: {
      testForm: {
-     registeredFields: [
-     {
-     name: 'deep.foo',
-     type: 'Field'
-     }
-     ],
+     registeredFields: {
+     'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+     },
      initial: initialValues1,
      values: initialValues1
      }
@@ -1266,12 +1245,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
      expect(store.getState()).toEqualMap({
      form: {
      testForm: {
-     registeredFields: [
-     {
-     name: 'deep.foo',
-     type: 'Field'
-     }
-     ],
+     registeredFields: {
+     'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+     },
      initial: initialValues2,
      values: initialValues2
      }
@@ -1333,7 +1309,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       }, 'Form data in Redux did not get destroyed')
@@ -1363,7 +1339,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 foo: 'bob'
               }
             },
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -1436,7 +1412,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       }, 'Form data in Redux did not get destroyed')
@@ -1466,7 +1442,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 foo: 'bob'
               }
             },
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -1485,7 +1461,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 foo: 'bob'
               }
             },
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 0 } }
           }
         }
       })
@@ -1536,13 +1512,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      expect(stub.fieldList).toEqual(fromJS([ 'foo', 'fooArray' ]))
+      expect(stub.fieldList).toContainExactly([ 'foo', 'fooArray' ])
 
       // switch fields
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(stub.fieldList).toEqual(fromJS([ 'bar', 'barArray' ]))
+      expect(stub.fieldList).toContainExactly([ 'bar', 'barArray' ])
     })
 
     it('should keep a list of registered fields inside a FormSection', () => {
@@ -1579,13 +1555,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      expect(stub.fieldList).toEqual(fromJS([ 'sec.foo', 'sec.fooArray' ]))
+      expect(stub.fieldList).toContainExactly([ 'sec.foo', 'sec.fooArray' ])
 
       // switch fields
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(stub.fieldList).toEqual(fromJS([ 'sec.bar', 'sec.barArray' ]))
+      expect(stub.fieldList).toContainExactly([ 'sec.bar', 'sec.barArray' ])
     })
 
     it('should provide valid/invalid/values/dirty/pristine getters', () => {
@@ -1660,10 +1636,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'username', type: 'Field' },
-              { name: 'password', type: 'Field' }
-            ]
+            registeredFields: {
+              username: { name: 'username', type: 'Field', count: 1 },
+              password: { name: 'password', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -1680,10 +1656,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'username', type: 'Field' },
-              { name: 'password', type: 'Field' }
-            ],
+            registeredFields: {
+              username: { name: 'username', type: 'Field', count: 1 },
+              password: { name: 'password', type: 'Field', count: 1 }
+            },
             anyTouched: true,
             fields: {
               username: {
@@ -2464,7 +2440,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -2772,7 +2748,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -2799,7 +2775,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 foo: 'bar'
               }
             },
-            registeredFields: [ { name: 'deep.foo', type: 'Field' } ]
+            registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -2832,7 +2808,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   }
                 }
               },
-              registeredFields: [ { name: 'deep.foo', type: 'Field' } ],
+              registeredFields: { 'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 } },
               asyncErrors
             }
           }
@@ -3031,7 +3007,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -3230,7 +3206,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             initial: { foo: 'fooInitial' },
             values: { foo: 'fooInitial' },
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -3249,7 +3225,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             initial: { foo: 'fooInitial' },
             values: { foo: 'fooChanged' },
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -3268,7 +3244,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             initial: { foo: 'fooInitial' },
             values: { foo: 'fooChanged' },
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 0 } }
           }
         }
       })
@@ -3282,7 +3258,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             initial: { foo: 'fooInitial' },
             values: { foo: 'fooChanged' },
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -3317,7 +3293,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -3331,7 +3307,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo', type: 'Field' } ],
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } },
             values: { foo: 'newValue' },
             fields: { foo: { touched: true } },
             anyTouched: true
@@ -3368,7 +3344,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo', type: 'Field' } ]
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -3382,7 +3358,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [ { name: 'foo', type: 'Field' } ],
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } },
             values: { foo: 'newValue' }
           }
         }
@@ -3437,12 +3413,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   touched: true
                 }
               },
-              registeredFields: [
-                {
-                  name: 'foo',
-                  type: 'Field'
-                }
-              ],
+              registeredFields: {
+                foo: { name: 'foo', type: 'Field', count: 1 }
+              },
               submitSucceeded: true
             }
           }
@@ -3490,12 +3463,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 touched: true
               }
             },
-            registeredFields: [
-              {
-                name: 'foo',
-                type: 'Field'
-              }
-            ],
+            registeredFields: {
+              foo: { name: 'foo', type: 'Field', count: 1 }
+            },
             submitting: true,
             submitSucceeded: true
           }

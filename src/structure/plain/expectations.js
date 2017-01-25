@@ -32,6 +32,14 @@ const expectations = {
 
   toEqualMap(expected) {
     return expect(this.actual).toEqual(expected)
+  },
+
+  toContainExactly(expected) {
+    const sortedActual = this.actual.slice()
+    sortedActual.sort()
+    const sortedExpected = expected.slice()
+    sortedExpected.sort()
+    return expect(sortedActual).toEqual(sortedExpected)
   }
 }
 

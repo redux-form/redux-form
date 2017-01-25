@@ -766,11 +766,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'foo.bar', type: 'FieldArray' },
-              { name: 'foo.bar[0].val', type: 'Field' },
-              { name: 'foo.bar[1].val', type: 'Field' }
-            ],
+            registeredFields: {
+              'foo.bar': { name: 'foo.bar', type: 'FieldArray', count: 1 },
+              'foo.bar[0].val': { name: 'foo.bar[0].val', type: 'Field', count: 1 },
+              'foo.bar[1].val': { name: 'foo.bar[1].val', type: 'Field', count: 1 }
+            },
             values: {
               foo: { bar: [ { val: 'dog' }, { val: 'cat' } ] }
             }
@@ -836,11 +836,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'foo.fighter.bar', type: 'FieldArray' },
-              { name: 'foo.fighter.bar[0].val', type: 'Field' },
-              { name: 'foo.fighter.bar[1].val', type: 'Field' }
-            ],
+            registeredFields: {
+              'foo.fighter.bar': { name: 'foo.fighter.bar', type: 'FieldArray', count: 1 },
+              'foo.fighter.bar[0].val': { name: 'foo.fighter.bar[0].val', type: 'Field', count: 1 },
+              'foo.fighter.bar[1].val': { name: 'foo.fighter.bar[1].val', type: 'Field', count: 1 }
+            },
             values: {
               foo: { fighter: { bar: [ { val: 'dog' }, { val: 'cat' } ] } }
             }
@@ -1465,9 +1465,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 }
+            }
           }
         }
       })
@@ -1497,10 +1497,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             values: {
               dogs: [ undefined ]
             },
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' },
-              { name: 'dogs[0]', type: 'Field' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
+              'dogs[0]': { name: 'dogs[0]', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -1534,9 +1534,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 }
+            }
           }
         }
       })
@@ -1566,10 +1566,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             values: {
               dogs: [ 'Fido' ]
             },
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' },
-              { name: 'dogs[0]', type: 'Field' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
+              'dogs[0]': { name: 'dogs[0]', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -1603,9 +1603,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 }
+            }
           }
         }
       })
@@ -1635,10 +1635,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             values: {
               dogs: [ undefined ]
             },
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' },
-              { name: 'dogs[0]', type: 'Field' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
+              'dogs[0]': { name: 'dogs[0]', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -1672,9 +1672,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 }
+            }
           }
         }
       })
@@ -1704,10 +1704,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             values: {
               dogs: [ 'Fido' ]
             },
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' },
-              { name: 'dogs[0]', type: 'Field' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
+              'dogs[0]': { name: 'dogs[0]', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -1742,9 +1742,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 }
+            }
           }
         }
       })
@@ -1774,10 +1774,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             values: {
               dogs: [ undefined ]
             },
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' },
-              { name: 'dogs[0]', type: 'Field' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
+              'dogs[0]': { name: 'dogs[0]', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -1811,9 +1811,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 }
+            }
           }
         }
       })
@@ -1843,10 +1843,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             values: {
               dogs: [ 'Fido' ]
             },
-            registeredFields: [
-              { name: 'dogs', type: 'FieldArray' },
-              { name: 'dogs[0]', type: 'Field' }
-            ]
+            registeredFields: {
+              dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
+              'dogs[0]': { name: 'dogs[0]', type: 'Field', count: 1 }
+            }
           }
         }
       })

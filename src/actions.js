@@ -129,8 +129,8 @@ export const setSubmitSucceeded = (form, ...fields) =>
 export const touch = (form, ...fields) =>
   ({ type: TOUCH, meta: { form, fields } })
 
-export const unregisterField = (form, name) =>
-  ({ type: UNREGISTER_FIELD, meta: { form }, payload: { name } })
+export const unregisterField = (form, name, destroyOnUnmount = true) =>
+  ({ type: UNREGISTER_FIELD, meta: { form }, payload: { name, destroyOnUnmount } })
 
 export const untouch = (form, ...fields) =>
   ({ type: UNTOUCH, meta: { form, fields } })

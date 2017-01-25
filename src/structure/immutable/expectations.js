@@ -48,6 +48,18 @@ const api = {
       this.actual
     )
     return this
+  },
+
+  toContainExactly(expected) {
+    const expectedItems = expected.map(expectedItem => fromJS(expectedItem))
+    expect.assert(
+      this.actual.count() === expected.length && this.actual.every(
+          actualItem => expectedItems.some(expectedItem => deepEqualValues(actualItem, expectedItem))),
+      'expected...\n%s\n...but found...\n%s',
+      this.actual,
+      expected
+    )
+    return this
   }
 }
 

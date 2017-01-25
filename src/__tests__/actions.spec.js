@@ -568,7 +568,8 @@ describe('actions', () => {
           form: 'myForm'
         },
         payload: {
-          name: 'foo'
+          name: 'foo',
+          destroyOnUnmount: true
         }
       })
       .toPass(isFSA)
