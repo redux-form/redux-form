@@ -10,6 +10,8 @@ Before opening an issue, please search the [issue tracker](https://github.com/er
 
 For support or usage questions, please search and ask on [StackOverflow with a `redux-form` tag](https://stackoverflow.com/questions/tagged/redux-form). We ask you to do this because StackOverflow has a much better job at keeping popular questions visible. Unfortunately good answers get lost and outdated on GitHub.
 
+**If you already asked at StackOverflow and still got no answers, post an issue with the question link, so we can either answer it or evolve into a bug/feature request.**
+
 ## Sending a pull request
 
 For non-trivial changes, please open an issue with a proposal for a new feature or refactoring before starting on the work. We don’t want you to waste your efforts on a pull request that we won’t want to accept.
