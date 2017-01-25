@@ -125,7 +125,79 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props2.meta.touched).toBe(true)
     })
 
+    it('should not pass api props into custom', () => {
+      const store = makeStore()
+      const renderSpy = createSpy()
+      class ArrayComponent extends Component {
+        render() {
+          renderSpy(this.props)
+          return <div/>
+        }
+      }
+      const apiProps = {
+        // all the official API props you can pass to Field
+        component: ArrayComponent,
+        name: 'foo',
+        props: {},
+        validate: () => undefined,
+        warn: () => undefined,
+        withRef: true
+      }
+      class Form extends Component {
+        render() {
+          return (<div>
+            <FieldArray {...apiProps}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
 
+      expect(renderSpy).toHaveBeenCalled()
+      const props = renderSpy.calls[ 0 ].arguments[ 0 ]
+      Object.keys(apiProps).forEach(key => expect(props[ key ]).toNotExist())
+    })
+
+    it('should provide name', () => {
+      const props = testProps({
+        values: {
+          foo: []
+        }
+      })
+      expect(props.fields.name).toBe('foo')
+    })
+    it('should prefix name when inside FormSection', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: []
+          }
+        }
+      })
+      class Form extends Component {
+        render() {
+          return (<div>
+            <FormSection name="foo">
+              <FieldArray name="bar" component={TestComponent}/>
+            </FormSection>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const props = TestUtils.findRenderedComponentWithType(dom, TestComponent).props
+      expect(props.fields.name).toBe('foo.bar')
+    })
     it('should provide forEach', () => {
       const props = testProps({
         values: {

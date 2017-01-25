@@ -79,6 +79,11 @@ object, alongside `fields` and `meta`.
 The `fields` object is a "pseudo-array", in that it has many of the same properties and methods 
 as a javascript `Array`, providing both reading and writing functionality.
 
+#### `fields.name : Function`
+
+> When nested in `FormSection`, returns the `name` prop prefixed with the `FormSection` name.
+Otherwise, returns the `name` prop that you passed in.
+
 #### `fields.forEach(callback) : Function`
 
 > A method to iterate over each value of the array. See the section on [Iteration](#iteration)
