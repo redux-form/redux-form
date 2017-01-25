@@ -5,6 +5,7 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
+import tmp from 'tmp'
 
 const describeCreateFieldProps = (name, structure, expect) => {
   const { empty, getIn, fromJS, toJS } = structure
@@ -332,6 +333,16 @@ const describeCreateFieldProps = (name, structure, expect) => {
         type: 'file'
       }).input.value)
         .toEqual(undefined)
+    })
+
+    it('should update value to selected file for file inputs', () => {
+      let tmpFile = tmp.fileSync()
+      expect(createFieldProps({ getIn, toJS }, 'foo', {
+        value: [ tmpFile ],
+        state: empty,
+        type: 'file'
+      }).input.value)
+        .toEqual([ tmpFile ])
     })
 
     it('should replace undefined value with empty string', () => {
