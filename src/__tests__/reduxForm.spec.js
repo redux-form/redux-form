@@ -1563,7 +1563,46 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(stub.fieldList).toContainExactly([ 'sec.bar', 'sec.barArray' ])
     })
+    it('should not set FieldArray as touched on submit', () => {
+      const store = makeStore({})
+      const onSubmit = createSpy()
+      const noopRender = () => <div/>
 
+      class Form extends Component {
+        render() {
+          const { handleSubmit } = this.props
+          return (
+            <form onSubmit={handleSubmit}>
+              <FieldArray name="fooArray" component={noopRender} type="text"/>
+              <button type="submit">Submit</button>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated onSubmit={onSubmit}/>
+        </Provider>
+      )
+
+      const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+      TestUtils.Simulate.submit(form)
+      expect(onSubmit).toHaveBeenCalled()
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            anyTouched: true,
+            registeredFields: {
+              fooArray: { name: 'fooArray', type: 'FieldArray', count: 1 }
+            },
+            submitSucceeded: true
+          }
+        }
+      })
+    })
+    
     it('should provide valid/invalid/values/dirty/pristine getters', () => {
       const store = makeStore({})
       const input = createSpy(props => <input {...props.input}/>).andCallThrough()

@@ -290,13 +290,16 @@ const createReduxForm =
             }
           }
 
-          getFieldList() {
+          getFieldList(options) {
             let registeredFields = this.props.registeredFields
             let list = []
             if (!registeredFields) {
               return list
             }
             let keySeq = keys(registeredFields)
+            if (options && options.excludeFieldArray) {
+              keySeq = keySeq.filter(name => getIn(registeredFields, `['${name}'].type`) !== 'FieldArray')
+            }
             return fromJS(keySeq.reduce((acc, key) => {
               acc.push(key)
               return acc
@@ -392,7 +395,7 @@ const createReduxForm =
                   return this.innerOnSubmit()
                 } else {
                   return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
-                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
+                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList({ excludeFieldArray: true })))
                 }
               }
             } else {
@@ -400,7 +403,7 @@ const createReduxForm =
               return silenceEvents(() => {
                 return !this.submitPromise &&
                   this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
-                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList()))
+                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList({ excludeFieldArray: true })))
               })
             }
           }
