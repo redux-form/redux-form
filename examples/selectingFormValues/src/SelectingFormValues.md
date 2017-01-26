@@ -4,7 +4,7 @@ There may be times when, in your form component, you would like to have access t
 some of the fields in your form. To get them, you will need to `connect()` directly to the form
 values in the Redux store. To facilitate this common use case, `redux-form` provides a convenient
 selector via the 
-[`formValueSelector`](https://redux-form.com/6.4.3/docs/api/FormValueSelector.md/)
+[`formValueSelector`](https://redux-form.com/6.5.0/docs/api/FormValueSelector.md/)
 API.
 
 **WARNING**: Use this method sparingly, as it will cause your _entire_ form to re-render every 

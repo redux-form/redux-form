@@ -36,9 +36,9 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="6.4.3"
+        version="6.5.0"
         path="/examples/wizard"
-        breadcrumbs={generateExampleBreadcrumbs('wizard', 'Wizard Form Example', '6.4.3')}>
+        breadcrumbs={generateExampleBreadcrumbs('wizard', 'Wizard Form Example', '6.5.0')}>
 
         <Markdown content={readme}/>
 

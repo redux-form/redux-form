@@ -749,7 +749,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
@@ -782,6 +782,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(components[0].props.input.name).toBe('foo.bar[0].val')
       expect(components[1].props.input.name).toBe('foo.bar[1].val')
     })
+
     it('should prefix name getter when inside FormSection', () => {
       const store = makeStore({
         testForm: {
@@ -790,7 +791,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
@@ -816,7 +817,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
@@ -860,7 +861,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
