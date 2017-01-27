@@ -24,6 +24,7 @@ import {
   FormSection,
   focus,
   formValueSelector,
+  getFormNames,
   getFormValues,
   getFormInitialValues,
   getFormSyncErrors,
@@ -122,6 +123,9 @@ describe('index', () => {
   })
   it('should export formValueSelector', () => {
     expect(formValueSelector).toExist().toBeA('function')
+  })
+  it('should export getFormNames', () => {
+    expect(getFormNames).toExist().toBeA('function')
   })
   it('should export getFormValues', () => {
     expect(getFormValues).toExist().toBeA('function')

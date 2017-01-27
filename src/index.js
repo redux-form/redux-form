@@ -24,6 +24,7 @@ export const {
   FormSection,
   focus,
   formValueSelector,
+  getFormNames,
   getFormValues,
   getFormInitialValues,
   getFormSyncErrors,
