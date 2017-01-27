@@ -6,8 +6,8 @@ engines:
       - javascript
   eslint:
     enabled: true
-  ratings:
+ratings:
   paths:
   - "**.js"
-  exclude_paths:
-  - "**.spec.js"
+exclude_paths:
+- "**.spec.js"
