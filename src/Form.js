@@ -16,10 +16,8 @@ class Form extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.onChange) {
       const currentValues = this.context._reduxForm.getValues()
-      if (this.previousValues) {
-        const currentValuesDiffer = !deepEqual(currentValues, this.previousValues)
-        if (currentValuesDiffer) nextProps.onChange(currentValues)
-      }
+      const currentValuesDiffer = !deepEqual(currentValues, this.previousValues)
+      if (currentValuesDiffer) nextProps.onChange(currentValues)
       this.previousValues = currentValues
     }
   }
