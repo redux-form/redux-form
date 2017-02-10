@@ -2887,7 +2887,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: 'testForm'
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated onChange={onChange}/>
         </Provider>
