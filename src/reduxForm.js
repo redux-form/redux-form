@@ -235,6 +235,11 @@ const createReduxForm =
             this.validateIfNeeded(nextProps)
             this.warnIfNeeded(nextProps)
             this.submitIfNeeded(nextProps)
+            if (nextProps.onChange) {
+              if (!deepEqual(nextProps.values, this.props.values)) {
+                nextProps.onChange(nextProps.values)
+              }
+            }
           }
 
           shouldComponentUpdate(nextProps) {
