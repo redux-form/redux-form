@@ -2867,6 +2867,68 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
     })
 
+    it('should call form-level onChange when values change', () => {
+      const store = makeStore({})
+      const renderFoo = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderBar = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const onChange = createSpy()
+
+      class Form extends Component {
+        render() {
+          return (
+            <form>
+              <Field name="foo" component={renderFoo} type="text"/>
+              <Field name="bar" component={renderBar} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated onChange={onChange}/>
+        </Provider>
+      )
+
+      const changeFoo = renderFoo.calls[0].arguments[0].input.onChange
+      const changeBar = renderBar.calls[0].arguments[0].input.onChange
+
+      expect(onChange).toNotHaveBeenCalled()
+
+      changeFoo('dog')
+
+      expect(onChange).toHaveBeenCalled()
+      expect(onChange.calls.length).toBe(1)
+
+      expect(onChange.calls[0].arguments[0]).toEqualMap({ foo: 'dog' })
+
+      changeBar('cat')
+
+      expect(onChange.calls.length).toBe(2)
+      expect(onChange.calls[1].arguments[0]).toEqualMap({
+        foo: 'dog',
+        bar: 'cat'
+      })
+
+      changeFoo('dog')
+
+      // onChange NOT called since value did not change
+      expect(onChange.calls.length).toBe(2)
+      expect(onChange.calls[1].arguments[0]).toEqualMap({
+        foo: 'dog',
+        bar: 'cat'
+      })
+
+      changeFoo('doggy')
+      expect(onChange.calls.length).toBe(3)
+      expect(onChange.calls[2].arguments[0]).toEqualMap({
+        foo: 'doggy',
+        bar: 'cat'
+      })
+    })
 
     describe('validateIfNeeded', () => {
 
