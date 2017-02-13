@@ -925,9 +925,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
 
-      // should validate twice, once for new field, and again to validate new field
-      expect(noMoreThanTwo.calls.length).toBe(3)
-      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      // should validate
+      expect(noMoreThanTwo.calls.length).toBe(2)
+      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
@@ -981,9 +981,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
 
-      // should validate twice, once for new field, and again to validate new field
-      expect(noMoreThanTwo.calls.length).toBe(3)
-      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      // should validate
+      expect(noMoreThanTwo.calls.length).toBe(2)
+      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
@@ -1035,9 +1035,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
 
-      // should validate twice, once for new field, and again to validate new field
-      expect(noMoreThanTwo.calls.length).toBe(3)
-      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      // should validate
+      expect(noMoreThanTwo.calls.length).toBe(2)
+      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
@@ -1091,9 +1091,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
 
-      // should validate twice, once for new field, and again to validate new field
-      expect(noMoreThanTwo.calls.length).toBe(3)
-      expect(noMoreThanTwo.calls[ 2 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      // should validate
+      expect(noMoreThanTwo.calls.length).toBe(2)
+      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
