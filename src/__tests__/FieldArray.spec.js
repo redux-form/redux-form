@@ -443,6 +443,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props.meta.error).toBe('foo error')
     })
 
+    it('should get submitFailed from Redux state', () => {
+      const props = testProps({
+        values: {
+          foo: 'bar'
+        },
+        submitFailed: true
+      })
+      expect(props.meta.submitFailed).toBe(true)
+    })
+
     it('should provide name getter', () => {
       const store = makeStore({
         testForm: {
