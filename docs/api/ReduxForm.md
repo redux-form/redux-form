@@ -81,6 +81,11 @@ reinitialization from overwriting user changes. Defaults to `false`.
 > The values with which to initialize your form in `componentWillMount()`.
 The values should be in the form `{ field1: 'value1', field2: 'value2' }`.
 
+#### `onChange : Function` [optional]
+
+> A callback function that will be called with all the form values any time any of the form
+values change.
+
 #### `onSubmit : Function` [optional]
 
 > The function to call with the form data when the `handleSubmit()` is fired from within the
