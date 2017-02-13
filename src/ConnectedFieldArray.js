@@ -123,6 +123,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         pristine,
         state: getIn(formState, `fields.${name}`),
         submitError: getIn(formState, `submitErrors.${name}._error`),
+        submitFailed: getIn(formState, 'submitFailed'),
         submitting,
         syncError,
         syncWarning,

@@ -43,6 +43,7 @@ const createFieldArrayProps = (getIn, name, sectionPrefix, getValue,
       invalid: !!error,
       pristine,
       submitting,
+      submitFailed,
       touched: !!(state && getIn(state, 'touched')),
       valid: !error
     },
