@@ -1,9 +1,12 @@
 import { PropTypes } from 'react'
-const { any, bool, func, shape } = PropTypes
+const { any, bool, func, shape, string, oneOfType } = PropTypes
 
 const propTypes = {
   // State:
-  asyncValidating: bool.isRequired,   // true if async validation is running
+  asyncValidating: oneOfType([
+    bool, 
+    string
+  ]).isRequired,                      // true if async validation is running, a string if a field triggered async validation
   dirty: bool.isRequired,             // true if any values are different from initialValues
   error: any,                         // form-wide error from '_error' key in validation result
   warning: any,                       // form-wide warning from '_warning' key in validation result
