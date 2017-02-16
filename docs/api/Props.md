@@ -97,7 +97,7 @@ This is a bound action creator, so it returns nothing.
 ### `autofill(field:String, value:any) : Function`
 
 > Sets the value and marks the field as `autofilled` in the Redux Store. This is useful when a
-a field needs to be set programmatically, but in a way that lets the user know (via a styling
+field needs to be set programmatically, but in a way that lets the user know (via a styling
 change using the `autofilled` prop in `Field`) that it has been autofilled for them
 programmatically.
 This is a bound action creator, so it returns nothing.
