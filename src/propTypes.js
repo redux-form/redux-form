@@ -1,19 +1,22 @@
 import { PropTypes } from 'react'
-const { any, bool, func, shape } = PropTypes
+const { any, bool, func, shape, string, object } = PropTypes
 
 const propTypes = {
   // State:
+  anyTouched: bool.isRequired,        // true if any of the fields have been marked as touched
   asyncValidating: bool.isRequired,   // true if async validation is running
   dirty: bool.isRequired,             // true if any values are different from initialValues
   error: any,                         // form-wide error from '_error' key in validation result
-  warning: any,                       // form-wide warning from '_warning' key in validation result
+  form: string.isRequired,            // the name of the form
   invalid: bool.isRequired,           // true if there are any validation errors
   initialized: bool.isRequired,       // true if the form has been initialized
+  initialValues: object.isRequired,   // the initialValues object passed to reduxForm
   pristine: bool.isRequired,          // true if the values are the same as initialValues
   submitting: bool.isRequired,        // true if the form is in the process of being submitted
   submitFailed: bool.isRequired,      // true if the form was submitted and failed for any reason
   submitSucceeded: bool.isRequired,   // true if the form was successfully submitted
   valid: bool.isRequired,             // true if there are no validation errors
+  warning: any,                       // form-wide warning from '_warning' key in validation result
   // Actions:
   array: shape({
     insert: func.isRequired,          // function to insert a value into an array field
@@ -28,8 +31,10 @@ const propTypes = {
     unshift: func.isRequired          // function to unshift a value into an array field
   }),
   asyncValidate: func.isRequired,     // function to trigger async validation
+  autofill: func.isRequired,          // action to set a value of a field and mark it as autofilled
   blur: func.isRequired,              // action to mark a field as blurred
   change: func.isRequired,            // action to change the value of a field
+  clearAsyncError: func.isRequired,   // action to clear the async error of a field
   destroy: func.isRequired,           // action to destroy the form's data in Redux
   dispatch: func.isRequired,          // the Redux dispatch action
   handleSubmit: func.isRequired,      // function to submit the form
