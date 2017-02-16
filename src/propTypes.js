@@ -8,7 +8,6 @@ const propTypes = {
     bool, 
     string
   ]).isRequired,                      // true if async validation is running, a string if a field triggered async validation
-  asyncValidating: bool.isRequired,   // true if async validation is running
   dirty: bool.isRequired,             // true if any values are different from initialValues
   error: any,                         // form-wide error from '_error' key in validation result
   form: string.isRequired,            // the name of the form
