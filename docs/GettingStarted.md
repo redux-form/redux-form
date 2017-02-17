@@ -28,6 +28,8 @@ const reducer = combineReducers(reducers)
 const store = createStore(reducer)
 ```
 
+*note that the key used to pass the redux-form reducer to `combineReducers` **must be named form***
+
 ### Step #2
 
 Decorate your form component with `reduxForm()`. This will provide your component with props that
