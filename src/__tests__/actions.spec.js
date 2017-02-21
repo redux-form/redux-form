@@ -14,6 +14,7 @@ import {
   BLUR,
   CHANGE,
   CLEAR_SUBMIT,
+  CLEAR_SUBMIT_ERRORS,
   DESTROY,
   FOCUS,
   INITIALIZE,
@@ -47,6 +48,7 @@ import {
   blur,
   change,
   clearSubmit,
+  clearSubmitErrors,
   destroy,
   focus,
   initialize,
@@ -325,6 +327,17 @@ describe('actions', () => {
     expect(clearSubmit('myForm'))
       .toEqual({
         type: CLEAR_SUBMIT,
+        meta: {
+          form: 'myForm'
+        }
+      })
+      .toPass(isFSA)
+  })
+
+  it('should create clear submit errors action', () => {
+    expect(clearSubmitErrors('myForm'))
+      .toEqual({
+        type: CLEAR_SUBMIT_ERRORS,
         meta: {
           form: 'myForm'
         }

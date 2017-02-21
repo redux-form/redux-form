@@ -107,6 +107,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'change',
         'clearAsyncError',
         'clearSubmit',
+        'clearSubmitErrors',
         'destroy',
         'dirty',
         'dispatch',
@@ -1602,7 +1603,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
     })
-    
+
     it('should provide valid/invalid/values/dirty/pristine getters', () => {
       const store = makeStore({})
       const input = createSpy(props => <input {...props.input}/>).andCallThrough()
