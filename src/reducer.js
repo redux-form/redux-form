@@ -173,7 +173,7 @@ const createReducer = structure => {
       return deleteIn(state, 'triggerSubmit')
     },
     [CLEAR_SUBMIT_ERRORS](state) {
-      return deleteInWithCleanUp(result, `submitErrors.${field}`)
+      return deleteInWithCleanUp(state, 'submitErrors')
     },
     [CLEAR_ASYNC_ERROR](state, { meta: { field } }) {
       return deleteIn(state, `asyncErrors.${field}`)
