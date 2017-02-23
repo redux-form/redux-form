@@ -29,6 +29,7 @@ export const {
   getFormInitialValues,
   getFormSyncErrors,
   getFormAsyncErrors,
+  getFormSyncWarnings,
   getFormSubmitErrors,
   initialize,
   isDirty,

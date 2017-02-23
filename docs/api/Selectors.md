@@ -21,6 +21,7 @@ import {
   getFormInitialValues,
   getFormSyncErrors,
   getFormAsyncErrors,
+  getFormSyncWarnings,
   getFormSubmitErrors,
   getFormNames,
   isDirty,
@@ -38,6 +39,7 @@ MyComponent = connect(
     initialValues: getFormInitialValues('myForm')(state),
     syncErrors: getFormSyncErrors('myForm')(state),
     asyncErrors: getFormAsyncErrors('myForm')(state),
+    syncWarnings: getFormSyncWarnings('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
     names: getFormNames('myForm')(state),
     dirty: isDirty('myForm')(state),
@@ -68,6 +70,10 @@ MyComponent = connect(
 ### `getFormAsyncErrors(formName:String)` returns `(state) => formAsyncErrors:Object`
 
 > Returns the form asynchronous validation errors.
+
+### `getFormSyncWarnings(formName:String)` returns `(state) => formSyncWarnings:Object`
+
+> Returns the form synchronous warnings.
 
 ### `getFormSubmitErrors(formName:String)` returns `(state) => formSubmitErrors:Object`
 
