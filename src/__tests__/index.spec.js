@@ -29,6 +29,7 @@ import {
   getFormInitialValues,
   getFormSyncErrors,
   getFormAsyncErrors,
+  getFormSyncWarnings,
   getFormSubmitErrors,
   initialize,
   isDirty,
@@ -138,6 +139,9 @@ describe('index', () => {
   })
   it('should export getFormAsyncErrors', () => {
     expect(getFormAsyncErrors).toExist().toBeA('function')
+  })
+  it('should export getFormSyncWarnings', () => {
+    expect(getFormSyncWarnings).toExist().toBeA('function')
   })
   it('should export getFormSubmitErrors', () => {
     expect(getFormSubmitErrors).toExist().toBeA('function')
