@@ -570,7 +570,7 @@ describe('readField', () => {
     const afterArray = fields.foo;
     const after1 = fields.foo[0];
     const after2 = fields.foo[1];
-    expect(beforeArray).toBe(afterArray); // array should be same instance
+    expect(beforeArray).toNotBe(afterArray); // array should be different
     expect(before1).toNotBe(after1);      // field instance should be different
     expect(before2).toNotBe(after2);      // field instance should be different
   });
