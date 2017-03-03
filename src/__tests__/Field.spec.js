@@ -89,6 +89,16 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       expect(props2.meta.pristine).toBe(false)
       expect(props2.meta.dirty).toBe(true)
+      const props3 = testProps({
+        initial: {
+          foo: [ 4, 'abc', { def: null, 'key': [ -45, '...', [ 0, 99 ] ] } ]
+        },
+        values: {
+          foo: [ 4, 'abc', { def: null, 'key': [ -45, '...', [ 0, 99 ] ] } ]
+        }
+      })
+      expect(props3.meta.pristine).toBe(true)
+      expect(props3.meta.dirty).toBe(false)
     })
 
     it('should allow an empty value from Redux state to be pristine', () => {
