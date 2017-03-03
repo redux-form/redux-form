@@ -213,7 +213,7 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
       const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)
-      const pristine = value === initial
+      const pristine = deepEqual(value, initial)
       return {
         asyncError: getIn(formState, `asyncErrors.${name}`),
         asyncValidating: getIn(formState, 'asyncValidating') === name,
