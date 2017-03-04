@@ -81,7 +81,7 @@ Well, almost. You will still need to:
 * Do something with the data that has been submitted. It will be passed as JSON to your `onSubmit`
 function.
 
-```
+```javascript
 import ContactForm from './ContactForm';
 
 class ContactPage extends React.Component {
