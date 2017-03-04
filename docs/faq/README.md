@@ -17,3 +17,5 @@ Below is a list of common problems or questions that people have using `redux-fo
 7. [Does `redux-form` work with ImmutableJS?](ImmutableJs.md)
 
 8. [Can I submit my form using websockets?](WebsocketSubmit.md)
+
+9. [How do I `mapStateToProps` or `mapDispatchToProps`?](HowToConnect.md)
