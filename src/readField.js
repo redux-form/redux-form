@@ -69,7 +69,7 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       fields[key] = fields[key] ? [...fields[key]] : [];
       addMethods(fields[key]);
     }
-    const fieldArray = fields[key];
+    let fieldArray = fields[key];
     let changed = false;
     stateArray.forEach((fieldState, index) => {
       if (rest && !fieldArray[index]) {
@@ -96,7 +96,11 @@ const readField = (state, fieldName, pathToHere = '', fields, syncErrors, asyncV
       // remove extra items that aren't in state array
       fieldArray.splice(stateArray.length, fieldArray.length - stateArray.length);
     }
-    return changed ? addMethods([...fieldArray]) : fieldArray;
+    if (changed) {
+      fieldArray = addMethods([...fieldArray]);
+    }
+    fields[key] = fieldArray;
+    return fieldArray;
   }
   if (dotIndex > 0) {
     // subobject field
