@@ -61,9 +61,9 @@ insert, so the item already at the `to` position will be bumped to a higher inde
 
 > Saves the value to the field.
 
-### `destroy(form:String)`
+### `destroy(...forms:String)`
 
-> Destroys the form, removing all its state.
+> Destroys the forms, removing all of their state.
 
 ### `focus(form:String, field:String)`
 
