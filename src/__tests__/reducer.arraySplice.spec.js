@@ -13,6 +13,63 @@ const describeArraySplice = (reducer, expect, { fromJS }) => () => {
       })
   })
 
+  it('should work with existing form errors', () => {
+    const state = reducer(fromJS({
+      foo: {
+        values: {
+          myField: {
+            subField: [ 'a' ]
+          }
+        },
+        fields: {
+          myField: {
+            subField: [
+              { touched: true }
+            ]
+          }
+        },
+        submitErrors: {
+          myField: {
+            subField: [ 'invalid value' ]
+          }
+        },
+        asyncErrors: {
+          myField: {
+            subField: [ 'invalid format' ]
+          }
+        }
+      }
+    }), arraySplice('foo', 'myField.subField', 0, 0, 'myValue'))
+    expect(state)
+      .toEqualMap({
+        foo: {
+          values: {
+            myField: {
+              subField: [ 'myValue', 'a' ]
+            }
+          },
+          fields: {
+            myField: {
+              subField: [
+                { },
+                { touched: true }
+              ]
+            }
+          },
+          submitErrors: {
+            myField: {
+              subField: [ undefined, 'invalid value' ]
+            }
+          },
+          asyncErrors: {
+            myField: {
+              subField: [ undefined, 'invalid format' ]
+            }
+          }
+        }
+      })
+  })
+
   it('should insert at beginning', () => {
     const state = reducer(fromJS({
       foo: {
