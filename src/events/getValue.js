@@ -26,7 +26,7 @@ const getValue = (event, isReactNative) => {
       return checked
     }
     if (type === 'file') {
-      return files || dataTransfer && dataTransfer.files
+      return files || (dataTransfer && dataTransfer.files)
     }
     if (type === 'select-multiple') {
       return getSelectedValues(event.target.options)

@@ -38,7 +38,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       const nextValue = nextProps.value
 
       if (thisValue && nextValue) {
-        if (thisValue.length != nextValue.length || thisValue.every(val => nextValue.some(next => deepEqual(val, next)))) {
+        if (thisValue.length !== nextValue.length || thisValue.every(val => nextValue.some(next => deepEqual(val, next)))) {
           return true
         }
       }

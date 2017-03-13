@@ -3,7 +3,7 @@ import { Iterable } from 'immutable'
 import { isEqualWith } from 'lodash'
 
 const customizer = (obj, other) => {
-  if (obj == other) return true
+  if (obj == other) return true // eslint-disable-line eqeqeq
   if ((obj == null || obj === '' || obj === false) &&
     (other == null || other === '' || other === false)) return true
 

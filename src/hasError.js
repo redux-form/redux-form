@@ -6,6 +6,8 @@ const getErrorKeys = (name, type) => {
       return [ name, `${name}._error` ]
     case 'FieldArray':
       return [ `${name}._error` ]
+    default:
+      throw new Error('Unknown field type')
   }
 }
 
