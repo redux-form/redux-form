@@ -10,6 +10,12 @@ const describeHasError = (name, structure, expect) => {
   const hasError = createHasError(structure)
 
   describe(name, () => {
+    it('should throw an error for an invalid field type', () => {
+      const field = fromJS({ name: 'foo', type: 'NotARealFieldType' })
+      const obj = fromJS({})
+      expect(() => hasError(field, obj, obj, obj)).toThrow(/Unknown field type/)
+    })
+
     it('should return false for falsy values', () => {
       const field = fromJS({ name: 'foo', type: 'Field' })
       expect(hasError(field, undefined)).toBe(false)
