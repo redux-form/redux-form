@@ -60,6 +60,7 @@ const createReducer = structure => {
     const nonValuesValue = value != null ? empty : undefined
     result = doSplice(result, 'values', field, index, removeNum, value, true)
     result = doSplice(result, 'fields', field, index, removeNum, nonValuesValue)
+    result = doSplice(result, 'syncErrors', field, index, removeNum, undefined)
     result = doSplice(result, 'submitErrors', field, index, removeNum, undefined)
     result = doSplice(result, 'asyncErrors', field, index, removeNum, undefined)
     return result
