@@ -19,6 +19,7 @@ import describeAutofill from './reducer.autofill.spec'
 import describeBlur from './reducer.blur.spec'
 import describeChange from './reducer.change.spec'
 import describeClearSubmit from './reducer.clearSubmit.spec'
+import describeClearSubmitErrors from './reducer.clearSubmitErrors.spec'
 import describeClearAsyncError from './reducer.clearAsyncError.spec'
 import describeDestroy from './reducer.destroy.spec'
 import describeFocus from './reducer.focus.spec'
@@ -54,6 +55,7 @@ const tests = {
   blur: describeBlur,
   change: describeChange,
   clearSubmit: describeClearSubmit,
+  clearSubmitErrors: describeClearSubmitErrors,
   clearAsyncError: describeClearAsyncError,
   destroy: describeDestroy,
   focus: describeFocus,
