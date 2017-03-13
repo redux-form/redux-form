@@ -42,7 +42,6 @@ var config = {
   },
   plugins: [
     new LodashModuleReplacementPlugin,
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     })
@@ -60,7 +59,6 @@ if (env === 'production') {
       }
     })
   )
-  config.plugins.push(new webpack.optimize.DedupePlugin())
 }
 
 module.exports = config
