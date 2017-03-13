@@ -1,5 +1,7 @@
 # redux-form
 ---
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/erikras/redux-form.svg)](https://greenkeeper.io/)
 [<img src="http://npm.packagequality.com/badge/redux-form.png" align="right"/>](http://packagequality.com/#?package=redux-form)
 
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form) 
