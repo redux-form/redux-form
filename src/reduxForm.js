@@ -178,7 +178,7 @@ const createReduxForm =
                 const { _error, ...nextSyncErrors } = merge(
                   validate ? validate(propsToValidate.values, propsToValidate) || {} : {},
                   fieldLevelValidate ?
-                  fieldLevelValidate(propsToValidate.values, propsToValidate) || {} : {}
+                    fieldLevelValidate(propsToValidate.values, propsToValidate) || {} : {}
                 )
                 this.lastFieldValidatorKeys = fieldValidatorKeys
                 this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
@@ -287,8 +287,8 @@ const createReduxForm =
             if (!this.destroyed) {
               if (this.props.destroyOnUnmount || this.props.forceUnregisterOnUnmount) {
                 this.props.unregisterField(name)
-                delete this.fieldValidators[name]
-                delete this.fieldWarners[name]
+                delete this.fieldValidators[ name ]
+                delete this.fieldWarners[ name ]
               } else {
                 this.props.unregisterField(name, false)
               }
@@ -364,13 +364,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                asyncErrors,
-                initialized,
-                trigger: submitting ? 'submit' : 'blur',
-                blurredField: name,
-                pristine,
-                syncValidationPasses
-              })) {
+                  asyncErrors,
+                  initialized,
+                  trigger: submitting ? 'submit' : 'blur',
+                  blurredField: name,
+                  pristine,
+                  syncValidationPasses
+                })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props, name),
                   startAsyncValidation,
@@ -400,7 +400,7 @@ const createReduxForm =
           }
 
           submit(submitOrEvent) {
-            const { onSubmit } = this.props
+            const { onSubmit, blur, change, dispatch, validExceptSubmit } = this.props
 
             if (!submitOrEvent || silenceEvent(submitOrEvent)) {
               // submitOrEvent is an event: fire submit if not already submitting
@@ -409,16 +409,36 @@ const createReduxForm =
                   // will call "submitOrEvent is the submit function" block below
                   return this.innerOnSubmit()
                 } else {
-                  return this.listenToSubmit(handleSubmit(checkSubmit(onSubmit),
-                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList({ excludeFieldArray: true })))
+                  return this.listenToSubmit(
+                    handleSubmit(
+                      checkSubmit(onSubmit),
+                      {
+                        ...this.props,
+                        ...bindActionCreators({ blur, change }, dispatch)
+                      },
+                      validExceptSubmit,
+                      this.asyncValidate,
+                      this.getFieldList({ excludeFieldArray: true })
+                    )
+                  )
                 }
               }
             } else {
               // submitOrEvent is the submit function: return deferred submit thunk
               return silenceEvents(() => {
                 return !this.submitPromise &&
-                  this.listenToSubmit(handleSubmit(checkSubmit(submitOrEvent),
-                    this.props, this.props.validExceptSubmit, this.asyncValidate, this.getFieldList({ excludeFieldArray: true })))
+                  this.listenToSubmit(
+                    handleSubmit(
+                      checkSubmit(submitOrEvent),
+                      {
+                        ...this.props,
+                        ...bindActionCreators({ blur, change }, dispatch)
+                      },
+                      validExceptSubmit,
+                      this.asyncValidate,
+                      this.getFieldList({ excludeFieldArray: true })
+                    )
+                  )
               })
             }
           }
