@@ -13,6 +13,7 @@ import {
   BLUR,
   CHANGE,
   CLEAR_SUBMIT,
+  CLEAR_SUBMIT_ERRORS,
   CLEAR_ASYNC_ERROR,
   DESTROY,
   FOCUS,
@@ -171,6 +172,9 @@ const createReducer = structure => {
     [CLEAR_SUBMIT](state) {
       return deleteIn(state, 'triggerSubmit')
     },
+    [CLEAR_SUBMIT_ERRORS](state) {
+      return deleteInWithCleanUp(state, 'submitErrors')
+    },
     [CLEAR_ASYNC_ERROR](state, { meta: { field } }) {
       return deleteIn(state, `asyncErrors.${field}`)
     },
@@ -238,7 +242,7 @@ const createReducer = structure => {
         })
       }
       if (keepSubmitSucceeded && getIn(state, 'submitSucceeded')) {
-        result = setIn(result, 'submitSucceeded', true) 
+        result = setIn(result, 'submitSucceeded', true)
       }
       result = setIn(result, 'values', newValues)
       result = setIn(result, 'initial', mapData)
