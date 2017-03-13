@@ -1077,7 +1077,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
         }
       })
       const input = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const parse = createSpy(value => value && parseInt(value)).andCallThrough()
+      const parse = createSpy(value => value && parseInt(value, 10)).andCallThrough()
       const format = createSpy(value => value && value.toString()).andCallThrough()
       class Form extends Component {
         render() {

@@ -13,10 +13,14 @@ const addExpectations = expectations => {
       }
     }
     for (let key in dest) {
-      wrap(dest[ key ], key)
+      if (Object.prototype.hasOwnProperty.call(dest, key)) {
+        wrap(dest[ key ], key)
+      }
     }
     for (let key in expectations) {
-      wrap(expectations[ key ], key)
+      if (Object.prototype.hasOwnProperty.call(expectations, key)) {
+        wrap(expectations[ key ], key)
+      }
     }
     return dest
   }

@@ -27,7 +27,7 @@ describe('structure.plain.deleteIn', () => {
     const state = {
       foo: [ 'dog' ]
     }
-    expect(() => deleteIn(state, 'foo[bar]')).toThrow(/non\-numerical index/)
+    expect(() => deleteIn(state, 'foo[bar]')).toThrow(/non-numerical index/)
   })
 
   it('should delete shallow keys without mutating state', () => {
