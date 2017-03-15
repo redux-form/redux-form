@@ -85,13 +85,13 @@ function.
 import ContactForm from './ContactForm';
 
 class ContactPage extends React.Component {
-  handleSubmit = (values) => {
+  submit = (values) => {
     // Do something with the form values
     console.log(values);
   }
   render() {
     return (
-      <ContactForm onSubmit={this.handleSubmit} />
+      <ContactForm onSubmit={this.submit} />
     );
   }
 }
