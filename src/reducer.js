@@ -372,6 +372,9 @@ const createReducer = structure => {
     [UNTOUCH](state, { meta: { fields } }) {
       let result = state
       fields.forEach(field => result = deleteIn(result, `fields.${field}.touched`))
+      const anyTouched = keys(getIn(result, 'registeredFields'))
+        .some(key => getIn(result, `fields.${key}.touched`))
+      result = anyTouched ? setIn(result, 'anyTouched', true) : deleteIn(result, 'anyTouched')
       return result
     },
     [UPDATE_SYNC_ERRORS](state, { payload: { syncErrors, error } }) {
