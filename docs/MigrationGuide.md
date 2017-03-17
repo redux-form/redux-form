@@ -180,7 +180,7 @@ yourself if you need to access other values in the Redux store or bind action cr
 
 Sync validation is exactly the same as in `v5`. The only small difference is that if you are
 using ImmutableJS, the `values` given to your sync validation function will be an an
-`Immutable.Map`. The errors returned, however, should be a in a plain JS object, like always.
+`Immutable.Map`. The errors returned, however, should be a plain JS object, like always.
 
 ## Initialization with `initialValues`
 
