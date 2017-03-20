@@ -105,6 +105,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props2.meta.dirty).toBe(true)
     })
 
+    it('should provided meta.form', () => {
+      const props = testProps({})
+      expect(props.meta.form).toBe('testForm')
+    })
+
     it('should get touched from Redux state', () => {
       const props1 = testProps({
         values: {

@@ -1,4 +1,4 @@
-const createFieldArrayProps = (getIn, name, sectionPrefix, getValue,
+const createFieldArrayProps = (getIn, name, form, sectionPrefix, getValue,
   {
     arrayInsert, arrayMove, arrayPop, arrayPush, arrayRemove, arrayRemoveAll, arrayShift,
     arraySplice, arraySwap, arrayUnshift, asyncError, // eslint-disable-line no-unused-vars
@@ -39,6 +39,7 @@ const createFieldArrayProps = (getIn, name, sectionPrefix, getValue,
     meta: {
       dirty,
       error,
+      form,
       warning,
       invalid: !!error,
       pristine,

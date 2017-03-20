@@ -183,10 +183,9 @@ is tracking for you.
 > asynchronous, and submit validation errors will be reported here. Array-specific errors should be
 > returned from the validation function as an `_error` key on the array.
 
-#### `meta.warning : String` [optional]
+#### `meta.form : String`
 
-> The warning for this field array if its value is not passing warning validation. Array-specific
-> errors should be returned from the validation function as an `_warning` key on the array.
+> Name of your form provided to `reduxForm()` as the `form` config property.
 
 #### `meta.invalid : boolean`
 
@@ -204,6 +203,11 @@ is tracking for you.
 #### `meta.valid : boolean`
 
 > `true` if the field value passes validation (has no validation errors). Opposite of `invalid`.
+
+#### `meta.warning : String` [optional]
+
+> The warning for this field array if its value is not passing warning validation. Array-specific
+> errors should be returned from the validation function as an `_warning` key on the array.
 
 ## Iteration
 
