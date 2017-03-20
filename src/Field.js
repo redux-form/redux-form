@@ -110,7 +110,10 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
     onDragStart: PropTypes.func,
     onDrop: PropTypes.func,
     parse: PropTypes.func,
-    props: PropTypes.object
+    props: PropTypes.object,
+    validate: PropTypes.func,
+    warn: PropTypes.func,
+    withRef: PropTypes.bool
   }
   Field.contextTypes = {
     _reduxForm: PropTypes.object
