@@ -13,8 +13,9 @@ const propTypes = {
   form: string.isRequired,            // the name of the form
   invalid: bool.isRequired,           // true if there are any validation errors
   initialized: bool.isRequired,       // true if the form has been initialized
-  initialValues: object.isRequired,   // the initialValues object passed to reduxForm
+  initialValues: object,              // the initialValues object passed to reduxForm
   pristine: bool.isRequired,          // true if the values are the same as initialValues
+  pure: bool.isRequired,              // if true, implements shouldComponentUpdate
   submitting: bool.isRequired,        // true if the form is in the process of being submitted
   submitFailed: bool.isRequired,      // true if the form was submitted and failed for any reason
   submitSucceeded: bool.isRequired,   // true if the form was successfully submitted
@@ -44,7 +45,12 @@ const propTypes = {
   initialize: func.isRequired,        // action to initialize form data
   reset: func.isRequired,             // action to reset the form data to previously initialized values
   touch: func.isRequired,             // action to mark fields as touched
-  untouch: func.isRequired            // action to mark fields as untouched
+  submit: func.isRequired,            // action to trigger a submission of the specified form
+  untouch: func.isRequired,           // action to mark fields as untouched
+  
+  triggerSubmit: func.isRequired, // didn't find in the docs what is does
+  clearSubmit: func.isRequired // didn't know as well
+  
 }
 
 export default propTypes
