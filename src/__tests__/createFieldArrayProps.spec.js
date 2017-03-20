@@ -8,7 +8,7 @@ import addExpectations from './addExpectations'
 
 const describeCreateFieldProps = (name, structure, expect) => {
   const { fromJS, getIn, size } = structure
-  const defaultParams = [ getIn, 'foo', undefined, () => 69 ]
+  const defaultParams = [ getIn, 'foo', 'testForm', undefined, () => 69 ]
 
   describe(name, () => {
     it('should pass props through', () => {
@@ -213,7 +213,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
     it('should provide get that uses passed in getValue', () => {
       const value = fromJS([ 'a', 'b', 'c' ])
       const getValue = index => value && getIn(value, index) + 'DOG'
-      const result = createFieldArrayProps(getIn, 'foo', undefined, getValue, { value })
+      const result = createFieldArrayProps(getIn, 'foo', 'testForm', undefined, getValue, { value })
       expect(result.fields.get).toBeA('function')
       expect(result.fields.get(0)).toBe('aDOG')
       expect(result.fields.get(1)).toBe('bDOG')
