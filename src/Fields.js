@@ -102,7 +102,8 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
     component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
     format: PropTypes.func,
     parse: PropTypes.func,
-    props: PropTypes.object
+    props: PropTypes.object,
+    withRef: PropTypes.bool
   }
   Fields.contextTypes = {
     _reduxForm: PropTypes.object
