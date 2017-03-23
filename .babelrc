@@ -2,13 +2,13 @@
   "presets": ["es2015-no-commonjs", "react", "stage-2"],
   "env": {
     "development": {
-      "plugins": ["lodash", "transform-es2015-modules-commonjs"]
+      "plugins": ["lodash", "transform-es2015-modules-commonjs", "transform-runtime"]
     },
     "test": {
       "plugins": ["lodash", "transform-es2015-modules-commonjs", "istanbul"]
     },
     "production": {
-      "plugins": ["lodash", "transform-es2015-modules-commonjs"]
+      "plugins": ["lodash", "transform-es2015-modules-commonjs", "transform-runtime"]
     },
     "es": {
       "plugins": ["lodash", "./babel-lodash-es"]
