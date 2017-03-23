@@ -28,7 +28,7 @@ const reducer = combineReducers(reducers)
 const store = createStore(reducer)
 ```
 
-*Note that, by default, the key used to pass the `redux-form` reducer to `combineReducers` should be named* **`form`**. *Although there is support for custom key names, see [`getFormState` config](http://redux-form.com/6.5.0/docs/api/ReduxForm.md/#-getformstate-function-optional-) for more details.*
+*Note that, by default, the key used to pass the `redux-form` reducer to `combineReducers` should be named* **`form`**. *Although there is support for custom key names, see [`getFormState` config](http://redux-form.com/6.6.0/docs/api/ReduxForm.md/#-getformstate-function-optional-) for more details.*
 
 ### Step #2
 
@@ -101,4 +101,4 @@ class ContactPage extends React.Component {
 
 If you're starting out with `redux-form`, a good place to continue learning about how to connect
 up the inputs to `redux-form` would be the
-[Simple Form Example](https://redux-form.com/6.5.0/examples/simple).
+[Simple Form Example](https://redux-form.com/6.6.0/examples/simple).
