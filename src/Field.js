@@ -111,8 +111,8 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
     onDrop: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,
-    validate: PropTypes.func,
-    warn: PropTypes.func,
+    validate: PropTypes.oneOfType([ PropTypes.func, PropTypes.arrayOf(PropTypes.func) ]),
+    warn: PropTypes.oneOfType([ PropTypes.func, PropTypes.arrayOf(PropTypes.func) ]),
     withRef: PropTypes.bool
   }
   Field.contextTypes = {
