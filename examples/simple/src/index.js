@@ -23,7 +23,7 @@ const showResults = values =>
 let render = () => {
   const SimpleForm = require('./SimpleForm').default
   const readme = require('./Simple.md')
-  const raw = require('!!raw!./SimpleForm')
+  const raw = require('!!raw-loader!./SimpleForm')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -78,7 +78,7 @@ if (module.hot) {
   }
   module.hot.accept('./SimpleForm', rerender)
   module.hot.accept('./Simple.md', rerender)
-  module.hot.accept('!!raw!./SimpleForm', rerender)
+  module.hot.accept('!!raw-loader!./SimpleForm', rerender)
 }
 
 render()

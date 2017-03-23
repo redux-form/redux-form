@@ -23,9 +23,9 @@ const showResults = values =>
 let render = () => {
   const AsyncValidationForm = require('./AsyncValidationForm').default
   const readme = require('./AsyncValidation.md')
-  const raw = require('!!raw!./AsyncValidationForm')
-  const rawValidate = require('!!raw!./validate')
-  const rawAsyncValidate = require('!!raw!./asyncValidate')
+  const raw = require('!!raw-loader!./AsyncValidationForm')
+  const rawValidate = require('!!raw-loader!./validate')
+  const rawAsyncValidate = require('!!raw-loader!./asyncValidate')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -88,9 +88,9 @@ if (module.hot) {
   }
   module.hot.accept('./AsyncValidationForm', rerender)
   module.hot.accept('./AsyncValidation.md', rerender)
-  module.hot.accept('!!raw!./AsyncValidationForm', rerender)
-  module.hot.accept('!!raw!./asyncValidate', rerender)
-  module.hot.accept('!!raw!./validate', rerender)
+  module.hot.accept('!!raw-loader!./AsyncValidationForm', rerender)
+  module.hot.accept('!!raw-loader!./asyncValidate', rerender)
+  module.hot.accept('!!raw-loader!./validate', rerender)
 }
 
 render()

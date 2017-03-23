@@ -23,7 +23,7 @@ const showResults = values =>
 let render = () => {
   const SyncValidationForm = require('./SyncValidationForm').default
   const readme = require('./SyncValidation.md')
-  const raw = require('!!raw!./SyncValidationForm')
+  const raw = require('!!raw-loader!./SyncValidationForm')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -79,7 +79,7 @@ if (module.hot) {
   }
   module.hot.accept('./SyncValidationForm', rerender)
   module.hot.accept('./SyncValidation.md', rerender)
-  module.hot.accept('!!raw!./SyncValidationForm', rerender)
+  module.hot.accept('!!raw-loader!./SyncValidationForm', rerender)
 }
 
 render()

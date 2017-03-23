@@ -23,12 +23,12 @@ const showResults = values =>
 let render = () => {
   const WizardForm = require('./WizardForm').default
   const readme = require('./Wizard.md')
-  const rawWizard = require('!!raw!./WizardForm')
-  const rawValidate = require('!!raw!./validate')
-  const rawRenderField = require('!!raw!./renderField')
-  const WizardFormFirstPage = require('!!raw!./WizardFormFirstPage')
-  const WizardFormSecondPage = require('!!raw!./WizardFormSecondPage')
-  const WizardFormThirdPage = require('!!raw!./WizardFormThirdPage')
+  const rawWizard = require('!!raw-loader!./WizardForm')
+  const rawValidate = require('!!raw-loader!./validate')
+  const rawRenderField = require('!!raw-loader!./renderField')
+  const WizardFormFirstPage = require('!!raw-loader!./WizardFormFirstPage')
+  const WizardFormSecondPage = require('!!raw-loader!./WizardFormSecondPage')
+  const WizardFormThirdPage = require('!!raw-loader!./WizardFormThirdPage')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -108,11 +108,11 @@ if (module.hot) {
   module.hot.accept('./WizardFormSecondPage', rerender)
   module.hot.accept('./WizardFormThirdPage', rerender)
   module.hot.accept('./WizardFormThirdPage', rerender)
-  module.hot.accept('!!raw!./validate', rerender)
-  module.hot.accept('!!raw!./renderField', rerender)
-  module.hot.accept('!!raw!./WizardFormFirstPage', rerender)
-  module.hot.accept('!!raw!./WizardFormSecondPage', rerender)
-  module.hot.accept('!!raw!./WizardFormThirdPage', rerender)
+  module.hot.accept('!!raw-loader!./validate', rerender)
+  module.hot.accept('!!raw-loader!./renderField', rerender)
+  module.hot.accept('!!raw-loader!./WizardFormFirstPage', rerender)
+  module.hot.accept('!!raw-loader!./WizardFormSecondPage', rerender)
+  module.hot.accept('!!raw-loader!./WizardFormThirdPage', rerender)
 }
 
 render()

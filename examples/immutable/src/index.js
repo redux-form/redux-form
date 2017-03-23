@@ -21,9 +21,9 @@ const showResults = values =>
 let render = () => {
   const ImmutableForm = require('./ImmutableForm').default
   const readme = require('./Immutable.md')
-  const raw = require('!!raw!./ImmutableForm')
-  const rawValidate = require('!!raw!./validate')
-  const rawReducer = require('!!raw!./reducer')
+  const raw = require('!!raw-loader!./ImmutableForm')
+  const rawValidate = require('!!raw-loader!./validate')
+  const rawReducer = require('!!raw-loader!./reducer')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -86,9 +86,9 @@ if (module.hot) {
   }
   module.hot.accept('./ImmutableForm', rerender)
   module.hot.accept('./Immutable.md', rerender)
-  module.hot.accept('!!raw!./ImmutableForm', rerender)
-  module.hot.accept('!!raw!./reducer', rerender)
-  module.hot.accept('!!raw!./validate', rerender)
+  module.hot.accept('!!raw-loader!./ImmutableForm', rerender)
+  module.hot.accept('!!raw-loader!./reducer', rerender)
+  module.hot.accept('!!raw-loader!./validate', rerender)
 }
 
 render()

@@ -23,8 +23,8 @@ const showResults = values =>
 let render = () => {
   const FieldNormalizingForm = require('./FieldNormalizingForm').default
   const readme = require('./FieldNormalizing.md')
-  const raw = require('!!raw!./FieldNormalizingForm')
-  const rawNormalizePhone = require('!!raw!./normalizePhone')
+  const raw = require('!!raw-loader!./FieldNormalizingForm')
+  const rawNormalizePhone = require('!!raw-loader!./normalizePhone')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -84,8 +84,8 @@ if (module.hot) {
   }
   module.hot.accept('./FieldNormalizingForm', rerender)
   module.hot.accept('./FieldNormalizing.md', rerender)
-  module.hot.accept('!!raw!./FieldNormalizingForm', rerender)
-  module.hot.accept('!!raw!./normalizePhone', rerender)
+  module.hot.accept('!!raw-loader!./FieldNormalizingForm', rerender)
+  module.hot.accept('!!raw-loader!./normalizePhone', rerender)
 }
 
 render()

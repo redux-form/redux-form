@@ -30,7 +30,7 @@ const showResults = values =>
 let render = () => {
   const ReactWidgetsForm = require('./ReactWidgetsForm').default
   const readme = require('./ReactWidgets.md')
-  const raw = require('!!raw!./ReactWidgetsForm')
+  const raw = require('!!raw-loader!./ReactWidgetsForm')
   ReactDOM.render(
     <Provider store={store}>
         <App
@@ -85,7 +85,7 @@ if (module.hot) {
   }
   module.hot.accept('./ReactWidgetsForm', rerender)
   module.hot.accept('./ReactWidgets.md', rerender)
-  module.hot.accept('!!raw!./ReactWidgetsForm', rerender)
+  module.hot.accept('!!raw-loader!./ReactWidgetsForm', rerender)
 }
 
 render()

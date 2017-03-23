@@ -26,8 +26,8 @@ const showResults = values =>
 let render = () => {
   const InitializeFromStateForm = require('./InitializeFromStateForm').default
   const readme = require('./InitializeFromState.md')
-  const raw = require('!!raw!./InitializeFromStateForm')
-  const rawAccount = require('!!raw!./account')
+  const raw = require('!!raw-loader!./InitializeFromStateForm')
+  const rawAccount = require('!!raw-loader!./account')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -86,7 +86,7 @@ if (module.hot) {
   }
   module.hot.accept('./InitializeFromStateForm', rerender)
   module.hot.accept('./InitializeFromState.md', rerender)
-  module.hot.accept('!!raw!./InitializeFromStateForm', rerender)
+  module.hot.accept('!!raw-loader!./InitializeFromStateForm', rerender)
 }
 
 render()

@@ -15,8 +15,8 @@ const store =
 let render = () => {
   const SubmitValidationForm = require('./SubmitValidationForm').default
   const readme = require('./SubmitValidation.md')
-  const raw = require('!!raw!./SubmitValidationForm')
-  const rawSubmit = require('!!raw!./submit')
+  const raw = require('!!raw-loader!./SubmitValidationForm')
+  const rawSubmit = require('!!raw-loader!./submit')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -76,8 +76,8 @@ if (module.hot) {
   module.hot.accept('./SubmitValidationForm', rerender)
   module.hot.accept('./SubmitValidation.md', rerender)
   module.hot.accept('./submit', rerender)
-  module.hot.accept('!!raw!./SubmitValidationForm', rerender)
-  module.hot.accept('!!raw!./submit', rerender)
+  module.hot.accept('!!raw-loader!./SubmitValidationForm', rerender)
+  module.hot.accept('!!raw-loader!./submit', rerender)
 }
 
 render()

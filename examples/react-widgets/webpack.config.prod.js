@@ -25,17 +25,14 @@ module.exports = {
     })
   ],
   resolve: {
-    modulesDirectories: [
-      'src',
-      'node_modules'
-    ],
-    extensions: [ '', '.json', '.js' ]
+    modules: [ 'src', 'node_modules' ],
+    extensions: [ '.json', '.js' ]
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loaders: [ 'babel' ],
+        loaders: [ 'babel-loader' ],
         include: path.join(__dirname, 'src')
       },
       {

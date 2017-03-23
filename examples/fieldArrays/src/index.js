@@ -23,8 +23,8 @@ const showResults = values =>
 let render = () => {
   const FieldArraysForm = require('./FieldArraysForm').default
   const readme = require('./FieldArrays.md')
-  const raw = require('!!raw!./FieldArraysForm')
-  const rawValidate = require('!!raw!./validate')
+  const raw = require('!!raw-loader!./FieldArraysForm')
+  const rawValidate = require('!!raw-loader!./validate')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -85,7 +85,7 @@ if (module.hot) {
   module.hot.accept('./validate', rerender)
   module.hot.accept('./FieldArraysForm', rerender)
   module.hot.accept('./FieldArrays.md', rerender)
-  module.hot.accept('!!raw!./FieldArraysForm', rerender)
+  module.hot.accept('!!raw-loader!./FieldArraysForm', rerender)
 }
 
 render()

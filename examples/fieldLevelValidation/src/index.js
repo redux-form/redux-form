@@ -23,7 +23,7 @@ const showResults = values =>
 let render = () => {
   const FieldLevelValidationForm = require('./FieldLevelValidationForm').default
   const readme = require('./FieldLevelValidation.md')
-  const raw = require('!!raw!./FieldLevelValidationForm')
+  const raw = require('!!raw-loader!./FieldLevelValidationForm')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -79,7 +79,7 @@ if (module.hot) {
   }
   module.hot.accept('./FieldLevelValidationForm', rerender)
   module.hot.accept('./FieldLevelValidation.md', rerender)
-  module.hot.accept('!!raw!./FieldLevelValidationForm', rerender)
+  module.hot.accept('!!raw-loader!./FieldLevelValidationForm', rerender)
 }
 
 render()

@@ -16,9 +16,9 @@ let render = () => {
   const RemoteSubmitForm = require('./RemoteSubmitForm').default
   const RemoteSubmitButton = require('./RemoteSubmitButton').default
   const readme = require('./RemoteSubmit.md')
-  const raw = require('!!raw!./RemoteSubmitForm')
-  const rawButton = require('!!raw!./RemoteSubmitButton')
-  const rawSubmit = require('!!raw!./submit')
+  const raw = require('!!raw-loader!./RemoteSubmitForm')
+  const rawButton = require('!!raw-loader!./RemoteSubmitButton')
+  const rawSubmit = require('!!raw-loader!./submit')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -85,9 +85,9 @@ if (module.hot) {
   module.hot.accept('./RemoteSubmitButton', rerender)
   module.hot.accept('./RemoteSubmit.md', rerender)
   module.hot.accept('./submit', rerender)
-  module.hot.accept('!!raw!./RemoteSubmitForm', rerender)
-  module.hot.accept('!!raw!./RemoteSubmitButton', rerender)
-  module.hot.accept('!!raw!./submit', rerender)
+  module.hot.accept('!!raw-loader!./RemoteSubmitForm', rerender)
+  module.hot.accept('!!raw-loader!./RemoteSubmitButton', rerender)
+  module.hot.accept('!!raw-loader!./submit', rerender)
 }
 
 render()

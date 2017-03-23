@@ -32,8 +32,8 @@ const showResults = values =>
 let render = () => {
   const MaterialUiForm = require('./MaterialUiForm').default
   const readme = require('./MaterialUi.md')
-  const raw = require('!!raw!./MaterialUiForm')
-  const asyncValidateraw = require('!!raw!./asyncValidate')
+  const raw = require('!!raw-loader!./MaterialUiForm')
+  const asyncValidateraw = require('!!raw-loader!./asyncValidate')
   ReactDOM.render(
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
@@ -94,8 +94,8 @@ if (module.hot) {
   }
   module.hot.accept('./MaterialUiForm', rerender)
   module.hot.accept('./MaterialUi.md', rerender)
-  module.hot.accept('!!raw!./MaterialUiForm', rerender)
-  module.hot.accept('!!raw!./asyncValidate', rerender)
+  module.hot.accept('!!raw-loader!./MaterialUiForm', rerender)
+  module.hot.accept('!!raw-loader!./asyncValidate', rerender)
 }
 
 render()

@@ -29,7 +29,7 @@ const showResults = values =>
 let render = () => {
   const SelectingFormValuesForm = require('./SelectingFormValuesForm').default
   const readme = require('./SelectingFormValues.md')
-  const raw = require('!!raw!./SelectingFormValuesForm')
+  const raw = require('!!raw-loader!./SelectingFormValuesForm')
   ReactDOM.render(
     <Provider store={store}>
       <App
@@ -86,7 +86,7 @@ if (module.hot) {
   }
   module.hot.accept('./SelectingFormValuesForm', rerender)
   module.hot.accept('./SelectingFormValues.md', rerender)
-  module.hot.accept('!!raw!./SelectingFormValuesForm', rerender)
+  module.hot.accept('!!raw-loader!./SelectingFormValuesForm', rerender)
 }
 
 render()
