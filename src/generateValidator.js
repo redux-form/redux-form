@@ -3,8 +3,9 @@ import plain from './structure/plain'
 const toArray = value => Array.isArray(value) ? value : [ value ]
 
 const getError = (value, values, props, validators) => {
-  for(const validator of toArray(validators)) {
-    const error = validator(value, values, props)
+  const array = toArray(validators)
+  for(let i = 0; i < array.length; i++) {
+    const error = array[i](value, values, props)
     if(error) {
       return error
     }
