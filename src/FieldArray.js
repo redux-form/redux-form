@@ -8,8 +8,8 @@ const toArray = value => Array.isArray(value) ? value : [ value ]
 
 const wrapError = (fn, key) => fn && ((...args) => {
   const validators = toArray(fn)
-  for (const validator of validators) {
-    const result = validator(...args)
+  for (let i = 0; i < validators.length; i++) {
+    const result = validators[i](...args)
     if (result) {
       return { [key]: result }
     }
