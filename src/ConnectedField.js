@@ -1,7 +1,6 @@
 import { Component, PropTypes, createElement } from 'react'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
-import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 
@@ -12,14 +11,14 @@ const propsToNotUpdateFor = [
 const createConnectedField = ({ deepEqual, getIn, toJS }) => {
 
   const getSyncError = (syncErrors, name) => {
-    const error = plain.getIn(syncErrors, name)
+    const error = getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
     return error && error._error ? error._error : error
   }
 
   const getSyncWarning = (syncWarnings, name) => {
-    const warning = plain.getIn(syncWarnings, name)
+    const warning = getIn(syncWarnings, name)
     // Because the warning for this field might not be at a level in the warning structure where
     // it can be set directly, it might need to be unwrapped from the _warning property
     return warning && warning._warning ? warning._warning : warning

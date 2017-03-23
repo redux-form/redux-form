@@ -11,14 +11,14 @@ const propsToNotUpdateFor = [
 const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
 
   const getSyncError = (syncErrors, name) => {
-    const error = plain.getIn(syncErrors, name)
+    const error = getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
     return error && error._error ? error._error : error
   }
 
   const getSyncWarning = (syncWarnings, name) => {
-    const warning = plain.getIn(syncWarnings, name)
+    const warning = getIn(syncWarnings, name)
     // Because the warning for this field might not be at a level in the warning structure where
     // it can be set directly, it might need to be unwrapped from the _warning property
     return warning && warning._warning ? warning._warning : warning
@@ -70,7 +70,7 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
         }, {})
       }
     }
-    
+
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
@@ -159,7 +159,7 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
       return {
         _fields: names.reduce((accumulator, name) => {
           const initialState = getIn(formState, `initial.${name}`)
-          const initial = initialState !== undefined ? initialState : (initialValues && getIn(initialValues, name)) 
+          const initial = initialState !== undefined ? initialState : (initialValues && getIn(initialValues, name))
           const value = getIn(formState, `values.${name}`)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
           const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)
