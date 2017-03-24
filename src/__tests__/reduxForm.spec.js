@@ -2149,7 +2149,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         </form>
       )
 
-      const submitSpy = createSpy().andCall(() => new Promise(() => { /* Promise will never resolve */ }));
+      const submitSpy = createSpy().andCall(() => new Promise(() => { /* Promise will never resolve */ }))
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2182,7 +2182,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         </form>
       )
 
-      const submitSpy = createSpy().andCall(() => new Promise(() => { /* Promise will never resolve */ }));
+      const submitSpy = createSpy().andCall(() => new Promise(() => { /* Promise will never resolve */ }))
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2201,7 +2201,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       store.dispatch(stopSubmit('testForm', {}))
       stub.submit()
 
-      expect(submitSpy.calls.length).toEqual(2);
+      expect(submitSpy.calls.length).toEqual(2)
     })
 
     it('should be fine if form is not yet in Redux store', () => {
