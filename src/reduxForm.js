@@ -149,6 +149,13 @@ const createReduxForm =
             }
           }
 
+          clearSubmitPromiseIfNeeded(nextProps) {
+            const { submitting } = this.props
+            if (this.submitPromise && submitting && !nextProps.submitting) {
+              delete this.submitPromise
+            }
+          }
+
           submitIfNeeded(nextProps) {
             const { clearSubmit, triggerSubmit } = this.props
             if (!triggerSubmit && nextProps.triggerSubmit) {
@@ -234,6 +241,7 @@ const createReduxForm =
             this.initIfNeeded(nextProps)
             this.validateIfNeeded(nextProps)
             this.warnIfNeeded(nextProps)
+            this.clearSubmitPromiseIfNeeded(nextProps)
             this.submitIfNeeded(nextProps)
             if (nextProps.onChange) {
               if (!deepEqual(nextProps.values, this.props.values)) {
