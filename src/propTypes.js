@@ -48,9 +48,9 @@ const propTypes = {
   submit: func.isRequired,            // action to trigger a submission of the specified form
   untouch: func.isRequired,           // action to mark fields as untouched
   
-  triggerSubmit: bool, // didn't find description in the docs
-  clearSubmit: func // didn't find as well
-  
+  // triggerSubmit
+  triggerSubmit: bool,                // if true, submits the form on componentWillReceiveProps
+  clearSubmit: func.isRequired        // called before a triggered submit, by default clears triggerSubmit
 }
 
 export default propTypes
