@@ -5,7 +5,7 @@ const propTypes = {
   // State:
   anyTouched: bool.isRequired,        // true if any of the fields have been marked as touched
   asyncValidating: oneOfType([
-    bool, 
+    bool,
     string
   ]).isRequired,                      // true if async validation is running, a string if a field triggered async validation
   dirty: bool.isRequired,             // true if any values are different from initialValues
@@ -21,6 +21,11 @@ const propTypes = {
   submitSucceeded: bool.isRequired,   // true if the form was successfully submitted
   valid: bool.isRequired,             // true if there are no validation errors
   warning: any,                       // form-wide warning from '_warning' key in validation result
+
+  // triggerSubmit
+  triggerSubmit: bool,                // if true, submits the form on componentWillReceiveProps
+  clearSubmit: func.isRequired,       // called before a triggered submit, by default clears triggerSubmit
+
   // Actions:
   array: shape({
     insert: func.isRequired,          // function to insert a value into an array field
@@ -46,11 +51,7 @@ const propTypes = {
   reset: func.isRequired,             // action to reset the form data to previously initialized values
   touch: func.isRequired,             // action to mark fields as touched
   submit: func.isRequired,            // action to trigger a submission of the specified form
-  untouch: func.isRequired,           // action to mark fields as untouched
-  
-  triggerSubmit: func.isRequired, // didn't find in the docs what is does
-  clearSubmit: func.isRequired // didn't know as well
-  
+  untouch: func.isRequired            // action to mark fields as untouched
 }
 
 export default propTypes
