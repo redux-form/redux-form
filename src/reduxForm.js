@@ -237,7 +237,7 @@ const createReduxForm =
             this.submitIfNeeded(nextProps)
             if (nextProps.onChange) {
               if (!deepEqual(nextProps.values, this.props.values)) {
-                nextProps.onChange(nextProps.values)
+                nextProps.onChange(nextProps.values, nextProps.dispatch, nextProps)
               }
             }
           }

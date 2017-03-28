@@ -86,6 +86,20 @@ The values should be in the form `{ field1: 'value1', field2: 'value2' }`.
 > A callback function that will be called with all the form values any time any of the form
 values change.
 
+> `onChange` will be called with the following parameters:
+
+> ##### `values : Object`
+
+> The changed field values in the form of `{ field1: 'value1', field2: 'value2' }`.
+
+> ##### `dispatch : Function`
+
+> The Redux `dispatch` function.
+
+> ##### `props : Object`
+
+> The props passed into your decorated component.
+
 #### `onSubmit : Function` [optional]
 
 > The function to call with the form data when the `handleSubmit()` is fired from within the
