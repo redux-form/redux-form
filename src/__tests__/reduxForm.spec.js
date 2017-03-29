@@ -17,6 +17,7 @@ import {
   initialize,
   setSubmitSucceeded,
   startSubmit,
+  stopSubmit,
   submit,
   touch
 } from '../actions'
@@ -2134,6 +2135,73 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
 
       expect(submit).toHaveBeenCalled()
+    })
+
+    it('should no resubmit if async submit is in progress', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const submitSpy = createSpy().andCall(() => new Promise(() => { /* Promise will never resolve */ }))
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: submitSpy
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      stub.submit()
+      stub.submit()
+
+      expect(submitSpy.calls.length).toEqual(1)
+    })
+
+    it('should delete submit promise when dispatching stopSubmit', () => {
+      const store = makeStore({
+        testForm: {}
+      })
+
+      const Form = () => (
+        <form>
+          <Field name="username" component="input" type="text"/>
+          <Field name="password" component="input" type="text"/>
+        </form>
+      )
+
+      const submitSpy = createSpy().andCall(() => new Promise(() => { /* Promise will never resolve */ }))
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: submitSpy
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+
+      stub.submit()
+      store.dispatch(stopSubmit('testForm', {}))
+      stub.submit()
+
+      expect(submitSpy.calls.length).toEqual(2)
     })
 
     it('should be fine if form is not yet in Redux store', () => {
