@@ -41,7 +41,7 @@ const renderDateTimePicker = ({ input: { onChange, value }, showTime }) =>
     onChange={onChange}
     format="DD MMM YYYY"
     time={showTime}
-    value={value && (new Date(value) || null)}
+    value={!value ? null : new Date(value)}
   />
 
 let ReactWidgetsForm = props => {

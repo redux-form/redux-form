@@ -34,6 +34,16 @@
       display: inline-block;
     }
 
+    form ul li:first-child>span {
+      display: inline;
+      color: inherit;
+      font-weight: normal;
+    }
+
+    form ul li:first-child>span:before {
+      content: '';
+    }
+
     form > div > div {
       border: none;
     }
@@ -52,6 +62,17 @@
 
     form .rw-popup-container {
       border: none;
+    }
+
+    form>div .rw-select > button.rw-btn-calendar {
+      border: none;
+      background-image: none;
+      padding: 0;
+      font-size: 1em;
+      width: 0;
+    }
+    form>div .rw-datetimepicker .rw-btn {
+      line-height: 0.5em;
     }
   </style>
 </head>
