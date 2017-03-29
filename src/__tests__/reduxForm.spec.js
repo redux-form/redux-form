@@ -2903,6 +2903,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onChange.calls.length).toBe(1)
 
       expect(onChange.calls[0].arguments[0]).toEqualMap({ foo: 'dog' })
+      expect(onChange.calls[0].arguments[1]).toBeA('function')
+      expect(onChange.calls[0].arguments[2].values).toEqualMap({ foo: 'dog' })
 
       changeBar('cat')
 
@@ -2911,19 +2913,25 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         foo: 'dog',
         bar: 'cat'
       })
+      expect(onChange.calls[1].arguments[1]).toBeA('function')
+      expect(onChange.calls[1].arguments[2].values).toEqualMap({
+        foo: 'dog',
+        bar: 'cat'
+      })
 
       changeFoo('dog')
 
       // onChange NOT called since value did not change
       expect(onChange.calls.length).toBe(2)
-      expect(onChange.calls[1].arguments[0]).toEqualMap({
-        foo: 'dog',
-        bar: 'cat'
-      })
 
       changeFoo('doggy')
       expect(onChange.calls.length).toBe(3)
       expect(onChange.calls[2].arguments[0]).toEqualMap({
+        foo: 'doggy',
+        bar: 'cat'
+      })
+      expect(onChange.calls[2].arguments[1]).toBeA('function')
+      expect(onChange.calls[2].arguments[2].values).toEqualMap({
         foo: 'doggy',
         bar: 'cat'
       })
@@ -3227,6 +3235,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
       expect(onSubmit.calls[ 0 ].arguments[ 0 ]).toEqualMap({})
+      expect(onSubmit.calls[ 0 ].arguments[ 1 ]).toBeA('function')
+      expect(onSubmit.calls[ 0 ].arguments[ 2 ].values).toEqualMap({})
       expect(renderInput.calls.length).toBe(2)  // touched by submit
 
       // autofill field
@@ -3242,6 +3252,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
       expect(onSubmit.calls.length).toBe(2)
       expect(onSubmit.calls[ 1 ].arguments[ 0 ]).toEqualMap({ myField: 'autofilled value' })
+      expect(onSubmit.calls[ 1 ].arguments[ 1 ]).toBeA('function')
+      expect(onSubmit.calls[ 1 ].arguments[ 2 ].values).toEqualMap({ myField: 'autofilled value' })
 
       // user edits field
       renderInput.calls[ 1 ].arguments[ 0 ].input.onChange('user value')
@@ -3256,6 +3268,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
       expect(onSubmit.calls.length).toBe(3)
       expect(onSubmit.calls[ 2 ].arguments[ 0 ]).toEqualMap({ myField: 'user value' })
+      expect(onSubmit.calls[ 2 ].arguments[ 1 ]).toBeA('function')
+      expect(onSubmit.calls[ 2 ].arguments[ 2 ].values).toEqualMap({ myField: 'user value' })
     })
 
     it('should not reinitialize values on remount if destroyOnMount is false', () => {
@@ -3697,6 +3711,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
       expect(onSubmit.calls[ 0 ].arguments[ 0 ]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[ 0 ].arguments[ 1 ]).toBeA('function')
+      expect(onSubmit.calls[ 0 ].arguments[ 2 ].values).toEqualMap({ foo: 'hello' })
     })
 
     it('submits (via prop) when the SUBMIT action is dispatched', () => {
@@ -3759,6 +3775,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
       expect(onSubmit.calls[ 0 ].arguments[ 0 ]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[ 0 ].arguments[ 1 ]).toBeA('function')
+      expect(onSubmit.calls[ 0 ].arguments[ 2 ].values).toEqualMap({ foo: 'hello' })
     })
   })
 }

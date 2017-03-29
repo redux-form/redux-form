@@ -109,6 +109,8 @@ const describeForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
       expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
+      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
     })
 
     it('should call the onSubmit given to <Form> when SUBMIT action is dispatched', () => {
@@ -143,6 +145,8 @@ const describeForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
       expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
+      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
     })
 
     it('should properly handle submission errors', () => {
@@ -184,6 +188,8 @@ const describeForm = (name, structure, combineReducers, expect) => {
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
       expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
+      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
 
       expect(formRender.calls.length).toBe(3)
       expect(formRender.calls[2].arguments[0].error).toBe('Invalid')
