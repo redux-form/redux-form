@@ -1,6 +1,7 @@
 {
   "extends": "react-app",
   "rules": {
-    "import/no-webpack-loader-syntax": 0
+    "import/no-webpack-loader-syntax": 0,
+    "no-throw-literal": 0
   }
 }
