@@ -88,8 +88,8 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
     name: PropTypes.string.isRequired,
     component: PropTypes.func.isRequired,
     props: PropTypes.object,
-    validate: PropTypes.func,
-    warn: PropTypes.func,
+    validate: PropTypes.oneOfType([ PropTypes.func, PropTypes.arrayOf(PropTypes.func) ]),
+    warn: PropTypes.oneOfType([ PropTypes.func, PropTypes.arrayOf(PropTypes.func) ]),
     withRef: PropTypes.bool
   }
   FieldArray.contextTypes = {
