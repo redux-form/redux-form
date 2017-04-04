@@ -16,6 +16,7 @@ import {
   autofill,
   blur,
   change,
+  clearSubmitErrors,
   destroy,
   Field,
   Fields,
@@ -100,6 +101,9 @@ describe('index', () => {
   })
   it('should export change', () => {
     expect(change).toExist().toBeA('function')
+  })
+  it('should export clearSubmitErrors', () => {
+    expect(clearSubmitErrors).toExist().toBeA('function')
   })
   it('should export destroy', () => {
     expect(destroy).toExist().toBeA('function')
