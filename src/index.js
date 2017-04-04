@@ -16,6 +16,7 @@ export const {
   autofill,
   blur,
   change,
+  clearSubmitErrors,
   destroy,
   Field,
   Fields,
