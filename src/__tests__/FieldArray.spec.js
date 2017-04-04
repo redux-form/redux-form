@@ -401,7 +401,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get sync errors from outer reduxForm component', () => {
       const props = testProps({
         values: {
-          foo: 'bar'
+          foo: [ 'bar' ]
         }
       }, {
         validate: () => ({ foo: { _error: 'foo error' } })
@@ -412,7 +412,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get sync warnings from outer reduxForm component', () => {
       const props = testProps({
         values: {
-          foo: 'bar'
+          foo: [ 'bar' ]
         }
       }, {
         warn: () => ({ foo: { _warning: 'foo warning' } })
@@ -423,7 +423,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get async errors from Redux state', () => {
       const props = testProps({
         values: {
-          foo: 'bar'
+          foo: [ 'bar' ]
         },
         asyncErrors: {
           foo: {
@@ -437,7 +437,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get submit errors from Redux state', () => {
       const props = testProps({
         values: {
-          foo: 'bar'
+          foo: [ 'bar' ]
         },
         submitErrors: {
           foo: {
@@ -451,7 +451,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get submitFailed from Redux state', () => {
       const props = testProps({
         values: {
-          foo: 'bar'
+          foo: [ 'bar' ]
         },
         submitFailed: true
       })
@@ -1295,37 +1295,41 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls.length).toBe(2)
       expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
       expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error)
         .toExist()
         .toBe('No dogs')
 
+      renderFieldArray.reset()
       TestUtils.Simulate.click(addButton) // length goes to 1, no error yet
 
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].meta.error).toNotExist()
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error).toNotExist()
 
+      renderFieldArray.reset()
       TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
-      expect(renderFieldArray.calls.length).toBe(3)
-      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].fields.length).toBe(2)
-      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].meta.error)
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(2)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error)
         .toExist()
         .toBe('Too many')
 
+      renderFieldArray.reset()
       TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
-      expect(renderFieldArray.calls.length).toBe(4)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].meta.error).toNotExist()
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error).toNotExist()
 
+      renderFieldArray.reset()
       TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
-      expect(renderFieldArray.calls.length).toBe(5)
-      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.length).toBe(0)
-      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].meta.error)
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error)
         .toExist()
         .toBe('No dogs')
     })
@@ -1408,6 +1412,58 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].meta.warning)
         .toExist()
         .toBe('No dogs')
+    })
+
+    it('should rerender when depending value has updated', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            dogs: [ {
+              name: 'Fido',
+              hasCollar: false
+            }, {
+              name: 'Snoopy',
+              hasCollar: false
+            } ]
+          }
+        }
+      })
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map((field, index) =>
+            <div key={index}>
+              {getIn(fields.get(index), 'hasCollar') && <span className="collar"></span>}
+              <Field name={`${field}.hasCollar`} component="input" type="checkbox" />
+              <Field name={`${field}.name`} component="input" />
+            </div>)}
+          <button className="add" onClick={() => fields.push()}>Add Dog</button>
+          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({
+        pure: false,
+        form: 'testForm'
+      })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'input')
+        .find(element => element.getAttribute('name') === 'dogs[0].hasCollar')
+
+      TestUtils.Simulate.change(checkbox, { target: { value: true } })
+
+      expect(TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length).toBe(1)
+
+      TestUtils.Simulate.change(checkbox, { target: { value: false } })
+
+      expect(TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length).toBe(0)
     })
 
     it('should NOT rerender when a value changes', () => {

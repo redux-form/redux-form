@@ -1,7 +1,6 @@
 import { Component, PropTypes, createElement } from 'react'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
-import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 
 const toArray = value => Array.isArray(value) ? value : [ value ]
@@ -26,10 +25,6 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
       if (!context._reduxForm) {
         throw new Error('FieldArray must be inside a component decorated with reduxForm()')
       }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-      return shallowCompare(this, nextProps, nextState)
     }
 
     componentWillMount() {
