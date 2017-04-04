@@ -2715,6 +2715,93 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propsAtNthRender(renderInput, 0).meta.error).toEqual(error)
     })
 
+    it('should allow sync validation for array props on push', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+      const inputs = [
+        createSpy(props => <input {...props.input}/>).andCallThrough(),
+        createSpy(props => <input {...props.input}/>).andCallThrough(),
+        createSpy(props => <input {...props.input}/>).andCallThrough()
+      ]
+      const renderArray = ({ fields }) =>
+        <div>
+          {fields.map((name, index) => <Field name={name} key={index} component={inputs[index]}/>)}
+        </div>
+      const validate = values => {
+        const errors = { foo: [] }
+        const foo = getIn(values, 'foo')
+        if(foo) {
+          foo.forEach((value, index) => {
+            if(value < 10) {
+              errors.foo[index] = 'Too low'
+            }
+          })
+        }
+        return errors
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <FieldArray name="foo" component={renderArray}/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        validate
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputs[0]).toNotHaveBeenCalled()
+      expect(inputs[1]).toNotHaveBeenCalled()
+      expect(inputs[2]).toNotHaveBeenCalled()
+
+      propsAtNthRender(formRender, 0).array.push('foo', 3)
+
+      // first input rendered
+      expect(inputs[0]).toHaveBeenCalled()
+      expect(inputs[0].calls.length).toBe(1)
+      expect(propsAtNthRender(inputs[0], 0).meta.valid).toBe(false)
+      expect(propsAtNthRender(inputs[0], 0).meta.error).toBe('Too low')
+      expect(inputs[1]).toNotHaveBeenCalled()
+      expect(inputs[2]).toNotHaveBeenCalled()
+
+      // add additional value
+      propsAtNthRender(formRender, 0).array.push('foo', 13)
+
+      // first input not rendered again
+      expect(inputs[0].calls.length).toBe(1)
+
+      // but second input now rendered
+      expect(inputs[1]).toHaveBeenCalled()
+      expect(inputs[1].calls.length).toBe(1)
+      expect(propsAtNthRender(inputs[1], 0).meta.valid).toBe(true)
+      expect(propsAtNthRender(inputs[1], 0).input.value).toBe(13)
+      expect(inputs[2]).toNotHaveBeenCalled()
+
+      // fix original error
+      propsAtNthRender(inputs[0], 0).input.onChange(10)
+
+      // first input rendered again
+      expect(inputs[0].calls.length).toBe(2)
+      expect(propsAtNthRender(inputs[0], 1).meta.valid).toBe(true)
+      expect(propsAtNthRender(inputs[0], 1).meta.error).toBe(undefined)
+      expect(inputs[1]).toHaveBeenCalled()
+      expect(inputs[2]).toNotHaveBeenCalled()
+    })
+
     it('should provide warning prop from sync warning', () => {
       const store = makeStore({})
       const formRender = createSpy()
