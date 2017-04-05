@@ -164,7 +164,6 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       })
     })
 
-
     it('should update Fields values at the right depth', () => {
       const store = makeStore({
         testForm: {
@@ -302,6 +301,46 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           }
         }
       })
+    })
+
+    it('should concatenate prefixes when nested', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            deep: {
+              foo: {
+                bar: '42'
+              }
+            }
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+
+      class Form extends Component {
+        render() {
+          return (
+            <FormSection name="deep">
+              <FormSection name="foo">
+                <Field name="bar" component={input}/>
+              </FormSection>
+            </FormSection>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+
+      // input gets the correct name and value
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('42')
+      expect(input.calls[ 0 ].arguments[ 0 ].input.name).toBe('deep.foo.bar')
     })
   })
 }
