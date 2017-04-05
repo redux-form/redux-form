@@ -442,7 +442,7 @@ const createReduxForm =
                         ...this.props,
                         ...bindActionCreators({ blur, change }, dispatch)
                       },
-                      validExceptSubmit,
+                      this.props.validExceptSubmit,
                       this.asyncValidate,
                       this.getFieldList({ excludeFieldArray: true })
                     )
