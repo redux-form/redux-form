@@ -9,6 +9,7 @@ import plainGetIn from '../plain/getIn'
 const emptyList = List()
 
 const structure = {
+  allowsArrayErrors: false,
   empty: Map(),
   emptyList,
   getIn: (state, field) =>

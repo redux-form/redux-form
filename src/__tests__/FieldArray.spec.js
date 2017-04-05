@@ -1,21 +1,21 @@
-/* eslint react/no-multi-comp:0 */
-import React, { Component } from 'react'
 import domExpect, { createSpy } from 'expect'
 import expectElement from 'expect-element'
+/* eslint react/no-multi-comp:0 */
+import React, { Component } from 'react'
+import TestUtils from 'react-addons-test-utils'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
-import TestUtils from 'react-addons-test-utils'
-import createReduxForm from '../reduxForm'
-import createReducer from '../reducer'
-import createFieldArray from '../FieldArray'
 import createField from '../Field'
+import createFieldArray from '../FieldArray'
 import createFields from '../Fields'
 import FormSection from '../FormSection'
-import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import createReducer from '../reducer'
+import createReduxForm from '../reduxForm'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
+import plain from '../structure/plain'
+import plainExpectations from '../structure/plain/expectations'
 import addExpectations from './addExpectations'
 
 domExpect.extend(expectElement)
@@ -26,7 +26,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   const Field = createField(structure)
   const Fields = createFields(structure)
   const reducer = createReducer(structure)
-  const { fromJS, getIn, size } = structure
+  const { allowsArrayErrors, fromJS, getIn, size } = structure
   const makeStore = (initial) => createStore(
     combineReducers({ form: reducer }), fromJS({ form: initial }))
 
@@ -65,7 +65,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get length from Redux state', () => {
       const props = testProps({
         values: {
-          foo: [ 'a', 'b', 'c' ]
+          foo: ['a', 'b', 'c']
         }
       })
       expect(props.fields.length).toBe(3)
@@ -85,20 +85,20 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get dirty/pristine from Redux state', () => {
       const props1 = testProps({
         initial: {
-          foo: [ 'a', 'b', 'c' ]
+          foo: ['a', 'b', 'c']
         },
         values: {
-          foo: [ 'a', 'b', 'c' ]
+          foo: ['a', 'b', 'c']
         }
       })
       expect(props1.meta.pristine).toBe(true)
       expect(props1.meta.dirty).toBe(false)
       const props2 = testProps({
         initial: {
-          foo: [ 'a', 'b', 'c' ]
+          foo: ['a', 'b', 'c']
         },
         values: {
-          foo: [ 'a', 'b' ]
+          foo: ['a', 'b']
         }
       })
       expect(props2.meta.pristine).toBe(false)
@@ -165,8 +165,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
 
       expect(renderSpy).toHaveBeenCalled()
-      const props = renderSpy.calls[ 0 ].arguments[ 0 ]
-      Object.keys(apiProps).forEach(key => expect(props[ key ]).toNotExist())
+      const props = renderSpy.calls[0].arguments[0]
+      Object.keys(apiProps).forEach(key => expect(props[key]).toNotExist())
     })
 
     it('should provide name', () => {
@@ -206,7 +206,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide forEach', () => {
       const props = testProps({
         values: {
-          foo: [ 'a', 'b', 'c' ]
+          foo: ['a', 'b', 'c']
         }
       })
       expect(props.fields.forEach).toBeA('function')
@@ -214,15 +214,15 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0, props.fields ])
-      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1, props.fields ])
-      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2, props.fields ])
+      expect(iterate.calls[0].arguments).toEqual(['foo[0]', 0, props.fields])
+      expect(iterate.calls[1].arguments).toEqual(['foo[1]', 1, props.fields])
+      expect(iterate.calls[2].arguments).toEqual(['foo[2]', 2, props.fields])
     })
 
     it('should provide map', () => {
       const props = testProps({
         values: {
-          foo: [ 'a', 'b', 'c' ]
+          foo: ['a', 'b', 'c']
         }
       })
       expect(props.fields.map).toBeA('function')
@@ -230,9 +230,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.fields.map(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[ 0 ].arguments).toEqual([ 'foo[0]', 0, props.fields ])
-      expect(iterate.calls[ 1 ].arguments).toEqual([ 'foo[1]', 1, props.fields ])
-      expect(iterate.calls[ 2 ].arguments).toEqual([ 'foo[2]', 2, props.fields ])
+      expect(iterate.calls[0].arguments).toEqual(['foo[0]', 0, props.fields])
+      expect(iterate.calls[1].arguments).toEqual(['foo[1]', 1, props.fields])
+      expect(iterate.calls[2].arguments).toEqual(['foo[2]', 2, props.fields])
     })
 
     it('should provide insert', () => {
@@ -320,7 +320,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'bar' ]
+            foo: ['bar']
           }
         }
       })
@@ -347,16 +347,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
       expect(renderArray).toHaveBeenCalled()
       expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].otherProp).toBe('dog')
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].anotherProp).toBe('cat')
+      expect(renderArray.calls[0].arguments[0].fields.length).toBe(1)
+      expect(renderArray.calls[0].arguments[0].otherProp).toBe('dog')
+      expect(renderArray.calls[0].arguments[0].anotherProp).toBe('cat')
     })
 
     it('should provide access to rendered component', () => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'bar' ]
+            foo: ['bar']
           }
         }
       })
@@ -385,7 +385,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should use initialValues', () => {
       const props = testProps({}, {
         initialValues: {
-          foo: [ 'a', 'b', 'c' ]
+          foo: ['a', 'b', 'c']
         }
       })
       expect(props.fields.length).toBe(3)
@@ -393,15 +393,15 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
       expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[ 0 ].arguments[ 0 ]).toBe('foo[0]')
-      expect(iterate.calls[ 1 ].arguments[ 0 ]).toBe('foo[1]')
-      expect(iterate.calls[ 2 ].arguments[ 0 ]).toBe('foo[2]')
+      expect(iterate.calls[0].arguments[0]).toBe('foo[0]')
+      expect(iterate.calls[1].arguments[0]).toBe('foo[1]')
+      expect(iterate.calls[2].arguments[0]).toBe('foo[2]')
     })
 
     it('should get sync errors from outer reduxForm component', () => {
       const props = testProps({
         values: {
-          foo: [ 'bar' ]
+          foo: ['bar']
         }
       }, {
         validate: () => ({ foo: { _error: 'foo error' } })
@@ -412,7 +412,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get sync warnings from outer reduxForm component', () => {
       const props = testProps({
         values: {
-          foo: [ 'bar' ]
+          foo: ['bar']
         }
       }, {
         warn: () => ({ foo: { _warning: 'foo warning' } })
@@ -423,7 +423,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get async errors from Redux state', () => {
       const props = testProps({
         values: {
-          foo: [ 'bar' ]
+          foo: ['bar']
         },
         asyncErrors: {
           foo: {
@@ -437,7 +437,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get submit errors from Redux state', () => {
       const props = testProps({
         values: {
-          foo: [ 'bar' ]
+          foo: ['bar']
         },
         submitErrors: {
           foo: {
@@ -451,7 +451,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get submitFailed from Redux state', () => {
       const props = testProps({
         values: {
-          foo: [ 'bar' ]
+          foo: ['bar']
         },
         submitFailed: true
       })
@@ -462,7 +462,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'bar' ]
+            foo: ['bar']
           }
         }
       })
@@ -485,7 +485,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'bar' ]
+            foo: ['bar']
           }
         }
       })
@@ -501,17 +501,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.value).toEqualMap([ 'bar' ])
+      expect(stub.value).toEqualMap(['bar'])
     })
 
     it('should provide dirty getter that is true when dirty', () => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: [ 'dog' ]
+            foo: ['dog']
           },
           values: {
-            foo: [ 'cat' ]
+            foo: ['cat']
           }
         }
       })
@@ -534,10 +534,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: [ 'dog' ]
+            foo: ['dog']
           },
           values: {
-            foo: [ 'dog' ]
+            foo: ['dog']
           }
         }
       })
@@ -560,10 +560,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: [ 'dog' ]
+            foo: ['dog']
           },
           values: {
-            foo: [ 'dog' ]
+            foo: ['dog']
           }
         }
       })
@@ -586,10 +586,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: [ 'dog' ]
+            foo: ['dog']
           },
           values: {
-            foo: [ 'cat' ]
+            foo: ['cat']
           }
         }
       })
@@ -720,8 +720,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'a', 'b' ],
-            bar: [ 'c' ]
+            foo: ['a', 'b'],
+            bar: ['c']
           }
         }
       })
@@ -747,28 +747,30 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
       expect(component).toHaveBeenCalled()
       expect(component.calls.length).toBe(1)
-      expect(component.calls[ 0 ].arguments[ 0 ].fields.length).toBe(2)
+      expect(component.calls[0].arguments[0].fields.length).toBe(2)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(component.calls.length).toBe(2)
-      expect(component.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(component.calls[1].arguments[0].fields.length).toBe(1)
     })
 
     it('should not prefix name in fields map callback when inside FormSection', () => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: { bar: [ { val: 'dog' }, { val: 'cat' } ] }
+            foo: { bar: [{ val: 'dog' }, { val: 'cat' }] }
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (
+        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
+          component={TestComponent}/>)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
-            <FieldArray name="bar" component={TestArray} />
+            <FieldArray name="bar" component={TestArray}/>
           </FormSection>)
         }
       }
@@ -787,7 +789,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               'foo.bar[1].val': { name: 'foo.bar[1].val', type: 'Field', count: 1 }
             },
             values: {
-              foo: { bar: [ { val: 'dog' }, { val: 'cat' } ] }
+              foo: { bar: [{ val: 'dog' }, { val: 'cat' }] }
             }
           }
         }
@@ -802,15 +804,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: { bar: [ { val: 'dog' }, { val: 'cat' } ] }
+            foo: { bar: [{ val: 'dog' }, { val: 'cat' }] }
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (
+        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
+          component={TestComponent}/>)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
-            <FieldArray name="bar" component={TestArray} />
+            <FieldArray name="bar" component={TestArray}/>
           </FormSection>)
         }
       }
@@ -828,16 +832,18 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: { fighter: { bar: [ { val: 'dog' }, { val: 'cat' } ] } }
+            foo: { fighter: { bar: [{ val: 'dog' }, { val: 'cat' }] } }
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (
+        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
+          component={TestComponent}/>)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
             <FormSection name="fighter">
-              <FieldArray name="bar" component={TestArray} />
+              <FieldArray name="bar" component={TestArray}/>
             </FormSection>
           </FormSection>)
         }
@@ -858,7 +864,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               'foo.fighter.bar[1].val': { name: 'foo.fighter.bar[1].val', type: 'Field', count: 1 }
             },
             values: {
-              foo: { fighter: { bar: [ { val: 'dog' }, { val: 'cat' } ] } }
+              foo: { fighter: { bar: [{ val: 'dog' }, { val: 'cat' }] } }
             }
           }
         }
@@ -872,16 +878,18 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: { fighter: { bar: [ { val: 'dog' }, { val: 'cat' } ] } }
+            foo: { fighter: { bar: [{ val: 'dog' }, { val: 'cat' }] } }
           }
         }
       })
-      const TestArray = ({ fields }) => (<div>{fields.map(name => <Field key={name} name={`${name}.val`} component={TestComponent} />)}</div>)
+      const TestArray = ({ fields }) => (
+        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
+          component={TestComponent}/>)}</div>)
       class Form extends Component {
         render() {
           return (<FormSection name="foo">
             <FormSection name="fighter">
-              <FieldArray name="bar" component={TestArray} />
+              <FieldArray name="bar" component={TestArray}/>
             </FormSection>
           </FormSection>)
         }
@@ -900,7 +908,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'dog', 'cat' ]
+            foo: ['dog', 'cat']
           }
         }
       })
@@ -931,30 +939,30 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       expect(renderArray).toHaveBeenCalled()
       expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(true)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.error).toNotExist()
+      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
+      expect(renderArray.calls[0].arguments[0].meta.error).toNotExist()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
       expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[ 0 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat' ])
+      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
+      renderArray.calls[0].arguments[0].fields.push('rat')
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(false)
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.error).toBe('Too many')
+      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(false)
+      expect(renderArray.calls[1].arguments[0].meta.error).toBe('Too many')
     })
 
     it('should provide field-level sync error (with multiple validators) for array field', () => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'dog', 'cat' ]
+            foo: ['dog', 'cat']
           }
         }
       })
@@ -971,7 +979,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray} validate={[ atLeastOne, noMoreThanTwo ]}/>
+              <FieldArray name="foo" component={renderArray}
+                validate={[atLeastOne, noMoreThanTwo]}/>
             </div>
           )
         }
@@ -987,30 +996,30 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       expect(renderArray).toHaveBeenCalled()
       expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(true)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.error).toNotExist()
+      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
+      expect(renderArray.calls[0].arguments[0].meta.error).toNotExist()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
       expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[ 0 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat' ])
+      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
+      renderArray.calls[0].arguments[0].fields.push('rat')
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(false)
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.error).toBe('Too many')
+      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(false)
+      expect(renderArray.calls[1].arguments[0].meta.error).toBe('Too many')
     })
 
     it('should provide field-level sync warning for array field', () => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'dog', 'cat' ]
+            foo: ['dog', 'cat']
           }
         }
       })
@@ -1041,30 +1050,30 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       expect(renderArray).toHaveBeenCalled()
       expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(true)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.warning).toNotExist()
+      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
+      expect(renderArray.calls[0].arguments[0].meta.warning).toNotExist()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
       expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[ 0 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat' ])
+      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
+      renderArray.calls[0].arguments[0].fields.push('rat')
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(true) // just a warning
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.warning).toBe('Too many')
+      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(true) // just a warning
+      expect(renderArray.calls[1].arguments[0].meta.warning).toBe('Too many')
     })
 
     it('should provide field-level sync warning (with multiple validators) for array field', () => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'dog', 'cat' ]
+            foo: ['dog', 'cat']
           }
         }
       })
@@ -1081,7 +1090,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray} warn={[ atLeastOne, noMoreThanTwo ]}/>
+              <FieldArray name="foo" component={renderArray} warn={[atLeastOne, noMoreThanTwo]}/>
             </div>
           )
         }
@@ -1097,23 +1106,23 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       expect(renderArray).toHaveBeenCalled()
       expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.valid).toBe(true)
-      expect(renderArray.calls[ 0 ].arguments[ 0 ].meta.warning).toNotExist()
+      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
+      expect(renderArray.calls[0].arguments[0].meta.warning).toNotExist()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
       expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[ 0 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat' ])
+      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[ 0 ].arguments[ 0 ].fields.push('rat')
+      renderArray.calls[0].arguments[0].fields.push('rat')
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[ 1 ].arguments[ 0 ]).toEqualMap([ 'dog', 'cat', 'rat' ])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.valid).toBe(true) // just a warning
-      expect(renderArray.calls[ 1 ].arguments[ 0 ].meta.warning).toBe('Too many')
+      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(true) // just a warning
+      expect(renderArray.calls[1].arguments[0].meta.warning).toBe('Too many')
     })
 
     it('should reconnect when props change', () => {
@@ -1140,15 +1149,15 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
       expect(component).toHaveBeenCalled()
       expect(component.calls.length).toBe(1)
-      expect(component.calls[ 0 ].arguments[ 0 ].foo).toBe('foo')
-      expect(component.calls[ 0 ].arguments[ 0 ].bar).toBe('bar')
+      expect(component.calls[0].arguments[0].foo).toBe('foo')
+      expect(component.calls[0].arguments[0].bar).toBe('bar')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(component.calls.length).toBe(2)
-      expect(component.calls[ 1 ].arguments[ 0 ].foo).toBe('qux')
-      expect(component.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
+      expect(component.calls[1].arguments[0].foo).toBe('qux')
+      expect(component.calls[1].arguments[0].bar).toBe('baz')
     })
 
     it('should allow addition after focus', () => {
@@ -1175,15 +1184,15 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
       expect(component).toHaveBeenCalled()
       expect(component.calls.length).toBe(1)
-      expect(component.calls[ 0 ].arguments[ 0 ].foo).toBe('foo')
-      expect(component.calls[ 0 ].arguments[ 0 ].bar).toBe('bar')
+      expect(component.calls[0].arguments[0].foo).toBe('foo')
+      expect(component.calls[0].arguments[0].bar).toBe('bar')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(component.calls.length).toBe(2)
-      expect(component.calls[ 1 ].arguments[ 0 ].foo).toBe('qux')
-      expect(component.calls[ 1 ].arguments[ 0 ].bar).toBe('baz')
+      expect(component.calls[1].arguments[0].foo).toBe('qux')
+      expect(component.calls[1].arguments[0].bar).toBe('baz')
     })
 
     it('should rerender when items added or removed', () => {
@@ -1212,126 +1221,128 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 1
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 2
       expect(renderFieldArray.calls.length).toBe(3)
-      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].fields.length).toBe(2)
+      expect(renderFieldArray.calls[2].arguments[0].fields.length).toBe(2)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 3
       expect(renderFieldArray.calls.length).toBe(4)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].fields.length).toBe(3)
+      expect(renderFieldArray.calls[3].arguments[0].fields.length).toBe(3)
 
       // remove field
       TestUtils.Simulate.click(removeButton)
 
       // field array rerendered, length is 2
       expect(renderFieldArray.calls.length).toBe(5)
-      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.length).toBe(2)
+      expect(renderFieldArray.calls[4].arguments[0].fields.length).toBe(2)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 3
       expect(renderFieldArray.calls.length).toBe(6)
-      expect(renderFieldArray.calls[ 5 ].arguments[ 0 ].fields.length).toBe(3)
+      expect(renderFieldArray.calls[5].arguments[0].fields.length).toBe(3)
     })
 
     it('should rerender when array sync error appears or disappears', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            dogs: []
+      if (allowsArrayErrors) {
+        const store = makeStore({
+          testForm: {
+            values: {
+              dogs: []
+            }
+          }
+        })
+        const renderFieldArray =
+          createSpy(({ fields }) => (<div>
+            {fields.map((field, index) => <div key={index}>{field}</div>)}
+            <button className="add" onClick={() => fields.push()}>Add Dog</button>
+            <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
+          </div>)).andCallThrough()
+        class Form extends Component {
+          render() {
+            return <FieldArray name="dogs" component={renderFieldArray}/>
           }
         }
-      })
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map((field, index) => <div key={index}>{field}</div>)}
-          <button className="add" onClick={() => fields.push()}>Add Dog</button>
-          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
-        </div>)).andCallThrough()
-      class Form extends Component {
-        render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
-        }
+        const TestForm = reduxForm({
+          form: 'testForm',
+          validate: values => {
+            const dogs = getIn(values, 'dogs')
+            const errors = {
+              dogs: []
+            }
+            if (dogs && size(dogs) === 0) {
+              errors.dogs._error = 'No dogs'
+            }
+            if (dogs && size(dogs) > 1) {
+              errors.dogs._error = 'Too many'
+            }
+            return errors
+          }
+        })(Form)
+        const dom = TestUtils.renderIntoDocument(
+          <Provider store={store}>
+            <TestForm/>
+          </Provider>
+        )
+        const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
+        const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
+
+        // length is 0, ERROR!
+        expect(renderFieldArray).toHaveBeenCalled()
+        expect(renderFieldArray.calls.length).toBe(2)
+        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+        expect(renderFieldArray.calls[0].arguments[0].meta.error)
+          .toExist()
+          .toBe('No dogs')
+
+        renderFieldArray.reset()
+        TestUtils.Simulate.click(addButton) // length goes to 1, no error yet
+
+        expect(renderFieldArray).toHaveBeenCalled()
+        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(1)
+        expect(renderFieldArray.calls[0].arguments[0].meta.error).toNotExist()
+
+        renderFieldArray.reset()
+        TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
+
+        expect(renderFieldArray).toHaveBeenCalled()
+        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
+        expect(renderFieldArray.calls[0].arguments[0].meta.error)
+          .toExist()
+          .toBe('Too many')
+
+        renderFieldArray.reset()
+        TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
+
+        expect(renderFieldArray).toHaveBeenCalled()
+        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(1)
+        expect(renderFieldArray.calls[0].arguments[0].meta.error).toNotExist()
+
+        renderFieldArray.reset()
+        TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
+
+        expect(renderFieldArray).toHaveBeenCalled()
+        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+        expect(renderFieldArray.calls[0].arguments[0].meta.error)
+          .toExist()
+          .toBe('No dogs')
       }
-      const TestForm = reduxForm({
-        form: 'testForm',
-        validate: values => {
-          const dogs = getIn(values, 'dogs')
-          const errors = {
-            dogs: []
-          }
-          if (dogs && size(dogs) === 0) {
-            errors.dogs._error = 'No dogs'
-          }
-          if (dogs && size(dogs) > 1) {
-            errors.dogs._error = 'Too many'
-          }
-          return errors
-        }
-      })(Form)
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-      const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
-
-      // length is 0, ERROR!
-      expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error)
-        .toExist()
-        .toBe('No dogs')
-
-      renderFieldArray.reset()
-      TestUtils.Simulate.click(addButton) // length goes to 1, no error yet
-
-      expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error).toNotExist()
-
-      renderFieldArray.reset()
-      TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
-
-      expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(2)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error)
-        .toExist()
-        .toBe('Too many')
-
-      renderFieldArray.reset()
-      TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
-
-      expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error).toNotExist()
-
-      renderFieldArray.reset()
-      TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
-
-      expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.error)
-        .toExist()
-        .toBe('No dogs')
     })
 
     it('should rerender when array sync warning appears or disappears', () => {
@@ -1380,36 +1391,36 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].meta.warning)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].meta.warning)
         .toExist()
         .toBe('No dogs')
 
       TestUtils.Simulate.click(addButton) // length goes to 1, no warning yet
 
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].meta.warning).toNotExist()
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].meta.warning).toNotExist()
 
       TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
       expect(renderFieldArray.calls.length).toBe(3)
-      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].fields.length).toBe(2)
-      expect(renderFieldArray.calls[ 2 ].arguments[ 0 ].meta.warning)
+      expect(renderFieldArray.calls[2].arguments[0].fields.length).toBe(2)
+      expect(renderFieldArray.calls[2].arguments[0].meta.warning)
         .toExist()
         .toBe('Too many')
 
       TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
       expect(renderFieldArray.calls.length).toBe(4)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].fields.length).toBe(1)
-      expect(renderFieldArray.calls[ 3 ].arguments[ 0 ].meta.warning).toNotExist()
+      expect(renderFieldArray.calls[3].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.calls[3].arguments[0].meta.warning).toNotExist()
 
       TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
       expect(renderFieldArray.calls.length).toBe(5)
-      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].fields.length).toBe(0)
-      expect(renderFieldArray.calls[ 4 ].arguments[ 0 ].meta.warning)
+      expect(renderFieldArray.calls[4].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.calls[4].arguments[0].meta.warning)
         .toExist()
         .toBe('No dogs')
     })
@@ -1418,13 +1429,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            dogs: [ {
+            dogs: [{
               name: 'Fido',
               hasCollar: false
             }, {
               name: 'Snoopy',
               hasCollar: false
-            } ]
+            }]
           }
         }
       })
@@ -1433,8 +1444,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           {fields.map((field, index) =>
             <div key={index}>
               {getIn(fields.get(index), 'hasCollar') && <span className="collar"></span>}
-              <Field name={`${field}.hasCollar`} component="input" type="checkbox" />
-              <Field name={`${field}.name`} component="input" />
+              <Field name={`${field}.hasCollar`} component="input" type="checkbox"/>
+              <Field name={`${field}.name`} component="input"/>
             </div>)}
           <button className="add" onClick={() => fields.push()}>Add Dog</button>
           <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
@@ -1470,7 +1481,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            dogs: [ 'Fido', 'Snoopy' ]
+            dogs: ['Fido', 'Snoopy']
           }
         }
       })
@@ -1498,15 +1509,15 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // both fields rendered
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(2)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('Fido')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
 
       // change first field
-      renderField.calls[ 0 ].arguments[ 0 ].input.onChange('Odie')
+      renderField.calls[0].arguments[0].input.onChange('Odie')
 
       // first field rerendered, second field is NOT
       expect(renderField.calls.length).toBe(3)
-      expect(renderField.calls[ 2 ].arguments[ 0 ].input.name).toBe('dogs[0]')
-      expect(renderField.calls[ 2 ].arguments[ 0 ].input.value).toBe('Odie')
+      expect(renderField.calls[2].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[2].arguments[0].input.value).toBe('Odie')
 
       // field array NOT rerendered
       expect(renderFieldArray.calls.length).toBe(1)
@@ -1547,27 +1558,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
-              dogs: [ undefined ]
+              dogs: [undefined]
             },
             registeredFields: {
               dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
@@ -1616,27 +1627,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('Fido')
+      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
-              dogs: [ 'Fido' ]
+              dogs: ['Fido']
             },
             registeredFields: {
               dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
@@ -1685,27 +1696,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
-              dogs: [ undefined ]
+              dogs: [undefined]
             },
             registeredFields: {
               dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
@@ -1754,27 +1765,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('Fido')
+      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
-              dogs: [ 'Fido' ]
+              dogs: ['Fido']
             },
             registeredFields: {
               dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
@@ -1824,27 +1835,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
-              dogs: [ undefined ]
+              dogs: [undefined]
             },
             registeredFields: {
               dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
@@ -1893,27 +1904,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
       expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('Fido')
+      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
-              dogs: [ 'Fido' ]
+              dogs: ['Fido']
             },
             registeredFields: {
               dogs: { name: 'dogs', type: 'FieldArray', count: 1 },
@@ -1931,7 +1942,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'firstValue', 'secondValue' ]
+            foo: ['firstValue', 'secondValue']
           }
         }
       })
@@ -1959,19 +1970,19 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
       expect(renderFields).toHaveBeenCalled()
       expect(renderFields.calls.length).toBe(1)
-      expect(renderFields.calls[ 0 ].arguments[ 0 ].foo.length).toBe(2)
+      expect(renderFields.calls[0].arguments[0].foo.length).toBe(2)
 
       expect(renderField).toHaveBeenCalled()
       expect(renderField.calls.length).toBe(2)
-      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('firstValue')
-      expect(renderField.calls[ 1 ].arguments[ 0 ].input.value).toBe('secondValue')
+      expect(renderField.calls[0].arguments[0].input.value).toBe('firstValue')
+      expect(renderField.calls[1].arguments[0].input.value).toBe('secondValue')
     })
 
     it('should get() actual current value from redux store', () => {
       const store = makeStore({
         testForm: {
           values: {
-            dogs: [ 'Fido', 'Snoopy' ]
+            dogs: ['Fido', 'Snoopy']
           }
         }
       })
@@ -2000,7 +2011,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls[0].arguments[0].fields.get(0)).toBe('Fido')
 
       // change first field
-      renderField.calls[ 0 ].arguments[ 0 ].input.onChange('Odie')
+      renderField.calls[0].arguments[0].input.onChange('Odie')
 
       // field array NOT rerendered
       expect(renderFieldArray.calls.length).toBe(1)

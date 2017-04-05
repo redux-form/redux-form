@@ -34,6 +34,7 @@ import {
   UPDATE_SYNC_WARNINGS
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
+import plain from './structure/plain'
 
 const createReducer = structure => {
   const {
@@ -54,13 +55,21 @@ const createReducer = structure => {
       setIn(state, `${key}.${field}`, splice(existing, index, removeNum, value)) :
       state
   }
+  const doPlainSplice = (state, key, field, index, removeNum, value, force) => {
+    const slice = getIn(state, key)
+    const existing = plain.getIn(slice, field)
+    return existing || force ?
+      setIn(state, key, plain.setIn(slice, field, plain.splice(existing, index, removeNum, value))) :
+      state
+  }
   const rootKeys = [ 'values', 'fields', 'submitErrors', 'asyncErrors' ]
   const arraySplice = (state, field, index, removeNum, value) => {
     let result = state
     const nonValuesValue = value != null ? empty : undefined
     result = doSplice(result, 'values', field, index, removeNum, value, true)
     result = doSplice(result, 'fields', field, index, removeNum, nonValuesValue)
-    result = doSplice(result, 'syncErrors', field, index, removeNum, undefined)
+    result = doPlainSplice(result, 'syncErrors', field, index, removeNum, undefined)
+    result = doPlainSplice(result, 'syncWarnings', field, index, removeNum, undefined)
     result = doSplice(result, 'submitErrors', field, index, removeNum, undefined)
     result = doSplice(result, 'asyncErrors', field, index, removeNum, undefined)
     return result

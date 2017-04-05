@@ -6,6 +6,7 @@ import deleteIn from './deleteIn'
 import keys from './keys'
 
 const structure = {
+  allowsArrayErrors: true,
   empty: {},
   emptyList: [],
   getIn,
