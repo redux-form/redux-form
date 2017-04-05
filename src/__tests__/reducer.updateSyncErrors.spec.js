@@ -15,13 +15,13 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
     }))
     expect(state)
       .toEqual(setIn(fromJS({
-        foo: {
-          values: {
-            myField: 'value',
-            myOtherField: 'otherValue'
+          foo: {
+            values: {
+              myField: 'value',
+              myOtherField: 'otherValue'
+            }
           }
-        }
-      }),
+        }),
         'foo.syncErrors',
         {
           myField: 'myField error',
@@ -42,15 +42,15 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
     }, 'form wide error'))
     expect(state)
       .toEqualMap(setIn(fromJS({
-        foo: {
-          values: {
-            myField: 'value',
-            myOtherField: 'otherValue'
-          },
-          syncError: true,
-          error: 'form wide error'
-        }
-      }),
+          foo: {
+            values: {
+              myField: 'value',
+              myOtherField: 'otherValue'
+            },
+            syncError: true,
+            error: 'form wide error'
+          }
+        }),
         'foo.syncErrors',
         {
           myField: 'myField error'
@@ -71,13 +71,13 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
     }))
     expect(state)
       .toEqual(setIn(fromJS({
-        foo: {
-          values: {
-            myField: 'value',
-            myOtherField: 'otherValue'
+          foo: {
+            values: {
+              myField: 'value',
+              myOtherField: 'otherValue'
+            }
           }
-        }
-      }),
+        }),
         'foo.syncErrors',
         {
           myField: { complex: true, text: 'myField error' },
@@ -86,18 +86,18 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
   })
 
   it('should clear sync errors', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: 'value',
-          myOtherField: 'otherValue'
-        },
-        syncErrors: {
-          myField: 'myField error',
-          myOtherField: 'myOtherField error'
+    const state = reducer(setIn(fromJS({
+        foo: {
+          values: {
+            myField: 'value',
+            myOtherField: 'otherValue'
+          }
         }
+      }), 'foo.syncErrors', {
+        myField: 'myField error',
+        myOtherField: 'myOtherField error'
       }
-    }), updateSyncErrors('foo', {}))
+    ), updateSyncErrors('foo', {}))
     expect(state)
       .toEqualMap({
         foo: {

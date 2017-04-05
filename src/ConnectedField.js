@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
+import plain from './structure/plain'
 
 const propsToNotUpdateFor = [
   '_reduxForm'
@@ -11,7 +12,7 @@ const propsToNotUpdateFor = [
 const createConnectedField = ({ deepEqual, getIn, toJS }) => {
 
   const getSyncError = (syncErrors, name) => {
-    const error = getIn(syncErrors, name)
+    const error = plain.getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
     return error && error._error ? error._error : error

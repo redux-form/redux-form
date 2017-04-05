@@ -239,6 +239,9 @@ const describeField = (name, structure, combineReducers, expect) => {
         },
         values: {
           foo: 'bar'
+        },
+        registeredFields: {
+          foo: { name: 'foo', type: 'Field' }
         }
       }, {
         validate: () => ({ foo: 'foo error' })
@@ -253,6 +256,9 @@ const describeField = (name, structure, combineReducers, expect) => {
         },
         values: {
           foo: 'bar'
+        },
+        registeredFields: {
+          foo: { name: 'foo', type: 'Field' }
         }
       }, {
         warn: () => ({ foo: 'foo warning' })

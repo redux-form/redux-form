@@ -1,12 +1,12 @@
 import { arrayRemove } from '../actions'
 
-const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
+const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
   it('should remove from beginning', () => {
     const state = reducer(fromJS({
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -26,7 +26,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'b', 'c', 'd' ]
+              subField: ['b', 'c', 'd']
             }
           },
           fields: {
@@ -47,7 +47,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -67,7 +67,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'b', 'c' ]
+              subField: ['a', 'b', 'c']
             }
           },
           fields: {
@@ -88,7 +88,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -108,7 +108,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'c', 'd' ]
+              subField: ['a', 'c', 'd']
             }
           },
           fields: {
@@ -125,41 +125,42 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
   })
 
   it('should remove sync error from beginning', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
-          }
-        },
-        fields: {
-          myField: {
-            subField: [
-              { touched: true, visited: true },
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
-        },
-        syncErrors: {
-          myField: {
-            subField: [
-              'error 0',
-              'error 1',
-              'error 2',
-              'error 3'
-            ]
-          }
-        }
-      }
-    }), arrayRemove('foo', 'myField.subField', 0))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(setIn(fromJS({
         foo: {
           values: {
             myField: {
-              subField: [ 'b', 'c', 'd' ]
+              subField: ['a', 'b', 'c', 'd']
+            }
+          },
+          fields: {
+            myField: {
+              subField: [
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
+              ]
+            }
+          }
+        }
+      }), 'foo.syncErrors',
+      {
+        myField: {
+          subField: [
+            'error 0',
+            'error 1',
+            'error 2',
+            'error 3'
+          ]
+        }
+      }
+    ), arrayRemove('foo', 'myField.subField', 0))
+    expect(state)
+      .toEqualMap(setIn(fromJS({
+        foo: {
+          values: {
+            myField: {
+              subField: ['b', 'c', 'd']
             }
           },
           fields: {
@@ -170,8 +171,9 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
                 { touched: true }
               ]
             }
-          },
-          syncErrors: {
+          }
+        }
+      }), 'foo.syncErrors', {
             myField: {
               subField: [
                 'error 1',
@@ -179,47 +181,45 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
                 'error 3'
               ]
             }
-          }
-        }
-      })
+          }))
   })
 
   it('should remove sync error from end', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
-          }
-        },
-        fields: {
-          myField: {
-            subField: [
-              { touched: true, visited: true },
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
-        },
-        syncErrors: {
-          myField: {
-            subField: [
-              'error 0',
-              'error 1',
-              'error 2',
-              'error 3'
-            ]
-          }
-        }
-      }
-    }), arrayRemove('foo', 'myField.subField', 3))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(setIn(fromJS({
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'b', 'c' ]
+              subField: ['a', 'b', 'c', 'd']
+            }
+          },
+          fields: {
+            myField: {
+              subField: [
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
+              ]
+            }
+          }
+        }
+      }), 'foo.syncErrors',
+      {
+        myField: {
+          subField: [
+            'error 0',
+            'error 1',
+            'error 2',
+            'error 3'
+          ]
+        }
+      }), arrayRemove('foo', 'myField.subField', 3))
+    expect(state)
+      .toEqualMap(setIn(fromJS({
+        foo: {
+          values: {
+            myField: {
+              subField: ['a', 'b', 'c']
             }
           },
           fields: {
@@ -230,8 +230,9 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
                 { touched: true, visited: true }
               ]
             }
-          },
-          syncErrors: {
+          }
+        }
+      }), 'foo.syncErrors', {
             myField: {
               subField: [
                 'error 0',
@@ -239,17 +240,15 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
                 'error 2'
               ]
             }
-          }
-        }
-      })
+          }))
   })
 
   it('should remove sync error from middle', () => {
-    const state = reducer(fromJS({
+    const state = reducer(setIn(fromJS({
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -261,8 +260,9 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
               { touched: true }
             ]
           }
-        },
-        syncErrors: {
+        }
+      }
+    }), 'foo.syncErrors', {
           myField: {
             subField: [
               'error 0',
@@ -271,15 +271,13 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
               'error 3'
             ]
           }
-        }
-      }
     }), arrayRemove('foo', 'myField.subField', 1))
     expect(state)
-      .toEqualMap({
+      .toEqualMap(setIn(fromJS({
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'c', 'd' ]
+              subField: ['a', 'c', 'd']
             }
           },
           fields: {
@@ -290,8 +288,9 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
                 { touched: true }
               ]
             }
-          },
-          syncErrors: {
+          }
+        }
+      }), 'foo.syncErrors', {
             myField: {
               subField: [
                 'error 0',
@@ -299,16 +298,15 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
                 'error 3'
               ]
             }
-          }
-        }
-      })
+          }))
   })
+
   it('should remove async error from beginning', () => {
     const state = reducer(fromJS({
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -338,7 +336,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'b', 'c', 'd' ]
+              subField: ['b', 'c', 'd']
             }
           },
           fields: {
@@ -368,7 +366,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -398,7 +396,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'b', 'c' ]
+              subField: ['a', 'b', 'c']
             }
           },
           fields: {
@@ -428,7 +426,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -458,7 +456,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'c', 'd' ]
+              subField: ['a', 'c', 'd']
             }
           },
           fields: {
@@ -487,7 +485,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -517,7 +515,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'b', 'c', 'd' ]
+              subField: ['b', 'c', 'd']
             }
           },
           fields: {
@@ -547,7 +545,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -577,7 +575,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'b', 'c' ]
+              subField: ['a', 'b', 'c']
             }
           },
           fields: {
@@ -607,7 +605,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
+            subField: ['a', 'b', 'c', 'd']
           }
         },
         fields: {
@@ -637,7 +635,7 @@ const describeArrayRemove = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: [ 'a', 'c', 'd' ]
+              subField: ['a', 'c', 'd']
             }
           },
           fields: {

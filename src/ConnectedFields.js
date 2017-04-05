@@ -11,10 +11,9 @@ const propsToNotUpdateFor = [
 const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
 
   const getSyncError = (syncErrors, name) => {
-    const error = getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
-    return error && error._error ? error._error : error
+    return plain.getIn(syncErrors, `${name}._error`) || plain.getIn(syncErrors, name)
   }
 
   const getSyncWarning = (syncWarnings, name) => {
