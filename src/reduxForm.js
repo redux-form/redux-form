@@ -1,20 +1,20 @@
-import { Component, PropTypes, createElement } from 'react'
 import hoistStatics from 'hoist-non-react-statics'
+import isPromise from 'is-promise'
+import { mapValues, merge } from 'lodash'
+import { Component, createElement, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { mapValues, merge } from 'lodash'
-import isPromise from 'is-promise'
-import getDisplayName from './util/getDisplayName'
 import * as importedActions from './actions'
-import handleSubmit from './handleSubmit'
-import silenceEvent from './events/silenceEvent'
-import silenceEvents from './events/silenceEvents'
 import asyncValidation from './asyncValidation'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import defaultShouldValidate from './defaultShouldValidate'
-import plain from './structure/plain'
+import silenceEvent from './events/silenceEvent'
+import silenceEvents from './events/silenceEvents'
 import generateValidator from './generateValidator'
+import handleSubmit from './handleSubmit'
 import createIsValid from './selectors/isValid'
+import plain from './structure/plain'
+import getDisplayName from './util/getDisplayName'
 
 const isClassComponent = Component => Boolean(
   Component &&
@@ -141,10 +141,11 @@ const createReduxForm =
           }
 
           updateSyncErrorsIfNeeded(nextSyncErrors, nextError) {
-            const { error, syncErrors, updateSyncErrors } = this.props
-            const noErrors = (!syncErrors || !Object.keys(syncErrors).length) && !error
+            const { error, updateSyncErrors } = this.props
+            const noErrors = (!this.lastSyncErrors || !Object.keys(this.lastSyncErrors).length) && !error
             const nextNoErrors = (!nextSyncErrors || !Object.keys(nextSyncErrors).length) && !nextError
-            if (!(noErrors && nextNoErrors) && (!plain.deepEqual(syncErrors, nextSyncErrors) || !plain.deepEqual(error, nextError))) {
+            if (!(noErrors && nextNoErrors) && (!plain.deepEqual(this.lastSyncErrors, nextSyncErrors) || !plain.deepEqual(error, nextError))) {
+              this.lastSyncErrors = nextSyncErrors
               updateSyncErrors(nextSyncErrors, nextError)
             }
           }
@@ -257,7 +258,7 @@ const createReduxForm =
               // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
               //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
               // }
-              return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
+              return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[prop], nextProps[prop])
             })
           }
 
@@ -284,10 +285,10 @@ const createReduxForm =
           register(name, type, getValidator, getWarner) {
             this.props.registerField(name, type)
             if (getValidator) {
-              this.fieldValidators[ name ] = getValidator
+              this.fieldValidators[name] = getValidator
             }
             if (getWarner) {
-              this.fieldWarners[ name ] = getWarner
+              this.fieldWarners[name] = getWarner
             }
           }
 
@@ -295,8 +296,8 @@ const createReduxForm =
             if (!this.destroyed) {
               if (this.props.destroyOnUnmount || this.props.forceUnregisterOnUnmount) {
                 this.props.unregisterField(name)
-                delete this.fieldValidators[ name ]
-                delete this.fieldWarners[ name ]
+                delete this.fieldValidators[name]
+                delete this.fieldWarners[name]
               } else {
                 this.props.unregisterField(name, false)
               }
@@ -322,9 +323,9 @@ const createReduxForm =
           getValidators() {
             const validators = {}
             Object.keys(this.fieldValidators).forEach(name => {
-              const validator = this.fieldValidators[ name ]()
+              const validator = this.fieldValidators[name]()
               if (validator) {
-                validators[ name ] = validator
+                validators[name] = validator
               }
             })
             return validators
@@ -338,9 +339,9 @@ const createReduxForm =
           getWarners() {
             const warners = {}
             Object.keys(this.fieldWarners).forEach(name => {
-              const warner = this.fieldWarners[ name ]()
+              const warner = this.fieldWarners[name]()
               if (warner) {
-                warners[ name ] = warner
+                warners[name] = warner
               }
             })
             return warners
