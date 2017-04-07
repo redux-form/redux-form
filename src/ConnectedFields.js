@@ -120,7 +120,7 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
 
     render() {
       const { component, withRef, _fields, _reduxForm, ...rest } = this.props
-      const { sectionPrefix } = _reduxForm
+      const { sectionPrefix, form } = _reduxForm
       const { custom, ...props } = Object.keys(_fields).reduce((accumulator, name) => {
         const connectedProps = _fields[ name ]
         const { custom, ...fieldProps } = createFieldProps({ getIn, toJS },
@@ -128,6 +128,7 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
           {
             ...connectedProps,
             ...rest,
+            form,
             onBlur: this.onBlurFns[name],
             onChange: this.onChangeFns[name],
             onFocus: this.onFocusFns[name]

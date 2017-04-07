@@ -102,6 +102,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(props.foo.input.value).toBe('bar')
     })
 
+    it('should get meta.form', () => {
+      const props = testProps({
+        values: {
+          foo: 'bar'
+        }
+      })
+      expect(props.foo.meta.form).toBe('testForm')
+    })
+
     it('should get dirty/pristine from Redux state', () => {
       const props1 = testProps({
         initial: {
@@ -750,7 +759,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
           testForm: {
             registeredFields: {
               'foo.foo': { name: 'foo.foo', type: 'Field', count: 1 },
-              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 }              
+              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 }
             }
           }
         }
@@ -1388,7 +1397,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
         constructor(props) {
           super(props)
           this.state = { names: [ 'foo', 'bar', 'deep.dive', 'array[0]' ] }
-          this.changeNames = this.changeNames.bind(this) 
+          this.changeNames = this.changeNames.bind(this)
         }
         changeNames() {
           this.setState({ names: [ 'fighter', 'fly.high', 'array[1]' ] })
