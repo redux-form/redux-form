@@ -1002,47 +1002,6 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].name.input.value).toBe('redux form rocks')
     })
 
-    it('should call parse function on blur', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            name: 'redux form'
-          }
-        }
-      })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const parse = createSpy(value => value.toLowerCase()).andCallThrough()
-      class Form extends Component {
-        render() {
-          return (
-            <div>
-              <Fields names={[ 'name' ]} component={input} parse={parse}/>
-            </div>
-          )
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-
-      expect(parse).toNotHaveBeenCalled()
-
-      expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].name.input.value).toBe('redux form')
-
-      input.calls[ 0 ].arguments[ 0 ].name.input.onBlur('REDUX FORM ROCKS')
-
-      expect(parse).toHaveBeenCalled()
-      expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS', 'name' ])
-
-      expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].name.input.value).toBe('redux form rocks')
-    })
-
     it('should handle on focus', () => {
       const store = makeStore({
         testForm: {
@@ -1511,12 +1470,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(renderFields.calls[2].arguments[0].foo.input.value).toBe('erikras')
 
       // blur foo
-      renderFields.calls[2].arguments[0].foo.input.onBlur('@erikras')
+      renderFields.calls[2].arguments[0].foo.input.onBlur()
 
       // foo is blurred
       expect(renderFields.calls.length).toBe(4)
       expect(renderFields.calls[3].arguments[0].foo.meta.active).toBe(false)
-      expect(renderFields.calls[3].arguments[0].foo.input.value).toBe('@erikras')
+      expect(renderFields.calls[3].arguments[0].foo.input.value).toBe('erikras')
 
       // swap out fields
       TestUtils.Simulate.click(button)
@@ -1546,12 +1505,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(renderFields.calls[6].arguments[0].fighter.input.value).toBe('reduxForm')
 
       // blur fighter
-      renderFields.calls[6].arguments[0].fighter.input.onBlur('@reduxForm')
+      renderFields.calls[6].arguments[0].fighter.input.onBlur()
 
       // fighter is blurred
       expect(renderFields.calls.length).toBe(8)
       expect(renderFields.calls[7].arguments[0].fighter.meta.active).toBe(false)
-      expect(renderFields.calls[7].arguments[0].fighter.input.value).toBe('@reduxForm')
+      expect(renderFields.calls[7].arguments[0].fighter.input.value).toBe('reduxForm')
     })
   })
 }

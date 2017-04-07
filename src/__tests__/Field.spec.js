@@ -867,61 +867,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderUsername.calls[ 1 ].arguments[ 0 ].input.value).toBe('erikras')
     })
 
-    it('should call normalize function on blur', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            title: 'Redux Form',
-            author: 'Erik Rasmussen',
-            username: 'oldusername'
-          }
-        }
-      })
-      const renderUsername = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
-      class Form extends Component {
-        render() {
-          return (
-            <div>
-              <Field name="title" component="input"/>
-              <Field name="author" component="input"/>
-              <Field name="username" component={renderUsername} normalize={normalize}/>
-            </div>
-          )
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-
-      expect(normalize).toNotHaveBeenCalled()
-
-      expect(renderUsername.calls[ 0 ].arguments[ 0 ].input.value).toBe('oldusername')
-      renderUsername.calls[ 0 ].arguments[ 0 ].input.onBlur('ERIKRAS')
-
-      expect(normalize)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith(
-          'ERIKRAS',
-          'oldusername',
-          fromJS({
-            title: 'Redux Form',
-            author: 'Erik Rasmussen',
-            username: 'ERIKRAS'
-          }), fromJS({
-            title: 'Redux Form',
-            author: 'Erik Rasmussen',
-            username: 'oldusername'
-          })
-        )
-      expect(normalize.calls.length).toBe(1)
-
-      expect(renderUsername.calls[ 1 ].arguments[ 0 ].input.value).toBe('erikras')
-    })
-
     it('should call asyncValidate function on blur', () => {
       const store = makeStore({
         testForm: {
@@ -952,7 +897,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         </Provider>
       )
 
-      renderUsername.calls[ 0 ].arguments[ 0 ].input.onBlur('ERIKRAS')
+      renderUsername.calls[ 0 ].arguments[ 0 ].input.onBlur()
 
       expect(asyncValidate).toHaveBeenCalled()
     })
@@ -985,45 +930,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       renderTitle.calls[ 0 ].arguments[ 0 ].input.onFocus()
       expect(renderTitle.calls[ 1 ].arguments[ 0 ].meta.visited).toBe(true)
     })
-
-    it('should not change the value of a radio when blur', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            title: 'Redux Form',
-            author: 'Erik Rasmussen',
-            sex: 'male'
-          }
-        }
-      })
-      const renderSex = createSpy(props => <input {...props.input}/>).andCallThrough()
-      class Form extends Component {
-        render() {
-          return (
-            <div>
-              <Field name="title" component="input"/>
-              <Field name="author" component="input"/>
-              <Field name="sex" value="female" type="radio" component={renderSex} />
-              <Field name="sex" value="male" type="radio" component={renderSex} />
-            </div>
-          )
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-
-      expect(renderSex.calls[ 0 ].arguments[ 0 ].input.checked).toBe(false)
-      expect(renderSex.calls[ 1 ].arguments[ 0 ].input.checked).toBe(true)
-      renderSex.calls[ 0 ].arguments[ 0 ].input.onBlur('female')
-
-      expect(renderSex.calls[ 2 ].arguments[ 0 ].input.checked).toBe(false)
-      expect(renderSex.calls[ 3 ].arguments[ 0 ].input.checked).toBe(true)
-    })
-
 
     it('should call handle on drag start with value', () => {
       const store = makeStore({
@@ -1188,47 +1094,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('redux form')
 
       input.calls[ 0 ].arguments[ 0 ].input.onChange('REDUX FORM ROCKS')
-
-      expect(parse).toHaveBeenCalled()
-      expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS', 'name' ])
-
-      expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('redux form rocks')
-    })
-
-    it('should call parse function on blur', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            name: 'redux form'
-          }
-        }
-      })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const parse = createSpy(value => value.toLowerCase()).andCallThrough()
-      class Form extends Component {
-        render() {
-          return (
-            <div>
-              <Field name="name" component={input} parse={parse}/>
-            </div>
-          )
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm/>
-        </Provider>
-      )
-
-      expect(parse).toNotHaveBeenCalled()
-
-      expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('redux form')
-
-      input.calls[ 0 ].arguments[ 0 ].input.onBlur('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
       expect(parse.calls.length).toBe(1)
@@ -1762,7 +1627,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
 
       const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
-      input.value = 'bar'
 
       expect(callback).toNotHaveBeenCalled()
 
@@ -1776,12 +1640,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(1)
       expect(callback.calls[ 0 ].arguments[ 0 ]).toExist()  // event
-      expect(callback.calls[ 0 ].arguments[ 1 ]).toBe('bar')
-      expect(callback.calls[ 0 ].arguments[ 2 ]).toBe(undefined)
-
-      // value changed
-      expect(renderInput.calls.length).toBe(2)
-      expect(renderInput.calls[ 1 ].arguments[ 0 ].input.value).toBe('bar')
     })
 
     it('should allow onBlur callback to prevent blur', () => {
@@ -1803,7 +1661,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
 
       const input = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
-      input.value = 'bar'
 
       expect(callback).toNotHaveBeenCalled()
 
@@ -1817,12 +1674,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(1)
       expect(callback.calls[ 0 ].arguments[ 0 ]).toExist()
-      expect(callback.calls[ 0 ].arguments[ 1 ]).toBe('bar')
-      expect(callback.calls[ 0 ].arguments[ 2 ]).toBe(undefined)
-
-      // value NOT changed
-      expect(renderInput.calls.length).toBe(1)
-      expect(renderInput.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
     })
 
     it('should allow onFocus callback', () => {

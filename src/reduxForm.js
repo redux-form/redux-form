@@ -645,7 +645,7 @@ const createReduxForm =
             // Bind the first parameter on `props.form`
             const boundFormACs = mapValues(formActions, bindForm)
             const boundArrayACs = mapValues(arrayActions, bindForm)
-            const boundBlur = (field, value) => blur(initialProps.form, field, value, !!initialProps.touchOnBlur)
+            const boundBlur = (field) => blur(initialProps.form, field, !!initialProps.touchOnBlur)
             const boundChange = (field, value) => change(initialProps.form, field, value, !!initialProps.touchOnChange, !!initialProps.persistentSubmitErrors)
             const boundFocus = bindForm(focus)
 

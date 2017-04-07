@@ -96,15 +96,7 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
     }
 
     handleBlur(event) {
-      const { name, dispatch, parse, normalize, onBlur, _reduxForm, _value, value: previousValue } = this.props
-      let newValue = onChangeValue(event, { name, parse, normalize })
-
-      // for checkbox and radio, if the value property of checkbox or radio equals
-      // the value passed by blur event, then fire blur action with previousValue.
-      if (newValue === _value && _value !== undefined) {
-        newValue = previousValue
-      }
-
+      const { name, dispatch, onBlur, _reduxForm, _value, value: previousValue } = this.props
       let defaultPrevented = false
       if (onBlur) {
         onBlur({
@@ -113,16 +105,16 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
             defaultPrevented = true
             return event.preventDefault()
           }
-        }, newValue, previousValue)
+        })
       }
 
       if (!defaultPrevented) {
         // dispatch blur action
-        dispatch(_reduxForm.blur(name, newValue))
+        dispatch(_reduxForm.blur(name))
 
         // call post-blur callback
         if (_reduxForm.asyncValidate) {
-          _reduxForm.asyncValidate(name, newValue)
+          _reduxForm.asyncValidate(name, previousValue)
         }
       }
     }

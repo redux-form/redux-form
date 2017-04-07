@@ -1,27 +1,12 @@
 import { blur } from '../actions'
 
 const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
-  it('should set value on blur with empty state', () => {
-    const state = reducer(undefined, blur('foo', 'myField', 'myValue'))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          values: {
-            myField: 'myValue'
-          }
-        }
-      })
-  })
-
-  it('should set value on blur and touch with empty state', () => {
-    const state = reducer(undefined, blur('foo', 'myField', 'myValue', true))
+  it('should touch on blur', () => {
+    const state = reducer(undefined, blur('foo', 'myField', true))
     expect(state)
       .toEqualMap({
         foo: {
           anyTouched: true,
-          values: {
-            myField: 'myValue'
-          },
           fields: {
             myField: {
               touched: true
@@ -31,7 +16,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
       })
   })
 
-  it('should set value on blur and touch with initial value', () => {
+  it('should touch on blur with initial value', () => {
     const state = reducer(fromJS({
       foo: {
         values: {
@@ -47,13 +32,13 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
         },
         active: 'myField'
       }
-    }), blur('foo', 'myField', 'myValue', true))
+    }), blur('foo', 'myField', true))
     expect(state)
       .toEqualMap({
         foo: {
           anyTouched: true,
           values: {
-            myField: 'myValue'
+            myField: 'initialValue'
           },
           initial: {
             myField: 'initialValue'
@@ -83,7 +68,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
         },
         active: 'myField'
       }
-    }), blur('foo', 'myField', undefined, true))
+    }), blur('foo', 'myField', true))
     expect(state)
       .toEqualMap({
         foo: {
@@ -113,7 +98,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
         },
         active: 'myField'
       }
-    }), blur('foo', 'myField', undefined, true))
+    }), blur('foo', 'myField', true))
     expect(state)
       .toEqualMap({
         foo: {
@@ -125,197 +110,6 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
           }
         }
       })
-  })
-
-  it('should remove a value if on blur is set with \'\'', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: 'initialValue'
-        }
-      }
-    }), blur('foo', 'myField', '', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          fields: {
-            myField: {
-              touched: true
-            }
-          }
-        }
-      })
-  })
-
-  it('should allow setting an initialized field to \'\'', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: 'initialValue'
-        },
-        initial: {
-          myField: 'initialValue'
-        }
-      }
-    }), blur('foo', 'myField', '', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          values: {
-            myField: ''
-          },
-          initial: {
-            myField: 'initialValue'
-          },
-          fields: {
-            myField: {
-              touched: true
-            }
-          }
-        }
-      })
-  })
-
-  it('should NOT remove a value if on blur is set with \'\' if it\'s an array field', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: [ 'initialValue' ]
-        }
-      }
-    }), blur('foo', 'myField[0]', '', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          values: {
-            myField: [ undefined ]
-          },
-          fields: {
-            myField: [
-              {
-                touched: true
-              }
-            ]
-          }
-        }
-      })
-  })
-
-  it('should remove nested value container if on blur clears all values', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          nested: {
-            myField: 'initialValue'
-          }
-        }
-      }
-    }), blur('foo', 'nested.myField', '', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          fields: {
-            nested: {
-              myField: {
-                touched: true
-              }
-            }
-          }
-        }
-      })
-  })
-
-  it('should set nested value on blur', () => {
-    const state = reducer(fromJS({
-      foo: {
-        fields: {
-          myField: {
-            mySubField: {
-              active: true
-            }
-          }
-        },
-        active: 'myField.mySubField'
-      }
-    }), blur('foo', 'myField.mySubField', 'hello', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          values: {
-            myField: {
-              mySubField: 'hello'
-            }
-          },
-          fields: {
-            myField: {
-              mySubField: {
-                touched: true
-              }
-            }
-          }
-        }
-      })
-  })
-
-  it('should set array value on blur', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myArray: []
-        },
-        fields: {
-          myArray: [
-            { active: true }
-          ]
-        },
-        active: 'myArray[0]'
-      }
-    }), blur('foo', 'myArray[0]', 'hello', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          values: {
-            myArray: [ 'hello' ]
-          },
-          fields: {
-            myArray: [
-              {
-                touched: true
-              }
-            ]
-          }
-        }
-      })
-  })
-
-  it('should set complex value on blur', () => {
-    const state = reducer(fromJS({
-      foo: {
-        fields: {
-          myComplexField: {
-            active: true
-          }
-        },
-        active: 'myComplexField'
-      }
-    }), blur('foo', 'myComplexField', { id: 42, name: 'Bobby' }, true))
-    expect(state)
-      .toEqualMap(setIn(fromJS({ // must use setIn to make sure complex value is js object
-        foo: {
-          anyTouched: true,
-          fields: {
-            myComplexField: {
-              touched: true
-            }
-          }
-        }
-      }), 'foo.values.myComplexField', { id: 42, name: 'Bobby' }))
   })
 
   it('should NOT remove active field if the blurred field is not active', () => {
@@ -351,7 +145,7 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
           myArray: [ {} ]
         }
       }
-    }), blur('foo', 'myArray[0].foo', '', true))
+    }), blur('foo', 'myArray[0].foo', true))
     expect(state)
       .toEqualMap({
         foo: {

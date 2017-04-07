@@ -56,8 +56,8 @@ export const arrayUnshift = (form, field, value) =>
 export const autofill = (form, field, value) =>
   ({ type: AUTOFILL, meta: { form, field }, payload: value })
 
-export const blur = (form, field, value, touch) =>
-  ({ type: BLUR, meta: { form, field, touch }, payload: value })
+export const blur = (form, field, touch) =>
+  ({ type: BLUR, meta: { form, field, touch } })
 
 export const change = (form, field, value, touch, persistentSubmitErrors) =>
   ({ type: CHANGE, meta: { form, field, touch, persistentSubmitErrors }, payload: value })
