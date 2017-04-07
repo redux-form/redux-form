@@ -4,6 +4,7 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
+import { prefix } from '../actionTypes'
 import describeInitialize from './reducer.initialize.spec'
 import describeArrayInsert from './reducer.arrayInsert.spec'
 import describeArrayMove from './reducer.arrayMove.spec'
@@ -99,7 +100,7 @@ const describeReducer = (name, structure, expect) => {
     })
 
     it('should initialize form state when action has form', () => {
-      const state = reducer(undefined, { meta: { form: 'foo' } })
+      const state = reducer(undefined, { type: `${prefix}SOME_ACTION`, meta: { form: 'foo' } })
       expect(state)
         .toExist()
         .toBeAMap()
@@ -107,6 +108,11 @@ const describeReducer = (name, structure, expect) => {
         .toEqualMap({
           foo: {}
         })
+    })
+
+    it('should ignore non-redux-form actions', () => {
+      const state = reducer(undefined, { type: 'some/other/lib', meta: { form: 'foo' } })
+      expect(state).toEqualMap({})
     })
 
     Object.keys(tests).forEach(key => {
