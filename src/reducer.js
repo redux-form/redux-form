@@ -12,12 +12,13 @@ import {
   AUTOFILL,
   BLUR,
   CHANGE,
+  CLEAR_ASYNC_ERROR,
   CLEAR_SUBMIT,
   CLEAR_SUBMIT_ERRORS,
-  CLEAR_ASYNC_ERROR,
   DESTROY,
   FOCUS,
   INITIALIZE,
+  prefix,
   REGISTER_FIELD,
   RESET,
   SET_SUBMIT_FAILED,
@@ -35,6 +36,10 @@ import {
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
+
+const isReduxFormAction = action =>
+action && action.type && action.type.length > prefix.length &&
+action.type.substring(0, prefix.length) === prefix
 
 const createReducer = structure => {
   const {
@@ -62,7 +67,7 @@ const createReducer = structure => {
       setIn(state, key, plain.setIn(slice, field, plain.splice(existing, index, removeNum, value))) :
       state
   }
-  const rootKeys = [ 'values', 'fields', 'submitErrors', 'asyncErrors' ]
+  const rootKeys = ['values', 'fields', 'submitErrors', 'asyncErrors']
   const arraySplice = (state, field, index, removeNum, value) => {
     let result = state
     const nonValuesValue = value != null ? empty : undefined
@@ -419,14 +424,14 @@ const createReducer = structure => {
   }
 
   const reducer = (state = empty, action) => {
-    const behavior = behaviors[ action.type ]
+    const behavior = behaviors[action.type]
     return behavior ? behavior(state, action) : state
   }
 
   const byForm = (reducer) =>
     (state = empty, action = {}) => {
       const form = action && action.meta && action.meta.form
-      if (!form) {
+      if (!form || !isReduxFormAction(action)) {
         return state
       }
       if (action.type === DESTROY) {
@@ -446,13 +451,13 @@ const createReducer = structure => {
         Object
           .keys(reducers)
           .reduce((accumulator, key) => {
-            const previousState = getIn(accumulator, key)
-            const nextState = reducers[ key ](previousState, action, getIn(state, key))
-            return nextState === previousState ?
-              accumulator :
-              setIn(accumulator, key, nextState)
-          },
-          this(state, action)))
+              const previousState = getIn(accumulator, key)
+              const nextState = reducers[key](previousState, action, getIn(state, key))
+              return nextState === previousState ?
+                accumulator :
+                setIn(accumulator, key, nextState)
+            },
+            this(state, action)))
     }
 
     return target
