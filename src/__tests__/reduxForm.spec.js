@@ -3450,7 +3450,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propsAtNthRender(inputRender, 2).input.value).toBe('fooChanged')
     })
 
-    it('should provide dispatch-bound blur() that modifies values', () => {
+    it('should provide dispatch-bound blur() that does not modify values', () => {
       const store = makeStore({})
       const formRender = createSpy()
 
@@ -3483,14 +3483,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(formRender.calls.length).toBe(1)
 
       expect(formRender.calls[ 0 ].arguments[ 0 ].blur).toBeA('function')
-      formRender.calls[ 0 ].arguments[ 0 ].blur('foo', 'newValue')
+      formRender.calls[ 0 ].arguments[ 0 ].blur('foo')
 
       // check modified state
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } },
-            values: { foo: 'newValue' },
             fields: { foo: { touched: true } },
             anyTouched: true
           }

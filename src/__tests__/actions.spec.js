@@ -260,7 +260,7 @@ describe('actions', () => {
   })
 
   it('should create blur action', () => {
-    expect(blur('myForm', 'myField', 'bar', false))
+    expect(blur('myForm', 'myField', false))
       .toEqual({
         type: BLUR,
         meta: {
@@ -268,10 +268,9 @@ describe('actions', () => {
           field: 'myField',
           touch: false
         },
-        payload: 'bar'
       })
       .toPass(isFSA)
-    expect(blur('myForm', 'myField', 7, true))
+    expect(blur('myForm', 'myField', true))
       .toEqual({
         type: BLUR,
         meta: {
@@ -279,7 +278,6 @@ describe('actions', () => {
           field: 'myField',
           touch: true
         },
-        payload: 7
       })
       .toPass(isFSA)
   })
