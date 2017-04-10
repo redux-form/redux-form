@@ -410,7 +410,7 @@ const createReduxForm =
           }
 
           submit(submitOrEvent) {
-            const { onSubmit, blur, change, dispatch, validExceptSubmit } = this.props
+            const { onSubmit, blur, change, dispatch } = this.props
 
             if (!submitOrEvent || silenceEvent(submitOrEvent)) {
               // submitOrEvent is an event: fire submit if not already submitting
@@ -426,7 +426,7 @@ const createReduxForm =
                         ...this.props,
                         ...bindActionCreators({ blur, change }, dispatch)
                       },
-                      validExceptSubmit,
+                      this.props.validExceptSubmit,
                       this.asyncValidate,
                       this.getFieldList({ excludeFieldArray: true })
                     )
@@ -444,7 +444,7 @@ const createReduxForm =
                         ...this.props,
                         ...bindActionCreators({ blur, change }, dispatch)
                       },
-                      validExceptSubmit,
+                      this.props.validExceptSubmit,
                       this.asyncValidate,
                       this.getFieldList({ excludeFieldArray: true })
                     )
