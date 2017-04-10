@@ -10,11 +10,13 @@ import {
   change,
   clearSubmit,
   initialize,
+  setSubmitFailed,
   setSubmitSucceeded,
   startSubmit,
   stopSubmit,
   submit,
-  touch
+  touch,
+  updateSyncErrors
 } from '../actions'
 import createField from '../Field'
 import createFieldArray from '../FieldArray'
@@ -3908,6 +3910,241 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         .toEqual(change('testForm', 'foo', 'hello', false, false))
 
       // dispatch submit action
+      store.dispatch(submit('testForm'))
+
+      // check that submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(submit('testForm'))
+
+      // check that clear submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(clearSubmit('testForm'))
+
+      // check that touch action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(touch('testForm', 'foo'))
+
+      // check that submit succeeded action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(setSubmitSucceeded('testForm'))
+
+      // check no additional actions dispatched
+      expect(logger.calls.length).toBe(callIndex)
+
+      expect(onSubmit).toHaveBeenCalled()
+      expect(onSubmit.calls.length).toBe(1)
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
+    })
+
+    it('does NOT submit (via config) invalid form when the SUBMIT action is dispatched', () => {
+      const logger = createSpy((state = {}) => state).andCallThrough()
+      const store = makeStore({}, logger)
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const onSubmit = createSpy()
+      const formRender = createSpy()
+      const validate = values => {
+        const errors = {}
+        if (!getIn(values, 'foo')) {
+          errors.foo = 'Required'
+        }
+        return errors
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          const { handleSubmit } = this.props
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="foo" component={inputRender}/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit,
+        validate
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated/>
+        </Provider>
+      )
+
+      let callIndex = logger.calls.length
+
+      // form renders before sync validation and then again with invalid flag
+      expect(formRender.calls.length).toBe(2)
+      expect(propsAtNthRender(formRender, 0).invalid).toBe(false)
+      expect(propsAtNthRender(formRender, 1).invalid).toBe(true)
+      expect(propsAtNthRender(formRender, 1).submitFailed).toBe(false)
+
+      // try to submit invalid form via dispatching submit action
+      store.dispatch(submit('testForm'))
+
+      // check that submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(submit('testForm'))
+
+
+      // check that clear submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(clearSubmit('testForm'))
+
+      // check that touch action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(touch('testForm', 'foo'))
+
+      // check that setSubmitFailed action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(setSubmitFailed('testForm', 'foo'))
+
+      // form rerendered twice, once with submit trigger, and then after submit failure
+      expect(formRender.calls.length).toBe(4)
+      expect(propsAtNthRender(formRender, 3).invalid).toBe(true)
+      expect(propsAtNthRender(formRender, 3).submitFailed).toBe(true)
+
+      // update input
+      inputRender.calls[0].arguments[0].input.onChange('hello')
+
+      // check that change action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(change('testForm', 'foo', 'hello', false, false))
+
+      // check that updateSyncErrors action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(updateSyncErrors('testForm', {}))
+
+      // rerendered once to flip dirty flag, and again to flip invalid flag
+      expect(formRender.calls.length).toBe(6)
+      expect(propsAtNthRender(formRender, 3).dirty).toBe(false)
+      expect(propsAtNthRender(formRender, 4).dirty).toBe(true)
+      expect(propsAtNthRender(formRender, 4).invalid).toBe(true)
+      expect(propsAtNthRender(formRender, 5).invalid).toBe(false)
+      expect(propsAtNthRender(formRender, 5).submitFailed).toBe(true)
+
+      // dispatch submit action on now valid form
+      store.dispatch(submit('testForm'))
+
+      // check that submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(submit('testForm'))
+
+      // check that clear submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(clearSubmit('testForm'))
+
+      // check that touch action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(touch('testForm', 'foo'))
+
+      // check that submit succeeded action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(setSubmitSucceeded('testForm'))
+
+      // check no additional actions dispatched
+      expect(logger.calls.length).toBe(callIndex)
+
+      expect(onSubmit).toHaveBeenCalled()
+      expect(onSubmit.calls.length).toBe(1)
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
+    })
+
+    it('does NOT submit (via prop) invalid form when the SUBMIT action is dispatched', () => {
+      const logger = createSpy((state = {}) => state).andCallThrough()
+      const store = makeStore({}, logger)
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const onSubmit = createSpy()
+      const validate = values => {
+        const errors = {}
+        if (!getIn(values, 'foo')) {
+          errors.foo = 'Required'
+        }
+        return errors
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          const { handleSubmit } = this.props
+          return (
+            <form onSubmit={handleSubmit}>
+              <Field name="foo" component={inputRender}/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        validate
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated onSubmit={onSubmit}/>
+        </Provider>
+      )
+
+      let callIndex = logger.calls.length
+
+      // form renders before sync validation and then again with invalid flag
+      expect(formRender.calls.length).toBe(2)
+      expect(propsAtNthRender(formRender, 0).invalid).toBe(false)
+      expect(propsAtNthRender(formRender, 1).invalid).toBe(true)
+      expect(propsAtNthRender(formRender, 1).submitFailed).toBe(false)
+
+      // try to submit invalid form via dispatching submit action
+      store.dispatch(submit('testForm'))
+
+      // check that submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(submit('testForm'))
+
+
+      // check that clear submit action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(clearSubmit('testForm'))
+
+      // check that touch action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(touch('testForm', 'foo'))
+
+      // check that setSubmitFailed action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(setSubmitFailed('testForm', 'foo'))
+
+      // form rerendered twice, once with submit trigger, and then after submit failure
+      expect(formRender.calls.length).toBe(4)
+      expect(propsAtNthRender(formRender, 3).invalid).toBe(true)
+      expect(propsAtNthRender(formRender, 3).submitFailed).toBe(true)
+
+      // update input
+      inputRender.calls[0].arguments[0].input.onChange('hello')
+
+      // check that change action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(change('testForm', 'foo', 'hello', false, false))
+
+      // check that updateSyncErrors action was dispatched
+      expect(logger.calls[callIndex++].arguments[1])
+        .toEqual(updateSyncErrors('testForm', {}))
+
+      // rerendered once to flip dirty flag, and again to flip invalid flag
+      expect(formRender.calls.length).toBe(6)
+      expect(propsAtNthRender(formRender, 3).dirty).toBe(false)
+      expect(propsAtNthRender(formRender, 4).dirty).toBe(true)
+      expect(propsAtNthRender(formRender, 4).invalid).toBe(true)
+      expect(propsAtNthRender(formRender, 5).invalid).toBe(false)
+      expect(propsAtNthRender(formRender, 5).submitFailed).toBe(true)
+
+      // dispatch submit action on now valid form
       store.dispatch(submit('testForm'))
 
       // check that submit action was dispatched
