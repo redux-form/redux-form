@@ -1,7 +1,8 @@
 import hoistStatics from 'hoist-non-react-statics'
 import isPromise from 'is-promise'
 import { mapValues, merge } from 'lodash'
-import { Component, createElement, PropTypes } from 'react'
+import { Component, createElement } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as importedActions from './actions'

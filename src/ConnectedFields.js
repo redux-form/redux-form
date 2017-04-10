@@ -1,4 +1,5 @@
-import { Component, PropTypes, createElement } from 'react'
+import { Component, createElement } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'

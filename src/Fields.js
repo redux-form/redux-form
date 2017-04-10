@@ -1,4 +1,5 @@
-import { Component, PropTypes, createElement } from 'react'
+import { Component, createElement } from 'react';
+import PropTypes from 'prop-types';
 import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
 import shallowCompare from './util/shallowCompare'

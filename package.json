@@ -60,7 +60,8 @@
     "invariant": "^2.2.2",
     "is-promise": "^2.1.0",
     "lodash": "^4.17.3",
-    "lodash-es": "^4.17.3"
+    "lodash-es": "^4.17.3",
+    "prop-types": "^15.5.6"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
