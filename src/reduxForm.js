@@ -1,7 +1,8 @@
 import hoistStatics from 'hoist-non-react-statics'
 import isPromise from 'is-promise'
 import { mapValues, merge } from 'lodash'
-import { Component, createElement, PropTypes } from 'react'
+import { Component, createElement } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as importedActions from './actions'
@@ -409,7 +410,7 @@ const createReduxForm =
           }
 
           submit(submitOrEvent) {
-            const { onSubmit, blur, change, dispatch, validExceptSubmit } = this.props
+            const { onSubmit, blur, change, dispatch } = this.props
 
             if (!submitOrEvent || silenceEvent(submitOrEvent)) {
               // submitOrEvent is an event: fire submit if not already submitting
@@ -425,7 +426,7 @@ const createReduxForm =
                         ...this.props,
                         ...bindActionCreators({ blur, change }, dispatch)
                       },
-                      validExceptSubmit,
+                      this.props.validExceptSubmit,
                       this.asyncValidate,
                       this.getFieldList({ excludeFieldArray: true })
                     )
@@ -443,7 +444,7 @@ const createReduxForm =
                         ...this.props,
                         ...bindActionCreators({ blur, change }, dispatch)
                       },
-                      validExceptSubmit,
+                      this.props.validExceptSubmit,
                       this.asyncValidate,
                       this.getFieldList({ excludeFieldArray: true })
                     )

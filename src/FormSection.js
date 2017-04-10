@@ -1,4 +1,5 @@
-import React, { createElement, Component, PropTypes } from 'react'
+import React, { createElement, Component } from 'react';
+import PropTypes from 'prop-types';
 import prefixName from './util/prefixName'
 
 class FormSection extends Component {
