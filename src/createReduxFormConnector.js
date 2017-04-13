@@ -7,9 +7,9 @@ import createHigherOrderComponent from './createHigherOrderComponent';
  * but if they do, the connected components below it need to be redefined.
  */
 const createReduxFormConnector =
-  (isReactNative, React, connect) =>
+  (isReactNative, React, PropTypes, connect) =>
     (WrappedComponent, mapStateToProps, mapDispatchToProps, mergeProps, options) => {
-      const {Component, PropTypes} = React;
+      const {Component} = React;
       const { withRef = false } = (options || {});
       class ReduxFormConnector extends Component {
         constructor(props) {
@@ -23,7 +23,7 @@ const createReduxFormConnector =
                 'formKey',
                 'getFormState'
               ],
-              fn: createHigherOrderComponent(props, isReactNative, React, connect, WrappedComponent,
+              fn: createHigherOrderComponent(props, isReactNative, React, PropTypes, connect, WrappedComponent,
                 mapStateToProps, mapDispatchToProps, mergeProps, options)
             }
           });

@@ -29,4 +29,4 @@ export const {
   touchWithKey,
   untouch,
   untouchWithKey
-} = createAll(true, React, connect);
+} = createAll(true, React, PropTypes, connect);

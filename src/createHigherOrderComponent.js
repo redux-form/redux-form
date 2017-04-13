@@ -20,13 +20,14 @@ import createInitialState from './createInitialState';
 const createHigherOrderComponent = (config,
                                     isReactNative,
                                     React,
+                                    PropTypes,
                                     connect,
                                     WrappedComponent,
                                     mapStateToProps,
                                     mapDispatchToProps,
                                     mergeProps,
                                     options) => {
-  const {Component, PropTypes} = React;
+  const {Component} = React;
   return (reduxMountPoint, formName, formKey, getFormState) => {
     const { withRef = false } = (options || {});
     class ReduxForm extends Component {

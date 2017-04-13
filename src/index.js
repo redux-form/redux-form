@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import createAll from './createAll';
 
@@ -35,4 +36,4 @@ export const {
   touchWithKey,
   untouch,
   untouchWithKey
-} = createAll(isNative, React, connect);
+} = createAll(isNative, React, PropTypes, connect);
