@@ -4,7 +4,7 @@ import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
-import TestUtils from 'react-addons-test-utils'
+import TestUtils from 'react-dom/test-utils'
 import createReduxForm from '../reduxForm'
 import createReducer from '../reducer'
 import createField from '../Field'
@@ -237,7 +237,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
         form: 'testForm',
         validate
       })(TestForm)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm/>
         </Provider>

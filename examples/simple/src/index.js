@@ -31,11 +31,19 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="6.6.2"
+        version="6.6.3"
         path="/examples/simple"
-        breadcrumbs={generateExampleBreadcrumbs('simple', 'Simple Form Example', '6.6.2')}>
+        breadcrumbs={generateExampleBreadcrumbs('simple', 'Simple Form Example', '6.6.3')}>
 
         <Markdown content={readme}/>
+
+        <div style={{ textAlign: 'center' }}>
+          <a href="https://codesandbox.io/s/mZRjw05yp"
+            target="_blank"
+            style={{ fontSize: '1.5em' }}>
+            <i className="fa fa-codepen"/> Open in Sandbox
+          </a>
+        </div>
 
         <h2>Form</h2>
 

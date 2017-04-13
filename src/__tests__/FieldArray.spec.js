@@ -2,7 +2,7 @@ import domExpect, { createSpy } from 'expect'
 import expectElement from 'expect-element'
 /* eslint react/no-multi-comp:0 */
 import React, { Component } from 'react'
-import TestUtils from 'react-addons-test-utils'
+import TestUtils from 'react-dom/test-utils'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'

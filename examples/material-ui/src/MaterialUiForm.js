@@ -73,9 +73,9 @@ const MaterialUiForm = props => {
       </div>
       <div>
         <Field name="favoriteColor" component={renderSelectField} label="Favorite Color">
-          <MenuItem value={'ff0000'} primaryText="Red"/>
-          <MenuItem value={'00ff00'} primaryText="Green"/>
-          <MenuItem value={'0000ff'} primaryText="Blue"/>
+          <MenuItem value="ff0000" primaryText="Red"/>
+          <MenuItem value="00ff00" primaryText="Green"/>
+          <MenuItem value="0000ff" primaryText="Blue"/>
         </Field>
       </div>
       <div>
