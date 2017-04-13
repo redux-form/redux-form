@@ -1,4 +1,5 @@
 import React from 'react-native';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import createAll from './createAll';
 
