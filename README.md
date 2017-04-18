@@ -29,7 +29,7 @@
 * [Release Notes](https://github.com/erikras/redux-form/releases)
 * [Older Documentation](https://redux-form.com/6.6.3/docs/DocumentationVersions.md/)
 
-## Code Sandboxes
+## 🏖 Code Sandboxes 🏖
 
 You can play around with `redux-form` in these sandbox versions of the Examples.
 
