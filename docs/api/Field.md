@@ -115,7 +115,7 @@ passing them into `props`.
 #### `parse : (value, name) => parsedValue` [optional]
 
 Parses the value given from the field input component to the type that you want stored in the 
-Redux store. Common use cases are to parse currencies into `Number`s into currencies or 
+Redux store. Common use cases are to parse currencies into `Number`s or 
 localized date formats into `Date`s.
 
 `parse` is called with the field `value` and `name` as arguments and should return the new
