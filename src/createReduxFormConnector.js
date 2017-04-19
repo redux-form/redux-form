@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import LazyCache from 'react-lazy-cache/noGetters';
 import getDisplayName from './getDisplayName';
 import createHigherOrderComponent from './createHigherOrderComponent';
@@ -9,7 +10,7 @@ import createHigherOrderComponent from './createHigherOrderComponent';
 const createReduxFormConnector =
   (isReactNative, React, connect) =>
     (WrappedComponent, mapStateToProps, mapDispatchToProps, mergeProps, options) => {
-      const {Component, PropTypes} = React;
+      const {Component} = React;
       const { withRef = false } = (options || {});
       class ReduxFormConnector extends Component {
         constructor(props) {

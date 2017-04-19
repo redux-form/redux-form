@@ -1,4 +1,8 @@
-const createPropTypes = ({PropTypes: {any, bool, string, func, object}}) => ({
+import PropTypes from 'prop-types';
+
+const { any, bool, string, func, obj } = PropTypes;
+
+const createPropTypes = () => ({
   // State:
   active: string,                     // currently active field
   asyncValidating: bool.isRequired,   // true if async validation is running
