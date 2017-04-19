@@ -58,7 +58,7 @@ export default function createAll(isReactNative, React, connect) {
     getValues,
     initialize,
     initializeWithKey,
-    propTypes: createPropTypes(React),
+    propTypes: createPropTypes(),
     reduxForm: createReduxForm(isReactNative, React, connect),
     reducer,
     removeArrayValue,

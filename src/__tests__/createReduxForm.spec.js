@@ -1,6 +1,7 @@
 /* eslint react/no-multi-comp:0 */
 import expect, {createSpy} from 'expect';
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
