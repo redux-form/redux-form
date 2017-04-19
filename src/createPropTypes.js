@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const { any, bool, string, func, obj } = PropTypes;
+const { any, bool, string, func, object } = PropTypes;
 
 const createPropTypes = () => ({
   // State:
