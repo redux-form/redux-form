@@ -134,7 +134,9 @@ const createReduxForm =
             if (nextProps) {
               if ((enableReinitialize || !nextProps.initialized) && !deepEqual(this.props.initialValues, nextProps.initialValues)) {
                 const keepDirty = nextProps.initialized && this.props.keepDirtyOnReinitialize
-                this.props.initialize(nextProps.initialValues, keepDirty)
+                this.props.initialize(nextProps.initialValues, keepDirty, {
+                  lastInitialValues: this.props.initialValues,
+                })
               }
             } else if (this.props.initialValues && (!this.props.initialized || enableReinitialize)) {
               this.props.initialize(this.props.initialValues, this.props.keepDirtyOnReinitialize)
@@ -374,13 +376,13 @@ const createReduxForm =
               const isBlurredField = !submitting &&
                 (!asyncBlurFields || ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
               if ((isBlurredField || submitting) && shouldAsyncValidate({
-                  asyncErrors,
-                  initialized,
-                  trigger: submitting ? 'submit' : 'blur',
-                  blurredField: name,
-                  pristine,
-                  syncValidationPasses
-                })) {
+                asyncErrors,
+                initialized,
+                trigger: submitting ? 'submit' : 'blur',
+                blurredField: name,
+                pristine,
+                syncValidationPasses
+              })) {
                 return asyncValidation(
                   () => asyncValidate(valuesToValidate, dispatch, this.props, name),
                   startAsyncValidation,
