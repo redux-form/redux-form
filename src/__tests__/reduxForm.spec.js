@@ -30,7 +30,8 @@ import plainExpectations from '../structure/plain/expectations'
 import SubmissionError from '../SubmissionError'
 import addExpectations from './addExpectations'
 
-const propsAtNthRender = (componentSpy, callNumber) => componentSpy.calls[callNumber].arguments[0]
+const propsAtNthRender = (spy, callNumber) => spy.calls[callNumber].arguments[0]
+const propsAtLastRender = spy => propsAtNthRender(spy, spy.calls.length - 1)
 
 const describeReduxForm = (name, structure, combineReducers, expect) => {
   const { fromJS, getIn } = structure
@@ -1011,7 +1012,6 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
       const formRender = createSpy()
-      const propsOnLastRender = (componentSpy) => componentSpy.calls[componentSpy.calls.length - 1].arguments[0]
       const initialValues1 = {
         deep: {
           foo: 'bar'
@@ -1052,11 +1052,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       TestUtils.renderIntoDocument(<Container/>)
 
-      propsOnLastRender(inputRender).input.onChange('newBar')
+      propsAtLastRender(inputRender).input.onChange('newBar')
 
-      expect(propsOnLastRender(inputRender).input.value).toBe('newBar')
-      expect(propsOnLastRender(inputRender).meta.pristine).toBe(false, 'Input should not have been pristine')
-      expect(propsOnLastRender(formRender).pristine).toBe(false, 'Form should not have been pristine')
+      expect(propsAtLastRender(inputRender).input.value).toBe('newBar')
+      expect(propsAtLastRender(inputRender).meta.pristine).toBe(false, 'Input should not have been pristine')
+      expect(propsAtLastRender(formRender).pristine).toBe(false, 'Form should not have been pristine')
 
       store.dispatch(initialize('testForm', {
         deep: {
@@ -1064,9 +1064,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       }))
 
-      expect(propsOnLastRender(inputRender).input.value).toBe('baz')
-      expect(propsOnLastRender(inputRender).meta.pristine).toBe(true, 'Input should have been pristine after initialize')
-      expect(propsOnLastRender(formRender).pristine).toBe(true, 'Form should have been pristine after initialize')
+      expect(propsAtLastRender(inputRender).input.value).toBe('baz')
+      expect(propsAtLastRender(inputRender).meta.pristine).toBe(true, 'Input should have been pristine after initialize')
+      expect(propsAtLastRender(formRender).pristine).toBe(true, 'Form should have been pristine after initialize')
     })
 
     it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
@@ -2637,6 +2637,97 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
+    })
+
+    it('should re-run sync validation when props change iff shouldValidate is overridden', () => {
+      const store = makeStore({})
+      const formRender = createSpy()
+      const renderInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const validate = createSpy((values, props) => {
+        const errors = {}
+        if (getIn(values,'amount') > props.max) {
+          errors.amount = `Should be <= ${props.max}`
+        }
+        return errors
+      }).andCallThrough()
+      const shouldValidate = ({
+        values,
+        nextProps,
+        props,
+        initialRender,
+        structure
+      }) => {
+        if (initialRender) {
+          return true
+        }
+        return initialRender ||
+          !structure.deepEqual(values, nextProps.values) ||
+          props.max !== nextProps.max // must specifically check prop we know might change
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="amount" component={renderInput} type="number"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        initialValues: { amount: 3 },
+        shouldValidate,
+        validate
+      })(Form)
+      class Container extends Component {
+        constructor() {
+          super()
+          this.state = { max: 5 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Decorated {...this.state}/>}
+              <button onClick={() => this.setState({ max: this.state.max + 1 })}>Increment</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Container/>
+        </Provider>
+      )
+
+      const validateLastCalledWith = (amount, max) => {
+        expect(getIn(validate.calls[validate.calls.length - 1].arguments[0], 'amount')).toBe(amount)
+        expect(validate.calls[validate.calls.length - 1].arguments[1].max).toBe(max)
+      }
+
+      expect(formRender).toHaveBeenCalled()
+
+      // form is valid (3 < 5)
+      validateLastCalledWith(3, 5)
+      expect(propsAtLastRender(formRender).valid).toBe(true)
+
+      // change amount to 6
+      propsAtNthRender(renderInput, 0).input.onChange(6)
+
+      // form is invalid (6 !<= 5)
+      validateLastCalledWith(6, 5)
+      expect(propsAtLastRender(formRender).valid).toBe(false)
+
+      // increment max to 6
+      const increment = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(increment)
+
+      // form is valid (6 <= 6)
+      validateLastCalledWith(6, 6)
+      expect(propsAtLastRender(formRender).valid).toBe(true)
     })
 
     it('should properly remove error prop from sync validation', () => {
