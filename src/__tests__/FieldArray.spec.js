@@ -110,26 +110,6 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props.meta.form).toBe('testForm')
     })
 
-    it('should get touched from Redux state', () => {
-      const props1 = testProps({
-        values: {
-          foo: 'bar'
-        }
-      })
-      expect(props1.meta.touched).toBe(false)
-      const props2 = testProps({
-        values: {
-          foo: 'bar'
-        },
-        fields: {
-          foo: {
-            touched: true
-          }
-        }
-      })
-      expect(props2.meta.touched).toBe(true)
-    })
-
     it('should not pass api props into custom', () => {
       const store = makeStore()
       const renderSpy = createSpy()
