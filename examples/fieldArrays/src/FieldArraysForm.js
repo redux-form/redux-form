@@ -34,11 +34,11 @@ const renderHobbies = ({ fields, meta: { error } }) => (
   </ul>
 )
 
-const renderMembers = ({ fields, meta: { touched, error, submitFailed } }) => (
+const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
   <ul>
     <li>
       <button type="button" onClick={() => fields.push({})}>Add Member</button>
-      {(touched || submitFailed) && error && <span>{error}</span>}
+      {submitFailed && error && <span>{error}</span>}
     </li>
     {fields.map((member, index) =>
       <li key={index}>
