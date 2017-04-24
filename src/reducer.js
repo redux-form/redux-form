@@ -280,6 +280,10 @@ const createReducer = structure => {
       if (registeredFields) {
         result = setIn(result, 'registeredFields', registeredFields)
       }
+      const syncErrors = getIn(state, 'syncErrors')
+      if (syncErrors) {
+        result = setIn(result, 'syncErrors', syncErrors)
+      }
       const values = getIn(state, 'initial')
       if (values) {
         result = setIn(result, 'values', values)
