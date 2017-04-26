@@ -4,6 +4,7 @@ const { any, bool, func, shape, string, oneOfType, object } = PropTypes
 
 const propTypes = {
   // State:
+  anyActive: bool.isRequired,        // true if any of the fields have been marked as touched
   anyTouched: bool.isRequired,        // true if any of the fields have been marked as touched
   asyncValidating: oneOfType([
     bool, 
