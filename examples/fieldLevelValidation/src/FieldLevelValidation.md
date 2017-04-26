@@ -8,6 +8,7 @@ The parameters to the validation function are:
 
 * `value` - The current value of the field
 * `allValues` - The values of the entire form
+* `props` - Any props passed to the form
 
 If the `value` is valid, the validation function should return `undefined`.
 
