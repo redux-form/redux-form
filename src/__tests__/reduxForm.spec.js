@@ -900,9 +900,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       // Expect the form not to rerender, since the value did not change.
       expect(formRender.calls.length).toBe(2)
 
-      // should rerender input with the dirty value.
-      expect(inputRender.calls.length).toBe(2)
+      // should rerender input with the dirty value and new meta.initial
+      expect(inputRender.calls.length).toBe(3)
       checkInputProps(inputRender.calls[1].arguments[0], 'dirtyvalue', true)
+      checkInputProps(inputRender.calls[2].arguments[0], 'dirtyvalue', true)
     })
 
     it('should not retain dirty fields if keepDirtyOnReinitialize is not set', () => {

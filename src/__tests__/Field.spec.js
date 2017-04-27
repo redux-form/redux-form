@@ -68,6 +68,18 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props.input.value).toBe('bar')
     })
 
+    it('should get initial value from Redux state', () => {
+      const props = testProps({
+        initial: {
+          foo: 'bar'
+        },
+        values: {
+          foo: 'baz'
+        }
+      })
+      expect(props.meta.initial).toBe('bar')
+    })
+
     it('should get dirty/pristine from Redux state', () => {
       const props1 = testProps({
         initial: {

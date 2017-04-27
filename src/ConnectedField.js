@@ -226,6 +226,7 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
         submitting,
         syncError,
         syncWarning,
+        initial,
         value,
         _value: ownProps.value // save value passed in (for checkboxes)
       }
