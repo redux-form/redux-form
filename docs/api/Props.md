@@ -22,6 +22,10 @@ class SimpleForm extends Component {
 }
 ```
 
+### `active : string`
+
+> Returns name of the active field (if any of the fields has focus), `undefined` otherwise.
+
 ### `anyTouched : boolean`
 
 > `true` if any of the fields have been marked as `touched`, `false` otherwise.
