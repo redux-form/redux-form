@@ -334,6 +334,10 @@ tracking for you.
 
 > The name of the `form`. Could be useful if you want to manually dispatch actions.
 
+#### `meta.initial : any`
+
+> The initial value of the field.
+
 #### `meta.invalid : boolean`
 
 > `true` if the field value fails validation (has a validation error). Opposite of `valid`.
