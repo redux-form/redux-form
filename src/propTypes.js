@@ -54,4 +54,39 @@ const propTypes = {
   clearSubmit: func.isRequired        // called before a triggered submit, by default clears triggerSubmit
 }
 
+export const fieldInputPropTypes = {
+  checked: bool,
+  name: string.isRequired,
+  onBlur: func.isRequired,
+  onChange: func.isRequired,
+  onDragStart: func.isRequired,
+  onDrop: func.isRequired,
+  onFocus: func.isRequired,
+  value: any
+}
+
+export const fieldMetaPropTypes = {
+  active: bool.isRequired,
+  asyncValidating: bool.isRequired,
+  autofilled: bool.isRequired,
+  dirty: bool.isRequired,
+  dispatch: func.isRequired,
+  error: string,
+  form: string.isRequired,
+  invalid: bool.isRequired,
+  pristine: bool.isRequired,
+  submitting: bool.isRequired,
+  submitFailed: bool.isRequired,
+  touched: bool.isRequired,
+  valid: bool.isRequired,
+  visited: bool.isRequired,
+  warning: string
+}
+
+export const fieldPropTypes = {
+  input: fieldInputPropTypes.isRequired,
+  meta: fieldMetaPropTypes.isRequired,
+  custom: object.isRequired
+}
+
 export default propTypes
