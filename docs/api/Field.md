@@ -33,7 +33,7 @@ A string path, in dot-and-bracket notation, corresponding to a value in the form
 be as simple as `'firstName'` or as complicated as
 `contact.billing.address[2].phones[1].areaCode`. See the [Usage](#usage) section below for details.
 
-Numeric field names, e.g. `name="42"` or `name="foo.5.email`, are not supported, as they can
+Numeric field names, e.g. `name="42"` or `name="foo.5.email"`, are not supported, as they can
 be confused for array indexes.
 
 #### `component : Component|Function|String` [required]
