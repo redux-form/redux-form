@@ -88,17 +88,17 @@ describe('getValue', () => {
       stopPropagation: noop,
       target: {
         type: 'checkbox',
-        checked: false
+        checked: undefined
       }
-    }, true)).toBe(false)
+    }, true)).toBe('')
     expect(getValue({
       preventDefault: noop,
       stopPropagation: noop,
       target: {
         type: 'checkbox',
-        checked: false
+        checked: undefined
       }
-    }, false)).toBe(false)
+    }, false)).toBe('')
   })
 
   it('should return a number type for numeric inputs, when a value is set', () => {
