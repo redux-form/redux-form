@@ -15,7 +15,7 @@
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
-    "clean": "rimraf dist lib",
+    "clean": "rimraf dist lib es",
     "lint": "eslint src",
     "example": "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
     "example:asyncValidation": "form=asyncValidation npm run example",
