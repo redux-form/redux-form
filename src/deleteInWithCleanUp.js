@@ -11,7 +11,7 @@ const createDeleteInWithCleanUp = ({ deepEqual, empty, getIn, deleteIn, setIn })
     }
 
     let result = state
-    if (typeof getIn(state, path) !== 'undefined') {
+    if (getIn(state, path) !== undefined) {
       result = deleteIn(state, path)
     }
 
