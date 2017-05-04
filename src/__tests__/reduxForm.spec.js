@@ -34,7 +34,7 @@ const propsAtNthRender = (spy, callNumber) => spy.calls[callNumber].arguments[0]
 const propsAtLastRender = spy => propsAtNthRender(spy, spy.calls.length - 1)
 
 const describeReduxForm = (name, structure, combineReducers, expect) => {
-  const { fromJS, getIn } = structure
+  const { fromJS, getIn, setIn } = structure
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const FieldArray = createFieldArray(structure)
@@ -2645,18 +2645,18 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const renderInput = createSpy(props => <input {...props.input}/>).andCallThrough()
       const validate = createSpy((values, props) => {
         const errors = {}
-        if (getIn(values,'amount') > props.max) {
+        if (getIn(values, 'amount') > props.max) {
           errors.amount = `Should be <= ${props.max}`
         }
         return errors
       }).andCallThrough()
       const shouldValidate = ({
-        values,
-        nextProps,
-        props,
-        initialRender,
-        structure
-      }) => {
+                                values,
+                                nextProps,
+                                props,
+                                initialRender,
+                                structure
+                              }) => {
         if (initialRender) {
           return true
         }
@@ -3185,6 +3185,232 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         foo: 'doggy',
         bar: 'cat'
       })
+    })
+
+    it('should update sync errors after reset when using field-level validation', () => {
+      const store = makeStore({})
+      const renderName = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderAge = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const onChange = createSpy()
+      const required = value => value ? undefined : 'Required'
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="name" component={renderName} type="text" validate={required}/>
+              <Field name="age" component={renderAge} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated onChange={onChange}/>
+        </Provider>
+      )
+
+      // verify original state
+      expect(store.getState()).toEqualMap(setIn(fromJS({
+        form: {
+          testForm: {
+            registeredFields: {
+              name: {
+                name: 'name',
+                type: 'Field',
+                count: 1
+              },
+              age: {
+                name: 'age',
+                type: 'Field',
+                count: 1
+              }
+            }
+          }
+        }
+      }), 'form.testForm.syncErrors', { name: 'Required' }))
+
+      // verify initial props
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2) // initial and again with sync error
+
+      expect(renderName).toHaveBeenCalled()
+      expect(renderName.calls.length).toBe(2) // initial and again with sync error
+      expect(propsAtNthRender(renderName, 1).meta.error).toBe('Required')
+      expect(propsAtNthRender(renderName, 1).input.value).toBe('')
+
+      expect(renderAge).toHaveBeenCalled()
+      expect(renderAge.calls.length).toBe(1) // initial only
+      expect(propsAtNthRender(renderAge, 0).input.value).toBe('')
+      expect(propsAtNthRender(renderAge, 0).meta.pristine).toBe(true)
+
+      // verify original state
+      const originalState = setIn(fromJS({
+        form: {
+          testForm: {
+            registeredFields: {
+              name: {
+                name: 'name',
+                type: 'Field',
+                count: 1
+              },
+              age: {
+                name: 'age',
+                type: 'Field',
+                count: 1
+              }
+            }
+          }
+        }
+      }), 'form.testForm.syncErrors', { name: 'Required' })
+      expect(store.getState()).toEqualMap(originalState)
+
+      // update age
+      propsAtNthRender(renderAge, 0).input.onChange('4')
+
+      // verify props
+      expect(formRender.calls.length).toBe(3) // again for dirty flag
+
+      expect(renderName.calls.length).toBe(2) // no need to rerender
+
+      expect(renderAge.calls.length).toBe(2) // rerendered with new value
+      expect(propsAtNthRender(renderAge, 1).input.value).toBe('4')
+      expect(propsAtNthRender(renderAge, 1).meta.pristine).toBe(false)
+
+      // reset form
+      propsAtNthRender(formRender, 0).reset()
+
+      // verify that we went back to original state
+      expect(store.getState()).toEqualMap(originalState)
+
+      expect(formRender.calls.length).toBe(5) // rerendered as pristine, and again with sync error
+
+      expect(renderName.calls.length).toBe(2) // no need to rerender
+      expect(propsAtNthRender(renderName, 1).meta.error).toBe('Required')
+      expect(propsAtNthRender(renderName, 1).input.value).toBe('')
+
+      expect(renderAge.calls.length).toBe(3) // rendered again as empty and pristine
+      expect(propsAtNthRender(renderAge, 2).input.value).toBe('')
+      expect(propsAtNthRender(renderAge, 2).meta.pristine).toBe(true)
+    })
+
+    it('should update sync warnings after reset when using field-level validation', () => {
+      const store = makeStore({})
+      const renderName = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderAge = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const onChange = createSpy()
+      const required = value => value ? undefined : 'Required'
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="name" component={renderName} type="text" warn={required}/>
+              <Field name="age" component={renderAge} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated onChange={onChange}/>
+        </Provider>
+      )
+
+      // verify original state
+      expect(store.getState()).toEqualMap(setIn(fromJS({
+        form: {
+          testForm: {
+            registeredFields: {
+              name: {
+                name: 'name',
+                type: 'Field',
+                count: 1
+              },
+              age: {
+                name: 'age',
+                type: 'Field',
+                count: 1
+              }
+            }
+          }
+        }
+      }), 'form.testForm.syncWarnings', { name: 'Required' }))
+
+      // verify initial props
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1) // initial
+
+      expect(renderName).toHaveBeenCalled()
+      expect(renderName.calls.length).toBe(2) // initial and again with sync warning
+      expect(propsAtNthRender(renderName, 1).meta.warning).toBe('Required')
+      expect(propsAtNthRender(renderName, 1).input.value).toBe('')
+
+      expect(renderAge).toHaveBeenCalled()
+      expect(renderAge.calls.length).toBe(1) // initial only
+      expect(propsAtNthRender(renderAge, 0).input.value).toBe('')
+      expect(propsAtNthRender(renderAge, 0).meta.pristine).toBe(true)
+
+      // verify original state
+      const originalState = setIn(fromJS({
+        form: {
+          testForm: {
+            registeredFields: {
+              name: {
+                name: 'name',
+                type: 'Field',
+                count: 1
+              },
+              age: {
+                name: 'age',
+                type: 'Field',
+                count: 1
+              }
+            }
+          }
+        }
+      }), 'form.testForm.syncWarnings', { name: 'Required' })
+      expect(store.getState()).toEqualMap(originalState)
+
+      // update age
+      propsAtNthRender(renderAge, 0).input.onChange('4')
+
+      // verify props
+      expect(formRender.calls.length).toBe(2) // again for dirty flag
+
+      expect(renderName.calls.length).toBe(2) // no need to rerender
+
+      expect(renderAge.calls.length).toBe(2) // rerendered with new value
+      expect(propsAtNthRender(renderAge, 1).input.value).toBe('4')
+      expect(propsAtNthRender(renderAge, 1).meta.pristine).toBe(false)
+
+      // reset form
+      propsAtNthRender(formRender, 0).reset()
+
+      // verify that we went back to original state
+      expect(store.getState()).toEqualMap(originalState)
+
+      expect(formRender.calls.length).toBe(3) // rerendered as pristine
+
+      expect(renderName.calls.length).toBe(2) // no need to rerender
+      expect(propsAtNthRender(renderName, 1).meta.warning).toBe('Required')
+      expect(propsAtNthRender(renderName, 1).input.value).toBe('')
+
+      expect(renderAge.calls.length).toBe(3) // rendered again as empty and pristine
+      expect(propsAtNthRender(renderAge, 2).input.value).toBe('')
+      expect(propsAtNthRender(renderAge, 2).meta.pristine).toBe(true)
     })
 
     describe('validateIfNeeded', () => {

@@ -1,8 +1,8 @@
 import hoistStatics from 'hoist-non-react-statics'
 import isPromise from 'is-promise'
 import { mapValues, merge } from 'lodash'
-import { Component, createElement } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { Component, createElement } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as importedActions from './actions'
@@ -141,12 +141,12 @@ const createReduxForm =
             }
           }
 
-          updateSyncErrorsIfNeeded(nextSyncErrors, nextError) {
+          updateSyncErrorsIfNeeded(nextSyncErrors, nextError, lastSyncErrors) {
             const { error, updateSyncErrors } = this.props
-            const noErrors = (!this.lastSyncErrors || !Object.keys(this.lastSyncErrors).length) && !error
+            const noErrors = (!lastSyncErrors || !Object.keys(lastSyncErrors).length) && !error
             const nextNoErrors = (!nextSyncErrors || !Object.keys(nextSyncErrors).length) && !nextError
-            if (!(noErrors && nextNoErrors) && (!plain.deepEqual(this.lastSyncErrors, nextSyncErrors) || !plain.deepEqual(error, nextError))) {
-              this.lastSyncErrors = nextSyncErrors
+            if (!(noErrors && nextNoErrors) &&
+              (!plain.deepEqual(lastSyncErrors, nextSyncErrors) || !plain.deepEqual(error, nextError))) {
               updateSyncErrors(nextSyncErrors, nextError)
             }
           }
@@ -190,16 +190,17 @@ const createReduxForm =
                     fieldLevelValidate(propsToValidate.values, propsToValidate) || {} : {}
                 )
                 this.lastFieldValidatorKeys = fieldValidatorKeys
-                this.updateSyncErrorsIfNeeded(nextSyncErrors, _error)
+                this.updateSyncErrorsIfNeeded(nextSyncErrors, _error, propsToValidate.syncErrors)
               }
             }
           }
 
-          updateSyncWarningsIfNeeded(nextSyncWarnings, nextWarning) {
+          updateSyncWarningsIfNeeded(nextSyncWarnings, nextWarning, lastSyncWarnings) {
             const { warning, syncWarnings, updateSyncWarnings } = this.props
             const noWarnings = (!syncWarnings || !Object.keys(syncWarnings).length) && !warning
             const nextNoWarnings = (!nextSyncWarnings || !Object.keys(nextSyncWarnings).length) && !nextWarning
-            if (!(noWarnings && nextNoWarnings) && (!plain.deepEqual(syncWarnings, nextSyncWarnings) || !plain.deepEqual(warning, nextWarning))) {
+            if (!(noWarnings && nextNoWarnings) &&
+              (!plain.deepEqual(lastSyncWarnings, nextSyncWarnings) || !plain.deepEqual(warning, nextWarning))) {
               updateSyncWarnings(nextSyncWarnings, nextWarning)
             }
           }
@@ -228,7 +229,7 @@ const createReduxForm =
                     fieldLevelWarn(propsToWarn.values, propsToWarn) : {}
                 )
                 this.lastFieldWarnerKeys = fieldWarnerKeys
-                this.updateSyncWarningsIfNeeded(nextSyncWarnings, _warning)
+                this.updateSyncWarningsIfNeeded(nextSyncWarnings, _warning, propsToWarn.syncWarnings)
               }
             }
           }
