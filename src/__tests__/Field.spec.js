@@ -1250,6 +1250,122 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('redux form rocks')
     })
 
+    it('should not update a value if onBlur is passed undefined', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            name: 'redux form'
+          }
+        }
+      })
+      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="name" component={input}/>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+
+      // verify state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              name: 'redux form'
+            },
+            registeredFields: {
+              name: {
+                name: 'name',
+                type: 'Field',
+                count: 1
+              }
+            }
+          }
+        }
+      })
+
+      // verify props
+      expect(input).toHaveBeenCalled()
+      expect(input.calls.length).toBe(1)
+      expect(input.calls[ 0 ].arguments[ 0 ].meta.active).toBe(false)
+      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('redux form')
+
+      // call onFocus
+      input.calls[ 0 ].arguments[ 0 ].input.onFocus()
+
+      // verify state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            active: 'name',
+            values: {
+              name: 'redux form'
+            },
+            registeredFields: {
+              name: {
+                name: 'name',
+                type: 'Field',
+                count: 1
+              }
+            },
+            fields: {
+              name: {
+                visited: true,
+                active: true
+              }
+            }
+          }
+        }
+      })
+
+      // verify props
+      expect(input.calls.length).toBe(2)  // active now
+      expect(input.calls[ 1 ].arguments[ 0 ].meta.active).toBe(true)
+      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('redux form')
+
+      // call onBlur
+      input.calls[ 0 ].arguments[ 0 ].input.onBlur()
+
+      // verify state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            anyTouched: true,
+            values: {
+              name: 'redux form'  // UNCHANGED!
+            },
+            registeredFields: {
+              name: {
+                name: 'name',
+                type: 'Field',
+                count: 1
+              }
+            },
+            fields: {
+              name: {
+                visited: true,
+                touched: true
+              }
+            }
+          }
+        }
+      })
+
+      // verify props
+      expect(input.calls.length).toBe(3)  // not active now
+      expect(input.calls[ 2 ].arguments[ 0 ].meta.active).toBe(false)
+      expect(input.calls[ 2 ].arguments[ 0 ].input.value).toBe('redux form')  // UNCHANGED!
+    })
+
     it('should parse and format to maintain different type in store', () => {
       const store = makeStore({
         testForm: {
