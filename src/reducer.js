@@ -373,6 +373,7 @@ const createReducer = structure => {
 
       const count = getIn(field, 'count') - 1
       if (count <= 0 && destroyOnUnmount) {
+        // Note: Cannot use deleteWithCleanUp here because of the flat nature of registeredFields
         result = deleteIn(result, key)
         if (deepEqual(getIn(result, 'registeredFields'), empty)) {
           result = deleteIn(result, 'registeredFields')
@@ -380,6 +381,12 @@ const createReducer = structure => {
       } else {
         field = setIn(field, 'count', count)
         result = setIn(result, key, field)
+      }
+      if (destroyOnUnmount) {
+        result = deleteInWithCleanUp(result, `syncErrors.${name}`)
+        result = deleteInWithCleanUp(result, `submitErrors.${name}`)
+        result = deleteInWithCleanUp(result, `asyncErrors.${name}`)
+        result = deleteInWithCleanUp(result, `syncWarnings.${name}`)
       }
       return result
     },
