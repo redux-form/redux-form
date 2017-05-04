@@ -29,6 +29,7 @@ import {
   getFormValues,
   getFormInitialValues,
   getFormSyncErrors,
+  getFormMeta,
   getFormAsyncErrors,
   getFormSyncWarnings,
   getFormSubmitErrors,
@@ -140,6 +141,9 @@ describe('index', () => {
   })
   it('should export getFormSyncErrors', () => {
     expect(getFormSyncErrors).toExist().toBeA('function')
+  })
+  it('should export getFormMeta', () => {
+    expect(getFormMeta).toExist().toBeA('function')
   })
   it('should export getFormAsyncErrors', () => {
     expect(getFormAsyncErrors).toExist().toBeA('function')

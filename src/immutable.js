@@ -29,6 +29,7 @@ export const {
   getFormValues,
   getFormInitialValues,
   getFormSyncErrors,
+  getFormMeta,
   getFormAsyncErrors,
   getFormSyncWarnings,
   getFormSubmitErrors,
