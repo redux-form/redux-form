@@ -13,6 +13,66 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
       })
   })
 
+  it('should remove sync errors', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        syncErrors: {
+          bar: 'Your bar needs more beer'
+        }
+      }
+    }), unregisterField('foo', 'bar'))
+    expect(state)
+      .toEqualMap({
+        foo: {}
+      })
+  })
+
+  it('should remove submit errors', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        submitErrors: {
+          bar: 'Your bar needs more beer'
+        }
+      }
+    }), unregisterField('foo', 'bar'))
+    expect(state)
+      .toEqualMap({
+        foo: {}
+      })
+  })
+
+  it('should remove async errors', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        asyncErrors: {
+          bar: 'Your bar needs more beer'
+        }
+      }
+    }), unregisterField('foo', 'bar'))
+    expect(state)
+      .toEqualMap({
+        foo: {}
+      })
+  })
+
+  it('should remove sync warnings', () => {
+    const state = reducer(fromJS({
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        syncWarnings: {
+          bar: 'Your bar needs more beer'
+        }
+      }
+    }), unregisterField('foo', 'bar'))
+    expect(state)
+      .toEqualMap({
+        foo: {}
+      })
+  })
+
   it('should do nothing if there are no registered fields', () => {
     const initialState = fromJS({
       foo: {}
@@ -21,7 +81,7 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
     expect(state)
       .toEqual(initialState)
   })
-  
+
   it('should do nothing if the field is not registered', () => {
     const state = reducer(fromJS({
       foo: {
