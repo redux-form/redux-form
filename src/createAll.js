@@ -22,7 +22,7 @@ import createHasSubmitFailed from './selectors/hasSubmitFailed'
 import Form from './Form'
 import FormSection from './FormSection'
 import SubmissionError from './SubmissionError'
-import propTypes from './propTypes'
+import propTypes, {fieldInputPropTypes, fieldMetaPropTypes, fieldPropTypes} from './propTypes'
 import * as actions from './actions'
 import * as actionTypes from './actionTypes'
 
@@ -31,6 +31,9 @@ const createAll = structure => ({
   actionTypes,
   ...actions,
   Field: createField(structure),
+  fieldInputPropTypes,
+  fieldMetaPropTypes,
+  fieldPropTypes,
   Fields: createFields(structure),
   FieldArray: createFieldArray(structure),
   Form,
