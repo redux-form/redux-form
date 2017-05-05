@@ -102,6 +102,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should provide the correct props', () => {
       const props = propChecker({})
       expect(Object.keys(props).sort()).toEqual([
+        'anyActive',
         'anyTouched',
         'array',
         'asyncValidate',
@@ -135,6 +136,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'valid',
         'warning'
       ])
+      expect(props.anyActive).toBeA('boolean')
       expect(props.anyTouched).toBeA('boolean')
       expect(props.array).toExist().toBeA('object')
       expect(Object.keys(props.array).sort()).toEqual([
