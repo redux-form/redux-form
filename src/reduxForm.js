@@ -462,6 +462,7 @@ const createReduxForm =
             // remove some redux-form config-only props
             /* eslint-disable no-unused-vars */
             const {
+              active,
               anyTouched,
               arrayInsert,
               arrayMove,
@@ -527,6 +528,7 @@ const createReduxForm =
             } = this.props
             /* eslint-enable no-unused-vars */
             const reduxFormProps = {
+              active,
               anyTouched,
               asyncValidate: this.asyncValidate,
               asyncValidating,
@@ -613,6 +615,7 @@ const createReduxForm =
             const registeredFields = getIn(formState, 'registeredFields')
             const valid = isValid(form, getFormState, false)(state)
             const validExceptSubmit = isValid(form, getFormState, true)(state)
+            const active = getIn(formState, 'active')
             const anyTouched = !!getIn(formState, 'anyTouched')
             const submitting = !!getIn(formState, 'submitting')
             const submitFailed = !!getIn(formState, 'submitFailed')
@@ -621,6 +624,7 @@ const createReduxForm =
             const warning = getIn(formState, 'warning')
             const triggerSubmit = getIn(formState, 'triggerSubmit')
             return {
+              active,
               anyTouched,
               asyncErrors,
               asyncValidating: getIn(formState, 'asyncValidating') || false,

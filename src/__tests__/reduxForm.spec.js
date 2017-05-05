@@ -102,6 +102,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should provide the correct props', () => {
       const props = propChecker({})
       expect(Object.keys(props).sort()).toEqual([
+        'active',
         'anyTouched',
         'array',
         'asyncValidate',
