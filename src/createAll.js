@@ -20,6 +20,8 @@ import createIsValid from './selectors/isValid'
 import createIsSubmitting from './selectors/isSubmitting'
 import createHasSubmitSucceeded from './selectors/hasSubmitSucceeded'
 import createHasSubmitFailed from './selectors/hasSubmitFailed'
+import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
+import defaultShouldValidate from './defaultShouldValidate'
 import Form from './Form'
 import FormSection from './FormSection'
 import SubmissionError from './SubmissionError'
@@ -31,6 +33,8 @@ const createAll = structure => ({
   // separate out field actions
   actionTypes,
   ...actions,
+  defaultShouldAsyncValidate,
+  defaultShouldValidate,
   Field: createField(structure),
   Fields: createFields(structure),
   FieldArray: createFieldArray(structure),

@@ -17,6 +17,8 @@ export const {
   blur,
   change,
   clearSubmitErrors,
+  defaultShouldAsyncValidate,
+  defaultShouldValidate,
   destroy,
   Field,
   Fields,
