@@ -251,7 +251,25 @@ describe('structure.immutable.deepEqual', () => {
       }
     }), true)
   })
-  
+
+  it ('should check if key exists on both objects', () => {
+    testBothWays(fromJS({
+        a: false
+      }), fromJS({
+        b: 1
+      }), false)
+    testBothWays(fromJS({
+        a: ''
+      }), fromJS({
+        b: 1
+      }), false)
+    testBothWays(fromJS({
+        a: null
+      }), fromJS({
+        b: 1
+      }), false)
+  })
+
   it('should treat null and \'\' as equal', () => {
     testBothWays(fromJS({
       a: {
@@ -288,4 +306,3 @@ describe('structure.immutable.deepEqual', () => {
     }), true)
   })
 })
-
