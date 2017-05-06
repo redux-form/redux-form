@@ -18,11 +18,11 @@ import {
   touch,
   updateSyncErrors
 } from '../actions'
-import createField from '../Field'
-import createFieldArray from '../FieldArray'
+import createField from '../createField'
+import createFieldArray from '../createFieldArray'
 import FormSection from '../FormSection'
-import createReducer from '../reducer'
-import createReduxForm from '../reduxForm'
+import createReducer from '../createReducer'
+import createReduxForm from '../createReduxForm'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import plain from '../structure/plain'
