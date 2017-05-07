@@ -1,5 +1,5 @@
 /* eslint react/no-multi-comp:0 */
-import createFormValueSelector from '../formValueSelector'
+import createFormValueSelector from '../createFormValueSelector'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'

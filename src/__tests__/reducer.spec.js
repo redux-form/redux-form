@@ -1,4 +1,4 @@
-import createReducer from '../reducer'
+import createReducer from '../createReducer'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
