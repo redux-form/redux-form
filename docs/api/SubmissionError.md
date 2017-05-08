@@ -4,7 +4,12 @@
 
 A throwable error that is used to return submit validation errors from `onSubmit`. The purpose
 being to distinguish promise rejection because of validation errors from promise rejection because
-of AJAX I/O problems or other server errors.
+of AJAX I/O problems or other server errors. If it is rejected in the form of
+{ field1: 'error', field2: 'error' } then the submission errors will be added
+to each field (to the error prop) just like async validation errors are.
+If there is an error that is not specific to any field, but applicable to the
+entire form, you may pass that as if it were the error for a field called _error,
+and it will be given as the error prop.
 
 ## Importing
 
@@ -30,4 +35,3 @@ import { SubmissionError } from 'redux-form';  // ES6
     })
 }/>
 ```
-

@@ -22,6 +22,10 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(createFieldProps({ getIn, toJS }, 'foo', { dirty: true, pristine: false }).meta.pristine).toBe(false)
     })
 
+    it('should pass initial value through', () => {
+      expect(createFieldProps({ getIn, toJS }, 'foo', { initial: 'hello' }).meta.initial).toBe('hello')
+    })
+
     it('should provide onBlur', () => {
       const onBlur = createSpy()
       expect(onBlur).toNotHaveBeenCalled()

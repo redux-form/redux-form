@@ -20,6 +20,7 @@ import {
   getFormValues,
   getFormInitialValues,
   getFormSyncErrors,
+  getFormMeta,
   getFormAsyncErrors,
   getFormSyncWarnings,
   getFormSubmitErrors,
@@ -38,6 +39,7 @@ MyComponent = connect(
     values: getFormValues('myForm')(state),
     initialValues: getFormInitialValues('myForm')(state),
     syncErrors: getFormSyncErrors('myForm')(state),
+    fields: getFormMeta('myForm')(state),
     asyncErrors: getFormAsyncErrors('myForm')(state),
     syncWarnings: getFormSyncWarnings('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
@@ -66,6 +68,10 @@ MyComponent = connect(
 ### `getFormSyncErrors(formName:String)` returns `(state) => formSyncErrors:Object`
 
 > Returns the form synchronous validation errors.
+
+### `getFormMeta(formName:String)` returns `(state) => formMeta:Object`
+
+> Returns the form's fields meta data, namely `touched` and `visited`.
 
 ### `getFormAsyncErrors(formName:String)` returns `(state) => formAsyncErrors:Object`
 

@@ -9,7 +9,12 @@ const createDeleteInWithCleanUp = ({ deepEqual, empty, getIn, deleteIn, setIn })
       const parent = getIn(state, pathTokens.join('.'))
       return parent ? setIn(state, path, undefined) : state
     }
-    const result = deleteIn(state, path)
+
+    let result = state
+    if (getIn(state, path) !== undefined) {
+      result = deleteIn(state, path)
+    }
+
     const dotIndex = path.lastIndexOf('.')
     if (dotIndex > 0) {
       const parentPath = path.substring(0, dotIndex)
