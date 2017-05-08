@@ -15,15 +15,15 @@ import { reduxForm, Field, FieldArray } from 'redux-form'
 use:
 
 ```js
-import reduxForm from 'react-router/es/reduxForm'
-import Field from 'react-router/es/Field'
-import FieldArray from 'react-router/es/FieldArray'
+import reduxForm from 'redux-form/es/reduxForm'
+import Field from 'redux-form/es/Field'
+import FieldArray from 'redux-form/es/FieldArray'
 ```
 
 
 Use `es` if you are using a bundler that can process ES modules like `webpack@2` or `rollup`, otherwise use `lib`.
 
-The public API available in this manner is defined as the set of imports available from the top-level `react-router` module.
+The public API available in this manner is defined as the set of imports available from the top-level `redux-form` module.
 Anything not available through the top-level `redux-form` module is a private API, and is subject to change without notice.
 
 ## Babel Plugin
@@ -55,7 +55,7 @@ One would import the actions binding and then extract the needed action creators
 Example:
 
 ```
-import actions from 'react-router/es/actions'
+import actions from 'redux-form/es/actions'
 
 const {change, destroy} = actions
 ```
