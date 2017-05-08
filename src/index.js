@@ -2,7 +2,11 @@ import * as _actions from './actions'
 export { default as Form } from './Form'
 export { default as FormSection } from './FormSection'
 export { default as SubmissionError } from './SubmissionError'
-export { default as propTypes } from './propTypes'
+export {
+  default as propTypes,
+  fieldInputPropTypes,
+  fieldMetaPropTypes,
+} from './propTypes'
 export { default as Field } from './Field'
 export { default as Fields } from './Fields'
 export { default as FieldArray } from './FieldArray'
