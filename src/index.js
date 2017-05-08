@@ -1,4 +1,6 @@
 import * as _actions from './actions'
+export { default as defaultShouldAsyncValidate } from './defaultShouldAsyncValidate'
+export { default as defaultShouldValidate } from './defaultShouldValidate'
 export { default as Form } from './Form'
 export { default as FormSection } from './FormSection'
 export { default as SubmissionError } from './SubmissionError'
