@@ -17,6 +17,8 @@ import {
   blur,
   change,
   clearSubmitErrors,
+  defaultShouldAsyncValidate,
+  defaultShouldValidate,
   destroy,
   Field,
   Fields,
@@ -104,6 +106,12 @@ describe('immutable', () => {
   })
   it('should export clearSubmitErrors', () => {
     expect(clearSubmitErrors).toExist().toBeA('function')
+  })
+  it('should export defaultShouldAsyncValidate', () => {
+    expect(defaultShouldAsyncValidate).toExist().toBeA('function')
+  })
+  it('should export defaultShouldValidate', () => {
+    expect(defaultShouldValidate).toExist().toBeA('function')
   })
   it('should export destroy', () => {
     expect(destroy).toExist().toBeA('function')
