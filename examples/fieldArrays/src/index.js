@@ -1,20 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
-import { reducer as reduxFormReducer } from 'redux-form'
-import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
+import {Provider} from 'react-redux'
+import {createStore, combineReducers} from 'redux'
+import {reducer as reduxFormReducer} from 'redux-form'
+import {
+  App,
+  Code,
+  Markdown,
+  Values,
+  generateExampleBreadcrumbs,
+} from 'redux-form-website-template'
 
 const dest = document.getElementById('content')
 const reducer = combineReducers({
-  form: reduxFormReducer // mounted under "form"
+  form: reduxFormReducer, // mounted under "form"
 })
-const store =
-  (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(reducer)
+const store = (window.devToolsExtension
+  ? window.devToolsExtension()(createStore)
+  : createStore)(reducer)
 
 const showResults = values =>
   new Promise(resolve => {
-    setTimeout(() => {  // simulate server latency
+    setTimeout(() => {
+      // simulate server latency
       window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`)
       resolve()
     }, 500)
@@ -34,34 +42,40 @@ let render = () => {
          */
         version="6.6.3"
         path="/examples/fieldArrays"
-        breadcrumbs={generateExampleBreadcrumbs('syncValidation',
-          'Field Arrays Example', '6.6.3')}>
+        breadcrumbs={generateExampleBreadcrumbs(
+          'syncValidation',
+          'Field Arrays Example',
+          '6.6.3'
+        )}
+      >
 
-        <Markdown content={readme}/>
+        <Markdown content={readme} />
 
-        <div style={{ textAlign: 'center' }}>
-          <a href="https://codesandbox.io/s/Ww4QG1Wx"
+        <div style={{textAlign: 'center'}}>
+          <a
+            href="https://codesandbox.io/s/Ww4QG1Wx"
             target="_blank"
-            style={{ fontSize: '1.5em' }}>
-            <i className="fa fa-codepen"/> Open in Sandbox
+            style={{fontSize: '1.5em'}}
+          >
+            <i className="fa fa-codepen" /> Open in Sandbox
           </a>
         </div>
 
         <h2>Form</h2>
 
-        <FieldArraysForm onSubmit={showResults}/>
+        <FieldArraysForm onSubmit={showResults} />
 
-        <Values form="fieldArrays"/>
+        <Values form="fieldArrays" />
 
         <h2>Code</h2>
 
         <h3>FieldArraysForm.js</h3>
 
-        <Code source={raw}/>
+        <Code source={raw} />
 
         <h3>validate.js</h3>
 
-        <Code source={rawValidate}/>
+        <Code source={rawValidate} />
 
       </App>
     </Provider>,
@@ -73,12 +87,9 @@ if (module.hot) {
   // Support hot reloading of components
   // and display an overlay for runtime errors
   const renderApp = render
-  const renderError = (error) => {
+  const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(
-      <RedBox error={error} className="redbox"/>,
-      dest
-    )
+    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

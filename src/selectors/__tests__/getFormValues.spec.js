@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeGetFormValues = (name, structure, expect) => {
   const getFormValues = createGetFormValues(structure)
 
-  const { fromJS, getIn } = structure
+  const {fromJS, getIn} = structure
 
   describe(name, () => {
     it('should return a function', () => {
@@ -23,15 +23,15 @@ const describeGetFormValues = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
-                }
-              }
-            }
+                  cat: 'Garfield',
+                },
+              },
+            },
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield'
+        cat: 'Garfield',
       })
     })
 
@@ -43,15 +43,15 @@ const describeGetFormValues = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
-                }
-              }
-            }
+                  cat: 'Garfield',
+                },
+              },
+            },
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield'
+        cat: 'Garfield',
       })
     })
   })

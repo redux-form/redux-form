@@ -1,16 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
-import { reducer as reduxFormReducer } from 'redux-form'
-import { App, Code, Markdown, Values, generateExampleBreadcrumbs } from 'redux-form-website-template'
+import {Provider} from 'react-redux'
+import {createStore, combineReducers} from 'redux'
+import {reducer as reduxFormReducer} from 'redux-form'
+import {
+  App,
+  Code,
+  Markdown,
+  Values,
+  generateExampleBreadcrumbs,
+} from 'redux-form-website-template'
 
 const dest = document.getElementById('content')
 const reducer = combineReducers({
-  form: reduxFormReducer // mounted under "form"
+  form: reduxFormReducer, // mounted under "form"
 })
-const store =
-  (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(reducer)
+const store = (window.devToolsExtension
+  ? window.devToolsExtension()(createStore)
+  : createStore)(reducer)
 
 let render = () => {
   const RemoteSubmitForm = require('./RemoteSubmitForm').default
@@ -28,39 +35,46 @@ let render = () => {
          */
         version="6.6.3"
         path="/examples/remoteSubmit"
-        breadcrumbs={generateExampleBreadcrumbs('remoteSubmit', 'Remote Submit Example', '6.6.3')}>
+        breadcrumbs={generateExampleBreadcrumbs(
+          'remoteSubmit',
+          'Remote Submit Example',
+          '6.6.3'
+        )}
+      >
 
-        <Markdown content={readme}/>
+        <Markdown content={readme} />
 
-        <div style={{ textAlign: 'center' }}>
-          <a href="https://codesandbox.io/s/ElYvJR21K"
+        <div style={{textAlign: 'center'}}>
+          <a
+            href="https://codesandbox.io/s/ElYvJR21K"
             target="_blank"
-            style={{ fontSize: '1.5em' }}>
-            <i className="fa fa-codepen"/> Open in Sandbox
+            style={{fontSize: '1.5em'}}
+          >
+            <i className="fa fa-codepen" /> Open in Sandbox
           </a>
         </div>
 
         <h2>Form</h2>
 
-        <RemoteSubmitForm/>
+        <RemoteSubmitForm />
 
-        <RemoteSubmitButton/>
+        <RemoteSubmitButton />
 
-        <Values form="remoteSubmit"/>
+        <Values form="remoteSubmit" />
 
         <h2>Code</h2>
 
         <h4>submit.js</h4>
 
-        <Code source={rawSubmit}/>
+        <Code source={rawSubmit} />
 
         <h4>RemoteSubmitForm.js</h4>
 
-        <Code source={raw}/>
+        <Code source={raw} />
 
         <h4>RemoteSubmitButton.js</h4>
 
-        <Code source={rawButton}/>
+        <Code source={rawButton} />
 
       </App>
     </Provider>,
@@ -72,12 +86,9 @@ if (module.hot) {
   // Support hot reloading of components
   // and display an overlay for runtime errors
   const renderApp = render
-  const renderError = (error) => {
+  const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(
-      <RedBox error={error} className="redbox"/>,
-      dest
-    )
+    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
 class Form extends Component {
@@ -21,10 +21,10 @@ class Form extends Component {
 }
 
 Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
 }
 Form.contextTypes = {
-  _reduxForm: PropTypes.object
+  _reduxForm: PropTypes.object,
 }
 
 export default Form

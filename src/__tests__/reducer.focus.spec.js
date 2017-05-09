@@ -1,6 +1,6 @@
-import { focus } from '../actions'
+import {focus} from '../actions'
 
-const describeFocus = (reducer, expect, { fromJS }) => () => {
+const describeFocus = (reducer, expect, {fromJS}) => () => {
   it('should set visited on focus and update active with no previous state', () => {
     const state = reducer(undefined, focus('foo', 'myField'))
     expect(state).toEqualMap({
@@ -8,11 +8,11 @@ const describeFocus = (reducer, expect, { fromJS }) => () => {
         fields: {
           myField: {
             visited: true,
-            active: true
-          }
+            active: true,
+          },
         },
-        active: 'myField'
-      }
+        active: 'myField',
+      },
     })
   })
 
@@ -24,12 +24,12 @@ const describeFocus = (reducer, expect, { fromJS }) => () => {
           myField: {
             subField: {
               visited: true,
-              active: true
-            }
-          }
+              active: true,
+            },
+          },
         },
-        active: 'myField.subField'
-      }
+        active: 'myField.subField',
+      },
     })
   })
 
@@ -38,42 +38,42 @@ const describeFocus = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           initial: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           fields: {
             myField: {},
             otherField: {
               visited: true,
-              active: true
-            }
+              active: true,
+            },
           },
-          active: 'otherField'
-        }
+          active: 'otherField',
+        },
       }),
       focus('foo', 'myField')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         initial: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         fields: {
           otherField: {
-            visited: true
+            visited: true,
           },
           myField: {
             visited: true,
-            active: true
-          }
+            active: true,
+          },
         },
-        active: 'myField'
-      }
+        active: 'myField',
+      },
     })
   })
 }

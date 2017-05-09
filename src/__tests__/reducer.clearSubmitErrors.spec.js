@@ -1,10 +1,10 @@
-import { clearSubmitErrors } from '../actions'
+import {clearSubmitErrors} from '../actions'
 
-const describeClearSubmitErrors = (reducer, expect, { fromJS }) => () => {
+const describeClearSubmitErrors = (reducer, expect, {fromJS}) => () => {
   it('should do nothing on clear submit errors with no previous state', () => {
     const state = reducer(undefined, clearSubmitErrors('foo'))
     expect(state).toEqualMap({
-      foo: {}
+      foo: {},
     })
   })
 
@@ -13,45 +13,45 @@ const describeClearSubmitErrors = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           initial: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           fields: {
             myField: {},
             otherField: {
               visited: true,
-              active: true
-            }
+              active: true,
+            },
           },
           submitErrors: {
-            some: 'error'
+            some: 'error',
           },
           active: 'otherField',
-          triggerSubmit: true
-        }
+          triggerSubmit: true,
+        },
       }),
       clearSubmitErrors('foo')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         initial: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         fields: {
           myField: {},
           otherField: {
             visited: true,
-            active: true
-          }
+            active: true,
+          },
         },
         active: 'otherField',
-        triggerSubmit: true
-      }
+        triggerSubmit: true,
+      },
     })
   })
 }

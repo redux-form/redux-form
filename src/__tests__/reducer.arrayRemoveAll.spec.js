@@ -1,29 +1,29 @@
-import { arrayRemoveAll } from '../actions'
+import {arrayRemoveAll} from '../actions'
 
-const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
+const describeArrayRemoveAll = (reducer, expect, {fromJS}) => () => {
   it('should do nothing with undefined', () => {
     const state = reducer(
       fromJS({
         foo: {
           values: {
-            myField: {}
+            myField: {},
           },
           fields: {
-            myField: {}
-          }
-        }
+            myField: {},
+          },
+        },
       }),
       arrayRemoveAll('foo', 'myField.subField')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: {}
+          myField: {},
         },
         fields: {
-          myField: {}
-        }
-      }
+          myField: {},
+        },
+      },
     })
   })
 
@@ -33,15 +33,15 @@ const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: []
-            }
+              subField: [],
+            },
           },
           fields: {
             myField: {
-              subField: []
-            }
-          }
-        }
+              subField: [],
+            },
+          },
+        },
       }),
       arrayRemoveAll('foo', 'myField.subField')
     )
@@ -49,15 +49,15 @@ const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: []
-          }
+            subField: [],
+          },
         },
         fields: {
           myField: {
-            subField: []
-          }
-        }
-      }
+            subField: [],
+          },
+        },
+      },
     })
   })
 
@@ -67,20 +67,20 @@ const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
-          }
-        }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
+          },
+        },
       }),
       arrayRemoveAll('foo', 'myField.subField', 1)
     )
@@ -88,15 +88,15 @@ const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: []
-          }
+            subField: [],
+          },
         },
         fields: {
           myField: {
-            subField: []
-          }
-        }
-      }
+            subField: [],
+          },
+        },
+      },
     })
   })
 }

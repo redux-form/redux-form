@@ -1,5 +1,5 @@
-import expect, { createSpy } from 'expect'
-import { noop } from 'lodash'
+import expect, {createSpy} from 'expect'
+import {noop} from 'lodash'
 import silenceEvent from '../silenceEvent'
 
 describe('silenceEvent', () => {
@@ -17,7 +17,7 @@ describe('silenceEvent', () => {
     expect(
       silenceEvent({
         preventDefault: noop,
-        stopPropagation: noop
+        stopPropagation: noop,
       })
     ).toBe(true)
   })
@@ -28,7 +28,7 @@ describe('silenceEvent', () => {
 
     silenceEvent({
       preventDefault,
-      stopPropagation
+      stopPropagation,
     })
     expect(preventDefault).toHaveBeenCalled()
     expect(stopPropagation).toNotHaveBeenCalled()

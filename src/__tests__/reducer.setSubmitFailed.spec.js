@@ -1,13 +1,13 @@
-import { setSubmitFailed } from '../actions'
+import {setSubmitFailed} from '../actions'
 
-const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
+const describeSetSubmitFailed = (reducer, expect, {fromJS}) => () => {
   it('should set submitFailed flag on submitFailed', () => {
     const state = reducer(
       fromJS({
         foo: {
           doesnt: 'matter',
-          should: 'notchange'
-        }
+          should: 'notchange',
+        },
       }),
       setSubmitFailed('foo')
     )
@@ -15,8 +15,8 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        submitFailed: true
-      }
+        submitFailed: true,
+      },
     })
   })
 
@@ -26,8 +26,8 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
         foo: {
           doesnt: 'matter',
           should: 'notchange',
-          submitting: true
-        }
+          submitting: true,
+        },
       }),
       setSubmitFailed('foo')
     )
@@ -35,8 +35,8 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        submitFailed: true
-      }
+        submitFailed: true,
+      },
     })
   })
 
@@ -47,8 +47,8 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
           doesnt: 'matter',
           should: 'notchange',
           submitting: true,
-          submitSucceeded: true
-        }
+          submitSucceeded: true,
+        },
       }),
       setSubmitFailed('foo')
     )
@@ -56,8 +56,8 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        submitFailed: true
-      }
+        submitFailed: true,
+      },
     })
   })
 
@@ -68,9 +68,9 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
           values: {
             a: 'aVal',
             b: 42,
-            c: true
-          }
-        }
+            c: true,
+          },
+        },
       }),
       setSubmitFailed('foo', 'a', 'b', 'c')
     )
@@ -79,22 +79,22 @@ const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
         values: {
           a: 'aVal',
           b: 42,
-          c: true
+          c: true,
         },
         fields: {
           a: {
-            touched: true
+            touched: true,
           },
           b: {
-            touched: true
+            touched: true,
           },
           c: {
-            touched: true
-          }
+            touched: true,
+          },
         },
         anyTouched: true,
-        submitFailed: true
-      }
+        submitFailed: true,
+      },
     })
   })
 }

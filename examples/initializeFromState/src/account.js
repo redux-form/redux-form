@@ -5,7 +5,7 @@ const reducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD:
       return {
-        data: action.data
+        data: action.data,
       }
     default:
       return state
@@ -15,6 +15,6 @@ const reducer = (state = {}, action) => {
 /**
  * Simulates data loaded into this reducer from somewhere
  */
-export const load = data => ({ type: LOAD, data })
+export const load = data => ({type: LOAD, data})
 
 export default reducer

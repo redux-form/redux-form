@@ -3,7 +3,7 @@ const defaultShouldAsyncValidate = ({
   trigger,
   // blurredField,  // not used in default implementation
   pristine,
-  syncValidationPasses
+  syncValidationPasses,
 }) => {
   if (!syncValidationPasses) {
     return false

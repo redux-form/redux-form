@@ -1,35 +1,35 @@
 const processProps = (type, props, _value) => {
-  const { value } = props
+  const {value} = props
   if (type === 'checkbox') {
     return {
       ...props,
-      checked: !!value
+      checked: !!value,
     }
   }
   if (type === 'radio') {
     return {
       ...props,
       checked: value === _value,
-      value: _value
+      value: _value,
     }
   }
   if (type === 'select-multiple') {
     return {
       ...props,
-      value: value || []
+      value: value || [],
     }
   }
   if (type === 'file') {
     return {
       ...props,
-      value: value || undefined
+      value: value || undefined,
     }
   }
   return props
 }
 
 const createFieldProps = (
-  { getIn, toJS },
+  {getIn, toJS},
   name,
   {
     asyncError,
@@ -83,7 +83,7 @@ const createFieldProps = (
         onDragStart,
         onDrop,
         onFocus,
-        value: formattedFieldValue
+        value: formattedFieldValue,
       },
       _value
     ),
@@ -104,9 +104,9 @@ const createFieldProps = (
       submitFailed: !!submitFailed,
       touched: !!(state && getIn(state, 'touched')),
       valid: !error,
-      visited: !!(state && getIn(state, 'visited'))
+      visited: !!(state && getIn(state, 'visited')),
     },
-    custom: { ...custom, ...props }
+    custom: {...custom, ...props},
   }
 }
 

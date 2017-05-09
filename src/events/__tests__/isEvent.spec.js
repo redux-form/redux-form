@@ -1,5 +1,5 @@
 import expect from 'expect'
-import { noop } from 'lodash'
+import {noop} from 'lodash'
 import isEvent from '../isEvent'
 
 describe('isEvent', () => {
@@ -21,7 +21,7 @@ describe('isEvent', () => {
   it('should return false if event has no stopPropagation', () => {
     expect(
       isEvent({
-        preventDefault: noop
+        preventDefault: noop,
       })
     ).toBe(false)
   })
@@ -29,7 +29,7 @@ describe('isEvent', () => {
   it('should return false if event has no preventDefault', () => {
     expect(
       isEvent({
-        stopPropagation: noop
+        stopPropagation: noop,
       })
     ).toBe(false)
   })
@@ -38,7 +38,7 @@ describe('isEvent', () => {
     expect(
       isEvent({
         stopPropagation: noop,
-        preventDefault: noop
+        preventDefault: noop,
       })
     ).toBe(true)
   })

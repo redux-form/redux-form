@@ -1,27 +1,27 @@
-import { reset } from '../actions'
+import {reset} from '../actions'
 
-const describeReset = (reducer, expect, { fromJS }) => () => {
+const describeReset = (reducer, expect, {fromJS}) => () => {
   it('should reset values on reset on with previous state', () => {
     const state = reducer(
       fromJS({
         foo: {
           values: {
             myField: 'dirtyValue',
-            myOtherField: 'otherDirtyValue'
+            myOtherField: 'otherDirtyValue',
           },
           initial: {
             myField: 'initialValue',
-            myOtherField: 'otherInitialValue'
+            myOtherField: 'otherInitialValue',
           },
           fields: {
             myField: {
-              touched: true
+              touched: true,
             },
             myOtherField: {
-              touched: true
-            }
-          }
-        }
+              touched: true,
+            },
+          },
+        },
       }),
       reset('foo')
     )
@@ -29,13 +29,13 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: 'initialValue',
-          myOtherField: 'otherInitialValue'
+          myOtherField: 'otherInitialValue',
         },
         initial: {
           myField: 'initialValue',
-          myOtherField: 'otherInitialValue'
-        }
-      }
+          myOtherField: 'otherInitialValue',
+        },
+      },
     })
   })
 
@@ -46,27 +46,27 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
           values: {
             deepField: {
               myField: 'dirtyValue',
-              myOtherField: 'otherDirtyValue'
-            }
+              myOtherField: 'otherDirtyValue',
+            },
           },
           initial: {
             deepField: {
               myField: 'initialValue',
-              myOtherField: 'otherInitialValue'
-            }
+              myOtherField: 'otherInitialValue',
+            },
           },
           fields: {
             deepField: {
               myField: {
-                touched: true
+                touched: true,
               },
               myOtherField: {
-                touched: true
-              }
-            }
+                touched: true,
+              },
+            },
           },
-          active: 'myField'
-        }
+          active: 'myField',
+        },
       }),
       reset('foo')
     )
@@ -75,16 +75,16 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
         values: {
           deepField: {
             myField: 'initialValue',
-            myOtherField: 'otherInitialValue'
-          }
+            myOtherField: 'otherInitialValue',
+          },
         },
         initial: {
           deepField: {
             myField: 'initialValue',
-            myOtherField: 'otherInitialValue'
-          }
-        }
-      }
+            myOtherField: 'otherInitialValue',
+          },
+        },
+      },
     })
   })
 
@@ -93,19 +93,19 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'bar'
+            myField: 'bar',
           },
           fields: {
             myField: {
-              touched: true
-            }
-          }
-        }
+              touched: true,
+            },
+          },
+        },
       }),
       reset('foo')
     )
     expect(state).toEqualMap({
-      foo: {}
+      foo: {},
     })
   })
 
@@ -114,28 +114,28 @@ const describeReset = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           registeredFields: [
-            { name: 'username', type: 'Field' },
-            { name: 'password', type: 'Field' }
+            {name: 'username', type: 'Field'},
+            {name: 'password', type: 'Field'},
           ],
           values: {
-            myField: 'bar'
+            myField: 'bar',
           },
           fields: {
             myField: {
-              touched: true
-            }
-          }
-        }
+              touched: true,
+            },
+          },
+        },
       }),
       reset('foo')
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: [
-          { name: 'username', type: 'Field' },
-          { name: 'password', type: 'Field' }
-        ]
-      }
+          {name: 'username', type: 'Field'},
+          {name: 'password', type: 'Field'},
+        ],
+      },
     })
   })
 }

@@ -1,13 +1,13 @@
-import { Component, createElement } from 'react'
+import {Component, createElement} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
-const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
+const createConnectedFields = ({deepEqual, getIn, toJS, size}) => {
   const getSyncError = (syncErrors, name) => {
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
@@ -86,12 +86,12 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
     }
 
     isDirty() {
-      const { _fields } = this.props
+      const {_fields} = this.props
       return Object.keys(_fields).some(name => _fields[name].dirty)
     }
 
     getValues() {
-      const { _fields } = this.props
+      const {_fields} = this.props
       return Object.keys(_fields).reduce(
         (accumulator, name) =>
           plain.setIn(accumulator, name, _fields[name].value),
@@ -104,20 +104,20 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
     }
 
     handleChange(name, event) {
-      const { dispatch, parse, normalize, _reduxForm } = this.props
-      const value = onChangeValue(event, { name, parse, normalize })
+      const {dispatch, parse, normalize, _reduxForm} = this.props
+      const value = onChangeValue(event, {name, parse, normalize})
 
       dispatch(_reduxForm.change(name, value))
     }
 
     handleFocus(name) {
-      const { dispatch, _reduxForm } = this.props
+      const {dispatch, _reduxForm} = this.props
       dispatch(_reduxForm.focus(name))
     }
 
     handleBlur(name, event) {
-      const { dispatch, parse, normalize, _reduxForm } = this.props
-      const value = onChangeValue(event, { name, parse, normalize })
+      const {dispatch, parse, normalize, _reduxForm} = this.props
+      const value = onChangeValue(event, {name, parse, normalize})
 
       // dispatch blur action
       dispatch(_reduxForm.blur(name, value))
@@ -129,24 +129,20 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
     }
 
     render() {
-      const { component, withRef, _fields, _reduxForm, ...rest } = this.props
-      const { sectionPrefix, form } = _reduxForm
-      const { custom, ...props } = Object.keys(
+      const {component, withRef, _fields, _reduxForm, ...rest} = this.props
+      const {sectionPrefix, form} = _reduxForm
+      const {custom, ...props} = Object.keys(
         _fields
       ).reduce((accumulator, name) => {
         const connectedProps = _fields[name]
-        const { custom, ...fieldProps } = createFieldProps(
-          { getIn, toJS },
-          name,
-          {
-            ...connectedProps,
-            ...rest,
-            form,
-            onBlur: this.onBlurFns[name],
-            onChange: this.onChangeFns[name],
-            onFocus: this.onFocusFns[name]
-          }
-        )
+        const {custom, ...fieldProps} = createFieldProps({getIn, toJS}, name, {
+          ...connectedProps,
+          ...rest,
+          form,
+          onBlur: this.onBlurFns[name],
+          onChange: this.onChangeFns[name],
+          onFocus: this.onFocusFns[name],
+        })
         accumulator.custom = custom
         const fieldName = sectionPrefix
           ? name.replace(`${sectionPrefix}.`, '')
@@ -157,7 +153,7 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
         props.ref = 'renderedComponent'
       }
 
-      return createElement(component, { ...props, ...custom })
+      return createElement(component, {...props, ...custom})
     }
   }
 
@@ -165,12 +161,12 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
     component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
       .isRequired,
     _fields: PropTypes.object.isRequired,
-    props: PropTypes.object
+    props: PropTypes.object,
   }
 
   const connector = connect(
     (state, ownProps) => {
-      const { names, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {names, _reduxForm: {initialValues, getFormState}} = ownProps
       const formState = getFormState(state)
       return {
         _fields: names.reduce((accumulator, name) => {
@@ -198,15 +194,15 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
             syncError,
             syncWarning,
             value,
-            _value: ownProps.value // save value passed in (for checkboxes)
+            _value: ownProps.value, // save value passed in (for checkboxes)
           }
           return accumulator
-        }, {})
+        }, {}),
       }
     },
     undefined,
     undefined,
-    { withRef: true }
+    {withRef: true}
   )
   return connector(ConnectedFields)
 }

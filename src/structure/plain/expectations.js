@@ -1,5 +1,5 @@
 import expect from 'expect'
-import { isObject } from 'lodash'
+import {isObject} from 'lodash'
 
 const expectations = {
   toBeAMap() {
@@ -40,7 +40,7 @@ const expectations = {
     const sortedExpected = expected.slice()
     sortedExpected.sort()
     return expect(sortedActual).toEqual(sortedExpected)
-  }
+  },
 }
 
 export default expectations

@@ -1,4 +1,4 @@
-const createHasSubmitSucceeded = ({ getIn }) => (
+const createHasSubmitSucceeded = ({getIn}) => (
   form,
   getFormState = state => getIn(state, 'form')
 ) => state => {

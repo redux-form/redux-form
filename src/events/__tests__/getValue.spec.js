@@ -1,5 +1,5 @@
 import expect from 'expect'
-import { noop } from 'lodash'
+import {noop} from 'lodash'
 import getValue from '../getValue'
 
 describe('getValue', () => {
@@ -19,16 +19,16 @@ describe('getValue', () => {
   })
 
   it('should not unwrap value if non-event object containing value key is passed', () => {
-    expect(getValue({ value: 5 }, true)).toEqual({ value: 5 })
-    expect(getValue({ value: 5 }, false)).toEqual({ value: 5 })
-    expect(getValue({ value: true }, true)).toEqual({ value: true })
-    expect(getValue({ value: true }, false)).toEqual({ value: true })
-    expect(getValue({ value: false }, true)).toEqual({ value: false })
-    expect(getValue({ value: false }, false)).toEqual({ value: false })
+    expect(getValue({value: 5}, true)).toEqual({value: 5})
+    expect(getValue({value: 5}, false)).toEqual({value: 5})
+    expect(getValue({value: true}, true)).toEqual({value: true})
+    expect(getValue({value: true}, false)).toEqual({value: true})
+    expect(getValue({value: false}, true)).toEqual({value: false})
+    expect(getValue({value: false}, false)).toEqual({value: false})
   })
 
   it('should return value if object NOT containing value key is passed', () => {
-    const foo = { bar: 5, baz: 8 }
+    const foo = {bar: 5, baz: 8}
     expect(getValue(foo)).toBe(foo)
   })
 
@@ -39,8 +39,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           nativeEvent: {
-            text: 'foo'
-          }
+            text: 'foo',
+          },
         },
         false
       )
@@ -54,8 +54,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           nativeEvent: {
-            text: 'foo'
-          }
+            text: 'foo',
+          },
         },
         true
       )
@@ -66,8 +66,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           nativeEvent: {
-            text: undefined
-          }
+            text: undefined,
+          },
         },
         true
       )
@@ -78,8 +78,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           nativeEvent: {
-            text: null
-          }
+            text: null,
+          },
         },
         true
       )
@@ -94,8 +94,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'checkbox',
-            checked: true
-          }
+            checked: true,
+          },
         },
         true
       )
@@ -107,8 +107,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'checkbox',
-            checked: true
-          }
+            checked: true,
+          },
         },
         false
       )
@@ -120,8 +120,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'checkbox',
-            checked: undefined
-          }
+            checked: undefined,
+          },
         },
         true
       )
@@ -133,8 +133,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'checkbox',
-            checked: undefined
-          }
+            checked: undefined,
+          },
         },
         false
       )
@@ -149,8 +149,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'number',
-            value: '3.1415'
-          }
+            value: '3.1415',
+          },
         },
         true
       )
@@ -162,8 +162,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'range',
-            value: '2.71828'
-          }
+            value: '2.71828',
+          },
         },
         true
       )
@@ -175,8 +175,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'number',
-            value: '3'
-          }
+            value: '3',
+          },
         },
         false
       )
@@ -188,8 +188,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'range',
-            value: '3.1415'
-          }
+            value: '3.1415',
+          },
         },
         false
       )
@@ -202,8 +202,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'range',
-            value: ''
-          }
+            value: '',
+          },
         },
         false
       )
@@ -219,8 +219,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'file',
-            files: myFiles
-          }
+            files: myFiles,
+          },
         },
         true
       )
@@ -232,8 +232,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'file',
-            files: myFiles
-          }
+            files: myFiles,
+          },
         },
         false
       )
@@ -248,11 +248,11 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            type: 'file'
+            type: 'file',
           },
           dataTransfer: {
-            files: myFiles
-          }
+            files: myFiles,
+          },
         },
         true
       )
@@ -263,11 +263,11 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            type: 'file'
+            type: 'file',
           },
           dataTransfer: {
-            files: myFiles
-          }
+            files: myFiles,
+          },
         },
         false
       )
@@ -276,9 +276,9 @@ describe('getValue', () => {
 
   it('should return selected options if is a multiselect', () => {
     const options = [
-      { selected: true, value: 'foo' },
-      { selected: true, value: 'bar' },
-      { selected: false, value: 'baz' }
+      {selected: true, value: 'foo'},
+      {selected: true, value: 'bar'},
+      {selected: false, value: 'baz'},
     ]
     const expected = options
       .filter(option => option.selected)
@@ -290,8 +290,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'select-multiple',
-            options
-          }
+            options,
+          },
         },
         true
       )
@@ -302,8 +302,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            type: 'select-multiple'
-          }
+            type: 'select-multiple',
+          },
         },
         false
       )
@@ -315,8 +315,8 @@ describe('getValue', () => {
           stopPropagation: noop,
           target: {
             type: 'select-multiple',
-            options
-          }
+            options,
+          },
         },
         false
       )
@@ -330,8 +330,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: undefined
-          }
+            value: undefined,
+          },
         },
         true
       )
@@ -342,8 +342,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: undefined
-          }
+            value: undefined,
+          },
         },
         false
       )
@@ -354,8 +354,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: null
-          }
+            value: null,
+          },
         },
         true
       )
@@ -366,8 +366,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: null
-          }
+            value: null,
+          },
         },
         false
       )
@@ -378,8 +378,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: true
-          }
+            value: true,
+          },
         },
         true
       )
@@ -390,8 +390,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: true
-          }
+            value: true,
+          },
         },
         false
       )
@@ -402,8 +402,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: false
-          }
+            value: false,
+          },
         },
         true
       )
@@ -414,8 +414,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: false
-          }
+            value: false,
+          },
         },
         false
       )
@@ -426,8 +426,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: 42
-          }
+            value: 42,
+          },
         },
         true
       )
@@ -438,8 +438,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: 42
-          }
+            value: 42,
+          },
         },
         false
       )
@@ -450,8 +450,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: 'foo'
-          }
+            value: 'foo',
+          },
         },
         true
       )
@@ -462,8 +462,8 @@ describe('getValue', () => {
           preventDefault: noop,
           stopPropagation: noop,
           target: {
-            value: 'foo'
-          }
+            value: 'foo',
+          },
         },
         false
       )

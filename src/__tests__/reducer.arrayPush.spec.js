@@ -1,14 +1,14 @@
-import { arrayPush } from '../actions'
+import {arrayPush} from '../actions'
 
-const describeArrayPush = (reducer, expect, { fromJS }) => () => {
+const describeArrayPush = (reducer, expect, {fromJS}) => () => {
   it('should work with empty state', () => {
     const state = reducer(undefined, arrayPush('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: ['myValue']
-        }
-      }
+          myField: ['myValue'],
+        },
+      },
     })
   })
 
@@ -17,9 +17,9 @@ const describeArrayPush = (reducer, expect, { fromJS }) => () => {
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: [undefined]
-        }
-      }
+          myField: [undefined],
+        },
+      },
     })
   })
 
@@ -28,18 +28,18 @@ const describeArrayPush = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: []
-          }
-        }
+            myField: [],
+          },
+        },
       }),
       arrayPush('foo', 'myField', 'myValue')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: ['myValue']
-        }
-      }
+          myField: ['myValue'],
+        },
+      },
     })
   })
 
@@ -49,19 +49,19 @@ const describeArrayPush = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c']
-            }
+              subField: ['a', 'b', 'c'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
-          }
-        }
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
+          },
+        },
       }),
       arrayPush('foo', 'myField.subField', 'newValue')
     )
@@ -69,20 +69,20 @@ const describeArrayPush = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'b', 'c', 'newValue']
-          }
+            subField: ['a', 'b', 'c', 'newValue'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true },
-              {}
-            ]
-          }
-        }
-      }
+              {touched: true},
+              {touched: true, visited: true},
+              {touched: true},
+              {},
+            ],
+          },
+        },
+      },
     })
   })
 
@@ -91,18 +91,18 @@ const describeArrayPush = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            steps: null
-          }
-        }
+            steps: null,
+          },
+        },
       }),
       arrayPush('foo', 'steps', 'value')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          steps: ['value']
-        }
-      }
+          steps: ['value'],
+        },
+      },
     })
   })
 }

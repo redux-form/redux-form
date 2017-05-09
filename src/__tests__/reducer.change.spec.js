@@ -1,14 +1,14 @@
-import { change } from '../actions'
+import {change} from '../actions'
 
-const describeChange = (reducer, expect, { fromJS }) => () => {
+const describeChange = (reducer, expect, {fromJS}) => () => {
   it('should set value on change with empty state', () => {
     const state = reducer(undefined, change('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue'
-        }
-      }
+          myField: 'myValue',
+        },
+      },
     })
   })
 
@@ -18,14 +18,14 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'myValue'
+          myField: 'myValue',
         },
         fields: {
           myField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -34,12 +34,12 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           initial: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
       change('foo', 'myField', 'myValue', true)
     )
@@ -47,17 +47,17 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'myValue'
+          myField: 'myValue',
         },
         initial: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         fields: {
           myField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -66,12 +66,12 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           initial: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
       change('foo', 'myField', '', true)
     )
@@ -79,17 +79,17 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: ''
+          myField: '',
         },
         initial: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         fields: {
           myField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -98,9 +98,9 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
       change('foo', 'myField', '', true)
     )
@@ -109,10 +109,10 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         anyTouched: true,
         fields: {
           myField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -121,9 +121,9 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: ['initialValue']
-          }
-        }
+            myField: ['initialValue'],
+          },
+        },
       }),
       change('foo', 'myField[0]', '', true)
     )
@@ -131,16 +131,16 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: [undefined]
+          myField: [undefined],
         },
         fields: {
           myField: [
             {
-              touched: true
-            }
-          ]
-        }
-      }
+              touched: true,
+            },
+          ],
+        },
+      },
     })
   })
 
@@ -150,10 +150,10 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             nested: {
-              myField: 'initialValue'
-            }
-          }
-        }
+              myField: 'initialValue',
+            },
+          },
+        },
       }),
       change('foo', 'nested.myField', '', true)
     )
@@ -163,11 +163,11 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         fields: {
           nested: {
             myField: {
-              touched: true
-            }
-          }
-        }
-      }
+              touched: true,
+            },
+          },
+        },
+      },
     })
   })
 
@@ -176,9 +176,9 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
       change('foo', 'myField', undefined, true)
     )
@@ -186,14 +186,14 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         fields: {
           myField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -202,26 +202,26 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initial'
+            myField: 'initial',
           },
           asyncErrors: {
-            myField: 'async error'
+            myField: 'async error',
           },
           submitErrors: {
-            myField: 'submit error'
+            myField: 'submit error',
           },
-          error: 'some global error'
-        }
+          error: 'some global error',
+        },
       }),
       change('foo', 'myField', 'different', false)
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'different'
+          myField: 'different',
         },
-        error: 'some global error'
-      }
+        error: 'some global error',
+      },
     })
   })
 
@@ -229,16 +229,16 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
     const plainJs = {
       foo: {
         values: {
-          myField: 'initial'
+          myField: 'initial',
         },
         asyncErrors: {
-          myField: 'async error'
+          myField: 'async error',
         },
         submitErrors: {
-          fieldArray: []
+          fieldArray: [],
         },
-        error: 'some global error'
-      }
+        error: 'some global error',
+      },
     }
     plainJs.foo.submitErrors.fieldArray._error = 'submit error'
     const state = reducer(
@@ -248,21 +248,21 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
     expect(state).toEqualMap({
       foo: {
         asyncErrors: {
-          myField: 'async error'
+          myField: 'async error',
         },
         error: 'some global error',
         submitErrors: {
-          fieldArray: []
+          fieldArray: [],
         },
         values: {
           fieldArray: [
             {
-              Text: 'different'
-            }
+              Text: 'different',
+            },
           ],
-          myField: 'initial'
-        }
-      }
+          myField: 'initial',
+        },
+      },
     })
   })
 
@@ -271,29 +271,29 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initial'
+            myField: 'initial',
           },
           asyncErrors: {
-            myField: 'async error' // only this will be removed
+            myField: 'async error', // only this will be removed
           },
           submitErrors: {
-            myField: 'submit error'
+            myField: 'submit error',
           },
-          error: 'some global error'
-        }
+          error: 'some global error',
+        },
       }),
       change('foo', 'myField', 'different', false, true)
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'different'
+          myField: 'different',
         },
         submitErrors: {
-          myField: 'submit error'
+          myField: 'submit error',
         },
-        error: 'some global error'
-      }
+        error: 'some global error',
+      },
     })
   })
 
@@ -306,10 +306,10 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            mySubField: 'myValue'
-          }
-        }
-      }
+            mySubField: 'myValue',
+          },
+        },
+      },
     })
   })
 }

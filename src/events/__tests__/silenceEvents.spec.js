@@ -1,5 +1,5 @@
-import expect, { createSpy } from 'expect'
-import { noop } from 'lodash'
+import expect, {createSpy} from 'expect'
+import {noop} from 'lodash'
 import silenceEvents from '../silenceEvents'
 
 describe('silenceEvents', () => {
@@ -19,8 +19,8 @@ describe('silenceEvents', () => {
     expect(spy).toHaveBeenCalled().toHaveBeenCalledWith('foo', 'bar')
     spy.restore()
 
-    silenced({ value: 10 }, false)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({ value: 10 }, false)
+    silenced({value: 10}, false)
+    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({value: 10}, false)
     spy.restore()
   })
 
@@ -29,7 +29,7 @@ describe('silenceEvents', () => {
     const silenced = silenceEvents(spy)
     const event = {
       preventDefault: noop,
-      stopPropagation: noop
+      stopPropagation: noop,
     }
 
     silenced(event, 1, 2, 3)
@@ -40,8 +40,8 @@ describe('silenceEvents', () => {
     expect(spy).toHaveBeenCalled().toHaveBeenCalledWith('foo', 'bar')
     spy.restore()
 
-    silenced(event, { value: 10 }, false)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({ value: 10 }, false)
+    silenced(event, {value: 10}, false)
+    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({value: 10}, false)
     spy.restore()
   })
 
@@ -51,7 +51,7 @@ describe('silenceEvents', () => {
     const stopPropagation = createSpy()
     const event = {
       preventDefault,
-      stopPropagation
+      stopPropagation,
     }
 
     silenceEvents(spy)(event)

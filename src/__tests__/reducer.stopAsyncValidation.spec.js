@@ -1,6 +1,6 @@
-import { stopAsyncValidation } from '../actions'
+import {stopAsyncValidation} from '../actions'
 
-const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
+const describeStopAsyncValidation = (reducer, expect, {fromJS}) => () => {
   it('should set asyncError on nested fields on stopAsyncValidation', () => {
     const state = reducer(
       fromJS({
@@ -8,27 +8,27 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
           values: {
             bar: {
               myField: 'dirtyValue',
-              myOtherField: 'otherDirtyValue'
-            }
+              myOtherField: 'otherDirtyValue',
+            },
           },
           fields: {
             bar: {
               myField: {
-                touched: true
+                touched: true,
               },
               myOtherField: {
-                touched: true
-              }
-            }
+                touched: true,
+              },
+            },
           },
-          asyncValidating: true
-        }
+          asyncValidating: true,
+        },
       }),
       stopAsyncValidation('foo', {
         bar: {
           myField: 'Error about myField',
-          myOtherField: 'Error about myOtherField'
-        }
+          myOtherField: 'Error about myOtherField',
+        },
       })
     )
     expect(state).toEqualMap({
@@ -36,26 +36,26 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         values: {
           bar: {
             myField: 'dirtyValue',
-            myOtherField: 'otherDirtyValue'
-          }
+            myOtherField: 'otherDirtyValue',
+          },
         },
         asyncErrors: {
           bar: {
             myField: 'Error about myField',
-            myOtherField: 'Error about myOtherField'
-          }
+            myOtherField: 'Error about myOtherField',
+          },
         },
         fields: {
           bar: {
             myField: {
-              touched: true
+              touched: true,
             },
             myOtherField: {
-              touched: true
-            }
-          }
-        }
-      }
+              touched: true,
+            },
+          },
+        },
+      },
     })
   })
 
@@ -64,50 +64,50 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            bar: ['dirtyValue', 'otherDirtyValue']
+            bar: ['dirtyValue', 'otherDirtyValue'],
           },
           initial: {
-            bar: ['initialValue', 'otherInitialValue']
+            bar: ['initialValue', 'otherInitialValue'],
           },
           fields: {
             bar: [
               {
-                touched: true
+                touched: true,
               },
               {
-                touched: true
-              }
-            ]
+                touched: true,
+              },
+            ],
           },
-          asyncValidating: true
-        }
+          asyncValidating: true,
+        },
       }),
       stopAsyncValidation('foo', {
-        bar: ['async error 1', 'async error 2']
+        bar: ['async error 1', 'async error 2'],
       })
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          bar: ['dirtyValue', 'otherDirtyValue']
+          bar: ['dirtyValue', 'otherDirtyValue'],
         },
         initial: {
-          bar: ['initialValue', 'otherInitialValue']
+          bar: ['initialValue', 'otherInitialValue'],
         },
         asyncErrors: {
-          bar: ['async error 1', 'async error 2']
+          bar: ['async error 1', 'async error 2'],
         },
         fields: {
           bar: [
             {
-              touched: true
+              touched: true,
             },
             {
-              touched: true
-            }
-          ]
-        }
-      }
+              touched: true,
+            },
+          ],
+        },
+      },
     })
   })
 
@@ -116,48 +116,48 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            bar: ['dirtyValue', 'otherDirtyValue']
+            bar: ['dirtyValue', 'otherDirtyValue'],
           },
           initial: {
-            bar: ['initialValue', 'otherInitialValue']
+            bar: ['initialValue', 'otherInitialValue'],
           },
           asyncErrors: {
-            bar: ['async error 1', 'async error 2']
+            bar: ['async error 1', 'async error 2'],
           },
           fields: {
             bar: [
               {
-                touched: true
+                touched: true,
               },
               {
-                touched: true
-              }
-            ]
+                touched: true,
+              },
+            ],
           },
-          asyncValidating: true
-        }
+          asyncValidating: true,
+        },
       }),
       stopAsyncValidation('foo')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          bar: ['dirtyValue', 'otherDirtyValue']
+          bar: ['dirtyValue', 'otherDirtyValue'],
         },
         initial: {
-          bar: ['initialValue', 'otherInitialValue']
+          bar: ['initialValue', 'otherInitialValue'],
         },
         fields: {
           bar: [
             {
-              touched: true
+              touched: true,
             },
             {
-              touched: true
-            }
-          ]
-        }
-      }
+              touched: true,
+            },
+          ],
+        },
+      },
     })
   })
 
@@ -167,43 +167,43 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
         foo: {
           values: {
             cat: 'Garfield',
-            dog: 'Odie'
+            dog: 'Odie',
           },
           fields: {
             cat: {
-              touched: true
+              touched: true,
             },
             dog: {
-              touched: true
-            }
+              touched: true,
+            },
           },
-          asyncValidating: true
-        }
+          asyncValidating: true,
+        },
       }),
       stopAsyncValidation('foo', {
         cat: ['Not funny', 'Sleeps too much'],
-        dog: ['Unhelpful', 'Not house trained']
+        dog: ['Unhelpful', 'Not house trained'],
       })
     )
     expect(state).toEqualMap({
       foo: {
         values: {
           cat: 'Garfield',
-          dog: 'Odie'
+          dog: 'Odie',
         },
         asyncErrors: {
           cat: ['Not funny', 'Sleeps too much'],
-          dog: ['Unhelpful', 'Not house trained']
+          dog: ['Unhelpful', 'Not house trained'],
         },
         fields: {
           cat: {
-            touched: true
+            touched: true,
           },
           dog: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -212,30 +212,30 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'myValue'
+            myField: 'myValue',
           },
           fields: {
             myField: {
-              touched: true
-            }
+              touched: true,
+            },
           },
           asyncValidating: true,
-          error: 'Previous global error'
-        }
+          error: 'Previous global error',
+        },
       }),
       stopAsyncValidation('foo')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue'
+          myField: 'myValue',
         },
         fields: {
           myField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -244,32 +244,32 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'myValue'
+            myField: 'myValue',
           },
           fields: {
             myField: {
-              touched: true
-            }
+              touched: true,
+            },
           },
-          asyncValidating: true
-        }
+          asyncValidating: true,
+        },
       }),
       stopAsyncValidation('foo', {
-        _error: 'This is a global error'
+        _error: 'This is a global error',
       })
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue'
+          myField: 'myValue',
         },
         fields: {
           myField: {
-            touched: true
-          }
+            touched: true,
+          },
         },
-        error: 'This is a global error'
-      }
+        error: 'This is a global error',
+      },
     })
   })
 }

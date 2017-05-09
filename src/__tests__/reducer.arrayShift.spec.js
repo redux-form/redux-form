@@ -1,26 +1,26 @@
-import { arrayShift } from '../actions'
+import {arrayShift} from '../actions'
 
-const describeArrayShift = (reducer, expect, { fromJS }) => () => {
+const describeArrayShift = (reducer, expect, {fromJS}) => () => {
   it('should remove from beginning', () => {
     const state = reducer(
       fromJS({
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
-          }
-        }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
+          },
+        },
       }),
       arrayShift('foo', 'myField.subField')
     )
@@ -28,19 +28,19 @@ const describeArrayShift = (reducer, expect, { fromJS }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['b', 'c', 'd']
-          }
+            subField: ['b', 'c', 'd'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
-        }
-      }
+              {touched: true},
+              {touched: true, visited: true},
+              {touched: true},
+            ],
+          },
+        },
+      },
     })
   })
 }

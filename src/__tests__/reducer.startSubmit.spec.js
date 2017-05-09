@@ -1,13 +1,13 @@
-import { startSubmit } from '../actions'
+import {startSubmit} from '../actions'
 
-const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
+const describeStartSubmit = (reducer, expect, {fromJS}) => () => {
   it('should set submitting on startSubmit', () => {
     const state = reducer(
       fromJS({
         foo: {
           doesnt: 'matter',
-          should: 'notchange'
-        }
+          should: 'notchange',
+        },
       }),
       startSubmit('foo')
     )
@@ -15,8 +15,8 @@ const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        submitting: true
-      }
+        submitting: true,
+      },
     })
   })
 
@@ -26,8 +26,8 @@ const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
         foo: {
           doesnt: 'matter',
           should: 'notchange',
-          submitFailed: true
-        }
+          submitFailed: true,
+        },
       }),
       startSubmit('foo')
     )
@@ -36,8 +36,8 @@ const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
         doesnt: 'matter',
         should: 'notchange',
         submitting: true,
-        submitFailed: true
-      }
+        submitFailed: true,
+      },
     })
   })
 }

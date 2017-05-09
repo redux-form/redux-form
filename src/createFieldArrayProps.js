@@ -76,7 +76,7 @@ const createFieldArrayProps = (
         return getIn(value, 0)
       },
       swap: arraySwap,
-      unshift: arrayUnshift
+      unshift: arrayUnshift,
     },
     meta: {
       dirty,
@@ -87,10 +87,10 @@ const createFieldArrayProps = (
       pristine,
       submitting,
       submitFailed,
-      valid: !error
+      valid: !error,
     },
     ...props,
-    ...rest
+    ...rest,
   }
   return finalProps
 }

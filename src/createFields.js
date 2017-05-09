@@ -1,4 +1,4 @@
-import { Component, createElement } from 'react'
+import {Component, createElement} from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
@@ -17,12 +17,12 @@ const validateNameProp = prop => {
   }
 }
 
-const createFields = ({ deepEqual, getIn, toJS, size }) => {
+const createFields = ({deepEqual, getIn, toJS, size}) => {
   const ConnectedFields = createConnectedFields({
     deepEqual,
     getIn,
     toJS,
-    size
+    size,
   })
 
   class Fields extends Component {
@@ -44,15 +44,15 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
       if (error) {
         throw error
       }
-      const { context } = this
-      const { _reduxForm: { register } } = context
+      const {context} = this
+      const {_reduxForm: {register}} = context
       this.names.forEach(name => register(name, 'Field'))
     }
 
     componentWillReceiveProps(nextProps) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
-        const { context } = this
-        const { register, unregister } = context._reduxForm
+        const {context} = this
+        const {register, unregister} = context._reduxForm
         // unregister old name
         this.props.names.forEach(name => unregister(prefixName(context, name)))
         // register new name
@@ -63,8 +63,8 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
     }
 
     componentWillUnmount() {
-      const { context } = this
-      const { unregister } = context._reduxForm
+      const {context} = this
+      const {unregister} = context._reduxForm
       this.props.names.forEach(name => unregister(prefixName(context, name)))
     }
 
@@ -78,7 +78,7 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
     }
 
     get names() {
-      const { context } = this
+      const {context} = this
       return this.props.names.map(name => prefixName(context, name))
     }
 
@@ -98,12 +98,12 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
     }
 
     render() {
-      const { context } = this
+      const {context} = this
       return createElement(ConnectedFields, {
         ...this.props,
         names: this.props.names.map(name => prefixName(context, name)),
         _reduxForm: this.context._reduxForm,
-        ref: 'connected'
+        ref: 'connected',
       })
     }
   }
@@ -115,10 +115,10 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
     format: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,
-    withRef: PropTypes.bool
+    withRef: PropTypes.bool,
   }
   Fields.contextTypes = {
-    _reduxForm: PropTypes.object
+    _reduxForm: PropTypes.object,
   }
 
   return Fields

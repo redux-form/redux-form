@@ -58,7 +58,7 @@ import {
   touch,
   unregisterField,
   untouch,
-  values
+  values,
 } from '../immutable'
 
 describe('immutable', () => {

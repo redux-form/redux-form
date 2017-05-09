@@ -1,16 +1,16 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import {Field, reduxForm} from 'redux-form'
 import normalizePhone from './normalizePhone'
 
 const upper = value => value && value.toUpperCase()
 const lower = value => value && value.toLowerCase()
-const lessThan = otherField =>
-  (value, previousValue, allValues) => parseFloat(value) < parseFloat(allValues[otherField]) ? value : previousValue
-const greaterThan = otherField =>
-  (value, previousValue, allValues) => parseFloat(value) > parseFloat(allValues[otherField]) ? value : previousValue
+const lessThan = otherField => (value, previousValue, allValues) =>
+  parseFloat(value) < parseFloat(allValues[otherField]) ? value : previousValue
+const greaterThan = otherField => (value, previousValue, allValues) =>
+  parseFloat(value) > parseFloat(allValues[otherField]) ? value : previousValue
 
-const FieldNormalizingForm = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props
+const FieldNormalizingForm = props => {
+  const {handleSubmit, pristine, reset, submitting} = props
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -73,7 +73,8 @@ const FieldNormalizingForm = (props) => {
       </div>
       <div>
         <button type="submit" disabled={submitting}>Submit</button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Clear Values
         </button>
       </div>
     </form>
@@ -82,5 +83,5 @@ const FieldNormalizingForm = (props) => {
 
 export default reduxForm({
   form: 'normalizing', // a unique identifier for this form
-  initialValues: { min: '1', max: '10' }
+  initialValues: {min: '1', max: '10'},
 })(FieldNormalizingForm)

@@ -1,4 +1,4 @@
-import { toPath } from 'lodash'
+import {toPath} from 'lodash'
 
 const setInWithPath = (state, value, path, pathIndex) => {
   if (pathIndex >= path.length) {
@@ -22,7 +22,7 @@ const setInWithPath = (state, value, path, pathIndex) => {
 
   return {
     ...state,
-    [first]: next
+    [first]: next,
   }
 }
 

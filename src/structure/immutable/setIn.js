@@ -1,15 +1,15 @@
-import { List, Map } from 'immutable'
-import { toPath } from 'lodash'
+import {List, Map} from 'immutable'
+import {toPath} from 'lodash'
 
 const arrayPattern = /\[(\d+)\]/
 
 const undefinedArrayMerge = (previous, next) =>
-  (next !== undefined ? next : previous)
+  next !== undefined ? next : previous
 
 const mergeLists = (original, value) =>
-  (original && List.isList(original)
+  original && List.isList(original)
     ? original.mergeDeepWith(undefinedArrayMerge, value)
-    : value)
+    : value
 
 /*
  * ImmutableJS' setIn function doesn't support array (List) creation

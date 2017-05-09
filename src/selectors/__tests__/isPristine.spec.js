@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeIsPristine = (name, structure, expect) => {
   const isPristine = createIsPristine(structure)
 
-  const { fromJS, getIn } = structure
+  const {fromJS, getIn} = structure
 
   describe(name, () => {
     it('should return a function', () => {
@@ -19,7 +19,7 @@ const describeIsPristine = (name, structure, expect) => {
       expect(
         isPristine('foo')(
           fromJS({
-            form: {}
+            form: {},
           })
         )
       ).toBe(true)
@@ -33,14 +33,14 @@ const describeIsPristine = (name, structure, expect) => {
               foo: {
                 initial: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
-                }
-              }
-            }
+                  cat: 'Garfield',
+                },
+              },
+            },
           })
         )
       ).toBe(true)
@@ -54,14 +54,14 @@ const describeIsPristine = (name, structure, expect) => {
               foo: {
                 initial: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
-                }
-              }
-            }
+                  cat: 'Garfield',
+                },
+              },
+            },
           })
         )
       ).toBe(false)
@@ -75,14 +75,14 @@ const describeIsPristine = (name, structure, expect) => {
               foo: {
                 initial: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
-                }
-              }
-            }
+                  cat: 'Garfield',
+                },
+              },
+            },
           })
         )
       ).toBe(false)

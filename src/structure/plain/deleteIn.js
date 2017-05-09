@@ -1,4 +1,4 @@
-import { toPath } from 'lodash'
+import {toPath} from 'lodash'
 
 const deleteInWithPath = (state, first, ...rest) => {
   if (state === undefined || first === undefined) {
@@ -22,7 +22,7 @@ const deleteInWithPath = (state, first, ...rest) => {
         ? state
         : {
             ...state,
-            [first]: result
+            [first]: result,
           }
     }
     return state
@@ -39,7 +39,7 @@ const deleteInWithPath = (state, first, ...rest) => {
     return state
   }
   if (first in state) {
-    const copy = { ...state }
+    const copy = {...state}
     delete copy[first]
     return copy
   }

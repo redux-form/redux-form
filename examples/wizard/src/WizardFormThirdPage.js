@@ -1,9 +1,9 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import {Field, reduxForm} from 'redux-form'
 import validate from './validate'
-const colors = [ 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet' ]
+const colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet']
 
-const renderColorSelector = ({ input, meta: { touched, error } }) => (
+const renderColorSelector = ({input, meta: {touched, error}}) => (
   <div>
     <select {...input}>
       <option value="">Select a color...</option>
@@ -13,28 +13,35 @@ const renderColorSelector = ({ input, meta: { touched, error } }) => (
   </div>
 )
 
-const WizardFormThirdPage = (props) => {
-  const { handleSubmit, pristine, previousPage, submitting } = props
+const WizardFormThirdPage = props => {
+  const {handleSubmit, pristine, previousPage, submitting} = props
   return (
     <form onSubmit={handleSubmit}>
       <div>
         <label>Favorite Color</label>
-        <Field name="favoriteColor" component={renderColorSelector}/>
+        <Field name="favoriteColor" component={renderColorSelector} />
       </div>
       <div>
         <label htmlFor="employed">Employed</label>
         <div>
-          <Field name="employed" id="employed" component="input" type="checkbox"/>
+          <Field
+            name="employed"
+            id="employed"
+            component="input"
+            type="checkbox"
+          />
         </div>
       </div>
       <div>
         <label>Notes</label>
         <div>
-          <Field name="notes" component="textarea" placeholder="Notes"/>
+          <Field name="notes" component="textarea" placeholder="Notes" />
         </div>
       </div>
       <div>
-        <button type="button" className="previous" onClick={previousPage}>Previous</button>
+        <button type="button" className="previous" onClick={previousPage}>
+          Previous
+        </button>
         <button type="submit" disabled={pristine || submitting}>Submit</button>
       </div>
     </form>
@@ -43,6 +50,6 @@ const WizardFormThirdPage = (props) => {
 export default reduxForm({
   form: 'wizard', //Form name is same
   destroyOnUnmount: false,
-  forceUnregisterOnUnmount: true,  // <------ unregister fields on unmount
-  validate
+  forceUnregisterOnUnmount: true, // <------ unregister fields on unmount
+  validate,
 })(WizardFormThirdPage)

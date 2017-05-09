@@ -1,19 +1,19 @@
-import { autofill, change } from '../actions'
+import {autofill, change} from '../actions'
 
-const describeBlur = (reducer, expect, { fromJS }) => () => {
+const describeBlur = (reducer, expect, {fromJS}) => () => {
   it('should set value on autofill with empty state', () => {
     const state = reducer(undefined, autofill('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue'
+          myField: 'myValue',
         },
         fields: {
           myField: {
-            autofilled: true
-          }
-        }
-      }
+            autofilled: true,
+          },
+        },
+      },
     })
   })
 
@@ -23,14 +23,14 @@ const describeBlur = (reducer, expect, { fromJS }) => () => {
         foo: {
           anyTouched: true,
           values: {
-            myField: 'before'
+            myField: 'before',
           },
           fields: {
             myField: {
-              touched: true
-            }
-          }
-        }
+              touched: true,
+            },
+          },
+        },
       }),
       autofill('foo', 'myField', 'after')
     )
@@ -38,15 +38,15 @@ const describeBlur = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'after'
+          myField: 'after',
         },
         fields: {
           myField: {
             touched: true,
-            autofilled: true
-          }
-        }
-      }
+            autofilled: true,
+          },
+        },
+      },
     })
   })
 
@@ -56,15 +56,15 @@ const describeBlur = (reducer, expect, { fromJS }) => () => {
         foo: {
           anyTouched: true,
           values: {
-            myField: 'autofilled value'
+            myField: 'autofilled value',
           },
           fields: {
             myField: {
               autofilled: true,
-              touched: true
-            }
-          }
-        }
+              touched: true,
+            },
+          },
+        },
       }),
       change('foo', 'myField', 'after change', true)
     )
@@ -72,14 +72,14 @@ const describeBlur = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'after change'
+          myField: 'after change',
         },
         fields: {
           myField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 }

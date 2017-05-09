@@ -7,13 +7,13 @@ describe('defaultShouldValidate', () => {
   it('should validate when initialRender is true', () => {
     expect(
       defaultShouldValidate({
-        initialRender: true
+        initialRender: true,
       })
     ).toBe(true)
   })
 
   const describeDefaultShouldValidate = structure => {
-    const { fromJS } = structure
+    const {fromJS} = structure
 
     it('should validate if values have changed', () => {
       expect(
@@ -21,13 +21,13 @@ describe('defaultShouldValidate', () => {
           initialRender: false,
           structure,
           values: fromJS({
-            foo: 'fooInitial'
+            foo: 'fooInitial',
           }),
           nextProps: {
             values: fromJS({
-              foo: 'fooChanged'
-            })
-          }
+              foo: 'fooChanged',
+            }),
+          },
         }),
         true
       )
@@ -39,13 +39,13 @@ describe('defaultShouldValidate', () => {
           initialRender: false,
           structure,
           values: fromJS({
-            foo: 'fooInitial'
+            foo: 'fooInitial',
           }),
           nextProps: {
             values: fromJS({
-              foo: 'fooInitial'
-            })
-          }
+              foo: 'fooInitial',
+            }),
+          },
         }),
         false
       )
@@ -56,15 +56,15 @@ describe('defaultShouldValidate', () => {
           initialRender: false,
           structure,
           values: fromJS({
-            foo: 'fooValue'
+            foo: 'fooValue',
           }),
           nextProps: {
             values: fromJS({
-              foo: 'fooValue'
-            })
+              foo: 'fooValue',
+            }),
           },
           lastFieldValidatorKeys: [],
-          fieldValidatorKeys: ['foo']
+          fieldValidatorKeys: ['foo'],
         }),
         true
       )
@@ -76,15 +76,15 @@ describe('defaultShouldValidate', () => {
           initialRender: false,
           structure,
           values: fromJS({
-            foo: 'fooInitial'
+            foo: 'fooInitial',
           }),
           nextProps: {
             values: fromJS({
-              foo: 'fooInitial'
-            })
+              foo: 'fooInitial',
+            }),
           },
           lastFieldValidatorKeys: ['foo'],
-          fieldValidatorKeys: ['foo']
+          fieldValidatorKeys: ['foo'],
         }),
         false
       )

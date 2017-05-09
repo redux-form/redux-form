@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeIsInvalid = (name, structure, expect) => {
   const isInvalid = createIsInvalid(structure)
 
-  const { fromJS, getIn, setIn } = structure
+  const {fromJS, getIn, setIn} = structure
   const getFormState = state => getIn(state, 'form')
 
   describe(name, () => {
@@ -20,7 +20,7 @@ const describeIsInvalid = (name, structure, expect) => {
       expect(
         isInvalid('foo', getFormState)(
           fromJS({
-            form: {}
+            form: {},
           })
         )
       ).toBe(false)
@@ -34,13 +34,13 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 asyncErrors: {},
                 submitErrors: {},
-                syncErrors: {}
-              }
-            }
+                syncErrors: {},
+              },
+            },
           })
         )
       ).toBe(false)
@@ -55,21 +55,21 @@ const describeIsInvalid = (name, structure, expect) => {
                 foo: {
                   values: {
                     dog: 'Odie',
-                    cat: 'Garfield'
+                    cat: 'Garfield',
                   },
                   registeredFields: {
-                    dog: { name: 'dog', type: 'Field', count: 1 },
-                    cat: { name: 'cat', type: 'Field', count: 1 }
+                    dog: {name: 'dog', type: 'Field', count: 1},
+                    cat: {name: 'cat', type: 'Field', count: 1},
                   },
                   syncErrors: {
-                    horse: 'Too old'
-                  }
-                }
-              }
+                    horse: 'Too old',
+                  },
+                },
+              },
             }),
             'form.foo.syncErrors',
             {
-              horse: 'Too Old'
+              horse: 'Too Old',
             }
           )
         )
@@ -85,18 +85,18 @@ const describeIsInvalid = (name, structure, expect) => {
                 foo: {
                   values: {
                     dog: 'Odie',
-                    cat: 'Garfield'
+                    cat: 'Garfield',
                   },
                   registeredFields: {
-                    dog: { name: 'dog', type: 'Field', count: 1 },
-                    cat: { name: 'cat', type: 'Field', count: 1 }
-                  }
-                }
-              }
+                    dog: {name: 'dog', type: 'Field', count: 1},
+                    cat: {name: 'cat', type: 'Field', count: 1},
+                  },
+                },
+              },
             }),
             'form.foo.syncErrors',
             {
-              dog: 'Too old'
+              dog: 'Too old',
             }
           )
         )
@@ -112,20 +112,20 @@ const describeIsInvalid = (name, structure, expect) => {
                 foo: {
                   values: {
                     dog: 'Odie',
-                    cats: ['Garfield']
+                    cats: ['Garfield'],
                   },
                   registeredFields: {
-                    dog: { name: 'dog', type: 'Field', count: 1 },
-                    cats: { name: 'cats', type: 'FieldArray', count: 1 }
-                  }
-                }
-              }
+                    dog: {name: 'dog', type: 'Field', count: 1},
+                    cats: {name: 'cats', type: 'FieldArray', count: 1},
+                  },
+                },
+              },
             }),
             'form.foo.syncErrors',
             {
               cats: {
-                _error: 'Too many cats'
-              }
+                _error: 'Too many cats',
+              },
             }
           )
         )
@@ -140,16 +140,16 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 error: 'Bad Data',
                 syncError: true,
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cat: { name: 'cat', type: 'Field', count: 1 }
-                }
-              }
-            }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cat: {name: 'cat', type: 'Field', count: 1},
+                },
+              },
+            },
           })
         )
       ).toBe(true)
@@ -163,17 +163,17 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cat: { name: 'cat', type: 'Field', count: 1 }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cat: {name: 'cat', type: 'Field', count: 1},
                 },
                 asyncErrors: {
-                  horse: 'Too old'
-                }
-              }
-            }
+                  horse: 'Too old',
+                },
+              },
+            },
           })
         )
       ).toBe(false)
@@ -187,17 +187,17 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cat: { name: 'cat', type: 'Field', count: 1 }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cat: {name: 'cat', type: 'Field', count: 1},
                 },
                 asyncErrors: {
-                  dog: 'Too old'
-                }
-              }
-            }
+                  dog: 'Too old',
+                },
+              },
+            },
           })
         )
       ).toBe(true)
@@ -211,19 +211,19 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cats: ['Garfield']
+                  cats: ['Garfield'],
                 },
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cats: { name: 'cats', type: 'FieldArray', count: 1 }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cats: {name: 'cats', type: 'FieldArray', count: 1},
                 },
                 asyncErrors: {
                   cats: {
-                    _error: 'Too many cats'
-                  }
-                }
-              }
-            }
+                    _error: 'Too many cats',
+                  },
+                },
+              },
+            },
           })
         )
       ).toBe(true)
@@ -237,17 +237,17 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cat: { name: 'cat', type: 'Field', count: 1 }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cat: {name: 'cat', type: 'Field', count: 1},
                 },
                 submitErrors: {
-                  horse: 'Too old'
-                }
-              }
-            }
+                  horse: 'Too old',
+                },
+              },
+            },
           })
         )
       ).toBe(false)
@@ -261,17 +261,17 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cat: { name: 'cat', type: 'Field', count: 1 }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cat: {name: 'cat', type: 'Field', count: 1},
                 },
                 submitErrors: {
-                  dog: 'Too old'
-                }
-              }
-            }
+                  dog: 'Too old',
+                },
+              },
+            },
           })
         )
       ).toBe(true)
@@ -285,19 +285,19 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cats: ['Garfield']
+                  cats: ['Garfield'],
                 },
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cats: { name: 'cats', type: 'FieldArray', count: 1 }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cats: {name: 'cats', type: 'FieldArray', count: 1},
                 },
                 submitErrors: {
                   cats: {
-                    _error: 'Too many cats'
-                  }
-                }
-              }
-            }
+                    _error: 'Too many cats',
+                  },
+                },
+              },
+            },
           })
         )
       ).toBe(true)
@@ -311,17 +311,17 @@ const describeIsInvalid = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield'
+                  cat: 'Garfield',
                 },
                 registeredFields: {
-                  dog: { name: 'dog', type: 'Field', count: 1 },
-                  cat: { name: 'cat', type: 'Field', count: 1 }
+                  dog: {name: 'dog', type: 'Field', count: 1},
+                  cat: {name: 'cat', type: 'Field', count: 1},
                 },
                 submitErrors: {
-                  dog: 'That dog is ugly'
-                }
-              }
-            }
+                  dog: 'That dog is ugly',
+                },
+              },
+            },
           })
         )
       ).toBe(true)

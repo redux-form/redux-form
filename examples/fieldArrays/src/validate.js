@@ -1,10 +1,10 @@
 const validate = values => {
   const errors = {}
-  if(!values.clubName) {
+  if (!values.clubName) {
     errors.clubName = 'Required'
   }
   if (!values.members || !values.members.length) {
-    errors.members = { _error: 'At least one member must be entered' }
+    errors.members = {_error: 'At least one member must be entered'}
   } else {
     const membersArrayErrors = []
     values.members.forEach((member, memberIndex) => {
@@ -21,15 +21,15 @@ const validate = values => {
         const hobbyArrayErrors = []
         member.hobbies.forEach((hobby, hobbyIndex) => {
           if (!hobby || !hobby.length) {
-            hobbyArrayErrors[hobbyIndex] =  'Required'
+            hobbyArrayErrors[hobbyIndex] = 'Required'
           }
         })
-        if(hobbyArrayErrors.length) {
+        if (hobbyArrayErrors.length) {
           memberErrors.hobbies = hobbyArrayErrors
           membersArrayErrors[memberIndex] = memberErrors
         }
         if (member.hobbies.length > 5) {
-          if(!memberErrors.hobbies) {
+          if (!memberErrors.hobbies) {
             memberErrors.hobbies = []
           }
           memberErrors.hobbies._error = 'No more than five hobbies allowed'
@@ -37,7 +37,7 @@ const validate = values => {
         }
       }
     })
-    if(membersArrayErrors.length) {
+    if (membersArrayErrors.length) {
       errors.members = membersArrayErrors
     }
   }

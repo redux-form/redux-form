@@ -1,4 +1,4 @@
-const createIsSubmitting = ({ getIn }) => (
+const createIsSubmitting = ({getIn}) => (
   form,
   getFormState = state => getIn(state, 'form')
 ) => state => {

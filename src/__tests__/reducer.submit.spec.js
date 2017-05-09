@@ -1,12 +1,12 @@
-import { submit } from '../actions'
+import {submit} from '../actions'
 
-const describeSubmit = (reducer, expect, { fromJS }) => () => {
+const describeSubmit = (reducer, expect, {fromJS}) => () => {
   it('should set triggerSubmit with no previous state', () => {
     const state = reducer(undefined, submit('foo'))
     expect(state).toEqualMap({
       foo: {
-        triggerSubmit: true
-      }
+        triggerSubmit: true,
+      },
     })
   })
 
@@ -15,41 +15,41 @@ const describeSubmit = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           initial: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           fields: {
             myField: {},
             otherField: {
               visited: true,
-              active: true
-            }
+              active: true,
+            },
           },
-          active: 'otherField'
-        }
+          active: 'otherField',
+        },
       }),
       submit('foo')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         initial: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         fields: {
           myField: {},
           otherField: {
             visited: true,
-            active: true
-          }
+            active: true,
+          },
         },
         active: 'otherField',
-        triggerSubmit: true
-      }
+        triggerSubmit: true,
+      },
     })
   })
 }

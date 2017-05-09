@@ -1,77 +1,74 @@
-import { initialize } from '../actions'
+import {initialize} from '../actions'
 
-const describeInitialize = (reducer, expect, { fromJS }) => () => {
+const describeInitialize = (reducer, expect, {fromJS}) => () => {
   it('should set initialize values on initialize on empty state', () => {
     const state = reducer(
       undefined,
-      initialize('foo', { myField: 'initialValue' })
+      initialize('foo', {myField: 'initialValue'})
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'initialValue'
+          myField: 'initialValue',
         },
         initial: {
-          myField: 'initialValue'
-        }
-      }
+          myField: 'initialValue',
+        },
+      },
     })
   })
 
   it('should allow initializing null values', () => {
-    const state = reducer(
-      undefined,
-      initialize('foo', { bar: 'baz', dog: null })
-    )
+    const state = reducer(undefined, initialize('foo', {bar: 'baz', dog: null}))
     expect(state).toEqualMap({
       foo: {
         values: {
           bar: 'baz',
-          dog: null
+          dog: null,
         },
         initial: {
           bar: 'baz',
-          dog: null
-        }
-      }
+          dog: null,
+        },
+      },
     })
   })
 
   it('should initialize nested values on initialize on empty state', () => {
     const state = reducer(
       undefined,
-      initialize('foo', { myField: { subField: 'initialValue' } })
+      initialize('foo', {myField: {subField: 'initialValue'}})
     )
     expect(state).toEqualMap({
       foo: {
         values: {
           myField: {
-            subField: 'initialValue'
-          }
+            subField: 'initialValue',
+          },
         },
         initial: {
           myField: {
-            subField: 'initialValue'
-          }
-        }
-      }
+            subField: 'initialValue',
+          },
+        },
+      },
     })
   })
 
   it('should initialize array values on initialize on empty state', () => {
     const state = reducer(
       undefined,
-      initialize('foo', { myField: ['initialValue'] })
+      initialize('foo', {myField: ['initialValue']})
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: ['initialValue']
+          myField: ['initialValue'],
         },
         initial: {
-          myField: ['initialValue']
-        }
-      }
+          myField: ['initialValue'],
+        },
+      },
     })
   })
 
@@ -82,13 +79,13 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
         accounts: [
           {
             name: 'Bobby Tables',
-            email: 'bobby@gmail.com'
+            email: 'bobby@gmail.com',
           },
           {
             name: 'Sammy Tables',
-            email: 'sammy@gmail.com'
-          }
-        ]
+            email: 'sammy@gmail.com',
+          },
+        ],
       })
     )
     expect(state).toEqualMap({
@@ -97,27 +94,27 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
           accounts: [
             {
               name: 'Bobby Tables',
-              email: 'bobby@gmail.com'
+              email: 'bobby@gmail.com',
             },
             {
               name: 'Sammy Tables',
-              email: 'sammy@gmail.com'
-            }
-          ]
+              email: 'sammy@gmail.com',
+            },
+          ],
         },
         initial: {
           accounts: [
             {
               name: 'Bobby Tables',
-              email: 'bobby@gmail.com'
+              email: 'bobby@gmail.com',
             },
             {
               name: 'Sammy Tables',
-              email: 'sammy@gmail.com'
-            }
-          ]
-        }
-      }
+              email: 'sammy@gmail.com',
+            },
+          ],
+        },
+      },
     })
   })
 
@@ -126,26 +123,26 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'dirtyValue'
+            myField: 'dirtyValue',
           },
           fields: {
             myField: {
-              touched: true
-            }
-          }
-        }
+              touched: true,
+            },
+          },
+        },
       }),
-      initialize('foo', { myField: 'cleanValue' })
+      initialize('foo', {myField: 'cleanValue'})
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'cleanValue'
+          myField: 'cleanValue',
         },
         initial: {
-          myField: 'cleanValue'
-        }
-      }
+          myField: 'cleanValue',
+        },
+      },
     })
   })
 
@@ -154,36 +151,36 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            username: { name: 'username', type: 'Field', count: 1 },
-            password: { name: 'password', type: 'Field', count: 1 }
+            username: {name: 'username', type: 'Field', count: 1},
+            password: {name: 'password', type: 'Field', count: 1},
           },
           values: {
-            username: 'dirtyValue'
+            username: 'dirtyValue',
           },
           fields: {
             username: {
-              touched: true
-            }
-          }
-        }
+              touched: true,
+            },
+          },
+        },
       }),
-      initialize('foo', { username: 'cleanValue', password: 'cleanPassword' })
+      initialize('foo', {username: 'cleanValue', password: 'cleanPassword'})
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          username: { name: 'username', type: 'Field', count: 1 },
-          password: { name: 'password', type: 'Field', count: 1 }
+          username: {name: 'username', type: 'Field', count: 1},
+          password: {name: 'password', type: 'Field', count: 1},
         },
         values: {
           username: 'cleanValue',
-          password: 'cleanPassword'
+          password: 'cleanPassword',
         },
         initial: {
           username: 'cleanValue',
-          password: 'cleanPassword'
-        }
-      }
+          password: 'cleanPassword',
+        },
+      },
     })
   })
 
@@ -191,16 +188,16 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          submitSucceeded: true
-        }
+          submitSucceeded: true,
+        },
       }),
       initialize('foo', {})
     )
     expect(state).toEqualMap({
       foo: {
         values: {},
-        initial: {}
-      }
+        initial: {},
+      },
     })
   })
 
@@ -208,17 +205,17 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          submitSucceeded: true
-        }
+          submitSucceeded: true,
+        },
       }),
-      initialize('foo', {}, { keepSubmitSucceeded: true })
+      initialize('foo', {}, {keepSubmitSucceeded: true})
     )
     expect(state).toEqualMap({
       foo: {
         values: {},
         initial: {},
-        submitSucceeded: true
-      }
+        submitSucceeded: true,
+      },
     })
   })
 
@@ -227,30 +224,30 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: { name: 'myField', type: 'Field', count: 1 }
+            myField: {name: 'myField', type: 'Field', count: 1},
           },
           values: {
-            myField: 'dirtyValue'
+            myField: 'dirtyValue',
           },
           initial: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
-      initialize('foo', { myField: 'newValue' }, true)
+      initialize('foo', {myField: 'newValue'}, true)
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: { name: 'myField', type: 'Field', count: 1 }
+          myField: {name: 'myField', type: 'Field', count: 1},
         },
         values: {
-          myField: 'dirtyValue'
+          myField: 'dirtyValue',
         },
         initial: {
-          myField: 'newValue'
-        }
-      }
+          myField: 'newValue',
+        },
+      },
     })
   })
 
@@ -259,30 +256,30 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: { name: 'myField', type: 'Field', count: 1 }
+            myField: {name: 'myField', type: 'Field', count: 1},
           },
           values: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           initial: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
-      initialize('foo', { myField: 'newValue' }, true)
+      initialize('foo', {myField: 'newValue'}, true)
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: { name: 'myField', type: 'Field', count: 1 }
+          myField: {name: 'myField', type: 'Field', count: 1},
         },
         values: {
-          myField: 'newValue'
+          myField: 'newValue',
         },
         initial: {
-          myField: 'newValue'
-        }
-      }
+          myField: 'newValue',
+        },
+      },
     })
   })
 
@@ -291,30 +288,30 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: { name: 'myField', type: 'Field', count: 1 }
+            myField: {name: 'myField', type: 'Field', count: 1},
           },
           values: {
-            myField: 'newValue'
+            myField: 'newValue',
           },
           initial: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
-      initialize('foo', { myField: 'newValue' }, true)
+      initialize('foo', {myField: 'newValue'}, true)
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: { name: 'myField', type: 'Field', count: 1 }
+          myField: {name: 'myField', type: 'Field', count: 1},
         },
         values: {
-          myField: 'newValue'
+          myField: 'newValue',
         },
         initial: {
-          myField: 'newValue'
-        }
-      }
+          myField: 'newValue',
+        },
+      },
     })
   })
 
@@ -323,30 +320,30 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: { name: 'myField', type: 'Field', count: 1 }
+            myField: {name: 'myField', type: 'Field', count: 1},
           },
           values: {
-            myField: 'dirtyValue'
+            myField: 'dirtyValue',
           },
           initial: {
-            myField: 'initialValue'
-          }
-        }
+            myField: 'initialValue',
+          },
+        },
       }),
-      initialize('foo', { myField: 'newValue' }, { keepDirty: true })
+      initialize('foo', {myField: 'newValue'}, {keepDirty: true})
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: { name: 'myField', type: 'Field', count: 1 }
+          myField: {name: 'myField', type: 'Field', count: 1},
         },
         values: {
-          myField: 'dirtyValue'
+          myField: 'dirtyValue',
         },
         initial: {
-          myField: 'newValue'
-        }
-      }
+          myField: 'newValue',
+        },
+      },
     })
   })
 
@@ -354,35 +351,35 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: [{ name: 'myField', type: 'Field' }],
+          registeredFields: [{name: 'myField', type: 'Field'}],
           values: {
-            myField: 'newValue'
+            myField: 'newValue',
           },
           initial: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           warning: 'form wide warning',
           syncWarnings: {
-            myField: 'field warning'
-          }
-        }
+            myField: 'field warning',
+          },
+        },
       }),
-      initialize('foo', { myField: 'newValue' }, true)
+      initialize('foo', {myField: 'newValue'}, true)
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: [{ name: 'myField', type: 'Field' }],
+        registeredFields: [{name: 'myField', type: 'Field'}],
         values: {
-          myField: 'newValue'
+          myField: 'newValue',
         },
         initial: {
-          myField: 'newValue'
+          myField: 'newValue',
         },
         warning: 'form wide warning',
         syncWarnings: {
-          myField: 'field warning'
-        }
-      }
+          myField: 'field warning',
+        },
+      },
     })
   })
 
@@ -390,35 +387,35 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: [{ name: 'myField', type: 'Field' }],
+          registeredFields: [{name: 'myField', type: 'Field'}],
           values: {
-            myField: 'newValue'
+            myField: 'newValue',
           },
           initial: {
-            myField: 'initialValue'
+            myField: 'initialValue',
           },
           error: 'form wide error',
           syncErrors: {
-            myField: 'field error'
-          }
-        }
+            myField: 'field error',
+          },
+        },
       }),
-      initialize('foo', { myField: 'newValue' }, true)
+      initialize('foo', {myField: 'newValue'}, true)
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: [{ name: 'myField', type: 'Field' }],
+        registeredFields: [{name: 'myField', type: 'Field'}],
         values: {
-          myField: 'newValue'
+          myField: 'newValue',
         },
         initial: {
-          myField: 'newValue'
+          myField: 'newValue',
         },
         error: 'form wide error',
         syncErrors: {
-          myField: 'field error'
-        }
-      }
+          myField: 'field error',
+        },
+      },
     })
   })
 }

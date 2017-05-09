@@ -9,7 +9,7 @@ const getErrorKeys = (name, type) => {
   }
 }
 
-const createHasError = ({ getIn }) => {
+const createHasError = ({getIn}) => {
   const hasError = (field, syncErrors, asyncErrors, submitErrors) => {
     if (!syncErrors && !asyncErrors && !submitErrors) {
       return false

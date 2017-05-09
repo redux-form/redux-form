@@ -1,11 +1,11 @@
-import { toPath } from 'lodash'
+import {toPath} from 'lodash'
 
 const createDeleteInWithCleanUp = ({
   deepEqual,
   empty,
   getIn,
   deleteIn,
-  setIn
+  setIn,
 }) => {
   const deleteInWithCleanUp = (state, path) => {
     if (path[path.length - 1] === ']') {

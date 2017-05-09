@@ -1,13 +1,13 @@
-import expect, { createSpy } from 'expect'
+import expect, {createSpy} from 'expect'
 import onChangeValue from '../onChangeValue'
-import { valueMock } from '../../util/eventMocks'
+import {valueMock} from '../../util/eventMocks'
 
 const name = 'sampleField'
 
 describe('onChangeValue', () => {
   it('should parse the value before returning', () => {
     const parse = createSpy(value => `parsed-${value}`).andCallThrough()
-    const value = onChangeValue(valueMock('bar'), { name, parse })
+    const value = onChangeValue(valueMock('bar'), {name, parse})
     expect(parse).toHaveBeenCalled().toHaveBeenCalledWith('bar', name)
     expect(value).toBe('parsed-bar')
   })
@@ -16,7 +16,7 @@ describe('onChangeValue', () => {
     const normalize = createSpy(
       (_, value) => `normalized-${value}`
     ).andCallThrough()
-    const value = onChangeValue(valueMock('bar'), { name, normalize })
+    const value = onChangeValue(valueMock('bar'), {name, normalize})
     expect(normalize).toHaveBeenCalled().toHaveBeenCalledWith(name, 'bar')
     expect(value).toBe('normalized-bar')
   })
@@ -26,7 +26,7 @@ describe('onChangeValue', () => {
     const normalize = createSpy(
       (_, value) => `normalized-${value}`
     ).andCallThrough()
-    const value = onChangeValue(valueMock('bar'), { name, normalize, parse })
+    const value = onChangeValue(valueMock('bar'), {name, normalize, parse})
     expect(parse).toHaveBeenCalled().toHaveBeenCalledWith('bar', name)
     expect(normalize)
       .toHaveBeenCalled()

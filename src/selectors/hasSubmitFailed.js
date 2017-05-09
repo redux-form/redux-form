@@ -1,4 +1,4 @@
-const createHasSubmitFailed = ({ getIn }) => (
+const createHasSubmitFailed = ({getIn}) => (
   form,
   getFormState = state => getIn(state, 'form')
 ) => state => {

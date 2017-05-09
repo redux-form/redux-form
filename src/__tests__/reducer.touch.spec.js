@@ -1,15 +1,15 @@
-import { touch } from '../actions'
+import {touch} from '../actions'
 
-const describeTouch = (reducer, expect, { fromJS }) => () => {
+const describeTouch = (reducer, expect, {fromJS}) => () => {
   it('should mark fields as touched on touch', () => {
     const state = reducer(
       fromJS({
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue'
-          }
-        }
+            myOtherField: 'otherValue',
+          },
+        },
       }),
       touch('foo', 'myField', 'myOtherField')
     )
@@ -18,17 +18,17 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
         anyTouched: true,
         values: {
           myField: 'value',
-          myOtherField: 'otherValue'
+          myOtherField: 'otherValue',
         },
         fields: {
           myField: {
-            touched: true
+            touched: true,
           },
           myOtherField: {
-            touched: true
-          }
-        }
-      }
+            touched: true,
+          },
+        },
+      },
     })
   })
 
@@ -39,10 +39,10 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
           values: {
             deep: {
               myField: 'value',
-              myOtherField: 'otherValue'
-            }
-          }
-        }
+              myOtherField: 'otherValue',
+            },
+          },
+        },
       }),
       touch('foo', 'deep.myField', 'deep.myOtherField')
     )
@@ -52,20 +52,20 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
         values: {
           deep: {
             myField: 'value',
-            myOtherField: 'otherValue'
-          }
+            myOtherField: 'otherValue',
+          },
         },
         fields: {
           deep: {
             myField: {
-              touched: true
+              touched: true,
             },
             myOtherField: {
-              touched: true
-            }
-          }
-        }
-      }
+              touched: true,
+            },
+          },
+        },
+      },
     })
   })
 
@@ -74,9 +74,9 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
       fromJS({
         foo: {
           values: {
-            myFields: ['value', 'otherValue']
-          }
-        }
+            myFields: ['value', 'otherValue'],
+          },
+        },
       }),
       touch('foo', 'myFields[0]', 'myFields[1]')
     )
@@ -84,19 +84,19 @@ const describeTouch = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myFields: ['value', 'otherValue']
+          myFields: ['value', 'otherValue'],
         },
         fields: {
           myFields: [
             {
-              touched: true
+              touched: true,
             },
             {
-              touched: true
-            }
-          ]
-        }
-      }
+              touched: true,
+            },
+          ],
+        },
+      },
     })
   })
 }

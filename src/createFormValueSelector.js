@@ -1,7 +1,7 @@
 import invariant from 'invariant'
 import plain from './structure/plain'
 
-const createFormValueSelector = ({ getIn }) => (
+const createFormValueSelector = ({getIn}) => (
   form,
   getFormState = state => getIn(state, 'form')
 ) => {

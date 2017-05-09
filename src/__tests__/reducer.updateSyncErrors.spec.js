@@ -1,19 +1,19 @@
-import { updateSyncErrors } from '../actions'
+import {updateSyncErrors} from '../actions'
 
-const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
+const describeUpdateSyncErrors = (reducer, expect, {fromJS, setIn}) => () => {
   it('should update sync errors', () => {
     const state = reducer(
       fromJS({
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue'
-          }
-        }
+            myOtherField: 'otherValue',
+          },
+        },
       }),
       updateSyncErrors('foo', {
         myField: 'myField error',
-        myOtherField: 'myOtherField error'
+        myOtherField: 'myOtherField error',
       })
     )
     expect(state).toEqual(
@@ -22,14 +22,14 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: 'value',
-              myOtherField: 'otherValue'
-            }
-          }
+              myOtherField: 'otherValue',
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: 'myField error',
-          myOtherField: 'myOtherField error'
+          myOtherField: 'myOtherField error',
         }
       )
     )
@@ -41,14 +41,14 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue'
-          }
-        }
+            myOtherField: 'otherValue',
+          },
+        },
       }),
       updateSyncErrors(
         'foo',
         {
-          myField: 'myField error'
+          myField: 'myField error',
         },
         'form wide error'
       )
@@ -59,15 +59,15 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: 'value',
-              myOtherField: 'otherValue'
+              myOtherField: 'otherValue',
             },
             syncError: true,
-            error: 'form wide error'
-          }
+            error: 'form wide error',
+          },
         }),
         'foo.syncErrors',
         {
-          myField: 'myField error'
+          myField: 'myField error',
         }
       )
     )
@@ -79,13 +79,13 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue'
-          }
-        }
+            myOtherField: 'otherValue',
+          },
+        },
       }),
       updateSyncErrors('foo', {
-        myField: { complex: true, text: 'myField error' },
-        myOtherField: { complex: true, text: 'myOtherField error' }
+        myField: {complex: true, text: 'myField error'},
+        myOtherField: {complex: true, text: 'myOtherField error'},
       })
     )
     expect(state).toEqual(
@@ -94,14 +94,14 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: 'value',
-              myOtherField: 'otherValue'
-            }
-          }
+              myOtherField: 'otherValue',
+            },
+          },
         }),
         'foo.syncErrors',
         {
-          myField: { complex: true, text: 'myField error' },
-          myOtherField: { complex: true, text: 'myOtherField error' }
+          myField: {complex: true, text: 'myField error'},
+          myOtherField: {complex: true, text: 'myOtherField error'},
         }
       )
     )
@@ -114,14 +114,14 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: 'value',
-              myOtherField: 'otherValue'
-            }
-          }
+              myOtherField: 'otherValue',
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: 'myField error',
-          myOtherField: 'myOtherField error'
+          myOtherField: 'myOtherField error',
         }
       ),
       updateSyncErrors('foo', {})
@@ -130,9 +130,9 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: 'value',
-          myOtherField: 'otherValue'
-        }
-      }
+          myOtherField: 'otherValue',
+        },
+      },
     })
   })
 }

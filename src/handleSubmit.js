@@ -13,7 +13,7 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
     syncErrors,
     touch,
     values,
-    persistentSubmitErrors
+    persistentSubmitErrors,
   } = props
 
   touch(...fields) // mark all fields as touched

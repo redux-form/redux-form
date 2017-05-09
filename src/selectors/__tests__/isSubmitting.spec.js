@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeIsSubmitting = (name, structure, expect) => {
   const isSubmitting = createIsSubmitting(structure)
 
-  const { fromJS, getIn } = structure
+  const {fromJS, getIn} = structure
 
   describe(name, () => {
     it('should return a function XXX', () => {
@@ -19,7 +19,7 @@ const describeIsSubmitting = (name, structure, expect) => {
       expect(
         isSubmitting('foo')(
           fromJS({
-            form: {}
+            form: {},
           })
         )
       ).toBe(false)
@@ -31,9 +31,9 @@ const describeIsSubmitting = (name, structure, expect) => {
           fromJS({
             form: {
               foo: {
-                submitting: true
-              }
-            }
+                submitting: true,
+              },
+            },
           })
         )
       ).toBe(true)
@@ -45,9 +45,9 @@ const describeIsSubmitting = (name, structure, expect) => {
           fromJS({
             someOtherSlice: {
               foo: {
-                submitting: true
-              }
-            }
+                submitting: true,
+              },
+            },
           })
         )
       ).toBe(true)

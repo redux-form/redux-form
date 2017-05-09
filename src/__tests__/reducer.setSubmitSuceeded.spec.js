@@ -1,13 +1,13 @@
-import { setSubmitSucceeded } from '../actions'
+import {setSubmitSucceeded} from '../actions'
 
-const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
+const describeSetSubmitSucceeded = (reducer, expect, {fromJS}) => () => {
   it('should set submitSucceeded flag on submitSucceeded', () => {
     const state = reducer(
       fromJS({
         foo: {
           doesnt: 'matter',
-          should: 'change'
-        }
+          should: 'change',
+        },
       }),
       setSubmitSucceeded('foo')
     )
@@ -15,8 +15,8 @@ const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
       foo: {
         doesnt: 'matter',
         should: 'change',
-        submitSucceeded: true
-      }
+        submitSucceeded: true,
+      },
     })
   })
 
@@ -26,8 +26,8 @@ const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
         foo: {
           doesnt: 'matter',
           should: 'change',
-          submitting: true
-        }
+          submitting: true,
+        },
       }),
       setSubmitSucceeded('foo')
     )
@@ -36,8 +36,8 @@ const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
         doesnt: 'matter',
         should: 'change',
         submitSucceeded: true,
-        submitting: true
-      }
+        submitting: true,
+      },
     })
   })
 
@@ -48,8 +48,8 @@ const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
           doesnt: 'matter',
           should: 'notchange',
           submitting: true,
-          submitFailed: true
-        }
+          submitFailed: true,
+        },
       }),
       setSubmitSucceeded('foo')
     )
@@ -58,8 +58,8 @@ const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
         doesnt: 'matter',
         should: 'notchange',
         submitSucceeded: true,
-        submitting: true
-      }
+        submitting: true,
+      },
     })
   })
 }

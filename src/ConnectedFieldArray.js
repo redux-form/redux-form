@@ -1,14 +1,14 @@
-import { Component, createElement } from 'react'
+import {Component, createElement} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
-import { mapValues } from 'lodash'
+import {mapValues} from 'lodash'
 import plain from './structure/plain'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
-const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
+const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
   const getSyncError = (syncErrors, name) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
@@ -108,16 +108,16 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
   ConnectedFieldArray.propTypes = {
     component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
       .isRequired,
-    props: PropTypes.object
+    props: PropTypes.object,
   }
 
   ConnectedFieldArray.contextTypes = {
-    _reduxForm: PropTypes.object
+    _reduxForm: PropTypes.object,
   }
 
   const connector = connect(
     (state, ownProps) => {
-      const { name, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {name, _reduxForm: {initialValues, getFormState}} = ownProps
       const formState = getFormState(state)
       const initial =
         getIn(formState, `initial.${name}`) ||
@@ -138,11 +138,11 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         syncError,
         syncWarning,
         value,
-        length: size(value)
+        length: size(value),
       }
     },
     (dispatch, ownProps) => {
-      const { name, _reduxForm } = ownProps
+      const {name, _reduxForm} = ownProps
       const {
         arrayInsert,
         arrayMove,
@@ -153,7 +153,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         arrayShift,
         arraySplice,
         arraySwap,
-        arrayUnshift
+        arrayUnshift,
       } = _reduxForm
       return mapValues(
         {
@@ -166,14 +166,14 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
           arrayShift,
           arraySplice,
           arraySwap,
-          arrayUnshift
+          arrayUnshift,
         },
         actionCreator =>
           bindActionCreators(actionCreator.bind(null, name), dispatch)
       )
     },
     undefined,
-    { withRef: true }
+    {withRef: true}
   )
   return connector(ConnectedFieldArray)
 }

@@ -1,26 +1,26 @@
-import { arrayRemove } from '../actions'
+import {arrayRemove} from '../actions'
 
-const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
+const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
   it('should remove from beginning', () => {
     const state = reducer(
       fromJS({
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
-          }
-        }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 0)
     )
@@ -28,19 +28,19 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['b', 'c', 'd']
-          }
+            subField: ['b', 'c', 'd'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
-        }
-      }
+              {touched: true},
+              {touched: true, visited: true},
+              {touched: true},
+            ],
+          },
+        },
+      },
     })
   })
 
@@ -50,20 +50,20 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
-          }
-        }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 3)
     )
@@ -71,19 +71,19 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'b', 'c']
-          }
+            subField: ['a', 'b', 'c'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true, visited: true },
-              { touched: true },
-              { touched: true, visited: true }
-            ]
-          }
-        }
-      }
+              {touched: true, visited: true},
+              {touched: true},
+              {touched: true, visited: true},
+            ],
+          },
+        },
+      },
     })
   })
 
@@ -93,20 +93,20 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
-          }
-        }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 1)
     )
@@ -114,19 +114,19 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'c', 'd']
-          }
+            subField: ['a', 'c', 'd'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true, visited: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
-        }
-      }
+              {touched: true, visited: true},
+              {touched: true, visited: true},
+              {touched: true},
+            ],
+          },
+        },
+      },
     })
   })
 
@@ -137,26 +137,26 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: {
-                subField: ['a', 'b', 'c', 'd']
-              }
+                subField: ['a', 'b', 'c', 'd'],
+              },
             },
             fields: {
               myField: {
                 subField: [
-                  { touched: true, visited: true },
-                  { touched: true },
-                  { touched: true, visited: true },
-                  { touched: true }
-                ]
-              }
-            }
-          }
+                  {touched: true, visited: true},
+                  {touched: true},
+                  {touched: true, visited: true},
+                  {touched: true},
+                ],
+              },
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: {
-            subField: ['error 0', 'error 1', 'error 2', 'error 3']
-          }
+            subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+          },
         }
       ),
       arrayRemove('foo', 'myField.subField', 0)
@@ -167,25 +167,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: {
-                subField: ['b', 'c', 'd']
-              }
+                subField: ['b', 'c', 'd'],
+              },
             },
             fields: {
               myField: {
                 subField: [
-                  { touched: true },
-                  { touched: true, visited: true },
-                  { touched: true }
-                ]
-              }
-            }
-          }
+                  {touched: true},
+                  {touched: true, visited: true},
+                  {touched: true},
+                ],
+              },
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: {
-            subField: ['error 1', 'error 2', 'error 3']
-          }
+            subField: ['error 1', 'error 2', 'error 3'],
+          },
         }
       )
     )
@@ -198,26 +198,26 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: {
-                subField: ['a', 'b', 'c', 'd']
-              }
+                subField: ['a', 'b', 'c', 'd'],
+              },
             },
             fields: {
               myField: {
                 subField: [
-                  { touched: true, visited: true },
-                  { touched: true },
-                  { touched: true, visited: true },
-                  { touched: true }
-                ]
-              }
-            }
-          }
+                  {touched: true, visited: true},
+                  {touched: true},
+                  {touched: true, visited: true},
+                  {touched: true},
+                ],
+              },
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: {
-            subField: ['error 0', 'error 1', 'error 2', 'error 3']
-          }
+            subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+          },
         }
       ),
       arrayRemove('foo', 'myField.subField', 3)
@@ -228,25 +228,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: {
-                subField: ['a', 'b', 'c']
-              }
+                subField: ['a', 'b', 'c'],
+              },
             },
             fields: {
               myField: {
                 subField: [
-                  { touched: true, visited: true },
-                  { touched: true },
-                  { touched: true, visited: true }
-                ]
-              }
-            }
-          }
+                  {touched: true, visited: true},
+                  {touched: true},
+                  {touched: true, visited: true},
+                ],
+              },
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: {
-            subField: ['error 0', 'error 1', 'error 2']
-          }
+            subField: ['error 0', 'error 1', 'error 2'],
+          },
         }
       )
     )
@@ -259,26 +259,26 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: {
-                subField: ['a', 'b', 'c', 'd']
-              }
+                subField: ['a', 'b', 'c', 'd'],
+              },
             },
             fields: {
               myField: {
                 subField: [
-                  { touched: true, visited: true },
-                  { touched: true },
-                  { touched: true, visited: true },
-                  { touched: true }
-                ]
-              }
-            }
-          }
+                  {touched: true, visited: true},
+                  {touched: true},
+                  {touched: true, visited: true},
+                  {touched: true},
+                ],
+              },
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: {
-            subField: ['error 0', 'error 1', 'error 2', 'error 3']
-          }
+            subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+          },
         }
       ),
       arrayRemove('foo', 'myField.subField', 1)
@@ -289,25 +289,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
           foo: {
             values: {
               myField: {
-                subField: ['a', 'c', 'd']
-              }
+                subField: ['a', 'c', 'd'],
+              },
             },
             fields: {
               myField: {
                 subField: [
-                  { touched: true, visited: true },
-                  { touched: true, visited: true },
-                  { touched: true }
-                ]
-              }
-            }
-          }
+                  {touched: true, visited: true},
+                  {touched: true, visited: true},
+                  {touched: true},
+                ],
+              },
+            },
+          },
         }),
         'foo.syncErrors',
         {
           myField: {
-            subField: ['error 0', 'error 2', 'error 3']
-          }
+            subField: ['error 0', 'error 2', 'error 3'],
+          },
         }
       )
     )
@@ -319,25 +319,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
           },
           asyncErrors: {
             myField: {
-              subField: ['error 0', 'error 1', 'error 2', 'error 3']
-            }
-          }
-        }
+              subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 0)
     )
@@ -345,24 +345,24 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['b', 'c', 'd']
-          }
+            subField: ['b', 'c', 'd'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
+              {touched: true},
+              {touched: true, visited: true},
+              {touched: true},
+            ],
+          },
         },
         asyncErrors: {
           myField: {
-            subField: ['error 1', 'error 2', 'error 3']
-          }
-        }
-      }
+            subField: ['error 1', 'error 2', 'error 3'],
+          },
+        },
+      },
     })
   })
 
@@ -372,25 +372,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
           },
           asyncErrors: {
             myField: {
-              subField: ['error 0', 'error 1', 'error 2', 'error 3']
-            }
-          }
-        }
+              subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 3)
     )
@@ -398,24 +398,24 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'b', 'c']
-          }
+            subField: ['a', 'b', 'c'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true, visited: true },
-              { touched: true },
-              { touched: true, visited: true }
-            ]
-          }
+              {touched: true, visited: true},
+              {touched: true},
+              {touched: true, visited: true},
+            ],
+          },
         },
         asyncErrors: {
           myField: {
-            subField: ['error 0', 'error 1', 'error 2']
-          }
-        }
-      }
+            subField: ['error 0', 'error 1', 'error 2'],
+          },
+        },
+      },
     })
   })
 
@@ -425,25 +425,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
           },
           asyncErrors: {
             myField: {
-              subField: ['error 0', 'error 1', 'error 2', 'error 3']
-            }
-          }
-        }
+              subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 1)
     )
@@ -451,24 +451,24 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'c', 'd']
-          }
+            subField: ['a', 'c', 'd'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true, visited: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
+              {touched: true, visited: true},
+              {touched: true, visited: true},
+              {touched: true},
+            ],
+          },
         },
         asyncErrors: {
           myField: {
-            subField: ['error 0', 'error 2', 'error 3']
-          }
-        }
-      }
+            subField: ['error 0', 'error 2', 'error 3'],
+          },
+        },
+      },
     })
   })
   it('should remove submit error from beginning', () => {
@@ -477,25 +477,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
           },
           submitErrors: {
             myField: {
-              subField: ['error 0', 'error 1', 'error 2', 'error 3']
-            }
-          }
-        }
+              subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 0)
     )
@@ -503,24 +503,24 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['b', 'c', 'd']
-          }
+            subField: ['b', 'c', 'd'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
+              {touched: true},
+              {touched: true, visited: true},
+              {touched: true},
+            ],
+          },
         },
         submitErrors: {
           myField: {
-            subField: ['error 1', 'error 2', 'error 3']
-          }
-        }
-      }
+            subField: ['error 1', 'error 2', 'error 3'],
+          },
+        },
+      },
     })
   })
 
@@ -530,25 +530,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
           },
           submitErrors: {
             myField: {
-              subField: ['error 0', 'error 1', 'error 2', 'error 3']
-            }
-          }
-        }
+              subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 3)
     )
@@ -556,24 +556,24 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'b', 'c']
-          }
+            subField: ['a', 'b', 'c'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true, visited: true },
-              { touched: true },
-              { touched: true, visited: true }
-            ]
-          }
+              {touched: true, visited: true},
+              {touched: true},
+              {touched: true, visited: true},
+            ],
+          },
         },
         submitErrors: {
           myField: {
-            subField: ['error 0', 'error 1', 'error 2']
-          }
-        }
-      }
+            subField: ['error 0', 'error 1', 'error 2'],
+          },
+        },
+      },
     })
   })
 
@@ -583,25 +583,25 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd']
-            }
+              subField: ['a', 'b', 'c', 'd'],
+            },
           },
           fields: {
             myField: {
               subField: [
-                { touched: true, visited: true },
-                { touched: true },
-                { touched: true, visited: true },
-                { touched: true }
-              ]
-            }
+                {touched: true, visited: true},
+                {touched: true},
+                {touched: true, visited: true},
+                {touched: true},
+              ],
+            },
           },
           submitErrors: {
             myField: {
-              subField: ['error 0', 'error 1', 'error 2', 'error 3']
-            }
-          }
-        }
+              subField: ['error 0', 'error 1', 'error 2', 'error 3'],
+            },
+          },
+        },
       }),
       arrayRemove('foo', 'myField.subField', 1)
     )
@@ -609,24 +609,24 @@ const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'c', 'd']
-          }
+            subField: ['a', 'c', 'd'],
+          },
         },
         fields: {
           myField: {
             subField: [
-              { touched: true, visited: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
+              {touched: true, visited: true},
+              {touched: true, visited: true},
+              {touched: true},
+            ],
+          },
         },
         submitErrors: {
           myField: {
-            subField: ['error 0', 'error 2', 'error 3']
-          }
-        }
-      }
+            subField: ['error 0', 'error 2', 'error 3'],
+          },
+        },
+      },
     })
   })
 }

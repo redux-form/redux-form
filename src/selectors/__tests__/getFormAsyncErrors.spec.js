@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeGetFormAsyncErrors = (name, structure, expect) => {
   const getFormAsyncErrors = createGetFormAsyncErrors(structure)
 
-  const { fromJS, getIn } = structure
+  const {fromJS, getIn} = structure
 
   describe(name, () => {
     it('should return a function', () => {
@@ -23,15 +23,15 @@ const describeGetFormAsyncErrors = (name, structure, expect) => {
               foo: {
                 asyncErrors: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
-                }
-              }
-            }
+                  cat: 'Garfield',
+                },
+              },
+            },
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield'
+        cat: 'Garfield',
       })
     })
 
@@ -40,8 +40,8 @@ const describeGetFormAsyncErrors = (name, structure, expect) => {
         getFormAsyncErrors('foo')(
           fromJS({
             form: {
-              foo: {}
-            }
+              foo: {},
+            },
           })
         )
       ).toEqual(undefined)
@@ -55,15 +55,15 @@ const describeGetFormAsyncErrors = (name, structure, expect) => {
               foo: {
                 asyncErrors: {
                   dog: 'Snoopy',
-                  cat: 'Garfield'
-                }
-              }
-            }
+                  cat: 'Garfield',
+                },
+              },
+            },
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield'
+        cat: 'Garfield',
       })
     })
   })

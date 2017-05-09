@@ -1,7 +1,7 @@
 import getValue from './getValue'
 import isReactNative from '../isReactNative'
 
-const onChangeValue = (event, { name, parse, normalize }) => {
+const onChangeValue = (event, {name, parse, normalize}) => {
   // read value from input
   let value = getValue(event, isReactNative)
 

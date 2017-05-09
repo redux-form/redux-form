@@ -1,11 +1,11 @@
-import { createSpy } from 'expect'
-import { noop } from 'lodash'
+import {createSpy} from 'expect'
+import {noop} from 'lodash'
 /* eslint react/no-multi-comp:0 */
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import TestUtils from 'react-dom/test-utils'
-import { Provider } from 'react-redux'
-import { combineReducers as plainCombineReducers, createStore } from 'redux'
-import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
+import {Provider} from 'react-redux'
+import {combineReducers as plainCombineReducers, createStore} from 'redux'
+import {combineReducers as immutableCombineReducers} from 'redux-immutablejs'
 import {
   change,
   clearSubmit,
@@ -16,7 +16,7 @@ import {
   stopSubmit,
   submit,
   touch,
-  updateSyncErrors
+  updateSyncErrors,
 } from '../actions'
 import createField from '../createField'
 import createFieldArray from '../createFieldArray'
@@ -34,7 +34,7 @@ const propsAtNthRender = (spy, callNumber) => spy.calls[callNumber].arguments[0]
 const propsAtLastRender = spy => propsAtNthRender(spy, spy.calls.length - 1)
 
 const describeReduxForm = (name, structure, combineReducers, expect) => {
-  const { fromJS, getIn, setIn } = structure
+  const {fromJS, getIn, setIn} = structure
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const FieldArray = createFieldArray(structure)
@@ -42,11 +42,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
   describe(name, () => {
     const makeStore = (initial = {}, logger) => {
-      const reducers = { form: reducer }
+      const reducers = {form: reducer}
       if (logger) {
         reducers.logger = logger
       }
-      return createStore(combineReducers(reducers), fromJS({ form: initial }))
+      return createStore(combineReducers(reducers), fromJS({form: initial}))
     }
 
     const makeForm = (renderSpy = noop) => {
@@ -63,8 +63,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     }
 
     const renderForm = (Form, formState, config = {}) => {
-      const store = makeStore({ testForm: formState })
-      const Decorated = reduxForm({ form: 'testForm', ...config })(Form)
+      const store = makeStore({testForm: formState})
+      const Decorated = reduxForm({form: 'testForm', ...config})(Form)
       return TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated />
@@ -90,7 +90,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       }
       expect(() => {
-        const Decorated = reduxForm({ form: 'testForm' })(Form)
+        const Decorated = reduxForm({form: 'testForm'})(Form)
         TestUtils.renderIntoDocument(
           <Provider store={store}>
             <Decorated />
@@ -133,7 +133,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'triggerSubmit',
         'untouch',
         'valid',
-        'warning'
+        'warning',
       ])
       expect(props.anyTouched).toBeA('boolean')
       expect(props.array).toExist().toBeA('object')
@@ -147,7 +147,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'shift',
         'splice',
         'swap',
-        'unshift'
+        'unshift',
       ])
       expect(props.array.insert).toExist().toBeA('function')
       expect(props.array.move).toExist().toBeA('function')
@@ -188,8 +188,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           propChecker({
             // no initial values
             values: {
-              foo: 'bar'
-            }
+              foo: 'bar',
+            },
           }).dirty
         ).toBe(true)
       })
@@ -197,11 +197,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(
           propChecker({
             initial: {
-              foo: 'bar'
+              foo: 'bar',
             },
             values: {
-              foo: 'bar'
-            }
+              foo: 'bar',
+            },
           }).dirty
         ).toBe(false)
       })
@@ -209,11 +209,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(
           propChecker({
             initial: {
-              foo: 'bar'
+              foo: 'bar',
             },
             values: {
-              foo: 'baz'
-            }
+              foo: 'baz',
+            },
           }).dirty
         ).toBe(true)
       })
@@ -228,8 +228,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           propChecker({
             // no initial values
             values: {
-              foo: 'bar'
-            }
+              foo: 'bar',
+            },
           }).pristine
         ).toBe(false)
       })
@@ -237,11 +237,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(
           propChecker({
             initial: {
-              foo: 'bar'
+              foo: 'bar',
             },
             values: {
-              foo: 'bar'
-            }
+              foo: 'bar',
+            },
           }).pristine
         ).toBe(true)
       })
@@ -249,11 +249,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(
           propChecker({
             initial: {
-              foo: 'bar'
+              foo: 'bar',
             },
             values: {
-              foo: 'baz'
-            }
+              foo: 'baz',
+            },
           }).pristine
         ).toBe(false)
       })
@@ -264,14 +264,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         // Check Sync Errors
         expect(
           propChecker({}, undefined, {
-            validate: () => errors
+            validate: () => errors,
           }).valid
         ).toBe(expectation)
 
         // Check Async Errors
         expect(
           propChecker({
-            asyncErrors: errors
+            asyncErrors: errors,
           }).valid
         ).toBe(expectation)
       }
@@ -281,25 +281,25 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       it('should be `false` when `errors` has a `string` property', () => {
-        checkValidPropGivenErrors({ foo: 'bar' }, false)
+        checkValidPropGivenErrors({foo: 'bar'}, false)
       })
 
       it('should be `false` when `errors` has a `number` property', () => {
-        checkValidPropGivenErrors({ foo: 42 }, false)
+        checkValidPropGivenErrors({foo: 42}, false)
       })
 
       it('should be `true` when `errors` has an `undefined` property', () => {
-        checkValidPropGivenErrors({ foo: undefined }, true)
+        checkValidPropGivenErrors({foo: undefined}, true)
       })
 
       it('should be `true` when `errors` has a `null` property', () => {
-        checkValidPropGivenErrors({ foo: null }, true)
+        checkValidPropGivenErrors({foo: null}, true)
       })
 
       it('should be `true` when `errors` has an empty array', () => {
         checkValidPropGivenErrors(
           {
-            myArrayField: []
+            myArrayField: [],
           },
           true
         )
@@ -308,7 +308,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       it('should be `true` when `errors` has an array with only `undefined` values', () => {
         checkValidPropGivenErrors(
           {
-            myArrayField: [undefined, undefined]
+            myArrayField: [undefined, undefined],
           },
           true
         )
@@ -318,7 +318,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         // Note: I didn't write the isValid, but my intuition tells me this seems incorrect. – ncphillips
         checkValidPropGivenErrors(
           {
-            myArrayField: ['baz']
+            myArrayField: ['baz'],
           },
           true
         )
@@ -330,14 +330,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         // Check Sync Errors
         expect(
           propChecker({}, undefined, {
-            validate: () => errors
+            validate: () => errors,
           }).invalid
         ).toBe(expectation)
 
         // Check Async Errors
         expect(
           propChecker({
-            asyncErrors: errors
+            asyncErrors: errors,
           }).invalid
         ).toBe(expectation)
       }
@@ -347,36 +347,36 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       it('should be `true` when errors has a `string` propertry', () => {
-        checkInvalidPropGivenErrors({ foo: 'sync error' }, true)
+        checkInvalidPropGivenErrors({foo: 'sync error'}, true)
       })
 
       it('should be `true` when errors has a `number` property', () => {
-        checkInvalidPropGivenErrors({ foo: 12 }, true)
+        checkInvalidPropGivenErrors({foo: 12}, true)
       })
 
       it('should be `false` when errors has only an `undefined` property', () => {
-        checkInvalidPropGivenErrors({ foo: undefined }, false)
+        checkInvalidPropGivenErrors({foo: undefined}, false)
       })
 
       it('should be `false` when errors has only a `null` property', () => {
-        checkInvalidPropGivenErrors({ foo: null }, false)
+        checkInvalidPropGivenErrors({foo: null}, false)
       })
 
       it('should be `false` when errors has only an empty array', () => {
-        checkInvalidPropGivenErrors({ myArrayField: [] }, false)
+        checkInvalidPropGivenErrors({myArrayField: []}, false)
       })
     })
 
     it('should provide submitting prop', () => {
       expect(propChecker({}).submitting).toBe(false)
-      expect(propChecker({ submitting: true }).submitting).toBe(true)
-      expect(propChecker({ submitting: false }).submitting).toBe(false)
+      expect(propChecker({submitting: true}).submitting).toBe(true)
+      expect(propChecker({submitting: false}).submitting).toBe(false)
     })
 
     it('should put props under prop namespace if specified', () => {
       const props = propChecker({}, noop, {
         propNamespace: 'fooProps',
-        someOtherProp: 'whatever'
+        someOtherProp: 'whatever',
       })
       expect(props.fooProps).toExist().toBeA('object')
       expect(props.dispatch).toNotExist()
@@ -406,11 +406,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should not rerender unless form-wide props (except value!) change', () => {
       const spy = createSpy()
-      const { dispatch } = propChecker({}, spy, {
+      const {dispatch} = propChecker({}, spy, {
         validate: values => {
           const foo = getIn(values, 'foo')
-          return foo && foo.length > 5 ? { foo: 'Too long' } : {}
-        }
+          return foo && foo.length > 5 ? {foo: 'Too long'} : {}
+        },
       }) // render 0
       expect(spy.calls.length).toBe(1)
 
@@ -452,8 +452,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should rerender on every change if pure is false', () => {
       const spy = createSpy()
-      const { dispatch } = propChecker({}, spy, {
-        pure: false
+      const {dispatch} = propChecker({}, spy, {
+        pure: false,
       })
       expect(spy.calls.length).toBe(2) // twice, second one is for after field registration
 
@@ -482,8 +482,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
       class Form extends Component {
         render() {
@@ -495,7 +495,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated initialValues={initialValues} />
@@ -507,10 +507,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
             initial: initialValues,
             values: initialValues,
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+            },
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
@@ -537,8 +537,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
 
       class Form extends Component {
@@ -551,7 +551,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       class Container extends Component {
         constructor(props) {
@@ -565,7 +565,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button onClick={() => this.setState({ initialValues })}>
+              <button onClick={() => this.setState({initialValues})}>
                 Init
               </button>
             </div>
@@ -578,10 +578,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+            },
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -607,12 +607,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues,
-            values: initialValues
-          }
-        }
+            values: initialValues,
+          },
+        },
       })
 
       // no need to rerender form on initialize
@@ -631,13 +631,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
       const initialValues2 = {
         deep: {
-          foo: 'baz'
-        }
+          foo: 'baz',
+        },
       }
 
       class Form extends Component {
@@ -650,12 +650,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { initialValues: initialValues1 }
+          this.state = {initialValues: initialValues1}
         }
 
         render() {
@@ -665,7 +665,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 <Decorated {...this.state} />
               </Provider>
               <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
+                onClick={() => this.setState({initialValues: initialValues2})}
               >
                 Init
               </button>
@@ -679,12 +679,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues1,
-            values: initialValues1
-          }
-        }
+            values: initialValues1,
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
@@ -710,12 +710,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues1,
-            values: initialValues1
-          }
-        }
+            values: initialValues1,
+          },
+        },
       })
 
       // rerender just because prop changed
@@ -733,13 +733,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
       const initialValues2 = {
         deep: {
-          foo: 'baz'
-        }
+          foo: 'baz',
+        },
       }
 
       class Form extends Component {
@@ -754,13 +754,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        enableReinitialize: true
+        enableReinitialize: true,
       })(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { initialValues: initialValues1 }
+          this.state = {initialValues: initialValues1}
         }
 
         render() {
@@ -770,7 +770,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 <Decorated {...this.state} />
               </Provider>
               <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
+                onClick={() => this.setState({initialValues: initialValues2})}
               >
                 Init
               </button>
@@ -797,12 +797,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues1,
-            values: initialValues1
-          }
-        }
+            values: initialValues1,
+          },
+        },
       })
 
       // Expect renders due to initialization.
@@ -845,12 +845,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues2,
-            values: initialValues2
-          }
-        }
+            values: initialValues2,
+          },
+        },
       })
 
       // Expect rerenders due to the re-initialization.
@@ -871,13 +871,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
       const initialValues2 = {
         deep: {
-          foo: 'baz'
-        }
+          foo: 'baz',
+        },
       }
 
       class Form extends Component {
@@ -893,13 +893,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         enableReinitialize: true,
-        keepDirtyOnReinitialize: true
+        keepDirtyOnReinitialize: true,
       })(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { initialValues: initialValues1 }
+          this.state = {initialValues: initialValues1}
         }
 
         render() {
@@ -909,7 +909,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 <Decorated {...this.state} />
               </Provider>
               <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
+                onClick={() => this.setState({initialValues: initialValues2})}
               >
                 Init
               </button>
@@ -923,12 +923,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues1,
-            values: initialValues1
-          }
-        }
+            values: initialValues1,
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
@@ -962,16 +962,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues2,
             values: {
               deep: {
-                foo: 'dirtyvalue'
-              }
-            }
-          }
-        }
+                foo: 'dirtyvalue',
+              },
+            },
+          },
+        },
       })
 
       // Expect the form not to rerender, since the value did not change.
@@ -991,13 +991,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
       const initialValues2 = {
         deep: {
-          foo: 'baz'
-        }
+          foo: 'baz',
+        },
       }
 
       class Form extends Component {
@@ -1012,13 +1012,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        enableReinitialize: true
+        enableReinitialize: true,
       })(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { initialValues: initialValues1 }
+          this.state = {initialValues: initialValues1}
         }
 
         render() {
@@ -1028,7 +1028,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 <Decorated {...this.state} />
               </Provider>
               <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
+                onClick={() => this.setState({initialValues: initialValues2})}
               >
                 Init
               </button>
@@ -1042,12 +1042,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues1,
-            values: initialValues1
-          }
-        }
+            values: initialValues1,
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
@@ -1081,12 +1081,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues2,
-            values: initialValues2
-          }
-        }
+            values: initialValues2,
+          },
+        },
       })
 
       // Expect the form to rerender, since the value was replaced.
@@ -1105,8 +1105,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
 
       class Form extends Component {
@@ -1121,13 +1121,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        enableReinitialize: true
+        enableReinitialize: true,
       })(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { initialValues: initialValues1 }
+          this.state = {initialValues: initialValues1}
         }
 
         render() {
@@ -1158,8 +1158,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       store.dispatch(
         initialize('testForm', {
           deep: {
-            foo: 'baz'
-          }
+            foo: 'baz',
+          },
         })
       )
 
@@ -1176,10 +1176,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should have initialized prop after initialization from initialValues config', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const inputRender = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
-        foo: 'bar'
+        foo: 'bar',
       }
 
       class Form extends Component {
@@ -1187,20 +1189,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           formRender(this.props)
           return (
             <form>
-              <Field name="foo" component={inputRender} type="text"/>
+              <Field name="foo" component={inputRender} type="text" />
             </form>
           )
         }
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        initialValues
+        initialValues,
       })(Form)
 
-
-      TestUtils.renderIntoDocument(<Provider store={store}>
-        <Decorated/>
-      </Provider>)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
 
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2) // initial + after initialize
@@ -1209,10 +1212,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should have initialized prop after initialization from initialize()', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const inputRender = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
-        foo: 'bar'
+        foo: 'bar',
       }
 
       class Form extends Component {
@@ -1220,19 +1225,20 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           formRender(this.props)
           return (
             <form>
-              <Field name="foo" component={inputRender} type="text"/>
+              <Field name="foo" component={inputRender} type="text" />
             </form>
           )
         }
       }
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
-
-      TestUtils.renderIntoDocument(<Provider store={store}>
-        <Decorated/>
-      </Provider>)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
 
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -1254,13 +1260,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
-          foo: 'bar'
-        }
+          foo: 'bar',
+        },
       }
       const initialValues2 = {
         deep: {
-          foo: 'futurevalue'
-        }
+          foo: 'futurevalue',
+        },
       }
 
       class Form extends Component {
@@ -1276,13 +1282,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         enableReinitialize: true,
-        keepDirtyOnReinitialize: true
+        keepDirtyOnReinitialize: true,
       })(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { initialValues: initialValues1 }
+          this.state = {initialValues: initialValues1}
         }
 
         render() {
@@ -1292,7 +1298,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 <Decorated {...this.state} />
               </Provider>
               <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
+                onClick={() => this.setState({initialValues: initialValues2})}
               >
                 Init
               </button>
@@ -1306,12 +1312,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues1,
-            values: initialValues1
-          }
-        }
+            values: initialValues1,
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(2)
@@ -1345,12 +1351,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
             },
             initial: initialValues2,
-            values: initialValues2
-          }
-        }
+            values: initialValues2,
+          },
+        },
       })
 
       // Expect the form to rerender only once more because the value did
@@ -1475,17 +1481,17 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       }
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { showForm: true }
+          this.state = {showForm: true}
         }
 
         render() {
-          const { showForm } = this.state
+          const {showForm} = this.state
           return (
             <div>
               <Provider store={store}>
@@ -1493,7 +1499,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   {showForm && <Decorated {...this.state} />}
                 </div>
               </Provider>
-              <button onClick={() => this.setState({ showForm: !showForm })}>
+              <button onClick={() => this.setState({showForm: !showForm})}>
                 Toggle
               </button>
             </div>
@@ -1507,10 +1513,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           form: {
             testForm: {
               registeredFields: {
-                'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-              }
-            }
-          }
+                'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+              },
+            },
+          },
         },
         'Form data in Redux did not get destroyed'
       )
@@ -1537,14 +1543,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               deep: {
-                foo: 'bob'
-              }
+                foo: 'bob',
+              },
             },
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+            },
+          },
+        },
       })
 
       // unmount form
@@ -1553,7 +1559,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       // check clean state
       expect(store.getState()).toEqualMap({
-        form: {}
+        form: {},
       })
 
       // form still not rendered again
@@ -1589,17 +1595,17 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        destroyOnUnmount: false
+        destroyOnUnmount: false,
       })(Form)
 
       class Container extends Component {
         constructor(props) {
           super(props)
-          this.state = { showForm: true }
+          this.state = {showForm: true}
         }
 
         render() {
-          const { showForm } = this.state
+          const {showForm} = this.state
           return (
             <div>
               <Provider store={store}>
@@ -1607,7 +1613,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   {showForm && <Decorated {...this.state} />}
                 </div>
               </Provider>
-              <button onClick={() => this.setState({ showForm: !showForm })}>
+              <button onClick={() => this.setState({showForm: !showForm})}>
                 Toggle
               </button>
             </div>
@@ -1621,10 +1627,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           form: {
             testForm: {
               registeredFields: {
-                'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-              }
-            }
-          }
+                'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+              },
+            },
+          },
         },
         'Form data in Redux did not get destroyed'
       )
@@ -1651,14 +1657,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               deep: {
-                foo: 'bob'
-              }
+                foo: 'bob',
+              },
             },
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+            },
+          },
+        },
       })
 
       // unmount form
@@ -1671,14 +1677,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               deep: {
-                foo: 'bob'
-              }
+                foo: 'bob',
+              },
             },
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 0 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 0},
+            },
+          },
+        },
       })
 
       // form still not rendered again
@@ -1702,11 +1708,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         constructor() {
           super()
-          this.state = { showBar: false }
+          this.state = {showBar: false}
         }
 
         render() {
-          const { showBar } = this.state
+          const {showBar} = this.state
           return (
             <form>
               {!showBar && <Field name="foo" component="input" type="text" />}
@@ -1723,14 +1729,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   component={noopRender}
                   type="text"
                 />}
-              <button onClick={() => this.setState({ showBar: true })}>
+              <button onClick={() => this.setState({showBar: true})}>
                 Show Bar
               </button>
             </form>
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1755,11 +1761,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         constructor() {
           super()
-          this.state = { showBar: false }
+          this.state = {showBar: false}
         }
 
         render() {
-          const { showBar } = this.state
+          const {showBar} = this.state
           return (
             <form>
               <FormSection name="sec">
@@ -1777,7 +1783,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                     component={noopRender}
                     type="text"
                   />}
-                <button onClick={() => this.setState({ showBar: true })}>
+                <button onClick={() => this.setState({showBar: true})}>
                   Show Bar
                 </button>
               </FormSection>
@@ -1785,7 +1791,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1809,7 +1815,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       class Form extends Component {
         render() {
-          const { handleSubmit } = this.props
+          const {handleSubmit} = this.props
           return (
             <form onSubmit={handleSubmit}>
               <FieldArray name="fooArray" component={noopRender} type="text" />
@@ -1818,7 +1824,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1834,11 +1840,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           testForm: {
             anyTouched: true,
             registeredFields: {
-              fooArray: { name: 'fooArray', type: 'FieldArray', count: 1 }
+              fooArray: {name: 'fooArray', type: 'FieldArray', count: 1},
             },
-            submitSucceeded: true
-          }
-        }
+            submitSucceeded: true,
+          },
+        },
       })
     })
 
@@ -1856,7 +1862,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        validate: values => (getIn(values, 'bar') ? {} : { bar: 'Required' })
+        validate: values => (getIn(values, 'bar') ? {} : {bar: 'Required'}),
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -1882,12 +1888,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(stub.pristine).toBe(false)
       expect(stub.valid).toBe(true)
       expect(stub.invalid).toBe(false)
-      expect(stub.values).toEqualMap({ bar: 'foo' })
+      expect(stub.values).toEqualMap({bar: 'foo'})
     })
 
     it('should mark all fields as touched on submit', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
       const username = createSpy(props => (
         <input {...props.input} type="text" />
@@ -1905,7 +1911,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        onSubmit: () => ({ _error: 'Login Failed' })
+        onSubmit: () => ({_error: 'Login Failed'}),
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -1920,11 +1926,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              username: { name: 'username', type: 'Field', count: 1 },
-              password: { name: 'password', type: 'Field', count: 1 }
-            }
-          }
-        }
+              username: {name: 'username', type: 'Field', count: 1},
+              password: {name: 'password', type: 'Field', count: 1},
+            },
+          },
+        },
       })
 
       expect(username).toHaveBeenCalled()
@@ -1940,21 +1946,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              username: { name: 'username', type: 'Field', count: 1 },
-              password: { name: 'password', type: 'Field', count: 1 }
+              username: {name: 'username', type: 'Field', count: 1},
+              password: {name: 'password', type: 'Field', count: 1},
             },
             anyTouched: true,
             fields: {
               username: {
-                touched: true
+                touched: true,
               },
               password: {
-                touched: true
-              }
+                touched: true,
+              },
             },
-            submitSucceeded: true
-          }
-        }
+            submitSucceeded: true,
+          },
+        },
       })
 
       expect(username.calls.length).toBe(2)
@@ -1966,9 +1972,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call onSubmitFail with errors if sync submit fails by throwing SubmissionError', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
-      const errors = { username: 'Required' }
+      const errors = {username: 'Required'}
       const onSubmitFail = createSpy()
 
       const Form = () => (
@@ -1983,7 +1989,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         onSubmit: () => {
           throw new SubmissionError(errors)
         },
-        onSubmitFail
+        onSubmitFail,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2009,7 +2015,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call onSubmitFail with undefined if sync submit fails by throwing other error', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
       const onSubmitFail = createSpy()
 
@@ -2025,7 +2031,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         onSubmit: () => {
           throw new Error('Some other error')
         },
-        onSubmitFail
+        onSubmitFail,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2051,9 +2057,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call onSubmitFail if async submit fails', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
-      const errors = { username: 'Required' }
+      const errors = {username: 'Required'}
       const onSubmitFail = createSpy()
 
       const Form = () => (
@@ -2066,7 +2072,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         onSubmit: () => Promise.reject(new SubmissionError(errors)),
-        onSubmitFail
+        onSubmitFail,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2092,9 +2098,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call onSubmitFail if sync validation prevents submit', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
-      const errors = { username: 'Required' }
+      const errors = {username: 'Required'}
       const onSubmit = createSpy()
       const onSubmitFail = createSpy()
 
@@ -2109,7 +2115,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: 'testForm',
         onSubmit,
         onSubmitFail,
-        validate: () => errors
+        validate: () => errors,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2136,9 +2142,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call onSubmitFail if async validation prevents submit', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
-      const errors = { username: 'Required' }
+      const errors = {username: 'Required'}
       const onSubmit = createSpy()
       const onSubmitFail = createSpy()
 
@@ -2153,7 +2159,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: 'testForm',
         asyncValidate: () => Promise.reject(errors),
         onSubmit,
-        onSubmitFail
+        onSubmitFail,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2181,9 +2187,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call onSubmitSuccess if sync submit succeeds', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
-      const result = { message: 'Good job!' }
+      const result = {message: 'Good job!'}
       const onSubmitSuccess = createSpy()
 
       const Form = () => (
@@ -2196,7 +2202,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         onSubmit: () => result,
-        onSubmitSuccess
+        onSubmitSuccess,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2222,9 +2228,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call onSubmitSuccess if async submit succeeds', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
-      const result = { message: 'Good job!' }
+      const result = {message: 'Good job!'}
       const onSubmitSuccess = createSpy()
 
       const Form = () => (
@@ -2237,7 +2243,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         onSubmit: () => Promise.resolve(result),
-        onSubmitSuccess
+        onSubmitSuccess,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2263,9 +2269,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should return error thrown by sync onSubmit', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
-      const errors = { username: 'Required' }
+      const errors = {username: 'Required'}
 
       const Form = () => (
         <form>
@@ -2278,7 +2284,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: 'testForm',
         onSubmit: () => {
           throw new SubmissionError(errors)
-        }
+        },
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2300,9 +2306,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -2317,8 +2323,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         onSubmit: values => {
-          expect(values).toEqualMap({ bar: 'foo' })
-        }
+          expect(values).toEqualMap({bar: 'foo'})
+        },
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2340,13 +2346,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
       const submit = createSpy()
 
-      const Form = ({ handleSubmit }) => (
+      const Form = ({handleSubmit}) => (
         <form onSubmit={handleSubmit(submit)}>
           <Field name="bar" component="textarea" />
           <input type="submit" value="Submit" />
@@ -2354,7 +2360,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2374,7 +2380,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should no resubmit if async submit is in progress', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
 
       const Form = () => (
@@ -2393,7 +2399,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        onSubmit: submitSpy
+        onSubmit: submitSpy,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2412,7 +2418,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should delete submit promise when dispatching stopSubmit', () => {
       const store = makeStore({
-        testForm: {}
+        testForm: {},
       })
 
       const Form = () => (
@@ -2431,7 +2437,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        onSubmit: submitSpy
+        onSubmit: submitSpy,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2453,9 +2459,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         anotherForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -2468,7 +2474,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -2495,7 +2501,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        getFormState: () => undefined
+        getFormState: () => undefined,
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -2512,9 +2518,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
 
       const Form = () => (
@@ -2524,7 +2530,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2543,9 +2549,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -2562,8 +2568,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: 'testForm',
         asyncValidate,
         onSubmit: values => {
-          expect(values).toEqualMap({ bar: 'foo' })
-        }
+          expect(values).toEqualMap({bar: 'foo'})
+        },
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2583,16 +2589,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       stub.submit()
 
       expect(asyncValidate).toHaveBeenCalled()
-      expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({ bar: 'foo' })
+      expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({bar: 'foo'})
     })
 
     it('should not call async validation more than once if submit is clicked fast when handleSubmit receives an event', () => {
       const store = makeStore({
         testForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -2601,10 +2607,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         () => new Promise(resolve => setTimeout(resolve, 100))
       ).andCallThrough()
       const onSubmit = values => {
-        expect(values).toEqualMap({ bar: 'foo' })
+        expect(values).toEqualMap({bar: 'foo'})
       }
 
-      const Form = ({ handleSubmit }) => (
+      const Form = ({handleSubmit}) => (
         <form onSubmit={handleSubmit}>
           <Field name="bar" component={input} type="text" />
         </form>
@@ -2613,7 +2619,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         asyncValidate,
-        onSubmit
+        onSubmit,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2637,16 +2643,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(asyncValidate).toHaveBeenCalled()
       expect(asyncValidate.calls.length).toBe(1)
-      expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({ bar: 'foo' })
+      expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({bar: 'foo'})
     })
 
     it('should return rejected promise when submit is rejected', () => {
       const store = makeStore({
         testForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
 
       const Form = () => (
@@ -2657,7 +2663,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        onSubmit: () => Promise.reject(new SubmissionError('Rejection'))
+        onSubmit: () => Promise.reject(new SubmissionError('Rejection')),
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2676,9 +2682,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            bar: 'foo'
-          }
-        }
+            bar: 'foo',
+          },
+        },
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -2687,10 +2693,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         () => new Promise(resolve => setTimeout(resolve, 100))
       ).andCallThrough()
       const onSubmit = values => {
-        expect(values).toEqualMap({ bar: 'foo' })
+        expect(values).toEqualMap({bar: 'foo'})
       }
 
-      const Form = ({ handleSubmit }) => (
+      const Form = ({handleSubmit}) => (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Field name="bar" component={input} type="text" />
         </form>
@@ -2698,7 +2704,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        asyncValidate
+        asyncValidate,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2722,7 +2728,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(asyncValidate).toHaveBeenCalled()
       expect(asyncValidate.calls.length).toBe(1)
-      expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({ bar: 'foo' })
+      expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({bar: 'foo'})
     })
 
     it('should reset when reset() called', () => {
@@ -2739,7 +2745,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       const Decorated = reduxForm({
         form: 'testForm',
-        initialValues: { bar: 'initialBar' }
+        initialValues: {bar: 'initialBar'},
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2781,7 +2787,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       class Container extends Component {
         constructor(props) {
@@ -2795,7 +2801,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button onClick={() => this.setState({ someOtherProp: 42 })}>
+              <button onClick={() => this.setState({someOtherProp: 42})}>
                 Init
               </button>
             </div>
@@ -2808,10 +2814,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+            },
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -2851,7 +2857,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        validate: () => ({ _error: 'form wide sync error' })
+        validate: () => ({_error: 'form wide sync error'}),
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -2882,11 +2888,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         enableReinitialize: true,
-        initialValues: { foo: 'bar' },
+        initialValues: {foo: 'bar'},
         validate: values => {
           expect(values).toExist()
           return {}
-        }
+        },
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -2917,7 +2923,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         nextProps,
         props,
         initialRender,
-        structure
+        structure,
       }) => {
         if (initialRender) {
           return true
@@ -2941,23 +2947,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        initialValues: { amount: 3 },
+        initialValues: {amount: 3},
         shouldValidate,
-        validate
+        validate,
       })(Form)
       class Container extends Component {
         constructor() {
           super()
-          this.state = { max: 5 }
+          this.state = {max: 5}
         }
 
         render() {
           return (
             <div>
               <Decorated {...this.state} />}
-              <button
-                onClick={() => this.setState({ max: this.state.max + 1 })}
-              >
+              <button onClick={() => this.setState({max: this.state.max + 1})}>
                 Increment
               </button>
             </div>
@@ -3025,7 +3029,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         validate: values =>
-          (getIn(values, 'foo') ? {} : { _error: 'form wide sync error' })
+          getIn(values, 'foo') ? {} : {_error: 'form wide sync error'},
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3056,7 +3060,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )).andCallThrough()
       const error = {
         complex: 'object',
-        manyKeys: true
+        manyKeys: true,
       }
 
       class Form extends Component {
@@ -3071,7 +3075,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        validate: () => ({ foo: error })
+        validate: () => ({foo: error}),
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3096,9 +3100,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const inputs = [
         createSpy(props => <input {...props.input} />).andCallThrough(),
         createSpy(props => <input {...props.input} />).andCallThrough(),
-        createSpy(props => <input {...props.input} />).andCallThrough()
+        createSpy(props => <input {...props.input} />).andCallThrough(),
       ]
-      const renderArray = ({ fields }) => (
+      const renderArray = ({fields}) => (
         <div>
           {fields.map((name, index) => (
             <Field name={name} key={index} component={inputs[index]} />
@@ -3106,7 +3110,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         </div>
       )
       const validate = values => {
-        const errors = { foo: [] }
+        const errors = {foo: []}
         const foo = getIn(values, 'foo')
         if (foo) {
           foo.forEach((value, index) => {
@@ -3130,7 +3134,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        validate
+        validate,
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3196,7 +3200,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        warn: () => ({ _warning: 'form wide sync warning' })
+        warn: () => ({_warning: 'form wide sync warning'}),
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3232,7 +3236,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         warn: values =>
-          (getIn(values, 'foo') ? {} : { _warning: 'form wide sync warning' })
+          getIn(values, 'foo') ? {} : {_warning: 'form wide sync warning'},
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3261,7 +3265,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )).andCallThrough()
       const warning = {
         complex: 'object',
-        manyKeys: true
+        manyKeys: true,
       }
 
       class Form extends Component {
@@ -3276,7 +3280,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        warn: () => ({ foo: warning })
+        warn: () => ({foo: warning}),
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3301,8 +3305,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const formRender = createSpy()
       const asyncErrors = {
         deep: {
-          foo: 'async error'
-        }
+          foo: 'async error',
+        },
       }
       const asyncValidate = createSpy().andReturn(Promise.reject(asyncErrors))
 
@@ -3319,7 +3323,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         asyncValidate,
-        asyncBlurFields: ['deep.foo']
+        asyncBlurFields: ['deep.foo'],
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -3331,10 +3335,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+            },
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -3352,21 +3356,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         dom,
         'input'
       )
-      TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+      TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
             values: {
               deep: {
-                foo: 'bar'
-              }
+                foo: 'bar',
+              },
             },
             registeredFields: {
-              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
-            }
-          }
-        }
+              'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
+            },
+          },
+        },
       })
       expect(formRender.calls.length).toBe(2) // rerendered because pristine -> dirty
 
@@ -3378,7 +3382,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propsAtNthRender(inputRender, 1).meta.valid).toBe(true)
       expect(propsAtNthRender(inputRender, 1).meta.error).toBe(undefined)
 
-      TestUtils.Simulate.blur(inputElement, { target: { value: 'bar' } })
+      TestUtils.Simulate.blur(inputElement, {target: {value: 'bar'}})
 
       setTimeout(() => {
         expect(store.getState()).toEqualMap({
@@ -3387,29 +3391,29 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               anyTouched: true,
               values: {
                 deep: {
-                  foo: 'bar'
-                }
+                  foo: 'bar',
+                },
               },
               fields: {
                 deep: {
                   foo: {
-                    touched: true
-                  }
-                }
+                    touched: true,
+                  },
+                },
               },
               registeredFields: {
-                'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+                'deep.foo': {name: 'deep.foo', type: 'Field', count: 1},
               },
-              asyncErrors
-            }
-          }
+              asyncErrors,
+            },
+          },
         })
         // rerender form twice because of async validation start and again for valid -> invalid
         expect(formRender.calls.length).toBe(4)
 
         expect(asyncValidate).toHaveBeenCalled()
         expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({
-          deep: { foo: 'bar' }
+          deep: {foo: 'bar'},
         })
 
         // input rerendered twice, at start and end of async validation
@@ -3442,7 +3446,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       }
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3461,21 +3465,21 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onChange).toHaveBeenCalled()
       expect(onChange.calls.length).toBe(1)
 
-      expect(onChange.calls[0].arguments[0]).toEqualMap({ foo: 'dog' })
+      expect(onChange.calls[0].arguments[0]).toEqualMap({foo: 'dog'})
       expect(onChange.calls[0].arguments[1]).toBeA('function')
-      expect(onChange.calls[0].arguments[2].values).toEqualMap({ foo: 'dog' })
+      expect(onChange.calls[0].arguments[2].values).toEqualMap({foo: 'dog'})
 
       changeBar('cat')
 
       expect(onChange.calls.length).toBe(2)
       expect(onChange.calls[1].arguments[0]).toEqualMap({
         foo: 'dog',
-        bar: 'cat'
+        bar: 'cat',
       })
       expect(onChange.calls[1].arguments[1]).toBeA('function')
       expect(onChange.calls[1].arguments[2].values).toEqualMap({
         foo: 'dog',
-        bar: 'cat'
+        bar: 'cat',
       })
 
       changeFoo('dog')
@@ -3487,12 +3491,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(onChange.calls.length).toBe(3)
       expect(onChange.calls[2].arguments[0]).toEqualMap({
         foo: 'doggy',
-        bar: 'cat'
+        bar: 'cat',
       })
       expect(onChange.calls[2].arguments[1]).toBeA('function')
       expect(onChange.calls[2].arguments[2].values).toEqualMap({
         foo: 'doggy',
-        bar: 'cat'
+        bar: 'cat',
       })
     })
 
@@ -3525,7 +3529,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       }
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3544,19 +3548,19 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   name: {
                     name: 'name',
                     type: 'Field',
-                    count: 1
+                    count: 1,
                   },
                   age: {
                     name: 'age',
                     type: 'Field',
-                    count: 1
-                  }
-                }
-              }
-            }
+                    count: 1,
+                  },
+                },
+              },
+            },
           }),
           'form.testForm.syncErrors',
-          { name: 'Required' }
+          {name: 'Required'}
         )
       )
 
@@ -3583,19 +3587,19 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 name: {
                   name: 'name',
                   type: 'Field',
-                  count: 1
+                  count: 1,
                 },
                 age: {
                   name: 'age',
                   type: 'Field',
-                  count: 1
-                }
-              }
-            }
-          }
+                  count: 1,
+                },
+              },
+            },
+          },
         }),
         'form.testForm.syncErrors',
-        { name: 'Required' }
+        {name: 'Required'}
       )
       expect(store.getState()).toEqualMap(originalState)
 
@@ -3657,7 +3661,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       }
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3676,19 +3680,19 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                   name: {
                     name: 'name',
                     type: 'Field',
-                    count: 1
+                    count: 1,
                   },
                   age: {
                     name: 'age',
                     type: 'Field',
-                    count: 1
-                  }
-                }
-              }
-            }
+                    count: 1,
+                  },
+                },
+              },
+            },
           }),
           'form.testForm.syncWarnings',
-          { name: 'Required' }
+          {name: 'Required'}
         )
       )
 
@@ -3715,19 +3719,19 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
                 name: {
                   name: 'name',
                   type: 'Field',
-                  count: 1
+                  count: 1,
                 },
                 age: {
                   name: 'age',
                   type: 'Field',
-                  count: 1
-                }
-              }
-            }
-          }
+                  count: 1,
+                },
+              },
+            },
+          },
         }),
         'form.testForm.syncWarnings',
-        { name: 'Required' }
+        {name: 'Required'}
       )
       expect(store.getState()).toEqualMap(originalState)
 
@@ -3766,7 +3770,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         const shouldValidate = createSpy().andReturn(false)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { validate, shouldValidate })
+        const dom = renderForm(Form, {}, {validate, shouldValidate})
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
@@ -3780,7 +3784,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
@@ -3792,7 +3796,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         const shouldValidate = createSpy().andReturn(true)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { validate, shouldValidate })
+        const dom = renderForm(Form, {}, {validate, shouldValidate})
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
@@ -3806,7 +3810,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
@@ -3822,7 +3826,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { validate, shouldValidate })
+        const dom = renderForm(Form, {}, {validate, shouldValidate})
 
         validate.reset()
 
@@ -3830,10 +3834,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
         // compare values
-        expect(validate.calls[0].arguments[0]).toEqualMap({ foo: 'bar' })
+        expect(validate.calls[0].arguments[0]).toEqualMap({foo: 'bar'})
 
         // compare props
         const propArray = Object.keys(propsSpy.calls[0].arguments[0])
@@ -3847,7 +3851,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         const shouldValidate = createSpy().andReturn(false)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { warn, shouldValidate })
+        const dom = renderForm(Form, {}, {warn, shouldValidate})
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
@@ -3861,7 +3865,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
@@ -3873,7 +3877,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         const shouldValidate = createSpy().andReturn(true)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { warn, shouldValidate })
+        const dom = renderForm(Form, {}, {warn, shouldValidate})
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
@@ -3887,7 +3891,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
@@ -3903,7 +3907,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { warn, shouldValidate })
+        const dom = renderForm(Form, {}, {warn, shouldValidate})
 
         warn.reset()
 
@@ -3911,10 +3915,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
         // compare values
-        expect(warn.calls[0].arguments[0]).toEqualMap({ foo: 'bar' })
+        expect(warn.calls[0].arguments[0]).toEqualMap({foo: 'bar'})
 
         // compare props
         const propArray = Object.keys(propsSpy.calls[0].arguments[0])
@@ -3927,9 +3931,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const inputRender = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
-      const asyncValidate = createSpy(() =>
-        Promise.reject({ foo: 'bad user!' })
-      )
+      const asyncValidate = createSpy(() => Promise.reject({foo: 'bad user!'}))
       const shouldAsyncValidate = createSpy().andReturn(false)
 
       const Form = () => (
@@ -3942,7 +3944,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         form: 'testForm',
         asyncValidate,
         asyncBlurFields: ['foo'],
-        shouldAsyncValidate
+        shouldAsyncValidate,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -3953,9 +3955,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
-          }
-        }
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+          },
+        },
       })
 
       expect(asyncValidate).toNotHaveBeenCalled()
@@ -3964,11 +3966,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         dom,
         'input'
       )
-      TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+      TestUtils.Simulate.change(inputElement, {target: {value: 'bar'}})
 
       expect(shouldAsyncValidate).toNotHaveBeenCalled()
 
-      TestUtils.Simulate.blur(inputElement, { target: { value: 'bar' } })
+      TestUtils.Simulate.blur(inputElement, {target: {value: 'bar'}})
 
       expect(shouldAsyncValidate).toHaveBeenCalled()
 
@@ -3989,7 +3991,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
 
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -4014,7 +4016,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
 
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -4050,7 +4052,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
 
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -4096,11 +4098,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
       expect(onSubmit.calls.length).toBe(2)
       expect(onSubmit.calls[1].arguments[0]).toEqualMap({
-        myField: 'autofilled value'
+        myField: 'autofilled value',
       })
       expect(onSubmit.calls[1].arguments[1]).toBeA('function')
       expect(onSubmit.calls[1].arguments[2].values).toEqualMap({
-        myField: 'autofilled value'
+        myField: 'autofilled value',
       })
 
       // user edits field
@@ -4116,11 +4118,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
       expect(onSubmit.calls.length).toBe(3)
       expect(onSubmit.calls[2].arguments[0]).toEqualMap({
-        myField: 'user value'
+        myField: 'user value',
       })
       expect(onSubmit.calls[2].arguments[1]).toBeA('function')
       expect(onSubmit.calls[2].arguments[2].values).toEqualMap({
-        myField: 'user value'
+        myField: 'user value',
       })
     })
 
@@ -4130,7 +4132,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         <input {...props.input} />
       )).andCallThrough()
       const initialValues = {
-        foo: 'fooInitial'
+        foo: 'fooInitial',
       }
       class Form extends Component {
         render() {
@@ -4143,20 +4145,20 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        destroyOnUnmount: false
+        destroyOnUnmount: false,
       })(Form)
       class Container extends Component {
         constructor() {
           super()
-          this.state = { showForm: true }
+          this.state = {showForm: true}
         }
 
         render() {
-          const { showForm } = this.state
+          const {showForm} = this.state
           return (
             <div>
               {showForm && <Decorated initialValues={initialValues} />}
-              <button onClick={() => this.setState({ showForm: !showForm })}>
+              <button onClick={() => this.setState({showForm: !showForm})}>
                 Toggle Form
               </button>
             </div>
@@ -4174,11 +4176,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            initial: { foo: 'fooInitial' },
-            values: { foo: 'fooInitial' },
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
-          }
-        }
+            initial: {foo: 'fooInitial'},
+            values: {foo: 'fooInitial'},
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+          },
+        },
       })
 
       // rendered with initial value
@@ -4193,11 +4195,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            initial: { foo: 'fooInitial' },
-            values: { foo: 'fooChanged' },
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
-          }
-        }
+            initial: {foo: 'fooInitial'},
+            values: {foo: 'fooChanged'},
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+          },
+        },
       })
 
       // rendered with changed value
@@ -4212,11 +4214,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            initial: { foo: 'fooInitial' },
-            values: { foo: 'fooChanged' },
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 0 } }
-          }
-        }
+            initial: {foo: 'fooInitial'},
+            values: {foo: 'fooChanged'},
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 0}},
+          },
+        },
       })
 
       // mount form
@@ -4226,11 +4228,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            initial: { foo: 'fooInitial' },
-            values: { foo: 'fooChanged' },
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
-          }
-        }
+            initial: {foo: 'fooInitial'},
+            values: {foo: 'fooChanged'},
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+          },
+        },
       })
 
       // input rendered with changed value
@@ -4252,7 +4254,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -4263,9 +4265,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
-          }
-        }
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -4277,12 +4279,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } },
-            values: { foo: 'newValue' },
-            fields: { foo: { touched: true } },
-            anyTouched: true
-          }
-        }
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+            values: {foo: 'newValue'},
+            fields: {foo: {touched: true}},
+            anyTouched: true,
+          },
+        },
       })
 
       // rerendered again because now dirty
@@ -4303,7 +4305,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const Decorated = reduxForm({form: 'testForm'})(Form)
 
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -4314,9 +4316,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
-          }
-        }
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+          },
+        },
       })
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
@@ -4328,10 +4330,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } },
-            values: { foo: 'newValue' }
-          }
-        }
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
+            values: {foo: 'newValue'},
+          },
+        },
       })
 
       // rerendered again because now dirty
@@ -4342,7 +4344,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({})
       class Form extends Component {
         render() {
-          const { handleSubmit } = this.props
+          const {handleSubmit} = this.props
           return (
             <form onSubmit={handleSubmit}>
               <Field name="foo" component="input" type="text" />
@@ -4358,7 +4360,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           dispatch(startSubmit('testForm'))
 
           return resolvedProm
-        }
+        },
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -4379,15 +4381,15 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
               anyTouched: true,
               fields: {
                 foo: {
-                  touched: true
-                }
+                  touched: true,
+                },
               },
               registeredFields: {
-                foo: { name: 'foo', type: 'Field', count: 1 }
+                foo: {name: 'foo', type: 'Field', count: 1},
               },
-              submitSucceeded: true
-            }
-          }
+              submitSucceeded: true,
+            },
+          },
         })
       })
     })
@@ -4396,7 +4398,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({})
       class Form extends Component {
         render() {
-          const { handleSubmit } = this.props
+          const {handleSubmit} = this.props
           return (
             <form onSubmit={handleSubmit}>
               <Field name="foo" component="input" type="text" />
@@ -4409,7 +4411,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         destroyOnUnmount: false,
         onSubmit(data, dispatch) {
           dispatch(startSubmit('testForm'))
-        }
+        },
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -4429,16 +4431,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
             anyTouched: true,
             fields: {
               foo: {
-                touched: true
-              }
+                touched: true,
+              },
             },
             registeredFields: {
-              foo: { name: 'foo', type: 'Field', count: 1 }
+              foo: {name: 'foo', type: 'Field', count: 1},
             },
             submitting: true,
-            submitSucceeded: true
-          }
-        }
+            submitSucceeded: true,
+          },
+        },
       })
     })
 
@@ -4451,7 +4453,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
             count++
             if (count === 1) {
               // first time throw exception
-              throw new SubmissionError({ _error: 'Bad human!' })
+              throw new SubmissionError({_error: 'Bad human!'})
             }
             resolve()
           })
@@ -4460,7 +4462,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       class Form extends Component {
         render() {
-          const { handleSubmit, error, valid } = this.props
+          const {handleSubmit, error, valid} = this.props
           renderSpy(valid, error)
           return (
             <form onSubmit={handleSubmit}>
@@ -4471,7 +4473,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        onSubmit
+        onSubmit,
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -4518,7 +4520,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       class Form extends Component {
         render() {
-          const { handleSubmit } = this.props
+          const {handleSubmit} = this.props
           return (
             <form onSubmit={handleSubmit}>
               <Field name="foo" component={inputRender} />
@@ -4528,7 +4530,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        onSubmit
+        onSubmit,
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -4573,9 +4575,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 'hello'})
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 'hello'})
     })
 
     it('submits (via prop) when the SUBMIT action is dispatched', () => {
@@ -4588,7 +4590,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       class Form extends Component {
         render() {
-          const { handleSubmit } = this.props
+          const {handleSubmit} = this.props
           return (
             <form onSubmit={handleSubmit}>
               <Field name="foo" component={inputRender} />
@@ -4597,7 +4599,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       }
       const Decorated = reduxForm({
-        form: 'testForm'
+        form: 'testForm',
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -4642,9 +4644,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 'hello'})
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 'hello'})
     })
 
     it('does NOT submit (via config) invalid form when the SUBMIT action is dispatched', () => {
@@ -4666,7 +4668,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           formRender(this.props)
-          const { handleSubmit } = this.props
+          const {handleSubmit} = this.props
           return (
             <form onSubmit={handleSubmit}>
               <Field name="foo" component={inputRender} />
@@ -4677,7 +4679,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const Decorated = reduxForm({
         form: 'testForm',
         onSubmit,
-        validate
+        validate,
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -4767,9 +4769,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 'hello'})
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 'hello'})
     })
 
     it('does NOT submit (via prop) invalid form when the SUBMIT action is dispatched', () => {
@@ -4791,7 +4793,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           formRender(this.props)
-          const { handleSubmit } = this.props
+          const {handleSubmit} = this.props
           return (
             <form onSubmit={handleSubmit}>
               <Field name="foo" component={inputRender} />
@@ -4801,7 +4803,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        validate
+        validate,
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -4891,9 +4893,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 'hello'})
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 'hello'})
     })
 
     it('should allow initialize on componentWillMount with sync validation', () => {
@@ -4913,7 +4915,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       class Form extends Component {
         componentWillMount() {
-          this.props.initialize({ foo: 'Initialized' })
+          this.props.initialize({foo: 'Initialized'})
         }
 
         render() {
@@ -4927,7 +4929,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        validate
+        validate,
       })(Form)
 
       TestUtils.renderIntoDocument(

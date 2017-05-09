@@ -5,7 +5,7 @@ describe('defaultShouldAsyncValidate', () => {
   it('should not async validate if sync validation is not passing', () => {
     expect(
       defaultShouldAsyncValidate({
-        syncValidationPasses: false
+        syncValidationPasses: false,
       })
     ).toBe(false)
   })
@@ -14,7 +14,7 @@ describe('defaultShouldAsyncValidate', () => {
     expect(
       defaultShouldAsyncValidate({
         syncValidationPasses: true,
-        trigger: 'blur'
+        trigger: 'blur',
       })
     ).toBe(true)
   })
@@ -25,7 +25,7 @@ describe('defaultShouldAsyncValidate', () => {
         syncValidationPasses: true,
         trigger: 'submit',
         pristine: true,
-        initialized: true
+        initialized: true,
       })
     ).toBe(false)
   })
@@ -36,7 +36,7 @@ describe('defaultShouldAsyncValidate', () => {
         syncValidationPasses: true,
         trigger: 'submit',
         pristine: false,
-        initialized: true
+        initialized: true,
       })
     ).toBe(true)
   })
@@ -47,7 +47,7 @@ describe('defaultShouldAsyncValidate', () => {
         syncValidationPasses: true,
         trigger: 'submit',
         pristine: true,
-        initialized: false
+        initialized: false,
       })
     ).toBe(true)
   })
@@ -56,7 +56,7 @@ describe('defaultShouldAsyncValidate', () => {
     expect(
       defaultShouldAsyncValidate({
         syncValidationPasses: true,
-        trigger: 'wtf'
+        trigger: 'wtf',
       })
     ).toBe(false)
   })
