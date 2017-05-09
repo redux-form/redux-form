@@ -47,7 +47,7 @@ const SearchBar = ({ handleChange, handleSubmit, value }) => (
 export default reduxForm({ form: 'SearchBar' })(SearchBar)
 ```
 
-You can access your form's input values via the aptly-named `values` prop provided by the redux-form [Instance API](http://redux-form.com/6.6.3/docs/api/ReduxForm.md/).
+You can access your form's input values via the aptly-named `values` prop provided by the redux-form [Instance API](http://redux-form.com/6.7.0/docs/api/ReduxForm.md/).
 
 ```javascript
 import React from 'react';

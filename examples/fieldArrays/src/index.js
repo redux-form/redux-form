@@ -40,12 +40,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="6.6.3"
+        version="6.7.0"
         path="/examples/fieldArrays"
         breadcrumbs={generateExampleBreadcrumbs(
           'syncValidation',
           'Field Arrays Example',
-          '6.6.3'
+          '6.7.0'
         )}
       >
 
