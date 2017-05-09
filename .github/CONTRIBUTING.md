@@ -19,3 +19,9 @@ For non-trivial changes, please open an issue with a proposal for a new feature 
 Please try to keep your pull request focused in scope and avoid including unrelated commits.
 
 After you have submitted your pull request, we’ll try to get back to you as soon as possible. We may suggest some changes or improvements.
+
+Please format the code before submitting your pull request by running:
+
+```
+npm run format
+```
