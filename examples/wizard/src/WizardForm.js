@@ -10,7 +10,7 @@ class WizardForm extends Component {
     this.nextPage = this.nextPage.bind(this)
     this.previousPage = this.previousPage.bind(this)
     this.state = {
-      page: 1,
+      page: 1
     }
   }
   nextPage() {
@@ -43,7 +43,7 @@ class WizardForm extends Component {
 }
 
 WizardForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default WizardForm

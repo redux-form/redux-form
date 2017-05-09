@@ -71,5 +71,5 @@ const FieldLevelValidationForm = props => {
 }
 
 export default reduxForm({
-  form: 'fieldLevelValidation', // a unique identifier for this form
+  form: 'fieldLevelValidation' // a unique identifier for this form
 })(FieldLevelValidationForm)

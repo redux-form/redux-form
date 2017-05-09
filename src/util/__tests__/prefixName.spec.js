@@ -5,8 +5,8 @@ describe('prefixName', () => {
   it('should concat sectionPrefix and name', () => {
     const context = {
       _reduxForm: {
-        sectionPrefix: 'foo',
-      },
+        sectionPrefix: 'foo'
+      }
     }
     expect(prefixName(context, 'bar')).toBe('foo.bar')
   })
@@ -14,8 +14,8 @@ describe('prefixName', () => {
   it('should ignore empty sectionPrefix', () => {
     const context = {
       _reduxForm: {
-        sectionPrefix: undefined,
-      },
+        sectionPrefix: undefined
+      }
     }
     expect(prefixName(context, 'bar')).toBe('bar')
   })

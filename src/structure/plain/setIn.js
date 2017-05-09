@@ -22,7 +22,7 @@ const setInWithPath = (state, value, path, pathIndex) => {
 
   return {
     ...state,
-    [first]: next,
+    [first]: next
   }
 }
 

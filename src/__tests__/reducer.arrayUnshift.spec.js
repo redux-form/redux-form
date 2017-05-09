@@ -6,9 +6,9 @@ const describeArrayUnshift = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: ['myValue'],
-        },
-      },
+          myField: ['myValue']
+        }
+      }
     })
   })
 
@@ -18,19 +18,19 @@ const describeArrayUnshift = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c'],
-            },
+              subField: ['a', 'b', 'c']
+            }
           },
           fields: {
             myField: {
               subField: [
                 {touched: true},
                 {touched: true, visited: true},
-                {touched: true},
-              ],
-            },
-          },
-        },
+                {touched: true}
+              ]
+            }
+          }
+        }
       }),
       arrayUnshift('foo', 'myField.subField', 'newValue')
     )
@@ -38,8 +38,8 @@ const describeArrayUnshift = (reducer, expect, {fromJS}) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['newValue', 'a', 'b', 'c'],
-          },
+            subField: ['newValue', 'a', 'b', 'c']
+          }
         },
         fields: {
           myField: {
@@ -47,11 +47,11 @@ const describeArrayUnshift = (reducer, expect, {fromJS}) => () => {
               {},
               {touched: true},
               {touched: true, visited: true},
-              {touched: true},
-            ],
-          },
-        },
-      },
+              {touched: true}
+            ]
+          }
+        }
+      }
     })
   })
 }

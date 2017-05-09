@@ -4,7 +4,7 @@ const describeClearSubmit = (reducer, expect, {fromJS}) => () => {
   it('should do nothing on clear submit with no previous state', () => {
     const state = reducer(undefined, clearSubmit('foo'))
     expect(state).toEqualMap({
-      foo: {},
+      foo: {}
     })
   })
 
@@ -13,41 +13,41 @@ const describeClearSubmit = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           initial: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           fields: {
             myField: {},
             otherField: {
               visited: true,
-              active: true,
-            },
+              active: true
+            }
           },
           active: 'otherField',
-          triggerSubmit: true,
-        },
+          triggerSubmit: true
+        }
       }),
       clearSubmit('foo')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'initialValue',
+          myField: 'initialValue'
         },
         initial: {
-          myField: 'initialValue',
+          myField: 'initialValue'
         },
         fields: {
           myField: {},
           otherField: {
             visited: true,
-            active: true,
-          },
+            active: true
+          }
         },
-        active: 'otherField',
-      },
+        active: 'otherField'
+      }
     })
   })
 }

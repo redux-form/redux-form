@@ -4,8 +4,8 @@ import validate from './validate'
 
 const reducer = combineReducers({
   form: formReducer.validation({
-    asyncValidation: validate, // "asyncValidation" is the form name given to reduxForm() decorator
-  }),
+    asyncValidation: validate // "asyncValidation" is the form name given to reduxForm() decorator
+  })
 })
 
 export default reducer

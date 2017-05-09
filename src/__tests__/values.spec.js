@@ -38,7 +38,7 @@ const describeValues = (name, structure, combineReducers, expect) => {
     it('should get values from Redux state', () => {
       const values = {
         cat: 'rat',
-        dog: 'cat',
+        dog: 'cat'
       }
       const props = testProps({values})
       expect(props.values).toEqualMap(values)
@@ -47,7 +47,7 @@ const describeValues = (name, structure, combineReducers, expect) => {
     it('should use values prop', () => {
       const values = {
         cat: 'rat',
-        dog: 'cat',
+        dog: 'cat'
       }
       const props = testProps({values}, {prop: 'foo'})
       expect(props.foo).toEqualMap(values)

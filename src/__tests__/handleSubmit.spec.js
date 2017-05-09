@@ -19,7 +19,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     handleSubmit(submit, props, false, asyncValidate, ['foo', 'baz'])
@@ -52,12 +52,12 @@ describe('handleSubmit', () => {
       setSubmitFailed,
       setSubmitSucceeded,
       syncErrors,
-      values,
+      values
     }
 
     const result = handleSubmit(submit, props, false, asyncValidate, [
       'foo',
-      'baz',
+      'baz'
     ])
 
     expect(asyncValidate).toNotHaveBeenCalled()
@@ -89,7 +89,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     expect(
@@ -123,7 +123,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, ['foo', 'baz'])
@@ -163,7 +163,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, ['foo', 'baz'])
@@ -207,7 +207,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, ['foo', 'baz'])
@@ -245,12 +245,12 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [
       'foo',
-      'baz',
+      'baz'
     ]).then(result => {
       expect(result).toBe(69)
       expect(asyncValidate).toHaveBeenCalled().toHaveBeenCalledWith()
@@ -282,12 +282,12 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [
       'foo',
-      'baz',
+      'baz'
     ]).then(result => {
       expect(result).toBe(69)
       expect(asyncValidate).toHaveBeenCalled().toHaveBeenCalledWith()
@@ -322,12 +322,12 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [
       'foo',
-      'baz',
+      'baz'
     ]).then(error => {
       expect(error).toBe(submitErrors)
       expect(asyncValidate).toHaveBeenCalled().toHaveBeenCalledWith()
@@ -360,7 +360,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     const resolveSpy = createSpy()
@@ -403,12 +403,12 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     return handleSubmit(submit, props, true, asyncValidate, [
       'foo',
-      'baz',
+      'baz'
     ]).then(error => {
       expect(error).toBe(submitErrors)
       expect(asyncValidate).toHaveBeenCalled().toHaveBeenCalledWith()
@@ -439,7 +439,7 @@ describe('handleSubmit', () => {
       setSubmitFailed,
       setSubmitSucceeded,
       values,
-      persistentSubmitErrors: true,
+      persistentSubmitErrors: true
     }
 
     handleSubmit(submit, props, true, asyncValidate, ['foo', 'baz'])
@@ -462,7 +462,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     expect(() =>
@@ -488,7 +488,7 @@ describe('handleSubmit', () => {
       touch,
       setSubmitFailed,
       setSubmitSucceeded,
-      values,
+      values
     }
 
     const resultSpy = createSpy()

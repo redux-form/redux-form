@@ -12,22 +12,22 @@ describe('structure.plain.deepEqual', () => {
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       true
     )
@@ -35,22 +35,22 @@ describe('structure.plain.deepEqual', () => {
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
-            c: 42,
+            c: 42
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       false
     )
@@ -61,22 +61,22 @@ describe('structure.plain.deepEqual', () => {
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       true
     )
@@ -84,22 +84,22 @@ describe('structure.plain.deepEqual', () => {
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
-            c: 42,
+            c: 42
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       false
     )
@@ -145,13 +145,13 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(
       {
         a: {
-          b: '',
-        },
+          b: ''
+        }
       },
       {
         a: {
-          b: undefined,
-        },
+          b: undefined
+        }
       },
       true
     )
@@ -161,13 +161,13 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(
       {
         a: {
-          b: '',
-        },
+          b: ''
+        }
       },
       {
         a: {
-          b: null,
-        },
+          b: null
+        }
       },
       true
     )
@@ -177,13 +177,13 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(
       {
         a: {
-          b: undefined,
-        },
+          b: undefined
+        }
       },
       {
         a: {
-          b: null,
-        },
+          b: null
+        }
       },
       true
     )
@@ -204,13 +204,13 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(
       {
         a: {
-          b: false,
-        },
+          b: false
+        }
       },
       {
         a: {
-          b: undefined,
-        },
+          b: undefined
+        }
       },
       true
     )
@@ -218,10 +218,10 @@ describe('structure.plain.deepEqual', () => {
   it('should not treat a number X and a string "X." as equal', function() {
     testBothWays(
       {
-        a: 1,
+        a: 1
       },
       {
-        a: '1.',
+        a: '1.'
       },
       false
     )

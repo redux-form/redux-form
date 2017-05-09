@@ -15,12 +15,12 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
         deleteInWithCleanUp(
           fromJS({
             dog: 'Scooby',
-            cat: 'Garfield',
+            cat: 'Garfield'
           }),
           'dog'
         )
       ).toEqualMap({
-        cat: 'Garfield',
+        cat: 'Garfield'
       })
     })
 
@@ -30,21 +30,21 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
           fromJS({
             a: {
               b: 1,
-              c: 2,
+              c: 2
             },
             d: {
-              e: 3,
-            },
+              e: 3
+            }
           }),
           'a.b'
         )
       ).toEqualMap({
         a: {
-          c: 2,
+          c: 2
         },
         d: {
-          e: 3,
-        },
+          e: 3
+        }
       })
     })
 
@@ -52,54 +52,54 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
       expect(
         deleteInWithCleanUp(
           fromJS({
-            a: [42],
+            a: [42]
           }),
           'a[0]'
         )
       ).toEqualMap({
-        a: [undefined],
+        a: [undefined]
       })
       expect(
         deleteInWithCleanUp(
           fromJS({
-            a: [42],
+            a: [42]
           }),
           'b[0]'
         )
       ).toEqualMap({
-        a: [42],
+        a: [42]
       })
       expect(
         deleteInWithCleanUp(
           fromJS({
-            a: [41, 42, 43],
+            a: [41, 42, 43]
           }),
           'a[1]'
         )
       ).toEqualMap({
-        a: [41, undefined, 43],
+        a: [41, undefined, 43]
       })
       expect(
         deleteInWithCleanUp(
           fromJS({
             a: {
               b: 1,
-              c: [2],
+              c: [2]
             },
             d: {
-              e: 3,
-            },
+              e: 3
+            }
           }),
           'a.c[0]'
         )
       ).toEqualMap({
         a: {
           b: 1,
-          c: [undefined],
+          c: [undefined]
         },
         d: {
-          e: 3,
-        },
+          e: 3
+        }
       })
     })
 
@@ -109,19 +109,19 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
           fromJS({
             a: {
               b: 1,
-              c: 2,
+              c: 2
             },
             d: {
-              e: 3,
-            },
+              e: 3
+            }
           }),
           'd.e'
         )
       ).toEqualMap({
         a: {
           b: 1,
-          c: 2,
-        },
+          c: 2
+        }
       })
       expect(
         deleteInWithCleanUp(
@@ -131,12 +131,12 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
                 c: {
                   d: {
                     e: {
-                      f: "That's DEEP!",
-                    },
-                  },
-                },
-              },
-            },
+                      f: "That's DEEP!"
+                    }
+                  }
+                }
+              }
+            }
           }),
           'a.b.c.d.e.f'
         )

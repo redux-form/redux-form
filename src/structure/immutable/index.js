@@ -28,7 +28,7 @@ const structure = {
   keys,
   size: list => (list ? list.size : 0),
   splice,
-  toJS: value => (Iterable.isIterable(value) ? value.toJS() : value),
+  toJS: value => (Iterable.isIterable(value) ? value.toJS() : value)
 }
 
 export default structure

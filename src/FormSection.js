@@ -17,8 +17,8 @@ class FormSection extends Component {
     return {
       _reduxForm: {
         ...context._reduxForm,
-        sectionPrefix: prefixName(context, name),
-      },
+        sectionPrefix: prefixName(context, name)
+      }
     }
   }
 
@@ -36,26 +36,26 @@ class FormSection extends Component {
 
     return createElement(component, {
       ...rest,
-      children,
+      children
     })
   }
 }
 
 FormSection.propTypes = {
   name: PropTypes.string.isRequired,
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
 }
 
 FormSection.defaultProps = {
-  component: 'div',
+  component: 'div'
 }
 
 FormSection.childContextTypes = {
-  _reduxForm: PropTypes.object.isRequired,
+  _reduxForm: PropTypes.object.isRequired
 }
 
 FormSection.contextTypes = {
-  _reduxForm: PropTypes.object,
+  _reduxForm: PropTypes.object
 }
 
 export default FormSection

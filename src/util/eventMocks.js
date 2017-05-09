@@ -1,7 +1,7 @@
 const getEvent = rest => ({
   stopPropagation: id => id,
   preventDefault: id => id,
-  ...rest,
+  ...rest
 })
 
 export function valueMock(value) {
@@ -10,12 +10,12 @@ export function valueMock(value) {
 
 export function dragStartMock(setData) {
   return getEvent({
-    dataTransfer: {setData},
+    dataTransfer: {setData}
   })
 }
 
 export function dropMock(getData) {
   return getEvent({
-    dataTransfer: {getData},
+    dataTransfer: {getData}
   })
 }

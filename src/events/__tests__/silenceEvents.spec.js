@@ -29,7 +29,7 @@ describe('silenceEvents', () => {
     const silenced = silenceEvents(spy)
     const event = {
       preventDefault: noop,
-      stopPropagation: noop,
+      stopPropagation: noop
     }
 
     silenced(event, 1, 2, 3)
@@ -51,7 +51,7 @@ describe('silenceEvents', () => {
     const stopPropagation = createSpy()
     const event = {
       preventDefault,
-      stopPropagation,
+      stopPropagation
     }
 
     silenceEvents(spy)(event)

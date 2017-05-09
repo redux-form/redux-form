@@ -74,7 +74,7 @@ const tests = {
   untouch: describeUntouch,
   updateSyncErrors: describeUpdateSyncErrors,
   updateSyncWarnings: describeUpdateSyncWarnings,
-  plugin: describePlugin,
+  plugin: describePlugin
 }
 
 const describeReducer = (name, structure, expect) => {
@@ -99,17 +99,17 @@ const describeReducer = (name, structure, expect) => {
     it('should initialize form state when action has form', () => {
       const state = reducer(undefined, {
         type: `${prefix}SOME_ACTION`,
-        meta: {form: 'foo'},
+        meta: {form: 'foo'}
       })
       expect(state).toExist().toBeAMap().toBeSize(1).toEqualMap({
-        foo: {},
+        foo: {}
       })
     })
 
     it('should ignore non-redux-form actions', () => {
       const state = reducer(undefined, {
         type: 'some/other/lib',
-        meta: {form: 'foo'},
+        meta: {form: 'foo'}
       })
       expect(state).toEqualMap({})
     })

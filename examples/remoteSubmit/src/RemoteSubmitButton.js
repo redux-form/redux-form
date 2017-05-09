@@ -7,7 +7,7 @@ const style = {
   width: 140,
   display: 'block',
   margin: '20px auto',
-  fontSize: '16px',
+  fontSize: '16px'
 }
 
 const RemoteSubmitButton = ({dispatch}) => (

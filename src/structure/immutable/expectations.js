@@ -66,7 +66,7 @@ const api = {
       expected
     )
     return this
-  },
+  }
 }
 
 export default api

@@ -30,7 +30,7 @@ const propTypes = {
     shift: func.isRequired, // function to shift a value out of an array field
     splice: func.isRequired, // function to splice a value into an array field
     swap: func.isRequired, // function to swap values in an array field
-    unshift: func.isRequired, // function to unshift a value into an array field
+    unshift: func.isRequired // function to unshift a value into an array field
   }),
   asyncValidate: func.isRequired, // function to trigger async validation
   autofill: func.isRequired, // action to set a value of a field and mark it as autofilled
@@ -48,7 +48,7 @@ const propTypes = {
 
   // triggerSubmit
   triggerSubmit: bool, // if true, submits the form on componentWillReceiveProps
-  clearSubmit: func.isRequired, // called before a triggered submit, by default clears triggerSubmit
+  clearSubmit: func.isRequired // called before a triggered submit, by default clears triggerSubmit
 }
 
 export const fieldInputPropTypes = {
@@ -59,7 +59,7 @@ export const fieldInputPropTypes = {
   onDragStart: func.isRequired,
   onDrop: func.isRequired,
   onFocus: func.isRequired,
-  value: any,
+  value: any
 }
 
 export const fieldMetaPropTypes = {
@@ -77,13 +77,13 @@ export const fieldMetaPropTypes = {
   touched: bool.isRequired,
   valid: bool.isRequired,
   visited: bool.isRequired,
-  warning: string,
+  warning: string
 }
 
 export const fieldPropTypes = {
   input: fieldInputPropTypes.isRequired,
   meta: fieldMetaPropTypes.isRequired,
-  custom: object.isRequired,
+  custom: object.isRequired
 }
 
 export default propTypes

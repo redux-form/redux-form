@@ -40,5 +40,5 @@ const SubmitValidationForm = props => {
 }
 
 export default reduxForm({
-  form: 'submitValidation', // a unique identifier for this form
+  form: 'submitValidation' // a unique identifier for this form
 })(SubmitValidationForm)

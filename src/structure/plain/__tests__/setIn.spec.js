@@ -39,27 +39,27 @@ describe('structure.plain.setIn', () => {
   it('should set and deep keys without mutating state', () => {
     const state = {
       foo: {
-        bar: ['baz', {dog: 42}],
-      },
+        bar: ['baz', {dog: 42}]
+      }
     }
     const result1 = setIn(state, 'tv.best.canines[0]', 'scooby')
     expect(result1).toNotBe(state).toEqual({
       foo: {
-        bar: ['baz', {dog: 42}],
+        bar: ['baz', {dog: 42}]
       },
       tv: {
         best: {
-          canines: ['scooby'],
-        },
-      },
+          canines: ['scooby']
+        }
+      }
     })
     expect(result1.foo).toBe(state.foo)
 
     const result2 = setIn(state, 'foo.bar[0]', 'cat')
     expect(result2).toNotBe(state).toEqual({
       foo: {
-        bar: ['cat', {dog: 42}],
-      },
+        bar: ['cat', {dog: 42}]
+      }
     })
     expect(result2.foo).toNotBe(state.foo)
     expect(result2.foo.bar).toNotBe(state.foo.bar)
@@ -68,8 +68,8 @@ describe('structure.plain.setIn', () => {
     const result3 = setIn(state, 'foo.bar[1].dog', 7)
     expect(result3).toNotBe(state).toEqual({
       foo: {
-        bar: ['baz', {dog: 7}],
-      },
+        bar: ['baz', {dog: 7}]
+      }
     })
     expect(result3.foo).toNotBe(state.foo)
     expect(result3.foo.bar).toNotBe(state.foo.bar)

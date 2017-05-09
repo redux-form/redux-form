@@ -27,7 +27,7 @@ const describeGenerateValidator = (name, structure, expect) => {
         validator(
           fromJS({
             foo: 42,
-            bar: 43,
+            bar: 43
           })
         )
       ).toEqual({})
@@ -39,7 +39,7 @@ const describeGenerateValidator = (name, structure, expect) => {
       const validator = generateValidator(
         {
           foo: requiredSpy,
-          bar: minValueSpy,
+          bar: minValueSpy
         },
         structure
       )
@@ -58,12 +58,12 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(minValueSpy.calls[0].arguments[0]).toBe(undefined)
       expect(minValueSpy.calls[0].arguments[1]).toEqual(values1)
       expect(result).toEqual({
-        foo: 'Required',
+        foo: 'Required'
       })
 
       const values2 = fromJS({
         foo: 'Hello',
-        bar: 3,
+        bar: 3
       })
       const result2 = validator(values2)
       expect(requiredSpy.calls.length).toBe(2)
@@ -73,12 +73,12 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(minValueSpy.calls[1].arguments[0]).toBe(3)
       expect(minValueSpy.calls[1].arguments[1]).toEqual(values2)
       expect(result2).toEqual({
-        bar: 'Too low',
+        bar: 'Too low'
       })
 
       const values3 = fromJS({
         foo: 'Hello',
-        bar: 4,
+        bar: 4
       })
       const result3 = validator(values3)
       expect(requiredSpy.calls.length).toBe(3)
@@ -106,7 +106,7 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(withPropsSpy.calls[0].arguments[1]).toEqual(values)
       expect(withPropsSpy.calls[0].arguments[2]).toEqual(props1)
       expect(result1).toEqual({
-        foo: 'Invalid',
+        foo: 'Invalid'
       })
 
       const result2 = validator(values, props2)
@@ -123,7 +123,7 @@ const describeGenerateValidator = (name, structure, expect) => {
       const validator = generateValidator(
         {
           'deep.foo': requiredSpy,
-          'even.deeper.bar': minValueSpy,
+          'even.deeper.bar': minValueSpy
         },
         structure
       )
@@ -142,19 +142,19 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(minValueSpy.calls[0].arguments[1]).toEqual(fromJS({}))
       expect(result).toEqual({
         deep: {
-          foo: 'Required',
-        },
+          foo: 'Required'
+        }
       })
 
       const values2 = fromJS({
         deep: {
-          foo: 'Hello',
+          foo: 'Hello'
         },
         even: {
           deeper: {
-            bar: 3,
-          },
-        },
+            bar: 3
+          }
+        }
       })
       const result2 = validator(values2)
       expect(requiredSpy.calls.length).toBe(2)
@@ -166,20 +166,20 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(result2).toEqual({
         even: {
           deeper: {
-            bar: 'Too low',
-          },
-        },
+            bar: 'Too low'
+          }
+        }
       })
 
       const values3 = fromJS({
         deep: {
-          foo: 'Hello',
+          foo: 'Hello'
         },
         even: {
           deeper: {
-            bar: 4,
-          },
-        },
+            bar: 4
+          }
+        }
       })
       const result3 = validator(values3)
       expect(requiredSpy.calls.length).toBe(3)
@@ -196,7 +196,7 @@ const describeGenerateValidator = (name, structure, expect) => {
       const minValueSpy = createSpy(minValue(4)).andCallThrough()
       const validator = generateValidator(
         {
-          foo: [requiredSpy, minValueSpy],
+          foo: [requiredSpy, minValueSpy]
         },
         structure
       )
@@ -212,7 +212,7 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(requiredSpy.calls[0].arguments[1]).toEqual(values1)
       expect(minValueSpy).toNotHaveBeenCalled() // because required errored
       expect(result1).toEqual({
-        foo: 'Required',
+        foo: 'Required'
       })
 
       const values2 = fromJS({foo: '3'})
@@ -225,7 +225,7 @@ const describeGenerateValidator = (name, structure, expect) => {
       expect(minValueSpy.calls[0].arguments[0]).toBe('3')
       expect(minValueSpy.calls[0].arguments[1]).toEqual(values2)
       expect(result2).toEqual({
-        foo: 'Too low',
+        foo: 'Too low'
       })
 
       const values3 = fromJS({foo: '4'})

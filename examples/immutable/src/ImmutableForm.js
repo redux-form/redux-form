@@ -36,5 +36,5 @@ const ImmutableForm = props => {
 
 export default reduxForm({
   form: 'immutableExample', // a unique identifier for this form
-  validate,
+  validate
 })(ImmutableForm)

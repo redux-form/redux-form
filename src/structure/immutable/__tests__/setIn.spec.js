@@ -60,8 +60,8 @@ describe('structure.immutable.setIn', () => {
     let result = setIn(
       new Map({
         a: new Map({
-          b: new List(['first']),
-        }),
+          b: new List(['first'])
+        })
       }),
       'a.b[1].value',
       'success'
@@ -80,8 +80,8 @@ describe('structure.immutable.setIn', () => {
     let result = setIn(
       new Map({
         a: new Map({
-          b: new List(['first', undefined]),
-        }),
+          b: new List(['first', undefined])
+        })
       }),
       'a.b[1].value',
       'success'
@@ -141,8 +141,8 @@ describe('structure.immutable.setIn', () => {
   it('should update existing Map', () => {
     let initial = fromJS({
       a: {
-        b: {c: 'one'},
-      },
+        b: {c: 'one'}
+      }
     })
 
     let result = setIn(initial, 'a.b.c', 'two')
@@ -159,8 +159,8 @@ describe('structure.immutable.setIn', () => {
   it('should update existing List', () => {
     let initial = fromJS({
       a: {
-        b: [{c: 'one'}],
-      },
+        b: [{c: 'one'}]
+      }
     })
 
     let result = setIn(initial, 'a.b[0].c', 'two')
@@ -180,8 +180,8 @@ describe('structure.immutable.setIn', () => {
   it('should not break existing Map', () => {
     let initial = fromJS({
       a: {
-        b: {c: 'one'},
-      },
+        b: {c: 'one'}
+      }
     })
 
     let result = setIn(initial, 'a.b.d', 'two')
@@ -201,8 +201,8 @@ describe('structure.immutable.setIn', () => {
   it('should not break existing List', () => {
     let initial = fromJS({
       a: {
-        b: [{c: 'one'}, {c: 'two'}],
-      },
+        b: [{c: 'one'}, {c: 'two'}]
+      }
     })
 
     let result = setIn(initial, 'a.b[0].c', 'changed')
@@ -228,8 +228,8 @@ describe('structure.immutable.setIn', () => {
   it('should add to an existing List', () => {
     let initial = fromJS({
       a: {
-        b: [{c: 'one'}, {c: 'two'}],
-      },
+        b: [{c: 'one'}, {c: 'two'}]
+      }
     })
 
     let result = setIn(initial, 'a.b[2].c', 'three')
@@ -281,10 +281,10 @@ describe('structure.immutable.setIn', () => {
       a: {
         b: [
           {
-            c: '123',
-          },
-        ],
-      },
+            c: '123'
+          }
+        ]
+      }
     })
 
     let result = setIn(initial, 'a.b[0].d', '12')

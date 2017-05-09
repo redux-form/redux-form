@@ -6,9 +6,9 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue',
-        },
-      },
+          myField: 'myValue'
+        }
+      }
     })
   })
 
@@ -18,14 +18,14 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'myValue',
+          myField: 'myValue'
         },
         fields: {
           myField: {
-            touched: true,
-          },
-        },
-      },
+            touched: true
+          }
+        }
+      }
     })
   })
 
@@ -34,18 +34,18 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           initial: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           fields: {
             myField: {
-              active: true,
-            },
+              active: true
+            }
           },
-          active: 'myField',
-        },
+          active: 'myField'
+        }
       }),
       blur('foo', 'myField', 'myValue', true)
     )
@@ -53,17 +53,17 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'myValue',
+          myField: 'myValue'
         },
         initial: {
-          myField: 'initialValue',
+          myField: 'initialValue'
         },
         fields: {
           myField: {
-            touched: true,
-          },
-        },
-      },
+            touched: true
+          }
+        }
+      }
     })
   })
 
@@ -72,18 +72,18 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'myValue',
+            myField: 'myValue'
           },
           initial: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           fields: {
             myField: {
-              active: true,
-            },
+              active: true
+            }
           },
-          active: 'myField',
-        },
+          active: 'myField'
+        }
       }),
       blur('foo', 'myField', undefined, true)
     )
@@ -91,17 +91,17 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: 'myValue',
+          myField: 'myValue'
         },
         initial: {
-          myField: 'initialValue',
+          myField: 'initialValue'
         },
         fields: {
           myField: {
-            touched: true,
-          },
-        },
-      },
+            touched: true
+          }
+        }
+      }
     })
   })
 
@@ -111,11 +111,11 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           fields: {
             myField: {
-              active: true,
-            },
+              active: true
+            }
           },
-          active: 'myField',
-        },
+          active: 'myField'
+        }
       }),
       blur('foo', 'myField', undefined, true)
     )
@@ -124,10 +124,10 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         anyTouched: true,
         fields: {
           myField: {
-            touched: true,
-          },
-        },
-      },
+            touched: true
+          }
+        }
+      }
     })
   })
 
@@ -136,9 +136,9 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue',
-          },
-        },
+            myField: 'initialValue'
+          }
+        }
       }),
       blur('foo', 'myField', '', true)
     )
@@ -147,10 +147,10 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         anyTouched: true,
         fields: {
           myField: {
-            touched: true,
-          },
-        },
-      },
+            touched: true
+          }
+        }
+      }
     })
   })
 
@@ -159,12 +159,12 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           initial: {
-            myField: 'initialValue',
-          },
-        },
+            myField: 'initialValue'
+          }
+        }
       }),
       blur('foo', 'myField', '', true)
     )
@@ -172,17 +172,17 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: '',
+          myField: ''
         },
         initial: {
-          myField: 'initialValue',
+          myField: 'initialValue'
         },
         fields: {
           myField: {
-            touched: true,
-          },
-        },
-      },
+            touched: true
+          }
+        }
+      }
     })
   })
 
@@ -191,9 +191,9 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: ['initialValue'],
-          },
-        },
+            myField: ['initialValue']
+          }
+        }
       }),
       blur('foo', 'myField[0]', '', true)
     )
@@ -201,16 +201,16 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myField: [undefined],
+          myField: [undefined]
         },
         fields: {
           myField: [
             {
-              touched: true,
-            },
-          ],
-        },
-      },
+              touched: true
+            }
+          ]
+        }
+      }
     })
   })
 
@@ -220,10 +220,10 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           values: {
             nested: {
-              myField: 'initialValue',
-            },
-          },
-        },
+              myField: 'initialValue'
+            }
+          }
+        }
       }),
       blur('foo', 'nested.myField', '', true)
     )
@@ -233,11 +233,11 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           nested: {
             myField: {
-              touched: true,
-            },
-          },
-        },
-      },
+              touched: true
+            }
+          }
+        }
+      }
     })
   })
 
@@ -248,12 +248,12 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               mySubField: {
-                active: true,
-              },
-            },
+                active: true
+              }
+            }
           },
-          active: 'myField.mySubField',
-        },
+          active: 'myField.mySubField'
+        }
       }),
       blur('foo', 'myField.mySubField', 'hello', true)
     )
@@ -262,17 +262,17 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         anyTouched: true,
         values: {
           myField: {
-            mySubField: 'hello',
-          },
+            mySubField: 'hello'
+          }
         },
         fields: {
           myField: {
             mySubField: {
-              touched: true,
-            },
-          },
-        },
-      },
+              touched: true
+            }
+          }
+        }
+      }
     })
   })
 
@@ -281,13 +281,13 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       fromJS({
         foo: {
           values: {
-            myArray: [],
+            myArray: []
           },
           fields: {
-            myArray: [{active: true}],
+            myArray: [{active: true}]
           },
-          active: 'myArray[0]',
-        },
+          active: 'myArray[0]'
+        }
       }),
       blur('foo', 'myArray[0]', 'hello', true)
     )
@@ -295,16 +295,16 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myArray: ['hello'],
+          myArray: ['hello']
         },
         fields: {
           myArray: [
             {
-              touched: true,
-            },
-          ],
-        },
-      },
+              touched: true
+            }
+          ]
+        }
+      }
     })
   })
 
@@ -314,11 +314,11 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           fields: {
             myComplexField: {
-              active: true,
-            },
+              active: true
+            }
           },
-          active: 'myComplexField',
-        },
+          active: 'myComplexField'
+        }
       }),
       blur('foo', 'myComplexField', {id: 42, name: 'Bobby'}, true)
     )
@@ -330,10 +330,10 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
             anyTouched: true,
             fields: {
               myComplexField: {
-                touched: true,
-              },
-            },
-          },
+                touched: true
+              }
+            }
+          }
         }),
         'foo.values.myComplexField',
         {id: 42, name: 'Bobby'}
@@ -347,12 +347,12 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           fields: {
             myField: {
-              active: true,
+              active: true
             },
-            myOtherField: {},
+            myOtherField: {}
           },
-          active: 'myField',
-        },
+          active: 'myField'
+        }
       }),
       blur('foo', 'myOtherField')
     )
@@ -360,12 +360,12 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         fields: {
           myField: {
-            active: true,
+            active: true
           },
-          myOtherField: {},
+          myOtherField: {}
         },
-        active: 'myField',
-      },
+        active: 'myField'
+      }
     })
   })
 
@@ -374,9 +374,9 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       fromJS({
         foo: {
           values: {
-            myArray: [{}],
-          },
-        },
+            myArray: [{}]
+          }
+        }
       }),
       blur('foo', 'myArray[0].foo', '', true)
     )
@@ -384,18 +384,18 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         anyTouched: true,
         values: {
-          myArray: [{}],
+          myArray: [{}]
         },
         fields: {
           myArray: [
             {
               foo: {
-                touched: true,
-              },
-            },
-          ],
-        },
-      },
+                touched: true
+              }
+            }
+          ]
+        }
+      }
     })
   })
 }

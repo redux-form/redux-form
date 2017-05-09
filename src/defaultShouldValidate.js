@@ -5,7 +5,7 @@ const defaultShouldValidate = ({
   initialRender,
   lastFieldValidatorKeys,
   fieldValidatorKeys,
-  structure,
+  structure
 }) => {
   if (initialRender) {
     return true

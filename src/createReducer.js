@@ -32,7 +32,7 @@ import {
   UNREGISTER_FIELD,
   UNTOUCH,
   UPDATE_SYNC_ERRORS,
-  UPDATE_SYNC_WARNINGS,
+  UPDATE_SYNC_WARNINGS
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
@@ -53,7 +53,7 @@ const createReducer = structure => {
     fromJS,
     keys,
     size,
-    splice,
+    splice
   } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
@@ -475,7 +475,7 @@ const createReducer = structure => {
         result = deleteIn(result, 'syncWarnings')
       }
       return result
-    },
+    }
   }
 
   const reducer = (state = empty, action) => {

@@ -23,15 +23,15 @@ const describeGetFormSubmitErrors = (name, structure, expect) => {
               foo: {
                 submitErrors: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield',
+        cat: 'Garfield'
       })
     })
 
@@ -40,8 +40,8 @@ const describeGetFormSubmitErrors = (name, structure, expect) => {
         getFormSubmitErrors('foo')(
           fromJS({
             form: {
-              foo: {},
-            },
+              foo: {}
+            }
           })
         )
       ).toEqual(undefined)
@@ -55,15 +55,15 @@ const describeGetFormSubmitErrors = (name, structure, expect) => {
               foo: {
                 submitErrors: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield',
+        cat: 'Garfield'
       })
     })
   })

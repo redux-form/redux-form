@@ -9,9 +9,9 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: ['myValue'],
-        },
-      },
+          myField: ['myValue']
+        }
+      }
     })
   })
 
@@ -21,19 +21,19 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c'],
-            },
+              subField: ['a', 'b', 'c']
+            }
           },
           fields: {
             myField: {
               subField: [
                 {touched: true},
                 {touched: true, visited: true},
-                {touched: true},
-              ],
-            },
-          },
-        },
+                {touched: true}
+              ]
+            }
+          }
+        }
       }),
       arrayInsert('foo', 'myField.subField', 0, 'newValue')
     )
@@ -41,8 +41,8 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['newValue', 'a', 'b', 'c'],
-          },
+            subField: ['newValue', 'a', 'b', 'c']
+          }
         },
         fields: {
           myField: {
@@ -50,11 +50,11 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
               {},
               {touched: true},
               {touched: true, visited: true},
-              {touched: true},
-            ],
-          },
-        },
-      },
+              {touched: true}
+            ]
+          }
+        }
+      }
     })
   })
 
@@ -64,19 +64,19 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c'],
-            },
+              subField: ['a', 'b', 'c']
+            }
           },
           fields: {
             myField: {
               subField: [
                 {touched: true},
                 {touched: true, visited: true},
-                {touched: true},
-              ],
-            },
-          },
-        },
+                {touched: true}
+              ]
+            }
+          }
+        }
       }),
       arrayInsert('foo', 'myField.subField', 3, 'newValue')
     )
@@ -84,8 +84,8 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'b', 'c', 'newValue'],
-          },
+            subField: ['a', 'b', 'c', 'newValue']
+          }
         },
         fields: {
           myField: {
@@ -93,11 +93,11 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
               {touched: true},
               {touched: true, visited: true},
               {touched: true},
-              {},
-            ],
-          },
-        },
-      },
+              {}
+            ]
+          }
+        }
+      }
     })
   })
 
@@ -107,19 +107,19 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c'],
-            },
+              subField: ['a', 'b', 'c']
+            }
           },
           fields: {
             myField: {
               subField: [
                 {touched: true},
                 {touched: true, visited: true},
-                {touched: true},
-              ],
-            },
-          },
-        },
+                {touched: true}
+              ]
+            }
+          }
+        }
       }),
       arrayInsert('foo', 'myField.subField', 1, 'newValue')
     )
@@ -127,8 +127,8 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'newValue', 'b', 'c'],
-          },
+            subField: ['a', 'newValue', 'b', 'c']
+          }
         },
         fields: {
           myField: {
@@ -136,11 +136,11 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
               {touched: true},
               {},
               {touched: true, visited: true},
-              {touched: true},
-            ],
-          },
-        },
-      },
+              {touched: true}
+            ]
+          }
+        }
+      }
     })
   })
 }

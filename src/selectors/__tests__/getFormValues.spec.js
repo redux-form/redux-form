@@ -23,15 +23,15 @@ const describeGetFormValues = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield',
+        cat: 'Garfield'
       })
     })
 
@@ -43,15 +43,15 @@ const describeGetFormValues = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield',
+        cat: 'Garfield'
       })
     })
   })

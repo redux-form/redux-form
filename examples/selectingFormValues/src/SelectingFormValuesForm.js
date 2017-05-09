@@ -10,7 +10,7 @@ let SelectingFormValuesForm = props => {
     hasEmailValue,
     pristine,
     reset,
-    submitting,
+    submitting
   } = props
   return (
     <form onSubmit={handleSubmit}>
@@ -76,7 +76,7 @@ let SelectingFormValuesForm = props => {
             height: 80,
             width: 200,
             margin: '10px auto',
-            backgroundColor: favoriteColorValue,
+            backgroundColor: favoriteColorValue
           }}
         />}
       <div>
@@ -95,7 +95,7 @@ let SelectingFormValuesForm = props => {
 
 // Decorate with redux-form
 SelectingFormValuesForm = reduxForm({
-  form: 'selectingFormValues', // a unique identifier for this form
+  form: 'selectingFormValues' // a unique identifier for this form
 })(SelectingFormValuesForm)
 
 // Decorate with connect to read form values
@@ -109,7 +109,7 @@ SelectingFormValuesForm = connect(state => {
   return {
     hasEmailValue,
     favoriteColorValue,
-    fullName: `${firstName || ''} ${lastName || ''}`,
+    fullName: `${firstName || ''} ${lastName || ''}`
   }
 })(SelectingFormValuesForm)
 

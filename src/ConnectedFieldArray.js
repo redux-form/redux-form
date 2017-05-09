@@ -108,11 +108,11 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
   ConnectedFieldArray.propTypes = {
     component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
       .isRequired,
-    props: PropTypes.object,
+    props: PropTypes.object
   }
 
   ConnectedFieldArray.contextTypes = {
-    _reduxForm: PropTypes.object,
+    _reduxForm: PropTypes.object
   }
 
   const connector = connect(
@@ -138,7 +138,7 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
         syncError,
         syncWarning,
         value,
-        length: size(value),
+        length: size(value)
       }
     },
     (dispatch, ownProps) => {
@@ -153,7 +153,7 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
         arrayShift,
         arraySplice,
         arraySwap,
-        arrayUnshift,
+        arrayUnshift
       } = _reduxForm
       return mapValues(
         {
@@ -166,7 +166,7 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
           arrayShift,
           arraySplice,
           arraySwap,
-          arrayUnshift,
+          arrayUnshift
         },
         actionCreator =>
           bindActionCreators(actionCreator.bind(null, name), dispatch)

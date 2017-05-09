@@ -8,7 +8,7 @@ const describePlugin = (
 ) => () => {
   it('should initialize state when a plugin is given', () => {
     const reducer = vanillaReducer.plugin({
-      foo: state => state,
+      foo: state => state
     })
     const state = reducer()
     expect(state).toExist().toBeAMap().toBeSize(0)
@@ -19,13 +19,13 @@ const describePlugin = (
       foo: {
         values: {
           cat: 'dog',
-          rat: 'hog',
+          rat: 'hog'
         },
         fields: {
           cat: {touched: true},
-          rat: {touched: true},
-        },
-      },
+          rat: {touched: true}
+        }
+      }
     })
 
     const plugin = (state, action) => {
@@ -47,12 +47,12 @@ const describePlugin = (
     expect(state3).toEqualMap({
       foo: {
         values: {
-          cat: 'dog',
+          cat: 'dog'
         },
         fields: {
-          cat: {touched: true},
-        },
-      },
+          cat: {touched: true}
+        }
+      }
     })
   })
 
@@ -61,23 +61,23 @@ const describePlugin = (
       foo: {
         values: {
           cat: 'dog',
-          rat: 'hog',
+          rat: 'hog'
         },
         fields: {
           cat: {touched: true},
-          rat: {touched: true},
-        },
+          rat: {touched: true}
+        }
       },
       bar: {
         values: {
           cat: 'dog',
-          rat: 'hog',
+          rat: 'hog'
         },
         fields: {
           cat: {touched: true},
-          rat: {touched: true},
-        },
-      },
+          rat: {touched: true}
+        }
+      }
     })
 
     const plugin = (state, action) => {
@@ -99,22 +99,22 @@ const describePlugin = (
     expect(state3).toEqualMap({
       foo: {
         values: {
-          cat: 'dog',
+          cat: 'dog'
         },
         fields: {
-          cat: {touched: true},
-        },
+          cat: {touched: true}
+        }
       },
       bar: {
         values: {
           cat: 'dog',
-          rat: 'hog',
+          rat: 'hog'
         },
         fields: {
           cat: {touched: true},
-          rat: {touched: true},
-        },
-      },
+          rat: {touched: true}
+        }
+      }
     })
   })
 
@@ -123,13 +123,13 @@ const describePlugin = (
       foo: {
         values: {
           cat: 'beta',
-          lastCat: 'alpha',
+          lastCat: 'alpha'
         },
         fields: {
           cat: {touched: false},
-          lastCat: {touched: false},
-        },
-      },
+          lastCat: {touched: false}
+        }
+      }
     })
 
     // this plugin will change the value we are after so we can confirm we get the real starting state
@@ -160,13 +160,13 @@ const describePlugin = (
         anyTouched: true,
         values: {
           cat: 'zed',
-          lastCat: 'beta',
+          lastCat: 'beta'
         },
         fields: {
           cat: {touched: true},
-          lastCat: {touched: true},
-        },
-      },
+          lastCat: {touched: true}
+        }
+      }
     })
   })
 }

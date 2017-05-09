@@ -38,5 +38,5 @@ const RemoteSubmitForm = props => {
 
 export default reduxForm({
   form: 'remoteSubmit', // a unique identifier for this form
-  onSubmit: submit, // submit function must be passed to onSubmit
+  onSubmit: submit // submit function must be passed to onSubmit
 })(RemoteSubmitForm)

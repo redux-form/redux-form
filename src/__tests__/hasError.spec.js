@@ -40,8 +40,8 @@ const describeHasError = (name, structure, expect) => {
           field1,
           fromJS({
             nested: {
-              myArrayField: [undefined, undefined],
-            },
+              myArrayField: [undefined, undefined]
+            }
           })
         )
       ).toBe(false)
@@ -53,9 +53,9 @@ const describeHasError = (name, structure, expect) => {
             nested: {
               deeper: {
                 foo: undefined,
-                bar: undefined,
-              },
-            },
+                bar: undefined
+              }
+            }
           })
         )
       ).toBe(false)
@@ -65,8 +65,8 @@ const describeHasError = (name, structure, expect) => {
       const field = fromJS({name: 'foo.bar', type: 'Field'})
       const plainError = {
         foo: {
-          bar: 'An error',
-        },
+          bar: 'An error'
+        }
       }
       const error = fromJS(plainError)
       expect(hasError(field, plainError)).toBe(true)
@@ -78,8 +78,8 @@ const describeHasError = (name, structure, expect) => {
       const field = fromJS({name: 'foo.baz', type: 'Field'})
       const error = fromJS({
         foo: {
-          bar: 'An error',
-        },
+          bar: 'An error'
+        }
       })
       expect(hasError(field, error)).toBe(false)
       expect(hasError(field, null, error)).toBe(false)
@@ -90,8 +90,8 @@ const describeHasError = (name, structure, expect) => {
       const field = fromJS({name: 'foo.bar', type: 'FieldArray'})
       const plainError = {
         foo: {
-          bar: ['An error'],
-        },
+          bar: ['An error']
+        }
       }
       plainError.foo.bar._error = 'An error'
 
@@ -109,8 +109,8 @@ const describeHasError = (name, structure, expect) => {
       const field = fromJS({name: 'foo.baz', type: 'FieldArray'})
       const plainError = {
         foo: {
-          bar: ['An error'],
-        },
+          bar: ['An error']
+        }
       }
       plainError.foo.bar._error = 'An error'
 
@@ -128,8 +128,8 @@ const describeHasError = (name, structure, expect) => {
       const field = fromJS({name: 'foo', type: 'Field'})
       const plainError = {
         foo: {
-          _error: 'An error',
-        },
+          _error: 'An error'
+        }
       }
 
       expect(hasError(field, plainError)).toBe(true)

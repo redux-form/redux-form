@@ -6,20 +6,20 @@ const describeDestroy = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
-          active: 'myField',
+          active: 'myField'
         },
         otherThing: {
-          touchThis: false,
-        },
+          touchThis: false
+        }
       }),
       destroy('foo')
     )
     expect(state).toEqualMap({
       otherThing: {
-        touchThis: false,
-      },
+        touchThis: false
+      }
     })
   })
 
@@ -28,26 +28,26 @@ const describeDestroy = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'fooInitialValue',
+            myField: 'fooInitialValue'
           },
-          active: 'myFooField',
+          active: 'myFooField'
         },
         bar: {
           values: {
-            myField: 'barInitialValue',
+            myField: 'barInitialValue'
           },
-          active: 'myBarField',
+          active: 'myBarField'
         },
         otherThing: {
-          touchThis: false,
-        },
+          touchThis: false
+        }
       }),
       destroy('foo', 'bar')
     )
     expect(state).toEqualMap({
       otherThing: {
-        touchThis: false,
-      },
+        touchThis: false
+      }
     })
   })
 }

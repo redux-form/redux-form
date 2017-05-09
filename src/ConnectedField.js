@@ -68,7 +68,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         normalize,
         onChange,
         _reduxForm,
-        value: previousValue,
+        value: previousValue
       } = this.props
       const newValue = onChangeValue(event, {name, parse, normalize})
 
@@ -80,7 +80,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
             preventDefault: () => {
               defaultPrevented = true
               return event.preventDefault()
-            },
+            }
           },
           newValue,
           previousValue
@@ -102,7 +102,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
           preventDefault: () => {
             defaultPrevented = true
             return event.preventDefault()
-          },
+          }
         })
       }
 
@@ -120,7 +120,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         onBlur,
         _reduxForm,
         _value,
-        value: previousValue,
+        value: previousValue
       } = this.props
       let newValue = onChangeValue(event, {name, parse, normalize})
 
@@ -138,7 +138,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
             preventDefault: () => {
               defaultPrevented = true
               return event.preventDefault()
-            },
+            }
           },
           newValue,
           previousValue
@@ -171,7 +171,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         dispatch,
         onDrop,
         _reduxForm,
-        value: previousValue,
+        value: previousValue
       } = this.props
       const newValue = event.dataTransfer.getData(dataKey)
 
@@ -183,7 +183,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
             preventDefault: () => {
               defaultPrevented = true
               return event.preventDefault()
-            },
+            }
           },
           newValue,
           previousValue
@@ -219,7 +219,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         onChange: this.handleChange,
         onDrop: this.handleDrop,
         onDragStart: this.handleDragStart,
-        onFocus: this.handleFocus,
+        onFocus: this.handleFocus
       })
       if (withRef) {
         custom.ref = 'renderedComponent'
@@ -237,7 +237,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
   ConnectedField.propTypes = {
     component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
       .isRequired,
-    props: PropTypes.object,
+    props: PropTypes.object
   }
 
   const connector = connect(
@@ -266,7 +266,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         syncWarning,
         initial,
         value,
-        _value: ownProps.value, // save value passed in (for checkboxes)
+        _value: ownProps.value // save value passed in (for checkboxes)
       }
     },
     undefined,

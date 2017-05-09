@@ -23,15 +23,15 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
               foo: {
                 syncWarnings: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield',
+        cat: 'Garfield'
       })
     })
 
@@ -40,8 +40,8 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
         getFormSyncWarnings('foo')(
           fromJS({
             form: {
-              foo: {},
-            },
+              foo: {}
+            }
           })
         )
       ).toEqual(undefined)
@@ -55,15 +55,15 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
               foo: {
                 syncWarnings: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: 'Snoopy',
-        cat: 'Garfield',
+        cat: 'Garfield'
       })
     })
   })

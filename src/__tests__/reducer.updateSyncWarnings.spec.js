@@ -7,13 +7,13 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue',
-          },
-        },
+            myOtherField: 'otherValue'
+          }
+        }
       }),
       updateSyncWarnings('foo', {
         myField: 'myField warning',
-        myOtherField: 'myOtherField warning',
+        myOtherField: 'myOtherField warning'
       })
     )
     expect(state).toEqual(
@@ -22,14 +22,14 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
           foo: {
             values: {
               myField: 'value',
-              myOtherField: 'otherValue',
-            },
-          },
+              myOtherField: 'otherValue'
+            }
+          }
         }),
         'foo.syncWarnings',
         {
           myField: 'myField warning',
-          myOtherField: 'myOtherField warning',
+          myOtherField: 'myOtherField warning'
         }
       )
     )
@@ -41,14 +41,14 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue',
-          },
-        },
+            myOtherField: 'otherValue'
+          }
+        }
       }),
       updateSyncWarnings(
         'foo',
         {
-          myField: 'myField warning',
+          myField: 'myField warning'
         },
         'form wide warning'
       )
@@ -59,14 +59,14 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
           foo: {
             values: {
               myField: 'value',
-              myOtherField: 'otherValue',
+              myOtherField: 'otherValue'
             },
-            warning: 'form wide warning',
-          },
+            warning: 'form wide warning'
+          }
         }),
         'foo.syncWarnings',
         {
-          myField: 'myField warning',
+          myField: 'myField warning'
         }
       )
     )
@@ -78,13 +78,13 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue',
-          },
-        },
+            myOtherField: 'otherValue'
+          }
+        }
       }),
       updateSyncWarnings('foo', {
         myField: {complex: true, text: 'myField warning'},
-        myOtherField: {complex: true, text: 'myOtherField warning'},
+        myOtherField: {complex: true, text: 'myOtherField warning'}
       })
     )
     expect(state).toEqual(
@@ -93,14 +93,14 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
           foo: {
             values: {
               myField: 'value',
-              myOtherField: 'otherValue',
-            },
-          },
+              myOtherField: 'otherValue'
+            }
+          }
         }),
         'foo.syncWarnings',
         {
           myField: {complex: true, text: 'myField warning'},
-          myOtherField: {complex: true, text: 'myOtherField warning'},
+          myOtherField: {complex: true, text: 'myOtherField warning'}
         }
       )
     )
@@ -112,13 +112,13 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
         foo: {
           values: {
             myField: 'value',
-            myOtherField: 'otherValue',
+            myOtherField: 'otherValue'
           },
           syncWarnings: {
             myField: 'myField warning',
-            myOtherField: 'myOtherField warning',
-          },
-        },
+            myOtherField: 'myOtherField warning'
+          }
+        }
       }),
       updateSyncWarnings('foo', {})
     )
@@ -126,9 +126,9 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
       foo: {
         values: {
           myField: 'value',
-          myOtherField: 'otherValue',
-        },
-      },
+          myOtherField: 'otherValue'
+        }
+      }
     })
   })
 }

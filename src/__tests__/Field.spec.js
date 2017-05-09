@@ -63,8 +63,8 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get value from Redux state', () => {
       const props = testProps({
         values: {
-          foo: 'bar',
-        },
+          foo: 'bar'
+        }
       })
       expect(props.input.value).toBe('bar')
     })
@@ -72,11 +72,11 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get initial value from Redux state', () => {
       const props = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: 'baz',
-        },
+          foo: 'baz'
+        }
       })
       expect(props.meta.initial).toBe('bar')
     })
@@ -84,31 +84,31 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get dirty/pristine from Redux state', () => {
       const props1 = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: 'bar',
-        },
+          foo: 'bar'
+        }
       })
       expect(props1.meta.pristine).toBe(true)
       expect(props1.meta.dirty).toBe(false)
       const props2 = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: 'baz',
-        },
+          foo: 'baz'
+        }
       })
       expect(props2.meta.pristine).toBe(false)
       expect(props2.meta.dirty).toBe(true)
       const props3 = testProps({
         initial: {
-          foo: [4, 'abc', {def: null, key: [-45, '...', [0, 99]]}],
+          foo: [4, 'abc', {def: null, key: [-45, '...', [0, 99]]}]
         },
         values: {
-          foo: [4, 'abc', {def: null, key: [-45, '...', [0, 99]]}],
-        },
+          foo: [4, 'abc', {def: null, key: [-45, '...', [0, 99]]}]
+        }
       })
       expect(props3.meta.pristine).toBe(true)
       expect(props3.meta.dirty).toBe(false)
@@ -117,21 +117,21 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should allow an empty value from Redux state to be pristine', () => {
       const props1 = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: '',
-        },
+          foo: ''
+        }
       })
       expect(props1.meta.pristine).toBe(false)
       expect(props1.meta.dirty).toBe(true)
       const props2 = testProps({
         initial: {
-          foo: '',
+          foo: ''
         },
         values: {
-          foo: '',
-        },
+          foo: ''
+        }
       })
       expect(props2.meta.pristine).toBe(true)
       expect(props2.meta.dirty).toBe(false)
@@ -140,22 +140,22 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get asyncValidating from Redux state', () => {
       const props1 = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: 'bar',
+          foo: 'bar'
         },
-        asyncValidating: 'dog',
+        asyncValidating: 'dog'
       })
       expect(props1.meta.asyncValidating).toBe(false)
       const props2 = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: 'baz',
+          foo: 'baz'
         },
-        asyncValidating: 'foo',
+        asyncValidating: 'foo'
       })
       expect(props2.meta.asyncValidating).toBe(true)
     })
@@ -163,19 +163,19 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get active from Redux state', () => {
       const props1 = testProps({
         values: {
-          foo: 'bar',
-        },
+          foo: 'bar'
+        }
       })
       expect(props1.meta.active).toBe(false)
       const props2 = testProps({
         values: {
-          foo: 'bar',
+          foo: 'bar'
         },
         fields: {
           foo: {
-            active: true,
-          },
-        },
+            active: true
+          }
+        }
       })
       expect(props2.meta.active).toBe(true)
     })
@@ -183,19 +183,19 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get autofilled from Redux state', () => {
       const props1 = testProps({
         values: {
-          foo: 'bar',
-        },
+          foo: 'bar'
+        }
       })
       expect(props1.meta.autofilled).toBe(false)
       const props2 = testProps({
         values: {
-          foo: 'bar',
+          foo: 'bar'
         },
         fields: {
           foo: {
-            autofilled: true,
-          },
-        },
+            autofilled: true
+          }
+        }
       })
       expect(props2.meta.autofilled).toBe(true)
     })
@@ -203,19 +203,19 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get touched from Redux state', () => {
       const props1 = testProps({
         values: {
-          foo: 'bar',
-        },
+          foo: 'bar'
+        }
       })
       expect(props1.meta.touched).toBe(false)
       const props2 = testProps({
         values: {
-          foo: 'bar',
+          foo: 'bar'
         },
         fields: {
           foo: {
-            touched: true,
-          },
-        },
+            touched: true
+          }
+        }
       })
       expect(props2.meta.touched).toBe(true)
     })
@@ -223,19 +223,19 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get visited from Redux state', () => {
       const props1 = testProps({
         values: {
-          foo: 'bar',
-        },
+          foo: 'bar'
+        }
       })
       expect(props1.meta.visited).toBe(false)
       const props2 = testProps({
         values: {
-          foo: 'bar',
+          foo: 'bar'
         },
         fields: {
           foo: {
-            visited: true,
-          },
-        },
+            visited: true
+          }
+        }
       })
       expect(props2.meta.visited).toBe(true)
     })
@@ -249,17 +249,17 @@ const describeField = (name, structure, combineReducers, expect) => {
       const props = testProps(
         {
           initial: {
-            foo: 'bar',
+            foo: 'bar'
           },
           values: {
-            foo: 'bar',
+            foo: 'bar'
           },
           registeredFields: {
-            foo: {name: 'foo', type: 'Field'},
-          },
+            foo: {name: 'foo', type: 'Field'}
+          }
         },
         {
-          validate: () => ({foo: 'foo error'}),
+          validate: () => ({foo: 'foo error'})
         }
       )
       expect(props.meta.error).toBe('foo error')
@@ -269,17 +269,17 @@ const describeField = (name, structure, combineReducers, expect) => {
       const props = testProps(
         {
           initial: {
-            foo: 'bar',
+            foo: 'bar'
           },
           values: {
-            foo: 'bar',
+            foo: 'bar'
           },
           registeredFields: {
-            foo: {name: 'foo', type: 'Field'},
-          },
+            foo: {name: 'foo', type: 'Field'}
+          }
         },
         {
-          warn: () => ({foo: 'foo warning'}),
+          warn: () => ({foo: 'foo warning'})
         }
       )
       expect(props.meta.warning).toBe('foo warning')
@@ -288,14 +288,14 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get async errors from Redux state', () => {
       const props = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: 'bar',
+          foo: 'bar'
         },
         asyncErrors: {
-          foo: 'foo error',
-        },
+          foo: 'foo error'
+        }
       })
       expect(props.meta.error).toBe('foo error')
     })
@@ -303,21 +303,21 @@ const describeField = (name, structure, combineReducers, expect) => {
     it('should get submit errors from Redux state', () => {
       const props = testProps({
         initial: {
-          foo: 'bar',
+          foo: 'bar'
         },
         values: {
-          foo: 'bar',
+          foo: 'bar'
         },
         submitErrors: {
-          foo: 'foo error',
-        },
+          foo: 'foo error'
+        }
       })
       expect(props.meta.error).toBe('foo error')
     })
 
     it('should get submitFailed prop from Redux state', () => {
       const props = testProps({
-        submitFailed: true,
+        submitFailed: true
       })
       expect(props.meta.submitFailed).toBe(true)
     })
@@ -331,9 +331,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: 'bar',
-          },
-        },
+            foo: 'bar'
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -354,9 +354,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: 'bar',
-          },
-        },
+            foo: 'bar'
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -377,9 +377,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: 'bar',
-          },
-        },
+            foo: 'bar'
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -400,12 +400,12 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: 'bar',
+            foo: 'bar'
           },
           values: {
-            foo: 'bar',
-          },
-        },
+            foo: 'bar'
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -426,9 +426,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: 'bar',
-          },
-        },
+            foo: 'bar'
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -449,12 +449,12 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: 'bar',
+            foo: 'bar'
           },
           values: {
-            foo: 'bar',
-          },
-        },
+            foo: 'bar'
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -482,7 +482,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -497,9 +497,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['bar'],
-          },
-        },
+            foo: ['bar']
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -512,7 +512,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        validate,
+        validate
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -529,9 +529,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['bar'],
-          },
-        },
+            foo: ['bar']
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -544,7 +544,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        warn,
+        warn
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -560,9 +560,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: 'bar',
-          },
-        },
+            foo: 'bar'
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -586,14 +586,14 @@ const describeField = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             foo: 'fooValue',
-            bar: 'barValue',
+            bar: 'barValue'
           },
           fields: {
             bar: {
-              touched: true,
-            },
-          },
-        },
+              touched: true
+            }
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -699,10 +699,10 @@ const describeField = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'foo.bar': {name: 'foo.bar', type: 'Field', count: 1},
-            },
-          },
-        },
+              'foo.bar': {name: 'foo.bar', type: 'Field', count: 1}
+            }
+          }
+        }
       })
     })
 
@@ -733,11 +733,11 @@ const describeField = (name, structure, combineReducers, expect) => {
               'foo.fighter.bar': {
                 name: 'foo.fighter.bar',
                 type: 'Field',
-                count: 1,
-              },
-            },
-          },
-        },
+                count: 1
+              }
+            }
+          }
+        }
       })
     })
 
@@ -770,9 +770,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}},
-          },
-        },
+            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}}
+          }
+        }
       })
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -781,9 +781,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: {bar: {name: 'bar', type: 'Field', count: 1}},
-          },
-        },
+            registeredFields: {bar: {name: 'bar', type: 'Field', count: 1}}
+          }
+        }
       })
     })
 
@@ -882,9 +882,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           values: {
             title: 'Redux Form',
             author: 'Erik Rasmussen',
-            username: 'oldusername',
-          },
-        },
+            username: 'oldusername'
+          }
+        }
       })
       const renderUsername = createSpy(props => (
         <input {...props.input} />
@@ -925,12 +925,12 @@ const describeField = (name, structure, combineReducers, expect) => {
         fromJS({
           title: 'Redux Form',
           author: 'Erik Rasmussen',
-          username: 'ERIKRAS',
+          username: 'ERIKRAS'
         }),
         fromJS({
           title: 'Redux Form',
           author: 'Erik Rasmussen',
-          username: 'oldusername',
+          username: 'oldusername'
         })
       )
       expect(normalize.calls.length).toBe(1)
@@ -944,9 +944,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           values: {
             title: 'Redux Form',
             author: 'Erik Rasmussen',
-            username: 'oldusername',
-          },
-        },
+            username: 'oldusername'
+          }
+        }
       })
       const renderUsername = createSpy(props => (
         <input {...props.input} />
@@ -987,12 +987,12 @@ const describeField = (name, structure, combineReducers, expect) => {
         fromJS({
           title: 'Redux Form',
           author: 'Erik Rasmussen',
-          username: 'ERIKRAS',
+          username: 'ERIKRAS'
         }),
         fromJS({
           title: 'Redux Form',
           author: 'Erik Rasmussen',
-          username: 'oldusername',
+          username: 'oldusername'
         })
       )
       expect(normalize.calls.length).toBe(1)
@@ -1006,9 +1006,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           values: {
             title: 'Redux Form',
             author: 'Erik Rasmussen',
-            username: 'oldusername',
-          },
-        },
+            username: 'oldusername'
+          }
+        }
       })
       const renderUsername = createSpy(props => (
         <input {...props.input} />
@@ -1043,9 +1043,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            title: 'Redux Form',
-          },
-        },
+            title: 'Redux Form'
+          }
+        }
       })
       const renderTitle = createSpy(props => (
         <input {...props.input} />
@@ -1073,9 +1073,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           values: {
             title: 'Redux Form',
             author: 'Erik Rasmussen',
-            sex: 'male',
-          },
-        },
+            sex: 'male'
+          }
+        }
       })
       const renderSex = createSpy(props => (
         <input {...props.input} />
@@ -1121,9 +1121,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            title: 'Redux Form',
-          },
-        },
+            title: 'Redux Form'
+          }
+        }
       })
       const renderTitle = createSpy(props => (
         <input {...props.input} />
@@ -1153,9 +1153,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            title: null,
-          },
-        },
+            title: null
+          }
+        }
       })
       const renderTitle = createSpy(props => (
         <input {...props.input} />
@@ -1183,9 +1183,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            title: 'Redux Form',
-          },
-        },
+            title: 'Redux Form'
+          }
+        }
       })
       const renderTitle = createSpy(props => (
         <input {...props.input} />
@@ -1215,9 +1215,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            name: 'Redux Form',
-          },
-        },
+            name: 'Redux Form'
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -1250,9 +1250,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            name: 'redux form',
-          },
-        },
+            name: 'redux form'
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -1293,9 +1293,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            name: 'redux form',
-          },
-        },
+            name: 'redux form'
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -1336,9 +1336,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            name: 'redux form',
-          },
-        },
+            name: 'redux form'
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -1364,17 +1364,17 @@ const describeField = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              name: 'redux form',
+              name: 'redux form'
             },
             registeredFields: {
               name: {
                 name: 'name',
                 type: 'Field',
-                count: 1,
-              },
-            },
-          },
-        },
+                count: 1
+              }
+            }
+          }
+        }
       })
 
       // verify props
@@ -1392,23 +1392,23 @@ const describeField = (name, structure, combineReducers, expect) => {
           testForm: {
             active: 'name',
             values: {
-              name: 'redux form',
+              name: 'redux form'
             },
             registeredFields: {
               name: {
                 name: 'name',
                 type: 'Field',
-                count: 1,
-              },
+                count: 1
+              }
             },
             fields: {
               name: {
                 visited: true,
-                active: true,
-              },
-            },
-          },
-        },
+                active: true
+              }
+            }
+          }
+        }
       })
 
       // verify props
@@ -1425,23 +1425,23 @@ const describeField = (name, structure, combineReducers, expect) => {
           testForm: {
             anyTouched: true,
             values: {
-              name: 'redux form', // UNCHANGED!
+              name: 'redux form' // UNCHANGED!
             },
             registeredFields: {
               name: {
                 name: 'name',
                 type: 'Field',
-                count: 1,
-              },
+                count: 1
+              }
             },
             fields: {
               name: {
                 visited: true,
-                touched: true,
-              },
-            },
-          },
-        },
+                touched: true
+              }
+            }
+          }
+        }
       })
 
       // verify props
@@ -1454,9 +1454,9 @@ const describeField = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            age: 42,
-          },
-        },
+            age: 42
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -1512,11 +1512,11 @@ const describeField = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              age: 15, // number
+              age: 15 // number
             },
-            registeredFields: {age: {name: 'age', type: 'Field', count: 1}},
-          },
-        },
+            registeredFields: {age: {name: 'age', type: 'Field', count: 1}}
+          }
+        }
       })
 
       // format called again
@@ -1534,9 +1534,9 @@ const describeField = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             password: 'redux-form sucks',
-            confirm: 'redux-form rocks',
-          },
-        },
+            confirm: 'redux-form rocks'
+          }
+        }
       })
       const passwordInput = createSpy(props => (
         <input {...props.input} />
@@ -1561,7 +1561,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        validate,
+        validate
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1611,7 +1611,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        validate,
+        validate
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1643,9 +1643,9 @@ const describeField = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             password: 'redux-form sucks',
-            confirm: 'redux-form rocks',
-          },
-        },
+            confirm: 'redux-form rocks'
+          }
+        }
       })
       const passwordInput = createSpy(props => (
         <input {...props.input} />
@@ -1672,7 +1672,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        warn,
+        warn
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1722,7 +1722,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        warn,
+        warn
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1771,7 +1771,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1822,7 +1822,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1872,7 +1872,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         format: x => x,
         validate: () => undefined,
         warn: () => undefined,
-        withRef: true,
+        withRef: true
       }
       class Form extends Component {
         render() {
@@ -1884,7 +1884,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -2247,7 +2247,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderInput.calls[0].arguments[0].onDrop).toNotExist()
 
       TestUtils.Simulate.drop(input, {
-        dataTransfer: {getData: () => 'bar'},
+        dataTransfer: {getData: () => 'bar'}
       })
 
       // call back was called
@@ -2296,7 +2296,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderInput.calls[0].arguments[0].onDrop).toNotExist()
 
       TestUtils.Simulate.drop(input, {
-        dataTransfer: {getData: () => 'bar'},
+        dataTransfer: {getData: () => 'bar'}
       })
 
       // call back was called
@@ -2346,7 +2346,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderInput.calls[0].arguments[0].onDragStart).toNotExist()
 
       TestUtils.Simulate.dragStart(input, {
-        dataTransfer: {setData: () => {}},
+        dataTransfer: {setData: () => {}}
       })
 
       // call back was called

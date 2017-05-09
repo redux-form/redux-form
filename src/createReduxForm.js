@@ -52,7 +52,7 @@ const arrayActions = {
   arrayShift,
   arraySplice,
   arraySwap,
-  arrayUnshift,
+  arrayUnshift
 }
 
 const propsToNotUpdateFor = [
@@ -63,7 +63,7 @@ const propsToNotUpdateFor = [
   'syncErrors',
   'syncWarnings',
   'values',
-  'registeredFields',
+  'registeredFields'
 ]
 
 const checkSubmit = submit => {
@@ -94,7 +94,7 @@ const createReduxForm = structure => {
       getFormState: state => getIn(state, 'form'),
       pure: true,
       forceUnregisterOnUnmount: false,
-      ...initialConfig,
+      ...initialConfig
     }
 
     return WrappedComponent => {
@@ -127,8 +127,8 @@ const createReduxForm = structure => {
               register: this.register,
               unregister: this.unregister,
               registerInnerOnSubmit: innerOnSubmit =>
-                (this.innerOnSubmit = innerOnSubmit),
-            },
+                (this.innerOnSubmit = innerOnSubmit)
+            }
           }
         }
 
@@ -142,7 +142,7 @@ const createReduxForm = structure => {
               const keepDirty =
                 nextProps.initialized && this.props.keepDirtyOnReinitialize
               this.props.initialize(nextProps.initialValues, keepDirty, {
-                lastInitialValues: this.props.initialValues,
+                lastInitialValues: this.props.initialValues
               })
             }
           } else if (
@@ -200,7 +200,7 @@ const createReduxForm = structure => {
               initialRender,
               lastFieldValidatorKeys: this.lastFieldValidatorKeys,
               fieldValidatorKeys,
-              structure,
+              structure
             })
 
             if (shouldValidateResult) {
@@ -259,7 +259,7 @@ const createReduxForm = structure => {
               initialRender,
               lastFieldValidatorKeys: this.lastFieldWarnerKeys,
               fieldValidatorKeys: fieldWarnerKeys,
-              structure,
+              structure
             })
 
             if (shouldWarnResult) {
@@ -431,7 +431,7 @@ const createReduxForm = structure => {
             startAsyncValidation,
             stopAsyncValidation,
             syncErrors,
-            values,
+            values
           } = this.props
           const submitting = !name
           if (asyncValidate) {
@@ -451,7 +451,7 @@ const createReduxForm = structure => {
                 trigger: submitting ? 'submit' : 'blur',
                 blurredField: name,
                 pristine,
-                syncValidationPasses,
+                syncValidationPasses
               })
             ) {
               return asyncValidation(
@@ -498,7 +498,7 @@ const createReduxForm = structure => {
                     checkSubmit(onSubmit),
                     {
                       ...this.props,
-                      ...bindActionCreators({blur, change}, dispatch),
+                      ...bindActionCreators({blur, change}, dispatch)
                     },
                     this.props.validExceptSubmit,
                     this.asyncValidate,
@@ -517,7 +517,7 @@ const createReduxForm = structure => {
                     checkSubmit(submitOrEvent),
                     {
                       ...this.props,
-                      ...bindActionCreators({blur, change}, dispatch),
+                      ...bindActionCreators({blur, change}, dispatch)
                     },
                     this.props.validExceptSubmit,
                     this.asyncValidate,
@@ -624,13 +624,13 @@ const createReduxForm = structure => {
             touch,
             untouch,
             valid,
-            warning,
+            warning
           }
           const propsToPass = {
             ...(propNamespace
               ? {[propNamespace]: reduxFormProps}
               : reduxFormProps),
-            ...rest,
+            ...rest
           }
           if (isClassComponent(WrappedComponent)) {
             propsToPass.ref = 'wrapped'
@@ -641,7 +641,7 @@ const createReduxForm = structure => {
       Form.displayName = `Form(${getDisplayName(WrappedComponent)})`
       Form.WrappedComponent = WrappedComponent
       Form.childContextTypes = {
-        _reduxForm: PropTypes.object.isRequired,
+        _reduxForm: PropTypes.object.isRequired
       }
       Form.propTypes = {
         destroyOnUnmount: PropTypes.bool,
@@ -658,7 +658,7 @@ const createReduxForm = structure => {
         touchOnChange: PropTypes.bool,
         triggerSubmit: PropTypes.bool,
         persistentSubmitErrors: PropTypes.bool,
-        registeredFields: PropTypes.any,
+        registeredFields: PropTypes.any
       }
 
       const connector = connect(
@@ -668,7 +668,7 @@ const createReduxForm = structure => {
             getFormState,
             initialValues,
             enableReinitialize,
-            keepDirtyOnReinitialize,
+            keepDirtyOnReinitialize
           } = props
           const formState = getIn(getFormState(state) || empty, form) || empty
           const stateInitial = getIn(formState, 'initial')
@@ -726,7 +726,7 @@ const createReduxForm = structure => {
             values,
             valid,
             validExceptSubmit,
-            warning,
+            warning
           }
         },
         (dispatch, initialProps) => {
@@ -763,7 +763,7 @@ const createReduxForm = structure => {
             shift: bindActionCreators(boundArrayACs.arrayShift, dispatch),
             splice: bindActionCreators(boundArrayACs.arraySplice, dispatch),
             swap: bindActionCreators(boundArrayACs.arraySwap, dispatch),
-            unshift: bindActionCreators(boundArrayACs.arrayUnshift, dispatch),
+            unshift: bindActionCreators(boundArrayACs.arrayUnshift, dispatch)
           }
 
           const computedActions = {
@@ -773,7 +773,7 @@ const createReduxForm = structure => {
             change: boundChange,
             array: connectedArrayACs,
             focus: boundFocus,
-            dispatch,
+            dispatch
           }
 
           return () => computedActions
@@ -830,7 +830,7 @@ const createReduxForm = structure => {
             ...rest,
             ref: 'wrapped',
             // convert initialValues if need to
-            initialValues: fromJS(initialValues),
+            initialValues: fromJS(initialValues)
           })
         }
       }

@@ -59,7 +59,7 @@ import {
   touch,
   unregisterField,
   untouch,
-  values,
+  values
 } from '../index'
 
 describe('index', () => {

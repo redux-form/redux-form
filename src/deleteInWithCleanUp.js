@@ -5,7 +5,7 @@ const createDeleteInWithCleanUp = ({
   empty,
   getIn,
   deleteIn,
-  setIn,
+  setIn
 }) => {
   const deleteInWithCleanUp = (state, path) => {
     if (path[path.length - 1] === ']') {

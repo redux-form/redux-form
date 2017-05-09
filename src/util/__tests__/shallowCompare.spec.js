@@ -7,11 +7,11 @@ describe('shallowCompare', () => {
       shallowCompare(
         {
           props: {
-            a: 'a',
+            a: 'a'
           },
           state: {
-            b: 'b',
-          },
+            b: 'b'
+          }
         },
         {a: 'a'},
         {b: 'b'}
@@ -27,11 +27,11 @@ describe('shallowCompare', () => {
       shallowCompare(
         {
           props: {
-            a: aProp,
+            a: aProp
           },
           state: {
-            b: bState,
-          },
+            b: bState
+          }
         },
         {a: aProp},
         {b: bState}
@@ -47,11 +47,11 @@ describe('shallowCompare', () => {
       shallowCompare(
         {
           props: {
-            a: aProp,
+            a: aProp
           },
           state: {
-            b: bState,
-          },
+            b: bState
+          }
         },
         {a: aProp},
         {b: [1, 2, 3]}

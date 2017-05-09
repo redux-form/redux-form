@@ -14,7 +14,7 @@ const validate = values => {
     'lastName',
     'email',
     'favoriteColor',
-    'notes',
+    'notes'
   ]
   requiredFields.forEach(field => {
     if (!values[field]) {
@@ -133,5 +133,5 @@ const MaterialUiForm = props => {
 export default reduxForm({
   form: 'MaterialUiForm', // a unique identifier for this form
   validate,
-  asyncValidate,
+  asyncValidate
 })(MaterialUiForm)

@@ -83,5 +83,5 @@ const FieldNormalizingForm = props => {
 
 export default reduxForm({
   form: 'normalizing', // a unique identifier for this form
-  initialValues: {min: '1', max: '10'},
+  initialValues: {min: '1', max: '10'}
 })(FieldNormalizingForm)

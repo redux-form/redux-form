@@ -7,22 +7,22 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
         foo: {
           registeredFields: {
             myField: {type: 'Field', name: 'myField'},
-            myOtherField: {type: 'Field', name: 'myOtherField'},
+            myOtherField: {type: 'Field', name: 'myOtherField'}
           },
           values: {
             myField: 'value',
-            myOtherField: 'otherValue',
+            myOtherField: 'otherValue'
           },
           fields: {
             myField: {
-              touched: true,
+              touched: true
             },
             myOtherField: {
-              touched: true,
-            },
+              touched: true
+            }
           },
-          anyTouched: true,
-        },
+          anyTouched: true
+        }
       }),
       untouch('foo', 'myField', 'myOtherField')
     )
@@ -30,17 +30,17 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
       foo: {
         registeredFields: {
           myField: {type: 'Field', name: 'myField'},
-          myOtherField: {type: 'Field', name: 'myOtherField'},
+          myOtherField: {type: 'Field', name: 'myOtherField'}
         },
         values: {
           myField: 'value',
-          myOtherField: 'otherValue',
+          myOtherField: 'otherValue'
         },
         fields: {
           myField: {},
-          myOtherField: {},
-        },
-      },
+          myOtherField: {}
+        }
+      }
     })
   })
 
@@ -50,22 +50,22 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
         foo: {
           registeredFields: {
             myField: {type: 'Field', name: 'myField'},
-            myOtherField: {type: 'Field', name: 'myOtherField'},
+            myOtherField: {type: 'Field', name: 'myOtherField'}
           },
           values: {
             myField: 'value',
-            myOtherField: 'otherValue',
+            myOtherField: 'otherValue'
           },
           fields: {
             myField: {
-              touched: true,
+              touched: true
             },
             myOtherField: {
-              touched: true,
-            },
+              touched: true
+            }
           },
-          anyTouched: true,
-        },
+          anyTouched: true
+        }
       }),
       untouch('foo', 'myField')
     )
@@ -73,20 +73,20 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
       foo: {
         registeredFields: {
           myField: {type: 'Field', name: 'myField'},
-          myOtherField: {type: 'Field', name: 'myOtherField'},
+          myOtherField: {type: 'Field', name: 'myOtherField'}
         },
         values: {
           myField: 'value',
-          myOtherField: 'otherValue',
+          myOtherField: 'otherValue'
         },
         fields: {
           myField: {},
           myOtherField: {
-            touched: true,
-          },
+            touched: true
+          }
         },
-        anyTouched: true,
-      },
+        anyTouched: true
+      }
     })
   })
 
@@ -96,26 +96,26 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
         foo: {
           registeredFields: {
             'deep.myField': {type: 'Field', name: 'deep.myField'},
-            'deep.myOtherField': {type: 'Field', name: 'deep.myOtherField'},
+            'deep.myOtherField': {type: 'Field', name: 'deep.myOtherField'}
           },
           values: {
             deep: {
               myField: 'value',
-              myOtherField: 'otherValue',
-            },
+              myOtherField: 'otherValue'
+            }
           },
           fields: {
             deep: {
               myField: {
-                touched: true,
+                touched: true
               },
               myOtherField: {
-                touched: true,
-              },
-            },
+                touched: true
+              }
+            }
           },
-          anyTouched: true,
-        },
+          anyTouched: true
+        }
       }),
       untouch('foo', 'deep.myField', 'deep.myOtherField')
     )
@@ -123,21 +123,21 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
       foo: {
         registeredFields: {
           'deep.myField': {type: 'Field', name: 'deep.myField'},
-          'deep.myOtherField': {type: 'Field', name: 'deep.myOtherField'},
+          'deep.myOtherField': {type: 'Field', name: 'deep.myOtherField'}
         },
         values: {
           deep: {
             myField: 'value',
-            myOtherField: 'otherValue',
-          },
+            myOtherField: 'otherValue'
+          }
         },
         fields: {
           deep: {
             myField: {},
-            myOtherField: {},
-          },
-        },
-      },
+            myOtherField: {}
+          }
+        }
+      }
     })
   })
 
@@ -147,16 +147,16 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
         foo: {
           registeredFields: {
             'myFields[0]': {type: 'Field', name: 'myFields[0]'},
-            'myFields[1]': {type: 'Field', name: 'myFields[1]'},
+            'myFields[1]': {type: 'Field', name: 'myFields[1]'}
           },
           values: {
-            myFields: ['value', 'otherValue'],
+            myFields: ['value', 'otherValue']
           },
           fields: {
-            myFields: [{touched: true}, {touched: true}],
+            myFields: [{touched: true}, {touched: true}]
           },
-          anyTouched: true,
-        },
+          anyTouched: true
+        }
       }),
       untouch('foo', 'myFields[0]', 'myFields[1]')
     )
@@ -164,15 +164,15 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
       foo: {
         registeredFields: {
           'myFields[0]': {type: 'Field', name: 'myFields[0]'},
-          'myFields[1]': {type: 'Field', name: 'myFields[1]'},
+          'myFields[1]': {type: 'Field', name: 'myFields[1]'}
         },
         values: {
-          myFields: ['value', 'otherValue'],
+          myFields: ['value', 'otherValue']
         },
         fields: {
-          myFields: [{}, {}],
-        },
-      },
+          myFields: [{}, {}]
+        }
+      }
     })
   })
 }

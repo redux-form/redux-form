@@ -1,6 +1,6 @@
 import * as _actions from './actions'
 export {
-  default as defaultShouldAsyncValidate,
+  default as defaultShouldAsyncValidate
 } from './defaultShouldAsyncValidate'
 export {default as defaultShouldValidate} from './defaultShouldValidate'
 export {default as Form} from './Form'
@@ -10,7 +10,7 @@ export {
   default as propTypes,
   fieldInputPropTypes,
   fieldMetaPropTypes,
-  fieldPropTypes,
+  fieldPropTypes
 } from './propTypes'
 export {default as Field} from './Field'
 export {default as Fields} from './Fields'
@@ -66,5 +66,5 @@ export const {
   submit,
   touch,
   unregisterField,
-  untouch,
+  untouch
 } = _actions

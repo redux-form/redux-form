@@ -22,7 +22,7 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
     deepEqual,
     getIn,
     toJS,
-    size,
+    size
   })
 
   class Fields extends Component {
@@ -103,7 +103,7 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
         ...this.props,
         names: this.props.names.map(name => prefixName(context, name)),
         _reduxForm: this.context._reduxForm,
-        ref: 'connected',
+        ref: 'connected'
       })
     }
   }
@@ -115,10 +115,10 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
     format: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,
-    withRef: PropTypes.bool,
+    withRef: PropTypes.bool
   }
   Fields.contextTypes = {
-    _reduxForm: PropTypes.object,
+    _reduxForm: PropTypes.object
   }
 
   return Fields

@@ -24,26 +24,26 @@ const describeGetFormMeta = (name, structure, expect) => {
                 fields: {
                   dog: {
                     visited: true,
-                    touched: false,
+                    touched: false
                   },
                   cat: {
                     visited: false,
-                    touched: true,
-                  },
-                },
-              },
-            },
+                    touched: true
+                  }
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: {
           visited: true,
-          touched: false,
+          touched: false
         },
         cat: {
           visited: false,
-          touched: true,
-        },
+          touched: true
+        }
       })
     })
 
@@ -52,8 +52,8 @@ const describeGetFormMeta = (name, structure, expect) => {
         getFormMeta('foo')(
           fromJS({
             form: {
-              foo: {},
-            },
+              foo: {}
+            }
           })
         )
       ).toEqual(undefined)
@@ -68,26 +68,26 @@ const describeGetFormMeta = (name, structure, expect) => {
                 fields: {
                   dog: {
                     visited: true,
-                    touched: false,
+                    touched: false
                   },
                   cat: {
                     visited: false,
-                    touched: true,
-                  },
-                },
-              },
-            },
+                    touched: true
+                  }
+                }
+              }
+            }
           })
         )
       ).toEqualMap({
         dog: {
           visited: true,
-          touched: false,
+          touched: false
         },
         cat: {
           visited: false,
-          touched: true,
-        },
+          touched: true
+        }
       })
     })
   })

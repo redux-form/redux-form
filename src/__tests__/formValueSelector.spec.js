@@ -34,7 +34,7 @@ const describeFormValueSelector = (name, structure, expect) => {
     it('should return undefined for a single value when no form slice found', () => {
       const selector = formValueSelector('myForm')
       const state = fromJS({
-        form: {},
+        form: {}
       })
       expect(selector(state, 'foo')).toBe(undefined)
     })
@@ -45,8 +45,8 @@ const describeFormValueSelector = (name, structure, expect) => {
         form: {
           myForm: {
             // no values
-          },
-        },
+          }
+        }
       })
       expect(selector(state, 'foo')).toBe(undefined)
     })
@@ -57,10 +57,10 @@ const describeFormValueSelector = (name, structure, expect) => {
         form: {
           myForm: {
             values: {
-              foo: 'bar',
-            },
-          },
-        },
+              foo: 'bar'
+            }
+          }
+        }
       })
       expect(selector(state, 'foo')).toBe('bar')
     })
@@ -74,13 +74,13 @@ const describeFormValueSelector = (name, structure, expect) => {
               dog: {
                 cat: {
                   ewe: {
-                    pig: 'Napoleon',
-                  },
-                },
-              },
-            },
-          },
-        },
+                    pig: 'Napoleon'
+                  }
+                }
+              }
+            }
+          }
+        }
       })
       expect(selector(state, 'dog.cat.ewe.pig')).toBe('Napoleon')
     })
@@ -94,7 +94,7 @@ const describeFormValueSelector = (name, structure, expect) => {
     it('should return {} for multiple values when no form slice found', () => {
       const selector = formValueSelector('myForm')
       const state = fromJS({
-        form: {},
+        form: {}
       })
       expect(selector(state, 'foo', 'bar')).toEqual({})
     })
@@ -105,8 +105,8 @@ const describeFormValueSelector = (name, structure, expect) => {
         form: {
           myForm: {
             // no values
-          },
-        },
+          }
+        }
       })
       expect(selector(state, 'foo', 'bar')).toEqual({})
     })
@@ -119,14 +119,14 @@ const describeFormValueSelector = (name, structure, expect) => {
             values: {
               foo: 'bar',
               dog: 'cat',
-              another: 'do not read',
-            },
-          },
-        },
+              another: 'do not read'
+            }
+          }
+        }
       })
       expect(selector(state, 'foo', 'dog')).toEqual({
         foo: 'bar',
-        dog: 'cat',
+        dog: 'cat'
       })
     })
 
@@ -139,28 +139,28 @@ const describeFormValueSelector = (name, structure, expect) => {
               dog: {
                 cat: {
                   ewe: {
-                    pig: 'Napoleon',
-                  },
+                    pig: 'Napoleon'
+                  }
                 },
                 rat: {
-                  hog: 'Wilbur',
-                },
-              },
-            },
-          },
-        },
+                  hog: 'Wilbur'
+                }
+              }
+            }
+          }
+        }
       })
       expect(selector(state, 'dog.cat.ewe.pig', 'dog.rat.hog')).toEqual({
         dog: {
           cat: {
             ewe: {
-              pig: 'Napoleon',
-            },
+              pig: 'Napoleon'
+            }
           },
           rat: {
-            hog: 'Wilbur',
-          },
-        },
+            hog: 'Wilbur'
+          }
+        }
       })
     })
 
@@ -170,16 +170,16 @@ const describeFormValueSelector = (name, structure, expect) => {
         form: {
           myForm: {
             values: {
-              mice: ['Jaq', 'Gus', 'Major', 'Bruno'],
-            },
-          },
-        },
+              mice: ['Jaq', 'Gus', 'Major', 'Bruno']
+            }
+          }
+        }
       })
       expect(selector(state, 'mice')).toEqualMap([
         'Jaq',
         'Gus',
         'Major',
-        'Bruno',
+        'Bruno'
       ])
     })
 
@@ -191,21 +191,21 @@ const describeFormValueSelector = (name, structure, expect) => {
             values: {
               rodent: {
                 rat: {
-                  hog: 'Wilbur',
+                  hog: 'Wilbur'
                 },
-                mice: ['Jaq', 'Gus', 'Major', 'Bruno'],
-              },
-            },
-          },
-        },
+                mice: ['Jaq', 'Gus', 'Major', 'Bruno']
+              }
+            }
+          }
+        }
       })
       expect(selector(state, 'rodent.rat.hog', 'rodent.mice')).toEqual({
         rodent: {
           rat: {
-            hog: 'Wilbur',
+            hog: 'Wilbur'
           },
-          mice: fromJS(['Jaq', 'Gus', 'Major', 'Bruno']),
-        },
+          mice: fromJS(['Jaq', 'Gus', 'Major', 'Bruno'])
+        }
       })
     })
 
@@ -217,10 +217,10 @@ const describeFormValueSelector = (name, structure, expect) => {
         otherMountPoint: {
           myForm: {
             values: {
-              foo: 'bar',
-            },
-          },
-        },
+              foo: 'bar'
+            }
+          }
+        }
       })
       expect(selector(state, 'foo')).toBe('bar')
     })

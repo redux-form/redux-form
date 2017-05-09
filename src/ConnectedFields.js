@@ -141,7 +141,7 @@ const createConnectedFields = ({deepEqual, getIn, toJS, size}) => {
           form,
           onBlur: this.onBlurFns[name],
           onChange: this.onChangeFns[name],
-          onFocus: this.onFocusFns[name],
+          onFocus: this.onFocusFns[name]
         })
         accumulator.custom = custom
         const fieldName = sectionPrefix
@@ -161,7 +161,7 @@ const createConnectedFields = ({deepEqual, getIn, toJS, size}) => {
     component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
       .isRequired,
     _fields: PropTypes.object.isRequired,
-    props: PropTypes.object,
+    props: PropTypes.object
   }
 
   const connector = connect(
@@ -194,10 +194,10 @@ const createConnectedFields = ({deepEqual, getIn, toJS, size}) => {
             syncError,
             syncWarning,
             value,
-            _value: ownProps.value, // save value passed in (for checkboxes)
+            _value: ownProps.value // save value passed in (for checkboxes)
           }
           return accumulator
-        }, {}),
+        }, {})
       }
     },
     undefined,

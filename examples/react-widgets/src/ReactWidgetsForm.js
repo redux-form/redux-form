@@ -14,7 +14,7 @@ momentLocaliser(moment)
 const colors = [
   {color: 'Red', value: 'ff0000'},
   {color: 'Green', value: '00ff00'},
-  {color: 'Blue', value: '0000ff'},
+  {color: 'Blue', value: '0000ff'}
 ]
 
 const renderDropdownList = ({input, data, valueField, textField}) => (
@@ -96,7 +96,7 @@ let ReactWidgetsForm = props => {
 }
 
 ReactWidgetsForm = reduxForm({
-  form: 'reactWidgets', // a unique identifier for this form
+  form: 'reactWidgets' // a unique identifier for this form
 })(ReactWidgetsForm)
 
 export default ReactWidgetsForm

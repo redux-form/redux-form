@@ -19,7 +19,7 @@ const describeIsDirty = (name, structure, expect) => {
       expect(
         isDirty('foo')(
           fromJS({
-            form: {},
+            form: {}
           })
         )
       ).toBe(false)
@@ -33,14 +33,14 @@ const describeIsDirty = (name, structure, expect) => {
               foo: {
                 initial: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
+                  cat: 'Garfield'
                 },
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toBe(false)
@@ -54,14 +54,14 @@ const describeIsDirty = (name, structure, expect) => {
               foo: {
                 initial: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
+                  cat: 'Garfield'
                 },
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toBe(true)
@@ -75,14 +75,14 @@ const describeIsDirty = (name, structure, expect) => {
               foo: {
                 initial: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
+                  cat: 'Garfield'
                 },
                 values: {
                   dog: 'Odie',
-                  cat: 'Garfield',
-                },
-              },
-            },
+                  cat: 'Garfield'
+                }
+              }
+            }
           })
         )
       ).toBe(true)

@@ -17,7 +17,7 @@ describe('silenceEvent', () => {
     expect(
       silenceEvent({
         preventDefault: noop,
-        stopPropagation: noop,
+        stopPropagation: noop
       })
     ).toBe(true)
   })
@@ -28,7 +28,7 @@ describe('silenceEvent', () => {
 
     silenceEvent({
       preventDefault,
-      stopPropagation,
+      stopPropagation
     })
     expect(preventDefault).toHaveBeenCalled()
     expect(stopPropagation).toNotHaveBeenCalled()

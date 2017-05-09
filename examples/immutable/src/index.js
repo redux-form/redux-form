@@ -6,7 +6,7 @@ import {
   App,
   Code,
   Markdown,
-  generateExampleBreadcrumbs,
+  generateExampleBreadcrumbs
 } from 'redux-form-website-template'
 import Values from './ImmutableValues'
 import reducer from './reducer'

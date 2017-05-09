@@ -11,8 +11,8 @@ describe('structure.plain.getIn', () => {
       getIn(
         {
           a: {
-            b: {},
-          },
+            b: {}
+          }
         },
         'a.b.c'
       )
@@ -28,8 +28,8 @@ describe('structure.plain.getIn', () => {
   it('should get deep values', () => {
     const state = {
       foo: {
-        bar: ['baz', {dog: 42}],
-      },
+        bar: ['baz', {dog: 42}]
+      }
     }
     expect(getIn(state, 'foo.bar[0]')).toBe('baz')
     expect(getIn(state, 'foo.bar[1].dog')).toBe(42)
@@ -67,8 +67,8 @@ describe('structure.plain.getIn', () => {
     array.stringKey = 'hello'
     const state = {
       foo: {
-        bar: array,
-      },
+        bar: array
+      }
     }
     expect(getIn(state, 'foo.bar[0]')).toBe(1)
     expect(getIn(state, 'foo.bar[1]')).toBe(2)

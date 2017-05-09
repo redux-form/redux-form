@@ -43,10 +43,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             foo: {
-              bar: '42',
-            },
-          },
-        },
+              bar: '42'
+            }
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -74,10 +74,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             foo: {
-              bar: '42',
-            },
-          },
-        },
+              bar: '42'
+            }
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -118,10 +118,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             foo: {
-              bar: '42',
-            },
-          },
-        },
+              bar: '42'
+            }
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />
@@ -158,14 +158,14 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               foo: {
-                bar: '15',
-              },
+                bar: '15'
+              }
             },
             registeredFields: {
-              'foo.bar': {name: 'foo.bar', type: 'Field', count: 1},
-            },
-          },
-        },
+              'foo.bar': {name: 'foo.bar', type: 'Field', count: 1}
+            }
+          }
+        }
       })
     })
 
@@ -175,10 +175,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           values: {
             foo: {
               bar: '42',
-              baz: '100',
-            },
-          },
-        },
+              baz: '100'
+            }
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.bar.input} />
@@ -218,15 +218,15 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
             values: {
               foo: {
                 bar: '15',
-                baz: '100',
-              },
+                baz: '100'
+              }
             },
             registeredFields: {
               'foo.bar': {name: 'foo.bar', type: 'Field', count: 1},
-              'foo.baz': {name: 'foo.baz', type: 'Field', count: 1},
-            },
-          },
-        },
+              'foo.baz': {name: 'foo.baz', type: 'Field', count: 1}
+            }
+          }
+        }
       })
     })
 
@@ -235,10 +235,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             foo: {
-              bar: ['dog', 'cat'],
-            },
-          },
-        },
+              bar: ['dog', 'cat']
+            }
+          }
+        }
       })
 
       const renderField = createSpy(props => (
@@ -286,17 +286,17 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               foo: {
-                bar: ['dog', 'cat', 'fish'],
-              },
+                bar: ['dog', 'cat', 'fish']
+              }
             },
             registeredFields: {
               'foo.bar': {name: 'foo.bar', type: 'FieldArray', count: 1},
               'foo.bar[0]': {name: 'foo.bar[0]', type: 'Field', count: 1},
               'foo.bar[1]': {name: 'foo.bar[1]', type: 'Field', count: 1},
-              'foo.bar[2]': {name: 'foo.bar[2]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'foo.bar[2]': {name: 'foo.bar[2]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
 
       TestUtils.Simulate.click(removeButton)
@@ -306,16 +306,16 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               foo: {
-                bar: ['dog', 'cat'],
-              },
+                bar: ['dog', 'cat']
+              }
             },
             registeredFields: {
               'foo.bar': {name: 'foo.bar', type: 'FieldArray', count: 1},
               'foo.bar[0]': {name: 'foo.bar[0]', type: 'Field', count: 1},
-              'foo.bar[1]': {name: 'foo.bar[1]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'foo.bar[1]': {name: 'foo.bar[1]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
     })
 
@@ -325,11 +325,11 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           values: {
             deep: {
               foo: {
-                bar: '42',
-              },
-            },
-          },
-        },
+                bar: '42'
+              }
+            }
+          }
+        }
       })
       const input = createSpy(props => (
         <input {...props.input} />

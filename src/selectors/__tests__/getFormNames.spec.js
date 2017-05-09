@@ -23,16 +23,16 @@ const describeGetFormNames = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
+                  cat: 'Garfield'
+                }
               },
               bar: {
                 values: {
                   dog: 'Fido',
-                  cat: 'Whiskers',
-                },
-              },
-            },
+                  cat: 'Whiskers'
+                }
+              }
+            }
           })
         )
       ).toEqualMap(['foo', 'bar'])
@@ -46,16 +46,16 @@ const describeGetFormNames = (name, structure, expect) => {
               foo: {
                 values: {
                   dog: 'Snoopy',
-                  cat: 'Garfield',
-                },
+                  cat: 'Garfield'
+                }
               },
               bar: {
                 values: {
                   dog: 'Fido',
-                  cat: 'Whiskers',
-                },
-              },
-            },
+                  cat: 'Whiskers'
+                }
+              }
+            }
           })
         )
       ).toEqualMap(['foo', 'bar'])

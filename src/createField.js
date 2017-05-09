@@ -9,7 +9,7 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
   const ConnectedField = createConnectedField({
     deepEqual,
     getIn,
-    toJS,
+    toJS
   })
 
   class Field extends Component {
@@ -98,7 +98,7 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
         name: this.name,
         normalize: this.normalize,
         _reduxForm: this.context._reduxForm,
-        ref: 'connected',
+        ref: 'connected'
       })
     }
   }
@@ -118,16 +118,16 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
     props: PropTypes.object,
     validate: PropTypes.oneOfType([
       PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func),
+      PropTypes.arrayOf(PropTypes.func)
     ]),
     warn: PropTypes.oneOfType([
       PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func),
+      PropTypes.arrayOf(PropTypes.func)
     ]),
-    withRef: PropTypes.bool,
+    withRef: PropTypes.bool
   }
   Field.contextTypes = {
-    _reduxForm: PropTypes.object,
+    _reduxForm: PropTypes.object
   }
 
   return Field

@@ -9,12 +9,12 @@ import {
   Code,
   Markdown,
   Values,
-  generateExampleBreadcrumbs,
+  generateExampleBreadcrumbs
 } from 'redux-form-website-template'
 
 const dest = document.getElementById('content')
 const reducer = combineReducers({
-  form: reduxFormReducer, // mounted under "form"
+  form: reduxFormReducer // mounted under "form"
 })
 const store = (window.devToolsExtension
   ? window.devToolsExtension()(createStore)

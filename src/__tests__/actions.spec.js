@@ -32,7 +32,7 @@ import {
   UNTOUCH,
   UPDATE_SYNC_ERRORS,
   UPDATE_SYNC_WARNINGS,
-  CLEAR_ASYNC_ERROR,
+  CLEAR_ASYNC_ERROR
 } from '../actionTypes'
 import {
   arrayInsert,
@@ -66,7 +66,7 @@ import {
   untouch,
   updateSyncErrors,
   updateSyncWarnings,
-  clearAsyncError,
+  clearAsyncError
 } from '../actions'
 import {isFSA} from 'flux-standard-action'
 expect.extend(expectPredicate)
@@ -79,9 +79,9 @@ describe('actions', () => {
         meta: {
           form: 'myForm',
           field: 'myField',
-          index: 0,
+          index: 0
         },
-        payload: 'foo',
+        payload: 'foo'
       })
       .toPass(isFSA)
   })
@@ -94,8 +94,8 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           from: 2,
-          to: 4,
-        },
+          to: 4
+        }
       })
       .toPass(isFSA)
   })
@@ -106,8 +106,8 @@ describe('actions', () => {
         type: ARRAY_POP,
         meta: {
           form: 'myForm',
-          field: 'myField',
-        },
+          field: 'myField'
+        }
       })
       .toPass(isFSA)
   })
@@ -118,9 +118,9 @@ describe('actions', () => {
         type: ARRAY_PUSH,
         meta: {
           form: 'myForm',
-          field: 'myField',
+          field: 'myField'
         },
-        payload: 'foo',
+        payload: 'foo'
       })
       .toPass(isFSA)
 
@@ -129,9 +129,9 @@ describe('actions', () => {
         type: ARRAY_PUSH,
         meta: {
           form: 'myForm',
-          field: 'myField',
+          field: 'myField'
         },
-        payload: undefined,
+        payload: undefined
       })
       .toPass(isFSA)
   })
@@ -143,8 +143,8 @@ describe('actions', () => {
         meta: {
           form: 'myForm',
           field: 'myField',
-          index: 3,
-        },
+          index: 3
+        }
       })
       .toPass(isFSA)
   })
@@ -155,8 +155,8 @@ describe('actions', () => {
         type: ARRAY_REMOVE_ALL,
         meta: {
           form: 'myForm',
-          field: 'myField',
-        },
+          field: 'myField'
+        }
       })
       .toPass(isFSA)
   })
@@ -167,8 +167,8 @@ describe('actions', () => {
         type: ARRAY_SHIFT,
         meta: {
           form: 'myForm',
-          field: 'myField',
-        },
+          field: 'myField'
+        }
       })
       .toPass(isFSA)
   })
@@ -181,8 +181,8 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           index: 1,
-          removeNum: 1,
-        },
+          removeNum: 1
+        }
       })
       .toPass(isFSA)
     expect(arraySplice('myForm', 'myField', 2, 1))
@@ -192,8 +192,8 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           index: 2,
-          removeNum: 1,
-        },
+          removeNum: 1
+        }
       })
       .toPass(isFSA)
     expect(arraySplice('myForm', 'myField', 2, 0, 'foo'))
@@ -203,9 +203,9 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           index: 2,
-          removeNum: 0,
+          removeNum: 0
         },
-        payload: 'foo',
+        payload: 'foo'
       })
       .toPass(isFSA)
     expect(arraySplice('myForm', 'myField', 3, 2, {foo: 'bar'}))
@@ -215,9 +215,9 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           index: 3,
-          removeNum: 2,
+          removeNum: 2
         },
-        payload: {foo: 'bar'},
+        payload: {foo: 'bar'}
       })
       .toPass(isFSA)
   })
@@ -228,9 +228,9 @@ describe('actions', () => {
         type: ARRAY_UNSHIFT,
         meta: {
           form: 'myForm',
-          field: 'myField',
+          field: 'myField'
         },
-        payload: 'foo',
+        payload: 'foo'
       })
       .toPass(isFSA)
   })
@@ -243,8 +243,8 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           indexA: 0,
-          indexB: 8,
-        },
+          indexB: 8
+        }
       })
       .toPass(isFSA)
   })
@@ -268,9 +268,9 @@ describe('actions', () => {
         meta: {
           form: 'myForm',
           field: 'myField',
-          touch: false,
+          touch: false
         },
-        payload: 'bar',
+        payload: 'bar'
       })
       .toPass(isFSA)
     expect(blur('myForm', 'myField', 7, true))
@@ -279,9 +279,9 @@ describe('actions', () => {
         meta: {
           form: 'myForm',
           field: 'myField',
-          touch: true,
+          touch: true
         },
-        payload: 7,
+        payload: 7
       })
       .toPass(isFSA)
   })
@@ -294,9 +294,9 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           touch: false,
-          persistentSubmitErrors: true,
+          persistentSubmitErrors: true
         },
-        payload: 'bar',
+        payload: 'bar'
       })
       .toPass(isFSA)
     expect(change('myForm', 'myField', 7, true, false))
@@ -306,9 +306,9 @@ describe('actions', () => {
           form: 'myForm',
           field: 'myField',
           touch: true,
-          persistentSubmitErrors: false,
+          persistentSubmitErrors: false
         },
-        payload: 7,
+        payload: 7
       })
       .toPass(isFSA)
   })
@@ -319,8 +319,8 @@ describe('actions', () => {
         type: FOCUS,
         meta: {
           form: 'myForm',
-          field: 'myField',
-        },
+          field: 'myField'
+        }
       })
       .toPass(isFSA)
   })
@@ -330,8 +330,8 @@ describe('actions', () => {
       .toEqual({
         type: CLEAR_SUBMIT,
         meta: {
-          form: 'myForm',
-        },
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })
@@ -341,8 +341,8 @@ describe('actions', () => {
       .toEqual({
         type: CLEAR_SUBMIT_ERRORS,
         meta: {
-          form: 'myForm',
-        },
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })
@@ -354,9 +354,9 @@ describe('actions', () => {
         type: INITIALIZE,
         meta: {
           form: 'myForm',
-          keepDirty: undefined,
+          keepDirty: undefined
         },
-        payload: data,
+        payload: data
       })
       .toPass(isFSA)
   })
@@ -368,9 +368,9 @@ describe('actions', () => {
         type: INITIALIZE,
         meta: {
           form: 'myForm',
-          keepDirty: true,
+          keepDirty: true
         },
-        payload: data,
+        payload: data
       })
       .toPass(isFSA)
   })
@@ -380,12 +380,12 @@ describe('actions', () => {
       .toEqual({
         type: REGISTER_FIELD,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: {
           name: 'foo',
-          type: 'Field',
-        },
+          type: 'Field'
+        }
       })
       .toPass(isFSA)
   })
@@ -395,8 +395,8 @@ describe('actions', () => {
       .toEqual({
         type: RESET,
         meta: {
-          form: 'myForm',
-        },
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })
@@ -406,16 +406,16 @@ describe('actions', () => {
       .toEqual({
         type: DESTROY,
         meta: {
-          form: ['myForm'],
-        },
+          form: ['myForm']
+        }
       })
       .toPass(isFSA)
     expect(destroy('myForm1', 'myForm2'))
       .toEqual({
         type: DESTROY,
         meta: {
-          form: ['myForm1', 'myForm2'],
-        },
+          form: ['myForm1', 'myForm2']
+        }
       })
       .toPass(isFSA)
   })
@@ -426,8 +426,8 @@ describe('actions', () => {
         type: START_ASYNC_VALIDATION,
         meta: {
           form: 'myForm',
-          field: 'myField',
-        },
+          field: 'myField'
+        }
       })
       .toPass(isFSA)
   })
@@ -437,8 +437,8 @@ describe('actions', () => {
       .toEqual({
         type: START_SUBMIT,
         meta: {
-          form: 'myForm',
-        },
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })
@@ -448,8 +448,8 @@ describe('actions', () => {
       .toEqual({
         type: START_SUBMIT,
         meta: {
-          form: 'myForm',
-        },
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })
@@ -457,16 +457,16 @@ describe('actions', () => {
   it('should create stopAsyncValidation action', () => {
     const errors = {
       foo: 'Foo error',
-      bar: 'Error for bar',
+      bar: 'Error for bar'
     }
     expect(stopAsyncValidation('myForm', errors))
       .toEqual({
         type: STOP_ASYNC_VALIDATION,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: errors,
-        error: true,
+        error: true
       })
       .toPass(isFSA)
   })
@@ -476,23 +476,23 @@ describe('actions', () => {
       .toEqual({
         type: STOP_SUBMIT,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
-        payload: undefined,
+        payload: undefined
       })
       .toPass(isFSA)
     const errors = {
       foo: 'Foo error',
-      bar: 'Error for bar',
+      bar: 'Error for bar'
     }
     expect(stopSubmit('myForm', errors))
       .toEqual({
         type: STOP_SUBMIT,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: errors,
-        error: true,
+        error: true
       })
       .toPass(isFSA)
   })
@@ -502,8 +502,8 @@ describe('actions', () => {
       .toEqual({
         type: SUBMIT,
         meta: {
-          form: 'myForm',
-        },
+          form: 'myForm'
+        }
       })
       .toPass(isFSA)
   })
@@ -514,9 +514,9 @@ describe('actions', () => {
         type: SET_SUBMIT_FAILED,
         meta: {
           form: 'myForm',
-          fields: [],
+          fields: []
         },
-        error: true,
+        error: true
       })
       .toPass(isFSA)
     expect(setSubmitFailed('myForm', 'a', 'b', 'c'))
@@ -524,9 +524,9 @@ describe('actions', () => {
         type: SET_SUBMIT_FAILED,
         meta: {
           form: 'myForm',
-          fields: ['a', 'b', 'c'],
+          fields: ['a', 'b', 'c']
         },
-        error: true,
+        error: true
       })
       .toPass(isFSA)
   })
@@ -537,9 +537,9 @@ describe('actions', () => {
         type: SET_SUBMIT_SUCCEEDED,
         meta: {
           form: 'myForm',
-          fields: [],
+          fields: []
         },
-        error: false,
+        error: false
       })
       .toPass(isFSA)
     expect(setSubmitSucceeded('myForm', 'a', 'b', 'c'))
@@ -547,9 +547,9 @@ describe('actions', () => {
         type: SET_SUBMIT_SUCCEEDED,
         meta: {
           form: 'myForm',
-          fields: ['a', 'b', 'c'],
+          fields: ['a', 'b', 'c']
         },
-        error: false,
+        error: false
       })
       .toPass(isFSA)
   })
@@ -560,8 +560,8 @@ describe('actions', () => {
         type: TOUCH,
         meta: {
           form: 'myForm',
-          fields: ['foo', 'bar'],
-        },
+          fields: ['foo', 'bar']
+        }
       })
       .toPass(isFSA)
     expect(touch('myForm', 'cat', 'dog', 'pig'))
@@ -569,8 +569,8 @@ describe('actions', () => {
         type: TOUCH,
         meta: {
           form: 'myForm',
-          fields: ['cat', 'dog', 'pig'],
-        },
+          fields: ['cat', 'dog', 'pig']
+        }
       })
       .toPass(isFSA)
   })
@@ -580,12 +580,12 @@ describe('actions', () => {
       .toEqual({
         type: UNREGISTER_FIELD,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: {
           name: 'foo',
-          destroyOnUnmount: true,
-        },
+          destroyOnUnmount: true
+        }
       })
       .toPass(isFSA)
   })
@@ -596,8 +596,8 @@ describe('actions', () => {
         type: UNTOUCH,
         meta: {
           form: 'myForm',
-          fields: ['foo', 'bar'],
-        },
+          fields: ['foo', 'bar']
+        }
       })
       .toPass(isFSA)
     expect(untouch('myForm', 'cat', 'dog', 'pig'))
@@ -605,8 +605,8 @@ describe('actions', () => {
         type: UNTOUCH,
         meta: {
           form: 'myForm',
-          fields: ['cat', 'dog', 'pig'],
-        },
+          fields: ['cat', 'dog', 'pig']
+        }
       })
       .toPass(isFSA)
   })
@@ -616,14 +616,14 @@ describe('actions', () => {
       .toEqual({
         type: UPDATE_SYNC_ERRORS,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: {
           error: undefined,
           syncErrors: {
-            foo: 'foo error',
-          },
-        },
+            foo: 'foo error'
+          }
+        }
       })
       .toPass(isFSA)
   })
@@ -633,12 +633,12 @@ describe('actions', () => {
       .toEqual({
         type: UPDATE_SYNC_ERRORS,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: {
           error: undefined,
-          syncErrors: {},
-        },
+          syncErrors: {}
+        }
       })
       .toPass(isFSA)
   })
@@ -648,14 +648,14 @@ describe('actions', () => {
       .toEqual({
         type: UPDATE_SYNC_WARNINGS,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: {
           warning: undefined,
           syncWarnings: {
-            foo: 'foo warning',
-          },
-        },
+            foo: 'foo warning'
+          }
+        }
       })
       .toPass(isFSA)
   })
@@ -665,12 +665,12 @@ describe('actions', () => {
       .toEqual({
         type: UPDATE_SYNC_WARNINGS,
         meta: {
-          form: 'myForm',
+          form: 'myForm'
         },
         payload: {
           warning: undefined,
-          syncWarnings: {},
-        },
+          syncWarnings: {}
+        }
       })
       .toPass(isFSA)
   })
@@ -681,8 +681,8 @@ describe('actions', () => {
         type: CLEAR_ASYNC_ERROR,
         meta: {
           form: 'myForm',
-          field: 'foo',
-        },
+          field: 'foo'
+        }
       })
       .toPass(isFSA)
   })

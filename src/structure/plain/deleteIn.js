@@ -22,7 +22,7 @@ const deleteInWithPath = (state, first, ...rest) => {
         ? state
         : {
             ...state,
-            [first]: result,
+            [first]: result
           }
     }
     return state

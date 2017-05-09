@@ -4,12 +4,12 @@ const describeArrayPop = (reducer, expect, {fromJS}) => () => {
   it('should do nothing with no array', () => {
     const state = reducer(
       fromJS({
-        foo: {},
+        foo: {}
       }),
       arrayPop('foo', 'myField.subField')
     )
     expect(state).toEqualMap({
-      foo: {},
+      foo: {}
     })
   })
 
@@ -19,8 +19,8 @@ const describeArrayPop = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd'],
-            },
+              subField: ['a', 'b', 'c', 'd']
+            }
           },
           fields: {
             myField: {
@@ -28,11 +28,11 @@ const describeArrayPop = (reducer, expect, {fromJS}) => () => {
                 {touched: true, visited: true},
                 {touched: true},
                 {touched: true, visited: true},
-                {touched: true},
-              ],
-            },
-          },
-        },
+                {touched: true}
+              ]
+            }
+          }
+        }
       }),
       arrayPop('foo', 'myField.subField')
     )
@@ -40,19 +40,19 @@ const describeArrayPop = (reducer, expect, {fromJS}) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['a', 'b', 'c'],
-          },
+            subField: ['a', 'b', 'c']
+          }
         },
         fields: {
           myField: {
             subField: [
               {touched: true, visited: true},
               {touched: true},
-              {touched: true, visited: true},
-            ],
-          },
-        },
-      },
+              {touched: true, visited: true}
+            ]
+          }
+        }
+      }
     })
   })
 }

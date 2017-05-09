@@ -6,8 +6,8 @@ const describeStartAsyncValidation = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           doesnt: 'matter',
-          should: 'notchange',
-        },
+          should: 'notchange'
+        }
       }),
       startAsyncValidation('foo')
     )
@@ -15,8 +15,8 @@ const describeStartAsyncValidation = (reducer, expect, {fromJS}) => () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        asyncValidating: true,
-      },
+        asyncValidating: true
+      }
     })
   })
 
@@ -25,25 +25,25 @@ const describeStartAsyncValidation = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'initialValue',
+            myField: 'initialValue'
           },
           initial: {
-            myField: 'initialValue',
-          },
-        },
+            myField: 'initialValue'
+          }
+        }
       }),
       startAsyncValidation('foo', 'myField')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'initialValue',
+          myField: 'initialValue'
         },
         initial: {
-          myField: 'initialValue',
+          myField: 'initialValue'
         },
-        asyncValidating: 'myField',
-      },
+        asyncValidating: 'myField'
+      }
     })
   })
 }

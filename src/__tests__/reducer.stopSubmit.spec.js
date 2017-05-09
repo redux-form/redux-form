@@ -7,8 +7,8 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
         foo: {
           doesnt: 'matter',
           should: 'notchange',
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo')
     )
@@ -16,8 +16,8 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        submitSucceeded: true,
-      },
+        submitSucceeded: true
+      }
     })
   })
 
@@ -28,33 +28,33 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
           values: {
             bar: {
               myField: 'dirtyValue',
-              myOtherField: 'otherDirtyValue',
-            },
+              myOtherField: 'otherDirtyValue'
+            }
           },
           initial: {
             bar: {
               myField: 'initialValue',
-              myOtherField: 'otherInitialValue',
-            },
+              myOtherField: 'otherInitialValue'
+            }
           },
           fields: {
             bar: {
               myField: {
-                touched: true,
+                touched: true
               },
               myOtherField: {
-                touched: true,
-              },
-            },
+                touched: true
+              }
+            }
           },
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo', {
         bar: {
           myField: 'Error about myField',
-          myOtherField: 'Error about myOtherField',
-        },
+          myOtherField: 'Error about myOtherField'
+        }
       })
     )
     expect(state).toEqualMap({
@@ -62,33 +62,33 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
         values: {
           bar: {
             myField: 'dirtyValue',
-            myOtherField: 'otherDirtyValue',
-          },
+            myOtherField: 'otherDirtyValue'
+          }
         },
         initial: {
           bar: {
             myField: 'initialValue',
-            myOtherField: 'otherInitialValue',
-          },
+            myOtherField: 'otherInitialValue'
+          }
         },
         submitErrors: {
           bar: {
             myField: 'Error about myField',
-            myOtherField: 'Error about myOtherField',
-          },
+            myOtherField: 'Error about myOtherField'
+          }
         },
         fields: {
           bar: {
             myField: {
-              touched: true,
+              touched: true
             },
             myOtherField: {
-              touched: true,
-            },
-          },
+              touched: true
+            }
+          }
         },
-        submitFailed: true,
-      },
+        submitFailed: true
+      }
     })
   })
 
@@ -97,51 +97,51 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            bar: ['dirtyValue', 'otherDirtyValue'],
+            bar: ['dirtyValue', 'otherDirtyValue']
           },
           initial: {
-            bar: ['initialValue', 'otherInitialValue'],
+            bar: ['initialValue', 'otherInitialValue']
           },
           fields: {
             bar: [
               {
-                touched: true,
+                touched: true
               },
               {
-                touched: true,
-              },
-            ],
+                touched: true
+              }
+            ]
           },
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo', {
-        bar: ['Error about myField', 'Error about myOtherField'],
+        bar: ['Error about myField', 'Error about myOtherField']
       })
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          bar: ['dirtyValue', 'otherDirtyValue'],
+          bar: ['dirtyValue', 'otherDirtyValue']
         },
         initial: {
-          bar: ['initialValue', 'otherInitialValue'],
+          bar: ['initialValue', 'otherInitialValue']
         },
         submitErrors: {
-          bar: ['Error about myField', 'Error about myOtherField'],
+          bar: ['Error about myField', 'Error about myOtherField']
         },
         fields: {
           bar: [
             {
-              touched: true,
+              touched: true
             },
             {
-              touched: true,
-            },
-          ],
+              touched: true
+            }
+          ]
         },
-        submitFailed: true,
-      },
+        submitFailed: true
+      }
     })
   })
 
@@ -151,44 +151,44 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             cat: 'Garfield',
-            dog: 'Odie',
+            dog: 'Odie'
           },
           fields: {
             cat: {
-              touched: true,
+              touched: true
             },
             dog: {
-              touched: true,
-            },
+              touched: true
+            }
           },
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo', {
         cat: ['Not funny', 'Sleeps too much'],
-        dog: ['Unhelpful', 'Not house trained'],
+        dog: ['Unhelpful', 'Not house trained']
       })
     )
     expect(state).toEqualMap({
       foo: {
         values: {
           cat: 'Garfield',
-          dog: 'Odie',
+          dog: 'Odie'
         },
         submitErrors: {
           cat: ['Not funny', 'Sleeps too much'],
-          dog: ['Unhelpful', 'Not house trained'],
+          dog: ['Unhelpful', 'Not house trained']
         },
         fields: {
           cat: {
-            touched: true,
+            touched: true
           },
           dog: {
-            touched: true,
-          },
+            touched: true
+          }
         },
-        submitFailed: true,
-      },
+        submitFailed: true
+      }
     })
   })
 
@@ -197,49 +197,49 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            bar: ['dirtyValue', 'otherDirtyValue'],
+            bar: ['dirtyValue', 'otherDirtyValue']
           },
           initial: {
-            bar: ['initialValue', 'otherInitialValue'],
+            bar: ['initialValue', 'otherInitialValue']
           },
           submitErrors: {
-            bar: ['submit error 1', 'submit error 2'],
+            bar: ['submit error 1', 'submit error 2']
           },
           fields: {
             bar: [
               {
-                touched: true,
+                touched: true
               },
               {
-                touched: true,
-              },
-            ],
+                touched: true
+              }
+            ]
           },
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          bar: ['dirtyValue', 'otherDirtyValue'],
+          bar: ['dirtyValue', 'otherDirtyValue']
         },
         initial: {
-          bar: ['initialValue', 'otherInitialValue'],
+          bar: ['initialValue', 'otherInitialValue']
         },
         fields: {
           bar: [
             {
-              touched: true,
+              touched: true
             },
             {
-              touched: true,
-            },
-          ],
+              touched: true
+            }
+          ]
         },
-        submitSucceeded: true,
-      },
+        submitSucceeded: true
+      }
     })
   })
 
@@ -248,34 +248,34 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'myValue',
+            myField: 'myValue'
           },
           submitErrors: {
-            myField: 'some submit error',
+            myField: 'some submit error'
           },
           fields: {
             myField: {
-              touched: true,
-            },
+              touched: true
+            }
           },
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo', {_error: 'some global error'})
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue',
+          myField: 'myValue'
         },
         fields: {
           myField: {
-            touched: true,
-          },
+            touched: true
+          }
         },
         error: 'some global error',
-        submitFailed: true,
-      },
+        submitFailed: true
+      }
     })
   })
 
@@ -284,31 +284,31 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'myValue',
+            myField: 'myValue'
           },
           fields: {
             myField: {
-              touched: true,
-            },
+              touched: true
+            }
           },
           submitting: true,
-          error: 'Previous global error',
-        },
+          error: 'Previous global error'
+        }
       }),
       stopSubmit('foo')
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue',
+          myField: 'myValue'
         },
         fields: {
           myField: {
-            touched: true,
-          },
+            touched: true
+          }
         },
-        submitSucceeded: true,
-      },
+        submitSucceeded: true
+      }
     })
   })
 
@@ -317,34 +317,34 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'myValue',
+            myField: 'myValue'
           },
           fields: {
             myField: {
-              touched: true,
-            },
+              touched: true
+            }
           },
           submitting: true,
-          error: 'some global error',
-        },
+          error: 'some global error'
+        }
       }),
       stopSubmit('foo', {myField: 'some submit error'})
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'myValue',
+          myField: 'myValue'
         },
         submitErrors: {
-          myField: 'some submit error',
+          myField: 'some submit error'
         },
         fields: {
           myField: {
-            touched: true,
-          },
+            touched: true
+          }
         },
-        submitFailed: true,
-      },
+        submitFailed: true
+      }
     })
   })
 
@@ -355,8 +355,8 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
           doesnt: 'matter',
           should: 'notchange',
           submitting: true,
-          submitFailed: true,
-        },
+          submitFailed: true
+        }
       }),
       stopSubmit('foo')
     )
@@ -364,8 +364,8 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        submitSucceeded: true,
-      },
+        submitSucceeded: true
+      }
     })
   })
 
@@ -375,52 +375,52 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             myField: 'dirtyValue',
-            myOtherField: 'otherDirtyValue',
+            myOtherField: 'otherDirtyValue'
           },
           initial: {
             myField: 'initialValue',
-            myOtherField: 'otherInitialValue',
+            myOtherField: 'otherInitialValue'
           },
           fields: {
             myField: {
-              touched: true,
+              touched: true
             },
             myOtherField: {
-              touched: true,
-            },
+              touched: true
+            }
           },
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo', {
         myField: 'Error about myField',
-        myOtherField: 'Error about myOtherField',
+        myOtherField: 'Error about myOtherField'
       })
     )
     expect(state).toEqualMap({
       foo: {
         values: {
           myField: 'dirtyValue',
-          myOtherField: 'otherDirtyValue',
+          myOtherField: 'otherDirtyValue'
         },
         initial: {
           myField: 'initialValue',
-          myOtherField: 'otherInitialValue',
+          myOtherField: 'otherInitialValue'
         },
         submitErrors: {
           myField: 'Error about myField',
-          myOtherField: 'Error about myOtherField',
+          myOtherField: 'Error about myOtherField'
         },
         fields: {
           myField: {
-            touched: true,
+            touched: true
           },
           myOtherField: {
-            touched: true,
-          },
+            touched: true
+          }
         },
-        submitFailed: true,
-      },
+        submitFailed: true
+      }
     })
   })
 
@@ -429,33 +429,33 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           values: {
-            myField: 'value',
+            myField: 'value'
           },
           fields: {
             myField: {
-              touched: true,
-            },
+              touched: true
+            }
           },
-          submitting: true,
-        },
+          submitting: true
+        }
       }),
       stopSubmit('foo', {
-        _error: 'This is a global error',
+        _error: 'This is a global error'
       })
     )
     expect(state).toEqualMap({
       foo: {
         values: {
-          myField: 'value',
+          myField: 'value'
         },
         fields: {
           myField: {
-            touched: true,
-          },
+            touched: true
+          }
         },
         error: 'This is a global error',
-        submitFailed: true,
-      },
+        submitFailed: true
+      }
     })
   })
 }

@@ -10,7 +10,7 @@ const data = {
   sex: 'female',
   employed: true,
   favoriteColor: 'Blue',
-  bio: 'Born to write amazing Redux code.',
+  bio: 'Born to write amazing Redux code.'
 }
 const colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet']
 
@@ -106,13 +106,13 @@ let InitializeFromStateForm = props => {
 
 // Decorate with reduxForm(). It will read the initialValues prop provided by connect()
 InitializeFromStateForm = reduxForm({
-  form: 'initializeFromState', // a unique identifier for this form
+  form: 'initializeFromState' // a unique identifier for this form
 })(InitializeFromStateForm)
 
 // You have to connect() to any reducers that you wish to connect to yourself
 InitializeFromStateForm = connect(
   state => ({
-    initialValues: state.account.data, // pull initial values from account reducer
+    initialValues: state.account.data // pull initial values from account reducer
   }),
   {load: loadAccount} // bind account loading action creator
 )(InitializeFromStateForm)

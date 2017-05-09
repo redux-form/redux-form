@@ -22,7 +22,7 @@ const createFieldArray = ({deepEqual, getIn, size}) => {
   const ConnectedFieldArray = createConnectedFieldArray({
     deepEqual,
     getIn,
-    size,
+    size
   })
 
   class FieldArray extends Component {
@@ -92,7 +92,7 @@ const createFieldArray = ({deepEqual, getIn, size}) => {
         syncError: this.syncError,
         syncWarning: this.syncWarning,
         _reduxForm: this.context._reduxForm,
-        ref: 'connected',
+        ref: 'connected'
       })
     }
   }
@@ -103,16 +103,16 @@ const createFieldArray = ({deepEqual, getIn, size}) => {
     props: PropTypes.object,
     validate: PropTypes.oneOfType([
       PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func),
+      PropTypes.arrayOf(PropTypes.func)
     ]),
     warn: PropTypes.oneOfType([
       PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func),
+      PropTypes.arrayOf(PropTypes.func)
     ]),
-    withRef: PropTypes.bool,
+    withRef: PropTypes.bool
   }
   FieldArray.contextTypes = {
-    _reduxForm: PropTypes.object,
+    _reduxForm: PropTypes.object
   }
 
   return FieldArray

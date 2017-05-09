@@ -7,7 +7,7 @@ const renderField = ({
   input,
   label,
   type,
-  meta: {asyncValidating, touched, error},
+  meta: {asyncValidating, touched, error}
 }) => (
   <div>
     <label>{label}</label>
@@ -48,5 +48,5 @@ export default reduxForm({
   form: 'asyncValidation', // a unique identifier for this form
   validate,
   asyncValidate,
-  asyncBlurFields: ['username'],
+  asyncBlurFields: ['username']
 })(AsyncValidationForm)

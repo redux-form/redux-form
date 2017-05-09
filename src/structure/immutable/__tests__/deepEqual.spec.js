@@ -13,22 +13,22 @@ describe('structure.immutable.deepEqual', () => {
       fromJS({
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }),
       fromJS({
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }),
       true
     )
@@ -36,22 +36,22 @@ describe('structure.immutable.deepEqual', () => {
       fromJS({
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }),
       fromJS({
         a: {
           b: {
-            c: 42,
+            c: 42
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }),
       false
     )
@@ -62,22 +62,22 @@ describe('structure.immutable.deepEqual', () => {
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       true
     )
@@ -85,22 +85,22 @@ describe('structure.immutable.deepEqual', () => {
       {
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
-            c: 42,
+            c: 42
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       false
     )
@@ -111,22 +111,22 @@ describe('structure.immutable.deepEqual', () => {
       fromJS({
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }).setIn('a.b.g', {h: {i: 29}}),
       fromJS({
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }).setIn('a.b.g', {h: {i: 29}}),
       true
     )
@@ -134,22 +134,22 @@ describe('structure.immutable.deepEqual', () => {
       fromJS({
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }).setIn('a.b.g', {h: {i: 29}}),
       fromJS({
         a: {
           b: {
-            c: 1,
+            c: 1
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       }).setIn('a.b.g', {h: {i: 30}}),
       false
     )
@@ -162,28 +162,28 @@ describe('structure.immutable.deepEqual', () => {
           b: {
             c: fromJS({
               h: {
-                i: 29,
-              },
-            }),
+                i: 29
+              }
+            })
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
             c: fromJS({
               h: {
-                i: 29,
-              },
-            }),
+                i: 29
+              }
+            })
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       true
     )
@@ -193,28 +193,28 @@ describe('structure.immutable.deepEqual', () => {
           b: {
             c: fromJS({
               h: {
-                i: 29,
-              },
-            }),
+                i: 29
+              }
+            })
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       {
         a: {
           b: {
             c: fromJS({
               h: {
-                i: 30,
-              },
-            }),
+                i: 30
+              }
+            })
           },
           d: 2,
-          e: 3,
+          e: 3
         },
-        f: 4,
+        f: 4
       },
       false
     )
@@ -260,13 +260,13 @@ describe('structure.immutable.deepEqual', () => {
     testBothWays(
       fromJS({
         a: {
-          b: '',
-        },
+          b: ''
+        }
       }),
       fromJS({
         a: {
-          b: undefined,
-        },
+          b: undefined
+        }
       }),
       true
     )
@@ -275,28 +275,28 @@ describe('structure.immutable.deepEqual', () => {
   it('should check if key exists on both objects', () => {
     testBothWays(
       fromJS({
-        a: false,
+        a: false
       }),
       fromJS({
-        b: 1,
-      }),
-      false
-    )
-    testBothWays(
-      fromJS({
-        a: '',
-      }),
-      fromJS({
-        b: 1,
+        b: 1
       }),
       false
     )
     testBothWays(
       fromJS({
-        a: null,
+        a: ''
       }),
       fromJS({
-        b: 1,
+        b: 1
+      }),
+      false
+    )
+    testBothWays(
+      fromJS({
+        a: null
+      }),
+      fromJS({
+        b: 1
       }),
       false
     )
@@ -306,13 +306,13 @@ describe('structure.immutable.deepEqual', () => {
     testBothWays(
       fromJS({
         a: {
-          b: '',
-        },
+          b: ''
+        }
       }),
       fromJS({
         a: {
-          b: null,
-        },
+          b: null
+        }
       }),
       true
     )
@@ -322,13 +322,13 @@ describe('structure.immutable.deepEqual', () => {
     testBothWays(
       fromJS({
         a: {
-          b: undefined,
-        },
+          b: undefined
+        }
       }),
       fromJS({
         a: {
-          b: null,
-        },
+          b: null
+        }
       }),
       true
     )
@@ -338,13 +338,13 @@ describe('structure.immutable.deepEqual', () => {
     testBothWays(
       fromJS({
         a: {
-          b: false,
-        },
+          b: false
+        }
       }),
       fromJS({
         a: {
-          b: undefined,
-        },
+          b: undefined
+        }
       }),
       true
     )

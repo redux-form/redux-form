@@ -66,8 +66,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get length from Redux state', () => {
       const props = testProps({
         values: {
-          foo: ['a', 'b', 'c'],
-        },
+          foo: ['a', 'b', 'c']
+        }
       })
       expect(props.fields.length).toBe(3)
     })
@@ -75,7 +75,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should be okay with no array value', () => {
       const iterate = createSpy()
       const props = testProps({
-        values: {},
+        values: {}
       })
       expect(props.fields.length).toBe(0)
       props.fields.forEach(iterate)
@@ -86,21 +86,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get dirty/pristine from Redux state', () => {
       const props1 = testProps({
         initial: {
-          foo: ['a', 'b', 'c'],
+          foo: ['a', 'b', 'c']
         },
         values: {
-          foo: ['a', 'b', 'c'],
-        },
+          foo: ['a', 'b', 'c']
+        }
       })
       expect(props1.meta.pristine).toBe(true)
       expect(props1.meta.dirty).toBe(false)
       const props2 = testProps({
         initial: {
-          foo: ['a', 'b', 'c'],
+          foo: ['a', 'b', 'c']
         },
         values: {
-          foo: ['a', 'b'],
-        },
+          foo: ['a', 'b']
+        }
       })
       expect(props2.meta.pristine).toBe(false)
       expect(props2.meta.dirty).toBe(true)
@@ -127,7 +127,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         props: {},
         validate: () => undefined,
         warn: () => undefined,
-        withRef: true,
+        withRef: true
       }
       class Form extends Component {
         render() {
@@ -139,7 +139,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -155,8 +155,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide name', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.name).toBe('foo')
     })
@@ -164,9 +164,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [],
-          },
-        },
+            foo: []
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -192,8 +192,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide forEach', () => {
       const props = testProps({
         values: {
-          foo: ['a', 'b', 'c'],
-        },
+          foo: ['a', 'b', 'c']
+        }
       })
       expect(props.fields.forEach).toBeA('function')
       const iterate = createSpy()
@@ -208,8 +208,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide map', () => {
       const props = testProps({
         values: {
-          foo: ['a', 'b', 'c'],
-        },
+          foo: ['a', 'b', 'c']
+        }
       })
       expect(props.fields.map).toBeA('function')
       const iterate = createSpy()
@@ -224,8 +224,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide insert', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.insert).toBeA('function')
     })
@@ -233,8 +233,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide push', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.push).toBeA('function')
     })
@@ -242,8 +242,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide pop', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.pop).toBeA('function')
     })
@@ -251,8 +251,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide shift', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.shift).toBeA('function')
     })
@@ -260,8 +260,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide unshift', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.unshift).toBeA('function')
     })
@@ -269,8 +269,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide move', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.move).toBeA('function')
     })
@@ -278,8 +278,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide remove', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.remove).toBeA('function')
     })
@@ -287,8 +287,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide removeAll', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.removeAll).toBeA('function')
     })
@@ -296,8 +296,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should provide swap', () => {
       const props = testProps({
         values: {
-          foo: [],
-        },
+          foo: []
+        }
       })
       expect(props.fields.swap).toBeA('function')
     })
@@ -306,9 +306,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['bar'],
-          },
-        },
+            foo: ['bar']
+          }
+        }
       })
       const renderArray = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
@@ -342,9 +342,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['bar'],
-          },
-        },
+            foo: ['bar']
+          }
+        }
       })
       class TestComponent extends Component {
         render() {
@@ -380,8 +380,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         {},
         {
           initialValues: {
-            foo: ['a', 'b', 'c'],
-          },
+            foo: ['a', 'b', 'c']
+          }
         }
       )
       expect(props.fields.length).toBe(3)
@@ -398,11 +398,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const props = testProps(
         {
           values: {
-            foo: ['bar'],
-          },
+            foo: ['bar']
+          }
         },
         {
-          validate: () => ({foo: {_error: 'foo error'}}),
+          validate: () => ({foo: {_error: 'foo error'}})
         }
       )
       expect(props.meta.error).toBe('foo error')
@@ -412,11 +412,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const props = testProps(
         {
           values: {
-            foo: ['bar'],
-          },
+            foo: ['bar']
+          }
         },
         {
-          warn: () => ({foo: {_warning: 'foo warning'}}),
+          warn: () => ({foo: {_warning: 'foo warning'}})
         }
       )
       expect(props.meta.warning).toBe('foo warning')
@@ -425,13 +425,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get async errors from Redux state', () => {
       const props = testProps({
         values: {
-          foo: ['bar'],
+          foo: ['bar']
         },
         asyncErrors: {
           foo: {
-            _error: 'foo error',
-          },
-        },
+            _error: 'foo error'
+          }
+        }
       })
       expect(props.meta.error).toBe('foo error')
     })
@@ -439,13 +439,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get submit errors from Redux state', () => {
       const props = testProps({
         values: {
-          foo: ['bar'],
+          foo: ['bar']
         },
         submitErrors: {
           foo: {
-            _error: 'foo error',
-          },
-        },
+            _error: 'foo error'
+          }
+        }
       })
       expect(props.meta.error).toBe('foo error')
     })
@@ -453,9 +453,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     it('should get submitFailed from Redux state', () => {
       const props = testProps({
         values: {
-          foo: ['bar'],
+          foo: ['bar']
         },
-        submitFailed: true,
+        submitFailed: true
       })
       expect(props.meta.submitFailed).toBe(true)
     })
@@ -464,9 +464,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['bar'],
-          },
-        },
+            foo: ['bar']
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -487,9 +487,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['bar'],
-          },
-        },
+            foo: ['bar']
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -510,12 +510,12 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: ['dog'],
+            foo: ['dog']
           },
           values: {
-            foo: ['cat'],
-          },
-        },
+            foo: ['cat']
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -536,12 +536,12 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: ['dog'],
+            foo: ['dog']
           },
           values: {
-            foo: ['dog'],
-          },
-        },
+            foo: ['dog']
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -562,12 +562,12 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: ['dog'],
+            foo: ['dog']
           },
           values: {
-            foo: ['dog'],
-          },
-        },
+            foo: ['dog']
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -588,12 +588,12 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           initial: {
-            foo: ['dog'],
+            foo: ['dog']
           },
           values: {
-            foo: ['cat'],
-          },
-        },
+            foo: ['cat']
+          }
+        }
       })
       class Form extends Component {
         render() {
@@ -617,18 +617,18 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             foo: [
               {
                 library: 'redux-form',
-                author: 'erikras',
-              },
-            ],
-          },
-        },
+                author: 'erikras'
+              }
+            ]
+          }
+        }
       })
       const validate = () => ({
         foo: [
           {
-            _error: 'Too awesome!',
-          },
-        ],
+            _error: 'Too awesome!'
+          }
+        ]
       })
       const renderArray = ({fields}) => (
         <div>
@@ -655,7 +655,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        validate,
+        validate
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -673,18 +673,18 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             foo: [
               {
                 library: 'redux-form',
-                author: 'erikras',
-              },
-            ],
-          },
-        },
+                author: 'erikras'
+              }
+            ]
+          }
+        }
       })
       const warn = () => ({
         foo: [
           {
-            _warning: 'Too awesome!',
-          },
-        ],
+            _warning: 'Too awesome!'
+          }
+        ]
       })
       const renderArray = ({fields}) => (
         <div>
@@ -711,7 +711,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         form: 'testForm',
-        warn,
+        warn
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -727,9 +727,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         testForm: {
           values: {
             foo: ['a', 'b'],
-            bar: ['c'],
-          },
-        },
+            bar: ['c']
+          }
+        }
       })
       const component = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
@@ -770,9 +770,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: {bar: [{val: 'dog'}, {val: 'cat'}]},
-          },
-        },
+            foo: {bar: [{val: 'dog'}, {val: 'cat'}]}
+          }
+        }
       })
       const TestArray = ({fields}) => (
         <div>
@@ -804,19 +804,19 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               'foo.bar[0].val': {
                 name: 'foo.bar[0].val',
                 type: 'Field',
-                count: 1,
+                count: 1
               },
               'foo.bar[1].val': {
                 name: 'foo.bar[1].val',
                 type: 'Field',
-                count: 1,
-              },
+                count: 1
+              }
             },
             values: {
-              foo: {bar: [{val: 'dog'}, {val: 'cat'}]},
-            },
-          },
-        },
+              foo: {bar: [{val: 'dog'}, {val: 'cat'}]}
+            }
+          }
+        }
       })
 
       const components = TestUtils.scryRenderedComponentsWithType(
@@ -831,9 +831,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: {bar: [{val: 'dog'}, {val: 'cat'}]},
-          },
-        },
+            foo: {bar: [{val: 'dog'}, {val: 'cat'}]}
+          }
+        }
       })
       const TestArray = ({fields}) => (
         <div>
@@ -865,9 +865,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}},
-          },
-        },
+            foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}}
+          }
+        }
       })
       const TestArray = ({fields}) => (
         <div>
@@ -901,24 +901,24 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               'foo.fighter.bar': {
                 name: 'foo.fighter.bar',
                 type: 'FieldArray',
-                count: 1,
+                count: 1
               },
               'foo.fighter.bar[0].val': {
                 name: 'foo.fighter.bar[0].val',
                 type: 'Field',
-                count: 1,
+                count: 1
               },
               'foo.fighter.bar[1].val': {
                 name: 'foo.fighter.bar[1].val',
                 type: 'Field',
-                count: 1,
-              },
+                count: 1
+              }
             },
             values: {
-              foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}},
-            },
-          },
-        },
+              foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}}
+            }
+          }
+        }
       })
 
       const components = TestUtils.scryRenderedComponentsWithType(
@@ -932,9 +932,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}},
-          },
-        },
+            foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}}
+          }
+        }
       })
       const TestArray = ({fields}) => (
         <div>
@@ -968,9 +968,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['dog', 'cat'],
-          },
-        },
+            foo: ['dog', 'cat']
+          }
+        }
       })
       const renderArray = createSpy(({fields}) => (
         <div>
@@ -997,7 +997,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1021,7 +1021,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
         'dog',
         'cat',
-        'rat',
+        'rat'
       ])
 
       // should rerender
@@ -1034,9 +1034,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['dog', 'cat'],
-          },
-        },
+            foo: ['dog', 'cat']
+          }
+        }
       })
       const renderArray = createSpy(({fields}) => (
         <div>
@@ -1066,7 +1066,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1090,7 +1090,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
         'dog',
         'cat',
-        'rat',
+        'rat'
       ])
 
       // should rerender
@@ -1103,9 +1103,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['dog', 'cat'],
-          },
-        },
+            foo: ['dog', 'cat']
+          }
+        }
       })
       const renderArray = createSpy(({fields}) => (
         <div>
@@ -1132,7 +1132,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1156,7 +1156,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
         'dog',
         'cat',
-        'rat',
+        'rat'
       ])
 
       // should rerender
@@ -1169,9 +1169,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['dog', 'cat'],
-          },
-        },
+            foo: ['dog', 'cat']
+          }
+        }
       })
       const renderArray = createSpy(({fields}) => (
         <div>
@@ -1201,7 +1201,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       }
       const TestForm = reduxForm({
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1225,7 +1225,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
         'dog',
         'cat',
-        'rat',
+        'rat'
       ])
 
       // should rerender
@@ -1401,9 +1401,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         const store = makeStore({
           testForm: {
             values: {
-              dogs: [],
-            },
-          },
+              dogs: []
+            }
+          }
         })
         const renderFieldArray = createSpy(({fields}) => (
           <div>
@@ -1426,7 +1426,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           validate: values => {
             const dogs = getIn(values, 'dogs')
             const errors = {
-              dogs: [],
+              dogs: []
             }
             if (dogs && size(dogs) === 0) {
               errors.dogs._error = 'No dogs'
@@ -1435,7 +1435,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               errors.dogs._error = 'Too many'
             }
             return errors
-          },
+          }
         })(Form)
         const dom = TestUtils.renderIntoDocument(
           <Provider store={store}>
@@ -1497,9 +1497,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            dogs: [],
-          },
-        },
+            dogs: []
+          }
+        }
       })
       const renderFieldArray = createSpy(({fields}) => (
         <div>
@@ -1520,7 +1520,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         warn: values => {
           const dogs = getIn(values, 'dogs')
           const warnings = {
-            dogs: [],
+            dogs: []
           }
           if (dogs && size(dogs) === 0) {
             warnings.dogs._warning = 'No dogs'
@@ -1529,7 +1529,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             warnings.dogs._warning = 'Too many'
           }
           return warnings
-        },
+        }
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1586,15 +1586,15 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             dogs: [
               {
                 name: 'Fido',
-                hasCollar: false,
+                hasCollar: false
               },
               {
                 name: 'Snoopy',
-                hasCollar: false,
-              },
-            ],
-          },
-        },
+                hasCollar: false
+              }
+            ]
+          }
+        }
       })
       const renderFieldArray = createSpy(({fields}) => (
         <div>
@@ -1623,7 +1623,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       }
       const TestForm = reduxForm({
         pure: false,
-        form: 'testForm',
+        form: 'testForm'
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1653,9 +1653,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            dogs: ['Fido', 'Snoopy'],
-          },
-        },
+            dogs: ['Fido', 'Snoopy']
+          }
+        }
       })
       const renderField = createSpy(props => (
         <input {...props.input} />
@@ -1731,10 +1731,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-            },
-          },
-        },
+              dogs: {name: 'dogs', type: 'FieldArray', count: 1}
+            }
+          }
+        }
       })
 
       // length is 0
@@ -1760,14 +1760,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              dogs: [undefined],
+              dogs: [undefined]
             },
             registeredFields: {
               dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
 
       // values list is a list
@@ -1805,10 +1805,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-            },
-          },
-        },
+              dogs: {name: 'dogs', type: 'FieldArray', count: 1}
+            }
+          }
+        }
       })
 
       // length is 0
@@ -1834,14 +1834,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              dogs: ['Fido'],
+              dogs: ['Fido']
             },
             registeredFields: {
               dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
 
       // values list is a list
@@ -1879,10 +1879,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-            },
-          },
-        },
+              dogs: {name: 'dogs', type: 'FieldArray', count: 1}
+            }
+          }
+        }
       })
 
       // length is 0
@@ -1908,14 +1908,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              dogs: [undefined],
+              dogs: [undefined]
             },
             registeredFields: {
               dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
 
       // values list is a list
@@ -1953,10 +1953,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-            },
-          },
-        },
+              dogs: {name: 'dogs', type: 'FieldArray', count: 1}
+            }
+          }
+        }
       })
 
       // length is 0
@@ -1982,14 +1982,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              dogs: ['Fido'],
+              dogs: ['Fido']
             },
             registeredFields: {
               dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
 
       // values list is a list
@@ -2027,10 +2027,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-            },
-          },
-        },
+              dogs: {name: 'dogs', type: 'FieldArray', count: 1}
+            }
+          }
+        }
       })
 
       // length is 0
@@ -2056,14 +2056,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              dogs: [undefined],
+              dogs: [undefined]
             },
             registeredFields: {
               dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
 
       // values list is a list
@@ -2101,10 +2101,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-            },
-          },
-        },
+              dogs: {name: 'dogs', type: 'FieldArray', count: 1}
+            }
+          }
+        }
       })
 
       // length is 0
@@ -2130,14 +2130,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             values: {
-              dogs: ['Fido'],
+              dogs: ['Fido']
             },
             registeredFields: {
               dogs: {name: 'dogs', type: 'FieldArray', count: 1},
-              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1},
-            },
-          },
-        },
+              'dogs[0]': {name: 'dogs[0]', type: 'Field', count: 1}
+            }
+          }
+        }
       })
 
       // values list is a list
@@ -2148,9 +2148,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: ['firstValue', 'secondValue'],
-          },
-        },
+            foo: ['firstValue', 'secondValue']
+          }
+        }
       })
       const renderField = createSpy(field => <input {...field.input} />)
 
@@ -2193,9 +2193,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            dogs: ['Fido', 'Snoopy'],
-          },
-        },
+            dogs: ['Fido', 'Snoopy']
+          }
+        }
       })
       const renderField = createSpy(props => (
         <input {...props.input} />

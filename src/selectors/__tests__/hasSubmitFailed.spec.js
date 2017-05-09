@@ -19,7 +19,7 @@ const describeHasSubmitFailed = (name, structure, expect) => {
       expect(
         hasSubmitFailed('foo')(
           fromJS({
-            form: {},
+            form: {}
           })
         )
       ).toBe(false)
@@ -31,9 +31,9 @@ const describeHasSubmitFailed = (name, structure, expect) => {
           fromJS({
             form: {
               foo: {
-                submitFailed: true,
-              },
-            },
+                submitFailed: true
+              }
+            }
           })
         )
       ).toBe(true)
@@ -45,9 +45,9 @@ const describeHasSubmitFailed = (name, structure, expect) => {
           fromJS({
             someOtherSlice: {
               foo: {
-                submitFailed: true,
-              },
-            },
+                submitFailed: true
+              }
+            }
           })
         )
       ).toBe(true)

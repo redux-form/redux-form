@@ -19,7 +19,7 @@ const describeIsSubmitting = (name, structure, expect) => {
       expect(
         isSubmitting('foo')(
           fromJS({
-            form: {},
+            form: {}
           })
         )
       ).toBe(false)
@@ -31,9 +31,9 @@ const describeIsSubmitting = (name, structure, expect) => {
           fromJS({
             form: {
               foo: {
-                submitting: true,
-              },
-            },
+                submitting: true
+              }
+            }
           })
         )
       ).toBe(true)
@@ -45,9 +45,9 @@ const describeIsSubmitting = (name, structure, expect) => {
           fromJS({
             someOtherSlice: {
               foo: {
-                submitting: true,
-              },
-            },
+                submitting: true
+              }
+            }
           })
         )
       ).toBe(true)

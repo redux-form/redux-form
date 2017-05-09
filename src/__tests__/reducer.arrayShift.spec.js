@@ -7,8 +7,8 @@ const describeArrayShift = (reducer, expect, {fromJS}) => () => {
         foo: {
           values: {
             myField: {
-              subField: ['a', 'b', 'c', 'd'],
-            },
+              subField: ['a', 'b', 'c', 'd']
+            }
           },
           fields: {
             myField: {
@@ -16,11 +16,11 @@ const describeArrayShift = (reducer, expect, {fromJS}) => () => {
                 {touched: true, visited: true},
                 {touched: true},
                 {touched: true, visited: true},
-                {touched: true},
-              ],
-            },
-          },
-        },
+                {touched: true}
+              ]
+            }
+          }
+        }
       }),
       arrayShift('foo', 'myField.subField')
     )
@@ -28,19 +28,19 @@ const describeArrayShift = (reducer, expect, {fromJS}) => () => {
       foo: {
         values: {
           myField: {
-            subField: ['b', 'c', 'd'],
-          },
+            subField: ['b', 'c', 'd']
+          }
         },
         fields: {
           myField: {
             subField: [
               {touched: true},
               {touched: true, visited: true},
-              {touched: true},
-            ],
-          },
-        },
-      },
+              {touched: true}
+            ]
+          }
+        }
+      }
     })
   })
 }

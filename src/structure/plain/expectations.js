@@ -40,7 +40,7 @@ const expectations = {
     const sortedExpected = expected.slice()
     sortedExpected.sort()
     return expect(sortedActual).toEqual(sortedExpected)
-  },
+  }
 }
 
 export default expectations
