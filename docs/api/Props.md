@@ -182,6 +182,10 @@ that as if it were the error for a field called `_error`, and it will be given a
 determined by comparing the current data with these initialized values.
 This is a bound action creator, so it returns nothing.
 
+### `initialized : boolean`
+
+> `true` the form has been initialized with initial values, `false` otherwise.
+
 #### `initialValues : Object`
 
 > The same initialValues object passed to `reduxForm` to initialize the form data.
