@@ -16,32 +16,52 @@ const describeHasSubmitFailed = (name, structure, expect) => {
     })
 
     it('should return false when value not present', () => {
-      expect(hasSubmitFailed('foo')(fromJS({
-        form: {}
-      }))).toBe(false)
+      expect(
+        hasSubmitFailed('foo')(
+          fromJS({
+            form: {}
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return true when submitting', () => {
-      expect(hasSubmitFailed('foo')(fromJS({
-        form: {
-          foo: {
-            submitFailed: true
-          }
-        }
-      }))).toBe(true)
+      expect(
+        hasSubmitFailed('foo')(
+          fromJS({
+            form: {
+              foo: {
+                submitFailed: true
+              }
+            }
+          })
+        )
+      ).toBe(true)
     })
 
     it('should use getFormState if provided', () => {
-      expect(hasSubmitFailed('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            submitFailed: true
-          }
-        }
-      }))).toBe(true)
+      expect(
+        hasSubmitFailed('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                submitFailed: true
+              }
+            }
+          })
+        )
+      ).toBe(true)
     })
   })
 }
 
-describeHasSubmitFailed('hasSubmitFailed.plain', plain, addExpectations(plainExpectations))
-describeHasSubmitFailed('hasSubmitFailed.immutable', immutable, addExpectations(immutableExpectations))
+describeHasSubmitFailed(
+  'hasSubmitFailed.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeHasSubmitFailed(
+  'hasSubmitFailed.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

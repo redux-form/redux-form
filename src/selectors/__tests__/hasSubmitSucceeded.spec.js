@@ -16,32 +16,52 @@ const describeHasSubmitSucceeded = (name, structure, expect) => {
     })
 
     it('should return false when value not present', () => {
-      expect(hasSubmitSucceeded('foo')(fromJS({
-        form: {}
-      }))).toBe(false)
+      expect(
+        hasSubmitSucceeded('foo')(
+          fromJS({
+            form: {}
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return true when submitting', () => {
-      expect(hasSubmitSucceeded('foo')(fromJS({
-        form: {
-          foo: {
-            submitSucceeded: true
-          }
-        }
-      }))).toBe(true)
+      expect(
+        hasSubmitSucceeded('foo')(
+          fromJS({
+            form: {
+              foo: {
+                submitSucceeded: true
+              }
+            }
+          })
+        )
+      ).toBe(true)
     })
 
     it('should use getFormState if provided', () => {
-      expect(hasSubmitSucceeded('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            submitSucceeded: true
-          }
-        }
-      }))).toBe(true)
+      expect(
+        hasSubmitSucceeded('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                submitSucceeded: true
+              }
+            }
+          })
+        )
+      ).toBe(true)
     })
   })
 }
 
-describeHasSubmitSucceeded('hasSubmitSucceeded.plain', plain, addExpectations(plainExpectations))
-describeHasSubmitSucceeded('hasSubmitSucceeded.immutable', immutable, addExpectations(immutableExpectations))
+describeHasSubmitSucceeded(
+  'hasSubmitSucceeded.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeHasSubmitSucceeded(
+  'hasSubmitSucceeded.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

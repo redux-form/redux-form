@@ -17,17 +17,17 @@ const describeValues = (name, structure, combineReducers, expect) => {
   const values = createValues(structure)
   const reducer = createReducer(structure)
   const { fromJS } = structure
-  const makeStore = (initial) => createStore(
-    combineReducers({ form: reducer }), fromJS({ form: initial }))
+  const makeStore = initial =>
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   const testProps = (state, config = {}) => {
     const store = makeStore({ testForm: state })
-    const spy = createSpy(() => <div/>).andCallThrough()
+    const spy = createSpy(() => <div />).andCallThrough()
 
     const Decorated = values({ form: 'testForm', ...config })(spy)
     TestUtils.renderIntoDocument(
       <Provider store={store}>
-        <Decorated/>
+        <Decorated />
       </Provider>
     )
     expect(spy).toHaveBeenCalled()
@@ -55,5 +55,15 @@ const describeValues = (name, structure, combineReducers, expect) => {
   })
 }
 
-describeValues('values.plain', plain, plainCombineReducers, addExpectations(plainExpectations))
-describeValues('values.immutable', immutable, immutableCombineReducers, addExpectations(immutableExpectations))
+describeValues(
+  'values.plain',
+  plain,
+  plainCombineReducers,
+  addExpectations(plainExpectations)
+)
+describeValues(
+  'values.immutable',
+  immutable,
+  immutableCombineReducers,
+  addExpectations(immutableExpectations)
+)

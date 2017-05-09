@@ -15,7 +15,7 @@ const structure = {
   deleteIn,
   fromJS: value => value,
   keys,
-  size: array => array ? array.length : 0,
+  size: array => (array ? array.length : 0),
   splice,
   toJS: value => value
 }

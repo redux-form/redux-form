@@ -83,10 +83,7 @@ const describeReducer = (name, structure, expect) => {
   describe(name, () => {
     it('should initialize state to {}', () => {
       const state = reducer()
-      expect(state)
-        .toExist()
-        .toBeAMap()
-        .toBeSize(0)
+      expect(state).toExist().toBeAMap().toBeSize(0)
     })
 
     it('should not modify state when action has no form', () => {
@@ -96,29 +93,37 @@ const describeReducer = (name, structure, expect) => {
 
     it('should not modify state when action has form, but unknown type', () => {
       const state = { foo: 'bar' }
-      expect(reducer(state, { type: 'SOMETHING_ELSE', form: 'foo' })).toBe(state)
+      expect(reducer(state, { type: 'SOMETHING_ELSE', form: 'foo' })).toBe(
+        state
+      )
     })
 
     it('should initialize form state when action has form', () => {
-      const state = reducer(undefined, { type: `${prefix}SOME_ACTION`, meta: { form: 'foo' } })
-      expect(state)
-        .toExist()
-        .toBeAMap()
-        .toBeSize(1)
-        .toEqualMap({
-          foo: {}
-        })
+      const state = reducer(undefined, {
+        type: `${prefix}SOME_ACTION`,
+        meta: { form: 'foo' }
+      })
+      expect(state).toExist().toBeAMap().toBeSize(1).toEqualMap({
+        foo: {}
+      })
     })
 
     it('should ignore non-redux-form actions', () => {
-      const state = reducer(undefined, { type: 'some/other/lib', meta: { form: 'foo' } })
+      const state = reducer(undefined, {
+        type: 'some/other/lib',
+        meta: { form: 'foo' }
+      })
       expect(state).toEqualMap({})
     })
 
     Object.keys(tests).forEach(key => {
-      describe(`${name}.${key}`, tests[ key ](reducer, expect, structure))
+      describe(`${name}.${key}`, tests[key](reducer, expect, structure))
     })
   })
 }
 describeReducer('reducer.plain', plain, addExpectations(plainExpectations))
-describeReducer('reducer.immutable', immutable, addExpectations(immutableExpectations))
+describeReducer(
+  'reducer.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

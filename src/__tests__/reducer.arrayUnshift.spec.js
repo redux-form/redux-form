@@ -3,47 +3,27 @@ import { arrayUnshift } from '../actions'
 const describeArrayUnshift = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {
     const state = reducer(undefined, arrayUnshift('foo', 'myField', 'myValue'))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          values: {
-            myField: [ 'myValue' ]
-          }
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: ['myValue']
         }
-      })
+      }
+    })
   })
 
   it('should insert at beginning', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: {
-            subField: [ 'a', 'b', 'c' ]
-          }
-        },
-        fields: {
-          myField: {
-            subField: [
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
-        }
-      }
-    }), arrayUnshift('foo', 'myField.subField', 'newValue'))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
           values: {
             myField: {
-              subField: [ 'newValue', 'a', 'b', 'c' ]
+              subField: ['a', 'b', 'c']
             }
           },
           fields: {
             myField: {
               subField: [
-                {},
                 { touched: true },
                 { touched: true, visited: true },
                 { touched: true }
@@ -51,7 +31,28 @@ const describeArrayUnshift = (reducer, expect, { fromJS }) => () => {
             }
           }
         }
-      })
+      }),
+      arrayUnshift('foo', 'myField.subField', 'newValue')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: {
+            subField: ['newValue', 'a', 'b', 'c']
+          }
+        },
+        fields: {
+          myField: {
+            subField: [
+              {},
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
+            ]
+          }
+        }
+      }
+    })
   })
 }
 

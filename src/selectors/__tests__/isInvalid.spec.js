@@ -17,253 +17,321 @@ const describeIsInvalid = (name, structure, expect) => {
     })
 
     it('should return false when form data not present', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {}
-      }))).toBe(false)
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {}
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return false when there are no errors', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
-            },
-            asyncErrors: {},
-            submitErrors: {},
-            syncErrors: {}
-          }
-        }
-      }))).toBe(false)
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                },
+                asyncErrors: {},
+                submitErrors: {},
+                syncErrors: {}
+              }
+            }
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return false when there are sync errors for a NON-registered field', () => {
-      expect(isInvalid('foo', getFormState)(setIn(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
-            },
-            syncErrors: {
-              horse: 'Too old'
+      expect(
+        isInvalid('foo', getFormState)(
+          setIn(
+            fromJS({
+              form: {
+                foo: {
+                  values: {
+                    dog: 'Odie',
+                    cat: 'Garfield'
+                  },
+                  registeredFields: {
+                    dog: { name: 'dog', type: 'Field', count: 1 },
+                    cat: { name: 'cat', type: 'Field', count: 1 }
+                  },
+                  syncErrors: {
+                    horse: 'Too old'
+                  }
+                }
+              }
+            }),
+            'form.foo.syncErrors',
+            {
+              horse: 'Too Old'
             }
-          }
-        }
-      }), 'form.foo.syncErrors', {
-        horse: 'Too Old'
-      }))).toBe(false)
+          )
+        )
+      ).toBe(false)
     })
 
     it('should return true when there are sync errors for registered fields', () => {
-      expect(isInvalid('foo', getFormState)(setIn(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
+      expect(
+        isInvalid('foo', getFormState)(
+          setIn(
+            fromJS({
+              form: {
+                foo: {
+                  values: {
+                    dog: 'Odie',
+                    cat: 'Garfield'
+                  },
+                  registeredFields: {
+                    dog: { name: 'dog', type: 'Field', count: 1 },
+                    cat: { name: 'cat', type: 'Field', count: 1 }
+                  }
+                }
+              }
+            }),
+            'form.foo.syncErrors',
+            {
+              dog: 'Too old'
             }
-          }
-        }
-      }), 'form.foo.syncErrors', {
-        dog: 'Too old'
-      }))).toBe(true)
+          )
+        )
+      ).toBe(true)
     })
 
     it('should return true with sync error for registered array field', () => {
-      expect(isInvalid('foo', getFormState)(setIn(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cats: [ 'Garfield' ]
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cats: { name: 'cats', type: 'FieldArray', count: 1 }
+      expect(
+        isInvalid('foo', getFormState)(
+          setIn(
+            fromJS({
+              form: {
+                foo: {
+                  values: {
+                    dog: 'Odie',
+                    cats: ['Garfield']
+                  },
+                  registeredFields: {
+                    dog: { name: 'dog', type: 'Field', count: 1 },
+                    cats: { name: 'cats', type: 'FieldArray', count: 1 }
+                  }
+                }
+              }
+            }),
+            'form.foo.syncErrors',
+            {
+              cats: {
+                _error: 'Too many cats'
+              }
             }
-          }
-        }
-      }), 'form.foo.syncErrors', {
-        cats: {
-          _error: 'Too many cats'
-        }
-      }))).toBe(true)
+          )
+        )
+      ).toBe(true)
     })
 
     it('should return true when there is a syncError', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            error: 'Bad Data',
-            syncError: true,
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                error: 'Bad Data',
+                syncError: true,
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                }
+              }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
 
     it('should return false when there are async errors for a NON-registered field', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
-            },
-            asyncErrors: {
-              horse: 'Too old'
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                },
+                asyncErrors: {
+                  horse: 'Too old'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(false)
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return true when there are async errors for registered fields', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
-            },
-            asyncErrors: {
-              dog: 'Too old'
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                },
+                asyncErrors: {
+                  dog: 'Too old'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
 
     it('should return true with async error for registered array field', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cats: [ 'Garfield' ]
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cats: { name: 'cats', type: 'FieldArray', count: 1 }
-            },
-            asyncErrors: {
-              cats: {
-                _error: 'Too many cats'
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cats: ['Garfield']
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cats: { name: 'cats', type: 'FieldArray', count: 1 }
+                },
+                asyncErrors: {
+                  cats: {
+                    _error: 'Too many cats'
+                  }
+                }
               }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
 
     it('should return false when there are submit errors for a NON-registered field', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
-            },
-            submitErrors: {
-              horse: 'Too old'
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                },
+                submitErrors: {
+                  horse: 'Too old'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(false)
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return true when there are submit errors for registered fields', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
-            },
-            submitErrors: {
-              dog: 'Too old'
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                },
+                submitErrors: {
+                  dog: 'Too old'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
 
     it('should return true with submit error for registered array field', () => {
-      expect(isInvalid('foo', getFormState)(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cats: [ 'Garfield' ]
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cats: { name: 'cats', type: 'FieldArray', count: 1 }
-            },
-            submitErrors: {
-              cats: {
-                _error: 'Too many cats'
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cats: ['Garfield']
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cats: { name: 'cats', type: 'FieldArray', count: 1 }
+                },
+                submitErrors: {
+                  cats: {
+                    _error: 'Too many cats'
+                  }
+                }
               }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
 
     it('should use getFormState if provided', () => {
-      expect(isInvalid('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
-            },
-            registeredFields: {
-              dog: { name: 'dog', type: 'Field', count: 1 },
-              cat: { name: 'cat', type: 'Field', count: 1 }
-            },
-            submitErrors: {
-              dog: 'That dog is ugly'
+      expect(
+        isInvalid('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                },
+                submitErrors: {
+                  dog: 'That dog is ugly'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
   })
 }
 
 describeIsInvalid('isInvalid.plain', plain, addExpectations(plainExpectations))
-describeIsInvalid('isInvalid.immutable', immutable, addExpectations(immutableExpectations))
+describeIsInvalid(
+  'isInvalid.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

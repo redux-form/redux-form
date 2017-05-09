@@ -1,3 +1,3 @@
-const keys = value => value ? Object.keys(value) : []
+const keys = value => (value ? Object.keys(value) : [])
 
 export default keys

@@ -8,7 +8,7 @@ describe('prefixName', () => {
         sectionPrefix: 'foo'
       }
     }
-    expect(prefixName(context,'bar')).toBe('foo.bar')
+    expect(prefixName(context, 'bar')).toBe('foo.bar')
   })
 
   it('should ignore empty sectionPrefix', () => {

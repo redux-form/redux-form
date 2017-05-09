@@ -16,63 +16,83 @@ const describeIsDirty = (name, structure, expect) => {
     })
 
     it('should return false when values not present', () => {
-      expect(isDirty('foo')(fromJS({
-        form: {}
-      }))).toBe(false)
+      expect(
+        isDirty('foo')(
+          fromJS({
+            form: {}
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return false when values are pristine', () => {
-      expect(isDirty('foo')(fromJS({
-        form: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
-            },
-            values: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        isDirty('foo')(
+          fromJS({
+            form: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                },
+                values: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(false)
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return true when values are dirty', () => {
-      expect(isDirty('foo')(fromJS({
-        form: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
-            },
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
+      expect(
+        isDirty('foo')(
+          fromJS({
+            form: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                },
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
 
     it('should use getFormState if provided', () => {
-      expect(isDirty('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
-            },
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
+      expect(
+        isDirty('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                },
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
   })
 }
 
 describeIsDirty('isDirty.plain', plain, addExpectations(plainExpectations))
-describeIsDirty('isDirty.immutable', immutable, addExpectations(immutableExpectations))
+describeIsDirty(
+  'isDirty.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

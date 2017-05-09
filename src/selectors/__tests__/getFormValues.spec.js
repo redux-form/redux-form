@@ -16,32 +16,40 @@ const describeGetFormValues = (name, structure, expect) => {
     })
 
     it('should get the form values from state', () => {
-      expect(getFormValues('foo')(fromJS({
-        form: {
-          foo: {
-            values: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormValues('foo')(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
     })
 
     it('should use getFormState if provided', () => {
-      expect(getFormValues('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            values: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormValues('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                values: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
@@ -49,5 +57,13 @@ const describeGetFormValues = (name, structure, expect) => {
   })
 }
 
-describeGetFormValues('getFormValues.plain', plain, addExpectations(plainExpectations))
-describeGetFormValues('getFormValues.immutable', immutable, addExpectations(immutableExpectations))
+describeGetFormValues(
+  'getFormValues.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeGetFormValues(
+  'getFormValues.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

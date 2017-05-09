@@ -16,40 +16,52 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
     })
 
     it('should get the form values from state', () => {
-      expect(getFormSyncErrors('foo')(fromJS({
-        form: {
-          foo: {
-            syncErrors: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormSyncErrors('foo')(
+          fromJS({
+            form: {
+              foo: {
+                syncErrors: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
     })
 
     it('should return undefined if there are no syncErrors', () => {
-      expect(getFormSyncErrors('foo')(fromJS({
-        form: {
-          foo: {}
-        }
-      }))).toEqual(undefined)
+      expect(
+        getFormSyncErrors('foo')(
+          fromJS({
+            form: {
+              foo: {}
+            }
+          })
+        )
+      ).toEqual(undefined)
     })
 
     it('should use getFormState if provided', () => {
-      expect(getFormSyncErrors('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            syncErrors: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormSyncErrors('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                syncErrors: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
@@ -57,5 +69,13 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
   })
 }
 
-describeGetFormSyncErrors('getFormSyncErrors.plain', plain, addExpectations(plainExpectations))
-describeGetFormSyncErrors('getFormSyncErrors.immutable', immutable, addExpectations(immutableExpectations))
+describeGetFormSyncErrors(
+  'getFormSyncErrors.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeGetFormSyncErrors(
+  'getFormSyncErrors.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

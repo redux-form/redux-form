@@ -2,50 +2,34 @@ import { arrayRemoveAll } from '../actions'
 
 const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with undefined', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: {
-          }
-        },
-        fields: {
-          myField: {
-          }
-        }
-      }
-    }), arrayRemoveAll('foo', 'myField.subField'))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
           values: {
-            myField: {
-            }
+            myField: {}
           },
           fields: {
-            myField: {
-            }
+            myField: {}
           }
         }
-      })
+      }),
+      arrayRemoveAll('foo', 'myField.subField')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: {}
+        },
+        fields: {
+          myField: {}
+        }
+      }
+    })
   })
 
   it('should do nothing if already empty', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: {
-            subField: []
-          }
-        },
-        fields: {
-          myField: {
-            subField: []
-          }
-        }
-      }
-    }), arrayRemoveAll('foo', 'myField.subField'))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
           values: {
             myField: {
@@ -58,44 +42,62 @@ const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
             }
           }
         }
-      })
+      }),
+      arrayRemoveAll('foo', 'myField.subField')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: {
+            subField: []
+          }
+        },
+        fields: {
+          myField: {
+            subField: []
+          }
+        }
+      }
+    })
   })
 
   it('should remove all the elements', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: {
-            subField: [ 'a', 'b', 'c', 'd' ]
-          }
-        },
-        fields: {
-          myField: {
-            subField: [
-              { touched: true, visited: true },
-              { touched: true },
-              { touched: true, visited: true },
-              { touched: true }
-            ]
-          }
-        }
-      }
-    }), arrayRemoveAll('foo', 'myField.subField', 1))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
           values: {
             myField: {
-              subField: []
+              subField: ['a', 'b', 'c', 'd']
             }
           },
           fields: {
             myField: {
-              subField: []
+              subField: [
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
+              ]
             }
           }
         }
-      })
+      }),
+      arrayRemoveAll('foo', 'myField.subField', 1)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: {
+            subField: []
+          }
+        },
+        fields: {
+          myField: {
+            subField: []
+          }
+        }
+      }
+    })
   })
 }
 

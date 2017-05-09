@@ -24,14 +24,15 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
   const FieldArray = createFieldArray(structure)
   const reducer = createReducer(structure)
   const { fromJS } = structure
-  const makeStore = (initial) => createStore(
-    combineReducers({ form: reducer }), fromJS({ form: initial }))
+  const makeStore = initial =>
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   describe(name, () => {
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
-        TestUtils.renderIntoDocument(<div>
-            <FormSection name="foo"/>
+        TestUtils.renderIntoDocument(
+          <div>
+            <FormSection name="foo" />
           </div>
         )
       }).toThrow(/must be inside a component decorated with reduxForm/)
@@ -51,7 +52,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
         render() {
           return (
             <FormSection name="foo">
-              <Field name="bar" component="input"/>
+              <Field name="bar" component="input" />
             </FormSection>
           )
         }
@@ -81,12 +82,14 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <FormSection name="foo"
+            <FormSection
+              name="foo"
               component="section"
               className="form-section"
-              style={{ fontWeight: 'bold' }}>
-              <Field name="bar" component="input"/>
-              <Field name="baz" component="input"/>
+              style={{ fontWeight: 'bold' }}
+            >
+              <Field name="bar" component="input" />
+              <Field name="baz" component="input" />
             </FormSection>
           )
         }
@@ -110,7 +113,6 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       expect(props.style.fontWeight).toBe('bold')
     })
 
-
     it('should update Field values at the right depth', () => {
       const store = makeStore({
         testForm: {
@@ -121,12 +123,14 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
-              <Field name="bar" component={input}/>
+              <Field name="bar" component={input} />
             </FormSection>
           )
         }
@@ -134,21 +138,20 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
       // input displaying string value
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('42')
+      expect(input.calls[0].arguments[0].input.value).toBe('42')
 
       // update value
-      input.calls[ 0 ].arguments[ 0 ].input.onChange('15')
+      input.calls[0].arguments[0].input.onChange('15')
 
       // input displaying updated string value
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].input.value).toBe('15')
-
+      expect(input.calls[1].arguments[0].input.value).toBe('15')
 
       expect(store.getState()).toEqualMap({
         form: {
@@ -158,7 +161,9 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
                 bar: '15'
               }
             },
-            registeredFields: { 'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 } }
+            registeredFields: {
+              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 }
+            }
           }
         }
       })
@@ -175,13 +180,15 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.bar.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.bar.input} />
+      )).andCallThrough()
 
       class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
-              <Fields names={[ 'bar', 'baz' ]} component={input}/>
+              <Fields names={['bar', 'baz']} component={input} />
             </FormSection>
           )
         }
@@ -189,23 +196,21 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
-
       // input displaying string value
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].bar.input.value).toBe('42')
-      expect(input.calls[ 0 ].arguments[ 0 ].baz.input.value).toBe('100')
+      expect(input.calls[0].arguments[0].bar.input.value).toBe('42')
+      expect(input.calls[0].arguments[0].baz.input.value).toBe('100')
 
       // update value
-      input.calls[ 0 ].arguments[ 0 ].bar.input.onChange('15')
+      input.calls[0].arguments[0].bar.input.onChange('15')
 
       // input displaying updated string value
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].bar.input.value).toBe('15')
-
+      expect(input.calls[1].arguments[0].bar.input.value).toBe('15')
 
       expect(store.getState()).toEqualMap({
         form: {
@@ -225,31 +230,39 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       })
     })
 
-
     it('should update FieldArray values at the right depth', () => {
       const store = makeStore({
         testForm: {
           values: {
             foo: {
-              bar: [ 'dog', 'cat' ]
+              bar: ['dog', 'cat']
             }
           }
         }
       })
 
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
-          <button className="add" onClick={() => fields.push('fish')}>Add Dog</button>
-          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
-        </div>)).andCallThrough()
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
+          <button className="add" onClick={() => fields.push('fish')}>
+            Add Dog
+          </button>
+          <button className="remove" onClick={() => fields.pop()}>
+            Remove Dog
+          </button>
+        </div>
+      )).andCallThrough()
 
       class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
-              <FieldArray name="bar" component={renderFieldArray}/>
+              <FieldArray name="bar" component={renderFieldArray} />
             </FormSection>
           )
         }
@@ -257,12 +270,15 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
       const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(
+        dom,
+        'remove'
+      )
       TestUtils.Simulate.click(addButton)
 
       expect(store.getState()).toEqualMap({
@@ -270,7 +286,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               foo: {
-                bar: [ 'dog', 'cat', 'fish' ]
+                bar: ['dog', 'cat', 'fish']
               }
             },
             registeredFields: {
@@ -290,7 +306,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           testForm: {
             values: {
               foo: {
-                bar: [ 'dog', 'cat' ]
+                bar: ['dog', 'cat']
               }
             },
             registeredFields: {
@@ -315,14 +331,16 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
 
       class Form extends Component {
         render() {
           return (
             <FormSection name="deep">
               <FormSection name="foo">
-                <Field name="bar" component={input}/>
+                <Field name="bar" component={input} />
               </FormSection>
             </FormSection>
           )
@@ -331,19 +349,28 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
-
 
       // input gets the correct name and value
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].input.value).toBe('42')
-      expect(input.calls[ 0 ].arguments[ 0 ].input.name).toBe('deep.foo.bar')
+      expect(input.calls[0].arguments[0].input.value).toBe('42')
+      expect(input.calls[0].arguments[0].input.name).toBe('deep.foo.bar')
     })
   })
 }
 
-describeFormSection('FormSection.plain', plain, plainCombineReducers, addExpectations(plainExpectations))
-describeFormSection('FormSection.immutable', immutable, immutableCombineReducers, addExpectations(immutableExpectations))
+describeFormSection(
+  'FormSection.plain',
+  plain,
+  plainCombineReducers,
+  addExpectations(plainExpectations)
+)
+describeFormSection(
+  'FormSection.immutable',
+  immutable,
+  immutableCombineReducers,
+  addExpectations(immutableExpectations)
+)
