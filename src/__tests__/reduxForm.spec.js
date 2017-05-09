@@ -20,9 +20,9 @@ import {
 } from '../actions'
 import createField from '../createField'
 import createFieldArray from '../createFieldArray'
-import FormSection from '../FormSection'
 import createReducer from '../createReducer'
 import createReduxForm from '../createReduxForm'
+import FormSection from '../FormSection'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import plain from '../structure/plain'
@@ -486,14 +486,14 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
       const checkProps = props => {
         expect(props.pristine).toBe(true)
         expect(props.dirty).toBe(false)
-        expect(props.initialized).toBe(false) // will be true on second render
+        expect(props.initialized).toBe(true)
         expect(props.initialValues).toEqualMap(initialValues)
       }
-      checkProps(formRender.calls[0].arguments[0])
+      checkProps(propsAtNthRender(formRender, 1))
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
@@ -580,7 +580,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       // no need to rerender form on initialize
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
 
       // check rerendered input
       expect(inputRender.calls.length).toBe(2)
@@ -643,7 +643,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
@@ -672,7 +672,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       // rerender just because prop changed
-      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls.length).toBe(3)
 
       // no need to rerender input since nothing changed
       expect(inputRender.calls.length).toBe(1)
@@ -747,7 +747,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       // Expect renders due to initialization.
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
@@ -760,8 +760,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
-      expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls.length).toBe(3)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(2)
@@ -787,8 +786,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       // Expect rerenders due to the re-initialization.
-      expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(3)
+      expect(formRender.calls.length).toBe(4)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(3)
@@ -857,7 +855,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
@@ -873,7 +871,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
-      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls.length).toBe(3)
       expect(inputRender.calls.length).toBe(2)
 
       // Reinitialize the form
@@ -898,7 +896,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       // Expect the form not to rerender, since the value did not change.
-      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls.length).toBe(3)
 
       // should rerender input with the dirty value and new meta.initial
       expect(inputRender.calls.length).toBe(3)
@@ -965,7 +963,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
@@ -981,7 +979,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
-      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls.length).toBe(3)
       expect(inputRender.calls.length).toBe(2)
 
       // Reinitialize the form
@@ -1002,7 +1000,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
 
       // Expect the form to rerender, since the value was replaced.
-      expect(formRender.calls.length).toBe(3)
+      expect(formRender.calls.length).toBe(4)
 
       // should rerender input with the pristine value.
       expect(inputRender.calls.length).toBe(3)
@@ -1070,6 +1068,78 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(propsAtLastRender(formRender).pristine).toBe(true, 'Form should have been pristine after initialize')
     })
 
+    it('should have initialized prop after initialization from initialValues config', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues = {
+        foo: 'bar'
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        initialValues
+      })(Form)
+
+
+      TestUtils.renderIntoDocument(<Provider store={store}>
+        <Decorated/>
+      </Provider>)
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(2) // initial + after initialize
+      expect(propsAtNthRender(formRender, 1).initialized).toBe(true)
+    })
+
+    it('should have initialized prop after initialization from initialize()', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const formRender = createSpy()
+      const initialValues = {
+        foo: 'bar'
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={inputRender} type="text"/>
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+
+      TestUtils.renderIntoDocument(<Provider store={store}>
+        <Decorated/>
+      </Provider>)
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+      expect(propsAtNthRender(formRender, 0).initialized).toBe(false)
+
+      // initialize with action
+      propsAtNthRender(formRender, 0).initialize(initialValues)
+
+      // check initialized prop
+      expect(formRender.calls.length).toBe(2)
+      expect(propsAtNthRender(formRender, 1).initialized).toBe(true)
+    })
+
     it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
       const store = makeStore({})
       const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
@@ -1130,7 +1200,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender.calls.length).toBe(1)
@@ -1146,7 +1216,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       onChange('futurevalue')
 
       // Expect rerenders due to the change.
-      expect(formRender.calls.length).toBe(2)
+      expect(formRender.calls.length).toBe(3)
       expect(inputRender.calls.length).toBe(2)
 
       // Reinitialize the form
@@ -1168,7 +1238,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
       // Expect the form to rerender only once more because the value did
       // not change.
-      expect(formRender.calls.length).toBe(3)
+      expect(formRender.calls.length).toBe(4)
 
       // should rerender input with the new value that is now pristine.
       expect(inputRender.calls.length).toBe(3)
@@ -2637,7 +2707,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       )
 
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.calls.length).toBe(2)
     })
 
     it('should re-run sync validation when props change iff shouldValidate is overridden', () => {

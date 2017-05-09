@@ -58,7 +58,6 @@ const propsToNotUpdateFor = [
   ...Object.keys(importedActions),
   'array',
   'asyncErrors',
-  'initialized',
   'initialValues',
   'syncErrors',
   'syncWarnings',
