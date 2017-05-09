@@ -12,8 +12,7 @@ const describeFormValueSelector = (name, structure, expect) => {
 
   describe(name, () => {
     it('should throw an error if no form specified', () => {
-      expect(() => formValueSelector())
-        .toThrow('Form value must be specified')
+      expect(() => formValueSelector()).toThrow('Form value must be specified')
     })
 
     it('should return a function', () => {
@@ -23,8 +22,7 @@ const describeFormValueSelector = (name, structure, expect) => {
     it('should throw an error if no fields specified', () => {
       const selector = formValueSelector('myForm')
       const state = fromJS({})
-      expect(() => selector(state))
-        .toThrow('No fields specified')
+      expect(() => selector(state)).toThrow('No fields specified')
     })
 
     it('should return undefined for a single value when no redux-form state found', () => {
@@ -126,11 +124,10 @@ const describeFormValueSelector = (name, structure, expect) => {
           }
         }
       })
-      expect(selector(state, 'foo', 'dog'))
-        .toEqual({
-          foo: 'bar',
-          dog: 'cat'
-        })
+      expect(selector(state, 'foo', 'dog')).toEqual({
+        foo: 'bar',
+        dog: 'cat'
+      })
     })
 
     it('should get multiple deep values', () => {
@@ -153,19 +150,18 @@ const describeFormValueSelector = (name, structure, expect) => {
           }
         }
       })
-      expect(selector(state, 'dog.cat.ewe.pig', 'dog.rat.hog'))
-        .toEqual({
-          dog: {
-            cat: {
-              ewe: {
-                pig: 'Napoleon'
-              }
-            },
-            rat: {
-              hog: 'Wilbur'
+      expect(selector(state, 'dog.cat.ewe.pig', 'dog.rat.hog')).toEqual({
+        dog: {
+          cat: {
+            ewe: {
+              pig: 'Napoleon'
             }
+          },
+          rat: {
+            hog: 'Wilbur'
           }
-        })
+        }
+      })
     })
 
     it('should get an array', () => {
@@ -174,13 +170,17 @@ const describeFormValueSelector = (name, structure, expect) => {
         form: {
           myForm: {
             values: {
-              mice: [ 'Jaq', 'Gus', 'Major', 'Bruno' ]
+              mice: ['Jaq', 'Gus', 'Major', 'Bruno']
             }
           }
         }
       })
-      expect(selector(state, 'mice'))
-        .toEqualMap([ 'Jaq', 'Gus', 'Major', 'Bruno' ])
+      expect(selector(state, 'mice')).toEqualMap([
+        'Jaq',
+        'Gus',
+        'Major',
+        'Bruno'
+      ])
     })
 
     it('should get a deep array', () => {
@@ -193,25 +193,26 @@ const describeFormValueSelector = (name, structure, expect) => {
                 rat: {
                   hog: 'Wilbur'
                 },
-                mice: [ 'Jaq', 'Gus', 'Major', 'Bruno' ]
+                mice: ['Jaq', 'Gus', 'Major', 'Bruno']
               }
             }
           }
         }
       })
-      expect(selector(state, 'rodent.rat.hog', 'rodent.mice'))
-        .toEqual({
-          rodent: {
-            rat: {
-              hog: 'Wilbur'
-            },
-            mice: fromJS([ 'Jaq', 'Gus', 'Major', 'Bruno' ])
-          }
-        })
+      expect(selector(state, 'rodent.rat.hog', 'rodent.mice')).toEqual({
+        rodent: {
+          rat: {
+            hog: 'Wilbur'
+          },
+          mice: fromJS(['Jaq', 'Gus', 'Major', 'Bruno'])
+        }
+      })
     })
 
     it('should get a single value using a different mount point', () => {
-      const selector = formValueSelector('myForm', state => getIn(state, 'otherMountPoint'))
+      const selector = formValueSelector('myForm', state =>
+        getIn(state, 'otherMountPoint')
+      )
       const state = fromJS({
         otherMountPoint: {
           myForm: {
@@ -226,5 +227,13 @@ const describeFormValueSelector = (name, structure, expect) => {
   })
 }
 
-describeFormValueSelector('formValueSelector.plain', plain, addExpectations(plainExpectations))
-describeFormValueSelector('formValueSelector.immutable', immutable, addExpectations(immutableExpectations))
+describeFormValueSelector(
+  'formValueSelector.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeFormValueSelector(
+  'formValueSelector.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

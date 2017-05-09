@@ -26,10 +26,7 @@ describe('structure.immutable.setIn', () => {
     expect(a).toExist('a missing')
 
     let b = a.get('b')
-    expect(b)
-      .toExist('b missing')
-      .toBeA(List)
-      .toEqual(fromJS([ 'success' ]))
+    expect(b).toExist('b missing').toBeA(List).toEqual(fromJS(['success']))
   })
   it('should handle nested array paths', () => {
     const result = setIn(new Map(), 'a.b[2][1]', 'success')
@@ -38,15 +35,13 @@ describe('structure.immutable.setIn', () => {
     expect(a).toExist('a missing')
 
     const b = a.get('b')
-    expect(b)
-      .toExist('b missing')
-      .toBeA(List)
+    expect(b).toExist('b missing').toBeA(List)
 
     const b2 = b.get(2)
     expect(b2)
       .toExist('b[2] missing')
       .toBeA(List)
-      .toEqual(fromJS([ undefined, 'success' ]))
+      .toEqual(fromJS([undefined, 'success']))
   })
   it('should handle array paths with successive sets', () => {
     let result = setIn(new Map(), 'a.b[2]', 'success')
@@ -59,14 +54,18 @@ describe('structure.immutable.setIn', () => {
     expect(b)
       .toExist('b missing')
       .toBeA(List)
-      .toEqual(fromJS([ 'success', undefined, 'success' ]))
+      .toEqual(fromJS(['success', undefined, 'success']))
   })
   it('should handle array paths with existing array', () => {
-    let result = setIn(new Map({
-      a: new Map({
-        b: new List([ 'first' ])
-      })
-    }), 'a.b[1].value', 'success')
+    let result = setIn(
+      new Map({
+        a: new Map({
+          b: new List(['first'])
+        })
+      }),
+      'a.b[1].value',
+      'success'
+    )
 
     let a = result.get('a')
     expect(a).toExist('a missing')
@@ -75,14 +74,18 @@ describe('structure.immutable.setIn', () => {
     expect(b)
       .toExist('b missing')
       .toBeA(List)
-      .toEqual(fromJS([ 'first', { value: 'success' } ]))
+      .toEqual(fromJS(['first', { value: 'success' }]))
   })
   it('should handle array paths with existing array with undefined', () => {
-    let result = setIn(new Map({
-      a: new Map({
-        b: new List([ 'first', undefined ])
-      })
-    }), 'a.b[1].value', 'success')
+    let result = setIn(
+      new Map({
+        a: new Map({
+          b: new List(['first', undefined])
+        })
+      }),
+      'a.b[1].value',
+      'success'
+    )
 
     let a = result.get('a')
     expect(a).toExist('a missing')
@@ -91,7 +94,7 @@ describe('structure.immutable.setIn', () => {
     expect(b)
       .toExist('b missing')
       .toBeA(List)
-      .toEqual(fromJS([ 'first', { value: 'success' } ]))
+      .toEqual(fromJS(['first', { value: 'success' }]))
   })
   it('should handle multiple array paths', () => {
     let result = setIn(new Map(), 'a.b[0].c.d[13].e', 'success')
@@ -143,7 +146,7 @@ describe('structure.immutable.setIn', () => {
     })
 
     let result = setIn(initial, 'a.b.c', 'two')
-    
+
     let a = result.get('a')
     expect(a).toExist('a missing')
 
@@ -156,12 +159,12 @@ describe('structure.immutable.setIn', () => {
   it('should update existing List', () => {
     let initial = fromJS({
       a: {
-        b: [ { c: 'one' } ]
+        b: [{ c: 'one' }]
       }
     })
 
     let result = setIn(initial, 'a.b[0].c', 'two')
-    
+
     let a = result.get('a')
     expect(a).toExist('a missing')
 
@@ -182,7 +185,7 @@ describe('structure.immutable.setIn', () => {
     })
 
     let result = setIn(initial, 'a.b.d', 'two')
-    
+
     let a = result.get('a')
     expect(a).toExist('a missing')
 
@@ -198,15 +201,12 @@ describe('structure.immutable.setIn', () => {
   it('should not break existing List', () => {
     let initial = fromJS({
       a: {
-        b: [
-          { c: 'one' },
-          { c: 'two' }
-        ]
+        b: [{ c: 'one' }, { c: 'two' }]
       }
     })
 
     let result = setIn(initial, 'a.b[0].c', 'changed')
-    
+
     let a = result.get('a')
     expect(a).toExist('a missing')
 
@@ -228,15 +228,12 @@ describe('structure.immutable.setIn', () => {
   it('should add to an existing List', () => {
     let initial = fromJS({
       a: {
-        b: [
-          { c: 'one' },
-          { c: 'two' }
-        ]
+        b: [{ c: 'one' }, { c: 'two' }]
       }
     })
 
     let result = setIn(initial, 'a.b[2].c', 'three')
-    
+
     let a = result.get('a')
     expect(a).toExist('a missing')
 
@@ -263,7 +260,7 @@ describe('structure.immutable.setIn', () => {
   })
   it('should set a value directly on new list', () => {
     let result = setIn(new Map(), 'a.b[2]', 'three')
-    
+
     let a = result.get('a')
     expect(a).toExist('a missing')
 
@@ -279,7 +276,7 @@ describe('structure.immutable.setIn', () => {
     let b2 = b.get(2)
     expect(b2).toEqual('three')
   })
-  it('should add to an existing List item', function () {
+  it('should add to an existing List item', function() {
     let initial = fromJS({
       a: {
         b: [

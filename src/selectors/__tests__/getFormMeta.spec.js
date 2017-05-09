@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeGetFormMeta = (name, structure, expect) => {
   const getFormMeta = createGetFormMeta(structure)
 
-  const {fromJS, getIn} = structure
+  const { fromJS, getIn } = structure
 
   describe(name, () => {
     it('should return a function', () => {
@@ -16,22 +16,26 @@ const describeGetFormMeta = (name, structure, expect) => {
     })
 
     it('should get the form values from state', () => {
-      expect(getFormMeta('foo')(fromJS({
-        form: {
-          foo: {
-            fields: {
-              dog: {
-                visited: true,
-                touched: false
-              },
-              cat: {
-                visited: false,
-                touched: true
+      expect(
+        getFormMeta('foo')(
+          fromJS({
+            form: {
+              foo: {
+                fields: {
+                  dog: {
+                    visited: true,
+                    touched: false
+                  },
+                  cat: {
+                    visited: false,
+                    touched: true
+                  }
+                }
               }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: {
           visited: true,
           touched: false
@@ -44,30 +48,38 @@ const describeGetFormMeta = (name, structure, expect) => {
     })
 
     it('should return undefined if there are no fields', () => {
-      expect(getFormMeta('foo')(fromJS({
-        form: {
-          foo: {}
-        }
-      }))).toEqual(undefined)
+      expect(
+        getFormMeta('foo')(
+          fromJS({
+            form: {
+              foo: {}
+            }
+          })
+        )
+      ).toEqual(undefined)
     })
 
     it('should use getFormState if provided', () => {
-      expect(getFormMeta('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            fields: {
-              dog: {
-                visited: true,
-                touched: false
-              },
-              cat: {
-                visited: false,
-                touched: true
+      expect(
+        getFormMeta('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                fields: {
+                  dog: {
+                    visited: true,
+                    touched: false
+                  },
+                  cat: {
+                    visited: false,
+                    touched: true
+                  }
+                }
               }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: {
           visited: true,
           touched: false
@@ -81,5 +93,13 @@ const describeGetFormMeta = (name, structure, expect) => {
   })
 }
 
-describeGetFormMeta('getFormMeta.plain', plain, addExpectations(plainExpectations))
-describeGetFormMeta('getFormMeta.immutable', immutable, addExpectations(immutableExpectations))
+describeGetFormMeta(
+  'getFormMeta.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeGetFormMeta(
+  'getFormMeta.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

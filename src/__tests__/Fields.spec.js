@@ -20,8 +20,8 @@ const describeFields = (name, structure, combineReducers, expect) => {
   const Fields = createFields(structure)
   const reducer = createReducer(structure)
   const { fromJS, getIn } = structure
-  const makeStore = (initial) => createStore(
-    combineReducers({ form: reducer }), fromJS({ form: initial }))
+  const makeStore = initial =>
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   class TestInput extends Component {
     render() {
@@ -33,13 +33,13 @@ const describeFields = (name, structure, combineReducers, expect) => {
     const store = makeStore({ testForm: state })
     class Form extends Component {
       render() {
-        return <div><Fields names={[ 'foo' ]} component={TestInput}/></div>
+        return <div><Fields names={['foo']} component={TestInput} /></div>
       }
     }
     const TestForm = reduxForm({ form: 'testForm', ...config })(Form)
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
-        <TestForm/>
+        <TestForm />
       </Provider>
     )
     return TestUtils.findRenderedComponentWithType(dom, TestInput).props
@@ -48,26 +48,27 @@ const describeFields = (name, structure, combineReducers, expect) => {
   describe(name, () => {
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
-        TestUtils.renderIntoDocument(<div>
-            <Fields names={[ 'foo', 'bar' ]} component={TestInput}/>
+        TestUtils.renderIntoDocument(
+          <div>
+            <Fields names={['foo', 'bar']} component={TestInput} />
           </div>
         )
       }).toThrow(/must be inside a component decorated with reduxForm/)
     })
 
     it('should warn if no names prop is provided', () => {
-      const spy = spyOn(console, 'error')  // mutes prop type warning
+      const spy = spyOn(console, 'error') // mutes prop type warning
       const store = makeStore()
       class Form extends Component {
         render() {
-          return <div><Fields component={TestInput}/></div>
+          return <div><Fields component={TestInput} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       expect(() => {
         TestUtils.renderIntoDocument(
           <Provider store={store}>
-            <TestForm/>
+            <TestForm />
           </Provider>
         )
       }).toThrow(/No "names" prop was specified/)
@@ -75,18 +76,20 @@ const describeFields = (name, structure, combineReducers, expect) => {
     })
 
     it('should warn if invalid names prop is provided', () => {
-      const spy = spyOn(console, 'error')  // mutes prop type warning
+      const spy = spyOn(console, 'error') // mutes prop type warning
       const store = makeStore()
       class Form extends Component {
         render() {
-          return <div><Fields names="This is a string" component={TestInput}/></div>
+          return (
+            <div><Fields names="This is a string" component={TestInput} /></div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       expect(() => {
         TestUtils.renderIntoDocument(
           <Provider store={store}>
-            <TestForm/>
+            <TestForm />
           </Provider>
         )
       }).toThrow(/Invalid prop "names"/)
@@ -181,30 +184,36 @@ const describeFields = (name, structure, combineReducers, expect) => {
     })
 
     it('should get sync errors from outer reduxForm component', () => {
-      const props = testProps({
-        initial: {
-          foo: 'bar'
+      const props = testProps(
+        {
+          initial: {
+            foo: 'bar'
+          },
+          values: {
+            foo: 'bar'
+          }
         },
-        values: {
-          foo: 'bar'
+        {
+          validate: () => ({ foo: 'foo error' })
         }
-      }, {
-        validate: () => ({ foo: 'foo error' })
-      })
+      )
       expect(props.foo.meta.error).toBe('foo error')
     })
 
     it('should get sync warnings from outer reduxForm component', () => {
-      const props = testProps({
-        initial: {
-          foo: 'bar'
+      const props = testProps(
+        {
+          initial: {
+            foo: 'bar'
+          },
+          values: {
+            foo: 'bar'
+          }
         },
-        values: {
-          foo: 'bar'
+        {
+          warn: () => ({ foo: 'foo warning' })
         }
-      }, {
-        warn: () => ({ foo: 'foo warning' })
-      })
+      )
       expect(props.foo.meta.warning).toBe('foo warning')
     })
 
@@ -261,17 +270,19 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo', 'bar' ]} component={TestInput}/></div>
+          return (
+            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
-      expect(stub.names).toEqual([ 'foo', 'bar' ])
+      expect(stub.names).toEqual(['foo', 'bar'])
     })
 
     it('should provide values getter', () => {
@@ -285,13 +296,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo', 'bar' ]} component={TestInput}/></div>
+          return (
+            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
@@ -313,13 +326,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo', 'bar' ]} component={TestInput}/></div>
+          return (
+            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
@@ -341,13 +356,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo', 'bar' ]} component={TestInput}/></div>
+          return (
+            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
@@ -364,13 +381,13 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo' ]} component={TestInput}/></div>
+          return <div><Fields names={['foo']} component={TestInput} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
@@ -390,13 +407,13 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo' ]} component={TestInput}/></div>
+          return <div><Fields names={['foo']} component={TestInput} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
@@ -405,10 +422,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should have value set to initial value on first render', () => {
       const store = makeStore({})
-      const input = createSpy(props => <input {...props.foo.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.foo.input} />
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo', 'bar' ]} component={input}/></div>
+          return <div><Fields names={['foo', 'bar']} component={input} /></div>
         }
       }
       const TestForm = reduxForm({
@@ -416,27 +435,31 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm initialValues={{ foo: 'fooValue', bar: 'barValue' }}/>
+          <TestForm initialValues={{ foo: 'fooValue', bar: 'barValue' }} />
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.calls[ 0 ].arguments[ 0 ].foo.input.value).toBe('fooValue')
-      expect(input.calls[ 0 ].arguments[ 0 ].bar.input.value).toBe('barValue')
+      expect(input.calls[0].arguments[0].foo.input.value).toBe('fooValue')
+      expect(input.calls[0].arguments[0].bar.input.value).toBe('barValue')
     })
 
     it('should provide sync error for array field', () => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'bar' ]
+            foo: ['bar']
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const validate = () => ({ foo: [ 'first error', 'second error' ] })
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const validate = () => ({ foo: ['first error', 'second error'] })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo[0]', 'foo[1]' ]} component={input}/></div>
+          return (
+            <div><Fields names={['foo[0]', 'foo[1]']} component={input} /></div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -445,15 +468,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 0 ].meta.valid).toBe(false)
-      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 0 ].meta.error).toBe('first error')
-      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 1 ].meta.valid).toBe(false)
-      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 1 ].meta.error).toBe('second error')
+      expect(input.calls[0].arguments[0].foo[0].meta.valid).toBe(false)
+      expect(input.calls[0].arguments[0].foo[0].meta.error).toBe('first error')
+      expect(input.calls[0].arguments[0].foo[1].meta.valid).toBe(false)
+      expect(input.calls[0].arguments[0].foo[1].meta.error).toBe('second error')
     })
 
     it('should provide sync error for array-of-objects field', () => {
@@ -469,15 +492,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const validate = () => ({
-        authors: [
-          { _error: 'Object Error' }
-        ]
+        authors: [{ _error: 'Object Error' }]
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'authors[0]' ]} component={input}/></div>
+          return <div><Fields names={['authors[0]']} component={input} /></div>
         }
       }
       const TestForm = reduxForm({
@@ -486,28 +509,34 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].authors[ 0 ].meta.valid).toBe(false)
-      expect(input.calls[ 0 ].arguments[ 0 ].authors[ 0 ].meta.error).toBe('Object Error')
+      expect(input.calls[0].arguments[0].authors[0].meta.valid).toBe(false)
+      expect(input.calls[0].arguments[0].authors[0].meta.error).toBe(
+        'Object Error'
+      )
     })
 
     it('should provide sync warning for array field', () => {
       const store = makeStore({
         testForm: {
           values: {
-            foo: [ 'bar' ]
+            foo: ['bar']
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const warn = () => ({ foo: [ 'first warning', 'second warning' ] })
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const warn = () => ({ foo: ['first warning', 'second warning'] })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo[0]', 'foo[1]' ]} component={input}/></div>
+          return (
+            <div><Fields names={['foo[0]', 'foo[1]']} component={input} /></div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -516,13 +545,17 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 0 ].meta.warning).toBe('first warning')
-      expect(input.calls[ 0 ].arguments[ 0 ].foo[ 1 ].meta.warning).toBe('second warning')
+      expect(input.calls[0].arguments[0].foo[0].meta.warning).toBe(
+        'first warning'
+      )
+      expect(input.calls[0].arguments[0].foo[1].meta.warning).toBe(
+        'second warning'
+      )
     })
 
     it('should provide sync warning for array-of-objects field', () => {
@@ -538,15 +571,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const warn = () => ({
-        authors: [
-          { _warning: 'Object Error' }
-        ]
+        authors: [{ _warning: 'Object Error' }]
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'authors[0]' ]} component={input}/></div>
+          return <div><Fields names={['authors[0]']} component={input} /></div>
         }
       }
       const TestForm = reduxForm({
@@ -555,12 +588,14 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].authors[ 0 ].meta.warning).toBe('Object Error')
+      expect(input.calls[0].arguments[0].authors[0].meta.warning).toBe(
+        'Object Error'
+      )
     })
 
     it('should provide access to rendered component', () => {
@@ -574,13 +609,17 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={[ 'foo', 'bar' ]} component={TestInput} withRef/></div>
+          return (
+            <div>
+              <Fields names={['foo', 'bar']} component={TestInput} withRef />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const field = TestUtils.findRenderedComponentWithType(dom, Fields)
@@ -591,7 +630,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should unregister fields when unmounted', () => {
       const store = makeStore()
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -600,17 +641,21 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
         render() {
           const { toggle } = this.state
-          return (<div>
-            {!toggle && <Fields names={[ 'dog', 'cat' ]} component={input}/>}
-            {toggle && <Fields names={[ 'cow', 'ewe' ]} component={input}/>}
-            <button onClick={() => this.setState({ toggle: true })}>Toggle</button>
-          </div>)
+          return (
+            <div>
+              {!toggle && <Fields names={['dog', 'cat']} component={input} />}
+              {toggle && <Fields names={['cow', 'ewe']} component={input} />}
+              <button onClick={() => this.setState({ toggle: true })}>
+                Toggle
+              </button>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -654,7 +699,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -662,95 +709,111 @@ const describeFields = (name, structure, combineReducers, expect) => {
         }
 
         render() {
-          return (<div>
-            <Fields names={[ this.state.field ]} component={input}/>
-            <button onClick={() => this.setState({ field: 'bar' })}>Change</button>
-          </div>)
+          return (
+            <div>
+              <Fields names={[this.state.field]} component={input} />
+              <button onClick={() => this.setState({ field: 'bar' })}>
+                Change
+              </button>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].foo.input.value).toBe('fooValue')
-      expect(input.calls[ 0 ].arguments[ 0 ].foo.meta.touched).toBe(false)
+      expect(input.calls[0].arguments[0].foo.input.value).toBe('fooValue')
+      expect(input.calls[0].arguments[0].foo.meta.touched).toBe(false)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].bar.input.value).toBe('barValue')
-      expect(input.calls[ 1 ].arguments[ 0 ].bar.meta.touched).toBe(true)
+      expect(input.calls[1].arguments[0].bar.input.value).toBe('barValue')
+      expect(input.calls[1].arguments[0].bar.meta.touched).toBe(true)
     })
 
     it('should prefix name getter when inside FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => <div>
-        <input {...foo.input}/>
-        <input {...bar.input}/>
-      </div>
+      const renderFields = ({ foo, bar }) => (
+        <div>
+          <input {...foo.input} />
+          <input {...bar.input} />
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <Fields names={[ 'foo', 'bar' ]} component={renderFields}/>
-          </FormSection>)
+          return (
+            <FormSection name="foo">
+              <Fields names={['foo', 'bar']} component={renderFields} />
+            </FormSection>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
-      expect(stub.names).toEqual([ 'foo.foo', 'foo.bar' ])
+      expect(stub.names).toEqual(['foo.foo', 'foo.bar'])
     })
     it('should prefix name getter when inside multiple FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => <div>
-        <input {...foo.input}/>
-        <input {...bar.input}/>
-      </div>
+      const renderFields = ({ foo, bar }) => (
+        <div>
+          <input {...foo.input} />
+          <input {...bar.input} />
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <FormSection name="fighter">
-              <Fields names={[ 'foo', 'bar' ]} component={renderFields}/>
+          return (
+            <FormSection name="foo">
+              <FormSection name="fighter">
+                <Fields names={['foo', 'bar']} component={renderFields} />
+              </FormSection>
             </FormSection>
-          </FormSection>)
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, Fields)
-      expect(stub.names).toEqual([ 'foo.fighter.foo', 'foo.fighter.bar' ])
+      expect(stub.names).toEqual(['foo.fighter.foo', 'foo.fighter.bar'])
     })
 
     it('should prefix name when inside FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => <div>
-        <input {...foo.input}/>
-        <input {...bar.input}/>
-      </div>
+      const renderFields = ({ foo, bar }) => (
+        <div>
+          <input {...foo.input} />
+          <input {...bar.input} />
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <Fields names={[ 'foo', 'bar' ]} component={renderFields}/>
-          </FormSection>)
+          return (
+            <FormSection name="foo">
+              <Fields names={['foo', 'bar']} component={renderFields} />
+            </FormSection>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -768,23 +831,27 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should prefix name when inside multiple FormSections', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => <div>
-        <input {...foo.input}/>
-        <input {...bar.input}/>
-      </div>
+      const renderFields = ({ foo, bar }) => (
+        <div>
+          <input {...foo.input} />
+          <input {...bar.input} />
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <FormSection name="fighter">
-              <Fields names={[ 'foo', 'bar' ]} component={renderFields}/>
+          return (
+            <FormSection name="foo">
+              <FormSection name="fighter">
+                <Fields names={['foo', 'bar']} component={renderFields} />
+              </FormSection>
             </FormSection>
-          </FormSection>)
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -792,18 +859,27 @@ const describeFields = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'foo.fighter.foo': { name: 'foo.fighter.foo', type: 'Field', count: 1 },
-              'foo.fighter.bar': { name: 'foo.fighter.bar', type: 'Field', count: 1 }
+              'foo.fighter.foo': {
+                name: 'foo.fighter.foo',
+                type: 'Field',
+                count: 1
+              },
+              'foo.fighter.bar': {
+                name: 'foo.fighter.bar',
+                type: 'Field',
+                count: 1
+              }
             }
           }
         }
       })
     })
 
-
     it('should rerender when props change', () => {
       const store = makeStore()
-      const renderFields = createSpy(props => <div>{props.highlighted}<input {...props.foo.input}/></div>).andCallThrough()
+      const renderFields = createSpy(props => (
+        <div>{props.highlighted}<input {...props.foo.input} /></div>
+      )).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -812,32 +888,44 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
         render() {
           const { highlighted } = this.state
-          return (<div>
-            <Fields names={[ 'foo' ]} highlighted={highlighted} component={renderFields}/>
-            <button onClick={() => this.setState({ highlighted: highlighted + 1 })}>Change</button>
-          </div>)
+          return (
+            <div>
+              <Fields
+                names={['foo']}
+                highlighted={highlighted}
+                component={renderFields}
+              />
+              <button
+                onClick={() => this.setState({ highlighted: highlighted + 1 })}
+              >
+                Change
+              </button>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(renderFields).toHaveBeenCalled()
       expect(renderFields.calls.length).toBe(1)
-      expect(renderFields.calls[ 0 ].arguments[ 0 ].highlighted).toBe(0)
+      expect(renderFields.calls[0].arguments[0].highlighted).toBe(0)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       expect(renderFields.calls.length).toBe(2)
-      expect(renderFields.calls[ 1 ].arguments[ 0 ].highlighted).toBe(1)
+      expect(renderFields.calls[1].arguments[0].highlighted).toBe(1)
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
       const store = makeStore()
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const renderSpy = createSpy()
       class Form extends Component {
         constructor() {
@@ -847,16 +935,24 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
         render() {
           renderSpy()
-          return (<div>
-            <Fields names={[ 'myField' ]} component={input} props={{ rel: 'test' }}/>
-            <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
-          </div>)
+          return (
+            <div>
+              <Fields
+                names={['myField']}
+                component={input}
+                props={{ rel: 'test' }}
+              />
+              <button onClick={() => this.setState({ foo: 'qux' })}>
+                Change
+              </button>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(renderSpy).toHaveBeenCalled()
@@ -864,7 +960,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
       expect(input).toHaveBeenCalled()
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].rel).toBe('test')
+      expect(input.calls[0].arguments[0].rel).toBe('test')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
@@ -885,44 +981,50 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const inputPair1 = createSpy(({ cat, dog }) => <div>
-        <input {...cat.input}/>
-        <input {...dog.input}/>
-      </div>).andCallThrough()
-      const inputPair2 = createSpy(({ ewe, fox }) => <div>
-        <input {...ewe.input}/>
-        <input {...fox.input}/>
-      </div>).andCallThrough()
+      const inputPair1 = createSpy(({ cat, dog }) => (
+        <div>
+          <input {...cat.input} />
+          <input {...dog.input} />
+        </div>
+      )).andCallThrough()
+      const inputPair2 = createSpy(({ ewe, fox }) => (
+        <div>
+          <input {...ewe.input} />
+          <input {...fox.input} />
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return (<div>
-            <Fields names={[ 'cat', 'dog' ]} component={inputPair1}/>
-            <Fields names={[ 'ewe', 'fox' ]} component={inputPair2}/>
-          </div>)
+          return (
+            <div>
+              <Fields names={['cat', 'dog']} component={inputPair1} />
+              <Fields names={['ewe', 'fox']} component={inputPair2} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(inputPair1).toHaveBeenCalled()
       expect(inputPair1.calls.length).toBe(1)
-      expect(inputPair1.calls[ 0 ].arguments[ 0 ].cat.input.value).toBe('catValue')
-      expect(inputPair1.calls[ 0 ].arguments[ 0 ].dog.input.value).toBe('dogValue')
+      expect(inputPair1.calls[0].arguments[0].cat.input.value).toBe('catValue')
+      expect(inputPair1.calls[0].arguments[0].dog.input.value).toBe('dogValue')
 
       expect(inputPair2).toHaveBeenCalled()
       expect(inputPair2.calls.length).toBe(1)
-      expect(inputPair2.calls[ 0 ].arguments[ 0 ].ewe.input.value).toBe('eweValue')
-      expect(inputPair2.calls[ 0 ].arguments[ 0 ].fox.input.value).toBe('foxValue')
+      expect(inputPair2.calls[0].arguments[0].ewe.input.value).toBe('eweValue')
+      expect(inputPair2.calls[0].arguments[0].fox.input.value).toBe('foxValue')
 
-      inputPair1.calls[ 0 ].arguments[ 0 ].dog.input.onChange('FIDO')
+      inputPair1.calls[0].arguments[0].dog.input.onChange('FIDO')
 
       // input pair 1 should be rerendered
       expect(inputPair1.calls.length).toBe(2)
-      expect(inputPair1.calls[ 1 ].arguments[ 0 ].cat.input.value).toBe('catValue')
-      expect(inputPair1.calls[ 1 ].arguments[ 0 ].dog.input.value).toBe('FIDO')
+      expect(inputPair1.calls[1].arguments[0].cat.input.value).toBe('catValue')
+      expect(inputPair1.calls[1].arguments[0].dog.input.value).toBe('FIDO')
 
       // input pair 2 should NOT be rerendered
       expect(inputPair2.calls.length).toBe(1)
@@ -936,13 +1038,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const format = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
           return (
             <div>
-              <Fields names={[ 'name' ]} component={input} format={format}/>
+              <Fields names={['name']} component={input} format={format} />
             </div>
           )
         }
@@ -950,15 +1054,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
       expect(format).toHaveBeenCalled()
       expect(format.calls.length).toBe(1)
-      expect(format.calls[ 0 ].arguments).toEqual([ 'Redux Form', 'name' ])
+      expect(format.calls[0].arguments).toEqual(['Redux Form', 'name'])
 
-      expect(input.calls[ 0 ].arguments[ 0 ].name.input.value).toBe('redux form')
+      expect(input.calls[0].arguments[0].name.input.value).toBe('redux form')
     })
 
     it('should call parse function on change', () => {
@@ -969,13 +1073,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const parse = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
           return (
             <div>
-              <Fields names={[ 'name' ]} component={input} parse={parse}/>
+              <Fields names={['name']} component={input} parse={parse} />
             </div>
           )
         }
@@ -983,23 +1089,25 @@ const describeFields = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
       expect(parse).toNotHaveBeenCalled()
 
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].name.input.value).toBe('redux form')
+      expect(input.calls[0].arguments[0].name.input.value).toBe('redux form')
 
-      input.calls[ 0 ].arguments[ 0 ].name.input.onChange('REDUX FORM ROCKS')
+      input.calls[0].arguments[0].name.input.onChange('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
       expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS', 'name' ])
+      expect(parse.calls[0].arguments).toEqual(['REDUX FORM ROCKS', 'name'])
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].name.input.value).toBe('redux form rocks')
+      expect(input.calls[1].arguments[0].name.input.value).toBe(
+        'redux form rocks'
+      )
     })
 
     it('should call parse function on blur', () => {
@@ -1010,13 +1118,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const parse = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
           return (
             <div>
-              <Fields names={[ 'name' ]} component={input} parse={parse}/>
+              <Fields names={['name']} component={input} parse={parse} />
             </div>
           )
         }
@@ -1024,23 +1134,25 @@ const describeFields = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
       expect(parse).toNotHaveBeenCalled()
 
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].name.input.value).toBe('redux form')
+      expect(input.calls[0].arguments[0].name.input.value).toBe('redux form')
 
-      input.calls[ 0 ].arguments[ 0 ].name.input.onBlur('REDUX FORM ROCKS')
+      input.calls[0].arguments[0].name.input.onBlur('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
       expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ 'REDUX FORM ROCKS', 'name' ])
+      expect(parse.calls[0].arguments).toEqual(['REDUX FORM ROCKS', 'name'])
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].name.input.value).toBe('redux form rocks')
+      expect(input.calls[1].arguments[0].name.input.value).toBe(
+        'redux form rocks'
+      )
     })
 
     it('should handle on focus', () => {
@@ -1051,12 +1163,14 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       class Form extends Component {
         render() {
           return (
             <div>
-              <Fields names={[ 'name' ]} component={input}/>
+              <Fields names={['name']} component={input} />
             </div>
           )
         }
@@ -1064,17 +1178,17 @@ const describeFields = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].name.meta.visited).toBe(false)
+      expect(input.calls[0].arguments[0].name.meta.visited).toBe(false)
 
-      input.calls[ 0 ].arguments[ 0 ].name.input.onFocus()
+      input.calls[0].arguments[0].name.input.onFocus()
 
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].name.meta.visited).toBe(true)
+      expect(input.calls[1].arguments[0].name.meta.visited).toBe(true)
     })
 
     it('should parse and format to maintain different type in store', () => {
@@ -1085,14 +1199,25 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const parse = createSpy(value => value && parseInt(value, 10)).andCallThrough()
-      const format = createSpy(value => value && value.toString()).andCallThrough()
+      const input = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const parse = createSpy(
+        value => value && parseInt(value, 10)
+      ).andCallThrough()
+      const format = createSpy(
+        value => value && value.toString()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
             <div>
-              <Fields names={[ 'age' ]} component={input} format={format} parse={parse}/>
+              <Fields
+                names={['age']}
+                component={input}
+                format={format}
+                parse={parse}
+              />
             </div>
           )
         }
@@ -1100,7 +1225,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1113,15 +1238,15 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
       // input displaying string value
       expect(input.calls.length).toBe(1)
-      expect(input.calls[ 0 ].arguments[ 0 ].age.input.value).toBe('42')
+      expect(input.calls[0].arguments[0].age.input.value).toBe('42')
 
       // update value
-      input.calls[ 0 ].arguments[ 0 ].age.input.onChange('15')
+      input.calls[0].arguments[0].age.input.onChange('15')
 
       // parse was called
       expect(parse).toHaveBeenCalled()
       expect(parse.calls.length).toBe(1)
-      expect(parse.calls[ 0 ].arguments).toEqual([ '15', 'age' ])
+      expect(parse.calls[0].arguments).toEqual(['15', 'age'])
 
       // value in store is number
       expect(store.getState()).toEqualMap({
@@ -1138,11 +1263,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // format called again
       expect(format).toHaveBeenCalled()
       expect(format.calls.length).toBe(2)
-      expect(format.calls[ 1 ].arguments).toEqual([ 15, 'age' ])
+      expect(format.calls[1].arguments).toEqual([15, 'age'])
 
       // input rerendered with string value
       expect(input.calls.length).toBe(2)
-      expect(input.calls[ 1 ].arguments[ 0 ].age.input.value).toBe('15')
+      expect(input.calls[1].arguments[0].age.input.value).toBe('15')
     })
 
     it('should rerender when sync error changes', () => {
@@ -1154,8 +1279,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const passwordInput = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const confirmInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const passwordInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const confirmInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1163,10 +1292,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
       }
       class Form extends Component {
         render() {
-          return (<div>
-            <Fields names={[ 'password' ]} component={passwordInput}/>
-            <Fields names={[ 'confirm' ]} component={confirmInput}/>
-          </div>)
+          return (
+            <div>
+              <Fields names={['password']} component={passwordInput} />
+              <Fields names={['confirm']} component={confirmInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -1175,7 +1306,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1186,33 +1317,43 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // confirm input rendered with error
       expect(confirmInput).toHaveBeenCalled()
       expect(confirmInput.calls.length).toBe(1)
-      expect(confirmInput.calls[ 0 ].arguments[ 0 ].confirm.meta.valid).toBe(false)
-      expect(confirmInput.calls[ 0 ].arguments[ 0 ].confirm.meta.error).toBe('Must match!')
+      expect(confirmInput.calls[0].arguments[0].confirm.meta.valid).toBe(false)
+      expect(confirmInput.calls[0].arguments[0].confirm.meta.error).toBe(
+        'Must match!'
+      )
 
       // update password field so that they match
-      passwordInput.calls[ 0 ].arguments[ 0 ].password.input.onChange('redux-form rocks')
+      passwordInput.calls[0].arguments[0].password.input.onChange(
+        'redux-form rocks'
+      )
 
       // password input rerendered
       expect(passwordInput.calls.length).toBe(2)
 
       // confirm input should also rerender, but with no error
       expect(confirmInput.calls.length).toBe(2)
-      expect(confirmInput.calls[ 1 ].arguments[ 0 ].confirm.meta.valid).toBe(true)
-      expect(confirmInput.calls[ 1 ].arguments[ 0 ].confirm.meta.error).toBe(undefined)
+      expect(confirmInput.calls[1].arguments[0].confirm.meta.valid).toBe(true)
+      expect(confirmInput.calls[1].arguments[0].confirm.meta.error).toBe(
+        undefined
+      )
     })
 
     it('should rerender when sync error is cleared', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const usernameInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const validate = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Required' }
       }
       class Form extends Component {
         render() {
-          return (<div>
-            <Fields names={[ 'username' ]} component={usernameInput}/>
-          </div>)
+          return (
+            <div>
+              <Fields names={['username']} component={usernameInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -1221,7 +1362,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1230,18 +1371,24 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls.length).toBe(1)
 
       // username field has error
-      expect(usernameInput.calls[ 0 ].arguments[ 0 ].username.meta.valid).toBe(false)
-      expect(usernameInput.calls[ 0 ].arguments[ 0 ].username.meta.error).toBe('Required')
+      expect(usernameInput.calls[0].arguments[0].username.meta.valid).toBe(
+        false
+      )
+      expect(usernameInput.calls[0].arguments[0].username.meta.error).toBe(
+        'Required'
+      )
 
       // update username field so it passes
-      usernameInput.calls[ 0 ].arguments[ 0 ].username.input.onChange('erikras')
+      usernameInput.calls[0].arguments[0].username.input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput.calls.length).toBe(2)
 
       // should be valid now
-      expect(usernameInput.calls[ 1 ].arguments[ 0 ].username.meta.valid).toBe(true)
-      expect(usernameInput.calls[ 1 ].arguments[ 0 ].username.meta.error).toBe(undefined)
+      expect(usernameInput.calls[1].arguments[0].username.meta.valid).toBe(true)
+      expect(usernameInput.calls[1].arguments[0].username.meta.error).toBe(
+        undefined
+      )
     })
 
     it('should rerender when sync warning changes', () => {
@@ -1253,19 +1400,27 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const passwordInput = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const confirmInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const passwordInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const confirmInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const warn = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
-        return password === confirm ? {} : { confirm: 'Should match. Or not. Whatever.' }
+        return password === confirm
+          ? {}
+          : { confirm: 'Should match. Or not. Whatever.' }
       }
       class Form extends Component {
         render() {
-          return (<div>
-            <Fields names={[ 'password' ]} component={passwordInput}/>
-            <Fields names={[ 'confirm' ]} component={confirmInput}/>
-          </div>)
+          return (
+            <div>
+              <Fields names={['password']} component={passwordInput} />
+              <Fields names={['confirm']} component={confirmInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -1274,7 +1429,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1285,31 +1440,41 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // confirm input rendered with warning
       expect(confirmInput).toHaveBeenCalled()
       expect(confirmInput.calls.length).toBe(1)
-      expect(confirmInput.calls[ 0 ].arguments[ 0 ].confirm.meta.warning).toBe('Should match. Or not. Whatever.')
+      expect(confirmInput.calls[0].arguments[0].confirm.meta.warning).toBe(
+        'Should match. Or not. Whatever.'
+      )
 
       // update password field so that they match
-      passwordInput.calls[ 0 ].arguments[ 0 ].password.input.onChange('redux-form rocks')
+      passwordInput.calls[0].arguments[0].password.input.onChange(
+        'redux-form rocks'
+      )
 
       // password input rerendered
       expect(passwordInput.calls.length).toBe(2)
 
       // confirm input should also rerender, but with no warning
       expect(confirmInput.calls.length).toBe(2)
-      expect(confirmInput.calls[ 1 ].arguments[ 0 ].confirm.meta.warning).toBe(undefined)
+      expect(confirmInput.calls[1].arguments[0].confirm.meta.warning).toBe(
+        undefined
+      )
     })
 
     it('should rerender when sync warning is cleared', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const usernameInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const warn = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Recommended' }
       }
       class Form extends Component {
         render() {
-          return (<div>
-            <Fields names={[ 'username' ]} component={usernameInput}/>
-          </div>)
+          return (
+            <div>
+              <Fields names={['username']} component={usernameInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -1318,7 +1483,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1327,42 +1492,49 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls.length).toBe(1)
 
       // username field has warning
-      expect(usernameInput.calls[ 0 ].arguments[ 0 ].username.meta.warning).toBe('Recommended')
+      expect(usernameInput.calls[0].arguments[0].username.meta.warning).toBe(
+        'Recommended'
+      )
 
       // update username field so it passes
-      usernameInput.calls[ 0 ].arguments[ 0 ].username.input.onChange('erikras')
+      usernameInput.calls[0].arguments[0].username.input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput.calls.length).toBe(2)
 
       // should be valid now
-      expect(usernameInput.calls[ 1 ].arguments[ 0 ].username.meta.warning).toBe(undefined)
+      expect(usernameInput.calls[1].arguments[0].username.meta.warning).toBe(
+        undefined
+      )
     })
 
     it('should provide correct prop structure', () => {
       const store = makeStore()
-      const renderFields = createSpy(() => <div/>).andCallThrough()
+      const renderFields = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         render() {
-          return (<div>
-            <Fields
-              names={[ 'foo', 'bar', 'deep.dive', 'array[0]', 'array[1]' ]}
-              component={renderFields}
-              someCustomProp="testing"
-              anotherCustomProp={42}
-              customBooleanFlag/>
-          </div>)
+          return (
+            <div>
+              <Fields
+                names={['foo', 'bar', 'deep.dive', 'array[0]', 'array[1]']}
+                component={renderFields}
+                someCustomProp="testing"
+                anotherCustomProp={42}
+                customBooleanFlag
+              />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
       expect(renderFields).toHaveBeenCalled()
-      const fields = renderFields.calls[ 0 ].arguments[ 0 ]
+      const fields = renderFields.calls[0].arguments[0]
 
       const expectField = field => {
         expect(field).toExist()
@@ -1392,32 +1564,35 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should provide correct prop structure after names change', () => {
       const store = makeStore()
-      const renderFields = createSpy(() => <div/>).andCallThrough()
+      const renderFields = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         constructor(props) {
           super(props)
-          this.state = { names: [ 'foo', 'bar', 'deep.dive', 'array[0]' ] }
+          this.state = { names: ['foo', 'bar', 'deep.dive', 'array[0]'] }
           this.changeNames = this.changeNames.bind(this)
         }
         changeNames() {
-          this.setState({ names: [ 'fighter', 'fly.high', 'array[1]' ] })
+          this.setState({ names: ['fighter', 'fly.high', 'array[1]'] })
         }
         render() {
-          return (<div>
-            <Fields
-              names={this.state.names}
-              component={renderFields}
-              someCustomProp="testing"
-              anotherCustomProp={42}
-              customBooleanFlag/>
-            <button type="button" onClick={this.changeNames} />
-          </div>)
+          return (
+            <div>
+              <Fields
+                names={this.state.names}
+                component={renderFields}
+                someCustomProp="testing"
+                anotherCustomProp={42}
+                customBooleanFlag
+              />
+              <button type="button" onClick={this.changeNames} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1425,7 +1600,7 @@ const describeFields = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.click(button)
       expect(renderFields).toHaveBeenCalled()
       expect(renderFields.calls.length).toBe(2)
-      const fields = renderFields.calls[ 1 ].arguments[ 0 ]
+      const fields = renderFields.calls[1].arguments[0]
 
       const expectField = field => {
         expect(field).toExist()
@@ -1458,32 +1633,35 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should reassign event handlers when names change', () => {
       const store = makeStore()
-      const renderFields = createSpy(() => <div/>).andCallThrough()
+      const renderFields = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         constructor(props) {
           super(props)
-          this.state = { names: [ 'foo', 'bar', 'deep.dive', 'array[0]' ] }
+          this.state = { names: ['foo', 'bar', 'deep.dive', 'array[0]'] }
           this.changeNames = this.changeNames.bind(this)
         }
         changeNames() {
-          this.setState({ names: [ 'fighter', 'fly.high', 'array[1]' ] })
+          this.setState({ names: ['fighter', 'fly.high', 'array[1]'] })
         }
         render() {
-          return (<div>
-            <Fields
-              names={this.state.names}
-              component={renderFields}
-              someCustomProp="testing"
-              anotherCustomProp={42}
-              customBooleanFlag/>
-            <button type="button" onClick={this.changeNames} />
-          </div>)
+          return (
+            <div>
+              <Fields
+                names={this.state.names}
+                component={renderFields}
+                someCustomProp="testing"
+                anotherCustomProp={42}
+                customBooleanFlag
+              />
+              <button type="button" onClick={this.changeNames} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -1516,7 +1694,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // foo is blurred
       expect(renderFields.calls.length).toBe(4)
       expect(renderFields.calls[3].arguments[0].foo.meta.active).toBe(false)
-      expect(renderFields.calls[3].arguments[0].foo.input.value).toBe('@erikras')
+      expect(renderFields.calls[3].arguments[0].foo.input.value).toBe(
+        '@erikras'
+      )
 
       // swap out fields
       TestUtils.Simulate.click(button)
@@ -1543,7 +1723,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // fighter is changed
       expect(renderFields.calls.length).toBe(7)
       expect(renderFields.calls[6].arguments[0].fighter.meta.active).toBe(true)
-      expect(renderFields.calls[6].arguments[0].fighter.input.value).toBe('reduxForm')
+      expect(renderFields.calls[6].arguments[0].fighter.input.value).toBe(
+        'reduxForm'
+      )
 
       // blur fighter
       renderFields.calls[6].arguments[0].fighter.input.onBlur('@reduxForm')
@@ -1551,10 +1733,22 @@ const describeFields = (name, structure, combineReducers, expect) => {
       // fighter is blurred
       expect(renderFields.calls.length).toBe(8)
       expect(renderFields.calls[7].arguments[0].fighter.meta.active).toBe(false)
-      expect(renderFields.calls[7].arguments[0].fighter.input.value).toBe('@reduxForm')
+      expect(renderFields.calls[7].arguments[0].fighter.input.value).toBe(
+        '@reduxForm'
+      )
     })
   })
 }
 
-describeFields('Fields.plain', plain, plainCombineReducers, addExpectations(plainExpectations))
-describeFields('Fields.immutable', immutable, immutableCombineReducers, addExpectations(immutableExpectations))
+describeFields(
+  'Fields.plain',
+  plain,
+  plainCombineReducers,
+  addExpectations(plainExpectations)
+)
+describeFields(
+  'Fields.immutable',
+  immutable,
+  immutableCombineReducers,
+  addExpectations(immutableExpectations)
+)

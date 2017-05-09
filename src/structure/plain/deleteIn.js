@@ -7,21 +7,23 @@ const deleteInWithPath = (state, first, ...rest) => {
   if (rest.length) {
     if (Array.isArray(state)) {
       if (first < state.length) {
-        const result = deleteInWithPath(state && state[ first ], ...rest)
-        if (result !== state[ first ]) {
-          const copy = [ ...state ]
-          copy[ first ] = result
+        const result = deleteInWithPath(state && state[first], ...rest)
+        if (result !== state[first]) {
+          const copy = [...state]
+          copy[first] = result
           return copy
         }
       }
       return state
     }
     if (first in state) {
-      const result = deleteInWithPath(state && state[ first ], ...rest)
-      return state[ first ] === result ? state : {
-        ...state,
-        [first]: result
-      }
+      const result = deleteInWithPath(state && state[first], ...rest)
+      return state[first] === result
+        ? state
+        : {
+            ...state,
+            [first]: result
+          }
     }
     return state
   }
@@ -30,7 +32,7 @@ const deleteInWithPath = (state, first, ...rest) => {
       throw new Error('Cannot delete non-numerical index from an array')
     }
     if (first < state.length) {
-      const copy = [ ...state ]
+      const copy = [...state]
       copy.splice(first, 1)
       return copy
     }
@@ -38,7 +40,7 @@ const deleteInWithPath = (state, first, ...rest) => {
   }
   if (first in state) {
     const copy = { ...state }
-    delete copy[ first ]
+    delete copy[first]
     return copy
   }
   return state

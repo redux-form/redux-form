@@ -14,10 +14,15 @@ describe('structure.immutable.keys', () => {
   })
 
   it('should return keys', () => {
-    expectEqual(keys(fromJS({
-      a: 1,
-      b: 2,
-      c: 3
-    })), List([ 'a', 'b', 'c' ]))
+    expectEqual(
+      keys(
+        fromJS({
+          a: 1,
+          b: 2,
+          c: 3
+        })
+      ),
+      List(['a', 'b', 'c'])
+    )
   })
 })

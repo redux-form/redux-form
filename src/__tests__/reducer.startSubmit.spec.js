@@ -2,39 +2,43 @@ import { startSubmit } from '../actions'
 
 const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
   it('should set submitting on startSubmit', () => {
-    const state = reducer(fromJS({
-      foo: {
-        doesnt: 'matter',
-        should: 'notchange'
-      }
-    }), startSubmit('foo'))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
           doesnt: 'matter',
-          should: 'notchange',
-          submitting: true
+          should: 'notchange'
         }
-      })
-  })
-
-  it('should set submitting on startSubmit, and NOT reset submitFailed', () => {
-    const state = reducer(fromJS({
+      }),
+      startSubmit('foo')
+    )
+    expect(state).toEqualMap({
       foo: {
         doesnt: 'matter',
         should: 'notchange',
-        submitFailed: true
+        submitting: true
       }
-    }), startSubmit('foo'))
-    expect(state)
-      .toEqualMap({
+    })
+  })
+
+  it('should set submitting on startSubmit, and NOT reset submitFailed', () => {
+    const state = reducer(
+      fromJS({
         foo: {
           doesnt: 'matter',
           should: 'notchange',
-          submitting: true,
           submitFailed: true
         }
-      })
+      }),
+      startSubmit('foo')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        doesnt: 'matter',
+        should: 'notchange',
+        submitting: true,
+        submitFailed: true
+      }
+    })
   })
 }
 

@@ -1,13 +1,11 @@
-import { Component, createElement } from 'react';
-import PropTypes from 'prop-types';
+import { Component, createElement } from 'react'
+import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 
-
 const createField = ({ deepEqual, getIn, setIn, toJS }) => {
-
   const ConnectedField = createConnectedField({
     deepEqual,
     getIn,
@@ -18,7 +16,9 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
     constructor(props, context) {
       super(props, context)
       if (!context._reduxForm) {
-        throw new Error('Field must be inside a component decorated with reduxForm()')
+        throw new Error(
+          'Field must be inside a component decorated with reduxForm()'
+        )
       }
 
       this.normalize = this.normalize.bind(this)
@@ -42,7 +42,10 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
         // unregister old name
         this.context._reduxForm.unregister(this.name)
         // register new name
-        this.context._reduxForm.register(prefixName(this.context, nextProps.name), 'Field')
+        this.context._reduxForm.register(
+          prefixName(this.context, nextProps.name),
+          'Field'
+        )
       }
     }
 
@@ -51,9 +54,11 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
     }
 
     getRenderedComponent() {
-      invariant(this.props.withRef,
+      invariant(
+        this.props.withRef,
         'If you want to access getRenderedComponent(), ' +
-        'you must specify a withRef prop to Field')
+          'you must specify a withRef prop to Field'
+      )
       return this.refs.connected.getWrappedInstance().getRenderedComponent()
     }
 
@@ -70,7 +75,10 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
     }
 
     get value() {
-      return this.refs.connected && this.refs.connected.getWrappedInstance().getValue()
+      return (
+        this.refs.connected &&
+        this.refs.connected.getWrappedInstance().getValue()
+      )
     }
 
     normalize(name, value) {
@@ -81,12 +89,7 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
       const previousValues = this.context._reduxForm.getValues()
       const previousValue = this.value
       const nextValues = setIn(previousValues, name, value)
-      return normalize(
-        value,
-        previousValue,
-        nextValues,
-        previousValues
-      )
+      return normalize(value, previousValue, nextValues, previousValues)
     }
 
     render() {
@@ -102,7 +105,8 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
+    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+      .isRequired,
     format: PropTypes.func,
     normalize: PropTypes.func,
     onBlur: PropTypes.func,
@@ -112,8 +116,14 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
     onDrop: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,
-    validate: PropTypes.oneOfType([ PropTypes.func, PropTypes.arrayOf(PropTypes.func) ]),
-    warn: PropTypes.oneOfType([ PropTypes.func, PropTypes.arrayOf(PropTypes.func) ]),
+    validate: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.arrayOf(PropTypes.func)
+    ]),
+    warn: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.arrayOf(PropTypes.func)
+    ]),
     withRef: PropTypes.bool
   }
   Field.contextTypes = {

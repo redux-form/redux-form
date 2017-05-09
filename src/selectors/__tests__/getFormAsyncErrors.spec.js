@@ -16,40 +16,52 @@ const describeGetFormAsyncErrors = (name, structure, expect) => {
     })
 
     it('should get the form values from state', () => {
-      expect(getFormAsyncErrors('foo')(fromJS({
-        form: {
-          foo: {
-            asyncErrors: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormAsyncErrors('foo')(
+          fromJS({
+            form: {
+              foo: {
+                asyncErrors: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
     })
 
     it('should return undefined if there are no asyncErrors', () => {
-      expect(getFormAsyncErrors('foo')(fromJS({
-        form: {
-          foo: {}
-        }
-      }))).toEqual(undefined)
+      expect(
+        getFormAsyncErrors('foo')(
+          fromJS({
+            form: {
+              foo: {}
+            }
+          })
+        )
+      ).toEqual(undefined)
     })
 
     it('should use getFormState if provided', () => {
-      expect(getFormAsyncErrors('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            asyncErrors: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormAsyncErrors('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                asyncErrors: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
@@ -57,5 +69,13 @@ const describeGetFormAsyncErrors = (name, structure, expect) => {
   })
 }
 
-describeGetFormAsyncErrors('getFormAsyncErrors.plain', plain, addExpectations(plainExpectations))
-describeGetFormAsyncErrors('getFormAsyncErrors.immutable', immutable, addExpectations(immutableExpectations))
+describeGetFormAsyncErrors(
+  'getFormAsyncErrors.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeGetFormAsyncErrors(
+  'getFormAsyncErrors.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

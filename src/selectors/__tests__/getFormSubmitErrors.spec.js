@@ -16,40 +16,52 @@ const describeGetFormSubmitErrors = (name, structure, expect) => {
     })
 
     it('should get the form values from state', () => {
-      expect(getFormSubmitErrors('foo')(fromJS({
-        form: {
-          foo: {
-            submitErrors: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormSubmitErrors('foo')(
+          fromJS({
+            form: {
+              foo: {
+                submitErrors: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
     })
 
     it('should return undefined if there are no submitErrors', () => {
-      expect(getFormSubmitErrors('foo')(fromJS({
-        form: {
-          foo: {}
-        }
-      }))).toEqual(undefined)
+      expect(
+        getFormSubmitErrors('foo')(
+          fromJS({
+            form: {
+              foo: {}
+            }
+          })
+        )
+      ).toEqual(undefined)
     })
 
     it('should use getFormState if provided', () => {
-      expect(getFormSubmitErrors('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            submitErrors: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormSubmitErrors('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                submitErrors: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
@@ -57,5 +69,13 @@ const describeGetFormSubmitErrors = (name, structure, expect) => {
   })
 }
 
-describeGetFormSubmitErrors('getFormSubmitErrors.plain', plain, addExpectations(plainExpectations))
-describeGetFormSubmitErrors('getFormSubmitErrors.immutable', immutable, addExpectations(immutableExpectations))
+describeGetFormSubmitErrors(
+  'getFormSubmitErrors.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeGetFormSubmitErrors(
+  'getFormSubmitErrors.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

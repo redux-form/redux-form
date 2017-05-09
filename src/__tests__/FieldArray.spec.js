@@ -27,8 +27,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   const Fields = createFields(structure)
   const reducer = createReducer(structure)
   const { allowsArrayErrors, fromJS, getIn, size } = structure
-  const makeStore = (initial) => createStore(
-    combineReducers({ form: reducer }), fromJS({ form: initial }))
+  const makeStore = initial =>
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   class TestComponent extends Component {
     render() {
@@ -40,13 +40,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     const store = makeStore({ testForm: state })
     class Form extends Component {
       render() {
-        return <div><FieldArray name="foo" component={TestComponent}/></div>
+        return <div><FieldArray name="foo" component={TestComponent} /></div>
       }
     }
     const TestForm = reduxForm({ form: 'testForm', ...config })(Form)
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
-        <TestForm/>
+        <TestForm />
       </Provider>
     )
     return TestUtils.findRenderedComponentWithType(dom, TestComponent).props
@@ -55,8 +55,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   describe(name, () => {
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
-        TestUtils.renderIntoDocument(<div>
-            <FieldArray name="foo" component={TestComponent}/>
+        TestUtils.renderIntoDocument(
+          <div>
+            <FieldArray name="foo" component={TestComponent} />
           </div>
         )
       }).toThrow(/must be inside a component decorated with reduxForm/)
@@ -116,7 +117,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       class ArrayComponent extends Component {
         render() {
           renderSpy(this.props)
-          return <div/>
+          return <div />
         }
       }
       const apiProps = {
@@ -130,9 +131,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       }
       class Form extends Component {
         render() {
-          return (<div>
-            <FieldArray {...apiProps}/>
-          </div>)
+          return (
+            <div>
+              <FieldArray {...apiProps} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -140,7 +143,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -167,20 +170,23 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return (<div>
-            <FormSection name="foo">
-              <FieldArray name="bar" component={TestComponent}/>
-            </FormSection>
-          </div>)
+          return (
+            <div>
+              <FormSection name="foo">
+                <FieldArray name="bar" component={TestComponent} />
+              </FormSection>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
-      const props = TestUtils.findRenderedComponentWithType(dom, TestComponent).props
+      const props = TestUtils.findRenderedComponentWithType(dom, TestComponent)
+        .props
       expect(props.fields.name).toBe('foo.bar')
     })
     it('should provide forEach', () => {
@@ -304,7 +310,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(() => <div/>).andCallThrough()
+      const renderArray = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -322,7 +328,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(renderArray).toHaveBeenCalled()
@@ -347,27 +353,37 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       }
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent} withRef/></div>
+          return (
+            <div>
+              <FieldArray name="foo" component={TestComponent} withRef />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const field = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      const component = TestUtils.findRenderedComponentWithType(dom, TestComponent)
+      const component = TestUtils.findRenderedComponentWithType(
+        dom,
+        TestComponent
+      )
 
       expect(field.getRenderedComponent()).toBe(component)
     })
 
     it('should use initialValues', () => {
-      const props = testProps({}, {
-        initialValues: {
-          foo: ['a', 'b', 'c']
+      const props = testProps(
+        {},
+        {
+          initialValues: {
+            foo: ['a', 'b', 'c']
+          }
         }
-      })
+      )
       expect(props.fields.length).toBe(3)
       const iterate = createSpy()
       props.fields.forEach(iterate)
@@ -379,24 +395,30 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should get sync errors from outer reduxForm component', () => {
-      const props = testProps({
-        values: {
-          foo: ['bar']
+      const props = testProps(
+        {
+          values: {
+            foo: ['bar']
+          }
+        },
+        {
+          validate: () => ({ foo: { _error: 'foo error' } })
         }
-      }, {
-        validate: () => ({ foo: { _error: 'foo error' } })
-      })
+      )
       expect(props.meta.error).toBe('foo error')
     })
 
     it('should get sync warnings from outer reduxForm component', () => {
-      const props = testProps({
-        values: {
-          foo: ['bar']
+      const props = testProps(
+        {
+          values: {
+            foo: ['bar']
+          }
+        },
+        {
+          warn: () => ({ foo: { _warning: 'foo warning' } })
         }
-      }, {
-        warn: () => ({ foo: { _warning: 'foo warning' } })
-      })
+      )
       expect(props.meta.warning).toBe('foo warning')
     })
 
@@ -448,13 +470,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent}/></div>
+          return <div><FieldArray name="foo" component={TestComponent} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -471,13 +493,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent}/></div>
+          return <div><FieldArray name="foo" component={TestComponent} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -497,13 +519,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent}/></div>
+          return <div><FieldArray name="foo" component={TestComponent} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -523,13 +545,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent}/></div>
+          return <div><FieldArray name="foo" component={TestComponent} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -549,13 +571,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent}/></div>
+          return <div><FieldArray name="foo" component={TestComponent} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -575,13 +597,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent}/></div>
+          return <div><FieldArray name="foo" component={TestComponent} /></div>
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -608,21 +630,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         ]
       })
-      const renderArray = ({ fields }) =>
+      const renderArray = ({ fields }) => (
         <div>
-          {fields.map((name, index) =>
+          {fields.map((name, index) => (
             <div key={index}>
-              <Field name={`${name}.library`} component="input"/>
-              <Field name={`${name}.author`} component="input"/>
-              <Field name={name} component={props => <strong>{props.meta.error}</strong>}/>
+              <Field name={`${name}.library`} component="input" />
+              <Field name={`${name}.author`} component="input" />
+              <Field
+                name={name}
+                component={props => <strong>{props.meta.error}</strong>}
+              />
             </div>
-          )}
+          ))}
         </div>
+      )
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray}/>
+              <FieldArray name="foo" component={renderArray} />
             </div>
           )
         }
@@ -633,13 +659,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const error = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
-      domExpect(error)
-        .toExist()
-        .toHaveText('Too awesome!')
+      domExpect(error).toExist().toHaveText('Too awesome!')
     })
 
     it('should provide sync warning for array field', () => {
@@ -662,21 +686,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         ]
       })
-      const renderArray = ({ fields }) =>
+      const renderArray = ({ fields }) => (
         <div>
-          {fields.map((name, index) =>
+          {fields.map((name, index) => (
             <div key={index}>
-              <Field name={`${name}.library`} component="input"/>
-              <Field name={`${name}.author`} component="input"/>
-              <Field name={name} component={props => <strong>{props.meta.warning}</strong>}/>
+              <Field name={`${name}.library`} component="input" />
+              <Field name={`${name}.author`} component="input" />
+              <Field
+                name={name}
+                component={props => <strong>{props.meta.warning}</strong>}
+              />
             </div>
-          )}
+          ))}
         </div>
+      )
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray}/>
+              <FieldArray name="foo" component={renderArray} />
             </div>
           )
         }
@@ -687,13 +715,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const warning = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
-      domExpect(warning)
-        .toExist()
-        .toHaveText('Too awesome!')
+      domExpect(warning).toExist().toHaveText('Too awesome!')
     })
 
     it('should reconnect when name changes', () => {
@@ -705,7 +731,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const component = createSpy(() => <div/>).andCallThrough()
+      const component = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -713,16 +739,20 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
 
         render() {
-          return (<div>
-            <FieldArray name={this.state.field} component={component}/>
-            <button onClick={() => this.setState({ field: 'bar' })}>Change</button>
-          </div>)
+          return (
+            <div>
+              <FieldArray name={this.state.field} component={component} />
+              <button onClick={() => this.setState({ field: 'bar' })}>
+                Change
+              </button>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(component).toHaveBeenCalled()
@@ -745,19 +775,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       })
       const TestArray = ({ fields }) => (
-        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
-          component={TestComponent}/>)}</div>)
+        <div>
+          {fields.map(name => (
+            <Field key={name} name={`${name}.val`} component={TestComponent} />
+          ))}
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <FieldArray name="bar" component={TestArray}/>
-          </FormSection>)
+          return (
+            <FormSection name="foo">
+              <FieldArray name="bar" component={TestArray} />
+            </FormSection>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(store.getState()).toEqualMap({
@@ -765,8 +801,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           testForm: {
             registeredFields: {
               'foo.bar': { name: 'foo.bar', type: 'FieldArray', count: 1 },
-              'foo.bar[0].val': { name: 'foo.bar[0].val', type: 'Field', count: 1 },
-              'foo.bar[1].val': { name: 'foo.bar[1].val', type: 'Field', count: 1 }
+              'foo.bar[0].val': {
+                name: 'foo.bar[0].val',
+                type: 'Field',
+                count: 1
+              },
+              'foo.bar[1].val': {
+                name: 'foo.bar[1].val',
+                type: 'Field',
+                count: 1
+              }
             },
             values: {
               foo: { bar: [{ val: 'dog' }, { val: 'cat' }] }
@@ -775,7 +819,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       })
 
-      const components = TestUtils.scryRenderedComponentsWithType(dom, TestComponent)
+      const components = TestUtils.scryRenderedComponentsWithType(
+        dom,
+        TestComponent
+      )
       expect(components[0].props.input.name).toBe('foo.bar[0].val')
       expect(components[1].props.input.name).toBe('foo.bar[1].val')
     })
@@ -789,19 +836,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       })
       const TestArray = ({ fields }) => (
-        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
-          component={TestComponent}/>)}</div>)
+        <div>
+          {fields.map(name => (
+            <Field key={name} name={`${name}.val`} component={TestComponent} />
+          ))}
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <FieldArray name="bar" component={TestArray}/>
-          </FormSection>)
+          return (
+            <FormSection name="foo">
+              <FieldArray name="bar" component={TestArray} />
+            </FormSection>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -817,21 +870,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       })
       const TestArray = ({ fields }) => (
-        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
-          component={TestComponent}/>)}</div>)
+        <div>
+          {fields.map(name => (
+            <Field key={name} name={`${name}.val`} component={TestComponent} />
+          ))}
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <FormSection name="fighter">
-              <FieldArray name="bar" component={TestArray}/>
+          return (
+            <FormSection name="foo">
+              <FormSection name="fighter">
+                <FieldArray name="bar" component={TestArray} />
+              </FormSection>
             </FormSection>
-          </FormSection>)
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -839,9 +898,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'foo.fighter.bar': { name: 'foo.fighter.bar', type: 'FieldArray', count: 1 },
-              'foo.fighter.bar[0].val': { name: 'foo.fighter.bar[0].val', type: 'Field', count: 1 },
-              'foo.fighter.bar[1].val': { name: 'foo.fighter.bar[1].val', type: 'Field', count: 1 }
+              'foo.fighter.bar': {
+                name: 'foo.fighter.bar',
+                type: 'FieldArray',
+                count: 1
+              },
+              'foo.fighter.bar[0].val': {
+                name: 'foo.fighter.bar[0].val',
+                type: 'Field',
+                count: 1
+              },
+              'foo.fighter.bar[1].val': {
+                name: 'foo.fighter.bar[1].val',
+                type: 'Field',
+                count: 1
+              }
             },
             values: {
               foo: { fighter: { bar: [{ val: 'dog' }, { val: 'cat' }] } }
@@ -850,7 +921,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       })
 
-      const components = TestUtils.scryRenderedComponentsWithType(dom, TestComponent)
+      const components = TestUtils.scryRenderedComponentsWithType(
+        dom,
+        TestComponent
+      )
       expect(components[0].props.input.name).toBe('foo.fighter.bar[0].val')
       expect(components[1].props.input.name).toBe('foo.fighter.bar[1].val')
     })
@@ -863,21 +937,27 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       })
       const TestArray = ({ fields }) => (
-        <div>{fields.map(name => <Field key={name} name={`${name}.val`}
-          component={TestComponent}/>)}</div>)
+        <div>
+          {fields.map(name => (
+            <Field key={name} name={`${name}.val`} component={TestComponent} />
+          ))}
+        </div>
+      )
       class Form extends Component {
         render() {
-          return (<FormSection name="foo">
-            <FormSection name="fighter">
-              <FieldArray name="bar" component={TestArray}/>
+          return (
+            <FormSection name="foo">
+              <FormSection name="fighter">
+                <FieldArray name="bar" component={TestArray} />
+              </FormSection>
             </FormSection>
-          </FormSection>)
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
@@ -892,18 +972,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) =>
+      const renderArray = createSpy(({ fields }) => (
         <div>
-          {fields.map((name, index) => <Field name={`${name}`} component="input" key={index}/>)}
-        </div>).andCallThrough()
-      const noMoreThanTwo = createSpy(value =>
-        value && size(value) > 2 ? 'Too many' : undefined).andCallThrough()
+          {fields.map((name, index) => (
+            <Field name={`${name}`} component="input" key={index} />
+          ))}
+        </div>
+      )).andCallThrough()
+      const noMoreThanTwo = createSpy(
+        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      ).andCallThrough()
 
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray} validate={noMoreThanTwo}/>
+              <FieldArray
+                name="foo"
+                component={renderArray}
+                validate={noMoreThanTwo}
+              />
             </div>
           )
         }
@@ -913,7 +1001,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -930,7 +1018,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+        'dog',
+        'cat',
+        'rat'
+      ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
@@ -946,21 +1038,29 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) =>
+      const renderArray = createSpy(({ fields }) => (
         <div>
-          {fields.map((name, index) => <Field name={`${name}`} component="input" key={index}/>)}
-        </div>).andCallThrough()
-      const atLeastOne = createSpy(value =>
-        value && size(value) < 1 ? 'Too few' : undefined).andCallThrough()
-      const noMoreThanTwo = createSpy(value =>
-        value && size(value) > 2 ? 'Too many' : undefined).andCallThrough()
+          {fields.map((name, index) => (
+            <Field name={`${name}`} component="input" key={index} />
+          ))}
+        </div>
+      )).andCallThrough()
+      const atLeastOne = createSpy(
+        value => (value && size(value) < 1 ? 'Too few' : undefined)
+      ).andCallThrough()
+      const noMoreThanTwo = createSpy(
+        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      ).andCallThrough()
 
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray}
-                validate={[atLeastOne, noMoreThanTwo]}/>
+              <FieldArray
+                name="foo"
+                component={renderArray}
+                validate={[atLeastOne, noMoreThanTwo]}
+              />
             </div>
           )
         }
@@ -970,7 +1070,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -987,7 +1087,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+        'dog',
+        'cat',
+        'rat'
+      ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
@@ -1003,18 +1107,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) =>
+      const renderArray = createSpy(({ fields }) => (
         <div>
-          {fields.map((name, index) => <Field name={`${name}`} component="input" key={index}/>)}
-        </div>).andCallThrough()
-      const noMoreThanTwo = createSpy(value =>
-        value && size(value) > 2 ? 'Too many' : undefined).andCallThrough()
+          {fields.map((name, index) => (
+            <Field name={`${name}`} component="input" key={index} />
+          ))}
+        </div>
+      )).andCallThrough()
+      const noMoreThanTwo = createSpy(
+        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      ).andCallThrough()
 
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray} warn={noMoreThanTwo}/>
+              <FieldArray
+                name="foo"
+                component={renderArray}
+                warn={noMoreThanTwo}
+              />
             </div>
           )
         }
@@ -1024,7 +1136,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1041,7 +1153,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+        'dog',
+        'cat',
+        'rat'
+      ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
@@ -1057,20 +1173,29 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) =>
+      const renderArray = createSpy(({ fields }) => (
         <div>
-          {fields.map((name, index) => <Field name={`${name}`} component="input" key={index}/>)}
-        </div>).andCallThrough()
-      const atLeastOne = createSpy(value =>
-        value && size(value) < 1 ? 'Too few' : undefined).andCallThrough()
-      const noMoreThanTwo = createSpy(value =>
-        value && size(value) > 2 ? 'Too many' : undefined).andCallThrough()
+          {fields.map((name, index) => (
+            <Field name={`${name}`} component="input" key={index} />
+          ))}
+        </div>
+      )).andCallThrough()
+      const atLeastOne = createSpy(
+        value => (value && size(value) < 1 ? 'Too few' : undefined)
+      ).andCallThrough()
+      const noMoreThanTwo = createSpy(
+        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      ).andCallThrough()
 
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={renderArray} warn={[atLeastOne, noMoreThanTwo]}/>
+              <FieldArray
+                name="foo"
+                component={renderArray}
+                warn={[atLeastOne, noMoreThanTwo]}
+              />
             </div>
           )
         }
@@ -1080,7 +1205,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1097,7 +1222,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // should validate
       expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap(['dog', 'cat', 'rat'])
+      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+        'dog',
+        'cat',
+        'rat'
+      ])
 
       // should rerender
       expect(renderArray.calls.length).toBe(2)
@@ -1107,7 +1236,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should reconnect when props change', () => {
       const store = makeStore()
-      const component = createSpy(() => <div/>).andCallThrough()
+      const component = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -1115,16 +1244,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
 
         render() {
-          return (<div>
-            <FieldArray name="foo" foo={this.state.foo} bar={this.state.bar} component={component}/>
-            <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
-          </div>)
+          return (
+            <div>
+              <FieldArray
+                name="foo"
+                foo={this.state.foo}
+                bar={this.state.bar}
+                component={component}
+              />
+              <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>
+                Change
+              </button>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(component).toHaveBeenCalled()
@@ -1142,7 +1280,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should allow addition after focus', () => {
       const store = makeStore()
-      const component = createSpy(() => <div/>).andCallThrough()
+      const component = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -1150,16 +1288,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
 
         render() {
-          return (<div>
-            <FieldArray name="foo" foo={this.state.foo} bar={this.state.bar} component={component}/>
-            <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
-          </div>)
+          return (
+            <div>
+              <FieldArray
+                name="foo"
+                foo={this.state.foo}
+                bar={this.state.bar}
+                component={component}
+              />
+              <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>
+                Change
+              </button>
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(component).toHaveBeenCalled()
@@ -1177,26 +1324,36 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should rerender when items added or removed', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
           <button className="add" onClick={() => fields.push()}>Add Dog</button>
-          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
-        </div>)).andCallThrough()
+          <button className="remove" onClick={() => fields.pop()}>
+            Remove Dog
+          </button>
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(
+        dom,
+        'remove'
+      )
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
@@ -1248,15 +1405,20 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             }
           }
         })
-        const renderFieldArray =
-          createSpy(({ fields }) => (<div>
+        const renderFieldArray = createSpy(({ fields }) => (
+          <div>
             {fields.map((field, index) => <div key={index}>{field}</div>)}
-            <button className="add" onClick={() => fields.push()}>Add Dog</button>
-            <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
-          </div>)).andCallThrough()
+            <button className="add" onClick={() => fields.push()}>
+              Add Dog
+            </button>
+            <button className="remove" onClick={() => fields.pop()}>
+              Remove Dog
+            </button>
+          </div>
+        )).andCallThrough()
         class Form extends Component {
           render() {
-            return <FieldArray name="dogs" component={renderFieldArray}/>
+            return <FieldArray name="dogs" component={renderFieldArray} />
           }
         }
         const TestForm = reduxForm({
@@ -1277,11 +1439,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         })(Form)
         const dom = TestUtils.renderIntoDocument(
           <Provider store={store}>
-            <TestForm/>
+            <TestForm />
           </Provider>
         )
-        const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-        const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
+        const addButton = TestUtils.findRenderedDOMComponentWithClass(
+          dom,
+          'add'
+        )
+        const removeButton = TestUtils.findRenderedDOMComponentWithClass(
+          dom,
+          'remove'
+        )
 
         // length is 0, ERROR!
         expect(renderFieldArray).toHaveBeenCalled()
@@ -1333,15 +1501,18 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
           {fields.map((field, index) => <div key={index}>{field}</div>)}
           <button className="add" onClick={() => fields.push()}>Add Dog</button>
-          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
-        </div>)).andCallThrough()
+          <button className="remove" onClick={() => fields.pop()}>
+            Remove Dog
+          </button>
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({
@@ -1362,11 +1533,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(
+        dom,
+        'remove'
+      )
 
       // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
@@ -1409,30 +1583,42 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {
           values: {
-            dogs: [{
-              name: 'Fido',
-              hasCollar: false
-            }, {
-              name: 'Snoopy',
-              hasCollar: false
-            }]
+            dogs: [
+              {
+                name: 'Fido',
+                hasCollar: false
+              },
+              {
+                name: 'Snoopy',
+                hasCollar: false
+              }
+            ]
           }
         }
       })
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map((field, index) =>
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map((field, index) => (
             <div key={index}>
-              {getIn(fields.get(index), 'hasCollar') && <span className="collar"></span>}
-              <Field name={`${field}.hasCollar`} component="input" type="checkbox"/>
-              <Field name={`${field}.name`} component="input"/>
-            </div>)}
+              {getIn(fields.get(index), 'hasCollar') &&
+                <span className="collar" />}
+              <Field
+                name={`${field}.hasCollar`}
+                component="input"
+                type="checkbox"
+              />
+              <Field name={`${field}.name`} component="input" />
+            </div>
+          ))}
           <button className="add" onClick={() => fields.push()}>Add Dog</button>
-          <button className="remove" onClick={() => fields.pop()}>Remove Dog</button>
-        </div>)).andCallThrough()
+          <button className="remove" onClick={() => fields.pop()}>
+            Remove Dog
+          </button>
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({
@@ -1441,20 +1627,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
-      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'input')
-        .find(element => element.getAttribute('name') === 'dogs[0].hasCollar')
+      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(
+        dom,
+        'input'
+      ).find(element => element.getAttribute('name') === 'dogs[0].hasCollar')
 
       TestUtils.Simulate.change(checkbox, { target: { value: true } })
 
-      expect(TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length).toBe(1)
+      expect(
+        TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length
+      ).toBe(1)
 
       TestUtils.Simulate.change(checkbox, { target: { value: false } })
 
-      expect(TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length).toBe(0)
+      expect(
+        TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length
+      ).toBe(0)
     })
 
     it('should NOT rerender when a value changes', () => {
@@ -1465,20 +1657,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
-        </div>)).andCallThrough()
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -1505,21 +1702,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on push(undefined)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
           <button onClick={() => fields.push()}>Add Dog</button>
-        </div>)).andCallThrough()
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -1574,21 +1776,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on push(value)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
           <button onClick={() => fields.push('Fido')}>Add Dog</button>
-        </div>)).andCallThrough()
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -1643,21 +1850,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on unshift(undefined)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
           <button onClick={() => fields.unshift()}>Add Dog</button>
-        </div>)).andCallThrough()
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -1712,21 +1924,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on unshift(value)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
           <button onClick={() => fields.unshift('Fido')}>Add Dog</button>
-        </div>)).andCallThrough()
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -1779,24 +1996,28 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(getIn(store.getState(), 'form.testForm.values.dogs')).toBeAList()
     })
 
-
     it('should create a list in the store on insert(undefined)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
           <button onClick={() => fields.insert(0)}>Add Dog</button>
-        </div>)).andCallThrough()
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -1851,21 +2072,26 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on insert(value)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
           <button onClick={() => fields.insert(0, 'Fido')}>Add Dog</button>
-        </div>)).andCallThrough()
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -1926,26 +2152,31 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(field => <input {...field.input}/>)
+      const renderField = createSpy(field => <input {...field.input} />)
 
-      const renderFields = createSpy(({ foo }) =>
-        <div>{foo.map(renderField)}</div>).andCallThrough()
+      const renderFields = createSpy(({ foo }) => (
+        <div>{foo.map(renderField)}</div>
+      )).andCallThrough()
 
-      const component = createSpy(({ fields }) => <div>
-        <Fields names={fields} component={renderFields}/>
-      </div>).andCallThrough()
+      const component = createSpy(({ fields }) => (
+        <div>
+          <Fields names={fields} component={renderFields} />
+        </div>
+      )).andCallThrough()
 
       class Form extends Component {
         render() {
-          return (<div>
-            <FieldArray name="foo" component={component}/>
-          </div>)
+          return (
+            <div>
+              <FieldArray name="foo" component={component} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
       expect(renderFields).toHaveBeenCalled()
@@ -1966,20 +2197,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
-      const renderFieldArray =
-        createSpy(({ fields }) => (<div>
-          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
-        </div>)).andCallThrough()
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
+        </div>
+      )).andCallThrough()
       class Form extends Component {
         render() {
-          return <FieldArray name="dogs" component={renderFieldArray}/>
+          return <FieldArray name="dogs" component={renderFieldArray} />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm/>
+          <TestForm />
         </Provider>
       )
 
@@ -2003,5 +2239,15 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   })
 }
 
-describeFieldArray('FieldArray.plain', plain, plainCombineReducers, addExpectations(plainExpectations))
-describeFieldArray('FieldArray.immutable', immutable, immutableCombineReducers, addExpectations(immutableExpectations))
+describeFieldArray(
+  'FieldArray.plain',
+  plain,
+  plainCombineReducers,
+  addExpectations(plainExpectations)
+)
+describeFieldArray(
+  'FieldArray.immutable',
+  immutable,
+  immutableCombineReducers,
+  addExpectations(immutableExpectations)
+)

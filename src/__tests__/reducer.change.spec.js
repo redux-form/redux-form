@@ -3,214 +3,226 @@ import { change } from '../actions'
 const describeChange = (reducer, expect, { fromJS }) => () => {
   it('should set value on change with empty state', () => {
     const state = reducer(undefined, change('foo', 'myField', 'myValue'))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          values: {
-            myField: 'myValue'
-          }
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: 'myValue'
         }
-      })
+      }
+    })
   })
 
   it('should set value on change and touch with empty state', () => {
     const state = reducer(undefined, change('foo', 'myField', 'myValue', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          values: {
-            myField: 'myValue'
-          },
-          fields: {
-            myField: {
-              touched: true
-            }
+    expect(state).toEqualMap({
+      foo: {
+        anyTouched: true,
+        values: {
+          myField: 'myValue'
+        },
+        fields: {
+          myField: {
+            touched: true
           }
         }
-      })
+      }
+    })
   })
 
   it('should set value on change and touch with initial value', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: 'initialValue'
-        },
-        initial: {
-          myField: 'initialValue'
-        }
-      }
-    }), change('foo', 'myField', 'myValue', true))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
-          anyTouched: true,
           values: {
-            myField: 'myValue'
+            myField: 'initialValue'
           },
           initial: {
             myField: 'initialValue'
-          },
-          fields: {
-            myField: {
-              touched: true
-            }
           }
         }
-      })
-  })
-
-  it('should allow setting an initialized field to \'\'', () => {
-    const state = reducer(fromJS({
+      }),
+      change('foo', 'myField', 'myValue', true)
+    )
+    expect(state).toEqualMap({
       foo: {
+        anyTouched: true,
         values: {
-          myField: 'initialValue'
+          myField: 'myValue'
         },
         initial: {
           myField: 'initialValue'
+        },
+        fields: {
+          myField: {
+            touched: true
+          }
         }
       }
-    }), change('foo', 'myField', '', true))
-    expect(state)
-      .toEqualMap({
+    })
+  })
+
+  it("should allow setting an initialized field to ''", () => {
+    const state = reducer(
+      fromJS({
         foo: {
-          anyTouched: true,
           values: {
-            myField: ''
+            myField: 'initialValue'
           },
           initial: {
             myField: 'initialValue'
-          },
-          fields: {
-            myField: {
-              touched: true
-            }
           }
         }
-      })
-  })
-
-  it('should remove a value if on change is set with \'\'', () => {
-    const state = reducer(fromJS({
+      }),
+      change('foo', 'myField', '', true)
+    )
+    expect(state).toEqualMap({
       foo: {
+        anyTouched: true,
         values: {
+          myField: ''
+        },
+        initial: {
           myField: 'initialValue'
-        }
-      }
-    }), change('foo', 'myField', '', true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          fields: {
-            myField: {
-              touched: true
-            }
+        },
+        fields: {
+          myField: {
+            touched: true
           }
         }
-      })
+      }
+    })
   })
 
-  it('should NOT remove a value if on change is set with \'\' if it\'s an array field', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: [ 'initialValue' ]
-        }
-      }
-    }), change('foo', 'myField[0]', '', true))
-    expect(state)
-      .toEqualMap({
+  it("should remove a value if on change is set with ''", () => {
+    const state = reducer(
+      fromJS({
         foo: {
-          anyTouched: true,
           values: {
-            myField: [ undefined ]
-          },
-          fields: {
-            myField: [
-              {
-                touched: true
-              }
-            ]
+            myField: 'initialValue'
           }
         }
-      })
+      }),
+      change('foo', 'myField', '', true)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        anyTouched: true,
+        fields: {
+          myField: {
+            touched: true
+          }
+        }
+      }
+    })
+  })
+
+  it("should NOT remove a value if on change is set with '' if it's an array field", () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          values: {
+            myField: ['initialValue']
+          }
+        }
+      }),
+      change('foo', 'myField[0]', '', true)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        anyTouched: true,
+        values: {
+          myField: [undefined]
+        },
+        fields: {
+          myField: [
+            {
+              touched: true
+            }
+          ]
+        }
+      }
+    })
   })
 
   it('should remove nested value container if on change clears all values', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          nested: {
-            myField: 'initialValue'
-          }
-        }
-      }
-    }), change('foo', 'nested.myField', '', true))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
-          anyTouched: true,
-          fields: {
+          values: {
             nested: {
-              myField: {
-                touched: true
-              }
+              myField: 'initialValue'
             }
           }
         }
-      })
-  })
-
-  it('should not modify a value if called with undefined', () => {
-    const state = reducer(fromJS({
+      }),
+      change('foo', 'nested.myField', '', true)
+    )
+    expect(state).toEqualMap({
       foo: {
-        values: {
-          myField: 'initialValue'
-        }
-      }
-    }), change('foo', 'myField', undefined, true))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          anyTouched: true,
-          values: {
-            myField: 'initialValue'
-          },
-          fields: {
+        anyTouched: true,
+        fields: {
+          nested: {
             myField: {
               touched: true
             }
           }
         }
-      })
+      }
+    })
+  })
+
+  it('should not modify a value if called with undefined', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          values: {
+            myField: 'initialValue'
+          }
+        }
+      }),
+      change('foo', 'myField', undefined, true)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        anyTouched: true,
+        values: {
+          myField: 'initialValue'
+        },
+        fields: {
+          myField: {
+            touched: true
+          }
+        }
+      }
+    })
   })
 
   it('should set value on change and remove field-level submit and async errors', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: 'initial'
-        },
-        asyncErrors: {
-          myField: 'async error'
-        },
-        submitErrors: {
-          myField: 'submit error'
-        },
-        error: 'some global error'
-      }
-    }), change('foo', 'myField', 'different', false))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
           values: {
-            myField: 'different'
+            myField: 'initial'
+          },
+          asyncErrors: {
+            myField: 'async error'
+          },
+          submitErrors: {
+            myField: 'submit error'
           },
           error: 'some global error'
         }
-      })
+      }),
+      change('foo', 'myField', 'different', false)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: 'different'
+        },
+        error: 'some global error'
+      }
+    })
   })
 
   it("shouldn't fail on submitError for array", () => {
@@ -229,71 +241,76 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       }
     }
     plainJs.foo.submitErrors.fieldArray._error = 'submit error'
-    const state = reducer(fromJS(plainJs),
-      change('foo', 'fieldArray[0].Text', 'different', false))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          asyncErrors: {
-            myField: 'async error'
-          },
-          error: 'some global error',
-          submitErrors: {
-            fieldArray: []
-          },
-          values: {
-            fieldArray: [
-              {
-                Text: 'different'
-              }
-            ],
-            myField: 'initial'
-          }
+    const state = reducer(
+      fromJS(plainJs),
+      change('foo', 'fieldArray[0].Text', 'different', false)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        asyncErrors: {
+          myField: 'async error'
+        },
+        error: 'some global error',
+        submitErrors: {
+          fieldArray: []
+        },
+        values: {
+          fieldArray: [
+            {
+              Text: 'different'
+            }
+          ],
+          myField: 'initial'
         }
-      })
+      }
+    })
   })
 
   it('should NOT remove field-level submit errors and global errors if persistentSubmitErrors is enabled', () => {
-    const state = reducer(fromJS({
-      foo: {
-        values: {
-          myField: 'initial'
-        },
-        asyncErrors: {
-          myField: 'async error' // only this will be removed
-        },
-        submitErrors: {
-          myField: 'submit error'
-        },
-        error: 'some global error'
-      }
-    }), change('foo', 'myField', 'different', false, true))
-    expect(state)
-      .toEqualMap({
+    const state = reducer(
+      fromJS({
         foo: {
           values: {
-            myField: 'different'
+            myField: 'initial'
+          },
+          asyncErrors: {
+            myField: 'async error' // only this will be removed
           },
           submitErrors: {
             myField: 'submit error'
           },
           error: 'some global error'
         }
-      })
+      }),
+      change('foo', 'myField', 'different', false, true)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: 'different'
+        },
+        submitErrors: {
+          myField: 'submit error'
+        },
+        error: 'some global error'
+      }
+    })
   })
 
   it('should set nested value on change with empty state', () => {
-    const state = reducer(undefined, change('foo', 'myField.mySubField', 'myValue', false))
-    expect(state)
-      .toEqualMap({
-        foo: {
-          values: {
-            myField: {
-              mySubField: 'myValue'
-            }
+    const state = reducer(
+      undefined,
+      change('foo', 'myField.mySubField', 'myValue', false)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        values: {
+          myField: {
+            mySubField: 'myValue'
           }
         }
-      })
+      }
+    })
   })
 }
 

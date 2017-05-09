@@ -31,6 +31,7 @@
     "example:submitValidation": "form=submitValidation npm run example",
     "example:syncValidation": "form=syncValidation npm run example",
     "example:wizard": "form=wizard npm run example",
+    "format": "prettier-eslint \"src/**/*.js\" --write --prettier.semi=false",
     "prepublish": "npm run test && npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
     "test:watch": "npm test -- --watch",

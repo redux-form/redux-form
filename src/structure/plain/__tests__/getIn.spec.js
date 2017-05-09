@@ -7,11 +7,16 @@ describe('structure.plain.getIn', () => {
   })
 
   it('should return undefined if any step on the path is undefined', () => {
-    expect(getIn({
-      a: {
-        b: {}
-      }
-    }, 'a.b.c')).toBe(undefined)
+    expect(
+      getIn(
+        {
+          a: {
+            b: {}
+          }
+        },
+        'a.b.c'
+      )
+    ).toBe(undefined)
   })
 
   it('should get shallow values', () => {
@@ -23,10 +28,7 @@ describe('structure.plain.getIn', () => {
   it('should get deep values', () => {
     const state = {
       foo: {
-        bar: [
-          'baz',
-          { dog: 42 }
-        ]
+        bar: ['baz', { dog: 42 }]
       }
     }
     expect(getIn(state, 'foo.bar[0]')).toBe('baz')
@@ -42,7 +44,9 @@ describe('structure.plain.getIn', () => {
   })
 
   it('should get a value nested 3 levels', () => {
-    expect(getIn({ foo: { bar: { baz: { yolanda: 42 } } } }, 'foo.bar.baz.yolanda')).toBe(42)
+    expect(
+      getIn({ foo: { bar: { baz: { yolanda: 42 } } } }, 'foo.bar.baz.yolanda')
+    ).toBe(42)
   })
 
   it('should return undefined if the requested level does not exist', () => {
@@ -59,7 +63,7 @@ describe('structure.plain.getIn', () => {
   })
 
   it('should get string keys on arrays', () => {
-    const array = [ 1, 2, 3 ]
+    const array = [1, 2, 3]
     array.stringKey = 'hello'
     const state = {
       foo: {
@@ -72,4 +76,3 @@ describe('structure.plain.getIn', () => {
     expect(getIn(state, 'foo.bar.stringKey')).toBe('hello')
   })
 })
-

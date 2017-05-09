@@ -1,1 +1,1 @@
-module.exports = require('./lib/immutable');
+module.exports = require('./lib/immutable')

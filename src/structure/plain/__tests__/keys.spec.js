@@ -11,10 +11,12 @@ describe('structure.plain.keys', () => {
   })
 
   it('should return keys', () => {
-    expect(keys({
-      a: 1,
-      b: 2,
-      c: 3
-    })).toEqual([ 'a', 'b', 'c' ])
+    expect(
+      keys({
+        a: 1,
+        b: 2,
+        c: 3
+      })
+    ).toEqual(['a', 'b', 'c'])
   })
 })

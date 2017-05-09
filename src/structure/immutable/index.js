@@ -13,16 +13,22 @@ const structure = {
   empty: Map(),
   emptyList,
   getIn: (state, field) =>
-    Iterable.isIterable(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
+    (Iterable.isIterable(state)
+      ? state.getIn(toPath(field))
+      : plainGetIn(state, field)),
   setIn,
   deepEqual,
   deleteIn: (state, field) => state.deleteIn(toPath(field)),
-  fromJS: jsValue => fromJS(jsValue, (key, value) =>
-    Iterable.isIndexed(value) ? value.toList() : value.toMap()),
+  fromJS: jsValue =>
+    fromJS(
+      jsValue,
+      (key, value) =>
+        (Iterable.isIndexed(value) ? value.toList() : value.toMap())
+    ),
   keys,
-  size: list => list ? list.size : 0,
+  size: list => (list ? list.size : 0),
   splice,
-  toJS: value => Iterable.isIterable(value) ? value.toJS() : value
+  toJS: value => (Iterable.isIterable(value) ? value.toJS() : value)
 }
 
 export default structure

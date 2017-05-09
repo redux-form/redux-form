@@ -16,32 +16,52 @@ const describeIsSubmitting = (name, structure, expect) => {
     })
 
     it('should return false when value not present', () => {
-      expect(isSubmitting('foo')(fromJS({
-        form: {}
-      }))).toBe(false)
+      expect(
+        isSubmitting('foo')(
+          fromJS({
+            form: {}
+          })
+        )
+      ).toBe(false)
     })
 
     it('should return true when submitting', () => {
-      expect(isSubmitting('foo')(fromJS({
-        form: {
-          foo: {
-            submitting: true
-          }
-        }
-      }))).toBe(true)
+      expect(
+        isSubmitting('foo')(
+          fromJS({
+            form: {
+              foo: {
+                submitting: true
+              }
+            }
+          })
+        )
+      ).toBe(true)
     })
 
     it('should use getFormState if provided', () => {
-      expect(isSubmitting('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            submitting: true
-          }
-        }
-      }))).toBe(true)
+      expect(
+        isSubmitting('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                submitting: true
+              }
+            }
+          })
+        )
+      ).toBe(true)
     })
   })
 }
 
-describeIsSubmitting('isSubmitting.plain', plain, addExpectations(plainExpectations))
-describeIsSubmitting('isSubmitting.immutable', immutable, addExpectations(immutableExpectations))
+describeIsSubmitting(
+  'isSubmitting.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeIsSubmitting(
+  'isSubmitting.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

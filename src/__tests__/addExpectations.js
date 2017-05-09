@@ -9,17 +9,17 @@ const addExpectations = expectations => {
   const decorate = dest => {
     const wrap = (value, key) => {
       if (typeof value === 'function' && key !== 'actual') {
-        dest[ key ] = (...params) => decorate(value.apply(dest, params))
+        dest[key] = (...params) => decorate(value.apply(dest, params))
       }
     }
     for (let key in dest) {
       if (Object.prototype.hasOwnProperty.call(dest, key)) {
-        wrap(dest[ key ], key)
+        wrap(dest[key], key)
       }
     }
     for (let key in expectations) {
       if (Object.prototype.hasOwnProperty.call(expectations, key)) {
-        wrap(expectations[ key ], key)
+        wrap(expectations[key], key)
       }
     }
     return dest

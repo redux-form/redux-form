@@ -9,183 +9,215 @@ describe('structure.immutable.deepEqual', () => {
   }
 
   it('should work with nested Immutable.Maps', () => {
-    testBothWays(fromJS({
-      a: {
-        b: {
-          c: 1
+    testBothWays(
+      fromJS({
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }), fromJS({
-      a: {
-        b: {
-          c: 1
+        f: 4
+      }),
+      fromJS({
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }), true)
-    testBothWays(fromJS({
-      a: {
-        b: {
-          c: 1
+        f: 4
+      }),
+      true
+    )
+    testBothWays(
+      fromJS({
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }), fromJS({
-      a: {
-        b: {
-          c: 42
+        f: 4
+      }),
+      fromJS({
+        a: {
+          b: {
+            c: 42
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }), false)
+        f: 4
+      }),
+      false
+    )
   })
 
   it('should work with plain objects', () => {
-    testBothWays({
-      a: {
-        b: {
-          c: 1
+    testBothWays(
+      {
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, {
-      a: {
-        b: {
-          c: 1
+      {
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, true)
-    testBothWays({
-      a: {
-        b: {
-          c: 1
+      true
+    )
+    testBothWays(
+      {
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, {
-      a: {
-        b: {
-          c: 42
+      {
+        a: {
+          b: {
+            c: 42
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, false)
+      false
+    )
   })
 
   it('should work with plain objects inside Immutable.Maps', () => {
-    testBothWays(fromJS({
-      a: {
-        b: {
-          c: 1
+    testBothWays(
+      fromJS({
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }).setIn('a.b.g', { h: { i: 29 } }), fromJS({
-      a: {
-        b: {
-          c: 1
+        f: 4
+      }).setIn('a.b.g', { h: { i: 29 } }),
+      fromJS({
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }).setIn('a.b.g', { h: { i: 29 } }), true)
-    testBothWays(fromJS({
-      a: {
-        b: {
-          c: 1
+        f: 4
+      }).setIn('a.b.g', { h: { i: 29 } }),
+      true
+    )
+    testBothWays(
+      fromJS({
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }).setIn('a.b.g', { h: { i: 29 } }), fromJS({
-      a: {
-        b: {
-          c: 1
+        f: 4
+      }).setIn('a.b.g', { h: { i: 29 } }),
+      fromJS({
+        a: {
+          b: {
+            c: 1
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
-      },
-      f: 4
-    }).setIn('a.b.g', { h: { i: 30 } }), false)
+        f: 4
+      }).setIn('a.b.g', { h: { i: 30 } }),
+      false
+    )
   })
 
   it('should work with Immutable.Maps inside plain objects', () => {
-    testBothWays({
-      a: {
-        b: {
-          c: fromJS({
-            h: {
-              i: 29
-            }
-          })
+    testBothWays(
+      {
+        a: {
+          b: {
+            c: fromJS({
+              h: {
+                i: 29
+              }
+            })
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, {
-      a: {
-        b: {
-          c: fromJS({
-            h: {
-              i: 29
-            }
-          })
+      {
+        a: {
+          b: {
+            c: fromJS({
+              h: {
+                i: 29
+              }
+            })
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, true)
-    testBothWays({
-      a: {
-        b: {
-          c: fromJS({
-            h: {
-              i: 29
-            }
-          })
+      true
+    )
+    testBothWays(
+      {
+        a: {
+          b: {
+            c: fromJS({
+              h: {
+                i: 29
+              }
+            })
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, {
-      a: {
-        b: {
-          c: fromJS({
-            h: {
-              i: 30
-            }
-          })
+      {
+        a: {
+          b: {
+            c: fromJS({
+              h: {
+                i: 30
+              }
+            })
+          },
+          d: 2,
+          e: 3
         },
-        d: 2,
-        e: 3
+        f: 4
       },
-      f: 4
-    }, false)
+      false
+    )
   })
 
   it('should work with Immutable.Lists', () => {
@@ -193,26 +225,10 @@ describe('structure.immutable.deepEqual', () => {
     const secondObj = { a: 1 }
     const thirdObj = { c: 1 }
 
-    testBothWays(
-      List([ 'a', 'b' ]),
-      List([ 'a', 'b', 'c' ]),
-      false
-    )
-    testBothWays(
-      List([ 'a', 'b', 'c' ]),
-      List([ 'a', 'b', 'c' ]),
-      true
-    )
-    testBothWays(
-      List([ 'a', 'b', firstObj ]),
-      List([ 'a', 'b', secondObj ]),
-      true
-    )
-    testBothWays(
-      List([ 'a', 'b', firstObj ]),
-      List([ 'a', 'b', thirdObj ]),
-      false
-    )
+    testBothWays(List(['a', 'b']), List(['a', 'b', 'c']), false)
+    testBothWays(List(['a', 'b', 'c']), List(['a', 'b', 'c']), true)
+    testBothWays(List(['a', 'b', firstObj]), List(['a', 'b', secondObj]), true)
+    testBothWays(List(['a', 'b', firstObj]), List(['a', 'b', thirdObj]), false)
   })
 
   it('should work with plain objects with cycles', () => {
@@ -234,75 +250,103 @@ describe('structure.immutable.deepEqual', () => {
     base1.deep = deep1
 
     const base2 = { a: 1 }
-    const deep2 = { b : 2, base: base2 }
+    const deep2 = { b: 2, base: base2 }
     base2.deep = deep2
 
     testBothWays(base1, base2, true)
   })
 
-  it('should treat undefined and \'\' as equal', () => {
-    testBothWays(fromJS({
-      a: {
-        b: ''
-      }
-    }), fromJS({
-      a: {
-        b: undefined
-      }
-    }), true)
+  it("should treat undefined and '' as equal", () => {
+    testBothWays(
+      fromJS({
+        a: {
+          b: ''
+        }
+      }),
+      fromJS({
+        a: {
+          b: undefined
+        }
+      }),
+      true
+    )
   })
 
-  it ('should check if key exists on both objects', () => {
-    testBothWays(fromJS({
+  it('should check if key exists on both objects', () => {
+    testBothWays(
+      fromJS({
         a: false
-      }), fromJS({
+      }),
+      fromJS({
         b: 1
-      }), false)
-    testBothWays(fromJS({
+      }),
+      false
+    )
+    testBothWays(
+      fromJS({
         a: ''
-      }), fromJS({
+      }),
+      fromJS({
         b: 1
-      }), false)
-    testBothWays(fromJS({
+      }),
+      false
+    )
+    testBothWays(
+      fromJS({
         a: null
-      }), fromJS({
+      }),
+      fromJS({
         b: 1
-      }), false)
+      }),
+      false
+    )
   })
 
-  it('should treat null and \'\' as equal', () => {
-    testBothWays(fromJS({
-      a: {
-        b: ''
-      }
-    }), fromJS({
-      a: {
-        b: null
-      }
-    }), true)
+  it("should treat null and '' as equal", () => {
+    testBothWays(
+      fromJS({
+        a: {
+          b: ''
+        }
+      }),
+      fromJS({
+        a: {
+          b: null
+        }
+      }),
+      true
+    )
   })
 
   it('should treat null and undefined as equal', () => {
-    testBothWays(fromJS({
-      a: {
-        b: undefined
-      }
-    }), fromJS({
-      a: {
-        b: null
-      }
-    }), true)
+    testBothWays(
+      fromJS({
+        a: {
+          b: undefined
+        }
+      }),
+      fromJS({
+        a: {
+          b: null
+        }
+      }),
+      true
+    )
   })
 
   it('should treat false and undefined as equal', () => {
-    testBothWays(fromJS({
-      a: {
-        b: false
-      }
-    }), fromJS({
-      a: {
-        b: undefined
-      }
-    }), true)
+    testBothWays(
+      fromJS({
+        a: {
+          b: false
+        }
+      }),
+      fromJS({
+        a: {
+          b: undefined
+        }
+      }),
+      true
+    )
   })
 })

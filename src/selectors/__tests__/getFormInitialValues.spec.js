@@ -16,32 +16,40 @@ const describeGetFormInitialValues = (name, structure, expect) => {
     })
 
     it('should get the initial form values from state', () => {
-      expect(getFormInitialValues('foo')(fromJS({
-        form: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormInitialValues('foo')(
+          fromJS({
+            form: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
     })
 
     it('should use getFormState if provided', () => {
-      expect(getFormInitialValues('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        getFormInitialValues('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toEqualMap({
+          })
+        )
+      ).toEqualMap({
         dog: 'Snoopy',
         cat: 'Garfield'
       })
@@ -49,5 +57,13 @@ const describeGetFormInitialValues = (name, structure, expect) => {
   })
 }
 
-describeGetFormInitialValues('getFormInitialValues.plain', plain, addExpectations(plainExpectations))
-describeGetFormInitialValues('getFormInitialValues.immutable', immutable, addExpectations(immutableExpectations))
+describeGetFormInitialValues(
+  'getFormInitialValues.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeGetFormInitialValues(
+  'getFormInitialValues.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

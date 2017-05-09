@@ -26,6 +26,7 @@ const setInWithPath = (state, value, path, pathIndex) => {
   }
 }
 
-const setIn = (state, field, value) => setInWithPath(state, value, toPath(field), 0)
+const setIn = (state, field, value) =>
+  setInWithPath(state, value, toPath(field), 0)
 
 export default setIn

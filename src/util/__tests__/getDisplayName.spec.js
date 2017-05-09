@@ -9,8 +9,8 @@ describe('getDisplayName', () => {
   it('should read name', () => {
     expect(getDisplayName({ name: 'foo' })).toBe('foo')
   })
-  
+
   it('should default to Component', () => {
-    expect(getDisplayName({ })).toBe('Component')
+    expect(getDisplayName({})).toBe('Component')
   })
 })

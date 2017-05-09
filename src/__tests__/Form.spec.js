@@ -25,7 +25,8 @@ import {
   updateSyncErrors
 } from '../actions'
 
-const propsAtNthRender = (componentSpy, callNumber) => componentSpy.calls[callNumber].arguments[0]
+const propsAtNthRender = (componentSpy, callNumber) =>
+  componentSpy.calls[callNumber].arguments[0]
 
 const describeForm = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
@@ -43,8 +44,9 @@ const describeForm = (name, structure, combineReducers, expect) => {
   describe(name, () => {
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
-        TestUtils.renderIntoDocument(<div>
-            <Form onSubmit={() => {}}/>
+        TestUtils.renderIntoDocument(
+          <div>
+            <Form onSubmit={() => {}} />
           </div>
         )
       }).toThrow(/must be inside a component decorated with reduxForm/)
@@ -62,8 +64,13 @@ const describeForm = (name, structure, combineReducers, expect) => {
       class TestForm extends Component {
         render() {
           return (
-            <Form onSubmit={onSubmit} action="/save" method="post" target="_blank">
-              <Field name="foo" component="input"/>
+            <Form
+              onSubmit={onSubmit}
+              action="/save"
+              method="post"
+              target="_blank"
+            >
+              <Field name="foo" component="input" />
             </Form>
           )
         }
@@ -71,7 +78,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <DecoratedTestForm/>
+          <DecoratedTestForm />
         </Provider>
       )
 
@@ -101,7 +108,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
         render() {
           return (
             <Form onSubmit={this.props.handleSubmit(onSubmit)}>
-              <Field name="foo" component="input"/>
+              <Field name="foo" component="input" />
             </Form>
           )
         }
@@ -109,12 +116,14 @@ const describeForm = (name, structure, combineReducers, expect) => {
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <DecoratedTestForm/>
+          <DecoratedTestForm />
         </Provider>
       )
 
-
-      const decoratedForm = TestUtils.findRenderedComponentWithType(dom, DecoratedTestForm)
+      const decoratedForm = TestUtils.findRenderedComponentWithType(
+        dom,
+        DecoratedTestForm
+      )
 
       expect(onSubmit).toNotHaveBeenCalled()
 
@@ -141,7 +150,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
         render() {
           return (
             <Form onSubmit={this.props.handleSubmit(onSubmit)}>
-              <Field name="foo" component="input"/>
+              <Field name="foo" component="input" />
             </Form>
           )
         }
@@ -149,7 +158,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <DecoratedTestForm/>
+          <DecoratedTestForm />
         </Provider>
       )
 
@@ -172,14 +181,16 @@ const describeForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const onSubmit = createSpy().andThrow(new SubmissionError({ _error: 'Invalid' }))
+      const onSubmit = createSpy().andThrow(
+        new SubmissionError({ _error: 'Invalid' })
+      )
       const formRender = createSpy()
       class TestForm extends Component {
         render() {
           formRender(this.props)
           return (
             <Form onSubmit={this.props.handleSubmit(onSubmit)}>
-              <Field name="foo" component="input"/>
+              <Field name="foo" component="input" />
             </Form>
           )
         }
@@ -187,14 +198,17 @@ const describeForm = (name, structure, combineReducers, expect) => {
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <DecoratedTestForm/>
+          <DecoratedTestForm />
         </Provider>
       )
 
       expect(formRender).toHaveBeenCalled()
       expect(formRender.calls.length).toBe(1)
 
-      const decoratedForm = TestUtils.findRenderedComponentWithType(dom, DecoratedTestForm)
+      const decoratedForm = TestUtils.findRenderedComponentWithType(
+        dom,
+        DecoratedTestForm
+      )
 
       expect(onSubmit).toNotHaveBeenCalled()
 
@@ -213,12 +227,14 @@ const describeForm = (name, structure, combineReducers, expect) => {
     it('should NOT submit a form with sync validation errors', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const inputRender = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
       const onSubmit = createSpy()
       const formRender = createSpy()
       const validate = values => {
         const errors = {}
-        if(!getIn(values, 'foo')) {
+        if (!getIn(values, 'foo')) {
           errors.foo = 'Required'
         }
         return errors
@@ -228,7 +244,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           formRender(this.props)
           return (
             <Form onSubmit={this.props.handleSubmit(onSubmit)}>
-              <Field name="foo" component={inputRender}/>
+              <Field name="foo" component={inputRender} />
             </Form>
           )
         }
@@ -239,7 +255,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
       })(TestForm)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <DecoratedTestForm/>
+          <DecoratedTestForm />
         </Provider>
       )
 
@@ -255,20 +271,22 @@ const describeForm = (name, structure, combineReducers, expect) => {
       store.dispatch(submit('testForm'))
 
       // check that submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(submit('testForm'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(clearSubmit('testForm'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        clearSubmit('testForm')
+      )
 
       // check that touch action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(touch('testForm', 'foo'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        touch('testForm', 'foo')
+      )
 
       // check that setSubmitFailed action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(setSubmitFailed('testForm', 'foo'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        setSubmitFailed('testForm', 'foo')
+      )
 
       // form rerendered twice, once with submit trigger, and then after submit failure
       expect(formRender.calls.length).toBe(4)
@@ -279,12 +297,14 @@ const describeForm = (name, structure, combineReducers, expect) => {
       inputRender.calls[0].arguments[0].input.onChange('hello')
 
       // check that change action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(change('testForm', 'foo', 'hello', false, false))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        change('testForm', 'foo', 'hello', false, false)
+      )
 
       // check that updateSyncErrors action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(updateSyncErrors('testForm', {}))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        updateSyncErrors('testForm', {})
+      )
 
       // rerendered once to flip dirty flag, and again to flip invalid flag
       expect(formRender.calls.length).toBe(6)
@@ -298,20 +318,22 @@ const describeForm = (name, structure, combineReducers, expect) => {
       store.dispatch(submit('testForm'))
 
       // check that submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(submit('testForm'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(clearSubmit('testForm'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        clearSubmit('testForm')
+      )
 
       // check that touch action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(touch('testForm', 'foo'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        touch('testForm', 'foo')
+      )
 
       // check that submit succeeded action was dispatched
-      expect(logger.calls[callIndex++].arguments[1])
-        .toEqual(setSubmitSucceeded('testForm'))
+      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+        setSubmitSucceeded('testForm')
+      )
 
       // check no additional actions dispatched
       expect(logger.calls.length).toBe(callIndex)
@@ -325,5 +347,15 @@ const describeForm = (name, structure, combineReducers, expect) => {
   })
 }
 
-describeForm('Form.plain', plain, plainCombineReducers, addExpectations(plainExpectations))
-describeForm('Form.immutable', immutable, immutableCombineReducers, addExpectations(immutableExpectations))
+describeForm(
+  'Form.plain',
+  plain,
+  plainCombineReducers,
+  addExpectations(plainExpectations)
+)
+describeForm(
+  'Form.immutable',
+  immutable,
+  immutableCombineReducers,
+  addExpectations(immutableExpectations)
+)

@@ -4,7 +4,7 @@ const getSelectedValues = options => {
   const result = []
   if (options) {
     for (let index = 0; index < options.length; index++) {
-      const option = options[ index ]
+      const option = options[index]
       if (option.selected) {
         result.push(option.value)
       }
@@ -15,7 +15,11 @@ const getSelectedValues = options => {
 
 const getValue = (event, isReactNative) => {
   if (isEvent(event)) {
-    if (!isReactNative && event.nativeEvent && event.nativeEvent.text !== undefined) {
+    if (
+      !isReactNative &&
+      event.nativeEvent &&
+      event.nativeEvent.text !== undefined
+    ) {
       return event.nativeEvent.text
     }
     if (isReactNative && event.nativeEvent !== undefined) {

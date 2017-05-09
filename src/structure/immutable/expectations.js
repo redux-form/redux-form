@@ -4,9 +4,11 @@ import { Map, List, Iterable, fromJS } from 'immutable'
 
 const deepEqualValues = (a, b) => {
   if (Iterable.isIterable(a)) {
-    return Iterable.isIterable(b) &&
+    return (
+      Iterable.isIterable(b) &&
       a.count() === b.count() &&
       a.every((value, key) => deepEqualValues(value, b.get(key)))
+    )
   }
   return deepEqual(a, b) // neither are immutable iterables
 }
@@ -53,8 +55,12 @@ const api = {
   toContainExactly(expected) {
     const expectedItems = expected.map(expectedItem => fromJS(expectedItem))
     expect.assert(
-      this.actual.count() === expected.length && this.actual.every(
-          actualItem => expectedItems.some(expectedItem => deepEqualValues(actualItem, expectedItem))),
+      this.actual.count() === expected.length &&
+        this.actual.every(actualItem =>
+          expectedItems.some(expectedItem =>
+            deepEqualValues(actualItem, expectedItem)
+          )
+        ),
       'expected...\n%s\n...but found...\n%s',
       this.actual,
       expected

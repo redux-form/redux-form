@@ -12,48 +12,78 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
   describe(name, () => {
     it('should pass value through', () => {
-      expect(createFieldProps({ getIn, toJS }, 'foo', { value: 'hello' }).input.value).toBe('hello')
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', { value: 'hello' }).input.value
+      ).toBe('hello')
     })
 
     it('should pass dirty/pristine through', () => {
-      expect(createFieldProps({ getIn, toJS }, 'foo', { dirty: false, pristine: true }).meta.dirty).toBe(false)
-      expect(createFieldProps({ getIn, toJS }, 'foo', { dirty: false, pristine: true }).meta.pristine).toBe(true)
-      expect(createFieldProps({ getIn, toJS }, 'foo', { dirty: true, pristine: false }).meta.dirty).toBe(true)
-      expect(createFieldProps({ getIn, toJS }, 'foo', { dirty: true, pristine: false }).meta.pristine).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          dirty: false,
+          pristine: true
+        }).meta.dirty
+      ).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          dirty: false,
+          pristine: true
+        }).meta.pristine
+      ).toBe(true)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          dirty: true,
+          pristine: false
+        }).meta.dirty
+      ).toBe(true)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          dirty: true,
+          pristine: false
+        }).meta.pristine
+      ).toBe(false)
     })
 
     it('should pass initial value through', () => {
-      expect(createFieldProps({ getIn, toJS }, 'foo', { initial: 'hello' }).meta.initial).toBe('hello')
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', { initial: 'hello' }).meta
+          .initial
+      ).toBe('hello')
     })
 
     it('should provide onBlur', () => {
       const onBlur = createSpy()
       expect(onBlur).toNotHaveBeenCalled()
-      const result = createFieldProps({ getIn, toJS }, 'foo', { value: 'bar', onBlur })
+      const result = createFieldProps({ getIn, toJS }, 'foo', {
+        value: 'bar',
+        onBlur
+      })
       expect(result.input.onBlur).toBeA('function')
       expect(onBlur).toNotHaveBeenCalled()
       result.input.onBlur('rabbit')
-      expect(onBlur)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith('rabbit')
+      expect(onBlur).toHaveBeenCalled().toHaveBeenCalledWith('rabbit')
     })
 
     it('should provide onChange', () => {
       const onChange = createSpy()
       expect(onChange).toNotHaveBeenCalled()
-      const result = createFieldProps({ getIn, toJS }, 'foo', { value: 'bar', onChange })
+      const result = createFieldProps({ getIn, toJS }, 'foo', {
+        value: 'bar',
+        onChange
+      })
       expect(result.input.onChange).toBeA('function')
       expect(onChange).toNotHaveBeenCalled()
       result.input.onChange('rabbit')
-      expect(onChange)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith('rabbit')
+      expect(onChange).toHaveBeenCalled().toHaveBeenCalledWith('rabbit')
     })
 
     it('should provide onFocus', () => {
       const onFocus = createSpy()
       expect(onFocus).toNotHaveBeenCalled()
-      const result = createFieldProps({ getIn, toJS }, 'foo', { value: 'bar', onFocus })
+      const result = createFieldProps({ getIn, toJS }, 'foo', {
+        value: 'bar',
+        onFocus
+      })
       expect(result.input.onFocus).toBeA('function')
       expect(onFocus).toNotHaveBeenCalled()
       result.input.onFocus('rabbit')
@@ -62,13 +92,19 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide onDragStart', () => {
       const onDragStart = createSpy()
-      const result = createFieldProps({ getIn, toJS }, 'foo', { value: 'bar', onDragStart })
+      const result = createFieldProps({ getIn, toJS }, 'foo', {
+        value: 'bar',
+        onDragStart
+      })
       expect(result.input.onDragStart).toBeA('function')
     })
 
     it('should provide onDrop', () => {
       const onDrop = createSpy()
-      const result = createFieldProps({ getIn, toJS }, 'foo', { value: 'bar', onDrop })
+      const result = createFieldProps({ getIn, toJS }, 'foo', {
+        value: 'bar',
+        onDrop
+      })
       expect(result.input.onDrop).toBeA('function')
     })
 
@@ -286,67 +322,83 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should set checked for checkboxes', () => {
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        state: empty,
-        type: 'checkbox'
-      }).input.checked).toBe(false)
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        value: true,
-        state: empty,
-        type: 'checkbox'
-      }).input.checked).toBe(true)
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        value: false,
-        state: empty,
-        type: 'checkbox'
-      }).input.checked).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          state: empty,
+          type: 'checkbox'
+        }).input.checked
+      ).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          value: true,
+          state: empty,
+          type: 'checkbox'
+        }).input.checked
+      ).toBe(true)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          value: false,
+          state: empty,
+          type: 'checkbox'
+        }).input.checked
+      ).toBe(false)
     })
 
     it('should set checked for radio buttons', () => {
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        state: empty,
-        type: 'radio',
-        _value: 'bar'
-      }).input.checked).toBe(false)
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        value: 'bar',
-        state: empty,
-        type: 'radio',
-        _value: 'bar'
-      }).input.checked).toBe(true)
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        value: 'baz',
-        state: empty,
-        type: 'radio',
-        _value: 'bar'
-      }).input.checked).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          state: empty,
+          type: 'radio',
+          _value: 'bar'
+        }).input.checked
+      ).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          value: 'bar',
+          state: empty,
+          type: 'radio',
+          _value: 'bar'
+        }).input.checked
+      ).toBe(true)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          value: 'baz',
+          state: empty,
+          type: 'radio',
+          _value: 'bar'
+        }).input.checked
+      ).toBe(false)
     })
 
     it('should default value to [] for multi-selects', () => {
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        state: empty,
-        type: 'select-multiple'
-      }).input.value)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          state: empty,
+          type: 'select-multiple'
+        }).input.value
+      )
         .toBeA('array')
         .toEqual([])
     })
 
     it('should default value to undefined for file inputs', () => {
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        state: empty,
-        type: 'file'
-      }).input.value)
-        .toEqual(undefined)
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          state: empty,
+          type: 'file'
+        }).input.value
+      ).toEqual(undefined)
     })
 
     it('should update value to selected file for file inputs', () => {
       let tmpFile = tmp.fileSync()
-      expect(createFieldProps({ getIn, toJS }, 'foo', {
-        value: [ tmpFile ],
-        state: empty,
-        type: 'file'
-      }).input.value)
-        .toEqual([ tmpFile ])
+      expect(
+        createFieldProps({ getIn, toJS }, 'foo', {
+          value: [tmpFile],
+          state: empty,
+          type: 'file'
+        }).input.value
+      ).toEqual([tmpFile])
     })
 
     it('should replace undefined value with empty string', () => {
@@ -367,5 +419,13 @@ const describeCreateFieldProps = (name, structure, expect) => {
   })
 }
 
-describeCreateFieldProps('createFieldProps.plain', plain, addExpectations(plainExpectations))
-describeCreateFieldProps('createFieldProps.immutable', immutable, addExpectations(immutableExpectations))
+describeCreateFieldProps(
+  'createFieldProps.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeCreateFieldProps(
+  'createFieldProps.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

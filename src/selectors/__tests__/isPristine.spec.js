@@ -16,63 +16,87 @@ const describeIsPristine = (name, structure, expect) => {
     })
 
     it('should return true when values not present', () => {
-      expect(isPristine('foo')(fromJS({
-        form: {}
-      }))).toBe(true)
+      expect(
+        isPristine('foo')(
+          fromJS({
+            form: {}
+          })
+        )
+      ).toBe(true)
     })
 
     it('should return true when values are pristine', () => {
-      expect(isPristine('foo')(fromJS({
-        form: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
-            },
-            values: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
+      expect(
+        isPristine('foo')(
+          fromJS({
+            form: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                },
+                values: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(true)
+          })
+        )
+      ).toBe(true)
     })
 
     it('should return true when values are dirty', () => {
-      expect(isPristine('foo')(fromJS({
-        form: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
-            },
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
+      expect(
+        isPristine('foo')(
+          fromJS({
+            form: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                },
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(false)
+          })
+        )
+      ).toBe(false)
     })
 
     it('should use getFormState if provided', () => {
-      expect(isPristine('foo', state => getIn(state, 'someOtherSlice'))(fromJS({
-        someOtherSlice: {
-          foo: {
-            initial: {
-              dog: 'Snoopy',
-              cat: 'Garfield'
-            },
-            values: {
-              dog: 'Odie',
-              cat: 'Garfield'
+      expect(
+        isPristine('foo', state => getIn(state, 'someOtherSlice'))(
+          fromJS({
+            someOtherSlice: {
+              foo: {
+                initial: {
+                  dog: 'Snoopy',
+                  cat: 'Garfield'
+                },
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                }
+              }
             }
-          }
-        }
-      }))).toBe(false)
+          })
+        )
+      ).toBe(false)
     })
   })
 }
 
-describeIsPristine('isPristine.plain', plain, addExpectations(plainExpectations))
-describeIsPristine('isPristine.immutable', immutable, addExpectations(immutableExpectations))
+describeIsPristine(
+  'isPristine.plain',
+  plain,
+  addExpectations(plainExpectations)
+)
+describeIsPristine(
+  'isPristine.immutable',
+  immutable,
+  addExpectations(immutableExpectations)
+)

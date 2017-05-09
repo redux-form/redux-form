@@ -14,10 +14,12 @@ describe('silenceEvent', () => {
   })
 
   it('should return true if an event', () => {
-    expect(silenceEvent({
-      preventDefault: noop,
-      stopPropagation: noop
-    })).toBe(true)
+    expect(
+      silenceEvent({
+        preventDefault: noop,
+        stopPropagation: noop
+      })
+    ).toBe(true)
   })
 
   it('should call preventDefault and stopPropagation', () => {

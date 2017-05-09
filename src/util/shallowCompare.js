@@ -1,6 +1,13 @@
 import { isEqualWith } from 'lodash'
 
-const customizer = (objectValue, otherValue, indexOrkey, object, other, stack) => {
+const customizer = (
+  objectValue,
+  otherValue,
+  indexOrkey,
+  object,
+  other,
+  stack
+) => {
   // https://lodash.com/docs/4.17.4#isEqualWith
   if (stack) {
     // Shallow compares

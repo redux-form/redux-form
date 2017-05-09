@@ -5,10 +5,10 @@ const defaultShouldAsyncValidate = ({
   pristine,
   syncValidationPasses
 }) => {
-  if(!syncValidationPasses) {
+  if (!syncValidationPasses) {
     return false
   }
-  switch(trigger) {
+  switch (trigger) {
     case 'blur':
       // blurring
       return true

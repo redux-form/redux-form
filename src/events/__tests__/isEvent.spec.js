@@ -19,21 +19,27 @@ describe('isEvent', () => {
   })
 
   it('should return false if event has no stopPropagation', () => {
-    expect(isEvent({
-      preventDefault: noop
-    })).toBe(false)
+    expect(
+      isEvent({
+        preventDefault: noop
+      })
+    ).toBe(false)
   })
 
   it('should return false if event has no preventDefault', () => {
-    expect(isEvent({
-      stopPropagation: noop
-    })).toBe(false)
+    expect(
+      isEvent({
+        stopPropagation: noop
+      })
+    ).toBe(false)
   })
 
   it('should return true if event has stopPropagation, and preventDefault', () => {
-    expect(isEvent({
-      stopPropagation: noop,
-      preventDefault: noop
-    })).toBe(true)
+    expect(
+      isEvent({
+        stopPropagation: noop,
+        preventDefault: noop
+      })
+    ).toBe(true)
   })
 })
