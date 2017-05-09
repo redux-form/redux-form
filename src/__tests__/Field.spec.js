@@ -1749,7 +1749,7 @@ const describeField = (name, structure, combineReducers, expect) => {
 
       expect(renderSpy).toHaveBeenCalled()
       const props = renderSpy.calls[ 0 ].arguments[ 0 ]
-      Object.keys(apiProps).forEach(key => expect(props[ key ]).toNotExist())
+      Object.keys(apiProps).filter(key => key !== 'name').forEach(key => expect(props[ key ]).toNotExist())
     })
 
     it('should only rerender field that has changed', () => {

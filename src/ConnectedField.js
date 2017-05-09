@@ -179,6 +179,7 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
         {
           ...rest,
           form: _reduxForm.form,
+          name,
           onBlur: this.handleBlur,
           onChange: this.handleChange,
           onDrop: this.handleDrop,
