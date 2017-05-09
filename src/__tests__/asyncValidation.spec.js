@@ -10,8 +10,7 @@ describe('asyncValidation', () => {
     const fn = noop
     const start = noop
     const stop = noop
-    expect(() => asyncValidation(fn, start, stop, field))
-      .toThrow(/promise/)
+    expect(() => asyncValidation(fn, start, stop, field)).toThrow(/promise/)
   })
 
   it('should return a promise', () => {
@@ -27,9 +26,7 @@ describe('asyncValidation', () => {
     const stop = createSpy()
     const promise = asyncValidation(fn, start, stop, field)
     expect(fn).toHaveBeenCalled()
-    expect(start)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(field)
+    expect(start).toHaveBeenCalled().toHaveBeenCalledWith(field)
     return promise.then(() => {
       expect(stop).toHaveBeenCalled()
     })
@@ -41,9 +38,7 @@ describe('asyncValidation', () => {
     const stop = createSpy()
     const promise = asyncValidation(fn, start, stop, field)
     expect(fn).toHaveBeenCalled()
-    expect(start)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(field)
+    expect(start).toHaveBeenCalled().toHaveBeenCalledWith(field)
     return promise.catch(() => {
       expect(stop).toHaveBeenCalled()
     })
@@ -56,13 +51,9 @@ describe('asyncValidation', () => {
     const stop = createSpy()
     const promise = asyncValidation(fn, start, stop, field)
     expect(fn).toHaveBeenCalled()
-    expect(start)
-      .toHaveBeenCalled()
-      .toHaveBeenCalledWith(field)
+    expect(start).toHaveBeenCalled().toHaveBeenCalledWith(field)
     return promise.catch(() => {
-      expect(stop)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith(errors)
+      expect(stop).toHaveBeenCalled().toHaveBeenCalledWith(errors)
     })
   })
 })

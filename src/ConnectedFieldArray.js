@@ -1,18 +1,14 @@
-import { Component, createElement } from 'react';
-import PropTypes from 'prop-types';
+import { Component, createElement } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
 
-const propsToNotUpdateFor = [
-  '_reduxForm',
-  'value'
-]
+const propsToNotUpdateFor = ['_reduxForm', 'value']
 
 const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
-
   const getSyncError = (syncErrors, name) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
@@ -39,20 +35,29 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       const nextValue = nextProps.value
 
       if (thisValue && nextValue) {
-        if (thisValue.length !== nextValue.length || thisValue.every(val => nextValue.some(next => deepEqual(val, next)))) {
+        if (
+          thisValue.length !== nextValue.length ||
+          thisValue.every(val => nextValue.some(next => deepEqual(val, next)))
+        ) {
           return true
         }
       }
 
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
-      return nextPropsKeys.length !== thisPropsKeys.length || nextPropsKeys.some(prop => {
-        // useful to debug rerenders
-        // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
-        //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
-        // }
-        return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
-      })
+      return (
+        nextPropsKeys.length !== thisPropsKeys.length ||
+        nextPropsKeys.some(prop => {
+          // useful to debug rerenders
+          // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
+          //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
+          // }
+          return (
+            !~propsToNotUpdateFor.indexOf(prop) &&
+            !deepEqual(this.props[prop], nextProps[prop])
+          )
+        })
+      )
     }
 
     get dirty() {
@@ -101,7 +106,8 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
   }
 
   ConnectedFieldArray.propTypes = {
-    component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
+    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+      .isRequired,
     props: PropTypes.object
   }
 
@@ -113,7 +119,9 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
     (state, ownProps) => {
       const { name, _reduxForm: { initialValues, getFormState } } = ownProps
       const formState = getFormState(state)
-      const initial = getIn(formState, `initial.${name}`) || (initialValues && getIn(initialValues, name))
+      const initial =
+        getIn(formState, `initial.${name}`) ||
+        (initialValues && getIn(initialValues, name))
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
@@ -147,18 +155,22 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         arraySwap,
         arrayUnshift
       } = _reduxForm
-      return mapValues({
-        arrayInsert,
-        arrayMove,
-        arrayPop,
-        arrayPush,
-        arrayRemove,
-        arrayRemoveAll,
-        arrayShift,
-        arraySplice,
-        arraySwap,
-        arrayUnshift
-      }, actionCreator => bindActionCreators(actionCreator.bind(null, name), dispatch))
+      return mapValues(
+        {
+          arrayInsert,
+          arrayMove,
+          arrayPop,
+          arrayPush,
+          arrayRemove,
+          arrayRemoveAll,
+          arrayShift,
+          arraySplice,
+          arraySwap,
+          arrayUnshift
+        },
+        actionCreator =>
+          bindActionCreators(actionCreator.bind(null, name), dispatch)
+      )
     },
     undefined,
     { withRef: true }

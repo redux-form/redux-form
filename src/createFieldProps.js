@@ -28,7 +28,9 @@ const processProps = (type, props, _value) => {
   return props
 }
 
-const createFieldProps = ({ getIn, toJS }, name,
+const createFieldProps = (
+  { getIn, toJS },
+  name,
   {
     asyncError,
     asyncValidating,
@@ -42,7 +44,7 @@ const createFieldProps = ({ getIn, toJS }, name,
     form,
     format,
     initial,
-    parse,  // eslint-disable-line no-unused-vars
+    parse, // eslint-disable-line no-unused-vars
     pristine,
     props,
     state,
@@ -51,12 +53,13 @@ const createFieldProps = ({ getIn, toJS }, name,
     submitting,
     syncError,
     syncWarning,
-    validate,  // eslint-disable-line no-unused-vars
+    validate, // eslint-disable-line no-unused-vars
     value,
     _value,
-    warn,  // eslint-disable-line no-unused-vars
+    warn, // eslint-disable-line no-unused-vars
     ...custom
-  }) => {
+  }
+) => {
   const error = syncError || asyncError || submitError
   const warning = syncWarning
 
@@ -71,15 +74,19 @@ const createFieldProps = ({ getIn, toJS }, name,
   const formattedFieldValue = formatFieldValue(value, format)
 
   return {
-    input: processProps(custom.type, {
-      name,
-      onBlur,
-      onChange,
-      onDragStart,
-      onDrop,
-      onFocus,
-      value: formattedFieldValue
-    }, _value),
+    input: processProps(
+      custom.type,
+      {
+        name,
+        onBlur,
+        onChange,
+        onDragStart,
+        onDrop,
+        onFocus,
+        value: formattedFieldValue
+      },
+      _value
+    ),
     meta: {
       ...toJS(state),
       active: !!(state && getIn(state, 'active')),

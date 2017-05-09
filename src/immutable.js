@@ -1,5 +1,7 @@
 import * as _actions from './actions'
-export { default as defaultShouldAsyncValidate } from './defaultShouldAsyncValidate'
+export {
+  default as defaultShouldAsyncValidate
+} from './defaultShouldAsyncValidate'
 export { default as defaultShouldValidate } from './defaultShouldValidate'
 export { default as Form } from './Form'
 export { default as FormSection } from './FormSection'
@@ -16,7 +18,9 @@ export { default as FieldArray } from './immutable/FieldArray'
 export { default as formValueSelector } from './immutable/formValueSelector'
 export { default as getFormNames } from './immutable/getFormNames'
 export { default as getFormValues } from './immutable/getFormValues'
-export { default as getFormInitialValues } from './immutable/getFormInitialValues'
+export {
+  default as getFormInitialValues
+} from './immutable/getFormInitialValues'
 export { default as getFormSyncErrors } from './immutable/getFormSyncErrors'
 export { default as getFormMeta } from './immutable/getFormMeta'
 export { default as getFormAsyncErrors } from './immutable/getFormAsyncErrors'
@@ -33,8 +37,8 @@ export { default as reduxForm } from './immutable/reduxForm'
 export { default as reducer } from './immutable/reducer'
 export { default as values } from './immutable/values'
 import * as _actionTypes from './actionTypes'
-export const actionTypes = _actionTypes;
-export const actions = _actions;
+export const actionTypes = _actionTypes
+export const actions = _actions
 export const {
   arrayInsert,
   arrayMove,
@@ -64,5 +68,5 @@ export const {
   submit,
   touch,
   unregisterField,
-  untouch,
-} = _actions;
+  untouch
+} = _actions

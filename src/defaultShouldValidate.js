@@ -10,8 +10,10 @@ const defaultShouldValidate = ({
   if (initialRender) {
     return true
   }
-  return !structure.deepEqual(values, nextProps.values) ||
+  return (
+    !structure.deepEqual(values, nextProps.values) ||
     !structure.deepEqual(lastFieldValidatorKeys, fieldValidatorKeys)
+  )
 }
 
 export default defaultShouldValidate

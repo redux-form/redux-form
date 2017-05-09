@@ -1,17 +1,14 @@
-import { Component, createElement } from 'react';
-import PropTypes from 'prop-types';
+import { Component, createElement } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
 
-const propsToNotUpdateFor = [
-  '_reduxForm'
-]
+const propsToNotUpdateFor = ['_reduxForm']
 
 const createConnectedField = ({ deepEqual, getIn, toJS }) => {
-
   const getSyncError = (syncErrors, name) => {
     const error = plain.getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where
@@ -40,9 +37,15 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
     shouldComponentUpdate(nextProps) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
-      return nextPropsKeys.length !== thisPropsKeys.length || nextPropsKeys.some(prop => {
-        return !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[ prop ], nextProps[ prop ])
-      })
+      return (
+        nextPropsKeys.length !== thisPropsKeys.length ||
+        nextPropsKeys.some(prop => {
+          return (
+            !~propsToNotUpdateFor.indexOf(prop) &&
+            !deepEqual(this.props[prop], nextProps[prop])
+          )
+        })
+      )
     }
 
     isPristine() {
@@ -58,18 +61,30 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
     }
 
     handleChange(event) {
-      const { name, dispatch, parse, normalize, onChange, _reduxForm, value: previousValue } = this.props
+      const {
+        name,
+        dispatch,
+        parse,
+        normalize,
+        onChange,
+        _reduxForm,
+        value: previousValue
+      } = this.props
       const newValue = onChangeValue(event, { name, parse, normalize })
 
       let defaultPrevented = false
       if (onChange) {
-        onChange({
-          ...event,
-          preventDefault: () => {
-            defaultPrevented = true
-            return event.preventDefault()
-          }
-        }, newValue, previousValue)
+        onChange(
+          {
+            ...event,
+            preventDefault: () => {
+              defaultPrevented = true
+              return event.preventDefault()
+            }
+          },
+          newValue,
+          previousValue
+        )
       }
       if (!defaultPrevented) {
         // dispatch change action
@@ -97,7 +112,16 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
     }
 
     handleBlur(event) {
-      const { name, dispatch, parse, normalize, onBlur, _reduxForm, _value, value: previousValue } = this.props
+      const {
+        name,
+        dispatch,
+        parse,
+        normalize,
+        onBlur,
+        _reduxForm,
+        _value,
+        value: previousValue
+      } = this.props
       let newValue = onChangeValue(event, { name, parse, normalize })
 
       // for checkbox and radio, if the value property of checkbox or radio equals
@@ -108,13 +132,17 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
 
       let defaultPrevented = false
       if (onBlur) {
-        onBlur({
-          ...event,
-          preventDefault: () => {
-            defaultPrevented = true
-            return event.preventDefault()
-          }
-        }, newValue, previousValue)
+        onBlur(
+          {
+            ...event,
+            preventDefault: () => {
+              defaultPrevented = true
+              return event.preventDefault()
+            }
+          },
+          newValue,
+          previousValue
+        )
       }
 
       if (!defaultPrevented) {
@@ -138,18 +166,28 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
     }
 
     handleDrop(event) {
-      const { name, dispatch, onDrop, _reduxForm, value: previousValue } = this.props
+      const {
+        name,
+        dispatch,
+        onDrop,
+        _reduxForm,
+        value: previousValue
+      } = this.props
       const newValue = event.dataTransfer.getData(dataKey)
 
       let defaultPrevented = false
       if (onDrop) {
-        onDrop({
-          ...event,
-          preventDefault: () => {
-            defaultPrevented = true
-            return event.preventDefault()
-          }
-        }, newValue, previousValue)
+        onDrop(
+          {
+            ...event,
+            preventDefault: () => {
+              defaultPrevented = true
+              return event.preventDefault()
+            }
+          },
+          newValue,
+          previousValue
+        )
       }
 
       if (!defaultPrevented) {
@@ -165,27 +203,24 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
         withRef,
         name,
         // remove props that are part of redux internals:
-        _reduxForm,  // eslint-disable-line no-unused-vars
-        normalize,   // eslint-disable-line no-unused-vars
-        onBlur,      // eslint-disable-line no-unused-vars
-        onChange,    // eslint-disable-line no-unused-vars
-        onFocus,     // eslint-disable-line no-unused-vars
+        _reduxForm, // eslint-disable-line no-unused-vars
+        normalize, // eslint-disable-line no-unused-vars
+        onBlur, // eslint-disable-line no-unused-vars
+        onChange, // eslint-disable-line no-unused-vars
+        onFocus, // eslint-disable-line no-unused-vars
         onDragStart, // eslint-disable-line no-unused-vars
-        onDrop,      // eslint-disable-line no-unused-vars
+        onDrop, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
-      const { custom, ...props } = createFieldProps({ getIn, toJS },
-        name,
-        {
-          ...rest,
-          form: _reduxForm.form,
-          onBlur: this.handleBlur,
-          onChange: this.handleChange,
-          onDrop: this.handleDrop,
-          onDragStart: this.handleDragStart,
-          onFocus: this.handleFocus
-        }
-      )
+      const { custom, ...props } = createFieldProps({ getIn, toJS }, name, {
+        ...rest,
+        form: _reduxForm.form,
+        onBlur: this.handleBlur,
+        onChange: this.handleChange,
+        onDrop: this.handleDrop,
+        onDragStart: this.handleDragStart,
+        onFocus: this.handleFocus
+      })
       if (withRef) {
         custom.ref = 'renderedComponent'
       }
@@ -200,7 +235,8 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
   }
 
   ConnectedField.propTypes = {
-    component: PropTypes.oneOfType([ PropTypes.func, PropTypes.string ]).isRequired,
+    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+      .isRequired,
     props: PropTypes.object
   }
 
@@ -209,7 +245,9 @@ const createConnectedField = ({ deepEqual, getIn, toJS }) => {
       const { name, _reduxForm: { initialValues, getFormState } } = ownProps
       const formState = getFormState(state)
       const initialState = getIn(formState, `initial.${name}`)
-      const initial = initialState !== undefined ? initialState : (initialValues && getIn(initialValues, name))
+      const initial = initialState !== undefined
+        ? initialState
+        : initialValues && getIn(initialValues, name)
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)

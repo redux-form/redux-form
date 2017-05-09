@@ -72,7 +72,6 @@ import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
 
 describe('actions', () => {
-
   it('should create array insert action', () => {
     expect(arrayInsert('myForm', 'myField', 0, 'foo'))
       .toEqual({
@@ -251,12 +250,15 @@ describe('actions', () => {
   })
 
   it('should throw an exception with illegal array swap indices', () => {
-    expect(() => arraySwap('myForm', 'myField', 2, 2))
-      .toThrow('Swap indices cannot be equal')
-    expect(() => arraySwap('myForm', 'myField', -2, 2))
-      .toThrow('Swap indices cannot be negative')
-    expect(() => arraySwap('myForm', 'myField', 2, -2))
-      .toThrow('Swap indices cannot be negative')
+    expect(() => arraySwap('myForm', 'myField', 2, 2)).toThrow(
+      'Swap indices cannot be equal'
+    )
+    expect(() => arraySwap('myForm', 'myField', -2, 2)).toThrow(
+      'Swap indices cannot be negative'
+    )
+    expect(() => arraySwap('myForm', 'myField', 2, -2)).toThrow(
+      'Swap indices cannot be negative'
+    )
   })
 
   it('should create blur action', () => {
@@ -404,7 +406,7 @@ describe('actions', () => {
       .toEqual({
         type: DESTROY,
         meta: {
-          form: [ 'myForm' ]
+          form: ['myForm']
         }
       })
       .toPass(isFSA)
@@ -412,7 +414,7 @@ describe('actions', () => {
       .toEqual({
         type: DESTROY,
         meta: {
-          form: [ 'myForm1', 'myForm2' ]
+          form: ['myForm1', 'myForm2']
         }
       })
       .toPass(isFSA)
@@ -522,7 +524,7 @@ describe('actions', () => {
         type: SET_SUBMIT_FAILED,
         meta: {
           form: 'myForm',
-          fields: [ 'a', 'b', 'c' ]
+          fields: ['a', 'b', 'c']
         },
         error: true
       })
@@ -545,7 +547,7 @@ describe('actions', () => {
         type: SET_SUBMIT_SUCCEEDED,
         meta: {
           form: 'myForm',
-          fields: [ 'a', 'b', 'c' ]
+          fields: ['a', 'b', 'c']
         },
         error: false
       })
@@ -558,7 +560,7 @@ describe('actions', () => {
         type: TOUCH,
         meta: {
           form: 'myForm',
-          fields: [ 'foo', 'bar' ]
+          fields: ['foo', 'bar']
         }
       })
       .toPass(isFSA)
@@ -567,7 +569,7 @@ describe('actions', () => {
         type: TOUCH,
         meta: {
           form: 'myForm',
-          fields: [ 'cat', 'dog', 'pig' ]
+          fields: ['cat', 'dog', 'pig']
         }
       })
       .toPass(isFSA)
@@ -594,7 +596,7 @@ describe('actions', () => {
         type: UNTOUCH,
         meta: {
           form: 'myForm',
-          fields: [ 'foo', 'bar' ]
+          fields: ['foo', 'bar']
         }
       })
       .toPass(isFSA)
@@ -603,7 +605,7 @@ describe('actions', () => {
         type: UNTOUCH,
         meta: {
           form: 'myForm',
-          fields: [ 'cat', 'dog', 'pig' ]
+          fields: ['cat', 'dog', 'pig']
         }
       })
       .toPass(isFSA)

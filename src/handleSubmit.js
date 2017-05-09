@@ -3,8 +3,17 @@ import SubmissionError from './SubmissionError'
 
 const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
   const {
-    dispatch, onSubmitFail, onSubmitSuccess, startSubmit, stopSubmit, setSubmitFailed,
-    setSubmitSucceeded, syncErrors, touch, values, persistentSubmitErrors
+    dispatch,
+    onSubmitFail,
+    onSubmitSuccess,
+    startSubmit,
+    stopSubmit,
+    setSubmitFailed,
+    setSubmitSucceeded,
+    syncErrors,
+    touch,
+    values,
+    persistentSubmitErrors
   } = props
 
   touch(...fields) // mark all fields as touched
@@ -15,7 +24,9 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
       try {
         result = submit(values, dispatch, props)
       } catch (submitError) {
-        const error = submitError instanceof SubmissionError ? submitError.errors : undefined
+        const error = submitError instanceof SubmissionError
+          ? submitError.errors
+          : undefined
         stopSubmit(error)
         setSubmitFailed(...fields)
         if (onSubmitFail) {
@@ -30,16 +41,19 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
       }
       if (isPromise(result)) {
         startSubmit()
-        return result
-          .then(submitResult => {
+        return result.then(
+          submitResult => {
             stopSubmit()
             setSubmitSucceeded()
             if (onSubmitSuccess) {
               onSubmitSuccess(submitResult, dispatch, props)
             }
             return submitResult
-          }, submitError => {
-            const error = submitError instanceof SubmissionError ? submitError.errors : undefined
+          },
+          submitError => {
+            const error = submitError instanceof SubmissionError
+              ? submitError.errors
+              : undefined
             stopSubmit(error)
             setSubmitFailed(...fields)
             if (onSubmitFail) {
@@ -51,7 +65,8 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
             } else {
               throw submitError
             }
-          })
+          }
+        )
       } else {
         setSubmitSucceeded()
         if (onSubmitSuccess) {

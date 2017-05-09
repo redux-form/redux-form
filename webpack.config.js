@@ -27,8 +27,8 @@ var reactReduxExternal = {
 
 var config = {
   externals: {
-    'react': reactExternal,
-    'redux': reduxExternal,
+    react: reactExternal,
+    redux: reduxExternal,
     'react-redux': reactReduxExternal
   },
   module: {
@@ -41,7 +41,7 @@ var config = {
     libraryTarget: 'umd'
   },
   plugins: [
-    new LodashModuleReplacementPlugin,
+    new LodashModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     })

@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Form extends Component {
   constructor(props, context) {
     super(props, context)
     if (!context._reduxForm) {
-      throw new Error('Form must be inside a component decorated with reduxForm()')
+      throw new Error(
+        'Form must be inside a component decorated with reduxForm()'
+      )
     }
   }
 
@@ -14,7 +16,7 @@ class Form extends Component {
   }
 
   render() {
-    return <form {...this.props}/>
+    return <form {...this.props} />
   }
 }
 
