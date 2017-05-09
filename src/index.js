@@ -9,7 +9,8 @@ export { default as SubmissionError } from './SubmissionError'
 export {
   default as propTypes,
   fieldInputPropTypes,
-  fieldMetaPropTypes
+  fieldMetaPropTypes,
+  fieldPropTypes
 } from './propTypes'
 export { default as Field } from './Field'
 export { default as Fields } from './Fields'
