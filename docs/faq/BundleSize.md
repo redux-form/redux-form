@@ -47,14 +47,14 @@ Thankfully there is a babel plugin that can automate this task.
     }
 ```
 
-##Caveat (Action Creators)
+## Caveat (Action Creators)
 
 Action creators are available under `actions` in order to take advantage of this method.
 One would import the actions binding and then extract the needed action creators.
 
 Example:
 
-```
+```js
 import * as actions from 'redux-form/es/actions';
 
 const { change, destroy } = actions;
