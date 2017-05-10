@@ -56,7 +56,6 @@ Example:
 
 ```js
 import * as actions from 'redux-form/es/actions';
-```
 
 const { change, destroy } = actions;
 ```
