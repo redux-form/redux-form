@@ -10,9 +10,10 @@
     "url": "https://github.com/erikras/redux-form"
   },
   "scripts": {
+    "analyze": "webpack src/index.js dist/redux-form.js -p --bail --profile --json > stats.json && webpack-bundle-analyzer stats.json",
     "build": "npm run build:lib && npm run build:es && npm run build:umd && npm run build:umd:min",
-    "build:lib": "babel src --out-dir lib",
-    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:lib": "babel src --out-dir lib --ignore __tests__",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore __tests__",
     "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
     "clean": "rimraf dist lib es",
@@ -106,7 +107,8 @@
     "rimraf": "^2.5.4",
     "stringstream": "^0.0.5",
     "tmp": "0.0.31",
-    "webpack": "^2.5.1"
+    "webpack": "^2.5.1",
+    "webpack-bundle-analyzer": "^2.7.0"
   },
   "peerDependencies": {
     "react": "^15.0.0",
