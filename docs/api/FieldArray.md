@@ -212,7 +212,7 @@ is tracking for you.
 ## Iteration
 
 When you iterate through a field array with either `forEach()` or `map()`, your callback will be
-passed two parameters:
+passed following parameters:
 
 #### `name : String`
 
