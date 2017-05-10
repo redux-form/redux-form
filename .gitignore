@@ -8,3 +8,4 @@ lib
 es
 npm-debug.log
 .DS_Store
+stats.json
