@@ -55,7 +55,7 @@ One would import the actions binding and then extract the needed action creators
 Example:
 
 ```
-import actions from 'redux-form/es/actions'
+import * as actions from 'redux-form/es/actions';
 
-const {change, destroy} = actions
+const { change, destroy } = actions;
 ```
