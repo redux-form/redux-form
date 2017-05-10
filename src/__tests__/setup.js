@@ -1,5 +1,5 @@
-import {jsdom} from 'jsdom'
+import { JSDOM } from 'jsdom'
 
-global.document = jsdom('<!doctype html><html><body></body></html>')
-global.window = document.defaultView
+global.window = new JSDOM('<!doctype html><html><body></body></html>').window
+global.document = global.window.document
 global.navigator = global.window.navigator
