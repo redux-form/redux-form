@@ -106,6 +106,8 @@ const createReduxForm = structure => {
           this.asyncValidate = this.asyncValidate.bind(this)
           this.getValues = this.getValues.bind(this)
           this.register = this.register.bind(this)
+          this.registerAll = this.registerAll.bind(this)
+          this.queueForRegister = this.queueForRegister.bind(this)
           this.unregister = this.unregister.bind(this)
           this.submitCompleted = this.submitCompleted.bind(this)
           this.submitFailed = this.submitFailed.bind(this)
@@ -113,6 +115,8 @@ const createReduxForm = structure => {
           this.lastFieldValidatorKeys = []
           this.fieldWarners = {}
           this.lastFieldWarnerKeys = []
+
+          this.fieldsToRegister = []
         }
 
         getChildContext() {
@@ -125,6 +129,8 @@ const createReduxForm = structure => {
               getValues: this.getValues,
               sectionPrefix: undefined,
               register: this.register,
+              registerAll: this.registerAll,
+              queueForRegister: this.queueForRegister,
               unregister: this.unregister,
               registerInnerOnSubmit: innerOnSubmit =>
                 (this.innerOnSubmit = innerOnSubmit)
@@ -286,6 +292,10 @@ const createReduxForm = structure => {
           this.warnIfNeeded()
         }
 
+        componentDidMount() {
+          this.registerAllIfNeeded()
+        }
+
         componentWillReceiveProps(nextProps) {
           this.initIfNeeded(nextProps)
           this.validateIfNeeded(nextProps)
@@ -337,6 +347,15 @@ const createReduxForm = structure => {
           return this.props.pristine
         }
 
+        queueForRegister(name, type, getValidator, getWarner) {
+          this.fieldsToRegister.push({
+            name,
+            type,
+            getValidator,
+            getWarner,
+          })
+        }
+
         register(name, type, getValidator, getWarner) {
           this.props.registerField(name, type)
           if (getValidator) {
@@ -345,6 +364,25 @@ const createReduxForm = structure => {
           if (getWarner) {
             this.fieldWarners[name] = getWarner
           }
+        }
+
+        registerAll(fields) {
+          this.props.registerFields(fields)
+
+          fields.forEach(field => {
+            if (field.getValidator) {
+              this.fieldValidators[name] = field.getValidator
+            }
+
+            if (field.getWarner) {
+              this.fieldWarners[name] = field.getWarner
+            }
+          })
+        }
+
+        registerAllIfNeeded() {
+          // TODO: Check if it's needed. For now, just do it.
+          this.registerAll(this.fieldsToRegister)
         }
 
         unregister(name) {
@@ -572,6 +610,7 @@ const createReduxForm = structure => {
             propNamespace,
             registeredFields,
             registerField,
+            registerFields,
             reset,
             setSubmitFailed,
             setSubmitSucceeded,
@@ -633,7 +672,7 @@ const createReduxForm = structure => {
             ...rest
           }
           if (isClassComponent(WrappedComponent)) {
-            propsToPass.ref = 'wrapped'
+            propsToPass.ref = el => this.wrappedRef = el
           }
           return createElement(WrappedComponent, propsToPass)
         }
@@ -787,15 +826,15 @@ const createReduxForm = structure => {
       // build outer component to expose instance api
       return class ReduxForm extends Component {
         submit() {
-          return this.refs.wrapped.getWrappedInstance().submit()
+          return this.wrappedRef.getWrappedInstance().submit()
         }
 
         reset() {
-          return this.refs.wrapped.getWrappedInstance().reset()
+          return this.wrappedRef.getWrappedInstance().reset()
         }
 
         get valid() {
-          return this.refs.wrapped.getWrappedInstance().isValid()
+          return this.wrappedRef.getWrappedInstance().isValid()
         }
 
         get invalid() {
@@ -803,7 +842,7 @@ const createReduxForm = structure => {
         }
 
         get pristine() {
-          return this.refs.wrapped.getWrappedInstance().isPristine()
+          return this.wrappedRef.getWrappedInstance().isPristine()
         }
 
         get dirty() {
@@ -811,24 +850,24 @@ const createReduxForm = structure => {
         }
 
         get values() {
-          return this.refs.wrapped.getWrappedInstance().getValues()
+          return this.wrappedRef.getWrappedInstance().getValues()
         }
 
         get fieldList() {
           // mainly provided for testing
-          return this.refs.wrapped.getWrappedInstance().getFieldList()
+          return this.wrappedRef.getWrappedInstance().getFieldList()
         }
 
         get wrappedInstance() {
           // for testine
-          return this.refs.wrapped.getWrappedInstance().refs.wrapped
+          return this.wrappedRef.getWrappedInstance().wrappedRef
         }
 
         render() {
           const {initialValues, ...rest} = this.props
           return createElement(ConnectedForm, {
             ...rest,
-            ref: 'wrapped',
+            ref: el => this.wrappedRef = el,
             // convert initialValues if need to
             initialValues: fromJS(initialValues)
           })

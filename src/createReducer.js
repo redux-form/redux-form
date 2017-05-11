@@ -20,6 +20,7 @@ import {
   INITIALIZE,
   prefix,
   REGISTER_FIELD,
+  REGISTER_FIELDS,
   RESET,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
@@ -312,6 +313,23 @@ const createReducer = structure => {
         field = fromJS({name, type, count: 1})
       }
       return setIn(state, key, field)
+    },
+    [REGISTER_FIELDS](state, props) {
+      const fields = props.payload;
+
+      return fields.reduce((memo, { name, type }) => {
+        const key = `registeredFields['${name}']`
+        let field = getIn(state, key)
+
+        if (field) {
+          const count = getIn(field, 'count') + 1
+          field = setIn(field, 'count', count)
+        } else {
+          field = fromJS({name, type, count: 1})
+        }
+
+        return setIn(memo, key, field)
+      }, state)
     },
     [RESET](state) {
       let result = empty

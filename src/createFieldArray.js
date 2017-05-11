@@ -65,15 +65,15 @@ const createFieldArray = ({deepEqual, getIn, size}) => {
     }
 
     get dirty() {
-      return this.refs.connected.getWrappedInstance().dirty
+      return this.connectedRef.getWrappedInstance().dirty
     }
 
     get pristine() {
-      return this.refs.connected.getWrappedInstance().pristine
+      return this.connectedRef.getWrappedInstance().pristine
     }
 
     get value() {
-      return this.refs.connected.getWrappedInstance().value
+      return this.connectedRef.getWrappedInstance().value
     }
 
     getRenderedComponent() {
@@ -82,7 +82,7 @@ const createFieldArray = ({deepEqual, getIn, size}) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to FieldArray'
       )
-      return this.refs.connected.getWrappedInstance().getRenderedComponent()
+      return this.connectedRef.getWrappedInstance().getRenderedComponent()
     }
 
     render() {
@@ -92,7 +92,7 @@ const createFieldArray = ({deepEqual, getIn, size}) => {
         syncError: this.syncError,
         syncWarning: this.syncWarning,
         _reduxForm: this.context._reduxForm,
-        ref: 'connected'
+        ref: x => this.connectedRef = x
       })
     }
   }

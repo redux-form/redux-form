@@ -29,7 +29,7 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
     }
 
     componentWillMount() {
-      this.context._reduxForm.register(
+      this.context._reduxForm.queueForRegister(
         this.name,
         'Field',
         () => this.props.validate,
@@ -59,7 +59,7 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to Field'
       )
-      return this.refs.connected.getWrappedInstance().getRenderedComponent()
+      return this.connectedRef.getWrappedInstance().getRenderedComponent()
     }
 
     get name() {
@@ -71,13 +71,12 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
     }
 
     get pristine() {
-      return this.refs.connected.getWrappedInstance().isPristine()
+      return this.connectedRef.getWrappedInstance().isPristine()
     }
 
     get value() {
       return (
-        this.refs.connected &&
-        this.refs.connected.getWrappedInstance().getValue()
+        this.connectedRef && this.connectedRef.getWrappedInstance().getValue()
       )
     }
 
@@ -98,7 +97,7 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
         name: this.name,
         normalize: this.normalize,
         _reduxForm: this.context._reduxForm,
-        ref: 'connected'
+        ref: x => this.connectedRef = x
       })
     }
   }
