@@ -36,7 +36,11 @@ const createFieldArray = ({deepEqual, getIn, size}) => {
     }
 
     componentWillMount() {
-      this.context._reduxForm.register(
+      const formState = this.context._reduxForm
+
+      console.log('FORMSTATE', formState)
+
+      this.context._reduxForm.queueForRegister(
         this.name,
         'FieldArray',
         () => wrapError(this.props.validate, '_error'),

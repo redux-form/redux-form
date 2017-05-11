@@ -29,7 +29,23 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
     }
 
     componentWillMount() {
-      this.context._reduxForm.queueForRegister(
+      const { registeredFields } = this.context._reduxForm
+
+      if (!registeredFields) {
+        this.context._reduxForm.queueForRegister(
+          this.name,
+          'Field',
+          () => this.props.validate,
+          () => this.props.warn
+        )
+        return
+      }
+
+      if (registeredFields[this.name]) {
+        this.context._reduxForm.unregister(this.name)
+      }
+
+      this.context._reduxForm.register(
         this.name,
         'Field',
         () => this.props.validate,

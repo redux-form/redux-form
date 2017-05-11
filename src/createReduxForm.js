@@ -348,6 +348,14 @@ const createReduxForm = structure => {
         }
 
         queueForRegister(name, type, getValidator, getWarner) {
+          if (getValidator) {
+            // console.log('We have a validator!', name, type, getValidator)
+          }
+
+          if (getWarner) {
+            // console.log('We have a warner!', name, type, getValidator)
+          }
+
           this.fieldsToRegister.push({
             name,
             type,
@@ -369,13 +377,13 @@ const createReduxForm = structure => {
         registerAll(fields) {
           this.props.registerFields(fields)
 
-          fields.forEach(field => {
-            if (field.getValidator) {
-              this.fieldValidators[name] = field.getValidator
+          fields.forEach(({ name, getValidator, getWarner }) => {
+            if (getValidator) {
+              this.fieldValidators[name] = getValidator
             }
 
-            if (field.getWarner) {
-              this.fieldWarners[name] = field.getWarner
+            if (getWarner) {
+              this.fieldWarners[name] = getWarner
             }
           })
         }
