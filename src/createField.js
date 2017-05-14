@@ -41,10 +41,6 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
         return
       }
 
-      if (registeredFields[this.name]) {
-        this.context._reduxForm.unregister(this.name)
-      }
-
       this.context._reduxForm.register(
         this.name,
         'Field',
