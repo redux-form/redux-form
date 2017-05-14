@@ -67,21 +67,7 @@ connect(
 )(MyFormComponent)
 ```
 
-### 2. Select multiple fields as a group
-
-```javascript
-connect(
-  state => {
-    const { first, second } = selector(state, 'first', 'second')
-    // do some calculation
-    return {
-      sum: first + second
-    }
-  }
-)(MyFormComponent)
-```
-
-### 3. Select multiple fields as a group into a grouped prop
+### 2. Select multiple fields as a group into a grouped prop
 
 ```javascript
 connect(
@@ -91,7 +77,7 @@ connect(
 )(MyFormComponent)
 ```
 
-### 4. Use the selector as `mapStateToProps`
+### 3. Use the selector as `mapStateToProps`
 
 If you don't need any other props from the state, the selector itself works just fine as 
 `mapStateToProps`.
