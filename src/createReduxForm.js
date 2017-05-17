@@ -489,7 +489,8 @@ const createReduxForm = structure => {
           if (!submitOrEvent || silenceEvent(submitOrEvent)) {
             // submitOrEvent is an event: fire submit if not already submitting
             if (!this.submitPromise) {
-              if (this.innerOnSubmit) {
+              // avoid recursive stack trace if use Form with onSubmit as handleSubmit
+              if (this.innerOnSubmit && this.innerOnSubmit !== this.submit) {
                 // will call "submitOrEvent is the submit function" block below
                 return this.innerOnSubmit()
               } else {
