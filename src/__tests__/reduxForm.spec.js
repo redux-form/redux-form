@@ -29,6 +29,7 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import SubmissionError from '../SubmissionError'
 import addExpectations from './addExpectations'
+import FormWrapper from '../Form';
 
 const propsAtNthRender = (spy, callNumber) => spy.calls[callNumber].arguments[0]
 const propsAtLastRender = spy => propsAtNthRender(spy, spy.calls.length - 1)
@@ -2376,6 +2377,46 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       TestUtils.Simulate.submit(form)
 
       expect(submit).toHaveBeenCalled()
+    })
+
+    it('should submit when using Form Wrapper and "submit" button is clicked with onSubmit provided as config param', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            bar: 'foo'
+          }
+        }
+      })
+
+      const Form = ({handleSubmit}) => (
+        <FormWrapper onSubmit={handleSubmit}>
+          <Field name="bar" component="textarea" />
+          <input type="submit" value="Submit" />
+        </FormWrapper>
+      )
+
+      const submit = createSpy()
+      const Decorated = reduxForm({
+        form: 'testForm',
+        onSubmit: submit
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
+
+      const form = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
+
+      expect(submit).toNotHaveBeenCalled()
+
+      TestUtils.Simulate.submit(form)
+
+      expect(submit).toHaveBeenCalled()
+
+      // avoid recursive stack trace
+      expect(submit.calls.length).toEqual(1)
     })
 
     it('should no resubmit if async submit is in progress', () => {
