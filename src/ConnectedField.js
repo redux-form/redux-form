@@ -8,6 +8,24 @@ import plain from './structure/plain'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
+const isObject = (entity) => entity && typeof entity === 'object'
+const isFunction = (entity) => entity && typeof entity === 'function'
+const eventPreventDefault = (event) => {
+  if (isObject(event) && isFunction(event.preventDefault)) {
+    event.preventDefault()
+  }
+}
+const eventDataTransferGetData = (event, ...args) => {
+  if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.getData)) {
+    event.dataTransfer.getData(...args)
+  }
+}
+const eventDataTransferSetData = (event, ...args) => {
+  if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.setData)) {
+    event.dataTransfer.setData(...args)
+  }
+}
+
 const createConnectedField = ({deepEqual, getIn, toJS}) => {
   const getSyncError = (syncErrors, name) => {
     const error = plain.getIn(syncErrors, name)
@@ -79,7 +97,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
             ...event,
             preventDefault: () => {
               defaultPrevented = true
-              return event.preventDefault()
+              return eventPreventDefault(event)
             }
           },
           newValue,
@@ -101,7 +119,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
           ...event,
           preventDefault: () => {
             defaultPrevented = true
-            return event.preventDefault()
+            return eventPreventDefault(event)
           }
         })
       }
@@ -137,7 +155,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
             ...event,
             preventDefault: () => {
               defaultPrevented = true
-              return event.preventDefault()
+              return eventPreventDefault(event)
             }
           },
           newValue,
@@ -158,8 +176,8 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
 
     handleDragStart(event) {
       const {onDragStart, value} = this.props
-      event.dataTransfer.setData(dataKey, value == null ? '' : value)
-
+      eventDataTransferSetData(event, dataKey, value == null ? '' : value)
+      
       if (onDragStart) {
         onDragStart(event)
       }
@@ -173,7 +191,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         _reduxForm,
         value: previousValue
       } = this.props
-      const newValue = event.dataTransfer.getData(dataKey)
+      const newValue = eventDataTransferGetData(event, dataKey)
 
       let defaultPrevented = false
       if (onDrop) {
@@ -182,7 +200,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
             ...event,
             preventDefault: () => {
               defaultPrevented = true
-              return event.preventDefault()
+              return eventPreventDefault(event)
             }
           },
           newValue,
@@ -193,7 +211,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
       if (!defaultPrevented) {
         // dispatch change action
         dispatch(_reduxForm.change(name, newValue))
-        event.preventDefault()
+        eventPreventDefault(event)
       }
     }
 
