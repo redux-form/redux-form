@@ -9,20 +9,24 @@ import plain from './structure/plain'
 const propsToNotUpdateFor = ['_reduxForm']
 
 const isObject = (entity) => entity && typeof entity === 'object'
+
 const isFunction = (entity) => entity && typeof entity === 'function'
+
 const eventPreventDefault = (event) => {
   if (isObject(event) && isFunction(event.preventDefault)) {
     event.preventDefault()
   }
 }
-const eventDataTransferGetData = (event, ...args) => {
+
+const eventDataTransferGetData = (event, key) => {
   if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.getData)) {
-    event.dataTransfer.getData(...args)
+    event.dataTransfer.getData(key)
   }
 }
-const eventDataTransferSetData = (event, ...args) => {
+
+const eventDataTransferSetData = (event, key, value) => {
   if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.setData)) {
-    event.dataTransfer.setData(...args)
+    event.dataTransfer.setData(key, value)
   }
 }
 
@@ -177,7 +181,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
     handleDragStart(event) {
       const {onDragStart, value} = this.props
       eventDataTransferSetData(event, dataKey, value == null ? '' : value)
-      
+
       if (onDragStart) {
         onDragStart(event)
       }
