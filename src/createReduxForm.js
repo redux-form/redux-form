@@ -821,7 +821,7 @@ const createReduxForm = structure => {
         }
 
         get wrappedInstance() {
-          // for testine
+          // for testing
           return this.refs.wrapped.getWrappedInstance().refs.wrapped
         }
 
