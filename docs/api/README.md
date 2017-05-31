@@ -41,7 +41,7 @@
 
 ## [`Fields`](Fields.md)
 
-> The component that can to connect multiple inputs to `redux-form`.
+> The component that can connect multiple inputs to `redux-form`.
 
 > [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Fields.js)
 
