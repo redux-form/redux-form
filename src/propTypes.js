@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 const {any, bool, func, shape, string, oneOfType, object} = PropTypes
 
-const propTypes = {
+export const formPropTypes = {
   // State:
   anyTouched: bool.isRequired, // true if any of the fields have been marked as touched
   asyncValidating: oneOfType([bool, string]).isRequired, // true if async validation is running, a string if a field triggered async validation
@@ -86,4 +86,4 @@ export const fieldPropTypes = {
   custom: object.isRequired
 }
 
-export default propTypes
+export default formPropTypes
