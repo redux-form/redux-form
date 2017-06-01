@@ -1,4 +1,5 @@
 import domExpect, {createSpy} from 'expect'
+import ReactDOMServer from 'react-dom/server';
 import expectElement from 'expect-element'
 /* eslint react/no-multi-comp:0 */
 import React, {Component} from 'react'
@@ -1698,6 +1699,33 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // field array NOT rerendered
       expect(renderFieldArray.calls.length).toBe(1)
+    })
+
+    it('should have value set to initial value on server side rendering', () => {
+        const store = makeStore({testForm: {}})
+        const renderArray = ({fields}) => (
+            <div>
+                {fields.map((name, index) => (
+                    <Field key={index} name={name} component="input" />
+                ))}
+            </div>
+        )
+
+        class Form extends Component {
+            render() {
+                return <div><FieldArray name="foo" component={renderArray} /></div>
+            }
+        }
+        const TestForm = reduxForm({form: 'testForm', initialValues: {
+          foo: ['a', 'b', 'c']
+        }})(Form)
+
+        const html = ReactDOMServer.renderToStaticMarkup(
+            <Provider store={store}>
+              <TestForm />
+            </Provider>
+        )
+        expect(html).toBe('<div><div><input name="foo[0]" value="a"/><input name="foo[1]" value="b"/><input name="foo[2]" value="c"/></div></div>')
     })
 
     it('should create a list in the store on push(undefined)', () => {

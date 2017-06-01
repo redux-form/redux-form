@@ -1,5 +1,6 @@
 /* eslint react/no-multi-comp:0 */
 import React, {Component} from 'react'
+import ReactDOMServer from 'react-dom/server';
 import {createSpy} from 'expect'
 import {Provider} from 'react-redux'
 import {combineReducers as plainCombineReducers, createStore} from 'redux'
@@ -47,6 +48,21 @@ const describeField = (name, structure, combineReducers, expect) => {
       </Provider>
     )
     return TestUtils.findRenderedComponentWithType(dom, TestInput).props
+  }
+
+  const testServerSideValue = (state, config = {}) => {
+      const store = makeStore({[testFormName]: state})
+      class Form extends Component {
+          render() {
+              return <div><Field name="foo" component="input" /></div>
+          }
+      }
+      const TestForm = reduxForm({form: testFormName, ...config})(Form)
+      return ReactDOMServer.renderToStaticMarkup(
+          <Provider store={store}>
+            <TestForm />
+          </Provider>
+      )
   }
 
   describe(name, () => {
@@ -491,6 +507,25 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input.calls[0].arguments[0].input.value).toBe('bar')
+    })
+
+
+    it('should have value set to initial value on server side rendering', () => {
+      const store = makeStore({})
+      class Form extends Component {
+        render() {
+          return <div><Field name="foo" component="input" /></div>
+        }
+      }
+      const TestForm = reduxForm({
+        form: testFormName
+      })(Form)
+      const html = ReactDOMServer.renderToStaticMarkup(
+        <Provider store={store}>
+          <TestForm initialValues={{foo: 'bar'}}/>
+        </Provider>
+      )
+      expect(html).toBe('<div><input name="foo" value="bar"/></div>')
     })
 
     it('should provide sync error for array field', () => {

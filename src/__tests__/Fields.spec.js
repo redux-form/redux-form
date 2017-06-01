@@ -1,5 +1,6 @@
 /* eslint react/no-multi-comp:0 */
 import React, { Component } from 'react'
+import ReactDOMServer from 'react-dom/server';
 import { createSpy, spyOn } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
@@ -1736,6 +1737,33 @@ const describeFields = (name, structure, combineReducers, expect) => {
       expect(renderFields.calls[7].arguments[0].fighter.input.value).toBe(
         '@reduxForm'
       )
+    })
+
+    it('should have value set to initial value on server side rendering', () => {
+        const store = makeStore()
+        const renderFields = ({ foo, bar }) => (
+          <div>
+            <input {...foo.input} />
+            <input {...bar.input} />
+          </div>
+        )
+
+        class Form extends Component {
+          render() {
+            return <div><Fields names={['foo', 'bar']} component={renderFields} /></div>
+          }
+        }
+        const TestForm = reduxForm({form: 'testForm', initialValues: {
+            foo: 'a',
+            bar: 'b'
+        }})(Form)
+
+        const html = ReactDOMServer.renderToStaticMarkup(
+          <Provider store={store}>
+            <TestForm />
+          </Provider>
+        )
+        expect(html).toBe('<div><div><input name="foo" value="a"/><input name="bar" value="b"/></div></div>')
     })
   })
 }
