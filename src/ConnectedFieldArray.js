@@ -122,7 +122,8 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
       const initial =
         getIn(formState, `initial.${name}`) ||
         (initialValues && getIn(initialValues, name))
-      const value = getIn(formState, `values.${name}`)
+      const values = getIn(formState, 'values') || getIn(formState, `initial`) || initialValues
+      const value = getIn(values, name)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
       const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)

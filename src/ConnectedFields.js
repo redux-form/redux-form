@@ -168,13 +168,14 @@ const createConnectedFields = ({deepEqual, getIn, toJS, size}) => {
     (state, ownProps) => {
       const {names, _reduxForm: {initialValues, getFormState}} = ownProps
       const formState = getFormState(state)
-      return {
+      const values = getIn(formState, 'values') || getIn(formState, `initial`) || initialValues
+        return {
         _fields: names.reduce((accumulator, name) => {
           const initialState = getIn(formState, `initial.${name}`)
           const initial = initialState !== undefined
             ? initialState
             : initialValues && getIn(initialValues, name)
-          const value = getIn(formState, `values.${name}`)
+          const value = getIn(values, name)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
           const syncWarning = getSyncWarning(
             getIn(formState, 'syncWarnings'),
