@@ -1,6 +1,5 @@
 /* eslint react/no-multi-comp:0 */
 import React, {Component} from 'react'
-import ReactDOMServer from 'react-dom/server';
 import {createSpy} from 'expect'
 import {Provider} from 'react-redux'
 import {combineReducers as plainCombineReducers, createStore} from 'redux'
@@ -25,8 +24,11 @@ const describeField = (name, structure, combineReducers, expect) => {
   const Field = createField(structure)
   const reducer = createReducer(structure)
   const {fromJS, getIn} = structure
-  const makeStore = initial =>
+
+  const makeDefaultStore = initial =>
     createStore(combineReducers({form: reducer}), fromJS({form: initial}))
+  const makeServerSideRenderedStore = (initial) =>
+    createStore(combineReducers({form: (state = {}) => state }), fromJS({form: initial}))
 
   class TestInput extends Component {
     render() {
@@ -34,7 +36,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     }
   }
 
-  const testProps = (state, config = {}) => {
+  const testProps = (state, config = {}, makeStore = makeDefaultStore) => {
     const store = makeStore({[testFormName]: state})
     class Form extends Component {
       render() {
@@ -48,21 +50,6 @@ const describeField = (name, structure, combineReducers, expect) => {
       </Provider>
     )
     return TestUtils.findRenderedComponentWithType(dom, TestInput).props
-  }
-
-  const testServerSideValue = (state, config = {}) => {
-      const store = makeStore({[testFormName]: state})
-      class Form extends Component {
-          render() {
-              return <div><Field name="foo" component="input" /></div>
-          }
-      }
-      const TestForm = reduxForm({form: testFormName, ...config})(Form)
-      return ReactDOMServer.renderToStaticMarkup(
-          <Provider store={store}>
-            <TestForm />
-          </Provider>
-      )
   }
 
   describe(name, () => {
@@ -344,7 +331,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide name getter', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: 'bar'
@@ -367,7 +354,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide value getter', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: 'bar'
@@ -390,7 +377,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide dirty getter that is true when dirty', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: 'bar'
@@ -413,7 +400,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide dirty getter that is false when pristine', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           initial: {
             foo: 'bar'
@@ -439,7 +426,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide pristine getter that is false when dirty', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: 'bar'
@@ -462,7 +449,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide pristine getter that is true when pristine', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           initial: {
             foo: 'bar'
@@ -488,7 +475,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should have value set to initial value on first render', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const input = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -511,25 +498,29 @@ const describeField = (name, structure, combineReducers, expect) => {
 
 
     it('should have value set to initial value on server side rendering', () => {
-      const store = makeStore({})
-      class Form extends Component {
-        render() {
-          return <div><Field name="foo" component="input" /></div>
+      const store = makeServerSideRenderedStore({})
+        const input = createSpy(props => (
+            <input {...props.input} />
+        )).andCallThrough()
+        class Form extends Component {
+            render() {
+                return <div><Field name="foo" component={input} /></div>
+            }
         }
-      }
-      const TestForm = reduxForm({
-        form: testFormName
-      })(Form)
-      const html = ReactDOMServer.renderToStaticMarkup(
-        <Provider store={store}>
-          <TestForm initialValues={{foo: 'bar'}}/>
-        </Provider>
-      )
-      expect(html).toBe('<div><input name="foo" value="bar"/></div>')
+        const TestForm = reduxForm({
+            form: 'testForm'
+        })(Form)
+        TestUtils.renderIntoDocument(
+            <Provider store={store}>
+              <TestForm initialValues={{foo: 'bar'}} />
+            </Provider>
+        )
+        expect(input).toHaveBeenCalled()
+        expect(input.calls[0].arguments[0].input.value).toBe('bar')
     })
 
     it('should provide sync error for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['bar']
@@ -561,7 +552,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide sync warning for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['bar']
@@ -592,7 +583,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide access to rendered component', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: 'bar'
@@ -617,7 +608,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should reconnect when name changes', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: 'fooValue',
@@ -670,7 +661,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should prefix name getter when inside FormSection', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       class Form extends Component {
         render() {
           return (
@@ -690,7 +681,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(stub.name).toBe('foo.bar')
     })
     it('should prefix name getter when inside multiple FormSection', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       class Form extends Component {
         render() {
           return (
@@ -713,7 +704,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should prefix name when inside FormSection', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       class Form extends Component {
         render() {
           return (
@@ -742,7 +733,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should prefix name when inside multiple FormSections', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       class Form extends Component {
         render() {
           return (
@@ -777,7 +768,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should re-register when name changes', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       class Form extends Component {
         constructor() {
           super()
@@ -823,7 +814,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when props change', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const input = createSpy(props => (
         <div>
           {props.highlighted}<input {...props.input} />
@@ -867,7 +858,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const input = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -912,7 +903,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call normalize function on change', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: 'Redux Form',
@@ -974,7 +965,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call normalize function on blur', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: 'Redux Form',
@@ -1036,7 +1027,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call asyncValidate function on blur', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: 'Redux Form',
@@ -1075,7 +1066,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call handle on focus', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: 'Redux Form'
@@ -1103,7 +1094,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should not change the value of a radio when blur', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: 'Redux Form',
@@ -1153,7 +1144,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call handle on drag start with value', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: 'Redux Form'
@@ -1185,7 +1176,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call handle on drag start without value', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: null
@@ -1215,7 +1206,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call handle on drop', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             title: 'Redux Form'
@@ -1247,7 +1238,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call format function on first render', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             name: 'Redux Form'
@@ -1282,7 +1273,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call parse function on change', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             name: 'redux form'
@@ -1325,7 +1316,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should call parse function on blur', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             name: 'redux form'
@@ -1368,7 +1359,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should not update a value if onBlur is passed undefined', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             name: 'redux form'
@@ -1486,7 +1477,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should parse and format to maintain different type in store', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             age: 42
@@ -1565,7 +1556,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when sync error changes', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             password: 'redux-form sucks',
@@ -1627,7 +1618,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when sync error is cleared', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const usernameInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1674,7 +1665,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when sync warning changes', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             password: 'redux-form sucks',
@@ -1738,7 +1729,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when sync warning is cleared', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const usernameInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1785,7 +1776,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should sync validate with field level validator', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const usernameInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1836,7 +1827,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should sync warn with field level warning function', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const usernameInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1889,7 +1880,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should not generate any warnings by passing api props into custom', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderSpy = createSpy()
       class InputComponent extends Component {
         render() {
@@ -1933,7 +1924,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should only rerender field that has changed', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const input1 = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1976,7 +1967,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onChange callback', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2021,7 +2012,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onChange callback to prevent change', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2068,7 +2059,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onBlur callback', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2113,7 +2104,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onBlur callback to prevent blur', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2160,7 +2151,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onFocus callback', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2205,7 +2196,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onFocus callback to prevent focus', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2252,7 +2243,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onDrop callback', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2298,7 +2289,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onDrop callback to prevent drop', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2347,7 +2338,7 @@ const describeField = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow onDragStart callback', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderInput = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
