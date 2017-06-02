@@ -47,6 +47,7 @@ import {
   hasSubmitFailed,
   fieldPropTypes,
   propTypes,
+  formPropTypes,
   reducer,
   reduxForm,
   registerField,
@@ -194,6 +195,9 @@ describe('index', () => {
   })
   it('should export propTypes', () => {
     expect(propTypes).toEqual(expectedPropTypes)
+  })
+  it('should export formPropTypes', () => {
+    expect(formPropTypes).toEqual(expectedPropTypes)
   })
   it('should export reducer', () => {
     expect(reducer).toExist().toBeA('function')

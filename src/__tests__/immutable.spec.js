@@ -46,6 +46,7 @@ import {
   hasSubmitFailed,
   fieldPropTypes,
   propTypes,
+  formPropTypes,
   reducer,
   reduxForm,
   registerField,
@@ -190,6 +191,9 @@ describe('immutable', () => {
   })
   it('should export propTypes', () => {
     expect(propTypes).toEqual(expectedPropTypes)
+  })
+  it('should export formPropTypes', () => {
+    expect(formPropTypes).toEqual(expectedPropTypes)
   })
   it('should export reducer', () => {
     expect(reducer).toExist().toBeA('function')
