@@ -27,8 +27,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   const Fields = createFields(structure)
   const reducer = createReducer(structure)
   const {allowsArrayErrors, fromJS, getIn, size} = structure
-  const makeStore = initial =>
+  const makeDefaultStore = initial =>
     createStore(combineReducers({form: reducer}), fromJS({form: initial}))
+
+  const makeServerSideRenderedStore = initial =>
+    createStore(combineReducers({form: (state = {}) => state }), fromJS({form: initial}))
 
   class TestComponent extends Component {
     render() {
@@ -36,7 +39,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     }
   }
 
-  const testProps = (state, config = {}) => {
+  const testProps = (state, config = {}, makeStore = makeDefaultStore) => {
     const store = makeStore({testForm: state})
     class Form extends Component {
       render() {
@@ -112,7 +115,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should not pass api props into custom', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const renderSpy = createSpy()
       class ArrayComponent extends Component {
         render() {
@@ -161,7 +164,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(props.fields.name).toBe('foo')
     })
     it('should prefix name when inside FormSection', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: []
@@ -303,7 +306,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide pass through other props', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['bar']
@@ -339,7 +342,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide access to rendered component', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['bar']
@@ -461,7 +464,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide name getter', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['bar']
@@ -484,7 +487,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide value getter', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['bar']
@@ -507,7 +510,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide dirty getter that is true when dirty', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           initial: {
             foo: ['dog']
@@ -533,7 +536,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide dirty getter that is false when pristine', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           initial: {
             foo: ['dog']
@@ -559,7 +562,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide pristine getter that is true when pristine', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           initial: {
             foo: ['dog']
@@ -585,7 +588,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide pristine getter that is false when dirty', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           initial: {
             foo: ['dog']
@@ -611,7 +614,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide sync error for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: [
@@ -667,7 +670,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide sync warning for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: [
@@ -723,7 +726,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should reconnect when name changes', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['a', 'b'],
@@ -767,7 +770,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should not prefix name in fields map callback when inside FormSection', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: {bar: [{val: 'dog'}, {val: 'cat'}]}
@@ -828,7 +831,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should prefix name getter when inside FormSection', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: {bar: [{val: 'dog'}, {val: 'cat'}]}
@@ -862,7 +865,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should not prefix name in fields map callback when inside multiple FormSection', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}}
@@ -929,7 +932,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(components[1].props.input.name).toBe('foo.fighter.bar[1].val')
     })
     it('should prefix name getter when inside multiple FormSection', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: {fighter: {bar: [{val: 'dog'}, {val: 'cat'}]}}
@@ -965,7 +968,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide field-level sync error for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['dog', 'cat']
@@ -1031,7 +1034,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide field-level sync error (with multiple validators) for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['dog', 'cat']
@@ -1100,7 +1103,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide field-level sync warning for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['dog', 'cat']
@@ -1166,7 +1169,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should provide field-level sync warning (with multiple validators) for array field', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['dog', 'cat']
@@ -1235,7 +1238,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should reconnect when props change', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const component = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         constructor() {
@@ -1279,7 +1282,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should allow addition after focus', () => {
-      const store = makeStore()
+      const store = makeDefaultStore()
       const component = createSpy(() => <div />).andCallThrough()
       class Form extends Component {
         constructor() {
@@ -1323,7 +1326,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when items added or removed', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const renderField = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1398,7 +1401,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should rerender when array sync error appears or disappears', () => {
       if (allowsArrayErrors) {
-        const store = makeStore({
+        const store = makeDefaultStore({
           testForm: {
             values: {
               dogs: []
@@ -1494,7 +1497,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when array sync warning appears or disappears', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             dogs: []
@@ -1580,7 +1583,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should rerender when depending value has updated', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             dogs: [
@@ -1650,7 +1653,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should NOT rerender when a value changes', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             dogs: ['Fido', 'Snoopy']
@@ -1700,8 +1703,28 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls.length).toBe(1)
     })
 
+    it('should have value set to initial value on server side rendering', () => {
+      const props = testProps(
+        {},
+        {
+          initialValues: {
+            foo: ['a', 'b', 'c']
+          }
+        },
+        makeServerSideRenderedStore
+      )
+      expect(props.fields.length).toBe(3)
+      const iterate = createSpy()
+      props.fields.forEach(iterate)
+      expect(iterate).toHaveBeenCalled()
+      expect(iterate.calls.length).toBe(3)
+      expect(iterate.calls[0].arguments[0]).toBe('foo[0]')
+      expect(iterate.calls[1].arguments[0]).toBe('foo[1]')
+      expect(iterate.calls[2].arguments[0]).toBe('foo[2]')
+    })
+
     it('should create a list in the store on push(undefined)', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const renderField = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1775,7 +1798,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should create a list in the store on push(value)', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const renderField = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1849,7 +1872,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should create a list in the store on unshift(undefined)', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const renderField = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1923,7 +1946,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should create a list in the store on unshift(value)', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const renderField = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -1997,7 +2020,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should create a list in the store on insert(undefined)', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const renderField = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2071,7 +2094,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should create a list in the store on insert(value)', () => {
-      const store = makeStore({})
+      const store = makeDefaultStore({})
       const renderField = createSpy(props => (
         <input {...props.input} />
       )).andCallThrough()
@@ -2145,7 +2168,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should work with Fields', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             foo: ['firstValue', 'secondValue']
@@ -2190,7 +2213,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should get() actual current value from redux store', () => {
-      const store = makeStore({
+      const store = makeDefaultStore({
         testForm: {
           values: {
             dogs: ['Fido', 'Snoopy']

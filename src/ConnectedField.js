@@ -248,7 +248,8 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
       const initial = initialState !== undefined
         ? initialState
         : initialValues && getIn(initialValues, name)
-      const value = getIn(formState, `values.${name}`)
+      const values = getIn(formState, 'values') || getIn(formState, `initial`) || initialValues
+      const value = getIn(values, name)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
       const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)
