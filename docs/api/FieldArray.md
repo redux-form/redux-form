@@ -48,6 +48,10 @@ Defaults to `false`. **Cannot be used if your component is a stateless function 
 Object with custom props to pass through the `FieldArray` component into a component provided
 to `component` prop. This props will be merged to props provided by `FieldArray` itself.
 
+#### `rerenderOnEveryChange : boolean` [optional]
+
+If `true`, the rendered component will be rerender after every change of `Field` inside `FieldArray`. **This can reduce performance for large lists.**
+
 ## Instance API
 
 The following properties and methods are available on an instance of a `FieldArray` component.
