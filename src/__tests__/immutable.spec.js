@@ -1,6 +1,8 @@
 import expect from 'expect'
 import * as expectedActionTypes from '../actionTypes'
-import expectedPropTypes from '../propTypes'
+import expectedPropTypes, {
+  fieldPropTypes as expectedFieldPropTypes
+} from '../propTypes'
 import {
   actionTypes,
   arrayInsert,
@@ -42,6 +44,7 @@ import {
   isSubmitting,
   hasSubmitSucceeded,
   hasSubmitFailed,
+  fieldPropTypes,
   propTypes,
   reducer,
   reduxForm,
@@ -181,6 +184,9 @@ describe('immutable', () => {
   })
   it('should export hasSubmitFailed', () => {
     expect(hasSubmitFailed).toExist().toBeA('function')
+  })
+  it('should export fieldPropTypes', () => {
+    expect(fieldPropTypes).toEqual(expectedFieldPropTypes)
   })
   it('should export propTypes', () => {
     expect(propTypes).toEqual(expectedPropTypes)
