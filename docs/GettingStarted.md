@@ -2,44 +2,47 @@
 
 The basic implementation of `redux-form` is simple. However, to make the most of it, it's recommended to have basic knowledge on:
 * [Redux](http://redux.js.org/) state container,
-* [React](https://facebook.github.io/react/) and [Higher Order Components (HOCs)](https://facebook.github.io/react/docs/higher-order-components.html).
+* [React](https://facebook.github.io/react/) and [Higher-Order Components (HOCs)](https://facebook.github.io/react/docs/higher-order-components.html).
 
 ## Overview
 
-To connect your React form components to your Redux store you'll need following pieces:
+To connect your React form components to your Redux store you'll need following pieces from the `redux-form` package:
 
 * Redux Reducer: `formReducer`,
-* React HOCs: `reduxForm()` and `<Field/>`.
+* React HOC `reduxForm()` and `<Field/>` component.
 
-It's important to understand their responsibilities. Take a look at the table below:
+It's important to understand their responsibilities:
 
-|               | type      | responsibility |
-|---------------|-----------|----------------|
-| `formReducer` | *reducer* | function that tells how to update the Redux store based on changes coming from the application; those changes are described by Redux actions | 
-| `reduxForm()` | *HOC*     | function that takes configuration object and returns a new function; use it to wrap your `form` component and bind user interaction to dispatching of Redux actions | 
-| `<Field/>`    | *HOC*     | component that lives inside your wrapped `form` component; use it to connect the input components to the `redux-form` logic |
+|               | type        | responsibility |
+|---------------|-------------|----------------|
+| `formReducer` | *reducer*   | function that tells how to update the Redux store based on changes coming from the application; those changes are described by Redux actions | 
+| `reduxForm()` | *HOC*       | function that takes configuration object and returns a new function; use it to wrap your `form` component and bind user interaction to dispatch of Redux actions | 
+| `<Field/>`    | *component* | component that lives inside your wrapped `form` component; use it to connect the input components to the `redux-form` logic |
 
 ## Data flow
 
-Take a look at the simplified diagram below. Note that in most cases you don't need to worry about the [action creators](http://redux-form.com/6.7.0/docs/api/ActionCreators.md/) for yourself, as they're already bound to dispatch for certain actions.
+The diagram below represents the simplified data flow. Note that in most cases you don't need to worry about the [action creators](http://redux-form.com/6.7.0/docs/api/ActionCreators.md/) for yourself, as they're already bound to dispatch for certain actions.
 
 <div style="text-align: center;">
-  <img src="https://cloud.githubusercontent.com/assets/5114422/26726540/c2f60e8c-47a3-11e7-8dd4-13ebd00d656a.png" width="500" style="max-width: 100%;"/>
+  <img src="https://github.com/erikras/redux-form/raw/master/docs/reduxFormDiagram.png" width="500" style="max-width: 100%;"/>
 </div>
 
-The flow is pretty simple. Let's go through a simple example:
-* User clicks on the text input wrapped with `<Field/>` component,
-* Form component wrapped with `reduxForm()` dispatches an action,
-* `formReducer` updates the corresponding state slice,
-* the state slice is then passed back to the input component.
+Let's go through a simple example. We have a form component wrapped with `reduxForm()`. There is one text input inside, wrapped with `<Field/>`. The data flows like this:
 
-With `redux-form` comes a lot more functionalities like validation and formatting handlers, various properties and action creators. This guide describes the basic usage – feel free to dig deeper.
+1. User clicks on the input,
+2. "Focus action" is dispatched,
+3. `formReducer` updates the corresponding state slice,
+4. The state is then passed back to the input.
+
+Same goes for any other interaction like filling the input, changing its state or submitting the form.
+
+With `redux-form` comes a lot more: hooks for validation and formatting handlers, various properties and action creators. This guide describes the basic usage – feel free to dig deeper.
 
 ## Basic Usage Guide
 
 ### Step 1 of 4: Form reducer
 
-Your store should know how to handle actions coming from the wrapped form components. To enable this, we add a `formReducer` reducer to your store. It serves for **all your form components**, so you only have to pass it once.
+The store should know how to handle actions coming from the form components. To enable this, we need to pass the `formReducer` to your store. It serves for **all of your form components**, so you only have to pass it once.
 
 ```js
 import { createStore, combineReducers } from 'redux'
@@ -47,49 +50,54 @@ import { reducer as formReducer } from 'redux-form'
 
 const rootReducer = combineReducers({
   // ...your other reducers here
-  form: formReducer // passing formReducer under 'form' key, see the note below
+  // you have to pass formReducer under 'form' key,
+  // for custom keys look up the docs for 'getFormState'
+  form: formReducer 
 })
 
 const store = createStore(rootReducer)
 ```
 
-**NOTE:** The key used to pass the `redux-form` reducer should be named* **`form`**. If you need a custom key for some reason see [`getFormState` config](http://redux-form.com/6.7.0/docs/api/ReduxForm.md/#-getformstate-function-optional-) for more details.
-
 Now your store knows how to handle actions coming from the form components.
+
+**NOTE:** The key used to pass the `redux-form` reducer should be named **`form`**. If you need a custom key for some reason see [`getFormState` config](http://redux-form.com/6.7.0/docs/api/ReduxForm.md/#-getformstate-function-optional-) for more details.
 
 ### Step 2 of 4: Form component
 
-To make your form component interact with the store, we need to wrap it with `reduxForm()` HOC. This provides your component with information about form state and function to submit your form.
+To make your form component communicate with the store, we need to wrap it with `reduxForm()`. It will provide the props about the form state and function to handle the submit process.
 
 ```js
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 
 const ContactForm = props => {
-	const { handleSubmit } = props
-	return (
-		<form onSubmit={ handleSubmit }>
-			{ /* form body*/ }
-		</form>
-	)
+  const { handleSubmit } = props
+  return (
+    <form onSubmit={ handleSubmit }>
+      { /* form body*/ }
+    </form>
+  )
 }
 
 ContactForm = reduxForm({
-  form: 'contact' // a unique name for this form
+  // a unique name for the form
+  form: 'contact'
 })(ContactForm)
 
 export default ContactForm;
 ```
 
-If the `()()` syntax confuses you, we can break it down into two steps:
+Once we have the form component ready, it's time to add some inputs.
+
+**NOTE**: If the `()()` syntax seems confusing, you can always break it down into two steps:
 
 ```js
 // ...
 
-// Create new, "configured" function
-createReduxForm = reduxForm({ form: 'contact' }) // a unique name for this form
+// create new, "configured" function
+createReduxForm = reduxForm({ form: 'contact' })
 
-// Evaluate it for ContactForm component
+// evaluate it for ContactForm component
 ContactForm = createReduxForm( ContactForm )
 
 export default ContactForm;
@@ -97,46 +105,56 @@ export default ContactForm;
 
 ### Step 3 of 4: Form `<Field/>` Components
 
-Each input component must be placed inside the `component` prop of a `Field` component. The `Field`
-component will pass props such as `value`, `onChange`, `onBlur`, etc. to the `React.DOM.input` 
-component to populate its value and listen for changes.
-  
+The `<Field/>` component connects each input to the store. The basic usage goes as follows:
+
 ```js
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+<Field name="inputName" component="input" type="text" />
+```
+
+It creates an HTML `<input/>` element of type `text`. It also passes additional props such as `value`, `onChange`, `onBlur`, etc. Those are used to track and maintain the input state under the hood.
+
+**NOTE**: `<Field/>` component is much more powerful. Apart from basic input types, it can take a class or a stateless component. When you're ready, go to the [docs](http://redux-form.com/6.7.0/docs/api/Field.md/#usage) to find out more.
+
+Let's finish up our contact form:
+
+```js
+import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 
 const ContactForm = props => {
-	const { handleSubmit } = props
-	return (
-		<form onSubmit={ handleSubmit }>
-			<div>
-				<label htmlFor="firstName">First Name</label>
-				<Field name="firstName" component="input" type="text" />
-			</div>
-			<div>
-				<label htmlFor="lastName">Last Name</label>
-				<Field name="lastName" component="input" type="text" />
-			</div>
-			<div>
-				<label htmlFor="email">Email</label>
-				<Field name="email" component="input" type="email" />
-			</div>
-			<button type="submit">Submit</button>
-		</form>
-	)
+  const { handleSubmit } = props
+  return (
+    <form onSubmit={ handleSubmit }>
+      <div>
+        <label htmlFor="firstName">First Name</label>
+        <Field name="firstName" component="input" type="text" />
+      </div>
+      <div>
+        <label htmlFor="lastName">Last Name</label>
+        <Field name="lastName" component="input" type="text" />
+      </div>
+      <div>
+        <label htmlFor="email">Email</label>
+        <Field name="email" component="input" type="email" />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  )
 }
 
 ContactForm = reduxForm({
-  form: 'contact' // a unique name for this form
+  // a unique name for the form
+  form: 'contact' 
 })(ContactForm)
 
 export default ContactForm;
 ```
 
+From now on, the store should be populated based on actions coming from your form component. We can now handle the submission.
+
 ### Step 4 of 4: Reacting to submit
  
-* Do something with the data that has been submitted. It will be passed as JSON to your `onSubmit`
-function.
+The submitted data is passed as JSON object to your `onSubmit` function. Let's `console.log` it out:
 
 ```js
 import React from 'react'
@@ -144,7 +162,7 @@ import ContactForm from './ContactForm'
 
 class ContactPage extends React.Component {
   submit = (values) => {
-    // Do something with the form values
+    // print the form values to the console
     console.log(values)
   }
   render() {
@@ -154,7 +172,8 @@ class ContactPage extends React.Component {
   }
 }
 ```
-* Potentially set the form values initially, with the `initialValues` prop.
 
-If you're starting out with `redux-form`, a good place to continue learning about how to connect
-up the inputs to `redux-form` would be the [Simple Form Example](https://redux-form.com/6.7.0/examples/simple).
+You can now take it from here. We recommend to check out the [examples](http://redux-form.com/6.7.0/examples/). The common next steps could also be:
+* setting the [initial form values](http://redux-form.com/6.7.0/examples/initializeFromState/),
+* implementing the [validation](http://redux-form.com/6.7.0/examples/syncValidation/),
+* creating dynamic forms with [arrays of fields](http://redux-form.com/6.7.0/examples/fieldArrays/).
