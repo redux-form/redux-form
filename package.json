@@ -54,7 +54,7 @@
   "bugs": {
     "url": "https://github.com/erikras/redux-form/issues"
   },
-  "homepage": "https://redux-form.com/",
+  "homepage": "http://redux-form.com/",
   "dependencies": {
     "deep-equal": "^1.0.1",
     "es6-error": "^4.0.0",
