@@ -648,10 +648,7 @@ const createReduxForm = structure => {
         destroyOnUnmount: PropTypes.bool,
         forceUnregisterOnUnmount: PropTypes.bool,
         form: PropTypes.string.isRequired,
-        initialValues: PropTypes.oneOfType([
-          PropTypes.array,
-          PropTypes.object
-        ]),
+        initialValues: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
         getFormState: PropTypes.func,
         onSubmitFail: PropTypes.func,
         onSubmitSuccess: PropTypes.func,

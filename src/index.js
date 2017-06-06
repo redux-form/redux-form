@@ -1,4 +1,5 @@
 import * as _actions from './actions'
+import * as _actionTypes from './actionTypes'
 export {
   default as defaultShouldAsyncValidate
 } from './defaultShouldAsyncValidate'
@@ -6,12 +7,13 @@ export {default as defaultShouldValidate} from './defaultShouldValidate'
 export {default as Form} from './Form'
 export {default as FormSection} from './FormSection'
 export {default as SubmissionError} from './SubmissionError'
+// alias for propTypes
 export {
   default as propTypes,
   fieldInputPropTypes,
   fieldMetaPropTypes,
   fieldPropTypes,
-  formPropTypes // alias for propTypes
+  formPropTypes
 } from './propTypes'
 export {default as Field} from './Field'
 export {default as Fields} from './Fields'
@@ -35,7 +37,6 @@ export {default as hasSubmitFailed} from './hasSubmitFailed'
 export {default as reduxForm} from './reduxForm'
 export {default as reducer} from './reducer'
 export {default as values} from './values'
-import * as _actionTypes from './actionTypes'
 export const actionTypes = _actionTypes
 export const actions = _actions
 export const {

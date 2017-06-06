@@ -31,7 +31,7 @@ const warn = values => {
   return warnings
 }
 
-const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+const renderField = ({input, label, type, meta: {touched, error, warning}}) =>
   <div>
     <label>{label}</label>
     <div>
@@ -41,7 +41,6 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
           (warning && <span>{warning}</span>))}
     </div>
   </div>
-)
 
 const SyncValidationForm = props => {
   const {handleSubmit, pristine, reset, submitting} = props

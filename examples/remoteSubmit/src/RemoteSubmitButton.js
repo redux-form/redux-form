@@ -10,7 +10,7 @@ const style = {
   fontSize: '16px'
 }
 
-const RemoteSubmitButton = ({dispatch}) => (
+const RemoteSubmitButton = ({dispatch}) =>
   <button
     type="button"
     style={style}
@@ -18,7 +18,6 @@ const RemoteSubmitButton = ({dispatch}) => (
   >
     Submit
   </button>
-)
 //                                  ^^^^^^^^^^^^ name of the form
 
 export default connect()(RemoteSubmitButton)

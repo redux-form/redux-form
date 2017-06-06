@@ -7,7 +7,7 @@ const maxLength = max => value =>
 const maxLength15 = maxLength(15)
 export const minLength = min => value =>
   value && value.length < min ? `Must be ${min} characters or more` : undefined
-export const minLength2 = minLength(2);
+export const minLength2 = minLength(2)
 const number = value =>
   value && isNaN(Number(value)) ? 'Must be a number' : undefined
 const minValue = min => value =>
@@ -32,7 +32,7 @@ export const phoneNumber = value =>
     ? 'Invalid phone number, must be 10 digits'
     : undefined
 
-const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+const renderField = ({input, label, type, meta: {touched, error, warning}}) =>
   <div>
     <label>{label}</label>
     <div>
@@ -42,7 +42,6 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
           (warning && <span>{warning}</span>))}
     </div>
   </div>
-)
 
 const FieldLevelValidationForm = props => {
   const {handleSubmit, pristine, reset, submitting} = props
