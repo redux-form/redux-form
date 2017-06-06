@@ -1,4 +1,4 @@
 import createGetFormAsyncErrors from '../selectors/getFormAsyncErrors'
-import plain from '../structure/plain'
+import immutable from '../structure/immutable'
 
-export default createGetFormAsyncErrors(plain)
+export default createGetFormAsyncErrors(immutable)
