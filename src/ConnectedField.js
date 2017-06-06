@@ -20,7 +20,7 @@ const eventPreventDefault = (event) => {
 
 const eventDataTransferGetData = (event, key) => {
   if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.getData)) {
-    event.dataTransfer.getData(key)
+    return event.dataTransfer.getData(key)
   }
 }
 
