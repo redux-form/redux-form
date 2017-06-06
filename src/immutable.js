@@ -1,4 +1,5 @@
 import * as _actions from './actions'
+import * as _actionTypes from './actionTypes'
 export {
   default as defaultShouldAsyncValidate
 } from './defaultShouldAsyncValidate'
@@ -36,7 +37,6 @@ export {default as hasSubmitFailed} from './immutable/hasSubmitFailed'
 export {default as reduxForm} from './immutable/reduxForm'
 export {default as reducer} from './immutable/reducer'
 export {default as values} from './immutable/values'
-import * as _actionTypes from './actionTypes'
 export const actionTypes = _actionTypes
 export const actions = _actions
 export const {
