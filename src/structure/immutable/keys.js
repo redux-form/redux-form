@@ -1,4 +1,4 @@
-import {Iterable, List} from 'immutable'
+import { Iterable, List } from 'immutable'
 import plainKeys from '../plain/keys'
 
 const empty = List()

@@ -1,4 +1,4 @@
-import {Component, createElement} from 'react'
+import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
@@ -13,12 +13,12 @@ const wrapError = (fn, key) =>
     for (let i = 0; i < validators.length; i++) {
       const result = validators[i](...args)
       if (result) {
-        return {[key]: result}
+        return { [key]: result }
       }
     }
   })
 
-const createFieldArray = ({deepEqual, getIn, size}) => {
+const createFieldArray = ({ deepEqual, getIn, size }) => {
   const ConnectedFieldArray = createConnectedFieldArray({
     deepEqual,
     getIn,

@@ -1,11 +1,11 @@
-import {Component, createElement} from 'react'
+import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 
-const createField = ({deepEqual, getIn, setIn, toJS}) => {
+const createField = ({ deepEqual, getIn, setIn, toJS }) => {
   const ConnectedField = createConnectedField({
     deepEqual,
     getIn,
@@ -82,7 +82,7 @@ const createField = ({deepEqual, getIn, setIn, toJS}) => {
     }
 
     normalize(name, value) {
-      const {normalize} = this.props
+      const { normalize } = this.props
       if (!normalize) {
         return value
       }
