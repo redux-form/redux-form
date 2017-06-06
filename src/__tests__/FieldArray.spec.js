@@ -1700,7 +1700,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls.length).toBe(1)
     })
 
-    it('should rerender when a value changes if rerenderOnEveryChange setted', () => {
+    it('should rerender when a value changes if rerenderOnEveryChange is set', () => {
       const store = makeStore({
         testForm: {
           values: {
