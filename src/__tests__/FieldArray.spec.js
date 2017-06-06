@@ -1700,6 +1700,61 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls.length).toBe(1)
     })
 
+    it('should rerender when a value changes if rerenderOnEveryChange is set', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            dogs: ['Fido', 'Snoopy']
+          }
+        }
+      })
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({fields}) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
+        </div>
+      )).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray
+            name="dogs"
+            component={renderFieldArray}
+            rerenderOnEveryChange
+          />
+        }
+      }
+      const TestForm = reduxForm({form: 'testForm'})(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      // field array rendered
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+
+      // both fields rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(2)
+      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+
+      // change first field
+      renderField.calls[0].arguments[0].input.onChange('Odie')
+
+      // first field rerendered, second field is NOT
+      expect(renderField.calls.length).toBe(3)
+      expect(renderField.calls[2].arguments[0].input.name).toBe('dogs[0]')
+      expect(renderField.calls[2].arguments[0].input.value).toBe('Odie')
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+    })
+
     it('should create a list in the store on push(undefined)', () => {
       const store = makeStore({})
       const renderField = createSpy(props => (

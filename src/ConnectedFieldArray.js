@@ -37,7 +37,10 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
       if (thisValue && nextValue) {
         if (
           thisValue.length !== nextValue.length ||
-          thisValue.every(val => nextValue.some(next => deepEqual(val, next)))
+          (
+            nextProps.rerenderOnEveryChange &&
+            thisValue.some(val => nextValue.every(next => !deepEqual(val, next)))
+          )
         ) {
           return true
         }
@@ -88,6 +91,7 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
         _reduxForm, // eslint-disable-line no-unused-vars
         validate, // eslint-disable-line no-unused-vars
         warn, // eslint-disable-line no-unused-vars
+        rerenderOnEveryChange, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
       const props = createFieldArrayProps(
@@ -108,7 +112,12 @@ const createConnectedFieldArray = ({deepEqual, getIn, size}) => {
   ConnectedFieldArray.propTypes = {
     component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
       .isRequired,
-    props: PropTypes.object
+    props: PropTypes.object,
+    rerenderOnEveryChange: PropTypes.bool
+  }
+
+  ConnectedFieldArray.defaultProps = {
+    rerenderOnEveryChange: false
   }
 
   ConnectedFieldArray.contextTypes = {

@@ -25,4 +25,15 @@ describe('structure.immutable.keys', () => {
       List(['a', 'b', 'c'])
     )
   })
+
+  it('should return keys from plain object', () => {
+    expectEqual(
+      keys({
+        a: 1,
+        b: 2,
+        c: 3
+      }),
+      List(['a', 'b', 'c'])
+    )
+  })
 })

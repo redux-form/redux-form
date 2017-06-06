@@ -5,6 +5,9 @@ const required = value => (value ? undefined : 'Required')
 const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined
 const maxLength15 = maxLength(15)
+export const minLength = min => value =>
+  value && value.length < min ? `Must be ${min} characters or more` : undefined
+export const minLength2 = minLength(2);
 const number = value =>
   value && isNaN(Number(value)) ? 'Must be a number' : undefined
 const minValue = min => value =>
@@ -19,6 +22,14 @@ const tooOld = value =>
 const aol = value =>
   value && /.+@aol\.com/.test(value)
     ? 'Really? You still use AOL for your email?'
+    : undefined
+const alphaNumeric = value =>
+  value && /[^a-zA-Z0-9 ]/i.test(value)
+    ? 'Only alphanumeric characters'
+    : undefined
+export const phoneNumber = value =>
+  value && !/^(0|[1-9][0-9]{9})$/i.test(value)
+    ? 'Invalid phone number, must be 10 digits'
     : undefined
 
 const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
@@ -42,7 +53,8 @@ const FieldLevelValidationForm = props => {
         type="text"
         component={renderField}
         label="Username"
-        validate={[required, maxLength15]}
+        validate={[required, maxLength15, minLength2]}
+        warn={alphaNumeric}
       />
       <Field
         name="email"
@@ -59,6 +71,13 @@ const FieldLevelValidationForm = props => {
         label="Age"
         validate={[required, number, minValue18]}
         warn={tooOld}
+      />
+      <Field
+        name="phone"
+        type="number"
+        component={renderField}
+        label="Phone number"
+        validate={[required, phoneNumber]}
       />
       <div>
         <button type="submit" disabled={submitting}>Submit</button>

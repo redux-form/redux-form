@@ -1,6 +1,6 @@
 # `FormSection`
 
-The `FormSection` component makes it easy to split forms into smaller components that are resuable across multiple forms.
+The `FormSection` component makes it easy to split forms into smaller components that are reusable across multiple forms.
 It does this by prefixing the name of `Field`, `Fields` and `FieldArray` children, at any depth, with the value specified in the `name` prop.
 
 ## Props you can pass to `FormSection`
@@ -20,10 +20,10 @@ passed along to the wrapper component.
 
 ## Example usage
 
-An example use case for `FormSection` is an order form where it's possible to have enter the details of a buyer and a separate recipient.
-The fields for both buyer and recipient are the same and it therefore makes sense to split this section into a component called `Party`.
-Now a `Party` for exampe consists of a fields like `givenName`, `middleName`, `surname` and `address` so again it makes sense to split 
-the address section into it's own reusable component called `Address`.
+An example use case for `FormSection` is an order form where it's possible to enter the details of a buyer and a separate recipient.
+The fields for both buyer and recipient are the same and therefore it makes sense to split this section into a component called `Party`.
+Now a `Party` for example consists of fields like `givenName`, `middleName`, `surname` and `address` so again it makes sense to split 
+the address section into its own reusable component called `Address`.
 
 The above description results in the following code:
 

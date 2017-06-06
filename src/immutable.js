@@ -10,7 +10,8 @@ export {
   default as propTypes,
   fieldInputPropTypes,
   fieldMetaPropTypes,
-  fieldPropTypes
+  fieldPropTypes,
+  formPropTypes // alias for propTypes
 } from './propTypes'
 export {default as Field} from './immutable/Field'
 export {default as Fields} from './immutable/Fields'
