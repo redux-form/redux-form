@@ -17,7 +17,7 @@ const colors = [
   {color: 'Blue', value: '0000ff'}
 ]
 
-const renderDropdownList = ({input, data, valueField, textField}) => (
+const renderDropdownList = ({input, data, valueField, textField}) =>
   <DropdownList
     {...input}
     data={data}
@@ -25,9 +25,8 @@ const renderDropdownList = ({input, data, valueField, textField}) => (
     textField={textField}
     onChange={input.onChange}
   />
-)
 
-const renderMultiselect = ({input, data, valueField, textField}) => (
+const renderMultiselect = ({input, data, valueField, textField}) =>
   <Multiselect
     {...input}
     onBlur={() => input.onBlur()}
@@ -36,20 +35,17 @@ const renderMultiselect = ({input, data, valueField, textField}) => (
     valueField={valueField}
     textField={textField}
   />
-)
 
-const renderSelectList = ({input, data}) => (
+const renderSelectList = ({input, data}) =>
   <SelectList {...input} onBlur={() => input.onBlur()} data={data} />
-)
 
-const renderDateTimePicker = ({input: {onChange, value}, showTime}) => (
+const renderDateTimePicker = ({input: {onChange, value}, showTime}) =>
   <DateTimePicker
     onChange={onChange}
     format="DD MMM YYYY"
     time={showTime}
     value={!value ? null : new Date(value)}
   />
-)
 
 let ReactWidgetsForm = props => {
   const {handleSubmit, pristine, reset, submitting} = props

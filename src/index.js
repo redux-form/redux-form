@@ -6,12 +6,13 @@ export {default as defaultShouldValidate} from './defaultShouldValidate'
 export {default as Form} from './Form'
 export {default as FormSection} from './FormSection'
 export {default as SubmissionError} from './SubmissionError'
+// alias for propTypes
 export {
   default as propTypes,
   fieldInputPropTypes,
   fieldMetaPropTypes,
   fieldPropTypes,
-  formPropTypes // alias for propTypes
+  formPropTypes
 } from './propTypes'
 export {default as Field} from './Field'
 export {default as Fields} from './Fields'

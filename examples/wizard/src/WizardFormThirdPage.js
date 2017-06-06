@@ -3,7 +3,7 @@ import {Field, reduxForm} from 'redux-form'
 import validate from './validate'
 const colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet']
 
-const renderColorSelector = ({input, meta: {touched, error}}) => (
+const renderColorSelector = ({input, meta: {touched, error}}) =>
   <div>
     <select {...input}>
       <option value="">Select a color...</option>
@@ -11,7 +11,6 @@ const renderColorSelector = ({input, meta: {touched, error}}) => (
     </select>
     {touched && error && <span>{error}</span>}
   </div>
-)
 
 const WizardFormThirdPage = props => {
   const {handleSubmit, pristine, previousPage, submitting} = props
