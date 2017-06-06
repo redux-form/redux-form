@@ -1,4 +1,4 @@
 import createHasSubmitFailed from '../selectors/hasSubmitFailed'
-import plain from '../structure/plain'
+import immutable from '../structure/immutable'
 
-export default createHasSubmitFailed(plain)
+export default createHasSubmitFailed(immutable)
