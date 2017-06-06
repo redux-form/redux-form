@@ -1,8 +1,6 @@
 import expect from 'expect'
 import * as expectedActionTypes from '../actionTypes'
-import expectedPropTypes, {
-  fieldPropTypes as expectedFieldPropTypes
-} from '../propTypes'
+import expectedPropTypes, {fieldPropTypes as expectedFieldPropTypes} from '../propTypes'
 import {
   actionTypes,
   arrayInsert,

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form/immutable' // <--- immutable import
+import {Field, reduxForm} from 'redux-form/immutable' // <--- immutable import
 import validate from './validate'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
+const renderField = ({input, label, type, meta: {touched, error}}) =>
   <div>
     <label>{label}</label>
     <div>
@@ -10,10 +10,9 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
       {touched && error && <span>{error}</span>}
     </div>
   </div>
-)
 
 const ImmutableForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props
+  const {handleSubmit, pristine, reset, submitting} = props
   return (
     <form onSubmit={handleSubmit}>
       <Field
