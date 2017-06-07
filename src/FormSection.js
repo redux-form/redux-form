@@ -13,11 +13,11 @@ class FormSection extends Component {
   }
 
   getChildContext() {
-    const {context, props: {name}} = this
+    const {context, props: {name, absolute}} = this
     return {
       _reduxForm: {
         ...context._reduxForm,
-        sectionPrefix: prefixName(context, name)
+        sectionPrefix: absolute ? name : prefixName(context, name)
       }
     }
   }
