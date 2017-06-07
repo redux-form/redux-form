@@ -34,7 +34,7 @@ const ItemList = formValues({showVat: 'withVat'})(MyItemizedList)
 
 These decorated components will now get the props `withVat` and `showVat`, respectively.
 
-## A note on peformance
+## A note on performance
 
 This decorator causes the component to `render()` every time one of the selected values changes. If you have a large form, this can cause some UI lag. (This is the reason that `<Field/>` components are attached to single form values)
 
