@@ -68,6 +68,17 @@ will retain the value of dirty fields when reinitializing.
 where the `redux-form` reducer was mounted. This functionality is rarely needed, and defaults to
 assuming that the reducer is mounted under the `form` key.
 
+#### `immutableProps : Array<String>` [optional]
+
+> Prop names that only require strict-equals, not deep equals, to determine `shouldComponentUpdate`.
+Useful for performance and compatibility with 3rd party immutable libraries.
+Defaults to `[]`.
+
+#### `initialValues : Object<String, String>` [optional]
+
+> The values with which to initialize your form in `componentWillMount()`.
+The values should be in the form `{ field1: 'value1', field2: 'value2' }`.
+
 #### `keepDirtyOnReinitialize : boolean` [optional]
 
 > When set to `true` and `enableReinitialize` is also set, the form will retain the value
@@ -75,11 +86,6 @@ of dirty fields when reinitializing. When this option is not set (the default), 
 the form replaces all field values. This option is useful in situations where the form has
 live updates or continues to be editable after form submission; it prevents
 reinitialization from overwriting user changes. Defaults to `false`.
-
-#### `initialValues : Object<String, String>` [optional]
-
-> The values with which to initialize your form in `componentWillMount()`.
-The values should be in the form `{ field1: 'value1', field2: 'value2' }`.
 
 #### `onChange : Function` [optional]
 

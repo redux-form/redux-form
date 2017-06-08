@@ -305,15 +305,17 @@ const createReduxForm = structure => {
 
         shouldComponentUpdate(nextProps) {
           if (!this.props.pure) return true
-          const {immutables = []} = initialConfig
+          const {immutableProps = []} = initialConfig
           return Object.keys(nextProps).some(prop => {
             // useful to debug rerenders
             // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
             //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
             // }
+            if (~immutableProps.indexOf(prop)) {
+              return this.props[prop] !== nextProps[prop]
+            }
             return (
               !~propsToNotUpdateFor.indexOf(prop) &&
-              !~immutables.indexOf(prop) &&
               !deepEqual(this.props[prop], nextProps[prop])
             )
           })
