@@ -38,11 +38,15 @@ import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
 
 const isReduxFormAction = action =>
-  action &&
-  action.type &&
-  action.type.length > prefix.length &&
-  action.type.substring(0, prefix.length) === prefix
+action &&
+action.type &&
+action.type.length > prefix.length &&
+action.type.substring(0, prefix.length) === prefix
 
+function extracted(keys, newInitialValues, getIn, previousInitialValues, newValues, setIn) {
+
+  return newValues
+}
 const createReducer = structure => {
   const {
     deepEqual,
@@ -60,10 +64,10 @@ const createReducer = structure => {
     const existing = getIn(state, `${key}.${field}`)
     return existing || force
       ? setIn(
-          state,
-          `${key}.${field}`,
-          splice(existing, index, removeNum, value)
-        )
+        state,
+        `${key}.${field}`,
+        splice(existing, index, removeNum, value)
+      )
       : state
   }
   const doPlainSplice = (state, key, field, index, removeNum, value, force) => {
@@ -71,14 +75,14 @@ const createReducer = structure => {
     const existing = plain.getIn(slice, field)
     return existing || force
       ? setIn(
-          state,
-          key,
-          plain.setIn(
-            slice,
-            field,
-            plain.splice(existing, index, removeNum, value)
-          )
+        state,
+        key,
+        plain.setIn(
+          slice,
+          field,
+          plain.splice(existing, index, removeNum, value)
         )
+      )
       : state
   }
   const rootKeys = ['values', 'fields', 'submitErrors', 'asyncErrors']
@@ -274,9 +278,9 @@ const createReducer = structure => {
       const previousValues = getIn(state, 'values')
       const previousInitialValues = getIn(state, 'initial')
       const newInitialValues = mapData
-      
+
       let newValues = previousValues
-      
+
       if (keepDirty && registeredFields) {
         //
         // Keep the value of dirty fields while updating the value of
@@ -294,18 +298,30 @@ const createReducer = structure => {
         keys(registeredFields).forEach(name => {
           const previousInitialValue = getIn(previousInitialValues, name)
           const previousValue = getIn(previousValues, name)
-          
+
           if (deepEqual(previousValue, previousInitialValue)) {
             // Overwrite the old pristine value with the new pristine value
             const newInitialValue = getIn(newInitialValues, name)
             newValues = setIn(newValues, name, newInitialValue)
-          } 
+          }
           
+          keys(newInitialValues).forEach(name => {
+            const previousInitialValue = getIn(previousInitialValues, name)
+            if (typeof previousInitialValue === 'undefined') {
+              // Add new values at the root level.
+              const newInitialValue = getIn(newInitialValues, name)
+              newValues = setIn(newValues, name, newInitialValue)
+            }
+
+          })
         })
+
+        newValues = extracted(keys, newInitialValues, getIn, previousInitialValues, newValues, setIn)
+
       } else {
         newValues = newInitialValues
       }
-      
+
       if (keepSubmitSucceeded && getIn(state, 'submitSucceeded')) {
         result = setIn(result, 'submitSucceeded', true)
       }
