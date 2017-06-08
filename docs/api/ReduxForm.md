@@ -320,10 +320,6 @@ when the form is submitted successfully, or rejected if the submission fails.
 
 `true` when the form is valid (has no validation errors), `false` otherwise.
 
-#### `values : Object`
-
-The current values of all the fields in the form.
-
 #### `wrappedInstance : ReactElement`
 
 A reference to the instance of the component you decorated with `reduxForm()`. Mainly useful for
