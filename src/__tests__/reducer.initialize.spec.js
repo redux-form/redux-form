@@ -418,6 +418,35 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       }
     })
   })
+  
+  it('should not insert null versions of objects into arrays for deleted indices', () => {
+    const values = {
+      myField: [
+        { name: 'One' },
+      ]
+    }
+    const initial = {
+      myField: [
+        { name: 'One' },
+        { name: 'Two' },
+      ]
+    }
+    
+    const registeredFields = {
+      'myField': {name: 'myField', type: 'Field', count: 1},
+      'myField.0.name': {name: 'myField.0.name', type: 'Field', count: 1},
+      'myField.1.name': {name: 'myField.1.name', type: 'Field', count: 0}
+    }
+    
+    const state = reducer(
+      fromJS({ foo: { registeredFields, values, initial } }),
+      initialize('foo', initial, true)
+    )
+    
+    expect(state).toEqualMap({
+      foo: { registeredFields, values, initial }
+    })
+  })
 }
 
 export default describeInitialize
