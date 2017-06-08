@@ -269,7 +269,14 @@ const createReducer = structure => {
       if (registeredFields) {
         result = setIn(result, 'registeredFields', registeredFields)
       }
-      let newValues = mapData
+
+
+      const previousValues = getIn(state, 'values')
+      const previousInitialValues = getIn(state, 'initial')
+      const newInitialValues = mapData
+      
+      let newValues = previousValues
+      
       if (keepDirty && registeredFields) {
         //
         // Keep the value of dirty fields while updating the value of
@@ -284,22 +291,26 @@ const createReducer = structure => {
         // initialize action causes the field to become pristine. That effect
         // is what we want.
         //
-        const previousValues = getIn(state, 'values')
-        const previousInitialValues = getIn(state, 'initial')
         keys(registeredFields).forEach(name => {
           const previousInitialValue = getIn(previousInitialValues, name)
           const previousValue = getIn(previousValues, name)
-          if (!deepEqual(previousValue, previousInitialValue)) {
-            // This field was dirty. Restore the dirty value.
-            newValues = setIn(newValues, name, previousValue)
-          }
+          
+          if (deepEqual(previousValue, previousInitialValue)) {
+            // Overwrite the old pristine value with the new pristine value
+            const newInitialValue = getIn(newInitialValues, name)
+            newValues = setIn(newValues, name, newInitialValue)
+          } 
+          
         })
+      } else {
+        newValues = newInitialValues
       }
+      
       if (keepSubmitSucceeded && getIn(state, 'submitSucceeded')) {
         result = setIn(result, 'submitSucceeded', true)
       }
       result = setIn(result, 'values', newValues)
-      result = setIn(result, 'initial', mapData)
+      result = setIn(result, 'initial', newInitialValues)
       return result
     },
     [REGISTER_FIELD](state, {payload: {name, type}}) {
