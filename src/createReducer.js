@@ -38,15 +38,11 @@ import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
 
 const isReduxFormAction = action =>
-action &&
-action.type &&
-action.type.length > prefix.length &&
-action.type.substring(0, prefix.length) === prefix
+  action &&
+  action.type &&
+  action.type.length > prefix.length &&
+  action.type.substring(0, prefix.length) === prefix
 
-function extracted(keys, newInitialValues, getIn, previousInitialValues, newValues, setIn) {
-
-  return newValues
-}
 const createReducer = structure => {
   const {
     deepEqual,
@@ -64,10 +60,10 @@ const createReducer = structure => {
     const existing = getIn(state, `${key}.${field}`)
     return existing || force
       ? setIn(
-        state,
-        `${key}.${field}`,
-        splice(existing, index, removeNum, value)
-      )
+          state,
+          `${key}.${field}`,
+          splice(existing, index, removeNum, value)
+        )
       : state
   }
   const doPlainSplice = (state, key, field, index, removeNum, value, force) => {
@@ -75,14 +71,14 @@ const createReducer = structure => {
     const existing = plain.getIn(slice, field)
     return existing || force
       ? setIn(
-        state,
-        key,
-        plain.setIn(
-          slice,
-          field,
-          plain.splice(existing, index, removeNum, value)
+          state,
+          key,
+          plain.setIn(
+            slice,
+            field,
+            plain.splice(existing, index, removeNum, value)
+          )
         )
-      )
       : state
   }
   const rootKeys = ['values', 'fields', 'submitErrors', 'asyncErrors']
@@ -315,8 +311,6 @@ const createReducer = structure => {
 
           })
         })
-
-        newValues = extracted(keys, newInitialValues, getIn, previousInitialValues, newValues, setIn)
 
       } else {
         newValues = newInitialValues
