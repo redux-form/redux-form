@@ -90,7 +90,7 @@ const describePlugin = (
       return state
     }
 
-    const reducer = vanillaReducer.plugin({foo: plugin})
+    const reducer = vanillaReducer.plugin({ foo: plugin, bar: plugin })
 
     const state2 = reducer(state1, {type: 'MILK', form: 'foo'})
     expect(state2).toBe(state1) // no change
