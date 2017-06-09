@@ -475,6 +475,66 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       expect(spy.calls.length).toBe(9)
     })
 
+    it('should strict equals props in immutableProps', () => {
+      const store = makeStore({})
+      const inputRender = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const formRender = createSpy()
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({form: 'testForm', immutableProps: ['foo']})(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = {
+            foo: {get no() {throw new Error('props inside an immutableProps object should not be looked at')}}
+          }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state} foo={this.state.foo}/>
+              </Provider>
+              <button onClick={() => this.setState({foo: {no: undefined}})}>
+                Init
+              </button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container />)
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender.calls.length).toBe(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender.calls.length).toBe(1)
+
+      // initialize
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(
+        dom,
+        'button'
+      )
+      
+      TestUtils.Simulate.click(initButton);
+      
+      expect(formRender.calls.length).toBe(2)
+      expect(inputRender.calls.length).toBe(1)
+    })
+    
     it('should initialize values with initialValues on first render', () => {
       const store = makeStore({})
       const inputRender = createSpy(props =>
