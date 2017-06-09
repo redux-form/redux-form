@@ -55,6 +55,7 @@ class Nav extends Component {
           {this.renderItem('/docs/api/FieldArray.md', '`FieldArray`', 1)}
           {this.renderItem('/docs/api/Form.md', '`Form`', 1)}
           {this.renderItem('/docs/api/FormSection.md', '`FormSection`', 1)}
+          {this.renderItem('/docs/api/FormValues.md', '`formValues()`', 1)}
           {this.renderItem('/docs/api/FormValueSelector.md', '`formValueSelector()`', 1)}
           {this.renderItem('/docs/api/Reducer.md', '`reducer`', 1)}
           {this.renderItem('/docs/api/ReducerPlugin.md', '`reducer.plugin()`', 2)}
