@@ -24,7 +24,7 @@ do
   cd $example
   if $rebuild
   then
-    rm -rf node_modules
+    rm -rf node_modules package-lock.json
   else
     rm -rf node_modules/redux-form
     rm -rf node_modules/redux-form-website-template
