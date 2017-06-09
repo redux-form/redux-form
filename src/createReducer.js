@@ -278,39 +278,41 @@ const createReducer = structure => {
       let newValues = previousValues
 
       if (keepDirty && registeredFields) {
-        //
-        // Keep the value of dirty fields while updating the value of
-        // pristine fields. This way, apps can reinitialize forms while
-        // avoiding stomping on user edits.
-        //
-        // Note 1: The initialize action replaces all initial values
-        // regardless of keepDirty.
-        //
-        // Note 2: When a field is dirty, keepDirty is enabled, and the field
-        // value is the same as the new initial value for the field, the
-        // initialize action causes the field to become pristine. That effect
-        // is what we want.
-        //
-        keys(registeredFields).forEach(name => {
-          const previousInitialValue = getIn(previousInitialValues, name)
-          const previousValue = getIn(previousValues, name)
-
-          if (deepEqual(previousValue, previousInitialValue)) {
-            // Overwrite the old pristine value with the new pristine value
-            const newInitialValue = getIn(newInitialValues, name)
-            newValues = setIn(newValues, name, newInitialValue)
-          }
-          
-          keys(newInitialValues).forEach(name => {
+        if (!deepEqual(newInitialValues, previousInitialValues)) {
+          //
+          // Keep the value of dirty fields while updating the value of
+          // pristine fields. This way, apps can reinitialize forms while
+          // avoiding stomping on user edits.
+          //
+          // Note 1: The initialize action replaces all initial values
+          // regardless of keepDirty.
+          //
+          // Note 2: When a field is dirty, keepDirty is enabled, and the field
+          // value is the same as the new initial value for the field, the
+          // initialize action causes the field to become pristine. That effect
+          // is what we want.
+          //
+          keys(registeredFields).forEach(name => {
             const previousInitialValue = getIn(previousInitialValues, name)
-            if (typeof previousInitialValue === 'undefined') {
-              // Add new values at the root level.
+            const previousValue = getIn(previousValues, name)
+
+            if (deepEqual(previousValue, previousInitialValue)) {
+              // Overwrite the old pristine value with the new pristine value
               const newInitialValue = getIn(newInitialValues, name)
               newValues = setIn(newValues, name, newInitialValue)
             }
 
+            keys(newInitialValues).forEach(name => {
+              const previousInitialValue = getIn(previousInitialValues, name)
+              if (typeof previousInitialValue === 'undefined') {
+                // Add new values at the root level.
+                const newInitialValue = getIn(newInitialValues, name)
+                newValues = setIn(newValues, name, newInitialValue)
+              }
+
+            })
           })
-        })
+        }
 
       } else {
         newValues = newInitialValues
