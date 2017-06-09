@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import submit from './submit'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) =>
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
     <label>{label}</label>
     <div>
@@ -10,6 +10,7 @@ const renderField = ({ input, label, type, meta: { touched, error } }) =>
       {touched && error && <span>{error}</span>}
     </div>
   </div>
+)
 
 const RemoteSubmitForm = props => {
   const { error, handleSubmit } = props

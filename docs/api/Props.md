@@ -4,7 +4,7 @@
 
 > The `props` listed on this page are the `props` that `redux-form` generates to give
 to your decorated form component. The `props` that _you pass into your wrapped component_ are
-listed [here](https://redux-form.com/6.7.0/docs/api/ReduxForm.md/).
+listed [here](https://redux-form.com/6.8.0/docs/api/ReduxForm.md/).
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of these
 [`propTypes`](https://github.com/erikras/redux-form/blob/master/src/propTypes.js),

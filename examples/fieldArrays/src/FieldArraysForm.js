@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import validate from './validate'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) =>
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
     <label>{label}</label>
     <div>
@@ -10,13 +10,14 @@ const renderField = ({ input, label, type, meta: { touched, error } }) =>
       {touched && error && <span>{error}</span>}
     </div>
   </div>
+)
 
-const renderHobbies = ({ fields, meta: { error } }) =>
+const renderHobbies = ({ fields, meta: { error } }) => (
   <ul>
     <li>
       <button type="button" onClick={() => fields.push()}>Add Hobby</button>
     </li>
-    {fields.map((hobby, index) =>
+    {fields.map((hobby, index) => (
       <li key={index}>
         <button
           type="button"
@@ -30,17 +31,18 @@ const renderHobbies = ({ fields, meta: { error } }) =>
           label={`Hobby #${index + 1}`}
         />
       </li>
-    )}
+    ))}
     {error && <li className="error">{error}</li>}
   </ul>
+)
 
-const renderMembers = ({ fields, meta: { error, submitFailed } }) =>
+const renderMembers = ({ fields, meta: { error, submitFailed } }) => (
   <ul>
     <li>
       <button type="button" onClick={() => fields.push({})}>Add Member</button>
       {submitFailed && error && <span>{error}</span>}
     </li>
-    {fields.map((member, index) =>
+    {fields.map((member, index) => (
       <li key={index}>
         <button
           type="button"
@@ -62,8 +64,9 @@ const renderMembers = ({ fields, meta: { error, submitFailed } }) =>
         />
         <FieldArray name={`${member}.hobbies`} component={renderHobbies} />
       </li>
-    )}
+    ))}
   </ul>
+)
 
 const FieldArraysForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props

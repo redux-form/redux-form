@@ -37,7 +37,7 @@ const renderField = ({
   label,
   type,
   meta: { touched, error, warning }
-}) =>
+}) => (
   <div>
     <label>{label}</label>
     <div>
@@ -47,6 +47,7 @@ const renderField = ({
           (warning && <span>{warning}</span>))}
     </div>
   </div>
+)
 
 const FieldLevelValidationForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props

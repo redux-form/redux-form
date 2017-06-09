@@ -477,9 +477,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should strict equals props in immutableProps', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -546,9 +546,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should initialize values with initialValues on first render', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         deep: {
@@ -601,9 +601,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should initialize with initialValues on later render if not already initialized', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         deep: {
@@ -695,9 +695,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should NOT reinitialize with initialValues', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -797,9 +797,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should reinitialize with initialValues if enableReinitialize', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -935,9 +935,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -1055,9 +1055,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should not retain dirty fields if keepDirtyOnReinitialize is not set', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -1169,9 +1169,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should be pristine after initialize() if enableReinitialize', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -1246,9 +1246,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should have initialized prop after initialization from initialValues config', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         foo: 'bar'
@@ -1282,9 +1282,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should have initialized prop after initialization from initialize()', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues = {
         foo: 'bar'
@@ -1324,9 +1324,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const initialValues1 = {
         deep: {
@@ -1535,9 +1535,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should destroy on unmount by default', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -1648,9 +1648,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should not destroy on unmount if told not to', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -1920,14 +1920,15 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should provide valid/invalid/values/dirty/pristine getters', () => {
       const store = makeStore({})
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -1964,18 +1965,19 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {}
       })
-      const username = createSpy(props =>
+      const username = createSpy(props => (
         <input {...props.input} type="text" />
-      ).andCallThrough()
-      const password = createSpy(props =>
+      )).andCallThrough()
+      const password = createSpy(props => (
         <input {...props.input} type="password" />
-      ).andCallThrough()
+      )).andCallThrough()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component={username} type="text" />
           <Field name="password" component={password} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2045,11 +2047,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const errors = { username: 'Required' }
       const onSubmitFail = createSpy()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2086,11 +2089,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
       const onSubmitFail = createSpy()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2128,11 +2132,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const errors = { username: 'Required' }
       const onSubmitFail = createSpy()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2169,11 +2174,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const onSubmit = createSpy()
       const onSubmitFail = createSpy()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2212,11 +2218,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const onSubmit = createSpy()
       const onSubmitFail = createSpy()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2255,11 +2262,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const result = { message: 'Good job!' }
       const onSubmitSuccess = createSpy()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2295,11 +2303,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const result = { message: 'Good job!' }
       const onSubmitSuccess = createSpy()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2334,11 +2343,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
       const errors = { username: 'Required' }
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2370,14 +2380,15 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2411,11 +2422,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       })
       const submit = createSpy()
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit(submit)}>
           <Field name="bar" component="textarea" />
           <input type="submit" value="Submit" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm'
@@ -2445,11 +2457,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <FormWrapper onSubmit={handleSubmit}>
           <Field name="bar" component="textarea" />
           <input type="submit" value="Submit" />
         </FormWrapper>
+      )
 
       const submit = createSpy()
       const Decorated = reduxForm({
@@ -2480,11 +2493,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         testForm: {}
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const submitSpy = createSpy().andCall(
         () =>
@@ -2517,11 +2531,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         testForm: {}
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const submitSpy = createSpy().andCall(
         () =>
@@ -2558,14 +2573,15 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="foo" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm'
@@ -2583,14 +2599,15 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should be fine if getFormState returns nothing', () => {
       const store = makeStore({})
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="foo" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2616,10 +2633,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm'
@@ -2645,15 +2663,16 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const asyncValidate = createSpy(() => Promise.resolve()).andCallThrough()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2691,9 +2710,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const asyncValidate = createSpy(
         () => new Promise(resolve => setTimeout(resolve, 100))
       ).andCallThrough()
@@ -2701,10 +2720,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2745,10 +2765,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         }
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2775,9 +2796,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const asyncValidate = createSpy(
         () => new Promise(resolve => setTimeout(resolve, 100))
       ).andCallThrough()
@@ -2785,10 +2806,11 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2821,14 +2843,15 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should reset when reset() called', () => {
       const store = makeStore({})
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2859,9 +2882,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should rerender form, but not fields, when non-redux-form props change', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -2995,9 +3018,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should re-run sync validation when props change iff shouldValidate is overridden', () => {
       const store = makeStore({})
       const formRender = createSpy()
-      const renderInput = createSpy(props =>
+      const renderInput = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const validate = createSpy((values, props) => {
         const errors = {}
         if (getIn(values, 'amount') > props.max) {
@@ -3100,9 +3123,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should properly remove error prop from sync validation', () => {
       const store = makeStore({})
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -3144,9 +3167,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should allow for sync errors to be objects', () => {
       const store = makeStore({})
       const formRender = createSpy()
-      const renderInput = createSpy(props =>
+      const renderInput = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const error = {
         complex: 'object',
         manyKeys: true
@@ -3191,12 +3214,13 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         createSpy(props => <input {...props.input} />).andCallThrough(),
         createSpy(props => <input {...props.input} />).andCallThrough()
       ]
-      const renderArray = ({ fields }) =>
+      const renderArray = ({ fields }) => (
         <div>
-          {fields.map((name, index) =>
+          {fields.map((name, index) => (
             <Field name={name} key={index} component={inputs[index]} />
-          )}
+          ))}
         </div>
+      )
       const validate = values => {
         const errors = { foo: [] }
         const foo = getIn(values, 'foo')
@@ -3306,9 +3330,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should properly remove warning prop from sync warning', () => {
       const store = makeStore({})
-      const input = createSpy(props =>
+      const input = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
 
       class Form extends Component {
@@ -3348,9 +3372,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should allow for sync warnings to be objects', () => {
       const store = makeStore({})
       const formRender = createSpy()
-      const renderInput = createSpy(props =>
+      const renderInput = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const warning = {
         complex: 'object',
         manyKeys: true
@@ -3387,9 +3411,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call async on blur of async blur field', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const asyncErrors = {
         deep: {
@@ -3515,12 +3539,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should call form-level onChange when values change', () => {
       const store = makeStore({})
-      const renderFoo = createSpy(props =>
+      const renderFoo = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
-      const renderBar = createSpy(props =>
+      )).andCallThrough()
+      const renderBar = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const onChange = createSpy()
 
       class Form extends Component {
@@ -3590,12 +3614,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should update sync errors after reset when using field-level validation', () => {
       const store = makeStore({})
-      const renderName = createSpy(props =>
+      const renderName = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
-      const renderAge = createSpy(props =>
+      )).andCallThrough()
+      const renderAge = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const onChange = createSpy()
       const required = value => (value ? undefined : 'Required')
@@ -3722,12 +3746,12 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should update sync warnings after reset when using field-level validation', () => {
       const store = makeStore({})
-      const renderName = createSpy(props =>
+      const renderName = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
-      const renderAge = createSpy(props =>
+      )).andCallThrough()
+      const renderAge = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const onChange = createSpy()
       const required = value => (value ? undefined : 'Required')
@@ -4016,18 +4040,19 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should not call async validate if shouldAsyncValidate returns false', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const asyncValidate = createSpy(() =>
         Promise.reject({ foo: 'bad user!' })
       )
       const shouldAsyncValidate = createSpy().andReturn(false)
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="foo" component={inputRender} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -4124,9 +4149,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should set autofilled and unset it on change', () => {
       const store = makeStore({})
 
-      const renderInput = createSpy(props =>
+      const renderInput = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const renderForm = createSpy()
       const onSubmit = createSpy()
       class Form extends Component {
@@ -4217,9 +4242,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
     it('should not reinitialize values on remount if destroyOnMount is false', () => {
       const store = makeStore({})
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const initialValues = {
         foo: 'fooInitial'
       }
@@ -4602,9 +4627,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('submits (via config) when the SUBMIT action is dispatched', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const onSubmit = createSpy()
 
       class Form extends Component {
@@ -4672,9 +4697,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('submits (via prop) when the SUBMIT action is dispatched', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const onSubmit = createSpy()
 
       class Form extends Component {
@@ -4741,9 +4766,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('does NOT submit (via config) invalid form when the SUBMIT action is dispatched', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const onSubmit = createSpy()
       const formRender = createSpy()
       const validate = values => {
@@ -4866,9 +4891,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('does NOT submit (via prop) invalid form when the SUBMIT action is dispatched', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const onSubmit = createSpy()
       const validate = values => {
@@ -4990,9 +5015,9 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     it('should allow initialize on componentWillMount with sync validation', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props =>
+      const inputRender = createSpy(props => (
         <input {...props.input} />
-      ).andCallThrough()
+      )).andCallThrough()
       const formRender = createSpy()
       const validate = values => {
         const errors = {}

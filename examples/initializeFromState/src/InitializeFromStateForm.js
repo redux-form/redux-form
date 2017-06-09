@@ -69,11 +69,11 @@ let InitializeFromStateForm = props => {
         <div>
           <Field name="favoriteColor" component="select">
             <option value="">Select a color...</option>
-            {colors.map(colorOption =>
+            {colors.map(colorOption => (
               <option value={colorOption} key={colorOption}>
                 {colorOption}
               </option>
-            )}
+            ))}
           </Field>
         </div>
       </div>
