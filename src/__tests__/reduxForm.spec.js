@@ -4104,7 +4104,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(
-        decorated.refs.wrapped.getWrappedInstance().getFieldList()
+        decorated.wrappedRef.getWrappedInstance().getFieldList()
       ).toEqual([])
     })
 

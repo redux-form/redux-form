@@ -19,6 +19,7 @@ import {
   FOCUS,
   INITIALIZE,
   REGISTER_FIELD,
+  REGISTER_FIELDS,
   RESET,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
@@ -148,6 +149,12 @@ export const registerField = (form, name, type) => ({
   type: REGISTER_FIELD,
   meta: {form},
   payload: {name, type}
+})
+
+export const registerFields = (form, fields) => ({
+  type: REGISTER_FIELDS,
+  meta: {form},
+  payload: fields
 })
 
 export const reset = form => ({type: RESET, meta: {form}})

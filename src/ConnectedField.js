@@ -79,7 +79,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
     }
 
     getRenderedComponent() {
-      return this.refs.renderedComponent
+      return this.renderedComponentRef
     }
 
     handleChange(event) {
@@ -244,7 +244,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         onFocus: this.handleFocus
       })
       if (withRef) {
-        custom.ref = 'renderedComponent'
+        custom.ref = el => this.renderedComponentRef = el
       }
       if (typeof component === 'string') {
         const {input, meta} = props // eslint-disable-line no-unused-vars

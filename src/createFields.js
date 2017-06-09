@@ -45,8 +45,9 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
         throw error
       }
       const {context} = this
-      const {_reduxForm: {register}} = context
-      this.names.forEach(name => register(name, 'Field'))
+      const {_reduxForm: {registerAll}} = context
+
+      registerAll(this.names.map(name => ({ name, type: 'Field' })))
     }
 
     componentWillReceiveProps(nextProps) {
@@ -74,7 +75,7 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to Fields'
       )
-      return this.refs.connected.getWrappedInstance().getRenderedComponent()
+      return this.connectedRef.getWrappedInstance().getRenderedComponent()
     }
 
     get names() {
@@ -83,7 +84,7 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
     }
 
     get dirty() {
-      return this.refs.connected.getWrappedInstance().isDirty()
+      return this.connectedRef.getWrappedInstance().isDirty()
     }
 
     get pristine() {
@@ -92,8 +93,7 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
 
     get values() {
       return (
-        this.refs.connected &&
-        this.refs.connected.getWrappedInstance().getValues()
+        this.connectedRef && this.connectedRef.getWrappedInstance().getValues()
       )
     }
 
@@ -103,7 +103,7 @@ const createFields = ({deepEqual, getIn, toJS, size}) => {
         ...this.props,
         names: this.props.names.map(name => prefixName(context, name)),
         _reduxForm: this.context._reduxForm,
-        ref: 'connected'
+        ref: x => this.connectedRef = x
       })
     }
   }

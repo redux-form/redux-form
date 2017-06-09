@@ -100,7 +100,7 @@ const createConnectedFields = ({deepEqual, getIn, toJS, size}) => {
     }
 
     getRenderedComponent() {
-      return this.refs.renderedComponent
+      return this.renderedComponentRef
     }
 
     handleChange(name, event) {
@@ -150,7 +150,7 @@ const createConnectedFields = ({deepEqual, getIn, toJS, size}) => {
         return plain.setIn(accumulator, fieldName, fieldProps)
       }, {})
       if (withRef) {
-        props.ref = 'renderedComponent'
+        props.ref = el => this.renderedComponentRef = el
       }
 
       return createElement(component, {...props, ...custom})
