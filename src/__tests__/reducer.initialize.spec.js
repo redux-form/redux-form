@@ -418,6 +418,119 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       }
     })
   })
+
+  it('should not insert null versions of objects into arrays for deleted indices', () => {
+    const values = {
+      myField: [
+        { name: 'One' },
+      ]
+    }
+    const initial = {
+      myField: [
+        { name: 'One' },
+        { name: 'Two' },
+      ]
+    }
+
+    const registeredFields = {
+      'myField': {name: 'myField', type: 'Field', count: 1},
+      'myField.0.name': {name: 'myField.0.name', type: 'Field', count: 1},
+      'myField.1.name': {name: 'myField.1.name', type: 'Field', count: 0}
+    }
+
+    const state = reducer(
+      fromJS({ foo: { registeredFields, values, initial } }),
+      initialize('foo', initial, true)
+    )
+
+    expect(state).toEqualMap({
+      foo: { registeredFields, values, initial }
+    })
+  })
+
+  it('should add new pristine values at the root level', () => {
+    const newInitial = {
+      oldField: "oldValue",
+      newField: "newValue",
+    }
+
+    const registeredFields = {
+      'oldField': {name: 'oldField', type: 'Field', count: 1},
+    }
+
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields,
+          values: {
+            oldField: "oldValue",
+          },
+          initial: {
+            oldField: "oldValue",
+          }
+        }
+      }),
+      initialize('foo', newInitial, true)
+    )
+
+    expect(state).toEqualMap({
+      foo: {
+        registeredFields,
+        values: {
+          oldField: "oldValue",
+          newField: "newValue",
+        },
+        initial: newInitial
+      }
+    })
+  })
+
+  it('should add new pristine values at nested levels', () => {
+    const newInitial = {
+      group: {
+        oldField: "oldValue",
+        newField: "newValue",
+      }
+    }
+
+    const registeredFields = {
+      'group': {name: 'group', type: 'Field', count: 1},
+      'group.oldField': {name: 'group.oldField', type: 'Field', count: 1},
+    }
+
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields,
+          values: {
+            group: {
+              oldField: "oldValue",
+            }
+          },
+          initial: {
+            group: {
+              oldField: "oldValue",
+            }
+          }
+        }
+      }),
+      initialize('foo', newInitial, true)
+    )
+
+    expect(state).toEqualMap({
+      foo: {
+        registeredFields,
+        values: {
+          group: {
+            oldField: "oldValue",
+            newField: "newValue",
+          }
+        },
+        initial: newInitial
+      }
+    })
+  })
+
 }
 
 export default describeInitialize
