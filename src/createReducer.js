@@ -301,16 +301,16 @@ const createReducer = structure => {
               const newInitialValue = getIn(newInitialValues, name)
               newValues = setIn(newValues, name, newInitialValue)
             }
+          })
 
-            keys(newInitialValues).forEach(name => {
-              const previousInitialValue = getIn(previousInitialValues, name)
-              if (typeof previousInitialValue === 'undefined') {
-                // Add new values at the root level.
-                const newInitialValue = getIn(newInitialValues, name)
-                newValues = setIn(newValues, name, newInitialValue)
-              }
+          keys(newInitialValues).forEach(name => {
+            const previousInitialValue = getIn(previousInitialValues, name)
+            if (typeof previousInitialValue === 'undefined') {
+              // Add new values at the root level.
+              const newInitialValue = getIn(newInitialValues, name)
+              newValues = setIn(newValues, name, newInitialValue)
+            }
 
-            })
           })
         }
 
