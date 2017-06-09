@@ -528,12 +528,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         dom,
         'button'
       )
-        TestUtils.Simulate.click(initButton);
-
-      // no need to rerender form on initialize
+      
+      TestUtils.Simulate.click(initButton);
+      
       expect(formRender.calls.length).toBe(2)
-
-      // check rerendered input
       expect(inputRender.calls.length).toBe(1)
     })
     
