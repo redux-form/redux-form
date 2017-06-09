@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {fromJS, Map, List} from 'immutable'
+import { fromJS, Map, List } from 'immutable'
 import setIn from '../setIn'
 
 describe('structure.immutable.setIn', () => {
@@ -74,7 +74,7 @@ describe('structure.immutable.setIn', () => {
     expect(b)
       .toExist('b missing')
       .toBeA(List)
-      .toEqual(fromJS(['first', {value: 'success'}]))
+      .toEqual(fromJS(['first', { value: 'success' }]))
   })
   it('should handle array paths with existing array with undefined', () => {
     let result = setIn(
@@ -94,7 +94,7 @@ describe('structure.immutable.setIn', () => {
     expect(b)
       .toExist('b missing')
       .toBeA(List)
-      .toEqual(fromJS(['first', {value: 'success'}]))
+      .toEqual(fromJS(['first', { value: 'success' }]))
   })
   it('should handle multiple array paths', () => {
     let result = setIn(new Map(), 'a.b[0].c.d[13].e', 'success')
@@ -141,7 +141,7 @@ describe('structure.immutable.setIn', () => {
   it('should update existing Map', () => {
     let initial = fromJS({
       a: {
-        b: {c: 'one'}
+        b: { c: 'one' }
       }
     })
 
@@ -159,7 +159,7 @@ describe('structure.immutable.setIn', () => {
   it('should update existing List', () => {
     let initial = fromJS({
       a: {
-        b: [{c: 'one'}]
+        b: [{ c: 'one' }]
       }
     })
 
@@ -180,7 +180,7 @@ describe('structure.immutable.setIn', () => {
   it('should not break existing Map', () => {
     let initial = fromJS({
       a: {
-        b: {c: 'one'}
+        b: { c: 'one' }
       }
     })
 
@@ -201,7 +201,7 @@ describe('structure.immutable.setIn', () => {
   it('should not break existing List', () => {
     let initial = fromJS({
       a: {
-        b: [{c: 'one'}, {c: 'two'}]
+        b: [{ c: 'one' }, { c: 'two' }]
       }
     })
 
@@ -228,7 +228,7 @@ describe('structure.immutable.setIn', () => {
   it('should add to an existing List', () => {
     let initial = fromJS({
       a: {
-        b: [{c: 'one'}, {c: 'two'}]
+        b: [{ c: 'one' }, { c: 'two' }]
       }
     })
 

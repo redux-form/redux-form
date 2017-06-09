@@ -68,7 +68,7 @@ import {
   updateSyncWarnings,
   clearAsyncError
 } from '../actions'
-import {isFSA} from 'flux-standard-action'
+import { isFSA } from 'flux-standard-action'
 expect.extend(expectPredicate)
 
 describe('actions', () => {
@@ -208,7 +208,7 @@ describe('actions', () => {
         payload: 'foo'
       })
       .toPass(isFSA)
-    expect(arraySplice('myForm', 'myField', 3, 2, {foo: 'bar'}))
+    expect(arraySplice('myForm', 'myField', 3, 2, { foo: 'bar' }))
       .toEqual({
         type: ARRAY_SPLICE,
         meta: {
@@ -217,7 +217,7 @@ describe('actions', () => {
           index: 3,
           removeNum: 2
         },
-        payload: {foo: 'bar'}
+        payload: { foo: 'bar' }
       })
       .toPass(isFSA)
   })
@@ -348,7 +348,7 @@ describe('actions', () => {
   })
 
   it('should create initialize action', () => {
-    const data = {a: 8, c: 9}
+    const data = { a: 8, c: 9 }
     expect(initialize('myForm', data))
       .toEqual({
         type: INITIALIZE,
@@ -362,7 +362,7 @@ describe('actions', () => {
   })
 
   it('should create initialize action with a keepDirty value', () => {
-    const data = {a: 8, c: 9}
+    const data = { a: 8, c: 9 }
     expect(initialize('myForm', data, true))
       .toEqual({
         type: INITIALIZE,
@@ -612,7 +612,7 @@ describe('actions', () => {
   })
 
   it('should create updateSyncErrors action', () => {
-    expect(updateSyncErrors('myForm', {foo: 'foo error'}))
+    expect(updateSyncErrors('myForm', { foo: 'foo error' }))
       .toEqual({
         type: UPDATE_SYNC_ERRORS,
         meta: {
@@ -644,7 +644,7 @@ describe('actions', () => {
   })
 
   it('should create updateSyncWarnings action', () => {
-    expect(updateSyncWarnings('myForm', {foo: 'foo warning'}))
+    expect(updateSyncWarnings('myForm', { foo: 'foo warning' }))
       .toEqual({
         type: UPDATE_SYNC_WARNINGS,
         meta: {

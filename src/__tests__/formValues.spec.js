@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0 */
 import React from 'react'
-import {createSpy} from 'expect'
-import {Provider} from 'react-redux'
-import {combineReducers as plainCombineReducers, createStore} from 'redux'
-import {combineReducers as immutableCombineReducers} from 'redux-immutablejs'
+import { createSpy } from 'expect'
+import { Provider } from 'react-redux'
+import { combineReducers as plainCombineReducers, createStore } from 'redux'
+import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-dom/test-utils'
 import createReducer from '../createReducer'
 import createReduxForm from '../createReduxForm'
@@ -16,12 +16,18 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
-const describeValues = (name, formValues, structure, combineReducers, expect) => {
+const describeValues = (
+  name,
+  formValues,
+  structure,
+  combineReducers,
+  expect
+) => {
   const reducer = createReducer(structure)
   const reduxForm = createReduxForm(structure)
-  const {fromJS} = structure
+  const { fromJS } = structure
   const makeStore = initial =>
-    createStore(combineReducers({form: reducer}), fromJS({form: initial}))
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   const store = makeStore()
 
@@ -29,7 +35,7 @@ const describeValues = (name, formValues, structure, combineReducers, expect) =>
     form: 'test',
     initialValues: fromJS({
       cat: 'rat',
-      sub: {dog: 'cat'}
+      sub: { dog: 'cat' }
     })
   })(props => <div {...props} />)
 
@@ -75,7 +81,7 @@ const describeValues = (name, formValues, structure, combineReducers, expect) =>
     })
 
     it('should use given prop names', () => {
-      const props = testProps(false, {foo: 'cat', bar: 'sub.dog'})
+      const props = testProps(false, { foo: 'cat', bar: 'sub.dog' })
       expect(props.foo).toEqual('rat')
       expect(props.bar).toEqual('cat')
     })

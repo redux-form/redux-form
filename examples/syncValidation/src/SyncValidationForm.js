@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 const validate = values => {
   const errors = {}
@@ -31,7 +31,12 @@ const warn = values => {
   return warnings
 }
 
-const renderField = ({input, label, type, meta: {touched, error, warning}}) =>
+const renderField = ({
+  input,
+  label,
+  type,
+  meta: { touched, error, warning }
+}) =>
   <div>
     <label>{label}</label>
     <div>
@@ -43,7 +48,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) =>
   </div>
 
 const SyncValidationForm = props => {
-  const {handleSubmit, pristine, reset, submitting} = props
+  const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <Field

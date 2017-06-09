@@ -1,6 +1,6 @@
-import {arraySplice} from '../actions'
+import { arraySplice } from '../actions'
 
-const describeArraySplice = (reducer, expect, {fromJS}) => () => {
+const describeArraySplice = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {
     const state = reducer(
       undefined,
@@ -26,7 +26,7 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           },
           fields: {
             myField: {
-              subField: [{touched: true}]
+              subField: [{ touched: true }]
             }
           },
           submitErrors: {
@@ -52,7 +52,7 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
         },
         fields: {
           myField: {
-            subField: [{}, {touched: true}]
+            subField: [{}, { touched: true }]
           }
         },
         submitErrors: {
@@ -81,9 +81,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -102,9 +102,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           myField: {
             subField: [
               {},
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }
@@ -124,9 +124,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -144,9 +144,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true},
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true },
               {}
             ]
           }
@@ -167,9 +167,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -187,10 +187,10 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
+              { touched: true },
               {},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }
@@ -210,10 +210,10 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -231,9 +231,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }
@@ -253,10 +253,10 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -274,9 +274,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true},
-              {touched: true, visited: true}
+              { touched: true, visited: true },
+              { touched: true },
+              { touched: true, visited: true }
             ]
           }
         }
@@ -296,10 +296,10 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -317,9 +317,9 @@ const describeArraySplice = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }

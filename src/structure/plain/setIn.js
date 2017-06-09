@@ -1,4 +1,4 @@
-import {toPath} from 'lodash'
+import { toPath } from 'lodash'
 
 const setInWithPath = (state, value, path, pathIndex) => {
   if (pathIndex >= path.length) {

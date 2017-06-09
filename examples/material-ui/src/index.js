@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import {Provider} from 'react-redux'
-import {createStore, combineReducers} from 'redux'
-import {reducer as reduxFormReducer} from 'redux-form'
+import { Provider } from 'react-redux'
+import { createStore, combineReducers } from 'redux'
+import { reducer as reduxFormReducer } from 'redux-form'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {
@@ -55,11 +55,11 @@ let render = () => {
 
           <Markdown content={readme} />
 
-          <div style={{textAlign: 'center'}}>
+          <div style={{ textAlign: 'center' }}>
             <a
               href="https://codesandbox.io/s/W6YnZm1po"
               target="_blank"
-              style={{fontSize: '1.5em'}}
+              style={{ fontSize: '1.5em' }}
             >
               <i className="fa fa-codepen" /> Open in Sandbox
             </a>

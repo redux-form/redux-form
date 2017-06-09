@@ -1,6 +1,6 @@
-import {reset} from '../actions'
+import { reset } from '../actions'
 
-const describeReset = (reducer, expect, {fromJS}) => () => {
+const describeReset = (reducer, expect, { fromJS }) => () => {
   it('should reset values on reset on with previous state', () => {
     const state = reducer(
       fromJS({
@@ -114,8 +114,8 @@ const describeReset = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: [
-            {name: 'username', type: 'Field'},
-            {name: 'password', type: 'Field'}
+            { name: 'username', type: 'Field' },
+            { name: 'password', type: 'Field' }
           ],
           values: {
             myField: 'bar'
@@ -132,8 +132,8 @@ const describeReset = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         registeredFields: [
-          {name: 'username', type: 'Field'},
-          {name: 'password', type: 'Field'}
+          { name: 'username', type: 'Field' },
+          { name: 'password', type: 'Field' }
         ]
       }
     })

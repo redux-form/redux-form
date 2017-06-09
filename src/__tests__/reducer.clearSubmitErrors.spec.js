@@ -1,6 +1,6 @@
-import {clearSubmitErrors} from '../actions'
+import { clearSubmitErrors } from '../actions'
 
-const describeClearSubmitErrors = (reducer, expect, {fromJS}) => () => {
+const describeClearSubmitErrors = (reducer, expect, { fromJS }) => () => {
   it('should do nothing on clear submit errors with no previous state', () => {
     const state = reducer(undefined, clearSubmitErrors('foo'))
     expect(state).toEqualMap({

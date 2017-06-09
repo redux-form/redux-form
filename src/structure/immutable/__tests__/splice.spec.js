@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {fromJS, List} from 'immutable'
+import { fromJS, List } from 'immutable'
 import splice from '../splice'
 
 describe('structure.immutable.splice', () => {

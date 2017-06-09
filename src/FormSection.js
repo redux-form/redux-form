@@ -1,4 +1,4 @@
-import React, {createElement, Component} from 'react'
+import React, { createElement, Component } from 'react'
 import PropTypes from 'prop-types'
 import prefixName from './util/prefixName'
 
@@ -13,7 +13,7 @@ class FormSection extends Component {
   }
 
   getChildContext() {
-    const {context, props: {name}} = this
+    const { context, props: { name } } = this
     return {
       _reduxForm: {
         ...context._reduxForm,

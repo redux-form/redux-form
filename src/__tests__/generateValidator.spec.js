@@ -1,4 +1,4 @@
-import {createSpy} from 'expect'
+import { createSpy } from 'expect'
 import generateValidator from '../generateValidator'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
@@ -7,7 +7,7 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeGenerateValidator = (name, structure, expect) => {
-  const {fromJS} = structure
+  const { fromJS } = structure
   const required = value => (value == null ? 'Required' : undefined)
   const minValue = min => value =>
     value && value < min ? 'Too low' : undefined
@@ -92,9 +92,9 @@ const describeGenerateValidator = (name, structure, expect) => {
 
     it('allows validation to refer to props', () => {
       const withPropsSpy = createSpy(withProps).andCallThrough()
-      const props1 = {valid: false}
-      const props2 = {valid: true}
-      const validator = generateValidator({foo: withPropsSpy}, structure)
+      const props1 = { valid: false }
+      const props2 = { valid: true }
+      const validator = generateValidator({ foo: withPropsSpy }, structure)
 
       expect(withPropsSpy).toNotHaveBeenCalled()
 
@@ -215,7 +215,7 @@ const describeGenerateValidator = (name, structure, expect) => {
         foo: 'Required'
       })
 
-      const values2 = fromJS({foo: '3'})
+      const values2 = fromJS({ foo: '3' })
       const result2 = validator(values2)
       expect(requiredSpy.calls.length).toBe(2)
       expect(requiredSpy.calls[1].arguments[0]).toBe('3')
@@ -228,7 +228,7 @@ const describeGenerateValidator = (name, structure, expect) => {
         foo: 'Too low'
       })
 
-      const values3 = fromJS({foo: '4'})
+      const values3 = fromJS({ foo: '4' })
       const result3 = validator(values3)
       expect(requiredSpy.calls.length).toBe(3)
       expect(requiredSpy.calls[2].arguments[0]).toBe('4')

@@ -1,6 +1,6 @@
-import {touch} from '../actions'
+import { touch } from '../actions'
 
-const describeTouch = (reducer, expect, {fromJS}) => () => {
+const describeTouch = (reducer, expect, { fromJS }) => () => {
   it('should mark fields as touched on touch', () => {
     const state = reducer(
       fromJS({

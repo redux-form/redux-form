@@ -1,6 +1,6 @@
-import {arrayPop} from '../actions'
+import { arrayPop } from '../actions'
 
-const describeArrayPop = (reducer, expect, {fromJS}) => () => {
+const describeArrayPop = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with no array', () => {
     const state = reducer(
       fromJS({
@@ -25,10 +25,10 @@ const describeArrayPop = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -46,9 +46,9 @@ const describeArrayPop = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true},
-              {touched: true, visited: true}
+              { touched: true, visited: true },
+              { touched: true },
+              { touched: true, visited: true }
             ]
           }
         }

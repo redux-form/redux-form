@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0 */
-import React, {Component} from 'react'
-import {createSpy} from 'expect'
-import {Provider} from 'react-redux'
-import {combineReducers as plainCombineReducers, createStore} from 'redux'
-import {combineReducers as immutableCombineReducers} from 'redux-immutablejs'
+import React, { Component } from 'react'
+import { createSpy } from 'expect'
+import { Provider } from 'react-redux'
+import { combineReducers as plainCombineReducers, createStore } from 'redux'
+import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-dom/test-utils'
 import createReduxForm from '../createReduxForm'
 import createReducer from '../createReducer'
@@ -32,13 +32,13 @@ const describeForm = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const reducer = createReducer(structure)
-  const {fromJS, getIn} = structure
+  const { fromJS, getIn } = structure
   const makeStore = (initial = {}, logger) => {
-    const reducers = {form: reducer}
+    const reducers = { form: reducer }
     if (logger) {
       reducers.logger = logger
     }
-    return createStore(combineReducers(reducers), fromJS({form: initial}))
+    return createStore(combineReducers(reducers), fromJS({ form: initial }))
   }
 
   describe(name, () => {
@@ -75,7 +75,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const DecoratedTestForm = reduxForm({form: 'testForm'})(TestForm)
+      const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm />
@@ -113,7 +113,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const DecoratedTestForm = reduxForm({form: 'testForm'})(TestForm)
+      const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm />
@@ -132,9 +132,9 @@ const describeForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 42})
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 42})
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
     })
 
     it('should call the onSubmit given to <Form> when SUBMIT action is dispatched', () => {
@@ -155,7 +155,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const DecoratedTestForm = reduxForm({form: 'testForm'})(TestForm)
+      const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm />
@@ -168,9 +168,9 @@ const describeForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 42})
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 42})
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
     })
 
     it('should properly handle submission errors', () => {
@@ -182,7 +182,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
         }
       })
       const onSubmit = createSpy().andThrow(
-        new SubmissionError({_error: 'Invalid'})
+        new SubmissionError({ _error: 'Invalid' })
       )
       const formRender = createSpy()
       class TestForm extends Component {
@@ -195,7 +195,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const DecoratedTestForm = reduxForm({form: 'testForm'})(TestForm)
+      const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm />
@@ -216,9 +216,9 @@ const describeForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 42})
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 42})
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
 
       expect(formRender.calls.length).toBe(3)
       expect(formRender.calls[2].arguments[0].error).toBe('Invalid')
@@ -340,9 +340,9 @@ const describeForm = (name, structure, combineReducers, expect) => {
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({foo: 'hello'})
+      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
       expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({foo: 'hello'})
+      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
     })
   })
 }

@@ -1,14 +1,14 @@
 import React from 'react'
-import {values as valuesDecorator} from 'redux-form/immutable'
-import {Code} from 'redux-form-website-template'
+import { values as valuesDecorator } from 'redux-form/immutable'
+import { Code } from 'redux-form-website-template'
 
 /**
  * This is just like the Values component that the other examples import, except that it works
  * with Immutable JS.
  */
-const ImmutableValues = ({form}) => {
-  const decorator = valuesDecorator({form})
-  const component = ({values}) => {
+const ImmutableValues = ({ form }) => {
+  const decorator = valuesDecorator({ form })
+  const component = ({ values }) => {
     return (
       <div>
         <h2>Values</h2>

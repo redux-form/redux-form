@@ -1,5 +1,5 @@
-import {List, Map} from 'immutable'
-import {toPath} from 'lodash'
+import { List, Map } from 'immutable'
+import { toPath } from 'lodash'
 
 const arrayPattern = /\[(\d+)\]/
 

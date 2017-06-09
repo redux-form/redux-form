@@ -1,6 +1,6 @@
-import {autofill, change} from '../actions'
+import { autofill, change } from '../actions'
 
-const describeBlur = (reducer, expect, {fromJS}) => () => {
+const describeBlur = (reducer, expect, { fromJS }) => () => {
   it('should set value on autofill with empty state', () => {
     const state = reducer(undefined, autofill('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({

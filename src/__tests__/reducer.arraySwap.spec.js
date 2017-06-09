@@ -1,6 +1,6 @@
-import {arraySwap} from '../actions'
+import { arraySwap } from '../actions'
 
-const describeArraySwap = (reducer, expect, {fromJS}) => () => {
+const describeArraySwap = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with empty state', () => {
     const state = reducer(undefined, arraySwap('foo', 'myField', 0, 1))
     expect(state).toEqualMap({
@@ -20,9 +20,9 @@ const describeArraySwap = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true, visited: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true, visited: true }
               ]
             }
           },
@@ -45,9 +45,9 @@ const describeArraySwap = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         },

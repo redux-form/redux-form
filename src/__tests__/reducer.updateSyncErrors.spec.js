@@ -1,6 +1,6 @@
-import {updateSyncErrors} from '../actions'
+import { updateSyncErrors } from '../actions'
 
-const describeUpdateSyncErrors = (reducer, expect, {fromJS, setIn}) => () => {
+const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
   it('should update sync errors', () => {
     const state = reducer(
       fromJS({
@@ -84,8 +84,8 @@ const describeUpdateSyncErrors = (reducer, expect, {fromJS, setIn}) => () => {
         }
       }),
       updateSyncErrors('foo', {
-        myField: {complex: true, text: 'myField error'},
-        myOtherField: {complex: true, text: 'myOtherField error'}
+        myField: { complex: true, text: 'myField error' },
+        myOtherField: { complex: true, text: 'myOtherField error' }
       })
     )
     expect(state).toEqual(
@@ -100,8 +100,8 @@ const describeUpdateSyncErrors = (reducer, expect, {fromJS, setIn}) => () => {
         }),
         'foo.syncErrors',
         {
-          myField: {complex: true, text: 'myField error'},
-          myOtherField: {complex: true, text: 'myOtherField error'}
+          myField: { complex: true, text: 'myField error' },
+          myOtherField: { complex: true, text: 'myOtherField error' }
         }
       )
     )

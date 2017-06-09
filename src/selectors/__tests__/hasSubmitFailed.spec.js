@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeHasSubmitFailed = (name, structure, expect) => {
   const hasSubmitFailed = createHasSubmitFailed(structure)
 
-  const {fromJS, getIn} = structure
+  const { fromJS, getIn } = structure
 
   describe(name, () => {
     it('should return a function XXX', () => {

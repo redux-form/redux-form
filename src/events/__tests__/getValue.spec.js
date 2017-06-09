@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {noop} from 'lodash'
+import { noop } from 'lodash'
 import getValue from '../getValue'
 
 describe('getValue', () => {
@@ -19,16 +19,16 @@ describe('getValue', () => {
   })
 
   it('should not unwrap value if non-event object containing value key is passed', () => {
-    expect(getValue({value: 5}, true)).toEqual({value: 5})
-    expect(getValue({value: 5}, false)).toEqual({value: 5})
-    expect(getValue({value: true}, true)).toEqual({value: true})
-    expect(getValue({value: true}, false)).toEqual({value: true})
-    expect(getValue({value: false}, true)).toEqual({value: false})
-    expect(getValue({value: false}, false)).toEqual({value: false})
+    expect(getValue({ value: 5 }, true)).toEqual({ value: 5 })
+    expect(getValue({ value: 5 }, false)).toEqual({ value: 5 })
+    expect(getValue({ value: true }, true)).toEqual({ value: true })
+    expect(getValue({ value: true }, false)).toEqual({ value: true })
+    expect(getValue({ value: false }, true)).toEqual({ value: false })
+    expect(getValue({ value: false }, false)).toEqual({ value: false })
   })
 
   it('should return value if object NOT containing value key is passed', () => {
-    const foo = {bar: 5, baz: 8}
+    const foo = { bar: 5, baz: 8 }
     expect(getValue(foo)).toBe(foo)
   })
 
@@ -276,9 +276,9 @@ describe('getValue', () => {
 
   it('should return selected options if is a multiselect', () => {
     const options = [
-      {selected: true, value: 'foo'},
-      {selected: true, value: 'bar'},
-      {selected: false, value: 'baz'}
+      { selected: true, value: 'foo' },
+      { selected: true, value: 'bar' },
+      { selected: false, value: 'baz' }
     ]
     const expected = options
       .filter(option => option.selected)

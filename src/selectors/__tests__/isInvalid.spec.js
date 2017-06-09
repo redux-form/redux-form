@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeIsInvalid = (name, structure, expect) => {
   const isInvalid = createIsInvalid(structure)
 
-  const {fromJS, getIn, setIn} = structure
+  const { fromJS, getIn, setIn } = structure
   const getFormState = state => getIn(state, 'form')
 
   describe(name, () => {
@@ -58,8 +58,8 @@ const describeIsInvalid = (name, structure, expect) => {
                     cat: 'Garfield'
                   },
                   registeredFields: {
-                    dog: {name: 'dog', type: 'Field', count: 1},
-                    cat: {name: 'cat', type: 'Field', count: 1}
+                    dog: { name: 'dog', type: 'Field', count: 1 },
+                    cat: { name: 'cat', type: 'Field', count: 1 }
                   },
                   syncErrors: {
                     horse: 'Too old'
@@ -88,8 +88,8 @@ const describeIsInvalid = (name, structure, expect) => {
                     cat: 'Garfield'
                   },
                   registeredFields: {
-                    dog: {name: 'dog', type: 'Field', count: 1},
-                    cat: {name: 'cat', type: 'Field', count: 1}
+                    dog: { name: 'dog', type: 'Field', count: 1 },
+                    cat: { name: 'cat', type: 'Field', count: 1 }
                   }
                 }
               }
@@ -115,8 +115,8 @@ const describeIsInvalid = (name, structure, expect) => {
                     cats: ['Garfield']
                   },
                   registeredFields: {
-                    dog: {name: 'dog', type: 'Field', count: 1},
-                    cats: {name: 'cats', type: 'FieldArray', count: 1}
+                    dog: { name: 'dog', type: 'Field', count: 1 },
+                    cats: { name: 'cats', type: 'FieldArray', count: 1 }
                   }
                 }
               }
@@ -145,8 +145,8 @@ const describeIsInvalid = (name, structure, expect) => {
                 error: 'Bad Data',
                 syncError: true,
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cat: {name: 'cat', type: 'Field', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 }
               }
             }
@@ -166,8 +166,8 @@ const describeIsInvalid = (name, structure, expect) => {
                   cat: 'Garfield'
                 },
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cat: {name: 'cat', type: 'Field', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 },
                 asyncErrors: {
                   horse: 'Too old'
@@ -190,8 +190,8 @@ const describeIsInvalid = (name, structure, expect) => {
                   cat: 'Garfield'
                 },
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cat: {name: 'cat', type: 'Field', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 },
                 asyncErrors: {
                   dog: 'Too old'
@@ -214,8 +214,8 @@ const describeIsInvalid = (name, structure, expect) => {
                   cats: ['Garfield']
                 },
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cats: {name: 'cats', type: 'FieldArray', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cats: { name: 'cats', type: 'FieldArray', count: 1 }
                 },
                 asyncErrors: {
                   cats: {
@@ -240,8 +240,8 @@ const describeIsInvalid = (name, structure, expect) => {
                   cat: 'Garfield'
                 },
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cat: {name: 'cat', type: 'Field', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 },
                 submitErrors: {
                   horse: 'Too old'
@@ -264,8 +264,8 @@ const describeIsInvalid = (name, structure, expect) => {
                   cat: 'Garfield'
                 },
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cat: {name: 'cat', type: 'Field', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 },
                 submitErrors: {
                   dog: 'Too old'
@@ -288,8 +288,8 @@ const describeIsInvalid = (name, structure, expect) => {
                   cats: ['Garfield']
                 },
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cats: {name: 'cats', type: 'FieldArray', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cats: { name: 'cats', type: 'FieldArray', count: 1 }
                 },
                 submitErrors: {
                   cats: {
@@ -314,8 +314,8 @@ const describeIsInvalid = (name, structure, expect) => {
                   cat: 'Garfield'
                 },
                 registeredFields: {
-                  dog: {name: 'dog', type: 'Field', count: 1},
-                  cat: {name: 'cat', type: 'Field', count: 1}
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 },
                 submitErrors: {
                   dog: 'That dog is ugly'

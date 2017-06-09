@@ -1,6 +1,6 @@
-import {setSubmitFailed} from '../actions'
+import { setSubmitFailed } from '../actions'
 
-const describeSetSubmitFailed = (reducer, expect, {fromJS}) => () => {
+const describeSetSubmitFailed = (reducer, expect, { fromJS }) => () => {
   it('should set submitFailed flag on submitFailed', () => {
     const state = reducer(
       fromJS({

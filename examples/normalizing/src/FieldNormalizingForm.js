@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import normalizePhone from './normalizePhone'
 
 const upper = value => value && value.toUpperCase()
@@ -10,7 +10,7 @@ const greaterThan = otherField => (value, previousValue, allValues) =>
   parseFloat(value) > parseFloat(allValues[otherField]) ? value : previousValue
 
 const FieldNormalizingForm = props => {
-  const {handleSubmit, pristine, reset, submitting} = props
+  const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -83,5 +83,5 @@ const FieldNormalizingForm = props => {
 
 export default reduxForm({
   form: 'normalizing', // a unique identifier for this form
-  initialValues: {min: '1', max: '10'}
+  initialValues: { min: '1', max: '10' }
 })(FieldNormalizingForm)

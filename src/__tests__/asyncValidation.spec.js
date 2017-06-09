@@ -1,6 +1,6 @@
-import expect, {createSpy} from 'expect'
+import expect, { createSpy } from 'expect'
 import isPromise from 'is-promise'
-import {noop} from 'lodash'
+import { noop } from 'lodash'
 import asyncValidation from '../asyncValidation'
 
 describe('asyncValidation', () => {
@@ -45,7 +45,7 @@ describe('asyncValidation', () => {
   })
 
   it('should call start, fn, and stop on promise reject', () => {
-    const errors = {foo: 'error'}
+    const errors = { foo: 'error' }
     const fn = createSpy().andReturn(Promise.reject(errors))
     const start = createSpy()
     const stop = createSpy()

@@ -1,6 +1,6 @@
-import {arrayPush} from '../actions'
+import { arrayPush } from '../actions'
 
-const describeArrayPush = (reducer, expect, {fromJS}) => () => {
+const describeArrayPush = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {
     const state = reducer(undefined, arrayPush('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({
@@ -55,9 +55,9 @@ const describeArrayPush = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -75,9 +75,9 @@ const describeArrayPush = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true},
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true },
               {}
             ]
           }

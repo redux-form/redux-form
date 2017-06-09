@@ -1,6 +1,6 @@
-import {arrayRemoveAll} from '../actions'
+import { arrayRemoveAll } from '../actions'
 
-const describeArrayRemoveAll = (reducer, expect, {fromJS}) => () => {
+const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with undefined', () => {
     const state = reducer(
       fromJS({
@@ -73,10 +73,10 @@ const describeArrayRemoveAll = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }

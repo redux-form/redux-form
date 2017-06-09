@@ -8,7 +8,7 @@ import addExpectations from '../../__tests__/addExpectations'
 const describeGetFormSyncErrors = (name, structure, expect) => {
   const getFormSyncErrors = createGetFormSyncErrors(structure)
 
-  const {fromJS, getIn} = structure
+  const { fromJS, getIn } = structure
 
   describe(name, () => {
     it('should return a function', () => {

@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0 */
-import React, {Component} from 'react'
-import {createSpy} from 'expect'
-import {Provider} from 'react-redux'
-import {combineReducers as plainCombineReducers, createStore} from 'redux'
-import {combineReducers as immutableCombineReducers} from 'redux-immutablejs'
+import React, { Component } from 'react'
+import { createSpy } from 'expect'
+import { Provider } from 'react-redux'
+import { combineReducers as plainCombineReducers, createStore } from 'redux'
+import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-dom/test-utils'
 import createReduxForm from '../createReduxForm'
 import createReducer from '../createReducer'
@@ -23,9 +23,9 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
   const Fields = createFields(structure)
   const FieldArray = createFieldArray(structure)
   const reducer = createReducer(structure)
-  const {fromJS} = structure
+  const { fromJS } = structure
   const makeStore = initial =>
-    createStore(combineReducers({form: reducer}), fromJS({form: initial}))
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   describe(name, () => {
     it('should throw an error if not in ReduxForm', () => {
@@ -57,7 +57,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -86,7 +86,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
               name="foo"
               component="section"
               className="form-section"
-              style={{fontWeight: 'bold'}}
+              style={{ fontWeight: 'bold' }}
             >
               <Field name="bar" component="input" />
               <Field name="baz" component="input" />
@@ -94,7 +94,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -135,7 +135,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -162,7 +162,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
               }
             },
             registeredFields: {
-              'foo.bar': {name: 'foo.bar', type: 'Field', count: 1}
+              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 }
             }
           }
         }
@@ -193,7 +193,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -222,8 +222,8 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
               }
             },
             registeredFields: {
-              'foo.bar': {name: 'foo.bar', type: 'Field', count: 1},
-              'foo.baz': {name: 'foo.baz', type: 'Field', count: 1}
+              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 },
+              'foo.baz': { name: 'foo.baz', type: 'Field', count: 1 }
             }
           }
         }
@@ -244,7 +244,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
       const renderField = createSpy(props =>
         <input {...props.input} />
       ).andCallThrough()
-      const renderFieldArray = createSpy(({fields}) =>
+      const renderFieldArray = createSpy(({ fields }) =>
         <div>
           {fields.map(field =>
             <Field name={field} component={renderField} key={field} />
@@ -267,7 +267,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -290,10 +290,10 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
               }
             },
             registeredFields: {
-              'foo.bar': {name: 'foo.bar', type: 'FieldArray', count: 1},
-              'foo.bar[0]': {name: 'foo.bar[0]', type: 'Field', count: 1},
-              'foo.bar[1]': {name: 'foo.bar[1]', type: 'Field', count: 1},
-              'foo.bar[2]': {name: 'foo.bar[2]', type: 'Field', count: 1}
+              'foo.bar': { name: 'foo.bar', type: 'FieldArray', count: 1 },
+              'foo.bar[0]': { name: 'foo.bar[0]', type: 'Field', count: 1 },
+              'foo.bar[1]': { name: 'foo.bar[1]', type: 'Field', count: 1 },
+              'foo.bar[2]': { name: 'foo.bar[2]', type: 'Field', count: 1 }
             }
           }
         }
@@ -310,9 +310,9 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
               }
             },
             registeredFields: {
-              'foo.bar': {name: 'foo.bar', type: 'FieldArray', count: 1},
-              'foo.bar[0]': {name: 'foo.bar[0]', type: 'Field', count: 1},
-              'foo.bar[1]': {name: 'foo.bar[1]', type: 'Field', count: 1}
+              'foo.bar': { name: 'foo.bar', type: 'FieldArray', count: 1 },
+              'foo.bar[0]': { name: 'foo.bar[0]', type: 'Field', count: 1 },
+              'foo.bar[1]': { name: 'foo.bar[1]', type: 'Field', count: 1 }
             }
           }
         }
@@ -346,7 +346,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />

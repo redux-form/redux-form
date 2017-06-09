@@ -1,6 +1,6 @@
-import {change} from '../actions'
+import { change } from '../actions'
 
-const describeChange = (reducer, expect, {fromJS}) => () => {
+const describeChange = (reducer, expect, { fromJS }) => () => {
   it('should set value on change with empty state', () => {
     const state = reducer(undefined, change('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({

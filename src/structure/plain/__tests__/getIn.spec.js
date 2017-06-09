@@ -20,15 +20,15 @@ describe('structure.plain.getIn', () => {
   })
 
   it('should get shallow values', () => {
-    expect(getIn({foo: 'bar'}, 'foo')).toBe('bar')
-    expect(getIn({foo: 42}, 'foo')).toBe(42)
-    expect(getIn({foo: false}, 'foo')).toBe(false)
+    expect(getIn({ foo: 'bar' }, 'foo')).toBe('bar')
+    expect(getIn({ foo: 42 }, 'foo')).toBe(42)
+    expect(getIn({ foo: false }, 'foo')).toBe(false)
   })
 
   it('should get deep values', () => {
     const state = {
       foo: {
-        bar: ['baz', {dog: 42}]
+        bar: ['baz', { dog: 42 }]
       }
     }
     expect(getIn(state, 'foo.bar[0]')).toBe('baz')
@@ -36,16 +36,16 @@ describe('structure.plain.getIn', () => {
   })
 
   it('should get a value nested 1 level', () => {
-    expect(getIn({foo: {bar: 42}}, 'foo.bar')).toBe(42)
+    expect(getIn({ foo: { bar: 42 } }, 'foo.bar')).toBe(42)
   })
 
   it('should get a value nested 2 levels', () => {
-    expect(getIn({foo: {bar: {baz: 42}}}, 'foo.bar.baz')).toBe(42)
+    expect(getIn({ foo: { bar: { baz: 42 } } }, 'foo.bar.baz')).toBe(42)
   })
 
   it('should get a value nested 3 levels', () => {
     expect(
-      getIn({foo: {bar: {baz: {yolanda: 42}}}}, 'foo.bar.baz.yolanda')
+      getIn({ foo: { bar: { baz: { yolanda: 42 } } } }, 'foo.bar.baz.yolanda')
     ).toBe(42)
   })
 
@@ -57,9 +57,9 @@ describe('structure.plain.getIn', () => {
   })
 
   it('should return undefined for invalid/empty path', () => {
-    expect(getIn({foo: 42}, undefined)).toBe(undefined)
-    expect(getIn({foo: 42}, null)).toBe(undefined)
-    expect(getIn({foo: 42}, '')).toBe(undefined)
+    expect(getIn({ foo: 42 }, undefined)).toBe(undefined)
+    expect(getIn({ foo: 42 }, null)).toBe(undefined)
+    expect(getIn({ foo: 42 }, '')).toBe(undefined)
   })
 
   it('should get string keys on arrays', () => {

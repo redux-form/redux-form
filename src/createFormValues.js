@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import prefixName from './util/prefixName'
 
-const createValues = ({getIn}) => (...args) => {
+const createValues = ({ getIn }) => (...args) => {
   let valuesMap
 
   if (typeof args[0] === 'string') {
-    valuesMap = args.map(k => ({prop: k, path: k}))
+    valuesMap = args.map(k => ({ prop: k, path: k }))
   } else {
     const config = args[0]
     valuesMap = Object.keys(config).map(k => ({
@@ -32,13 +32,13 @@ const createValues = ({getIn}) => (...args) => {
             'formValues() must be used inside a React tree decorated with reduxForm()'
           )
         }
-        const {getValues} = context._reduxForm
+        const { getValues } = context._reduxForm
         const formValuesSelector = _ => {
           // Yes, we're only using connect() for listening to updates
           const props = {}
           const values = getValues()
           valuesMap.forEach(
-            ({prop, path}) =>
+            ({ prop, path }) =>
               (props[prop] = getIn(values, prefixName(context, path)))
           )
           return props

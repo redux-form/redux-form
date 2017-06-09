@@ -13,8 +13,8 @@ describe('shallowCompare', () => {
             b: 'b'
           }
         },
-        {a: 'a'},
-        {b: 'b'}
+        { a: 'a' },
+        { b: 'b' }
       )
     ).toBe(false)
   })
@@ -33,8 +33,8 @@ describe('shallowCompare', () => {
             b: bState
           }
         },
-        {a: aProp},
-        {b: bState}
+        { a: aProp },
+        { b: bState }
       )
     ).toBe(false)
   })
@@ -53,8 +53,8 @@ describe('shallowCompare', () => {
             b: bState
           }
         },
-        {a: aProp},
-        {b: [1, 2, 3]}
+        { a: aProp },
+        { b: [1, 2, 3] }
       )
     ).toBe(true)
   })

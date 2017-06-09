@@ -1,6 +1,6 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Field, reduxForm, formValueSelector} from 'redux-form'
+import { connect } from 'react-redux'
+import { Field, reduxForm, formValueSelector } from 'redux-form'
 
 let SelectingFormValuesForm = props => {
   const {
@@ -105,7 +105,7 @@ SelectingFormValuesForm = connect(state => {
   const hasEmailValue = selector(state, 'hasEmail')
   const favoriteColorValue = selector(state, 'favoriteColor')
   // or together as a group
-  const {firstName, lastName} = selector(state, 'firstName', 'lastName')
+  const { firstName, lastName } = selector(state, 'firstName', 'lastName')
   return {
     hasEmailValue,
     favoriteColorValue,

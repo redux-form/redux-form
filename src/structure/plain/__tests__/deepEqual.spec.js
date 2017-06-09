@@ -106,9 +106,9 @@ describe('structure.plain.deepEqual', () => {
   })
 
   it('should work with arrays', () => {
-    const firstObj = {a: 1}
-    const secondObj = {a: 1}
-    const thirdObj = {c: 1}
+    const firstObj = { a: 1 }
+    const secondObj = { a: 1 }
+    const thirdObj = { c: 1 }
 
     testBothWays(['a', 'b'], ['a', 'b', 'c'], false)
     testBothWays(['a', 'b', 'c'], ['a', 'b', 'c'], true)
@@ -130,12 +130,12 @@ describe('structure.plain.deepEqual', () => {
     //   }
     // }
 
-    const base1 = {a: 1}
-    const deep1 = {b: 2, base: base1}
+    const base1 = { a: 1 }
+    const deep1 = { b: 2, base: base1 }
     base1.deep = deep1
 
-    const base2 = {a: 1}
-    const deep2 = {b: 2, base: base2}
+    const base2 = { a: 1 }
+    const deep2 = { b: 2, base: base2 }
     base2.deep = deep2
 
     testBothWays(base1, base2, true)

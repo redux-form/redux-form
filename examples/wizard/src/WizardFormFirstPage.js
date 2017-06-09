@@ -1,10 +1,10 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
 import renderField from './renderField'
 
 const WizardFormFirstPage = props => {
-  const {handleSubmit} = props
+  const { handleSubmit } = props
   return (
     <form onSubmit={handleSubmit}>
       <Field

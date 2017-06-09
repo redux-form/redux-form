@@ -4,7 +4,7 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
-import {prefix} from '../actionTypes'
+import { prefix } from '../actionTypes'
 import describeInitialize from './reducer.initialize.spec'
 import describeArrayInsert from './reducer.arrayInsert.spec'
 import describeArrayMove from './reducer.arrayMove.spec'
@@ -87,19 +87,21 @@ const describeReducer = (name, structure, expect) => {
     })
 
     it('should not modify state when action has no form', () => {
-      const state = {foo: 'bar'}
-      expect(reducer(state, {type: 'SOMETHING_ELSE'})).toBe(state)
+      const state = { foo: 'bar' }
+      expect(reducer(state, { type: 'SOMETHING_ELSE' })).toBe(state)
     })
 
     it('should not modify state when action has form, but unknown type', () => {
-      const state = {foo: 'bar'}
-      expect(reducer(state, {type: 'SOMETHING_ELSE', form: 'foo'})).toBe(state)
+      const state = { foo: 'bar' }
+      expect(reducer(state, { type: 'SOMETHING_ELSE', form: 'foo' })).toBe(
+        state
+      )
     })
 
     it('should initialize form state when action has form', () => {
       const state = reducer(undefined, {
         type: `${prefix}SOME_ACTION`,
-        meta: {form: 'foo'}
+        meta: { form: 'foo' }
       })
       expect(state).toExist().toBeAMap().toBeSize(1).toEqualMap({
         foo: {}
@@ -109,7 +111,7 @@ const describeReducer = (name, structure, expect) => {
     it('should ignore non-redux-form actions', () => {
       const state = reducer(undefined, {
         type: 'some/other/lib',
-        meta: {form: 'foo'}
+        meta: { form: 'foo' }
       })
       expect(state).toEqualMap({})
     })

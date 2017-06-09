@@ -1,5 +1,5 @@
 const processProps = (type, props, _value) => {
-  const {value} = props
+  const { value } = props
   if (type === 'checkbox') {
     return {
       ...props,
@@ -29,7 +29,7 @@ const processProps = (type, props, _value) => {
 }
 
 const createFieldProps = (
-  {getIn, toJS},
+  { getIn, toJS },
   name,
   {
     asyncError,
@@ -106,7 +106,7 @@ const createFieldProps = (
       valid: !error,
       visited: !!(state && getIn(state, 'visited'))
     },
-    custom: {...custom, ...props}
+    custom: { ...custom, ...props }
   }
 }
 

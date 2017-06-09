@@ -1,5 +1,5 @@
-import {Map, Iterable, List, fromJS} from 'immutable'
-import {toPath} from 'lodash'
+import { Map, Iterable, List, fromJS } from 'immutable'
+import { toPath } from 'lodash'
 import deepEqual from './deepEqual'
 import keys from './keys'
 import setIn from './setIn'

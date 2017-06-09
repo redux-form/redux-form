@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0 */
-import React, {Component} from 'react'
-import {createSpy} from 'expect'
-import {Provider} from 'react-redux'
-import {combineReducers as plainCombineReducers, createStore} from 'redux'
-import {combineReducers as immutableCombineReducers} from 'redux-immutablejs'
+import React, { Component } from 'react'
+import { createSpy } from 'expect'
+import { Provider } from 'react-redux'
+import { combineReducers as plainCombineReducers, createStore } from 'redux'
+import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-dom/test-utils'
 import createReduxForm from '../createReduxForm'
 import createReducer from '../createReducer'
@@ -14,8 +14,8 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
-import {dragStartMock, dropMock} from '../util/eventMocks'
-import {dataKey} from '../util/eventConsts'
+import { dragStartMock, dropMock } from '../util/eventMocks'
+import { dataKey } from '../util/eventConsts'
 
 const testFormName = 'testForm'
 
@@ -23,9 +23,9 @@ const describeField = (name, structure, combineReducers, expect) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const reducer = createReducer(structure)
-  const {fromJS, getIn} = structure
+  const { fromJS, getIn } = structure
   const makeStore = initial =>
-    createStore(combineReducers({form: reducer}), fromJS({form: initial}))
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   class TestInput extends Component {
     render() {
@@ -34,13 +34,13 @@ const describeField = (name, structure, combineReducers, expect) => {
   }
 
   const testProps = (state, config = {}) => {
-    const store = makeStore({[testFormName]: state})
+    const store = makeStore({ [testFormName]: state })
     class Form extends Component {
       render() {
         return <div><Field name="foo" component={TestInput} /></div>
       }
     }
-    const TestForm = reduxForm({form: testFormName, ...config})(Form)
+    const TestForm = reduxForm({ form: testFormName, ...config })(Form)
     const dom = TestUtils.renderIntoDocument(
       <Provider store={store}>
         <TestForm />
@@ -104,10 +104,10 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(props2.meta.dirty).toBe(true)
       const props3 = testProps({
         initial: {
-          foo: [4, 'abc', {def: null, key: [-45, '...', [0, 99]]}]
+          foo: [4, 'abc', { def: null, key: [-45, '...', [0, 99]] }]
         },
         values: {
-          foo: [4, 'abc', {def: null, key: [-45, '...', [0, 99]]}]
+          foo: [4, 'abc', { def: null, key: [-45, '...', [0, 99]] }]
         }
       })
       expect(props3.meta.pristine).toBe(true)
@@ -255,11 +255,11 @@ const describeField = (name, structure, combineReducers, expect) => {
             foo: 'bar'
           },
           registeredFields: {
-            foo: {name: 'foo', type: 'Field'}
+            foo: { name: 'foo', type: 'Field' }
           }
         },
         {
-          validate: () => ({foo: 'foo error'})
+          validate: () => ({ foo: 'foo error' })
         }
       )
       expect(props.meta.error).toBe('foo error')
@@ -275,11 +275,11 @@ const describeField = (name, structure, combineReducers, expect) => {
             foo: 'bar'
           },
           registeredFields: {
-            foo: {name: 'foo', type: 'Field'}
+            foo: { name: 'foo', type: 'Field' }
           }
         },
         {
-          warn: () => ({foo: 'foo warning'})
+          warn: () => ({ foo: 'foo warning' })
         }
       )
       expect(props.meta.warning).toBe('foo warning')
@@ -340,7 +340,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <div><Field name="foo" component={TestInput} /></div>
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -363,7 +363,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <div><Field name="foo" component={TestInput} /></div>
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -386,7 +386,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <div><Field name="foo" component={TestInput} /></div>
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -412,7 +412,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <div><Field name="foo" component={TestInput} /></div>
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -435,7 +435,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <div><Field name="foo" component={TestInput} /></div>
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -461,7 +461,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <div><Field name="foo" component={TestInput} /></div>
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -486,7 +486,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <TestForm initialValues={{foo: 'bar'}} />
+          <TestForm initialValues={{ foo: 'bar' }} />
         </Provider>
       )
       expect(input).toHaveBeenCalled()
@@ -504,7 +504,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       const input = createSpy(props =>
         <input {...props.input} />
       ).andCallThrough()
-      const validate = () => ({foo: ['bar error']})
+      const validate = () => ({ foo: ['bar error'] })
       class Form extends Component {
         render() {
           return <div><Field name="foo[0]" component={input} /></div>
@@ -536,7 +536,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       const input = createSpy(props =>
         <input {...props.input} />
       ).andCallThrough()
-      const warn = () => ({foo: ['bar warning']})
+      const warn = () => ({ foo: ['bar warning'] })
       class Form extends Component {
         render() {
           return <div><Field name="foo[0]" component={input} /></div>
@@ -569,7 +569,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <div><Field name="foo" component={TestInput} withRef /></div>
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -601,21 +601,21 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         constructor() {
           super()
-          this.state = {field: 'foo'}
+          this.state = { field: 'foo' }
         }
 
         render() {
           return (
             <div>
               <Field name={this.state.field} component={input} />
-              <button onClick={() => this.setState({field: 'bar'})}>
+              <button onClick={() => this.setState({ field: 'bar' })}>
                 Change
               </button>
             </div>
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -645,7 +645,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -667,7 +667,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -688,7 +688,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -699,7 +699,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         form: {
           testForm: {
             registeredFields: {
-              'foo.bar': {name: 'foo.bar', type: 'Field', count: 1}
+              'foo.bar': { name: 'foo.bar', type: 'Field', count: 1 }
             }
           }
         }
@@ -719,7 +719,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -746,21 +746,21 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         constructor() {
           super()
-          this.state = {field: 'foo'}
+          this.state = { field: 'foo' }
         }
 
         render() {
           return (
             <div>
               <Field name={this.state.field} component="input" />
-              <button onClick={() => this.setState({field: 'bar'})}>
+              <button onClick={() => this.setState({ field: 'bar' })}>
                 Change
               </button>
             </div>
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -770,7 +770,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: {foo: {name: 'foo', type: 'Field', count: 1}}
+            registeredFields: { foo: { name: 'foo', type: 'Field', count: 1 } }
           }
         }
       })
@@ -781,7 +781,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(store.getState()).toEqualMap({
         form: {
           testForm: {
-            registeredFields: {bar: {name: 'bar', type: 'Field', count: 1}}
+            registeredFields: { bar: { name: 'bar', type: 'Field', count: 1 } }
           }
         }
       })
@@ -797,16 +797,16 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         constructor() {
           super()
-          this.state = {highlighted: 0}
+          this.state = { highlighted: 0 }
         }
 
         render() {
-          const {highlighted} = this.state
+          const { highlighted } = this.state
           return (
             <div>
               <Field name="foo" highlighted={highlighted} component={input} />
               <button
-                onClick={() => this.setState({highlighted: highlighted + 1})}
+                onClick={() => this.setState({ highlighted: highlighted + 1 })}
               >
                 Change
               </button>
@@ -814,7 +814,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -840,22 +840,22 @@ const describeField = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         constructor() {
           super()
-          this.state = {foo: 'bar'}
+          this.state = { foo: 'bar' }
         }
 
         render() {
           renderSpy()
           return (
             <div>
-              <Field name="myField" component={input} props={{rel: 'test'}} />
-              <button onClick={() => this.setState({foo: 'qux'})}>
+              <Field name="myField" component={input} props={{ rel: 'test' }} />
+              <button onClick={() => this.setState({ foo: 'qux' })}>
                 Change
               </button>
             </div>
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -905,7 +905,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -967,7 +967,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1027,7 +1027,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       const asyncValidate = createSpy(
         () => new Promise(resolve => resolve())
       ).andCallThrough()
-      const TestForm = reduxForm({form: 'testForm', asyncValidate})(Form)
+      const TestForm = reduxForm({ form: 'testForm', asyncValidate })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1055,7 +1055,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <Field name="title" component={renderTitle} />
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1102,7 +1102,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1135,7 +1135,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <Field name="title" component={renderTitle} />
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1167,7 +1167,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <Field name="title" component={renderTitle} />
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1198,7 +1198,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           return <Field name="title" component={renderTitle} />
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1232,7 +1232,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1267,7 +1267,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1310,7 +1310,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1352,7 +1352,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1481,7 +1481,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1514,7 +1514,7 @@ const describeField = (name, structure, combineReducers, expect) => {
             values: {
               age: 15 // number
             },
-            registeredFields: {age: {name: 'age', type: 'Field', count: 1}}
+            registeredFields: { age: { name: 'age', type: 'Field', count: 1 } }
           }
         }
       })
@@ -1547,7 +1547,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
-        return password === confirm ? {} : {confirm: 'Must match!'}
+        return password === confirm ? {} : { confirm: 'Must match!' }
       }
       class Form extends Component {
         render() {
@@ -1598,7 +1598,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       ).andCallThrough()
       const validate = values => {
         const username = getIn(values, 'username')
-        return username ? {} : {username: 'Required'}
+        return username ? {} : { username: 'Required' }
       }
       class Form extends Component {
         render() {
@@ -1658,7 +1658,7 @@ const describeField = (name, structure, combineReducers, expect) => {
         const confirm = getIn(values, 'confirm')
         return password === confirm
           ? {}
-          : {confirm: 'Should match. Or not. Whatever.'}
+          : { confirm: 'Should match. Or not. Whatever.' }
       }
       class Form extends Component {
         render() {
@@ -1709,7 +1709,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       ).andCallThrough()
       const warn = values => {
         const username = getIn(values, 'username')
-        return username ? {} : {username: 'Recommended'}
+        return username ? {} : { username: 'Recommended' }
       }
       class Form extends Component {
         render() {
@@ -1915,7 +1915,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -1955,7 +1955,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2002,7 +2002,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2047,7 +2047,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2094,7 +2094,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2139,7 +2139,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2186,7 +2186,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2231,7 +2231,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2247,7 +2247,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderInput.calls[0].arguments[0].onDrop).toNotExist()
 
       TestUtils.Simulate.drop(input, {
-        dataTransfer: {getData: () => 'bar'}
+        dataTransfer: { getData: () => 'bar' }
       })
 
       // call back was called
@@ -2279,7 +2279,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2296,7 +2296,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderInput.calls[0].arguments[0].onDrop).toNotExist()
 
       TestUtils.Simulate.drop(input, {
-        dataTransfer: {getData: () => 'bar'}
+        dataTransfer: { getData: () => 'bar' }
       })
 
       // call back was called
@@ -2330,7 +2330,7 @@ const describeField = (name, structure, combineReducers, expect) => {
           )
         }
       }
-      const TestForm = reduxForm({form: 'testForm'})(Form)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2346,7 +2346,7 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(renderInput.calls[0].arguments[0].onDragStart).toNotExist()
 
       TestUtils.Simulate.dragStart(input, {
-        dataTransfer: {setData: () => {}}
+        dataTransfer: { setData: () => {} }
       })
 
       // call back was called

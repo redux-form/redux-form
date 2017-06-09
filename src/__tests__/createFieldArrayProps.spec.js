@@ -1,4 +1,4 @@
-import {createSpy} from 'expect'
+import { createSpy } from 'expect'
 import createFieldArrayProps from '../createFieldArrayProps'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
@@ -7,20 +7,21 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeCreateFieldProps = (name, structure, expect) => {
-  const {fromJS, getIn, size} = structure
+  const { fromJS, getIn, size } = structure
   const defaultParams = [getIn, 'foo', 'testForm', undefined, () => 69]
 
   describe(name, () => {
     it('should pass props through', () => {
       expect(
-        createFieldArrayProps(...defaultParams, {otherProp: 'hello'}).otherProp
+        createFieldArrayProps(...defaultParams, { otherProp: 'hello' })
+          .otherProp
       ).toBe('hello')
     })
 
     it('should pass props through using props prop', () => {
       expect(
         createFieldArrayProps(...defaultParams, {
-          props: {otherProp: 'hello'}
+          props: { otherProp: 'hello' }
         }).otherProp
       ).toBe('hello')
     })
@@ -81,19 +82,19 @@ const describeCreateFieldProps = (name, structure, expect) => {
 
     it('should provide errors', () => {
       expect(
-        createFieldArrayProps(...defaultParams, {syncError: 'Sync Error'}).meta
-          .error
+        createFieldArrayProps(...defaultParams, { syncError: 'Sync Error' })
+          .meta.error
       ).toBe('Sync Error')
       expect(
-        createFieldArrayProps(...defaultParams, {syncError: 'Sync Error'}).meta
-          .valid
+        createFieldArrayProps(...defaultParams, { syncError: 'Sync Error' })
+          .meta.valid
       ).toBe(false)
       expect(
-        createFieldArrayProps(...defaultParams, {syncError: 'Sync Error'}).meta
-          .invalid
+        createFieldArrayProps(...defaultParams, { syncError: 'Sync Error' })
+          .meta.invalid
       ).toBe(true)
       expect(
-        createFieldArrayProps(...defaultParams, {syncWarning: 'Sync Warning'})
+        createFieldArrayProps(...defaultParams, { syncWarning: 'Sync Warning' })
           .meta.warning
       ).toBe('Sync Warning')
       expect(
@@ -249,7 +250,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         'testForm',
         undefined,
         getValue,
-        {value}
+        { value }
       )
       expect(result.fields.get).toBeA('function')
       expect(result.fields.get(0)).toBe('aDOG')
@@ -278,9 +279,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(callback).toNotHaveBeenCalled()
       const mapResult = result.fields.map(callback)
       expect(size(mapResult), 3)
-      expect(getIn(mapResult, 0)).toEqual({whatever: true, name: 'foo[0]'})
-      expect(getIn(mapResult, 1)).toEqual({whatever: true, name: 'foo[1]'})
-      expect(getIn(mapResult, 2)).toEqual({whatever: true, name: 'foo[2]'})
+      expect(getIn(mapResult, 0)).toEqual({ whatever: true, name: 'foo[0]' })
+      expect(getIn(mapResult, 1)).toEqual({ whatever: true, name: 'foo[1]' })
+      expect(getIn(mapResult, 2)).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(3)
       expect(callback.calls[0].arguments).toEqual(['foo[0]', 0, result.fields])
@@ -291,7 +292,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
     it('should provide reduce', () => {
       const callback = createSpy((accumulator, name) => ({
         ...accumulator,
-        [name]: {whatever: true, name}
+        [name]: { whatever: true, name }
       })).andCallThrough()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c']),
@@ -301,9 +302,9 @@ const describeCreateFieldProps = (name, structure, expect) => {
       expect(callback).toNotHaveBeenCalled()
       const reduceResult = result.fields.reduce(callback, {})
       expect(size(reduceResult), 3)
-      expect(reduceResult['foo[0]']).toEqual({whatever: true, name: 'foo[0]'})
-      expect(reduceResult['foo[1]']).toEqual({whatever: true, name: 'foo[1]'})
-      expect(reduceResult['foo[2]']).toEqual({whatever: true, name: 'foo[2]'})
+      expect(reduceResult['foo[0]']).toEqual({ whatever: true, name: 'foo[0]' })
+      expect(reduceResult['foo[1]']).toEqual({ whatever: true, name: 'foo[1]' })
+      expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
       expect(callback.calls.length).toBe(3)
       expect(callback.calls[0].arguments).toEqual([
@@ -314,7 +315,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
       ])
       expect(callback.calls[1].arguments).toEqual([
         {
-          'foo[0]': {whatever: true, name: 'foo[0]'}
+          'foo[0]': { whatever: true, name: 'foo[0]' }
         },
         'foo[1]',
         1,
@@ -322,8 +323,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
       ])
       expect(callback.calls[2].arguments).toEqual([
         {
-          'foo[0]': {whatever: true, name: 'foo[0]'},
-          'foo[1]': {whatever: true, name: 'foo[1]'}
+          'foo[0]': { whatever: true, name: 'foo[0]' },
+          'foo[1]': { whatever: true, name: 'foo[1]' }
         },
         'foo[2]',
         2,
@@ -334,7 +335,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
     it('should provide reduce when no value', () => {
       const callback = createSpy((accumulator, name) => ({
         ...accumulator,
-        [name]: {whatever: true, name}
+        [name]: { whatever: true, name }
       })).andCallThrough()
       const result = createFieldArrayProps(...defaultParams, {})
       expect(result.fields.reduce).toBeA('function')

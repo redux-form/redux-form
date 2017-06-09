@@ -1,4 +1,4 @@
-import {toPath} from 'lodash'
+import { toPath } from 'lodash'
 
 const createDeleteInWithCleanUp = ({
   deepEqual,

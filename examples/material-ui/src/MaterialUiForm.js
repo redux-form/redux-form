@@ -1,7 +1,7 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import TextField from 'material-ui/TextField'
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from 'material-ui/Checkbox'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
@@ -30,7 +30,12 @@ const validate = values => {
   return errors
 }
 
-const renderTextField = ({input, label, meta: {touched, error}, ...custom}) =>
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) =>
   <TextField
     hintText={label}
     floatingLabelText={label}
@@ -39,14 +44,14 @@ const renderTextField = ({input, label, meta: {touched, error}, ...custom}) =>
     {...custom}
   />
 
-const renderCheckbox = ({input, label}) =>
+const renderCheckbox = ({ input, label }) =>
   <Checkbox
     label={label}
     checked={input.value ? true : false}
     onCheck={input.onChange}
   />
 
-const renderRadioGroup = ({input, ...rest}) =>
+const renderRadioGroup = ({ input, ...rest }) =>
   <RadioButtonGroup
     {...input}
     {...rest}
@@ -57,7 +62,7 @@ const renderRadioGroup = ({input, ...rest}) =>
 const renderSelectField = ({
   input,
   label,
-  meta: {touched, error},
+  meta: { touched, error },
   children,
   ...custom
 }) =>
@@ -71,7 +76,7 @@ const renderSelectField = ({
   />
 
 const MaterialUiForm = props => {
-  const {handleSubmit, pristine, reset, submitting} = props
+  const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <div>

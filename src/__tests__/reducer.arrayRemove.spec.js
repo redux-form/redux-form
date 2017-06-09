@@ -1,6 +1,6 @@
-import {arrayRemove} from '../actions'
+import { arrayRemove } from '../actions'
 
-const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
+const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
   it('should remove from beginning', () => {
     const state = reducer(
       fromJS({
@@ -13,10 +13,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -34,9 +34,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }
@@ -56,10 +56,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -77,9 +77,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true},
-              {touched: true, visited: true}
+              { touched: true, visited: true },
+              { touched: true },
+              { touched: true, visited: true }
             ]
           }
         }
@@ -99,10 +99,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -120,9 +120,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }
@@ -143,10 +143,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
             fields: {
               myField: {
                 subField: [
-                  {touched: true, visited: true},
-                  {touched: true},
-                  {touched: true, visited: true},
-                  {touched: true}
+                  { touched: true, visited: true },
+                  { touched: true },
+                  { touched: true, visited: true },
+                  { touched: true }
                 ]
               }
             }
@@ -173,9 +173,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
             fields: {
               myField: {
                 subField: [
-                  {touched: true},
-                  {touched: true, visited: true},
-                  {touched: true}
+                  { touched: true },
+                  { touched: true, visited: true },
+                  { touched: true }
                 ]
               }
             }
@@ -204,10 +204,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
             fields: {
               myField: {
                 subField: [
-                  {touched: true, visited: true},
-                  {touched: true},
-                  {touched: true, visited: true},
-                  {touched: true}
+                  { touched: true, visited: true },
+                  { touched: true },
+                  { touched: true, visited: true },
+                  { touched: true }
                 ]
               }
             }
@@ -234,9 +234,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
             fields: {
               myField: {
                 subField: [
-                  {touched: true, visited: true},
-                  {touched: true},
-                  {touched: true, visited: true}
+                  { touched: true, visited: true },
+                  { touched: true },
+                  { touched: true, visited: true }
                 ]
               }
             }
@@ -265,10 +265,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
             fields: {
               myField: {
                 subField: [
-                  {touched: true, visited: true},
-                  {touched: true},
-                  {touched: true, visited: true},
-                  {touched: true}
+                  { touched: true, visited: true },
+                  { touched: true },
+                  { touched: true, visited: true },
+                  { touched: true }
                 ]
               }
             }
@@ -295,9 +295,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
             fields: {
               myField: {
                 subField: [
-                  {touched: true, visited: true},
-                  {touched: true, visited: true},
-                  {touched: true}
+                  { touched: true, visited: true },
+                  { touched: true, visited: true },
+                  { touched: true }
                 ]
               }
             }
@@ -325,10 +325,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           },
@@ -351,9 +351,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         },
@@ -378,10 +378,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           },
@@ -404,9 +404,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true},
-              {touched: true, visited: true}
+              { touched: true, visited: true },
+              { touched: true },
+              { touched: true, visited: true }
             ]
           }
         },
@@ -431,10 +431,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           },
@@ -457,9 +457,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         },
@@ -483,10 +483,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           },
@@ -509,9 +509,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         },
@@ -536,10 +536,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           },
@@ -562,9 +562,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true},
-              {touched: true, visited: true}
+              { touched: true, visited: true },
+              { touched: true },
+              { touched: true, visited: true }
             ]
           }
         },
@@ -589,10 +589,10 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true, visited: true},
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true, visited: true },
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           },
@@ -615,9 +615,9 @@ const describeArrayRemove = (reducer, expect, {fromJS, setIn}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         },

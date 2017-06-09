@@ -6,7 +6,7 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeDeleteInWithCleanUp = (name, structure, expect) => {
-  const {fromJS} = structure
+  const { fromJS } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
 
   describe(name, () => {

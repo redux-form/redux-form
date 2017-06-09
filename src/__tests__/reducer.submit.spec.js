@@ -1,6 +1,6 @@
-import {submit} from '../actions'
+import { submit } from '../actions'
 
-const describeSubmit = (reducer, expect, {fromJS}) => () => {
+const describeSubmit = (reducer, expect, { fromJS }) => () => {
   it('should set triggerSubmit with no previous state', () => {
     const state = reducer(undefined, submit('foo'))
     expect(state).toEqualMap({

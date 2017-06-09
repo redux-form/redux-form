@@ -1,6 +1,6 @@
-import {blur} from '../actions'
+import { blur } from '../actions'
 
-const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
+const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
   it('should set value on blur with empty state', () => {
     const state = reducer(undefined, blur('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({
@@ -284,7 +284,7 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
             myArray: []
           },
           fields: {
-            myArray: [{active: true}]
+            myArray: [{ active: true }]
           },
           active: 'myArray[0]'
         }
@@ -320,7 +320,7 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
           active: 'myComplexField'
         }
       }),
-      blur('foo', 'myComplexField', {id: 42, name: 'Bobby'}, true)
+      blur('foo', 'myComplexField', { id: 42, name: 'Bobby' }, true)
     )
     expect(state).toEqualMap(
       setIn(
@@ -336,7 +336,7 @@ const describeBlur = (reducer, expect, {fromJS, setIn}) => () => {
           }
         }),
         'foo.values.myComplexField',
-        {id: 42, name: 'Bobby'}
+        { id: 42, name: 'Bobby' }
       )
     )
   })

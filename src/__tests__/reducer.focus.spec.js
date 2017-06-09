@@ -1,6 +1,6 @@
-import {focus} from '../actions'
+import { focus } from '../actions'
 
-const describeFocus = (reducer, expect, {fromJS}) => () => {
+const describeFocus = (reducer, expect, { fromJS }) => () => {
   it('should set visited on focus and update active with no previous state', () => {
     const state = reducer(undefined, focus('foo', 'myField'))
     expect(state).toEqualMap({

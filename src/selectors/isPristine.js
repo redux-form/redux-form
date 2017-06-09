@@ -1,4 +1,4 @@
-const createIsPristine = ({deepEqual, empty, getIn}) => (
+const createIsPristine = ({ deepEqual, empty, getIn }) => (
   form,
   getFormState = state => getIn(state, 'form')
 ) => state => {

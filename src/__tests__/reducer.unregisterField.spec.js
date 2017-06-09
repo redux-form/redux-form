@@ -1,11 +1,11 @@
-import {unregisterField} from '../actions'
+import { unregisterField } from '../actions'
 
-const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
+const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
   it('should remove a field from registeredFields', () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: {bar: {name: 'bar', type: 'field', count: 1}}
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } }
         }
       }),
       unregisterField('foo', 'bar')
@@ -19,7 +19,7 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: {bar: {name: 'bar', type: 'field', count: 1}},
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
           syncErrors: {
             bar: 'Your bar needs more beer'
           }
@@ -36,7 +36,7 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: {bar: {name: 'bar', type: 'field', count: 1}},
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
           submitErrors: {
             bar: 'Your bar needs more beer'
           }
@@ -53,7 +53,7 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: {bar: {name: 'bar', type: 'field', count: 1}},
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
           asyncErrors: {
             bar: 'Your bar needs more beer'
           }
@@ -70,7 +70,7 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: {bar: {name: 'bar', type: 'field', count: 1}},
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
           syncWarnings: {
             bar: 'Your bar needs more beer'
           }
@@ -96,7 +96,7 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            bar: {name: 'bar', type: 'Field', count: 1}
+            bar: { name: 'bar', type: 'Field', count: 1 }
           }
         }
       }),
@@ -104,7 +104,7 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: {bar: {name: 'bar', type: 'Field', count: 1}}
+        registeredFields: { bar: { name: 'bar', type: 'Field', count: 1 } }
       }
     })
   })
@@ -113,14 +113,14 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: {bar: {name: 'bar', type: 'field', count: 1}}
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } }
         }
       }),
       unregisterField('foo', 'bar', false)
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: {bar: {name: 'bar', type: 'field', count: 0}}
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 0 } }
       }
     })
   })
@@ -129,14 +129,14 @@ const describeUnregisterField = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: {bar: {name: 'bar', type: 'field', count: 8}}
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 8 } }
         }
       }),
       unregisterField('foo', 'bar')
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: {bar: {name: 'bar', type: 'field', count: 7}}
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 7 } }
       }
     })
   })

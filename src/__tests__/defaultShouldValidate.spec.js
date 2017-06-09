@@ -13,7 +13,7 @@ describe('defaultShouldValidate', () => {
   })
 
   const describeDefaultShouldValidate = structure => {
-    const {fromJS} = structure
+    const { fromJS } = structure
 
     it('should validate if values have changed', () => {
       expect(

@@ -1,6 +1,6 @@
-import {startAsyncValidation} from '../actions'
+import { startAsyncValidation } from '../actions'
 
-const describeStartAsyncValidation = (reducer, expect, {fromJS}) => () => {
+const describeStartAsyncValidation = (reducer, expect, { fromJS }) => () => {
   it('should set asyncValidating on startAsyncValidation', () => {
     const state = reducer(
       fromJS({

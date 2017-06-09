@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {fromJS, List} from 'immutable'
+import { fromJS, List } from 'immutable'
 import deepEqual from '../deepEqual'
 
 describe('structure.immutable.deepEqual', () => {
@@ -117,7 +117,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', {h: {i: 29}}),
+      }).setIn('a.b.g', { h: { i: 29 } }),
       fromJS({
         a: {
           b: {
@@ -127,7 +127,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', {h: {i: 29}}),
+      }).setIn('a.b.g', { h: { i: 29 } }),
       true
     )
     testBothWays(
@@ -140,7 +140,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', {h: {i: 29}}),
+      }).setIn('a.b.g', { h: { i: 29 } }),
       fromJS({
         a: {
           b: {
@@ -150,7 +150,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', {h: {i: 30}}),
+      }).setIn('a.b.g', { h: { i: 30 } }),
       false
     )
   })
@@ -221,9 +221,9 @@ describe('structure.immutable.deepEqual', () => {
   })
 
   it('should work with Immutable.Lists', () => {
-    const firstObj = {a: 1}
-    const secondObj = {a: 1}
-    const thirdObj = {c: 1}
+    const firstObj = { a: 1 }
+    const secondObj = { a: 1 }
+    const thirdObj = { c: 1 }
 
     testBothWays(List(['a', 'b']), List(['a', 'b', 'c']), false)
     testBothWays(List(['a', 'b', 'c']), List(['a', 'b', 'c']), true)
@@ -245,12 +245,12 @@ describe('structure.immutable.deepEqual', () => {
     //   }
     // }
 
-    const base1 = {a: 1}
-    const deep1 = {b: 2, base: base1}
+    const base1 = { a: 1 }
+    const deep1 = { b: 2, base: base1 }
     base1.deep = deep1
 
-    const base2 = {a: 1}
-    const deep2 = {b: 2, base: base2}
+    const base2 = { a: 1 }
+    const deep2 = { b: 2, base: base2 }
     base2.deep = deep2
 
     testBothWays(base1, base2, true)

@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import {createStore, combineReducers} from 'redux'
-import {reducer as reduxFormReducer} from 'redux-form'
+import { Provider } from 'react-redux'
+import { createStore, combineReducers } from 'redux'
+import { reducer as reduxFormReducer } from 'redux-form'
 import {
   App,
   Code,
@@ -55,11 +55,11 @@ let render = () => {
 
         <Markdown content={readme} />
 
-        <div style={{textAlign: 'center'}}>
+        <div style={{ textAlign: 'center' }}>
           <a
             href="https://codesandbox.io/s/0Qzz3843"
             target="_blank"
-            style={{fontSize: '1.5em'}}
+            style={{ fontSize: '1.5em' }}
           >
             <i className="fa fa-codepen" /> Open in Sandbox
           </a>

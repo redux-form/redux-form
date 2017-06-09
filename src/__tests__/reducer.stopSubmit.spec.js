@@ -1,6 +1,6 @@
-import {stopSubmit} from '../actions'
+import { stopSubmit } from '../actions'
 
-const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
+const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
   it('should unset submitting on stopSubmit', () => {
     const state = reducer(
       fromJS({
@@ -261,7 +261,7 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
           submitting: true
         }
       }),
-      stopSubmit('foo', {_error: 'some global error'})
+      stopSubmit('foo', { _error: 'some global error' })
     )
     expect(state).toEqualMap({
       foo: {
@@ -328,7 +328,7 @@ const describeStopSubmit = (reducer, expect, {fromJS}) => () => {
           error: 'some global error'
         }
       }),
-      stopSubmit('foo', {myField: 'some submit error'})
+      stopSubmit('foo', { myField: 'some submit error' })
     )
     expect(state).toEqualMap({
       foo: {

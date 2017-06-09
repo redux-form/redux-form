@@ -1,7 +1,7 @@
 import createHasError from '../hasError'
 
 const createIsValid = structure => {
-  const {getIn, keys} = structure
+  const { getIn, keys } = structure
   const hasError = createHasError(structure)
   return (
     form,

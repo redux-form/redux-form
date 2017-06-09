@@ -1,10 +1,10 @@
-import {initialize} from '../actions'
+import { initialize } from '../actions'
 
-const describeInitialize = (reducer, expect, {fromJS}) => () => {
+const describeInitialize = (reducer, expect, { fromJS }) => () => {
   it('should set initialize values on initialize on empty state', () => {
     const state = reducer(
       undefined,
-      initialize('foo', {myField: 'initialValue'})
+      initialize('foo', { myField: 'initialValue' })
     )
     expect(state).toEqualMap({
       foo: {
@@ -19,7 +19,10 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
   })
 
   it('should allow initializing null values', () => {
-    const state = reducer(undefined, initialize('foo', {bar: 'baz', dog: null}))
+    const state = reducer(
+      undefined,
+      initialize('foo', { bar: 'baz', dog: null })
+    )
     expect(state).toEqualMap({
       foo: {
         values: {
@@ -37,7 +40,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
   it('should initialize nested values on initialize on empty state', () => {
     const state = reducer(
       undefined,
-      initialize('foo', {myField: {subField: 'initialValue'}})
+      initialize('foo', { myField: { subField: 'initialValue' } })
     )
     expect(state).toEqualMap({
       foo: {
@@ -58,7 +61,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
   it('should initialize array values on initialize on empty state', () => {
     const state = reducer(
       undefined,
-      initialize('foo', {myField: ['initialValue']})
+      initialize('foo', { myField: ['initialValue'] })
     )
     expect(state).toEqualMap({
       foo: {
@@ -132,7 +135,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {myField: 'cleanValue'})
+      initialize('foo', { myField: 'cleanValue' })
     )
     expect(state).toEqualMap({
       foo: {
@@ -151,8 +154,8 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            username: {name: 'username', type: 'Field', count: 1},
-            password: {name: 'password', type: 'Field', count: 1}
+            username: { name: 'username', type: 'Field', count: 1 },
+            password: { name: 'password', type: 'Field', count: 1 }
           },
           values: {
             username: 'dirtyValue'
@@ -164,13 +167,13 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {username: 'cleanValue', password: 'cleanPassword'})
+      initialize('foo', { username: 'cleanValue', password: 'cleanPassword' })
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          username: {name: 'username', type: 'Field', count: 1},
-          password: {name: 'password', type: 'Field', count: 1}
+          username: { name: 'username', type: 'Field', count: 1 },
+          password: { name: 'password', type: 'Field', count: 1 }
         },
         values: {
           username: 'cleanValue',
@@ -208,7 +211,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           submitSucceeded: true
         }
       }),
-      initialize('foo', {}, {keepSubmitSucceeded: true})
+      initialize('foo', {}, { keepSubmitSucceeded: true })
     )
     expect(state).toEqualMap({
       foo: {
@@ -224,7 +227,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: {name: 'myField', type: 'Field', count: 1}
+            myField: { name: 'myField', type: 'Field', count: 1 }
           },
           values: {
             myField: 'dirtyValue'
@@ -234,12 +237,12 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {myField: 'newValue'}, true)
+      initialize('foo', { myField: 'newValue' }, true)
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: {name: 'myField', type: 'Field', count: 1}
+          myField: { name: 'myField', type: 'Field', count: 1 }
         },
         values: {
           myField: 'dirtyValue'
@@ -256,7 +259,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: {name: 'myField', type: 'Field', count: 1}
+            myField: { name: 'myField', type: 'Field', count: 1 }
           },
           values: {
             myField: 'initialValue'
@@ -266,12 +269,12 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {myField: 'newValue'}, true)
+      initialize('foo', { myField: 'newValue' }, true)
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: {name: 'myField', type: 'Field', count: 1}
+          myField: { name: 'myField', type: 'Field', count: 1 }
         },
         values: {
           myField: 'newValue'
@@ -288,7 +291,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: {name: 'myField', type: 'Field', count: 1}
+            myField: { name: 'myField', type: 'Field', count: 1 }
           },
           values: {
             myField: 'newValue'
@@ -298,12 +301,12 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {myField: 'newValue'}, true)
+      initialize('foo', { myField: 'newValue' }, true)
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: {name: 'myField', type: 'Field', count: 1}
+          myField: { name: 'myField', type: 'Field', count: 1 }
         },
         values: {
           myField: 'newValue'
@@ -320,7 +323,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: {name: 'myField', type: 'Field', count: 1}
+            myField: { name: 'myField', type: 'Field', count: 1 }
           },
           values: {
             myField: 'dirtyValue'
@@ -330,12 +333,12 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {myField: 'newValue'}, {keepDirty: true})
+      initialize('foo', { myField: 'newValue' }, { keepDirty: true })
     )
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: {name: 'myField', type: 'Field', count: 1}
+          myField: { name: 'myField', type: 'Field', count: 1 }
         },
         values: {
           myField: 'dirtyValue'
@@ -351,7 +354,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: [{name: 'myField', type: 'Field'}],
+          registeredFields: [{ name: 'myField', type: 'Field' }],
           values: {
             myField: 'newValue'
           },
@@ -364,11 +367,11 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {myField: 'newValue'}, true)
+      initialize('foo', { myField: 'newValue' }, true)
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: [{name: 'myField', type: 'Field'}],
+        registeredFields: [{ name: 'myField', type: 'Field' }],
         values: {
           myField: 'newValue'
         },
@@ -387,7 +390,7 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
     const state = reducer(
       fromJS({
         foo: {
-          registeredFields: [{name: 'myField', type: 'Field'}],
+          registeredFields: [{ name: 'myField', type: 'Field' }],
           values: {
             myField: 'newValue'
           },
@@ -400,11 +403,11 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           }
         }
       }),
-      initialize('foo', {myField: 'newValue'}, true)
+      initialize('foo', { myField: 'newValue' }, true)
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: [{name: 'myField', type: 'Field'}],
+        registeredFields: [{ name: 'myField', type: 'Field' }],
         values: {
           myField: 'newValue'
         },
@@ -421,21 +424,16 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
 
   it('should not insert null versions of objects into arrays for deleted indices', () => {
     const values = {
-      myField: [
-        { name: 'One' },
-      ]
+      myField: [{ name: 'One' }]
     }
     const initial = {
-      myField: [
-        { name: 'One' },
-        { name: 'Two' },
-      ]
+      myField: [{ name: 'One' }, { name: 'Two' }]
     }
 
     const registeredFields = {
-      'myField': {name: 'myField', type: 'Field', count: 1},
-      'myField.0.name': {name: 'myField.0.name', type: 'Field', count: 1},
-      'myField.1.name': {name: 'myField.1.name', type: 'Field', count: 0}
+      myField: { name: 'myField', type: 'Field', count: 1 },
+      'myField.0.name': { name: 'myField.0.name', type: 'Field', count: 1 },
+      'myField.1.name': { name: 'myField.1.name', type: 'Field', count: 0 }
     }
 
     const state = reducer(
@@ -450,12 +448,12 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
 
   it('should add new pristine values at the root level', () => {
     const newInitial = {
-      oldField: "oldValue",
-      newField: "newValue",
+      oldField: 'oldValue',
+      newField: 'newValue'
     }
 
     const registeredFields = {
-      'oldField': {name: 'oldField', type: 'Field', count: 1},
+      oldField: { name: 'oldField', type: 'Field', count: 1 }
     }
 
     const state = reducer(
@@ -463,10 +461,10 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
         foo: {
           registeredFields,
           values: {
-            oldField: "oldValue",
+            oldField: 'oldValue'
           },
           initial: {
-            oldField: "oldValue",
+            oldField: 'oldValue'
           }
         }
       }),
@@ -477,8 +475,8 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
       foo: {
         registeredFields,
         values: {
-          oldField: "oldValue",
-          newField: "newValue",
+          oldField: 'oldValue',
+          newField: 'newValue'
         },
         initial: newInitial
       }
@@ -488,14 +486,14 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
   it('should add new pristine values at nested levels', () => {
     const newInitial = {
       group: {
-        oldField: "oldValue",
-        newField: "newValue",
+        oldField: 'oldValue',
+        newField: 'newValue'
       }
     }
 
     const registeredFields = {
-      'group': {name: 'group', type: 'Field', count: 1},
-      'group.oldField': {name: 'group.oldField', type: 'Field', count: 1},
+      group: { name: 'group', type: 'Field', count: 1 },
+      'group.oldField': { name: 'group.oldField', type: 'Field', count: 1 }
     }
 
     const state = reducer(
@@ -504,12 +502,12 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
           registeredFields,
           values: {
             group: {
-              oldField: "oldValue",
+              oldField: 'oldValue'
             }
           },
           initial: {
             group: {
-              oldField: "oldValue",
+              oldField: 'oldValue'
             }
           }
         }
@@ -522,15 +520,14 @@ const describeInitialize = (reducer, expect, {fromJS}) => () => {
         registeredFields,
         values: {
           group: {
-            oldField: "oldValue",
-            newField: "newValue",
+            oldField: 'oldValue',
+            newField: 'newValue'
           }
         },
         initial: newInitial
       }
     })
   })
-
 }
 
 export default describeInitialize

@@ -1,13 +1,13 @@
-import {untouch} from '../actions'
+import { untouch } from '../actions'
 
-const describeUntouch = (reducer, expect, {fromJS}) => () => {
+const describeUntouch = (reducer, expect, { fromJS }) => () => {
   it('should unmark fields as touched on untouch', () => {
     const state = reducer(
       fromJS({
         foo: {
           registeredFields: {
-            myField: {type: 'Field', name: 'myField'},
-            myOtherField: {type: 'Field', name: 'myOtherField'}
+            myField: { type: 'Field', name: 'myField' },
+            myOtherField: { type: 'Field', name: 'myOtherField' }
           },
           values: {
             myField: 'value',
@@ -29,8 +29,8 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: {type: 'Field', name: 'myField'},
-          myOtherField: {type: 'Field', name: 'myOtherField'}
+          myField: { type: 'Field', name: 'myField' },
+          myOtherField: { type: 'Field', name: 'myOtherField' }
         },
         values: {
           myField: 'value',
@@ -49,8 +49,8 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            myField: {type: 'Field', name: 'myField'},
-            myOtherField: {type: 'Field', name: 'myOtherField'}
+            myField: { type: 'Field', name: 'myField' },
+            myOtherField: { type: 'Field', name: 'myOtherField' }
           },
           values: {
             myField: 'value',
@@ -72,8 +72,8 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          myField: {type: 'Field', name: 'myField'},
-          myOtherField: {type: 'Field', name: 'myOtherField'}
+          myField: { type: 'Field', name: 'myField' },
+          myOtherField: { type: 'Field', name: 'myOtherField' }
         },
         values: {
           myField: 'value',
@@ -95,8 +95,8 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            'deep.myField': {type: 'Field', name: 'deep.myField'},
-            'deep.myOtherField': {type: 'Field', name: 'deep.myOtherField'}
+            'deep.myField': { type: 'Field', name: 'deep.myField' },
+            'deep.myOtherField': { type: 'Field', name: 'deep.myOtherField' }
           },
           values: {
             deep: {
@@ -122,8 +122,8 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          'deep.myField': {type: 'Field', name: 'deep.myField'},
-          'deep.myOtherField': {type: 'Field', name: 'deep.myOtherField'}
+          'deep.myField': { type: 'Field', name: 'deep.myField' },
+          'deep.myOtherField': { type: 'Field', name: 'deep.myOtherField' }
         },
         values: {
           deep: {
@@ -146,14 +146,14 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            'myFields[0]': {type: 'Field', name: 'myFields[0]'},
-            'myFields[1]': {type: 'Field', name: 'myFields[1]'}
+            'myFields[0]': { type: 'Field', name: 'myFields[0]' },
+            'myFields[1]': { type: 'Field', name: 'myFields[1]' }
           },
           values: {
             myFields: ['value', 'otherValue']
           },
           fields: {
-            myFields: [{touched: true}, {touched: true}]
+            myFields: [{ touched: true }, { touched: true }]
           },
           anyTouched: true
         }
@@ -163,8 +163,8 @@ const describeUntouch = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          'myFields[0]': {type: 'Field', name: 'myFields[0]'},
-          'myFields[1]': {type: 'Field', name: 'myFields[1]'}
+          'myFields[0]': { type: 'Field', name: 'myFields[0]' },
+          'myFields[1]': { type: 'Field', name: 'myFields[1]' }
         },
         values: {
           myFields: ['value', 'otherValue']

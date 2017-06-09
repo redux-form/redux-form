@@ -1,4 +1,4 @@
-import {SubmissionError} from 'redux-form'
+import { SubmissionError } from 'redux-form'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 

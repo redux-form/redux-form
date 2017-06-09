@@ -1,36 +1,44 @@
-import {Component, createElement} from 'react'
+import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
-import {dataKey} from './util/eventConsts'
+import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
-const isObject = (entity) => entity && typeof entity === 'object'
+const isObject = entity => entity && typeof entity === 'object'
 
-const isFunction = (entity) => entity && typeof entity === 'function'
+const isFunction = entity => entity && typeof entity === 'function'
 
-const eventPreventDefault = (event) => {
+const eventPreventDefault = event => {
   if (isObject(event) && isFunction(event.preventDefault)) {
     event.preventDefault()
   }
 }
 
 const eventDataTransferGetData = (event, key) => {
-  if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.getData)) {
+  if (
+    isObject(event) &&
+    isObject(event.dataTransfer) &&
+    isFunction(event.dataTransfer.getData)
+  ) {
     return event.dataTransfer.getData(key)
   }
 }
 
 const eventDataTransferSetData = (event, key, value) => {
-  if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.setData)) {
+  if (
+    isObject(event) &&
+    isObject(event.dataTransfer) &&
+    isFunction(event.dataTransfer.setData)
+  ) {
     event.dataTransfer.setData(key, value)
   }
 }
 
-const createConnectedField = ({deepEqual, getIn, toJS}) => {
+const createConnectedField = ({ deepEqual, getIn, toJS }) => {
   const getSyncError = (syncErrors, name) => {
     const error = plain.getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where
@@ -92,7 +100,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         _reduxForm,
         value: previousValue
       } = this.props
-      const newValue = onChangeValue(event, {name, parse, normalize})
+      const newValue = onChangeValue(event, { name, parse, normalize })
 
       let defaultPrevented = false
       if (onChange) {
@@ -115,7 +123,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
     }
 
     handleFocus(event) {
-      const {name, dispatch, onFocus, _reduxForm} = this.props
+      const { name, dispatch, onFocus, _reduxForm } = this.props
 
       let defaultPrevented = false
       if (onFocus) {
@@ -144,7 +152,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         _value,
         value: previousValue
       } = this.props
-      let newValue = onChangeValue(event, {name, parse, normalize})
+      let newValue = onChangeValue(event, { name, parse, normalize })
 
       // for checkbox and radio, if the value property of checkbox or radio equals
       // the value passed by blur event, then fire blur action with previousValue.
@@ -179,7 +187,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
     }
 
     handleDragStart(event) {
-      const {onDragStart, value} = this.props
+      const { onDragStart, value } = this.props
       eventDataTransferSetData(event, dataKey, value == null ? '' : value)
 
       if (onDragStart) {
@@ -234,7 +242,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         onDrop, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
-      const {custom, ...props} = createFieldProps({getIn, toJS}, name, {
+      const { custom, ...props } = createFieldProps({ getIn, toJS }, name, {
         ...rest,
         form: _reduxForm.form,
         onBlur: this.handleBlur,
@@ -247,11 +255,11 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
         custom.ref = 'renderedComponent'
       }
       if (typeof component === 'string') {
-        const {input, meta} = props // eslint-disable-line no-unused-vars
+        const { input, meta } = props // eslint-disable-line no-unused-vars
         // flatten input into other props
-        return createElement(component, {...input, ...custom})
+        return createElement(component, { ...input, ...custom })
       } else {
-        return createElement(component, {...props, ...custom})
+        return createElement(component, { ...props, ...custom })
       }
     }
   }
@@ -264,7 +272,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
 
   const connector = connect(
     (state, ownProps) => {
-      const {name, _reduxForm: {initialValues, getFormState}} = ownProps
+      const { name, _reduxForm: { initialValues, getFormState } } = ownProps
       const formState = getFormState(state)
       const initialState = getIn(formState, `initial.${name}`)
       const initial = initialState !== undefined
@@ -293,7 +301,7 @@ const createConnectedField = ({deepEqual, getIn, toJS}) => {
     },
     undefined,
     undefined,
-    {withRef: true}
+    { withRef: true }
   )
   return connector(ConnectedField)
 }

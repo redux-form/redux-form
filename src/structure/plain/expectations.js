@@ -1,5 +1,5 @@
 import expect from 'expect'
-import {isObject} from 'lodash'
+import { isObject } from 'lodash'
 
 const expectations = {
   toBeAMap() {

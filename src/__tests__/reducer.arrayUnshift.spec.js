@@ -1,6 +1,6 @@
-import {arrayUnshift} from '../actions'
+import { arrayUnshift } from '../actions'
 
-const describeArrayUnshift = (reducer, expect, {fromJS}) => () => {
+const describeArrayUnshift = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {
     const state = reducer(undefined, arrayUnshift('foo', 'myField', 'myValue'))
     expect(state).toEqualMap({
@@ -24,9 +24,9 @@ const describeArrayUnshift = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -45,9 +45,9 @@ const describeArrayUnshift = (reducer, expect, {fromJS}) => () => {
           myField: {
             subField: [
               {},
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }

@@ -1,6 +1,10 @@
-import {updateSyncWarnings} from '../actions'
+import { updateSyncWarnings } from '../actions'
 
-const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
+const describeUpdateSyncWarnings = (
+  reducer,
+  expect,
+  { fromJS, setIn }
+) => () => {
   it('should update sync warnings', () => {
     const state = reducer(
       fromJS({
@@ -83,8 +87,8 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
         }
       }),
       updateSyncWarnings('foo', {
-        myField: {complex: true, text: 'myField warning'},
-        myOtherField: {complex: true, text: 'myOtherField warning'}
+        myField: { complex: true, text: 'myField warning' },
+        myOtherField: { complex: true, text: 'myOtherField warning' }
       })
     )
     expect(state).toEqual(
@@ -99,8 +103,8 @@ const describeUpdateSyncWarnings = (reducer, expect, {fromJS, setIn}) => () => {
         }),
         'foo.syncWarnings',
         {
-          myField: {complex: true, text: 'myField warning'},
-          myOtherField: {complex: true, text: 'myOtherField warning'}
+          myField: { complex: true, text: 'myField warning' },
+          myOtherField: { complex: true, text: 'myOtherField warning' }
         }
       )
     )

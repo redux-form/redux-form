@@ -7,7 +7,7 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeFormValueSelector = (name, structure, expect) => {
-  const {fromJS, getIn} = structure
+  const { fromJS, getIn } = structure
   const formValueSelector = createFormValueSelector(structure)
 
   describe(name, () => {

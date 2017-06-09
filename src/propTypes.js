@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const {any, bool, func, shape, string, oneOfType, object} = PropTypes
+const { any, bool, func, shape, string, oneOfType, object } = PropTypes
 
 export const formPropTypes = {
   // State:

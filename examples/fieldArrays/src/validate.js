@@ -4,7 +4,7 @@ const validate = values => {
     errors.clubName = 'Required'
   }
   if (!values.members || !values.members.length) {
-    errors.members = {_error: 'At least one member must be entered'}
+    errors.members = { _error: 'At least one member must be entered' }
   } else {
     const membersArrayErrors = []
     values.members.forEach((member, memberIndex) => {

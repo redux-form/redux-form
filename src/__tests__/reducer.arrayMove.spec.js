@@ -1,6 +1,6 @@
-import {arrayMove} from '../actions'
+import { arrayMove } from '../actions'
 
-const describeArrayMove = (reducer, expect, {fromJS}) => () => {
+const describeArrayMove = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with empty state', () => {
     const state = reducer(undefined, arrayMove('foo', 'myField', 0, 1))
     expect(state).toEqualMap({
@@ -20,9 +20,9 @@ const describeArrayMove = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: false},
-                {touched: true, visited: true}
+                { touched: true },
+                { touched: true, visited: false },
+                { touched: true, visited: true }
               ]
             }
           },
@@ -45,9 +45,9 @@ const describeArrayMove = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true, visited: false},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: false },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         },

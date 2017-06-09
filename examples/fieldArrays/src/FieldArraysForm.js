@@ -1,8 +1,8 @@
 import React from 'react'
-import {Field, FieldArray, reduxForm} from 'redux-form'
+import { Field, FieldArray, reduxForm } from 'redux-form'
 import validate from './validate'
 
-const renderField = ({input, label, type, meta: {touched, error}}) =>
+const renderField = ({ input, label, type, meta: { touched, error } }) =>
   <div>
     <label>{label}</label>
     <div>
@@ -11,7 +11,7 @@ const renderField = ({input, label, type, meta: {touched, error}}) =>
     </div>
   </div>
 
-const renderHobbies = ({fields, meta: {error}}) =>
+const renderHobbies = ({ fields, meta: { error } }) =>
   <ul>
     <li>
       <button type="button" onClick={() => fields.push()}>Add Hobby</button>
@@ -34,7 +34,7 @@ const renderHobbies = ({fields, meta: {error}}) =>
     {error && <li className="error">{error}</li>}
   </ul>
 
-const renderMembers = ({fields, meta: {error, submitFailed}}) =>
+const renderMembers = ({ fields, meta: { error, submitFailed } }) =>
   <ul>
     <li>
       <button type="button" onClick={() => fields.push({})}>Add Member</button>
@@ -66,7 +66,7 @@ const renderMembers = ({fields, meta: {error, submitFailed}}) =>
   </ul>
 
 const FieldArraysForm = props => {
-  const {handleSubmit, pristine, reset, submitting} = props
+  const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <Field

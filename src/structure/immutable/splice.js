@@ -1,4 +1,4 @@
-import {List} from 'immutable'
+import { List } from 'immutable'
 
 export default (list, index, removeNum, value) => {
   list = List.isList(list) ? list : List()

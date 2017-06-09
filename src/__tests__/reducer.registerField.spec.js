@@ -1,6 +1,6 @@
-import {registerField} from '../actions'
+import { registerField } from '../actions'
 
-const describeRegisterField = (reducer, expect, {fromJS}) => () => {
+const describeRegisterField = (reducer, expect, { fromJS }) => () => {
   it('should create registeredFields if it does not exist and a field', () => {
     const state = reducer(
       fromJS({
@@ -10,7 +10,7 @@ const describeRegisterField = (reducer, expect, {fromJS}) => () => {
     )
     expect(state).toEqualMap({
       foo: {
-        registeredFields: {bar: {name: 'bar', type: 'Field', count: 1}}
+        registeredFields: { bar: { name: 'bar', type: 'Field', count: 1 } }
       }
     })
   })
@@ -20,7 +20,7 @@ const describeRegisterField = (reducer, expect, {fromJS}) => () => {
       fromJS({
         foo: {
           registeredFields: {
-            baz: {name: 'baz', type: 'FieldArray', count: 1}
+            baz: { name: 'baz', type: 'FieldArray', count: 1 }
           }
         }
       }),
@@ -29,8 +29,8 @@ const describeRegisterField = (reducer, expect, {fromJS}) => () => {
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          baz: {name: 'baz', type: 'FieldArray', count: 1},
-          bar: {name: 'bar', type: 'Field', count: 1}
+          baz: { name: 'baz', type: 'FieldArray', count: 1 },
+          bar: { name: 'bar', type: 'Field', count: 1 }
         }
       }
     })
@@ -39,14 +39,14 @@ const describeRegisterField = (reducer, expect, {fromJS}) => () => {
   it('should increase count if the field already exists', () => {
     const initialState = fromJS({
       foo: {
-        registeredFields: {bar: {name: 'bar', type: 'Field', count: 1}}
+        registeredFields: { bar: { name: 'bar', type: 'Field', count: 1 } }
       }
     })
     const state = reducer(initialState, registerField('foo', 'bar', 'Field'))
     expect(state).toEqualMap({
       foo: {
         registeredFields: {
-          bar: {name: 'bar', type: 'Field', count: 2}
+          bar: { name: 'bar', type: 'Field', count: 2 }
         }
       }
     })

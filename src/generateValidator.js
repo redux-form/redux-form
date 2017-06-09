@@ -12,7 +12,7 @@ const getError = (value, values, props, validators) => {
   }
 }
 
-const generateValidator = (validators, {getIn}) => (values, props) => {
+const generateValidator = (validators, { getIn }) => (values, props) => {
   let errors = {}
   Object.keys(validators).forEach(name => {
     const value = getIn(values, name)

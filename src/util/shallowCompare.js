@@ -1,4 +1,4 @@
-import {isEqualWith} from 'lodash'
+import { isEqualWith } from 'lodash'
 
 const customizer = (
   objectValue,

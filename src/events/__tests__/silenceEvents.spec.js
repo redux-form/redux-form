@@ -1,5 +1,5 @@
-import expect, {createSpy} from 'expect'
-import {noop} from 'lodash'
+import expect, { createSpy } from 'expect'
+import { noop } from 'lodash'
 import silenceEvents from '../silenceEvents'
 
 describe('silenceEvents', () => {
@@ -19,8 +19,8 @@ describe('silenceEvents', () => {
     expect(spy).toHaveBeenCalled().toHaveBeenCalledWith('foo', 'bar')
     spy.restore()
 
-    silenced({value: 10}, false)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({value: 10}, false)
+    silenced({ value: 10 }, false)
+    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({ value: 10 }, false)
     spy.restore()
   })
 
@@ -40,8 +40,8 @@ describe('silenceEvents', () => {
     expect(spy).toHaveBeenCalled().toHaveBeenCalledWith('foo', 'bar')
     spy.restore()
 
-    silenced(event, {value: 10}, false)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({value: 10}, false)
+    silenced(event, { value: 10 }, false)
+    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({ value: 10 }, false)
     spy.restore()
   })
 

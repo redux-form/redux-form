@@ -6,18 +6,18 @@ import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 
 const describeHasError = (name, structure, expect) => {
-  const {fromJS, getIn} = structure
+  const { fromJS, getIn } = structure
   const hasError = createHasError(structure)
 
   describe(name, () => {
     it('should throw an error for an invalid field type', () => {
-      const field = fromJS({name: 'foo', type: 'NotARealFieldType'})
+      const field = fromJS({ name: 'foo', type: 'NotARealFieldType' })
       const obj = fromJS({})
       expect(() => hasError(field, obj, obj, obj)).toThrow(/Unknown field type/)
     })
 
     it('should return false for falsy values', () => {
-      const field = fromJS({name: 'foo', type: 'Field'})
+      const field = fromJS({ name: 'foo', type: 'Field' })
       expect(hasError(field, undefined)).toBe(false)
       expect(hasError(field, null)).toBe(false)
       expect(hasError(field, '')).toBe(false)
@@ -26,7 +26,7 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it('should return false for empty structures', () => {
-      const field = fromJS({name: 'foo', type: 'Field'})
+      const field = fromJS({ name: 'foo', type: 'Field' })
       const obj = fromJS({})
       const array = fromJS([])
       expect(hasError(field, obj, obj, obj)).toBe(false)
@@ -34,7 +34,7 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it('should return false for deeply nested structures with undefined values', () => {
-      const field1 = fromJS({name: 'nested.myArrayField', type: 'FieldArray'})
+      const field1 = fromJS({ name: 'nested.myArrayField', type: 'FieldArray' })
       expect(
         hasError(
           field1,
@@ -45,7 +45,7 @@ const describeHasError = (name, structure, expect) => {
           })
         )
       ).toBe(false)
-      const field2 = fromJS({name: 'nested.deeper.foo', type: 'Field'})
+      const field2 = fromJS({ name: 'nested.deeper.foo', type: 'Field' })
       expect(
         hasError(
           field2,
@@ -62,7 +62,7 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it('should return true for errors that match a Field', () => {
-      const field = fromJS({name: 'foo.bar', type: 'Field'})
+      const field = fromJS({ name: 'foo.bar', type: 'Field' })
       const plainError = {
         foo: {
           bar: 'An error'
@@ -75,7 +75,7 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it("should return false for errors that don't match a Field", () => {
-      const field = fromJS({name: 'foo.baz', type: 'Field'})
+      const field = fromJS({ name: 'foo.baz', type: 'Field' })
       const error = fromJS({
         foo: {
           bar: 'An error'
@@ -87,7 +87,7 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it('should return true for errors that match a FieldArray', () => {
-      const field = fromJS({name: 'foo.bar', type: 'FieldArray'})
+      const field = fromJS({ name: 'foo.bar', type: 'FieldArray' })
       const plainError = {
         foo: {
           bar: ['An error']
@@ -106,7 +106,7 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it("should return false for errors that don't match a FieldArray", () => {
-      const field = fromJS({name: 'foo.baz', type: 'FieldArray'})
+      const field = fromJS({ name: 'foo.baz', type: 'FieldArray' })
       const plainError = {
         foo: {
           bar: ['An error']
@@ -125,7 +125,7 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it('should return true if a Field that has an object value has an _error', () => {
-      const field = fromJS({name: 'foo', type: 'Field'})
+      const field = fromJS({ name: 'foo', type: 'Field' })
       const plainError = {
         foo: {
           _error: 'An error'

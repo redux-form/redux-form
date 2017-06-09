@@ -1,4 +1,4 @@
-const createGetFormInitialValues = ({getIn}) => (
+const createGetFormInitialValues = ({ getIn }) => (
   form,
   getFormState = state => getIn(state, 'form')
 ) => state => getIn(getFormState(state), `${form}.initial`)

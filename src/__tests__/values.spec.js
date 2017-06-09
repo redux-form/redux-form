@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0 */
 import React from 'react'
-import {createSpy} from 'expect'
-import {Provider} from 'react-redux'
-import {combineReducers as plainCombineReducers, createStore} from 'redux'
-import {combineReducers as immutableCombineReducers} from 'redux-immutablejs'
+import { createSpy } from 'expect'
+import { Provider } from 'react-redux'
+import { combineReducers as plainCombineReducers, createStore } from 'redux'
+import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-dom/test-utils'
 import createReducer from '../createReducer'
 import createValues from '../createValues'
@@ -16,15 +16,15 @@ import addExpectations from './addExpectations'
 const describeValues = (name, structure, combineReducers, expect) => {
   const values = createValues(structure)
   const reducer = createReducer(structure)
-  const {fromJS} = structure
+  const { fromJS } = structure
   const makeStore = initial =>
-    createStore(combineReducers({form: reducer}), fromJS({form: initial}))
+    createStore(combineReducers({ form: reducer }), fromJS({ form: initial }))
 
   const testProps = (state, config = {}) => {
-    const store = makeStore({testForm: state})
+    const store = makeStore({ testForm: state })
     const spy = createSpy(() => <div />).andCallThrough()
 
-    const Decorated = values({form: 'testForm', ...config})(spy)
+    const Decorated = values({ form: 'testForm', ...config })(spy)
     TestUtils.renderIntoDocument(
       <Provider store={store}>
         <Decorated />
@@ -40,7 +40,7 @@ const describeValues = (name, structure, combineReducers, expect) => {
         cat: 'rat',
         dog: 'cat'
       }
-      const props = testProps({values})
+      const props = testProps({ values })
       expect(props.values).toEqualMap(values)
     })
 
@@ -49,7 +49,7 @@ const describeValues = (name, structure, combineReducers, expect) => {
         cat: 'rat',
         dog: 'cat'
       }
-      const props = testProps({values}, {prop: 'foo'})
+      const props = testProps({ values }, { prop: 'foo' })
       expect(props.foo).toEqualMap(values)
     })
   })

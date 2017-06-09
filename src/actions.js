@@ -36,45 +36,45 @@ import {
 
 export const arrayInsert = (form, field, index, value) => ({
   type: ARRAY_INSERT,
-  meta: {form, field, index},
+  meta: { form, field, index },
   payload: value
 })
 
 export const arrayMove = (form, field, from, to) => ({
   type: ARRAY_MOVE,
-  meta: {form, field, from, to}
+  meta: { form, field, from, to }
 })
 
 export const arrayPop = (form, field) => ({
   type: ARRAY_POP,
-  meta: {form, field}
+  meta: { form, field }
 })
 
 export const arrayPush = (form, field, value) => ({
   type: ARRAY_PUSH,
-  meta: {form, field},
+  meta: { form, field },
   payload: value
 })
 
 export const arrayRemove = (form, field, index) => ({
   type: ARRAY_REMOVE,
-  meta: {form, field, index}
+  meta: { form, field, index }
 })
 
 export const arrayRemoveAll = (form, field) => ({
   type: ARRAY_REMOVE_ALL,
-  meta: {form, field}
+  meta: { form, field }
 })
 
 export const arrayShift = (form, field) => ({
   type: ARRAY_SHIFT,
-  meta: {form, field}
+  meta: { form, field }
 })
 
 export const arraySplice = (form, field, index, removeNum, value) => {
   const action = {
     type: ARRAY_SPLICE,
-    meta: {form, field, index, removeNum}
+    meta: { form, field, index, removeNum }
   }
   if (value !== undefined) {
     action.payload = value
@@ -89,48 +89,48 @@ export const arraySwap = (form, field, indexA, indexB) => {
   if (indexA < 0 || indexB < 0) {
     throw new Error('Swap indices cannot be negative')
   }
-  return {type: ARRAY_SWAP, meta: {form, field, indexA, indexB}}
+  return { type: ARRAY_SWAP, meta: { form, field, indexA, indexB } }
 }
 
 export const arrayUnshift = (form, field, value) => ({
   type: ARRAY_UNSHIFT,
-  meta: {form, field},
+  meta: { form, field },
   payload: value
 })
 
 export const autofill = (form, field, value) => ({
   type: AUTOFILL,
-  meta: {form, field},
+  meta: { form, field },
   payload: value
 })
 
 export const blur = (form, field, value, touch) => ({
   type: BLUR,
-  meta: {form, field, touch},
+  meta: { form, field, touch },
   payload: value
 })
 
 export const change = (form, field, value, touch, persistentSubmitErrors) => ({
   type: CHANGE,
-  meta: {form, field, touch, persistentSubmitErrors},
+  meta: { form, field, touch, persistentSubmitErrors },
   payload: value
 })
 
-export const clearSubmit = form => ({type: CLEAR_SUBMIT, meta: {form}})
+export const clearSubmit = form => ({ type: CLEAR_SUBMIT, meta: { form } })
 
 export const clearSubmitErrors = form => ({
   type: CLEAR_SUBMIT_ERRORS,
-  meta: {form}
+  meta: { form }
 })
 
 export const clearAsyncError = (form, field) => ({
   type: CLEAR_ASYNC_ERROR,
-  meta: {form, field}
+  meta: { form, field }
 })
 
-export const destroy = (...form) => ({type: DESTROY, meta: {form}})
+export const destroy = (...form) => ({ type: DESTROY, meta: { form } })
 
-export const focus = (form, field) => ({type: FOCUS, meta: {form, field}})
+export const focus = (form, field) => ({ type: FOCUS, meta: { form, field } })
 
 export const initialize = (form, values, keepDirty, otherMeta = {}) => {
   if (keepDirty instanceof Object) {
@@ -139,30 +139,30 @@ export const initialize = (form, values, keepDirty, otherMeta = {}) => {
   }
   return {
     type: INITIALIZE,
-    meta: {form, keepDirty, ...otherMeta},
+    meta: { form, keepDirty, ...otherMeta },
     payload: values
   }
 }
 
 export const registerField = (form, name, type) => ({
   type: REGISTER_FIELD,
-  meta: {form},
-  payload: {name, type}
+  meta: { form },
+  payload: { name, type }
 })
 
-export const reset = form => ({type: RESET, meta: {form}})
+export const reset = form => ({ type: RESET, meta: { form } })
 
 export const startAsyncValidation = (form, field) => ({
   type: START_ASYNC_VALIDATION,
-  meta: {form, field}
+  meta: { form, field }
 })
 
-export const startSubmit = form => ({type: START_SUBMIT, meta: {form}})
+export const startSubmit = form => ({ type: START_SUBMIT, meta: { form } })
 
 export const stopAsyncValidation = (form, errors) => {
   const action = {
     type: STOP_ASYNC_VALIDATION,
-    meta: {form},
+    meta: { form },
     payload: errors
   }
   if (errors && Object.keys(errors).length) {
@@ -174,7 +174,7 @@ export const stopAsyncValidation = (form, errors) => {
 export const stopSubmit = (form, errors) => {
   const action = {
     type: STOP_SUBMIT,
-    meta: {form},
+    meta: { form },
     payload: errors
   }
   if (errors && Object.keys(errors).length) {
@@ -183,44 +183,44 @@ export const stopSubmit = (form, errors) => {
   return action
 }
 
-export const submit = form => ({type: SUBMIT, meta: {form}})
+export const submit = form => ({ type: SUBMIT, meta: { form } })
 
 export const setSubmitFailed = (form, ...fields) => ({
   type: SET_SUBMIT_FAILED,
-  meta: {form, fields},
+  meta: { form, fields },
   error: true
 })
 
 export const setSubmitSucceeded = (form, ...fields) => ({
   type: SET_SUBMIT_SUCCEEDED,
-  meta: {form, fields},
+  meta: { form, fields },
   error: false
 })
 
 export const touch = (form, ...fields) => ({
   type: TOUCH,
-  meta: {form, fields}
+  meta: { form, fields }
 })
 
 export const unregisterField = (form, name, destroyOnUnmount = true) => ({
   type: UNREGISTER_FIELD,
-  meta: {form},
-  payload: {name, destroyOnUnmount}
+  meta: { form },
+  payload: { name, destroyOnUnmount }
 })
 
 export const untouch = (form, ...fields) => ({
   type: UNTOUCH,
-  meta: {form, fields}
+  meta: { form, fields }
 })
 
 export const updateSyncErrors = (form, syncErrors = {}, error) => ({
   type: UPDATE_SYNC_ERRORS,
-  meta: {form},
-  payload: {syncErrors, error}
+  meta: { form },
+  payload: { syncErrors, error }
 })
 
 export const updateSyncWarnings = (form, syncWarnings = {}, warning) => ({
   type: UPDATE_SYNC_WARNINGS,
-  meta: {form},
-  payload: {syncWarnings, warning}
+  meta: { form },
+  payload: { syncWarnings, warning }
 })

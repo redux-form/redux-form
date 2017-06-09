@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import validate from './validate'
 import asyncValidate from './asyncValidate'
 
@@ -7,7 +7,7 @@ const renderField = ({
   input,
   label,
   type,
-  meta: {asyncValidating, touched, error}
+  meta: { asyncValidating, touched, error }
 }) =>
   <div>
     <label>{label}</label>
@@ -18,7 +18,7 @@ const renderField = ({
   </div>
 
 const AsyncValidationForm = props => {
-  const {handleSubmit, pristine, reset, submitting} = props
+  const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <Field

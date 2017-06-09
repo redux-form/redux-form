@@ -1,7 +1,7 @@
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
-const createValues = ({getIn}) => config => {
-  const {form, prop, getFormState} = {
+const createValues = ({ getIn }) => config => {
+  const { form, prop, getFormState } = {
     prop: 'values',
     getFormState: state => getIn(state, 'form'),
     ...config

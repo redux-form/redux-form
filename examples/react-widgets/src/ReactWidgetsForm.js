@@ -1,5 +1,5 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import DropdownList from 'react-widgets/lib/DropdownList'
 import SelectList from 'react-widgets/lib/SelectList'
 import Multiselect from 'react-widgets/lib/Multiselect'
@@ -12,12 +12,12 @@ import 'react-widgets/dist/css/react-widgets.css'
 momentLocaliser(moment)
 
 const colors = [
-  {color: 'Red', value: 'ff0000'},
-  {color: 'Green', value: '00ff00'},
-  {color: 'Blue', value: '0000ff'}
+  { color: 'Red', value: 'ff0000' },
+  { color: 'Green', value: '00ff00' },
+  { color: 'Blue', value: '0000ff' }
 ]
 
-const renderDropdownList = ({input, data, valueField, textField}) =>
+const renderDropdownList = ({ input, data, valueField, textField }) =>
   <DropdownList
     {...input}
     data={data}
@@ -26,7 +26,7 @@ const renderDropdownList = ({input, data, valueField, textField}) =>
     onChange={input.onChange}
   />
 
-const renderMultiselect = ({input, data, valueField, textField}) =>
+const renderMultiselect = ({ input, data, valueField, textField }) =>
   <Multiselect
     {...input}
     onBlur={() => input.onBlur()}
@@ -36,10 +36,10 @@ const renderMultiselect = ({input, data, valueField, textField}) =>
     textField={textField}
   />
 
-const renderSelectList = ({input, data}) =>
+const renderSelectList = ({ input, data }) =>
   <SelectList {...input} onBlur={() => input.onBlur()} data={data} />
 
-const renderDateTimePicker = ({input: {onChange, value}, showTime}) =>
+const renderDateTimePicker = ({ input: { onChange, value }, showTime }) =>
   <DateTimePicker
     onChange={onChange}
     format="DD MMM YYYY"
@@ -48,7 +48,7 @@ const renderDateTimePicker = ({input: {onChange, value}, showTime}) =>
   />
 
 let ReactWidgetsForm = props => {
-  const {handleSubmit, pristine, reset, submitting} = props
+  const { handleSubmit, pristine, reset, submitting } = props
   return (
     <form onSubmit={handleSubmit}>
       <div>

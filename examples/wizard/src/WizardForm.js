@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import WizardFormFirstPage from './WizardFormFirstPage'
 import WizardFormSecondPage from './WizardFormSecondPage'
@@ -14,16 +14,16 @@ class WizardForm extends Component {
     }
   }
   nextPage() {
-    this.setState({page: this.state.page + 1})
+    this.setState({ page: this.state.page + 1 })
   }
 
   previousPage() {
-    this.setState({page: this.state.page - 1})
+    this.setState({ page: this.state.page - 1 })
   }
 
   render() {
-    const {onSubmit} = this.props
-    const {page} = this.state
+    const { onSubmit } = this.props
+    const { page } = this.state
     return (
       <div>
         {page === 1 && <WizardFormFirstPage onSubmit={this.nextPage} />}

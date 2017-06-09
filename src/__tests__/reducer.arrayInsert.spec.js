@@ -1,6 +1,6 @@
-import {arrayInsert} from '../actions'
+import { arrayInsert } from '../actions'
 
-const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
+const describeArrayInsert = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {
     const state = reducer(
       undefined,
@@ -27,9 +27,9 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -48,9 +48,9 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
           myField: {
             subField: [
               {},
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }
@@ -70,9 +70,9 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -90,9 +90,9 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
-              {touched: true, visited: true},
-              {touched: true},
+              { touched: true },
+              { touched: true, visited: true },
+              { touched: true },
               {}
             ]
           }
@@ -113,9 +113,9 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
           fields: {
             myField: {
               subField: [
-                {touched: true},
-                {touched: true, visited: true},
-                {touched: true}
+                { touched: true },
+                { touched: true, visited: true },
+                { touched: true }
               ]
             }
           }
@@ -133,10 +133,10 @@ const describeArrayInsert = (reducer, expect, {fromJS}) => () => {
         fields: {
           myField: {
             subField: [
-              {touched: true},
+              { touched: true },
               {},
-              {touched: true, visited: true},
-              {touched: true}
+              { touched: true, visited: true },
+              { touched: true }
             ]
           }
         }

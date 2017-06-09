@@ -1,5 +1,5 @@
-import expect, {createSpy} from 'expect'
-import {noop} from 'lodash'
+import expect, { createSpy } from 'expect'
+import { noop } from 'lodash'
 import silenceEvent from '../silenceEvent'
 
 describe('silenceEvent', () => {
