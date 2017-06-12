@@ -62,7 +62,7 @@ let render = () => {
 
         <h2>Form</h2>
 
-        <SimpleForm onSubmit={showResults} />
+        <SimpleForm handleSubmit={showResults} />
 
         <Values form="simple" />
 
