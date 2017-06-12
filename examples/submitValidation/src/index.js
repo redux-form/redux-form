@@ -46,6 +46,7 @@ let render = () => {
           <a
             href="https://codesandbox.io/s/XoA5vXDgA"
             target="_blank"
+            rel="noopener noreferrer"
             style={{ fontSize: '1.5em' }}
           >
             <i className="fa fa-codepen" /> Open in Sandbox

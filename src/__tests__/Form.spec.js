@@ -69,6 +69,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
               action="/save"
               method="post"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <Field name="foo" component="input" />
             </Form>

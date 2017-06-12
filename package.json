@@ -63,7 +63,8 @@
     "is-promise": "^2.1.0",
     "lodash": "^4.17.3",
     "lodash-es": "^4.17.3",
-    "prop-types": "^15.5.9"
+    "prop-types": "^15.5.9",
+    "redux-form-website-template": "0.0.44"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
