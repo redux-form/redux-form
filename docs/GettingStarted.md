@@ -70,7 +70,7 @@ To make your form component communicate with the store, we need to wrap it with 
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-const ContactForm = props => {
+let ContactForm = props => {
   const { handleSubmit } = props
   return (
     <form onSubmit={ handleSubmit }>
