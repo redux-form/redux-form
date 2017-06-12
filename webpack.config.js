@@ -22,17 +22,17 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/, loaders: [ 'babel' ],
+        test: /\.js$/, loaders: [ 'babel-loader' ],
         exclude: /node_modules/
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/,
-        loader: 'url',
+        loader: 'url-loader',
         query: { limit: 40960 }
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer-loader?browsers=last 2 version!sass-loader?outputStyle=expanded&sourceMap')
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!autoprefixer-loader?browsers=last 2 version!sass-loader?outputStyle=expanded&sourceMap' })
       }
     ]
   },
@@ -41,11 +41,11 @@ module.exports = {
     libraryTarget: 'umd'
   },
   plugins: [
-    new ExtractTextPlugin('bundle.css', { allChunks: true }),
+    new ExtractTextPlugin({ filename: 'bundle.css', allChunks: true }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         screw_ie8: true,
