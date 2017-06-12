@@ -31,6 +31,7 @@ let render = () => {
   const readme = require('./Immutable.md')
   const raw = require('!!raw-loader!./ImmutableForm')
   const rawValidate = require('!!raw-loader!./validate')
+  const rawWarn = require('!!raw-loader!./warn')
   const rawReducer = require('!!raw-loader!./reducer')
   ReactDOM.render(
     <Provider store={store}>
@@ -76,6 +77,10 @@ let render = () => {
         <h3>validate.js</h3>
 
         <Code source={rawValidate} />
+
+        <h3>warn.js</h3>
+
+        <Code source={rawWarn} />
 
         <h3>ImmutableForm.js</h3>
 
