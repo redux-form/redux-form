@@ -23,12 +23,12 @@
     "babel-polyfill": "^6.7.4",
     "classnames": "^2.2.3",
     "marked": "^0.3.5",
+    "prop-types": "^15.5.10",
     "react": "^15.0.0-rc.2",
     "react-dom": "^15.0.0-rc.2",
     "react-redux": "^5.0.5",
     "redux": "^3.4.0",
-    "redux-form": "^6.8.0",
-    "prop-types": "latest"
+    "redux-form": "^6.8.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
