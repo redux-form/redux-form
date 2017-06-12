@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const GithubButton = ({ user, repo, type, width, height, count, large }) => {
   let src = `https://ghbtns.com/github-btn.html?user=${user}&repo=${repo}&type=${type}`
