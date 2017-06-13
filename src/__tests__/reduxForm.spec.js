@@ -100,6 +100,37 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       }).toNotThrow()
     })
 
+    it('should update without error when there is no config', () => {
+      const store = makeStore()
+      const Form = () => <div />
+      const Decorated = reduxForm()(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = {}
+        }
+
+        render() {
+          return (
+            <Provider store={store}>
+              <div>
+                <Decorated form='formname' foo={this.state.foo} />
+                <button onClick={() => this.setState({ foo: 'bar' })} />
+              </div>
+            </Provider>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container />)
+
+      expect(() => {
+        const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+        TestUtils.Simulate.click(button)
+      }).toNotThrow()
+    })
+
     it('should provide the correct props', () => {
       const props = propChecker({})
       expect(Object.keys(props).sort()).toEqual([
