@@ -15,8 +15,8 @@ It's important to understand their responsibilities:
 
 |               | type        | responsibility |
 |---------------|-------------|----------------|
-| `formReducer` | *reducer*   | function that tells how to update the Redux store based on changes coming from the application; those changes are described by Redux actions | 
-| `reduxForm()` | *HOC*       | function that takes configuration object and returns a new function; use it to wrap your `form` component and bind user interaction to dispatch of Redux actions | 
+| `formReducer` | *reducer*   | function that tells how to update the Redux store based on changes coming from the application; those changes are described by Redux actions |
+| `reduxForm()` | *HOC*       | function that takes configuration object and returns a new function; use it to wrap your `form` component and bind user interaction to dispatch of Redux actions |
 | `<Field/>`    | *component* | component that lives inside your wrapped `form` component; use it to connect the input components to the `redux-form` logic |
 
 ## Data flow
@@ -52,7 +52,7 @@ const rootReducer = combineReducers({
   // ...your other reducers here
   // you have to pass formReducer under 'form' key,
   // for custom keys look up the docs for 'getFormState'
-  form: formReducer 
+  form: formReducer
 })
 
 const store = createStore(rootReducer)
@@ -121,7 +121,7 @@ Let's finish up our contact form:
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-const ContactForm = props => {
+let ContactForm = props => {
   const { handleSubmit } = props
   return (
     <form onSubmit={ handleSubmit }>
@@ -144,7 +144,7 @@ const ContactForm = props => {
 
 ContactForm = reduxForm({
   // a unique name for the form
-  form: 'contact' 
+  form: 'contact'
 })(ContactForm)
 
 export default ContactForm;
@@ -153,7 +153,7 @@ export default ContactForm;
 From now on, the store should be populated based on actions coming from your form component. We can now handle the submission.
 
 ### Step 4 of 4: Reacting to submit
- 
+
 The submitted data is passed as JSON object to your `onSubmit` function. Let's `console.log` it out:
 
 ```js
