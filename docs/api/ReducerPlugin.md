@@ -46,8 +46,8 @@ const reducers = {
               ...state.values,
               password: undefined // <----- clear password value
             },
-            fields: {
-              ...state.fields,
+            registeredFields: {
+              ...state.registeredFields,
               password: undefined // <----- clear field state, too (touched, etc.)
             }
           }
