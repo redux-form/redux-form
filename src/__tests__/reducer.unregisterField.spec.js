@@ -32,6 +32,28 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
     })
   })
 
+  it('should not remove sync errors if the field is registered multiple times', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 2 } },
+          syncErrors: {
+            bar: 'Your bar needs more beer'
+          }
+        }
+      }),
+      unregisterField('foo', 'bar')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        syncErrors: {
+          bar: 'Your bar needs more beer'
+        }
+      }
+    })
+  })
+
   it('should remove submit errors', () => {
     const state = reducer(
       fromJS({
@@ -46,6 +68,28 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
     )
     expect(state).toEqualMap({
       foo: {}
+    })
+  })
+
+  it('should not remove submit errors if the field is registered multiple times', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 2 } },
+          submitErrors: {
+            bar: 'Your bar needs more beer'
+          }
+        }
+      }),
+      unregisterField('foo', 'bar')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        submitErrors: {
+          bar: 'Your bar needs more beer'
+        }
+      }
     })
   })
 
@@ -66,6 +110,28 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
     })
   })
 
+  it('should not remove async errors if the field is registered multiple times', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 2 } },
+          asyncErrors: {
+            bar: 'Your bar needs more beer'
+          }
+        }
+      }),
+      unregisterField('foo', 'bar')
+    )
+    expect(state).toEqualMap({  
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        asyncErrors: {
+          bar: 'Your bar needs more beer'
+        }
+      }
+    })
+  })
+
   it('should remove sync warnings', () => {
     const state = reducer(
       fromJS({
@@ -80,6 +146,28 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
     )
     expect(state).toEqualMap({
       foo: {}
+    })
+  })
+
+  it('should not remove sync warnings if the field is registered multiple times', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields: { bar: { name: 'bar', type: 'field', count: 2 } },
+          syncWarnings: {
+            bar: 'Your bar needs more beer'
+          }
+        }
+      }),
+      unregisterField('foo', 'bar')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
+        syncWarnings: {
+          bar: 'Your bar needs more beer'
+        }
+      }
     })
   })
 
