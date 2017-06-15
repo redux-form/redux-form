@@ -444,15 +444,13 @@ const createReducer = structure => {
         if (deepEqual(getIn(result, 'registeredFields'), empty)) {
           result = deleteIn(result, 'registeredFields')
         }
-      } else {
-        field = setIn(field, 'count', count)
-        result = setIn(result, key, field)
-      }
-      if (destroyOnUnmount) {
         result = deleteInWithCleanUp(result, `syncErrors.${name}`)
         result = deleteInWithCleanUp(result, `submitErrors.${name}`)
         result = deleteInWithCleanUp(result, `asyncErrors.${name}`)
         result = deleteInWithCleanUp(result, `syncWarnings.${name}`)
+      } else {
+        field = setIn(field, 'count', count)
+        result = setIn(result, key, field)
       }
       return result
     },
