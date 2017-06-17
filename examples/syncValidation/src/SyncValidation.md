@@ -21,8 +21,8 @@ Notice the reused stateless function component used to render each field. It is 
 this not be defined inline (in the `render()` function), because it will be created anew on every
 render and trigger a rerender for the field, because the `component` prop will have changed.
 
-**IMPORTANT**: If validation function returns errors, but the form does not contain fields for all
-errors, then the form is considered valid and will be submitted.
+**IMPORTANT**: If validation function returns errors, but the form does not currently render fields
+for all errors, then the form is considered valid and will be submitted.
 
 **IMPORTANT**: Synchronous validation happens on every change to your form data, so, if your field 
 value is invalid, your field.error value will always be present. You will probably only want to
