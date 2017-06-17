@@ -11,7 +11,7 @@ function, and returns a promise that either rejects with an object of errors or 
 
 You will also need to specify which fields should fire the asynchronous validation when
 they are blurred with the `asyncBlurFields` config property. If you do not provide that
-property, blurring all fields will trigger asynchronous validation.
+property, blurring any field will trigger asynchronous validation.
 
 ## Important
 
