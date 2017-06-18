@@ -700,8 +700,8 @@ const createReduxForm = structure => {
 
           const pristine = shouldResetValues || deepEqual(initial, values)
           const asyncErrors = getIn(formState, 'asyncErrors')
-          const syncErrors = getIn(formState, 'syncErrors') || {}
-          const syncWarnings = getIn(formState, 'syncWarnings') || {}
+          const syncErrors = getIn(formState, 'syncErrors') || empty
+          const syncWarnings = getIn(formState, 'syncWarnings') || empty
           const registeredFields = getIn(formState, 'registeredFields')
           const valid = isValid(form, getFormState, false)(state)
           const validExceptSubmit = isValid(form, getFormState, true)(state)
