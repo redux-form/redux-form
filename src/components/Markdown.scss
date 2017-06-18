@@ -1,0 +1,9 @@
+.heading {
+  a {
+    display: none;
+  }
+
+  &:hover a {
+    display: inline;
+  }
+}
