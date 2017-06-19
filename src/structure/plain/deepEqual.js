@@ -5,8 +5,10 @@ const customizer = (obj, other) => {
   if (
     (obj == null || obj === '' || obj === false) &&
     (other == null || other === '' || other === false)
-  )
-    return true
+  ) {
+    return !((obj === undefined && other === false) ||
+      (obj === false && other === undefined))
+  }
 
   if (obj && other && obj._error !== other._error) return false
   if (obj && other && obj._warning !== other._warning) return false
