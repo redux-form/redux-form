@@ -301,7 +301,13 @@ const createReducer = structure => {
             if (deepEqual(previousValue, previousInitialValue)) {
               // Overwrite the old pristine value with the new pristine value
               const newInitialValue = getIn(newInitialValues, name)
-              newValues = setIn(newValues, name, newInitialValue)
+
+              // This check prevents any 'setIn' call that would create useless
+              // nested objects, since the path to the new field value would
+              // evaluate to the same (especially for undefined values)
+              if (getIn(newValues, name) !== newInitialValue) {
+                newValues = setIn(newValues, name, newInitialValue)
+              }
             }
           })
 
