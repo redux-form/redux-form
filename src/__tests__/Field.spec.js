@@ -1800,6 +1800,54 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls[2].arguments[0].meta.error).toBe(undefined)
     })
 
+    it('should update field level validation when validate prop changes', () => {
+      const store = makeStore()
+      const usernameInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const required = createSpy(
+        value => (value == null ? 'Required' : undefined)
+      ).andCallThrough()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { validate: undefined }
+        }
+
+        render() {
+          return (
+            <div>
+              <Field
+                name="username"
+                component={usernameInput}
+                validate={this.state.validate}
+              />
+              <button onClick={() => this.setState({ validate: required })}>Change</button>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      // username field is ok
+      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.valid).toBe(true)
+
+      // update validate prop
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      // should be invalid now
+      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.valid).toBe(false)
+      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.error).toBe('Required')
+    });
+
     it('should sync warn with field level warning function', () => {
       const store = makeStore()
       const usernameInput = createSpy(props => (
@@ -1852,6 +1900,53 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls[2].arguments[0].meta.valid).toBe(true)
       expect(usernameInput.calls[2].arguments[0].meta.warning).toBe(undefined)
     })
+
+    it('should update field level warning when warn prop changes', () => {
+      const store = makeStore()
+      const usernameInput = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const required = createSpy(
+        value => (value == null ? 'Required' : undefined)
+      ).andCallThrough()
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { warn: undefined }
+        }
+
+        render() {
+          return (
+            <div>
+              <Field
+                name="username"
+                component={usernameInput}
+                warn={this.state.warn}
+              />
+              <button onClick={() => this.setState({ warn: required })}>Change</button>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      // username field is ok
+      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.warning).toBe(undefined)
+
+      // update warn prop
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      // should have warning now
+      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.warning).toBe('Required')
+    });
 
     it('should not generate any warnings by passing api props into custom', () => {
       const store = makeStore()
