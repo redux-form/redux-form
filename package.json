@@ -33,8 +33,9 @@
     "example:syncValidation": "form=syncValidation npm run example",
     "example:wizard": "form=wizard npm run example",
     "format": "prettier-eslint \"+(src|examples)/**/*.js\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailingComma=none",
-    "prepublish": "npm run test && npm run clean && npm run build",
+    "prepublish": "npm run test && npm run test:flow && npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
+    "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
     "test:cov": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
     "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
@@ -64,7 +65,7 @@
     "lodash": "^4.17.3",
     "lodash-es": "^4.17.3",
     "prop-types": "^15.5.9",
-    "redux-form-website-template": "0.0.44"
+    "redux-form-website-template": "0.0.45"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -82,7 +83,7 @@
     "babel-register": "^6.24.1",
     "codecov.io": "^0.1.6",
     "cross-env": "^5.0.1",
-    "eslint": "^3.17.1",
+    "eslint": "^4.0.0",
     "eslint-config-react-app": "^1.0.4",
     "eslint-plugin-flowtype": "^2.30.4",
     "eslint-plugin-import": "^2.2.0",
@@ -92,6 +93,7 @@
     "expect-element": "^1.1.1",
     "expect-immutable": "^0.0.3",
     "expect-predicate": "^1.0.0",
+    "flow-bin": "^0.48.0",
     "flux-standard-action": "^1.0.0",
     "jsdom": "^11.0.0",
     "lodash-webpack-plugin": "^0.11.2",
@@ -108,7 +110,7 @@
     "rimraf": "^2.5.4",
     "stringstream": "^0.0.5",
     "tmp": "0.0.31",
-    "webpack": "^2.5.1",
+    "webpack": "^3.0.0",
     "webpack-bundle-analyzer": "^2.7.0"
   },
   "peerDependencies": {
@@ -121,7 +123,8 @@
     "es",
     "lib",
     "dist",
-    "immutable.js"
+    "immutable.js",
+    "*.js.flow"
   ],
   "nyc": {
     "include": [

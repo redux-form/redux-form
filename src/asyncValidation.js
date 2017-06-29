@@ -1,6 +1,16 @@
+// @flow
 import isPromise from 'is-promise'
 
-const asyncValidation = (fn, start, stop, field) => {
+type Callback = () => Promise<void>
+type StartCallback = (field: string) => void
+type StopCallback = (errors: ?Object) => void
+
+const asyncValidation = (
+  fn: Callback,
+  start: StartCallback,
+  stop: StopCallback,
+  field: string
+) => {
   start(field)
   const promise = fn()
   if (!isPromise(promise)) {

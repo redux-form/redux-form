@@ -1,8 +1,9 @@
+// @flow
 import expect from 'expect'
 import deepEqual from 'deep-equal'
 import { Map, List, Iterable, fromJS } from 'immutable'
 
-const deepEqualValues = (a, b) => {
+const deepEqualValues = (a: any, b: any) => {
   if (Iterable.isIterable(a)) {
     return (
       Iterable.isIterable(b) &&
@@ -32,7 +33,7 @@ const api = {
     return this
   },
 
-  toBeSize(size) {
+  toBeSize(size: number) {
     expect.assert(
       Iterable.isIterable(this.actual) && this.actual.count() === size,
       'expected %s to contain %s elements',
@@ -42,7 +43,7 @@ const api = {
     return this
   },
 
-  toEqualMap(expected) {
+  toEqualMap(expected: Object) {
     expect.assert(
       deepEqualValues(this.actual, fromJS(expected)),
       'expected...\n%s\n...but found...\n%s',
@@ -52,7 +53,7 @@ const api = {
     return this
   },
 
-  toContainExactly(expected) {
+  toContainExactly(expected: any[]) {
     const expectedItems = expected.map(expectedItem => fromJS(expectedItem))
     expect.assert(
       this.actual.count() === expected.length &&

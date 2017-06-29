@@ -1,0 +1,9 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[options]
+esproposal.decorators=ignore
+unsafe.enable_getters_and_setters=true

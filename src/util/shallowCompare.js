@@ -1,3 +1,4 @@
+// @flow
 import { isEqualWith } from 'lodash'
 
 const customizer = (
@@ -19,11 +20,12 @@ const customizer = (
   }
 }
 
-const shallowCompare = (instance, nextProps, nextState) => {
-  return (
-    !isEqualWith(instance.props, nextProps, customizer) ||
-    !isEqualWith(instance.state, nextState, customizer)
-  )
-}
+const shallowCompare = (
+  instance: { props: any, state?: any },
+  nextProps: Object,
+  nextState?: Object
+): boolean =>
+  !isEqualWith(instance.props, nextProps, customizer) ||
+  !isEqualWith(instance.state, nextState, customizer)
 
 export default shallowCompare

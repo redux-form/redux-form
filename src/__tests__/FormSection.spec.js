@@ -123,9 +123,9 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -180,9 +180,9 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.bar.input} />
-      )).andCallThrough()
+      ).andCallThrough()
 
       class Form extends Component {
         render() {
@@ -241,14 +241,14 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
         }
       })
 
-      const renderField = createSpy(props => (
+      const renderField = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) =>
         <div>
-          {fields.map(field => (
+          {fields.map(field =>
             <Field name={field} component={renderField} key={field} />
-          ))}
+          )}
           <button className="add" onClick={() => fields.push('fish')}>
             Add Dog
           </button>
@@ -256,7 +256,7 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
             Remove Dog
           </button>
         </div>
-      )).andCallThrough()
+      ).andCallThrough()
 
       class Form extends Component {
         render() {
@@ -331,9 +331,9 @@ const describeFormSection = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
 
       class Form extends Component {
         render() {

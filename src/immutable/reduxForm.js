@@ -1,3 +1,4 @@
+// @flow
 import createReduxForm from '../createReduxForm'
 import immutable from '../structure/immutable'
 

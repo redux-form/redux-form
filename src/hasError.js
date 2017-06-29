@@ -1,3 +1,6 @@
+// @flow
+import type { Structure } from './types'
+
 const getErrorKeys = (name, type) => {
   switch (type) {
     case 'Field':
@@ -9,8 +12,13 @@ const getErrorKeys = (name, type) => {
   }
 }
 
-const createHasError = ({ getIn }) => {
-  const hasError = (field, syncErrors, asyncErrors, submitErrors) => {
+const createHasError = ({ getIn }: Structure<*, *>) => {
+  const hasError = (
+    field: any,
+    syncErrors: any,
+    asyncErrors: any,
+    submitErrors: any
+  ) => {
     if (!syncErrors && !asyncErrors && !submitErrors) {
       return false
     }

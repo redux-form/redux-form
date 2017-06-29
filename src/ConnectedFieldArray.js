@@ -1,3 +1,4 @@
+// @flow
 import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -5,18 +6,66 @@ import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
+import type { Structure, Context } from './types'
+import type { Component as ReactComponent } from 'react'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
-const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
-  const getSyncError = (syncErrors, name) => {
+type Props = {
+  name: string,
+  component: Function | string,
+  withRef?: boolean,
+  _reduxForm: Context,
+  rerenderOnEveryChange?: boolean,
+  validate?: { (value: any, allValues: Object, props: Object): any },
+  warn?: { (value: any, allValues: Object, props: Object): any },
+
+  // same as Props in createFieldArrayProps.js:
+  arrayInsert: { (index: number, value: any): void },
+  arrayMove: { (from: number, to: number): void },
+  arrayPop: { (): any },
+  arrayPush: { (value: any): void },
+  arrayRemove: { (index: number): void },
+  arrayRemoveAll: { (): void },
+  arrayShift: { (): any },
+  arraySplice: { (index: number, removeNum: number | null, value: any): void },
+  arraySwap: { (from: number, to: number): void },
+  arrayUnshift: { (value: any): void },
+  asyncError: any,
+  dirty: boolean,
+  length: number,
+  pristine: boolean,
+  submitError: any,
+  state: Object,
+  submitFailed: boolean,
+  submitting: boolean,
+  syncError: any,
+  syncWarning: any,
+  value: any[],
+  props?: Object
+}
+
+type DefaultProps = {
+  rerenderOnEveryChange: boolean
+}
+
+export type InstanceApi = {
+  dirty: boolean,
+  getRenderedComponent: { (): React$Component<*, *, *> },
+  pristine: boolean,
+  value: ?(any[])
+} & React$Component<*, *, *>
+
+const createConnectedFieldArray = (structure: Structure<*, *>) => {
+  const { deepEqual, getIn, size } = structure
+  const getSyncError = (syncErrors: Object, name: string) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
     // one in Field.
     return plain.getIn(syncErrors, `${name}._error`)
   }
 
-  const getSyncWarning = (syncWarnings, name) => {
+  const getSyncWarning = (syncWarnings: Object, name: string) => {
     // For an array, the warning can _ONLY_ be under _warning.
     // This is why this getSyncError is not the same as the
     // one in Field.
@@ -24,12 +73,10 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
   }
 
   class ConnectedFieldArray extends Component {
-    constructor() {
-      super()
-      this.getValue = this.getValue.bind(this)
-    }
+    props: Props
+    static defaultProps: DefaultProps
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
       const thisValue = this.props.value
       const nextValue = nextProps.value
@@ -63,15 +110,15 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       )
     }
 
-    get dirty() {
+    get dirty(): boolean {
       return this.props.dirty
     }
 
-    get pristine() {
+    get pristine(): boolean {
       return this.props.pristine
     }
 
-    get value() {
+    get value(): any {
       return this.props.value
     }
 
@@ -79,9 +126,8 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       return this.refs.renderedComponent
     }
 
-    getValue(index) {
-      return this.props.value && getIn(this.props.value, index)
-    }
+    getValue = (index: number): any =>
+      this.props.value && getIn(this.props.value, String(index))
 
     render() {
       const {
@@ -95,7 +141,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         ...rest
       } = this.props
       const props = createFieldArrayProps(
-        getIn,
+        structure,
         name,
         _reduxForm.form,
         _reduxForm.sectionPrefix,

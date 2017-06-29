@@ -1,3 +1,4 @@
+// @flow
 import {
   ARRAY_INSERT,
   ARRAY_MOVE,
@@ -33,46 +34,78 @@ import {
   UPDATE_SYNC_ERRORS,
   UPDATE_SYNC_WARNINGS
 } from './actionTypes'
+import type { Action, FieldType } from './types'
 
-export const arrayInsert = (form, field, index, value) => ({
+export const arrayInsert = (
+  form: string,
+  field: string,
+  index: number,
+  value: any
+): Action => ({
   type: ARRAY_INSERT,
   meta: { form, field, index },
   payload: value
 })
 
-export const arrayMove = (form, field, from, to) => ({
+export const arrayMove = (
+  form: string,
+  field: string,
+  from: number,
+  to: number
+): Action => ({
   type: ARRAY_MOVE,
   meta: { form, field, from, to }
 })
 
-export const arrayPop = (form, field) => ({
+export const arrayPop = (form: string, field: string): Action => ({
   type: ARRAY_POP,
   meta: { form, field }
 })
 
-export const arrayPush = (form, field, value) => ({
+export const arrayPush = (form: string, field: string, value: any): Action => ({
   type: ARRAY_PUSH,
   meta: { form, field },
   payload: value
 })
 
-export const arrayRemove = (form, field, index) => ({
+export const arrayRemove = (
+  form: string,
+  field: string,
+  index: number
+): Action => ({
   type: ARRAY_REMOVE,
   meta: { form, field, index }
 })
 
-export const arrayRemoveAll = (form, field) => ({
+export const arrayRemoveAll = (form: string, field: string): Action => ({
   type: ARRAY_REMOVE_ALL,
   meta: { form, field }
 })
 
-export const arrayShift = (form, field) => ({
+export const arrayShift = (form: string, field: string): Action => ({
   type: ARRAY_SHIFT,
   meta: { form, field }
 })
 
-export const arraySplice = (form, field, index, removeNum, value) => {
-  const action = {
+type ArraySplice = {
+  type: string,
+  meta: {
+    form: string,
+    field: string,
+    index: number,
+    removeNum: number
+  },
+  payload?: any
+} & Action
+
+export const arraySplice = (
+  form: string,
+  field: string,
+  index: number,
+  removeNum: number,
+  value: any
+): ArraySplice => {
+  const action: ArraySplice = {
     type: ARRAY_SPLICE,
     meta: { form, field, index, removeNum }
   }
@@ -82,7 +115,12 @@ export const arraySplice = (form, field, index, removeNum, value) => {
   return action
 }
 
-export const arraySwap = (form, field, indexA, indexB) => {
+export const arraySwap = (
+  form: string,
+  field: string,
+  indexA: number,
+  indexB: number
+): Action => {
   if (indexA === indexB) {
     throw new Error('Swap indices cannot be equal')
   }
@@ -92,47 +130,76 @@ export const arraySwap = (form, field, indexA, indexB) => {
   return { type: ARRAY_SWAP, meta: { form, field, indexA, indexB } }
 }
 
-export const arrayUnshift = (form, field, value) => ({
+export const arrayUnshift = (
+  form: string,
+  field: string,
+  value: any
+): Action => ({
   type: ARRAY_UNSHIFT,
   meta: { form, field },
   payload: value
 })
 
-export const autofill = (form, field, value) => ({
+export const autofill = (form: string, field: string, value: any): Action => ({
   type: AUTOFILL,
   meta: { form, field },
   payload: value
 })
 
-export const blur = (form, field, value, touch) => ({
+export const blur = (
+  form: string,
+  field: string,
+  value: any,
+  touch: boolean
+): Action => ({
   type: BLUR,
   meta: { form, field, touch },
   payload: value
 })
 
-export const change = (form, field, value, touch, persistentSubmitErrors) => ({
+export const change = (
+  form: string,
+  field: string,
+  value: any,
+  touch: boolean,
+  persistentSubmitErrors: boolean
+): Action => ({
   type: CHANGE,
   meta: { form, field, touch, persistentSubmitErrors },
   payload: value
 })
 
-export const clearSubmit = form => ({ type: CLEAR_SUBMIT, meta: { form } })
+export const clearSubmit = (form: string): Action => ({
+  type: CLEAR_SUBMIT,
+  meta: { form }
+})
 
-export const clearSubmitErrors = form => ({
+export const clearSubmitErrors = (form: string): Action => ({
   type: CLEAR_SUBMIT_ERRORS,
   meta: { form }
 })
 
-export const clearAsyncError = (form, field) => ({
+export const clearAsyncError = (form: string, field: string): Action => ({
   type: CLEAR_ASYNC_ERROR,
   meta: { form, field }
 })
 
-export const destroy = (...form) => ({ type: DESTROY, meta: { form } })
+export const destroy = (...form: string[]): Action => ({
+  type: DESTROY,
+  meta: { form }
+})
 
-export const focus = (form, field) => ({ type: FOCUS, meta: { form, field } })
+export const focus = (form: string, field: string): Action => ({
+  type: FOCUS,
+  meta: { form, field }
+})
 
-export const initialize = (form, values, keepDirty, otherMeta = {}) => {
+export const initialize = (
+  form: string,
+  values: Object,
+  keepDirty: boolean,
+  otherMeta: Object = {}
+): Action => {
   if (keepDirty instanceof Object) {
     otherMeta = keepDirty
     keepDirty = false
@@ -144,82 +211,118 @@ export const initialize = (form, values, keepDirty, otherMeta = {}) => {
   }
 }
 
-export const registerField = (form, name, type) => ({
+export const registerField = (
+  form: string,
+  name: string,
+  type: FieldType
+): Action => ({
   type: REGISTER_FIELD,
   meta: { form },
   payload: { name, type }
 })
 
-export const reset = form => ({ type: RESET, meta: { form } })
+export const reset = (form: string): Action => ({ type: RESET, meta: { form } })
 
-export const startAsyncValidation = (form, field) => ({
+export const startAsyncValidation = (form: string, field: string): Action => ({
   type: START_ASYNC_VALIDATION,
   meta: { form, field }
 })
 
-export const startSubmit = form => ({ type: START_SUBMIT, meta: { form } })
+export const startSubmit = (form: string): Action => ({
+  type: START_SUBMIT,
+  meta: { form }
+})
 
-export const stopAsyncValidation = (form, errors) => {
-  const action = {
-    type: STOP_ASYNC_VALIDATION,
-    meta: { form },
-    payload: errors
-  }
-  if (errors && Object.keys(errors).length) {
-    action.error = true
-  }
-  return action
-}
+type StopAsyncValidation = {
+  type: string,
+  meta: {
+    form: string
+  },
+  payload: Object,
+  error: boolean
+} & Action
 
-export const stopSubmit = (form, errors) => {
-  const action = {
-    type: STOP_SUBMIT,
-    meta: { form },
-    payload: errors
-  }
-  if (errors && Object.keys(errors).length) {
-    action.error = true
-  }
-  return action
-}
+export const stopAsyncValidation = (
+  form: string,
+  errors: Object
+): StopAsyncValidation => ({
+  type: STOP_ASYNC_VALIDATION,
+  meta: { form },
+  payload: errors,
+  error: !!(errors && Object.keys(errors).length)
+})
 
-export const submit = form => ({ type: SUBMIT, meta: { form } })
+type StopSubmit = {
+  type: string,
+  meta: {
+    form: string
+  },
+  payload: Object,
+  error: boolean
+} & Action
 
-export const setSubmitFailed = (form, ...fields) => ({
+export const stopSubmit = (form: string, errors: Object): StopSubmit => ({
+  type: STOP_SUBMIT,
+  meta: { form },
+  payload: errors,
+  error: !!(errors && Object.keys(errors).length)
+})
+
+export const submit = (form: string): Action => ({
+  type: SUBMIT,
+  meta: { form }
+})
+
+export const setSubmitFailed = (form: string, ...fields: string[]): Action => ({
   type: SET_SUBMIT_FAILED,
   meta: { form, fields },
   error: true
 })
 
-export const setSubmitSucceeded = (form, ...fields) => ({
+export const setSubmitSucceeded = (
+  form: string,
+  ...fields: string[]
+): Action => ({
   type: SET_SUBMIT_SUCCEEDED,
   meta: { form, fields },
   error: false
 })
 
-export const touch = (form, ...fields) => ({
+export const touch = (form: string, ...fields: string[]): Action => ({
   type: TOUCH,
   meta: { form, fields }
 })
 
-export const unregisterField = (form, name, destroyOnUnmount = true) => ({
+export const unregisterField = (
+  form: string,
+  name: string,
+  destroyOnUnmount: boolean = true
+): Action => ({
   type: UNREGISTER_FIELD,
   meta: { form },
   payload: { name, destroyOnUnmount }
 })
 
-export const untouch = (form, ...fields) => ({
+export const untouch = (form: string, ...fields: string[]): Action => ({
   type: UNTOUCH,
   meta: { form, fields }
 })
 
-export const updateSyncErrors = (form, syncErrors = {}, error) => ({
+export const updateSyncErrors = (
+  form: string,
+  syncErrors: Object = {},
+  error: any
+): Action => ({
   type: UPDATE_SYNC_ERRORS,
   meta: { form },
   payload: { syncErrors, error }
 })
 
-export const updateSyncWarnings = (form, syncWarnings = {}, warning) => ({
+export const updateSyncWarnings = (
+  form: string,
+  syncWarnings: Object = {},
+  warning: any
+): Action => ({
   type: UPDATE_SYNC_WARNINGS,
   meta: { form },
   payload: { syncWarnings, warning }

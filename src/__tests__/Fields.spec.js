@@ -422,9 +422,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should have value set to initial value on first render', () => {
       const store = makeStore({})
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.foo.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return <div><Fields names={['foo', 'bar']} component={input} /></div>
@@ -451,9 +451,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const validate = () => ({ foo: ['first error', 'second error'] })
       class Form extends Component {
         render() {
@@ -492,9 +492,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const validate = () => ({
         authors: [{ _error: 'Object Error' }]
       })
@@ -528,9 +528,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const warn = () => ({ foo: ['first warning', 'second warning'] })
       class Form extends Component {
         render() {
@@ -571,9 +571,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const warn = () => ({
         authors: [{ _warning: 'Object Error' }]
       })
@@ -630,9 +630,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should unregister fields when unmounted', () => {
       const store = makeStore()
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -699,9 +699,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -740,12 +740,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should prefix name getter when inside FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => (
+      const renderFields = ({ foo, bar }) =>
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
-      )
       class Form extends Component {
         render() {
           return (
@@ -766,12 +765,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
     })
     it('should prefix name getter when inside multiple FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => (
+      const renderFields = ({ foo, bar }) =>
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
-      )
       class Form extends Component {
         render() {
           return (
@@ -795,12 +793,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should prefix name when inside FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => (
+      const renderFields = ({ foo, bar }) =>
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
-      )
       class Form extends Component {
         render() {
           return (
@@ -831,12 +828,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should prefix name when inside multiple FormSections', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) => (
+      const renderFields = ({ foo, bar }) =>
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
-      )
       class Form extends Component {
         render() {
           return (
@@ -877,9 +873,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const renderFields = createSpy(props => (
+      const renderFields = createSpy(props =>
         <div>{props.highlighted}<input {...props.foo.input} /></div>
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -923,9 +919,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
       const store = makeStore()
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const renderSpy = createSpy()
       class Form extends Component {
         constructor() {
@@ -981,18 +977,18 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const inputPair1 = createSpy(({ cat, dog }) => (
+      const inputPair1 = createSpy(({ cat, dog }) =>
         <div>
           <input {...cat.input} />
           <input {...dog.input} />
         </div>
-      )).andCallThrough()
-      const inputPair2 = createSpy(({ ewe, fox }) => (
+      ).andCallThrough()
+      const inputPair2 = createSpy(({ ewe, fox }) =>
         <div>
           <input {...ewe.input} />
           <input {...fox.input} />
         </div>
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -1038,9 +1034,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const format = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -1073,9 +1069,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const parse = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -1118,9 +1114,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const parse = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -1163,9 +1159,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -1199,9 +1195,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const parse = createSpy(
         value => value && parseInt(value, 10)
       ).andCallThrough()
@@ -1279,12 +1275,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const passwordInput = createSpy(props => (
+      const passwordInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
-      const confirmInput = createSpy(props => (
+      ).andCallThrough()
+      const confirmInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1340,9 +1336,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should rerender when sync error is cleared', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const validate = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Required' }
@@ -1400,12 +1396,12 @@ const describeFields = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const passwordInput = createSpy(props => (
+      const passwordInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
-      const confirmInput = createSpy(props => (
+      ).andCallThrough()
+      const confirmInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const warn = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1461,9 +1457,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
 
     it('should rerender when sync warning is cleared', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const warn = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Recommended' }

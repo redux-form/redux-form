@@ -1,3 +1,4 @@
+// @flow
 import * as _actions from './actions'
 import * as _actionTypes from './actionTypes'
 export {

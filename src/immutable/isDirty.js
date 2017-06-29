@@ -1,3 +1,4 @@
+// @flow
 import createIsDirty from '../selectors/isDirty'
 import immutable from '../structure/immutable'
 

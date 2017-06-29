@@ -1,6 +1,7 @@
+// @flow
 import { isEqualWith } from 'lodash'
 
-const customizer = (obj, other) => {
+const customizer = (obj: any, other: any) => {
   if (obj === other) return true
   if (
     (obj == null || obj === '' || obj === false) &&
@@ -12,6 +13,6 @@ const customizer = (obj, other) => {
   if (obj && other && obj._warning !== other._warning) return false
 }
 
-const deepEqual = (a, b) => isEqualWith(a, b, customizer)
+const deepEqual = (a: any, b: any) => isEqualWith(a, b, customizer)
 
 export default deepEqual
