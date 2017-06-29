@@ -29,6 +29,12 @@ const AsyncValidationForm = props => {
         label="Username"
       />
       <Field
+        name="companyname"
+        type="text"
+        component={renderField}
+        label="Companyname"
+      />
+      <Field
         name="password"
         type="password"
         component={renderField}
