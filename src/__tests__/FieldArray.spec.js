@@ -1757,6 +1757,78 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls.length).toBe(2)
     })
 
+    it('should rerender when a value changes if rerenderOnEveryChange is set and FieldArray has multiple groups with same values', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            dogs: [{
+              name: 'Fido',
+              owner: 'Alex'
+            }, {
+              name: 'Odie',
+              owner: 'Alex'
+            }, {
+              name: 'Fido',
+              owner: 'Alex'
+            }, {
+              name: 'Snoopy',
+              owner: 'Alex'
+            }]
+          }
+        }
+      })
+      const renderField = createSpy(props => (
+        <input {...props.input} />
+      )).andCallThrough()
+      const renderFieldArray = createSpy(({ fields }) => (
+        <div>
+          {fields.map(member => (
+            <div key={member}>
+              <Field name={`${member}.name`} component={renderField} />
+              <Field name={`${member}.owner`} component={renderField} />
+            </div>
+          ))}
+        </div>
+      )).andCallThrough()
+      class Form extends Component {
+        render() {
+          return (
+            <FieldArray
+              name="dogs"
+              component={renderFieldArray}
+              rerenderOnEveryChange
+            />
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      // field array rendered
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+
+      // both fields rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(8)
+      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+
+      // change first name field
+      renderField.calls[0].arguments[0].input.onChange('Odie')
+
+      // first name field rerendered, other fields is NOT
+      expect(renderField.calls.length).toBe(9)
+      expect(renderField.calls[8].arguments[0].input.name).toBe('dogs[0].name')
+      expect(renderField.calls[8].arguments[0].input.value).toBe('Odie')
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+    })
+
     it('should create a list in the store on push(undefined)', () => {
       const store = makeStore({})
       const renderField = createSpy(props => (
