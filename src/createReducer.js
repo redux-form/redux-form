@@ -372,8 +372,13 @@ const createReducer = structure => {
         if (_error) {
           result = setIn(result, 'error', _error)
         }
-        if (Object.keys(fieldErrors).length) {
-          result = setIn(result, 'asyncErrors', fromJS(fieldErrors))
+        const fields = Object.keys(fieldErrors)
+        if(fields.length) {
+            let asyncErrors = getIn(result, 'asyncErrors') || /* if undefined */ fromJS({})
+            fields.forEach(field => {
+              asyncErrors = setIn(asyncErrors, `${field}`, fromJS(fieldErrors[field]))
+            })
+            result = setIn(result, 'asyncErrors', asyncErrors)
         }
       } else {
         result = deleteIn(result, 'error')
