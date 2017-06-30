@@ -85,9 +85,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
         if (
           thisValue.length !== nextValue.length ||
           (nextProps.rerenderOnEveryChange &&
-            thisValue.some(val =>
-              nextValue.every(next => !deepEqual(val, next))
-            ))
+            thisValue.some((val, index) => !deepEqual(val, nextValue[index])))
         ) {
           return true
         }

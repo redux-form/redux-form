@@ -71,13 +71,19 @@ const createField = (structure: Structure<*, *>) => {
     }
 
     componentWillReceiveProps(nextProps: Props) {
-      if (this.props.name !== nextProps.name) {
+      if (
+        this.props.name !== nextProps.name ||
+        this.props.validate !== nextProps.validate ||
+        this.props.warn !== nextProps.warn
+      ) {
         // unregister old name
         this.context._reduxForm.unregister(this.name)
         // register new name
         this.context._reduxForm.register(
           prefixName(this.context, nextProps.name),
-          'Field'
+          'Field',
+          () => nextProps.validate,
+          () => nextProps.warn
         )
       }
     }
