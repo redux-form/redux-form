@@ -4,10 +4,16 @@ import submit from './submit'
 
 const renderField = ({ input, label, type, meta: { touched, error } }) =>
   <div>
-    <label>{label}</label>
+    <label>
+      {label}
+    </label>
     <div>
       <input {...input} placeholder={label} type={type} />
-      {touched && error && <span>{error}</span>}
+      {touched &&
+        error &&
+        <span>
+          {error}
+        </span>}
     </div>
   </div>
 
@@ -27,9 +33,14 @@ const SubmitValidationForm = props => {
         component={renderField}
         label="Password"
       />
-      {error && <strong>{error}</strong>}
+      {error &&
+        <strong>
+          {error}
+        </strong>}
       <div>
-        <button type="submit" disabled={submitting}>Log In</button>
+        <button type="submit" disabled={submitting}>
+          Log In
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

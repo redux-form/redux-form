@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 import prefixName from './util/prefixName'
 import type { ReactContext } from './types'
 
-type Props = {
+export type Props = {
   name: string,
   component: Function | string,
   children: any
 }
 
-type DefaultProps = {
+export type DefaultProps = {
   component: Function | string
 }
 

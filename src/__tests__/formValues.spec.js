@@ -46,7 +46,9 @@ const describeValues = (
       <Provider store={store}>
         <Form>
           {useSection
-            ? <FormSection name="sub"><Decorated /></FormSection>
+            ? <FormSection name="sub">
+                <Decorated />
+              </FormSection>
             : <Decorated />}
         </Form>
       </Provider>

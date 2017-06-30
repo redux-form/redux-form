@@ -147,7 +147,7 @@ type OnChangeFunction = {
   (values: Values, dispatch: Function, props: Object): void
 }
 
-type Config = {
+export type Config = {
   asyncBlurFields?: string[],
   destroyOnUnmount?: boolean,
   forceUnregisterOnUnmount?: boolean,
@@ -372,9 +372,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
             })
 
             if (shouldValidateResult) {
-              const propsToValidate = initialRender || !nextProps
-                ? this.props
-                : nextProps
+              const propsToValidate =
+                initialRender || !nextProps ? this.props : nextProps
               const { _error, ...nextSyncErrors } = merge(
                 validate
                   ? validate(propsToValidate.values, propsToValidate) || {}
@@ -433,9 +432,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
             })
 
             if (shouldWarnResult) {
-              const propsToWarn = initialRender || !nextProps
-                ? this.props
-                : nextProps
+              const propsToWarn =
+                initialRender || !nextProps ? this.props : nextProps
               const { _warning, ...nextSyncWarnings } = merge(
                 warn ? warn(propsToWarn.values, propsToWarn) : {},
                 fieldLevelWarn

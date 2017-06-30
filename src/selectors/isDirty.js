@@ -1,13 +1,13 @@
 // @flow
 import createIsPristine from './isPristine'
-import type { Structure, GetFormState, State } from '../types'
+import type { Structure, GetFormState } from '../types'
 
 const createIsDirty = (structure: Structure<*, *>) => (
   form: string,
   getFormState: GetFormState
 ) => {
   const isPristine = createIsPristine(structure)(form, getFormState)
-  return (state: State) => !isPristine(state)
+  return (state: any) => !isPristine(state)
 }
 
 export default createIsDirty

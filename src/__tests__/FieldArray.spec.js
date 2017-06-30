@@ -40,7 +40,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     const store = makeStore({ testForm: state })
     class Form extends Component {
       render() {
-        return <div><FieldArray name="foo" component={TestComponent} /></div>
+        return (
+          <div>
+            <FieldArray name="foo" component={TestComponent} />
+          </div>
+        )
       }
     }
     const TestForm = reduxForm({ form: 'testForm', ...config })(Form)
@@ -470,7 +474,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent} /></div>
+          return (
+            <div>
+              <FieldArray name="foo" component={TestComponent} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -493,7 +501,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent} /></div>
+          return (
+            <div>
+              <FieldArray name="foo" component={TestComponent} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -519,7 +531,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent} /></div>
+          return (
+            <div>
+              <FieldArray name="foo" component={TestComponent} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -545,7 +561,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent} /></div>
+          return (
+            <div>
+              <FieldArray name="foo" component={TestComponent} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -571,7 +591,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent} /></div>
+          return (
+            <div>
+              <FieldArray name="foo" component={TestComponent} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -597,7 +621,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><FieldArray name="foo" component={TestComponent} /></div>
+          return (
+            <div>
+              <FieldArray name="foo" component={TestComponent} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -638,7 +666,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               <Field name={`${name}.author`} component="input" />
               <Field
                 name={name}
-                component={props => <strong>{props.meta.error}</strong>}
+                component={props =>
+                  <strong>
+                    {props.meta.error}
+                  </strong>}
               />
             </div>
           )}
@@ -693,7 +724,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               <Field name={`${name}.author`} component="input" />
               <Field
                 name={name}
-                component={props => <strong>{props.meta.warning}</strong>}
+                component={props =>
+                  <strong>
+                    {props.meta.warning}
+                  </strong>}
               />
             </div>
           )}
@@ -1326,7 +1360,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           {fields.map(field =>
             <Field name={field} component={renderField} key={field} />
           )}
-          <button className="add" onClick={() => fields.push()}>Add Dog</button>
+          <button className="add" onClick={() => fields.push()}>
+            Add Dog
+          </button>
           <button className="remove" onClick={() => fields.pop()}>
             Remove Dog
           </button>
@@ -1401,7 +1437,11 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         })
         const renderFieldArray = createSpy(({ fields }) =>
           <div>
-            {fields.map((field, index) => <div key={index}>{field}</div>)}
+            {fields.map((field, index) =>
+              <div key={index}>
+                {field}
+              </div>
+            )}
             <button className="add" onClick={() => fields.push()}>
               Add Dog
             </button>
@@ -1497,8 +1537,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       })
       const renderFieldArray = createSpy(({ fields }) =>
         <div>
-          {fields.map((field, index) => <div key={index}>{field}</div>)}
-          <button className="add" onClick={() => fields.push()}>Add Dog</button>
+          {fields.map((field, index) =>
+            <div key={index}>
+              {field}
+            </div>
+          )}
+          <button className="add" onClick={() => fields.push()}>
+            Add Dog
+          </button>
           <button className="remove" onClick={() => fields.pop()}>
             Remove Dog
           </button>
@@ -1604,7 +1650,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               <Field name={`${field}.name`} component="input" />
             </div>
           )}
-          <button className="add" onClick={() => fields.push()}>Add Dog</button>
+          <button className="add" onClick={() => fields.push()}>
+            Add Dog
+          </button>
           <button className="remove" onClick={() => fields.pop()}>
             Remove Dog
           </button>
@@ -2206,7 +2254,9 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       const renderField = createSpy(field => <input {...field.input} />)
 
       const renderFields = createSpy(({ foo }) =>
-        <div>{foo.map(renderField)}</div>
+        <div>
+          {foo.map(renderField)}
+        </div>
       ).andCallThrough()
 
       const component = createSpy(({ fields }) =>

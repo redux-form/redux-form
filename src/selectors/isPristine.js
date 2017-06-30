@@ -1,10 +1,10 @@
 // @flow
-import type { Structure, GetFormState, State } from '../types'
+import type { Structure, GetFormState } from '../types'
 
 const createIsPristine = ({ deepEqual, empty, getIn }: Structure<*, *>) => (
   form: string,
   getFormState: GetFormState = state => getIn(state, 'form')
-) => (state: State) => {
+) => (state: any) => {
   const formState = getFormState(state)
   const initial = getIn(formState, `${form}.initial`) || empty
   const values = getIn(formState, `${form}.values`) || initial

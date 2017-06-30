@@ -20,7 +20,9 @@ const WizardFormFirstPage = props => {
         label="Last Name"
       />
       <div>
-        <button type="submit" className="next">Next</button>
+        <button type="submit" className="next">
+          Next
+        </button>
       </div>
     </form>
   )

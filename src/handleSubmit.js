@@ -34,9 +34,10 @@ const handleSubmit = (
       try {
         result = submit(values, dispatch, props)
       } catch (submitError) {
-        const error = submitError instanceof SubmissionError
-          ? submitError.errors
-          : undefined
+        const error =
+          submitError instanceof SubmissionError
+            ? submitError.errors
+            : undefined
         stopSubmit(error)
         setSubmitFailed(...fields)
         if (onSubmitFail) {
@@ -61,9 +62,10 @@ const handleSubmit = (
             return submitResult
           },
           submitError => {
-            const error = submitError instanceof SubmissionError
-              ? submitError.errors
-              : undefined
+            const error =
+              submitError instanceof SubmissionError
+                ? submitError.errors
+                : undefined
             stopSubmit(error)
             setSubmitFailed(...fields)
             if (onSubmitFail) {

@@ -119,7 +119,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     return result
   }
 
-  const behaviors: { [string]: { (state: M | L, action: Action): M } } = {
+  const behaviors: { [string]: { (state: any, action: Action): M } } = {
     [ARRAY_INSERT](state, { meta: { field, index }, payload }) {
       return arraySplice(state, field, index, 0, payload)
     },
@@ -183,7 +183,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       return arraySplice(state, field, 0, 0, payload)
     },
     [AUTOFILL](state, { meta: { field }, payload }) {
-      let result: M | L = state
+      let result: any = state
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
       result = deleteInWithCleanUp(result, `submitErrors.${field}`)
       result = setIn(result, `fields.${field}.autofilled`, true)
@@ -500,13 +500,13 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     }
   }
 
-  const reducer = (state: M | L = empty, action: Action) => {
+  const reducer = (state: any = empty, action: Action) => {
     const behavior = behaviors[action.type]
     return behavior ? behavior(state, action) : state
   }
 
   const byForm = reducer => (
-    state: M | L = empty,
+    state: any = empty,
     action: Action = { type: 'NONE' }
   ) => {
     const form = action && action.meta && action.meta.form
@@ -530,19 +530,18 @@ function createReducer<M, L>(structure: Structure<M, L>) {
   function decorate(target) {
     target.plugin = function plugin(reducers) {
       // use 'function' keyword to enable 'this'
-      return decorate(
-        (state: M | L = empty, action: Action = { type: 'NONE' }) =>
-          Object.keys(reducers).reduce((accumulator, key) => {
-            const previousState = getIn(accumulator, key)
-            const nextState = reducers[key](
-              previousState,
-              action,
-              getIn(state, key)
-            )
-            return nextState === previousState
-              ? accumulator
-              : setIn(accumulator, key, nextState)
-          }, this(state, action))
+      return decorate((state: any = empty, action: Action = { type: 'NONE' }) =>
+        Object.keys(reducers).reduce((accumulator, key) => {
+          const previousState = getIn(accumulator, key)
+          const nextState = reducers[key](
+            previousState,
+            action,
+            getIn(state, key)
+          )
+          return nextState === previousState
+            ? accumulator
+            : setIn(accumulator, key, nextState)
+        }, this(state, action))
       )
     }
 

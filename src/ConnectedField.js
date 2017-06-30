@@ -310,9 +310,10 @@ const createConnectedField = (structure: Structure<*, *>) => {
       const { name, _reduxForm: { initialValues, getFormState } } = ownProps
       const formState = getFormState(state)
       const initialState = getIn(formState, `initial.${name}`)
-      const initial = initialState !== undefined
-        ? initialState
-        : initialValues && getIn(initialValues, name)
+      const initial =
+        initialState !== undefined
+          ? initialState
+          : initialValues && getIn(initialValues, name)
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)

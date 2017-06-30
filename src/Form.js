@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import type { ReactContext } from './types'
 
-type Props = {
+export type Props = {
   onSubmit: Function
 }
 

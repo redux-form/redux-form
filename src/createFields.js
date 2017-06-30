@@ -19,7 +19,7 @@ const validateNameProp = prop => {
   }
 }
 
-type Props = {
+export type Props = {
   names: string[],
   component: Function | ReactClass<*>,
   format?: { (value: any, name: string): ?any },

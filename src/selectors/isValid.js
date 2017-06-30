@@ -1,6 +1,6 @@
 // @flow
 import createHasError from '../hasError'
-import type { Structure, GetFormState, State } from '../types'
+import type { Structure, GetFormState } from '../types'
 
 const createIsValid = (structure: Structure<*, *>) => {
   const { getIn, keys } = structure
@@ -9,7 +9,7 @@ const createIsValid = (structure: Structure<*, *>) => {
     form: string,
     getFormState: GetFormState = state => getIn(state, 'form'),
     ignoreSubmitErrors: boolean = false
-  ) => (state: State) => {
+  ) => (state: any) => {
     const formState = getFormState(state)
     const syncError = getIn(formState, `${form}.syncError`)
     if (syncError) {

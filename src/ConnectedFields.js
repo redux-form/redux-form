@@ -193,9 +193,10 @@ const createConnectedFields = (structure: Structure<*, *>) => {
       return {
         _fields: names.reduce((accumulator, name) => {
           const initialState = getIn(formState, `initial.${name}`)
-          const initial = initialState !== undefined
-            ? initialState
-            : initialValues && getIn(initialValues, name)
+          const initial =
+            initialState !== undefined
+              ? initialState
+              : initialValues && getIn(initialValues, name)
           const value = getIn(formState, `values.${name}`)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
           const syncWarning = getSyncWarning(

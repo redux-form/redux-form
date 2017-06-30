@@ -82,7 +82,9 @@ let ReactWidgetsForm = props => {
         <Field name="dob" showTime={false} component={renderDateTimePicker} />
       </div>
       <div>
-        <button type="submit" disabled={pristine || submitting}>Submit</button>
+        <button type="submit" disabled={pristine || submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Reset Values
         </button>

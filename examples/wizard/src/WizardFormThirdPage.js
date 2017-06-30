@@ -7,9 +7,17 @@ const renderColorSelector = ({ input, meta: { touched, error } }) =>
   <div>
     <select {...input}>
       <option value="">Select a color...</option>
-      {colors.map(val => <option value={val} key={val}>{val}</option>)}
+      {colors.map(val =>
+        <option value={val} key={val}>
+          {val}
+        </option>
+      )}
     </select>
-    {touched && error && <span>{error}</span>}
+    {touched &&
+      error &&
+      <span>
+        {error}
+      </span>}
   </div>
 
 const WizardFormThirdPage = props => {
@@ -41,7 +49,9 @@ const WizardFormThirdPage = props => {
         <button type="button" className="previous" onClick={previousPage}>
           Previous
         </button>
-        <button type="submit" disabled={pristine || submitting}>Submit</button>
+        <button type="submit" disabled={pristine || submitting}>
+          Submit
+        </button>
       </div>
     </form>
   )

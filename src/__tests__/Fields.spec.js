@@ -33,7 +33,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
     const store = makeStore({ testForm: state })
     class Form extends Component {
       render() {
-        return <div><Fields names={['foo']} component={TestInput} /></div>
+        return (
+          <div>
+            <Fields names={['foo']} component={TestInput} />
+          </div>
+        )
       }
     }
     const TestForm = reduxForm({ form: 'testForm', ...config })(Form)
@@ -61,7 +65,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       const store = makeStore()
       class Form extends Component {
         render() {
-          return <div><Fields component={TestInput} /></div>
+          return (
+            <div>
+              <Fields component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -81,7 +89,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <div><Fields names="This is a string" component={TestInput} /></div>
+            <div>
+              <Fields names="This is a string" component={TestInput} />
+            </div>
           )
         }
       }
@@ -271,7 +281,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+            <div>
+              <Fields names={['foo', 'bar']} component={TestInput} />
+            </div>
           )
         }
       }
@@ -297,7 +309,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+            <div>
+              <Fields names={['foo', 'bar']} component={TestInput} />
+            </div>
           )
         }
       }
@@ -327,7 +341,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+            <div>
+              <Fields names={['foo', 'bar']} component={TestInput} />
+            </div>
           )
         }
       }
@@ -357,7 +373,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <div><Fields names={['foo', 'bar']} component={TestInput} /></div>
+            <div>
+              <Fields names={['foo', 'bar']} component={TestInput} />
+            </div>
           )
         }
       }
@@ -381,7 +399,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={['foo']} component={TestInput} /></div>
+          return (
+            <div>
+              <Fields names={['foo']} component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -407,7 +429,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={['foo']} component={TestInput} /></div>
+          return (
+            <div>
+              <Fields names={['foo']} component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -427,7 +453,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       ).andCallThrough()
       class Form extends Component {
         render() {
-          return <div><Fields names={['foo', 'bar']} component={input} /></div>
+          return (
+            <div>
+              <Fields names={['foo', 'bar']} component={input} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -458,7 +488,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <div><Fields names={['foo[0]', 'foo[1]']} component={input} /></div>
+            <div>
+              <Fields names={['foo[0]', 'foo[1]']} component={input} />
+            </div>
           )
         }
       }
@@ -500,7 +532,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={['authors[0]']} component={input} /></div>
+          return (
+            <div>
+              <Fields names={['authors[0]']} component={input} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -535,7 +571,9 @@ const describeFields = (name, structure, combineReducers, expect) => {
       class Form extends Component {
         render() {
           return (
-            <div><Fields names={['foo[0]', 'foo[1]']} component={input} /></div>
+            <div>
+              <Fields names={['foo[0]', 'foo[1]']} component={input} />
+            </div>
           )
         }
       }
@@ -579,7 +617,11 @@ const describeFields = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Fields names={['authors[0]']} component={input} /></div>
+          return (
+            <div>
+              <Fields names={['authors[0]']} component={input} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -874,7 +916,10 @@ const describeFields = (name, structure, combineReducers, expect) => {
     it('should rerender when props change', () => {
       const store = makeStore()
       const renderFields = createSpy(props =>
-        <div>{props.highlighted}<input {...props.foo.input} /></div>
+        <div>
+          {props.highlighted}
+          <input {...props.foo.input} />
+        </div>
       ).andCallThrough()
       class Form extends Component {
         constructor() {

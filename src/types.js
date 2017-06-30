@@ -2,12 +2,15 @@
 import type { Map as ImmutableMap } from 'immutable'
 import type { Component } from 'react'
 
-export type State = any
+export type ComponentClass<DefaultProps, Props> = Class<
+  React$Component<DefaultProps, Props, *>
+>
 
 export type Action = {
   type: string,
   meta?: any,
-  payload?: any
+  payload?: any,
+  error?: any
 }
 
 export interface Structure<M, L> {
@@ -31,7 +34,7 @@ export type FieldType = 'Field' | 'FieldArray'
 
 export type Values = Object | ImmutableMap<string, *> | any[]
 
-export type GetFormState = { (state: State): State }
+export type GetFormState = { (state: any): any }
 
 export type ConnectedComponent<T: Component<*, *, *>> = {
   getWrappedInstance: { (): T }

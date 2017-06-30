@@ -4,17 +4,25 @@ import validate from './validate'
 
 const renderField = ({ input, label, type, meta: { touched, error } }) =>
   <div>
-    <label>{label}</label>
+    <label>
+      {label}
+    </label>
     <div>
       <input {...input} type={type} placeholder={label} />
-      {touched && error && <span>{error}</span>}
+      {touched &&
+        error &&
+        <span>
+          {error}
+        </span>}
     </div>
   </div>
 
 const renderHobbies = ({ fields, meta: { error } }) =>
   <ul>
     <li>
-      <button type="button" onClick={() => fields.push()}>Add Hobby</button>
+      <button type="button" onClick={() => fields.push()}>
+        Add Hobby
+      </button>
     </li>
     {fields.map((hobby, index) =>
       <li key={index}>
@@ -31,14 +39,23 @@ const renderHobbies = ({ fields, meta: { error } }) =>
         />
       </li>
     )}
-    {error && <li className="error">{error}</li>}
+    {error &&
+      <li className="error">
+        {error}
+      </li>}
   </ul>
 
 const renderMembers = ({ fields, meta: { error, submitFailed } }) =>
   <ul>
     <li>
-      <button type="button" onClick={() => fields.push({})}>Add Member</button>
-      {submitFailed && error && <span>{error}</span>}
+      <button type="button" onClick={() => fields.push({})}>
+        Add Member
+      </button>
+      {submitFailed &&
+        error &&
+        <span>
+          {error}
+        </span>}
     </li>
     {fields.map((member, index) =>
       <li key={index}>
@@ -47,7 +64,9 @@ const renderMembers = ({ fields, meta: { error, submitFailed } }) =>
           title="Remove Member"
           onClick={() => fields.remove(index)}
         />
-        <h4>Member #{index + 1}</h4>
+        <h4>
+          Member #{index + 1}
+        </h4>
         <Field
           name={`${member}.firstName`}
           type="text"
@@ -77,7 +96,9 @@ const FieldArraysForm = props => {
       />
       <FieldArray name="members" component={renderMembers} />
       <div>
-        <button type="submit" disabled={submitting}>Submit</button>
+        <button type="submit" disabled={submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

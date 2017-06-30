@@ -1,0 +1,151 @@
+// @flow
+import type { Action, ComponentClass, GetFormState } from './types'
+import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
+import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
+import type { Config as ReduxFormConfig } from './createReduxForm'
+import type { Props as FormProps } from './Form'
+import type {
+  DefaultProps as FormSectionDefaultProps,
+  Props as FormSectionProps
+} from './FormSection'
+import type { Props as FieldProps } from './createField'
+import type { Props as FieldsProps } from './createFields'
+import type { Props as FieldArrayProps } from './createFieldArray'
+import type { Config as ValuesConfig } from './createValues'
+import type { ActionTypes } from './actionTypes'
+import type { Actions } from './actions'
+
+type StructureMap = Object
+
+declare export var actionTypes: ActionTypes
+
+declare export var actions: Actions
+
+declare export function defaultShouldAsyncValidate(
+  params: DefaultShouldAsyncValidateParams
+): boolean
+
+declare export function defaultShouldValidate(
+  params: DefaultShouldValidateParams
+): boolean
+
+declare export var propTypes: Object
+
+declare export var fieldInputPropTypes: Object
+
+declare export var fieldMetaPropTypes: Object
+
+declare export var fieldPropTypes: Object
+
+declare export var formPropTypes: Object
+
+declare export var Field: ComponentClass<*, FieldProps>
+
+declare export var Fields: ComponentClass<*, FieldsProps>
+
+declare export var FieldArray: ComponentClass<*, FieldArrayProps>
+
+declare export var Form: ComponentClass<*, FormProps>
+
+declare export var FormSection: ComponentClass<
+  FormSectionDefaultProps,
+  FormSectionProps
+>
+
+declare export function formValueSelector(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any, ...fields: string[]): any }
+
+declare export function formValues(
+  firstArg: string | Object,
+  ...rest: string[]
+): { (Component: ComponentClass<*, *>): ComponentClass<*, *> }
+
+declare export function getFormNames(
+  getFormState: ?GetFormState
+): { (state: any): string[] }
+
+declare export function getFormValues(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): StructureMap }
+
+declare export function getFormInitialValues(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): StructureMap }
+
+declare export function getFormSyncErrors(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): StructureMap }
+
+declare export function getFormMeta(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): StructureMap }
+
+declare export function getFormAsyncErrors(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): StructureMap }
+
+declare export function getFormSyncWarnings(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): StructureMap }
+
+declare export function getFormSubmitErrors(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): StructureMap }
+
+declare export function hasSubmitSucceeded(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): boolean }
+
+declare export function hasSubmitFailed(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): boolean }
+
+declare export function isDirty(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): boolean }
+
+declare export function isInvalid(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): boolean }
+
+declare export function isPristine(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): boolean }
+
+declare export function isValid(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): boolean }
+
+declare export function isSubmitting(
+  form: string,
+  getFormState: ?GetFormState
+): { (state: any): boolean }
+
+declare export function reduxForm(
+  config: ReduxFormConfig
+): { (WrappedComponent: ReactClass<*>): ReactClass<*> }
+
+declare export function reducer(state: any, action: Action): any
+
+declare export class SubmissionError {
+  constructor(errors: Object): void
+}
+
+declare export function values(
+  config: ValuesConfig
+): { (ComponentClass<*, *>): ComponentClass<*, *> }
