@@ -54,5 +54,5 @@ export default reduxForm({
   form: 'asyncValidation', // a unique identifier for this form
   validate,
   asyncValidate,
-  asyncBlurFields: ['username']
+  asyncBlurFields: ['username', 'companyname']
 })(AsyncValidationForm)
