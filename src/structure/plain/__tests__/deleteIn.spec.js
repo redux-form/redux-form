@@ -22,10 +22,22 @@ describe('structure.plain.deleteIn', () => {
   })
 
   it('should throw exception for non-numerical array indexes', () => {
-    const state = {
-      foo: ['dog']
-    }
-    expect(() => deleteIn(state, 'foo[bar]')).toThrow(/non-numerical index/)
+    expect(() =>
+      deleteIn(
+        {
+          foo: ['dog']
+        },
+        'foo[bar]'
+      )
+    ).toThrow(/non-numerical index/)
+    expect(() =>
+      deleteIn(
+        {
+          foo: [{ dog: 'fido' }]
+        },
+        'foo[bar].dog'
+      )
+    ).toThrow(/array elements with a number/)
   })
 
   it('should delete shallow keys without mutating state', () => {

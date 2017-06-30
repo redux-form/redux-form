@@ -18,7 +18,7 @@ function deleteInWithPath<T: Object | Array<*>>(
     if (Array.isArray(state)) {
       if (isNaN(first)) {
         throw new Error(
-          `Must access array elements with an number, not "${String(first)}".`
+          `Must access array elements with a number, not "${String(first)}".`
         )
       }
       const firstIndex = Number(first)
