@@ -31,7 +31,7 @@ or passed in as props to your component at runtime.**
 #### -`asyncBlurFields : Array<String>` [optional]
 
 > field names for which `onBlur` should trigger a call to the `asyncValidate` function.
-Defaults to `[]`.
+Defaults to including all fields.
 
 > See [Asynchronous Blur Validation Example](https://redux-form.com/6.8.0/examples/asyncValidation/)
 for more details.

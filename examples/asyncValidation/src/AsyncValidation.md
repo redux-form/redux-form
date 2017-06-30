@@ -10,7 +10,8 @@ function (`asyncValidate`) that takes an object of form values, and the Redux `d
 function, and returns a promise that either rejects with an object of errors or resolves.
 
 You will also need to specify which fields should fire the asynchronous validation when
-they are blurred with the `asyncBlurFields` config property.
+they are blurred with the `asyncBlurFields` config property. If you do not provide that
+property, blurring any field will trigger asynchronous validation.
 
 ## Important
 
@@ -42,4 +43,3 @@ browser to view the example running locally on your machine.
 ## How to use the form below:
 
 * Usernames that will _fail_ validation: `john`, `paul`, `george` or `ringo`.
-
