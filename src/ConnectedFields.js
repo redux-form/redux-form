@@ -10,7 +10,7 @@ import type { Structure, Event, Context } from './types'
 const propsToNotUpdateFor = ['_reduxForm']
 
 const createConnectedFields = (structure: Structure<*, *>) => {
-  const { deepEqual, getIn, toJS, size } = structure
+  const { deepEqual, getIn, size } = structure
 
   const getSyncError = (syncErrors: Object, name: string) => {
     // Because the error for this field might not be at a level in the error structure where

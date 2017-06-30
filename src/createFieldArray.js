@@ -7,7 +7,6 @@ import prefixName from './util/prefixName'
 import type {
   ConnectedComponent,
   Structure,
-  Event,
   ReactContext
 } from './types'
 import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray'

@@ -81,7 +81,7 @@ export type InstanceApi = {
 } & React$Component<*, *, *>
 
 const createConnectedField = (structure: Structure<*, *>) => {
-  const { deepEqual, getIn, toJS } = structure
+  const { deepEqual, getIn } = structure
   const getSyncError = (syncErrors: Object, name: string) => {
     const error = plain.getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where

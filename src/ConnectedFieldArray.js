@@ -7,7 +7,6 @@ import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
 import type { Structure, Context } from './types'
-import type { Component as ReactComponent } from 'react'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 

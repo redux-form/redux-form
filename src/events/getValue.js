@@ -1,6 +1,6 @@
 // @flow
 import isEvent from './isEvent'
-import type { Event, Option } from '../types'
+import type { Event } from '../types'
 
 const getSelectedValues = options => {
   const result = []

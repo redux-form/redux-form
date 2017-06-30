@@ -26,7 +26,6 @@ import type {
 } from './types'
 import type { Params as ShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as ShouldValidateParams } from './defaultShouldValidate'
-import type { Validator } from './generateValidator'
 
 const isClassComponent = (Component: ?any) =>
   Boolean(
