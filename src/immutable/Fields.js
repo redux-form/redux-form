@@ -1,3 +1,4 @@
+// @flow
 import createFields from '../createFields'
 import immutable from '../structure/immutable'
 

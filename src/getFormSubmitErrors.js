@@ -1,3 +1,4 @@
+// @flow
 import createGetFormSubmitErrors from './selectors/getFormSubmitErrors'
 import plain from './structure/plain'
 

@@ -1,7 +1,16 @@
+// @flow
 import getValue from './getValue'
 import isReactNative from '../isReactNative'
+import type { Event } from '../types'
 
-const onChangeValue = (event, { name, parse, normalize }) => {
+const onChangeValue = (
+  event: Event,
+  {
+    name,
+    parse,
+    normalize
+  }: { name: string, parse?: Function, normalize?: Function }
+) => {
   // read value from input
   let value = getValue(event, isReactNative)
 

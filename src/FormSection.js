@@ -1,9 +1,25 @@
+// @flow
 import React, { createElement, Component } from 'react'
 import PropTypes from 'prop-types'
 import prefixName from './util/prefixName'
+import type { ReactContext } from './types'
+
+export type Props = {
+  name: string,
+  component: Function | string,
+  children: any
+}
+
+export type DefaultProps = {
+  component: Function | string
+}
 
 class FormSection extends Component {
-  constructor(props, context) {
+  props: Props
+  context: ReactContext
+  static defaultProps: DefaultProps
+
+  constructor(props: Props, context: ReactContext) {
     super(props, context)
     if (!context._reduxForm) {
       throw new Error(

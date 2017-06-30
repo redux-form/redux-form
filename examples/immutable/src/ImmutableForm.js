@@ -10,12 +10,20 @@ const renderField = ({
   meta: { touched, error, warning }
 }) =>
   <div>
-    <label>{label}</label>
+    <label>
+      {label}
+    </label>
     <div>
       <input {...input} type={type} placeholder={label} />
       {touched &&
-        ((error && <span>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
+        ((error &&
+          <span>
+            {error}
+          </span>) ||
+          (warning &&
+            <span>
+              {warning}
+            </span>))}
     </div>
   </div>
 
@@ -32,7 +40,9 @@ const ImmutableForm = props => {
       <Field name="email" type="email" component={renderField} label="Email" />
       <Field name="age" type="number" component={renderField} label="Age" />
       <div>
-        <button type="submit" disabled={submitting}>Submit</button>
+        <button type="submit" disabled={submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

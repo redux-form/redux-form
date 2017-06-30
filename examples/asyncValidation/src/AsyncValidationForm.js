@@ -8,15 +8,20 @@ const renderField = ({
   label,
   type,
   meta: { asyncValidating, touched, error }
-}) => (
+}) =>
   <div>
-    <label>{label}</label>
+    <label>
+      {label}
+    </label>
     <div className={asyncValidating ? 'async-validating' : ''}>
       <input {...input} type={type} placeholder={label} />
-      {touched && error && <span>{error}</span>}
+      {touched &&
+        error &&
+        <span>
+          {error}
+        </span>}
     </div>
   </div>
-)
 
 const AsyncValidationForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
@@ -35,7 +40,9 @@ const AsyncValidationForm = props => {
         label="Password"
       />
       <div>
-        <button type="submit" disabled={submitting}>Sign Up</button>
+        <button type="submit" disabled={submitting}>
+          Sign Up
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

@@ -72,7 +72,9 @@ const FieldNormalizingForm = props => {
         </div>
       </div>
       <div>
-        <button type="submit" disabled={submitting}>Submit</button>
+        <button type="submit" disabled={submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

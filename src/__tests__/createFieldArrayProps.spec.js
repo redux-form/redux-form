@@ -8,7 +8,7 @@ import addExpectations from './addExpectations'
 
 const describeCreateFieldProps = (name, structure, expect) => {
   const { fromJS, getIn, size } = structure
-  const defaultParams = [getIn, 'foo', 'testForm', undefined, () => 69]
+  const defaultParams = [structure, 'foo', 'testForm', undefined, () => 69]
 
   describe(name, () => {
     it('should pass props through', () => {

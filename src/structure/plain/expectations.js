@@ -1,3 +1,4 @@
+// @flow
 import expect from 'expect'
 import { isObject } from 'lodash'
 
@@ -20,7 +21,7 @@ const expectations = {
     return this
   },
 
-  toBeSize(size) {
+  toBeSize(size: number) {
     expect.assert(
       this.actual && Object.keys(this.actual).length === size,
       'expected %s to contain %s elements',
@@ -30,11 +31,11 @@ const expectations = {
     return this
   },
 
-  toEqualMap(expected) {
+  toEqualMap(expected: Object) {
     return expect(this.actual).toEqual(expected)
   },
 
-  toContainExactly(expected) {
+  toContainExactly(expected: any[]) {
     const sortedActual = this.actual.slice()
     sortedActual.sort()
     const sortedExpected = expected.slice()

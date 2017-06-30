@@ -1,12 +1,14 @@
+// @flow
 import invariant from 'invariant'
 import plain from './structure/plain'
+import type { Structure, GetFormState } from './types'
 
-const createFormValueSelector = ({ getIn }) => (
-  form,
-  getFormState = state => getIn(state, 'form')
+const createFormValueSelector = ({ getIn }: Structure<*, *>) => (
+  form: string,
+  getFormState: GetFormState = state => getIn(state, 'form')
 ) => {
   invariant(form, 'Form value must be specified')
-  return (state, ...fields) => {
+  return (state: any, ...fields: string[]) => {
     invariant(fields.length, 'No fields specified')
     return fields.length === 1
       ? // only selecting one field, so return its value

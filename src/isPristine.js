@@ -1,3 +1,4 @@
+// @flow
 import createIsPristine from './selectors/isPristine'
 import plain from './structure/plain'
 

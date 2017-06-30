@@ -1,12 +1,30 @@
+// @flow
 import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
 import prefixName from './util/prefixName'
+import type {
+  ConnectedComponent,
+  Structure,
+  ReactContext
+} from './types'
+import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray'
 
-const toArray = value => (Array.isArray(value) ? value : [value])
+const toArray = (value: any): Array<*> =>
+  Array.isArray(value) ? value : [value]
 
-const wrapError = (fn, key) =>
+export type Props = {
+  name: string,
+  component: ReactClass<*> | Function,
+  props?: Object,
+  rerenderOnEveryChange?: boolean,
+  validate?: { (value: any, allValues: Object, props: Object): ?any },
+  warn?: { (value: any, allValues: Object, props: Object): ?any },
+  withRef?: boolean
+}
+
+const wrapError = (fn: ?Function, key: string): ?Function =>
   fn &&
   ((...args) => {
     const validators = toArray(fn)
@@ -18,15 +36,17 @@ const wrapError = (fn, key) =>
     }
   })
 
-const createFieldArray = ({ deepEqual, getIn, size }) => {
-  const ConnectedFieldArray = createConnectedFieldArray({
-    deepEqual,
-    getIn,
-    size
-  })
+const createFieldArray = (structure: Structure<*, *>) => {
+  const ConnectedFieldArray = createConnectedFieldArray(structure)
 
   class FieldArray extends Component {
-    constructor(props, context) {
+    props: Props
+    context: ReactContext
+
+    name: string
+    ref: ConnectedComponent<ConnectedFieldArrayInstanceApi>
+
+    constructor(props: Props, context: ReactContext) {
       super(props, context)
       if (!context._reduxForm) {
         throw new Error(
@@ -44,7 +64,7 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
       )
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: Props) {
       if (this.props.name !== nextProps.name) {
         // unregister old name
         this.context._reduxForm.unregister(this.name)
@@ -60,20 +80,23 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
       this.context._reduxForm.unregister(this.name)
     }
 
-    get name() {
+    saveRef = (ref: ConnectedComponent<ConnectedFieldArrayInstanceApi>) =>
+      (this.ref = ref)
+
+    get name(): string {
       return prefixName(this.context, this.props.name)
     }
 
-    get dirty() {
-      return this.refs.connected.getWrappedInstance().dirty
+    get dirty(): boolean {
+      return this.ref.getWrappedInstance().dirty
     }
 
-    get pristine() {
-      return this.refs.connected.getWrappedInstance().pristine
+    get pristine(): boolean {
+      return this.ref.getWrappedInstance().pristine
     }
 
-    get value() {
-      return this.refs.connected.getWrappedInstance().value
+    get value(): ?(any[]) {
+      return this.ref.getWrappedInstance().value
     }
 
     getRenderedComponent() {
@@ -82,17 +105,15 @@ const createFieldArray = ({ deepEqual, getIn, size }) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to FieldArray'
       )
-      return this.refs.connected.getWrappedInstance().getRenderedComponent()
+      return this.ref.getWrappedInstance().getRenderedComponent()
     }
 
     render() {
       return createElement(ConnectedFieldArray, {
         ...this.props,
         name: this.name,
-        syncError: this.syncError,
-        syncWarning: this.syncWarning,
         _reduxForm: this.context._reduxForm,
-        ref: 'connected'
+        ref: this.saveRef
       })
     }
   }

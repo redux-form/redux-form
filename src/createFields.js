@@ -1,3 +1,4 @@
+// @flow
 import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
@@ -5,6 +6,7 @@ import createConnectedFields from './ConnectedFields'
 import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
 import prefixName from './util/prefixName'
+import type { Structure, ReactContext } from './types'
 
 const validateNameProp = prop => {
   if (!prop) {
@@ -17,17 +19,21 @@ const validateNameProp = prop => {
   }
 }
 
-const createFields = ({ deepEqual, getIn, toJS, size }) => {
-  const ConnectedFields = createConnectedFields({
-    deepEqual,
-    getIn,
-    toJS,
-    size
-  })
+export type Props = {
+  names: string[],
+  component: Function | ReactClass<*>,
+  format?: { (value: any, name: string): ?any },
+  parse?: { (value: any, name: string): ?any },
+  props?: Object,
+  withRef?: boolean
+}
+
+const createFields = (structure: Structure<*, *>) => {
+  const ConnectedFields = createConnectedFields(structure)
 
   class Fields extends Component {
-    constructor(props, context) {
-      super(props, context)
+    constructor(props: Props, context: ReactContext) {
+      super((props: Props), (context: ReactContext))
       if (!context._reduxForm) {
         throw new Error(
           'Fields must be inside a component decorated with reduxForm()'
@@ -35,8 +41,8 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
       }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-      return shallowCompare(this, nextProps, nextState)
+    shouldComponentUpdate(nextProps: Props) {
+      return shallowCompare(this, nextProps)
     }
 
     componentWillMount() {
@@ -49,7 +55,7 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
       this.names.forEach(name => register(name, 'Field'))
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { context } = this
         const { register, unregister } = context._reduxForm
@@ -77,20 +83,20 @@ const createFields = ({ deepEqual, getIn, toJS, size }) => {
       return this.refs.connected.getWrappedInstance().getRenderedComponent()
     }
 
-    get names() {
+    get names(): string[] {
       const { context } = this
       return this.props.names.map(name => prefixName(context, name))
     }
 
-    get dirty() {
+    get dirty(): boolean {
       return this.refs.connected.getWrappedInstance().isDirty()
     }
 
-    get pristine() {
+    get pristine(): boolean {
       return !this.dirty
     }
 
-    get values() {
+    get values(): Object {
       return (
         this.refs.connected &&
         this.refs.connected.getWrappedInstance().getValues()

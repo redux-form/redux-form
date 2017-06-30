@@ -41,7 +41,6 @@ let render = () => {
           '6.8.0'
         )}
       >
-
         <Markdown content={readme} />
 
         <div style={{ textAlign: 'center' }}>
@@ -76,7 +75,6 @@ let render = () => {
         <h4>RemoteSubmitButton.js</h4>
 
         <Code source={rawButton} />
-
       </App>
     </Provider>,
     dest

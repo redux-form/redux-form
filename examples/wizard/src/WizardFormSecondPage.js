@@ -4,7 +4,11 @@ import validate from './validate'
 import renderField from './renderField'
 
 const renderError = ({ meta: { touched, error } }) =>
-  touched && error ? <span>{error}</span> : false
+  touched && error
+    ? <span>
+        {error}
+      </span>
+    : false
 
 const WizardFormSecondPage = props => {
   const { handleSubmit, previousPage } = props
@@ -15,13 +19,21 @@ const WizardFormSecondPage = props => {
         <label>Sex</label>
         <div>
           <label>
-            <Field name="sex" component="input" type="radio" value="male" />
-            {' '}
+            <Field
+              name="sex"
+              component="input"
+              type="radio"
+              value="male"
+            />{' '}
             Male
           </label>
           <label>
-            <Field name="sex" component="input" type="radio" value="female" />
-            {' '}
+            <Field
+              name="sex"
+              component="input"
+              type="radio"
+              value="female"
+            />{' '}
             Female
           </label>
           <Field name="sex" component={renderError} />
@@ -31,7 +43,9 @@ const WizardFormSecondPage = props => {
         <button type="button" className="previous" onClick={previousPage}>
           Previous
         </button>
-        <button type="submit" className="next">Next</button>
+        <button type="submit" className="next">
+          Next
+        </button>
       </div>
     </form>
   )

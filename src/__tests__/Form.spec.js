@@ -228,9 +228,9 @@ const describeForm = (name, structure, combineReducers, expect) => {
     it('should NOT submit a form with sync validation errors', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props => (
+      const inputRender = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const onSubmit = createSpy()
       const formRender = createSpy()
       const validate = values => {

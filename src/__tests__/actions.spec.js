@@ -478,7 +478,8 @@ describe('actions', () => {
         meta: {
           form: 'myForm'
         },
-        payload: undefined
+        payload: undefined,
+        error: false
       })
       .toPass(isFSA)
     const errors = {

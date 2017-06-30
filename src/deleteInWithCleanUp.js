@@ -1,22 +1,24 @@
+// @flow
 import { toPath } from 'lodash'
+import type { Structure } from './types'
 
-const createDeleteInWithCleanUp = ({
+function createDeleteInWithCleanUp<DIM, DIL>({
   deepEqual,
   empty,
   getIn,
   deleteIn,
   setIn
-}) => {
-  const deleteInWithCleanUp = (state, path) => {
+}: Structure<DIM, DIL>) {
+  const deleteInWithCleanUp = (state: DIM | DIL, path: string): DIM | DIL => {
     if (path[path.length - 1] === ']') {
       // array path
       const pathTokens = toPath(path)
       pathTokens.pop()
       const parent = getIn(state, pathTokens.join('.'))
-      return parent ? setIn(state, path, undefined) : state
+      return parent ? setIn(state, path) : state
     }
 
-    let result = state
+    let result: DIM | DIL = state
     if (getIn(state, path) !== undefined) {
       result = deleteIn(state, path)
     }

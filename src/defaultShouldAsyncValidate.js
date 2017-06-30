@@ -1,10 +1,19 @@
+// @flow
+export type Params = {
+  initialized: boolean,
+  trigger: string,
+  blurredField: string,
+  pristine: boolean,
+  syncValidationPasses: boolean
+}
+
 const defaultShouldAsyncValidate = ({
   initialized,
   trigger,
   // blurredField,  // not used in default implementation
   pristine,
   syncValidationPasses
-}) => {
+}: Params): boolean => {
   if (!syncValidationPasses) {
     return false
   }

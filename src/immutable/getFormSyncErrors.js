@@ -1,3 +1,4 @@
+// @flow
 import createGetFormSyncErrors from '../selectors/getFormSyncErrors'
 import immutable from '../structure/immutable'
 

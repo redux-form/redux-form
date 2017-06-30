@@ -1,9 +1,9 @@
-const createHasSubmitSucceeded = ({ getIn }) => (
-  form,
-  getFormState = state => getIn(state, 'form')
-) => state => {
-  const formState = getFormState(state)
-  return getIn(formState, `${form}.submitSucceeded`) || false
-}
+// @flow
+import type { Structure, GetFormState } from '../types'
+
+const createHasSubmitSucceeded = ({ getIn }: Structure<*, *>) => (
+  form: string,
+  getFormState: GetFormState = state => getIn(state, 'form')
+) => (state: any) => !!getIn(getFormState(state), `${form}.submitSucceeded`)
 
 export default createHasSubmitSucceeded

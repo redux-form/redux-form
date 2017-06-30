@@ -1,4 +1,6 @@
+// @flow
 import isEvent from './isEvent'
+import type { Event } from '../types'
 
 const getSelectedValues = options => {
   const result = []
@@ -13,7 +15,7 @@ const getSelectedValues = options => {
   return result
 }
 
-const getValue = (event, isReactNative) => {
+const getValue = (event: Event, isReactNative: ?boolean) => {
   if (isEvent(event)) {
     if (
       !isReactNative &&

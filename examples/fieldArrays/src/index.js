@@ -48,7 +48,6 @@ let render = () => {
           '6.8.0'
         )}
       >
-
         <Markdown content={readme} />
 
         <div style={{ textAlign: 'center' }}>
@@ -77,7 +76,6 @@ let render = () => {
         <h3>validate.js</h3>
 
         <Code source={rawValidate} />
-
       </App>
     </Provider>,
     dest

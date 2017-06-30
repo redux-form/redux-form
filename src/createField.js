@@ -1,31 +1,64 @@
+// @flow
 import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
+import type {
+  ConnectedComponent,
+  Structure,
+  Event,
+  ReactContext
+} from './types'
+import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField'
 
-const createField = ({ deepEqual, getIn, setIn, toJS }) => {
-  const ConnectedField = createConnectedField({
-    deepEqual,
-    getIn,
-    toJS
-  })
+export type Props = {
+  name: string,
+  component: ReactClass<*> | Function | string,
+  format?: { (value: any, name: string): ?string },
+  normalize?: {
+    (
+      value: any,
+      previousValue: any,
+      allValues: Object,
+      previousAllValues: Object
+    ): ?any
+  },
+  onBlur?: { (event: Event, newValue: any, previousValue: any): void },
+  onChange?: { (event: Event, newValue: any, previousValue: any): void },
+  onDragStart?: { (event: Event): void },
+  onDrop?: { (event: Event, newValue: any, previousValue: any): void },
+  onFocus?: { (event: Event): void },
+  parse?: { (value: any, name: string): any },
+  props?: Object,
+  validate?: { (value: any, allValues: Object, props: Object): ?any },
+  warn?: { (value: any, allValues: Object, props: Object): ?any },
+  withRef?: boolean
+}
+
+const createField = (structure: Structure<*, *>) => {
+  const ConnectedField = createConnectedField(structure)
+
+  const { setIn } = structure
 
   class Field extends Component {
-    constructor(props, context) {
+    props: Props
+    context: ReactContext
+
+    ref: ConnectedComponent<ConnectedFieldInstanceApi>
+
+    constructor(props: Props, context: ReactContext) {
       super(props, context)
       if (!context._reduxForm) {
         throw new Error(
           'Field must be inside a component decorated with reduxForm()'
         )
       }
-
-      this.normalize = this.normalize.bind(this)
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-      return shallowCompare(this, nextProps, nextState)
+    shouldComponentUpdate(nextProps: Props) {
+      return shallowCompare(this, nextProps)
     }
 
     componentWillMount() {
@@ -37,7 +70,7 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
       )
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: Props) {
       if (
         this.props.name !== nextProps.name ||
         this.props.validate !== nextProps.validate ||
@@ -59,35 +92,35 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
       this.context._reduxForm.unregister(this.name)
     }
 
-    getRenderedComponent() {
+    saveRef = (ref: ConnectedComponent<ConnectedFieldInstanceApi>) =>
+      (this.ref = ref)
+
+    getRenderedComponent(): React$Component<*, *, *> {
       invariant(
         this.props.withRef,
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to Field'
       )
-      return this.refs.connected.getWrappedInstance().getRenderedComponent()
+      return this.ref.getWrappedInstance().getRenderedComponent()
     }
 
-    get name() {
+    get name(): string {
       return prefixName(this.context, this.props.name)
     }
 
-    get dirty() {
+    get dirty(): boolean {
       return !this.pristine
     }
 
-    get pristine() {
-      return this.refs.connected.getWrappedInstance().isPristine()
+    get pristine(): boolean {
+      return this.ref.getWrappedInstance().isPristine()
     }
 
-    get value() {
-      return (
-        this.refs.connected &&
-        this.refs.connected.getWrappedInstance().getValue()
-      )
+    get value(): any {
+      return this.ref && this.ref.getWrappedInstance().getValue()
     }
 
-    normalize(name, value) {
+    normalize = (name: string, value: any): any => {
       const { normalize } = this.props
       if (!normalize) {
         return value
@@ -104,7 +137,7 @@ const createField = ({ deepEqual, getIn, setIn, toJS }) => {
         name: this.name,
         normalize: this.normalize,
         _reduxForm: this.context._reduxForm,
-        ref: 'connected'
+        ref: this.saveRef
       })
     }
   }

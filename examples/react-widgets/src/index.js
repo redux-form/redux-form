@@ -48,7 +48,6 @@ let render = () => {
           '6.8.0'
         )}
       >
-
         <Markdown content={readme} />
 
         <h2>Form</h2>
@@ -62,7 +61,6 @@ let render = () => {
         <h4>ReactWidgetsForm.js</h4>
 
         <Code source={raw} />
-
       </App>
     </Provider>,
     dest

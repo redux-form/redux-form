@@ -1,3 +1,5 @@
-const getDisplayName = Comp => Comp.displayName || Comp.name || 'Component'
+// @flow
+const getDisplayName = (Comp: ReactClass<*>): string =>
+  Comp.displayName || Comp.name || 'Component'
 
 export default getDisplayName

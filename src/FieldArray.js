@@ -1,3 +1,4 @@
+// @flow
 import createFieldArray from './createFieldArray'
 import plain from './structure/plain'
 
