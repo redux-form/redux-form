@@ -4,7 +4,7 @@
 
 The `Fields` component is similar to the
 [`Field`](https://redux-form.com/6.2.0/docs/api/Field.md/) component, but operates on multiple
-fields at a time. Rather than passing a single `name` prop, `Fields` takes an array of names in 
+fields with a single connected component. Rather than passing a single `name` prop, `Fields` takes an array of names in 
 the `names` prop.
 
 **IMPORTANT: Connecting to multiple fields should be used sparingly, as it will require the 
