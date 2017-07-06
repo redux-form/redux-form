@@ -216,6 +216,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
             submitting,
             syncError,
             syncWarning,
+            initial,
             value,
             _value: ownProps.value // save value passed in (for checkboxes)
           }
