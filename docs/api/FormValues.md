@@ -21,7 +21,7 @@ The path to the field, exactly like the `name` parameter of [`<Field/>`](https:/
 
 ### options: {prop: name, ...}
 
-If you use the first form with the options object, the keys of the object will be the names of the propd passed.
+If you use the first form with the options object, the keys of the object will be the names of the props passed.
 
 ## Usage
 
