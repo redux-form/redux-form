@@ -72,18 +72,17 @@ export type Context = {
   asyncValidate: { (name: ?string, value: ?any): Promise<*> },
   getValues: { (): Object },
   sectionPrefix?: string,
-  register:
-    (
-      name: string,
-      type: string,
-      getValidator: ?(() => ?(Validator | Validator[])),
-      getWarner:?(() => ?(Validator | Validator[]))
-    ) => void,
-  unregister: (name: string)=> void ,
-  registerInnerOnSubmit: (innerOnSubmit: Function)=> void,
-  focus: (name: string)=> void,
-  change: (name: string, value: any)=> void,
-  blur: (name: string, value: any)=> void
+  register: (
+    name: string,
+    type: string,
+    getValidator: ?() => ?(Validator | Validator[]),
+    getWarner: ?() => ?(Validator | Validator[])
+  ) => void,
+  unregister: (name: string) => void,
+  registerInnerOnSubmit: (innerOnSubmit: Function) => void,
+  focus: (name: string) => void,
+  change: (name: string, value: any) => void,
+  blur: (name: string, value: any) => void
 }
 
 export type ReactContext = {
