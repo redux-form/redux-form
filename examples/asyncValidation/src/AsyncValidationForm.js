@@ -34,6 +34,12 @@ const AsyncValidationForm = props => {
         label="Username"
       />
       <Field
+        name="companyname"
+        type="text"
+        component={renderField}
+        label="Companyname"
+      />
+      <Field
         name="password"
         type="password"
         component={renderField}
@@ -55,5 +61,5 @@ export default reduxForm({
   form: 'asyncValidation', // a unique identifier for this form
   validate,
   asyncValidate,
-  asyncBlurFields: ['username']
+  asyncBlurFields: ['username', 'companyname']
 })(AsyncValidationForm)

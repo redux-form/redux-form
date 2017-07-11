@@ -43,3 +43,4 @@ browser to view the example running locally on your machine.
 ## How to use the form below:
 
 * Usernames that will _fail_ validation: `john`, `paul`, `george` or `ringo`.
+* Company names that will _fail_ validation: `google`, `amazon` or `tesla`.
