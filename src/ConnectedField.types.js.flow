@@ -2,6 +2,13 @@
 import type { Event, Context } from './types'
 import type { Component as ReactComponent } from 'react'
 
+export type InstanceApi = {
+  name: string,
+  getRenderedComponent: { (): ReactComponent<*, *, *> },
+  isPristine: { (): boolean },
+  getValue: { (): any }
+} & ReactComponent<*, *, *>
+
 export type Props = {
   name: string,
   component: Function | string,
@@ -34,10 +41,3 @@ export type Props = {
   value: any,
   _value: any
 }
-
-//export type InstanceApi = {
-//  name: string,
-//  getRenderedComponent: { (): ReactComponent<*, *, *> },
-//  isPristine: { (): boolean },
-//  getValue: { (): any }
-//} & ReactComponent<*, *, *>

@@ -12,6 +12,8 @@ export type Action = {
   error?: any
 }
 
+export type Validator = (value: any, allValues: Object, props: Object) => ?any
+
 export interface Structure<M, L> {
   allowsArrayErrors: boolean,
   empty: M,
@@ -70,19 +72,18 @@ export type Context = {
   asyncValidate: { (name: ?string, value: ?any): Promise<*> },
   getValues: { (): Object },
   sectionPrefix?: string,
-  register: {
+  register:
     (
       name: string,
       type: string,
-      getValidator?: { (): ?Function },
-      getWarner?: { (): ?Function }
-    ): void
-  },
-  unregister: { (name: string): void },
-  registerInnerOnSubmit: { (innerOnSubmit: Function): void },
-  focus: { (name: string): void },
-  change: { (name: string, value: any): void },
-  blur: { (name: string, value: any): void }
+      getValidator: ?(() => ?(Validator | Validator[])),
+      getWarner:?(() => ?(Validator | Validator[]))
+    ) => void,
+  unregister: (name: string)=> void ,
+  registerInnerOnSubmit: (innerOnSubmit: Function)=> void,
+  focus: (name: string)=> void,
+  change: (name: string, value: any)=> void,
+  blur: (name: string, value: any)=> void
 }
 
 export type ReactContext = {
