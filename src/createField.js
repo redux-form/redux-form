@@ -8,34 +8,11 @@ import prefixName from './util/prefixName'
 import type {
   ConnectedComponent,
   Structure,
-  Event,
   ReactContext
-} from './types'
-import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField'
-
-export type Props = {
-  name: string,
-  component: ReactClass<*> | Function | string,
-  format?: { (value: any, name: string): ?string },
-  normalize?: {
-    (
-      value: any,
-      previousValue: any,
-      allValues: Object,
-      previousAllValues: Object
-    ): ?any
-  },
-  onBlur?: { (event: Event, newValue: any, previousValue: any): void },
-  onChange?: { (event: Event, newValue: any, previousValue: any): void },
-  onDragStart?: { (event: Event): void },
-  onDrop?: { (event: Event, newValue: any, previousValue: any): void },
-  onFocus?: { (event: Event): void },
-  parse?: { (value: any, name: string): any },
-  props?: Object,
-  validate?: { (value: any, allValues: Object, props: Object): ?any },
-  warn?: { (value: any, allValues: Object, props: Object): ?any },
-  withRef?: boolean
-}
+} from './types.js.flow'
+import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types.js.flow'
+import type { Component as ReactComponent } from 'react'
+import type { Props } from './Field.types.js.flow'
 
 const createField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
@@ -95,7 +72,7 @@ const createField = (structure: Structure<*, *>) => {
     saveRef = (ref: ConnectedComponent<ConnectedFieldInstanceApi>) =>
       (this.ref = ref)
 
-    getRenderedComponent(): React$Component<*, *, *> {
+    getRenderedComponent(): ReactComponent<*, *, *> {
       invariant(
         this.props.withRef,
         'If you want to access getRenderedComponent(), ' +

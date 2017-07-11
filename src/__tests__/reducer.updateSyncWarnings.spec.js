@@ -1,4 +1,5 @@
-import { updateSyncWarnings } from '../actions'
+import actions from '../actions'
+const { updateSyncWarnings } = actions
 
 const describeUpdateSyncWarnings = (
   reducer,

@@ -1,11 +1,12 @@
 // @flow
 import createIsValid from './isValid'
 import type { Structure, GetFormState } from '../types'
+import type { IsInvalidInterface } from './isInvalid.types.js.flow'
 
 const createIsInvalid = (structure: Structure<*, *>) => (
   form: string,
-  getFormState: GetFormState
-) => {
+  getFormState: ?GetFormState
+): IsInvalidInterface => {
   const isValid = createIsValid(structure)(form, getFormState)
   return (state: any) => !isValid(state)
 }

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { Component, createElement } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as importedActions from './actions'
+import importedActions from './actions'
 import asyncValidation from './asyncValidation'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import defaultShouldValidate from './defaultShouldValidate'
@@ -85,66 +85,72 @@ const checkSubmit = submit => {
   return submit
 }
 
-type OnSubmitFail = {
-  (errors: ?Object, dispatch: Function, submitError: ?any, props: Object): void
-}
-type OnSubmitSuccess = {
-  (result: ?any, dispatch: Function, props: Object): void
-}
-type InitializeAction = {
-  (initialValues: ?Values, keepDirty: boolean, otherMeta: ?Object): void
-}
-type FocusAction = { (field: string): void }
-type ChangeAction = { (field: string, value: any): void }
-type BlurAction = { (field: string, value: any): void }
-type ArrayUnshiftAction = { (field: string, value: any): void }
-type ArrayShiftAction = { (field: string): void }
-type ArraySpliceAction = {
-  (field: string, index: number, removeNum: number, value: any): void
-}
-type ArrayInsertAction = { (field: string, index: number, value: any): void }
-type ArrayMoveAction = { (field: string, from: number, to: number): void }
-type ArrayPopAction = { (field: string): void }
-type ArrayPushAction = { (field: string, value: any): void }
-type ArrayRemoveAction = { (field: string, index: number): void }
-type ArrayRemoveAllAction = { (field: string): void }
-type ArraySwapAction = { (field: string, indexA: number, indexB: number): void }
-type ClearSubmitAction = { (): void }
-type DestroyAction = { (): void }
-type RegisterFieldAction = { (name: string, type: FieldType): void }
-type UnregisterFieldAction = {
-  (name: string, destroyOnUnmount: ?boolean): void
-}
-type ResetAction = { (): void }
-type SetSubmitFailedAction = { (...fields: string[]): void }
-type SetSubmitSucceededAction = { (...fields: string[]): void }
-type StartAsyncValidationAction = { (field: string): void }
-type StopAsyncValidationAction = { (errors: ?Object): void }
-type StopSubmitAction = { (errors: ?Object): void }
-type StartSubmitAction = { (): void }
-type TouchAction = { (...fields: string[]): void }
-type UntouchAction = { (...fields: string[]): void }
-type UpdateSyncErrorsAction = { (syncErrors: ?Object, error: ?any): void }
-type UpdateSyncWarningsAction = { (syncErrors: ?Object, error: ?any): void }
-type OnSubmitFunction = {
-  (values: Values, dispatch: Function, props: Object): Promise<*> | void
-}
-type AsyncValidateFunction = {
-  (
-    values: Values,
-    dispatch: Function,
-    props: Object,
-    blurredField: ?string
-  ): Promise<void>
-}
-type ValidateFunction = { (values: Values, props: Object): Object }
-type ShouldAsyncValidateFunction = {
-  (params: ShouldAsyncValidateParams): boolean
-}
-type ShouldValidateFunction = { (params: ShouldValidateParams): boolean }
-type OnChangeFunction = {
-  (values: Values, dispatch: Function, props: Object): void
-}
+type OnSubmitFail = (
+  errors: ?Object,
+  dispatch: Function,
+  submitError: ?any,
+  props: Object
+) => void
+type OnSubmitSuccess = (result: ?any, dispatch: Function, props: Object) => void
+type InitializeAction = (
+  initialValues: ?Values,
+  keepDirty: boolean,
+  otherMeta: ?Object
+) => void
+type FocusAction = (field: string) => void
+type ChangeAction = (field: string, value: any) => void
+type BlurAction = (field: string, value: any) => void
+type ArrayUnshiftAction = (field: string, value: any) => void
+type ArrayShiftAction = (field: string) => void
+type ArraySpliceAction = (
+  field: string,
+  index: number,
+  removeNum: number,
+  value: any
+) => void
+type ArrayInsertAction = (field: string, index: number, value: any) => void
+type ArrayMoveAction = (field: string, from: number, to: number) => void
+type ArrayPopAction = (field: string) => void
+type ArrayPushAction = (field: string, value: any) => void
+type ArrayRemoveAction = (field: string, index: number) => void
+type ArrayRemoveAllAction = (field: string) => void
+type ArraySwapAction = (field: string, indexA: number, indexB: number) => void
+type ClearSubmitAction = () => void
+type DestroyAction = () => void
+type RegisterFieldAction = (name: string, type: FieldType) => void
+type UnregisterFieldAction = (name: string, destroyOnUnmount: ?boolean) => void
+type ResetAction = () => void
+type SetSubmitFailedAction = (...fields: string[]) => void
+type SetSubmitSucceededAction = (...fields: string[]) => void
+type StartAsyncValidationAction = (field: string) => void
+type StopAsyncValidationAction = (errors: ?Object) => void
+type StopSubmitAction = (errors: ?Object) => void
+type StartSubmitAction = () => void
+type TouchAction = (...fields: string[]) => void
+type UntouchAction = (...fields: string[]) => void
+type UpdateSyncErrorsAction = (syncErrors: ?Object, error: ?any) => void
+type UpdateSyncWarningsAction = (syncErrors: ?Object, error: ?any) => void
+type OnSubmitFunction = (
+  values: Values,
+  dispatch: Function,
+  props: Object
+) => Promise<*> | void
+type AsyncValidateFunction = (
+  values: Values,
+  dispatch: Function,
+  props: Object,
+  blurredField: ?string
+) => Promise<void>
+type ValidateFunction = (values: Values, props: Object) => Object
+type ShouldAsyncValidateFunction = (
+  params: ShouldAsyncValidateParams
+) => boolean
+type ShouldValidateFunction = (params: ShouldValidateParams) => boolean
+type OnChangeFunction = (
+  values: Values,
+  dispatch: Function,
+  props: Object
+) => void
 
 export type Config = {
   asyncBlurFields?: string[],

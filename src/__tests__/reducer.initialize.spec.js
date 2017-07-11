@@ -1,4 +1,5 @@
-import { initialize } from '../actions'
+import actions from '../actions'
+const { initialize } = actions
 
 const describeInitialize = (reducer, expect, { fromJS }) => () => {
   it('should set initialize values on initialize on empty state', () => {

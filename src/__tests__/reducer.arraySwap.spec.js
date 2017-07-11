@@ -1,4 +1,5 @@
-import { arraySwap } from '../actions'
+import actions from '../actions'
+const { arraySwap } = actions
 
 const describeArraySwap = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with empty state', () => {

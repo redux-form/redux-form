@@ -1,4 +1,5 @@
-import { clearSubmitErrors } from '../actions'
+import actions from '../actions'
+const { clearSubmitErrors } = actions
 
 const describeClearSubmitErrors = (reducer, expect, { fromJS }) => () => {
   it('should do nothing on clear submit errors with no previous state', () => {
@@ -28,6 +29,7 @@ const describeClearSubmitErrors = (reducer, expect, { fromJS }) => () => {
           submitErrors: {
             some: 'error'
           },
+          error: 'form-wide error',
           active: 'otherField',
           triggerSubmit: true
         }

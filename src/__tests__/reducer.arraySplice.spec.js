@@ -1,4 +1,5 @@
-import { arraySplice } from '../actions'
+import actions from '../actions'
+const { arraySplice } = actions
 
 const describeArraySplice = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {

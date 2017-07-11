@@ -1,4 +1,5 @@
-import { clearAsyncError } from '../actions'
+import actions from '../actions'
+const { clearAsyncError } = actions
 
 const describeClearAsyncError = (reducer, expect, { fromJS }) => () => {
   it('should do nothing on clear submit with no previous state', () => {

@@ -1,4 +1,5 @@
-import { updateSyncErrors } from '../actions'
+import actions from '../actions'
+const { updateSyncErrors } = actions
 
 const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
   it('should update sync errors', () => {

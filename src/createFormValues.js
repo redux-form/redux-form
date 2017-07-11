@@ -4,15 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
-
-type FormValuesInterface = {
-  (firstArg: string | Object, ...rest: string[]): Object
-}
-
-type PropPath = {
-  prop: string,
-  path: string
-}
+import type { FormValuesInterface, PropPath } from './formValues.types.js.flow'
 
 const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
   firstArg: string | Object,

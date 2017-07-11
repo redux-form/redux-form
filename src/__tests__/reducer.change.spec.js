@@ -1,4 +1,5 @@
-import { change } from '../actions'
+import actions from '../actions'
+const { change } = actions
 
 const describeChange = (reducer, expect, { fromJS }) => () => {
   it('should set value on change with empty state', () => {

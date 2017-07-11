@@ -7,8 +7,10 @@ const customizer = (obj: any, other: any) => {
     (obj == null || obj === '' || obj === false) &&
     (other == null || other === '' || other === false)
   ) {
-    return !((obj === undefined && other === false) ||
-      (obj === false && other === undefined))
+    return !(
+      (obj === undefined && other === false) ||
+      (obj === false && other === undefined)
+    )
   }
 
   if (obj && other && obj._error !== other._error) return false

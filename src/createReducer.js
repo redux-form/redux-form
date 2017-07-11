@@ -37,7 +37,7 @@ import {
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
-import type { Action, Structure } from './types'
+import type { Action, Structure } from './types.js.flow'
 
 const isReduxFormAction = action =>
   action &&
@@ -234,7 +234,10 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       return deleteIn(state, 'triggerSubmit')
     },
     [CLEAR_SUBMIT_ERRORS](state) {
-      return deleteInWithCleanUp(state, 'submitErrors')
+      let result = state
+      result = deleteInWithCleanUp(result, 'submitErrors')
+      result = deleteIn(result, 'error')
+      return result
     },
     [CLEAR_ASYNC_ERROR](state, { meta: { field } }) {
       return deleteIn(state, `asyncErrors.${field}`)

@@ -6,7 +6,9 @@ import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
-import type { Structure, Event, Context } from './types'
+import type { Structure } from './types.js.flow'
+import type { Component as ReactComponent } from 'react'
+import type { Props } from './ConnectedField.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -40,46 +42,6 @@ const eventDataTransferSetData = (event, key, value) => {
   }
 }
 
-type Props = {
-  name: string,
-  component: Function | string,
-  withRef?: boolean,
-  _reduxForm: Context,
-
-  // same as Props in createFieldProps.js:
-  asyncError: any,
-  asyncValidating: boolean,
-  onBlur: { (event: Event, newValue: ?any, previousValue: ?any): void },
-  onChange: { (event: Event, newValue: ?any, previousValue: ?any): void },
-  onDrop: { (event: Event, newValue: ?any, previousValue: ?any): void },
-  onDragStart: { (event: Event): void },
-  onFocus: { (event: Event): void },
-  dirty: boolean,
-  dispatch: { (action: any): void },
-  form: string,
-  format?: { (value: any, name: string): any },
-  initial: any,
-  parse?: { (value: any): any },
-  normalize?: { (value: any): any },
-  pristine: boolean,
-  props?: Object,
-  state: any,
-  submitError?: string,
-  submitFailed: boolean,
-  submitting: boolean,
-  syncError?: any,
-  syncWarning?: any,
-  value: any,
-  _value: any
-}
-
-export type InstanceApi = {
-  name: string,
-  getRenderedComponent: { (): React$Component<*, *, *> },
-  isPristine: { (): boolean },
-  getValue: { (): any }
-} & React$Component<*, *, *>
-
 const createConnectedField = (structure: Structure<*, *>) => {
   const { deepEqual, getIn } = structure
   const getSyncError = (syncErrors: Object, name: string) => {
@@ -99,7 +61,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
   class ConnectedField extends Component {
     props: Props
 
-    ref: React$Component<*, *, *>
+    ref: ReactComponent<*, *, *>
 
     shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
@@ -115,13 +77,13 @@ const createConnectedField = (structure: Structure<*, *>) => {
       )
     }
 
-    saveRef = (ref: React$Component<*, *, *>) => (this.ref = ref)
+    saveRef = (ref: ReactComponent<*, *, *>) => (this.ref = ref)
 
     isPristine = (): boolean => this.props.pristine
 
     getValue = (): any => this.props.value
 
-    getRenderedComponent(): React$Component<*, *, *> {
+    getRenderedComponent(): ReactComponent<*, *, *> {
       return this.ref
     }
 

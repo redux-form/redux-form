@@ -34,7 +34,11 @@ import {
   UPDATE_SYNC_WARNINGS,
   CLEAR_ASYNC_ERROR
 } from '../actionTypes'
-import {
+import actions from '../actions'
+import { isFSA } from 'flux-standard-action'
+expect.extend(expectPredicate)
+
+const {
   arrayInsert,
   arrayMove,
   arrayPop,
@@ -67,9 +71,7 @@ import {
   updateSyncErrors,
   updateSyncWarnings,
   clearAsyncError
-} from '../actions'
-import { isFSA } from 'flux-standard-action'
-expect.extend(expectPredicate)
+} = actions
 
 describe('actions', () => {
   it('should create array insert action', () => {

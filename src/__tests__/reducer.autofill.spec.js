@@ -1,4 +1,5 @@
-import { autofill, change } from '../actions'
+import actions from '../actions'
+const { autofill, change } = actions
 
 const describeBlur = (reducer, expect, { fromJS }) => () => {
   it('should set value on autofill with empty state', () => {

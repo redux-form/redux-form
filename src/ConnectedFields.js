@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
-import type { Structure, Event, Context } from './types'
+import type { Structure } from './types.js.flow'
+import type { Props } from './ConnectedFields.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -25,44 +26,6 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     // Because the warning for this field might not be at a level in the warning structure where
     // it can be set directly, it might need to be unwrapped from the _warning property
     return warning && warning._warning ? warning._warning : warning
-  }
-
-  type Props = {
-    names: string[],
-    component: Function | string,
-    withRef?: boolean,
-    dispatch: Function,
-    _reduxForm: Context,
-    format?: { (value: any, name: string): any },
-    parse?: { (value: any, name: string): any },
-    props?: Object,
-
-    _fields: {
-      [string]: {
-        // same as Props in createFieldProps.js (except without single-field-only props, e.g.
-        // validate, warn, parse, format, normalize, etc.
-        asyncError: any,
-        asyncValidating: boolean,
-        onBlur: { (event: Event, newValue: ?any, previousValue: ?any): void },
-        onChange: { (event: Event, newValue: ?any, previousValue: ?any): void },
-        onDrop: { (event: Event, newValue: ?any, previousValue: ?any): void },
-        onDragStart: { (event: Event): void },
-        onFocus: { (event: Event): void },
-        dirty: boolean,
-        dispatch: { (action: any): void },
-        form: string,
-        initial: any,
-        pristine: boolean,
-        state: any,
-        submitError?: string,
-        submitFailed: boolean,
-        submitting: boolean,
-        syncError?: any,
-        syncWarning?: any,
-        value: any,
-        _value: any
-      }
-    }
   }
 
   class ConnectedFields extends Component {
@@ -209,6 +172,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
             asyncError: getIn(formState, `asyncErrors.${name}`),
             asyncValidating: getIn(formState, 'asyncValidating') === name,
             dirty: !pristine,
+            initial,
             pristine,
             state: getIn(formState, `fields.${name}`),
             submitError: getIn(formState, `submitErrors.${name}`),
@@ -216,7 +180,6 @@ const createConnectedFields = (structure: Structure<*, *>) => {
             submitting,
             syncError,
             syncWarning,
-            initial,
             value,
             _value: ownProps.value // save value passed in (for checkboxes)
           }

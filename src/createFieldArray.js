@@ -8,21 +8,12 @@ import type {
   ConnectedComponent,
   Structure,
   ReactContext
-} from './types'
-import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray'
+} from './types.js.flow'
+import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types.js.flow'
+import type { Props } from './FieldArray.types.js.flow'
 
 const toArray = (value: any): Array<*> =>
   Array.isArray(value) ? value : [value]
-
-export type Props = {
-  name: string,
-  component: ReactClass<*> | Function,
-  props?: Object,
-  rerenderOnEveryChange?: boolean,
-  validate?: { (value: any, allValues: Object, props: Object): ?any },
-  warn?: { (value: any, allValues: Object, props: Object): ?any },
-  withRef?: boolean
-}
 
 const wrapError = (fn: ?Function, key: string): ?Function =>
   fn &&

@@ -1,4 +1,5 @@
-import { submit } from '../actions'
+import actions from '../actions'
+const { submit } = actions
 
 const describeSubmit = (reducer, expect, { fromJS }) => () => {
   it('should set triggerSubmit with no previous state', () => {

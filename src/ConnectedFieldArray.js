@@ -6,54 +6,10 @@ import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
-import type { Structure, Context } from './types'
+import type { Structure } from './types'
+import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
-
-type Props = {
-  name: string,
-  component: Function | string,
-  withRef?: boolean,
-  _reduxForm: Context,
-  rerenderOnEveryChange?: boolean,
-  validate?: { (value: any, allValues: Object, props: Object): any },
-  warn?: { (value: any, allValues: Object, props: Object): any },
-
-  // same as Props in createFieldArrayProps.js:
-  arrayInsert: { (index: number, value: any): void },
-  arrayMove: { (from: number, to: number): void },
-  arrayPop: { (): any },
-  arrayPush: { (value: any): void },
-  arrayRemove: { (index: number): void },
-  arrayRemoveAll: { (): void },
-  arrayShift: { (): any },
-  arraySplice: { (index: number, removeNum: number | null, value: any): void },
-  arraySwap: { (from: number, to: number): void },
-  arrayUnshift: { (value: any): void },
-  asyncError: any,
-  dirty: boolean,
-  length: number,
-  pristine: boolean,
-  submitError: any,
-  state: Object,
-  submitFailed: boolean,
-  submitting: boolean,
-  syncError: any,
-  syncWarning: any,
-  value: any[],
-  props?: Object
-}
-
-type DefaultProps = {
-  rerenderOnEveryChange: boolean
-}
-
-export type InstanceApi = {
-  dirty: boolean,
-  getRenderedComponent: { (): React$Component<*, *, *> },
-  pristine: boolean,
-  value: ?(any[])
-} & React$Component<*, *, *>
 
 const createConnectedFieldArray = (structure: Structure<*, *>) => {
   const { deepEqual, getIn, size } = structure

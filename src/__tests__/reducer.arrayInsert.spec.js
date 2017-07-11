@@ -1,4 +1,5 @@
-import { arrayInsert } from '../actions'
+import actions from '../actions'
+const { arrayInsert } = actions
 
 const describeArrayInsert = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {

@@ -1,0 +1,17 @@
+// @flow
+import type {
+  ConnectedComponent,
+  Structure,
+  ReactContext
+} from './types.js.flow'
+import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types.js.flow'
+
+export type Props = {
+  name: string,
+  component: ReactClass<*> | Function,
+  props?: Object,
+  rerenderOnEveryChange?: boolean,
+  validate?: (value: any, allValues: Object, props: Object) => ?any,
+  warn?: (value: any, allValues: Object, props: Object) => ?any,
+  withRef?: boolean
+}

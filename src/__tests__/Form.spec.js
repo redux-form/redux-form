@@ -15,7 +15,9 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import SubmissionError from '../SubmissionError'
-import {
+import actions from '../actions'
+
+const {
   change,
   clearSubmit,
   setSubmitFailed,
@@ -23,7 +25,7 @@ import {
   submit,
   touch,
   updateSyncErrors
-} from '../actions'
+} = actions
 
 const propsAtNthRender = (componentSpy, callNumber) =>
   componentSpy.calls[callNumber].arguments[0]
