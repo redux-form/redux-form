@@ -1,4 +1,7 @@
 // @flow
 import type { GetFormState } from './types.js.flow'
 
-export type FormValueSelectorInterface = (state: any, ...fields: string[]) => any
+export type FormValueSelectorInterface = (
+  state: any,
+  ...fields: string[]
+) => any

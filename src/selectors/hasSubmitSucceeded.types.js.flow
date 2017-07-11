@@ -1,2 +1,2 @@
 // @flow
-export type HasSubmitSucceededInterface =  (state: any) => boolean
+export type HasSubmitSucceededInterface = (state: any) => boolean

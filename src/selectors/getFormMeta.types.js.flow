@@ -1,3 +1,2 @@
 // @flow
-export type GetFormMetaInterface =
- (state: any) => Object
+export type GetFormMetaInterface = (state: any) => Object

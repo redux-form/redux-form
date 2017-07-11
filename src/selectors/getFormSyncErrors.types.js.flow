@@ -1,2 +1,2 @@
 // @flow
-export type GetFormSyncErrorsInterface =  (state: any) => Object
+export type GetFormSyncErrorsInterface = (state: any) => Object

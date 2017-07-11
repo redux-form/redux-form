@@ -1,2 +1,2 @@
 // @flow
-export type GetFormValuesInterface =  (state: any) => any
+export type GetFormValuesInterface = (state: any) => any
