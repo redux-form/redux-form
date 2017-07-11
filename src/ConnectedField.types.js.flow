@@ -1,5 +1,5 @@
 // @flow
-import type { Structure, Event, Context } from './types'
+import type { Event, Context } from './types'
 import type { Component as ReactComponent } from 'react'
 
 export type Props = {
@@ -35,9 +35,9 @@ export type Props = {
   _value: any
 }
 
-export type InstanceApi = {
-  name: string,
-  getRenderedComponent: { (): ReactComponent<*, *, *> },
-  isPristine: { (): boolean },
-  getValue: { (): any }
-} & ReactComponent<*, *, *>
+//export type InstanceApi = {
+//  name: string,
+//  getRenderedComponent: { (): ReactComponent<*, *, *> },
+//  isPristine: { (): boolean },
+//  getValue: { (): any }
+//} & ReactComponent<*, *, *>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
-import type { Structure, Event, Context } from './types.js.flow'
+import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedFields.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm']

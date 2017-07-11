@@ -6,13 +6,8 @@ import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
-import type { Structure, Context } from './types'
-import type { Component as ReactComponent } from 'react'
-import type {
-  Props,
-  DefaultProps,
-  InstanceApi
-} from './ConnectedFieldArray.types.js.flow'
+import type { Structure } from './types'
+import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 

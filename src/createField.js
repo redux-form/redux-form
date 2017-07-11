@@ -8,7 +8,6 @@ import prefixName from './util/prefixName'
 import type {
   ConnectedComponent,
   Structure,
-  Event,
   ReactContext
 } from './types.js.flow'
 import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types.js.flow'

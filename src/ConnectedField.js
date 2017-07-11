@@ -6,7 +6,7 @@ import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
-import type { Structure, Event, Context } from './types.js.flow'
+import type { Structure, Event } from './types.js.flow'
 import type { Component as ReactComponent } from 'react'
 import type { Props, InstanceApi } from './ConnectedField.types.js.flow'
 
