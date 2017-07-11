@@ -1,4 +1,5 @@
-import { reset } from '../actions'
+import actions from '../actions'
+const { reset } = actions
 
 const describeReset = (reducer, expect, { fromJS }) => () => {
   it('should reset values on reset on with previous state', () => {

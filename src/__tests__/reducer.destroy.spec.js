@@ -1,4 +1,5 @@
-import { destroy } from '../actions'
+import actions from '../actions'
+const { destroy } = actions
 
 const describeDestroy = (reducer, expect, { fromJS }) => () => {
   it('should destroy form state', () => {

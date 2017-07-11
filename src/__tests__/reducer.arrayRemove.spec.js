@@ -1,4 +1,5 @@
-import { arrayRemove } from '../actions'
+import actions from '../actions'
+const { arrayRemove } = actions
 
 const describeArrayRemove = (reducer, expect, { fromJS, setIn }) => () => {
   it('should remove from beginning', () => {

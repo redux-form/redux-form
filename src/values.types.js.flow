@@ -1,0 +1,8 @@
+// @flow
+import type { GetFormState } from './types.js.flow'
+
+export type Config = {
+  form: string,
+  getFormState?: GetFormState,
+  prop?: string
+}

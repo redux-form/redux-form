@@ -1,4 +1,5 @@
-import { blur } from '../actions'
+import actions from '../actions'
+const { blur } = actions
 
 const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
   it('should set value on blur with empty state', () => {

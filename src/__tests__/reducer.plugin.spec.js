@@ -1,5 +1,6 @@
 import { CHANGE } from '../actionTypes'
-import { change } from '../actions'
+import actions from '../actions'
+const { change } = actions
 
 const describePlugin = (
   vanillaReducer,

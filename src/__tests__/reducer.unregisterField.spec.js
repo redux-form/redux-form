@@ -1,4 +1,5 @@
-import { unregisterField } from '../actions'
+import actions from '../actions'
+const { unregisterField } = actions
 
 const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
   it('should remove a field from registeredFields', () => {

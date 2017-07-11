@@ -1,16 +1,19 @@
 // @flow
 import createHasError from '../hasError'
 import type { Structure, GetFormState } from '../types'
+import type { IsValidInterface } from './isValid.types.js.flow'
 
 const createIsValid = (structure: Structure<*, *>) => {
   const { getIn, keys } = structure
   const hasError = createHasError(structure)
   return (
     form: string,
-    getFormState: GetFormState = state => getIn(state, 'form'),
-    ignoreSubmitErrors: boolean = false
-  ) => (state: any) => {
-    const formState = getFormState(state)
+    getFormState: ?GetFormState,
+    ignoreSubmitErrors: ?boolean = false
+  ): IsValidInterface => (state: any) => {
+    const nonNullGetFormState: GetFormState =
+      getFormState || (state => getIn(state, 'form'))
+    const formState = nonNullGetFormState(state)
     const syncError = getIn(formState, `${form}.syncError`)
     if (syncError) {
       return false

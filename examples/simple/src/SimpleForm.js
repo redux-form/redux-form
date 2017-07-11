@@ -1,5 +1,9 @@
+// @flow
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import createTheme from 'styled-components-theme'
+
+const theme: boolean = createTheme(3, 4, 5)
 
 const SimpleForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props

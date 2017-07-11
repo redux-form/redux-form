@@ -1,4 +1,5 @@
-import { clearSubmit } from '../actions'
+import actions from '../actions'
+const { clearSubmit } = actions
 
 const describeClearSubmit = (reducer, expect, { fromJS }) => () => {
   it('should do nothing on clear submit with no previous state', () => {

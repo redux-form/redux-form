@@ -6,18 +6,7 @@ import TestUtils from 'react-dom/test-utils'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
-import {
-  change,
-  clearSubmit,
-  initialize,
-  setSubmitFailed,
-  setSubmitSucceeded,
-  startSubmit,
-  stopSubmit,
-  submit,
-  touch,
-  updateSyncErrors
-} from '../actions'
+import actions from '../actions'
 import createField from '../createField'
 import createFieldArray from '../createFieldArray'
 import createReducer from '../createReducer'
@@ -31,6 +20,18 @@ import SubmissionError from '../SubmissionError'
 import addExpectations from './addExpectations'
 import FormWrapper from '../Form'
 
+const {
+  change,
+  clearSubmit,
+  initialize,
+  setSubmitFailed,
+  setSubmitSucceeded,
+  startSubmit,
+  stopSubmit,
+  submit,
+  touch,
+  updateSyncErrors
+} = actions
 const propsAtNthRender = (spy, callNumber) => spy.calls[callNumber].arguments[0]
 const propsAtLastRender = spy => propsAtNthRender(spy, spy.calls.length - 1)
 

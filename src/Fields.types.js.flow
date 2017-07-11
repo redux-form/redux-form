@@ -1,0 +1,11 @@
+// @flow
+import type { Structure, ReactContext } from './types'
+
+export type Props = {
+  names: string[],
+  component: Function | ReactClass<*>,
+  format?: (value: any, name: string) => ?any,
+  parse?: (value: any, name: string) => ?any,
+  props?: Object,
+  withRef?: boolean
+}

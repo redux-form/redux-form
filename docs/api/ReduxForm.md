@@ -35,7 +35,7 @@ Defaults to triggering the async validation when any field is blurred. If you wi
 blur validation, but still provide an `asyncValidate` function, you may pass `[]` to this
 property, resulting in the async validation only being run before submission.
 
-> See [Asynchronous Blur Validation Example](https://redux-form.com/6.8.0/examples/asyncValidation/)
+> See [Asynchronous Blur Validation Example](https://redux-form.com/7.0.0/examples/asyncValidation/)
 for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
@@ -46,7 +46,7 @@ returns a Promise that will resolve if the validation is passed, or will reject 
 object of validation errors
 in the form `{ field1: <String>, field2: <String> }`.
 
-> See [Asynchronous Blur Validation Example](https://redux-form.com/6.8.0/examples/asyncValidation/)
+> See [Asynchronous Blur Validation Example](https://redux-form.com/7.0.0/examples/asyncValidation/)
 for more details.
 
 #### `destroyOnUnmount : boolean` [optional]
@@ -284,7 +284,7 @@ form has triggered it, respectively.
 If validation passes, it should return `{}`. If validation fails, it should return the validation errors in the
 form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
-> See [Synchronous Validation Example](https://redux-form.com/6.8.0/examples/syncValidation/)
+> See [Synchronous Validation Example](https://redux-form.com/7.0.0/examples/syncValidation/)
 for more details.
 
 #### `warn : (values:Object, props:Object) => warnings:Object` [optional]

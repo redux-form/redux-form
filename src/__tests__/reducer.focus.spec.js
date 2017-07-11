@@ -1,4 +1,5 @@
-import { focus } from '../actions'
+import actions from '../actions'
+const { focus } = actions
 
 const describeFocus = (reducer, expect, { fromJS }) => () => {
   it('should set visited on focus and update active with no previous state', () => {

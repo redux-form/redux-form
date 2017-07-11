@@ -1,4 +1,5 @@
-import { arrayMove } from '../actions'
+import actions from '../actions'
+const { arrayMove } = actions
 
 const describeArrayMove = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with empty state', () => {

@@ -1,4 +1,5 @@
-import { arrayShift } from '../actions'
+import actions from '../actions'
+const { arrayShift } = actions
 
 const describeArrayShift = (reducer, expect, { fromJS }) => () => {
   it('should remove from beginning', () => {

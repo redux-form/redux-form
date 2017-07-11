@@ -1,4 +1,5 @@
-import { arrayUnshift } from '../actions'
+import actions from '../actions'
+const { arrayUnshift } = actions
 
 const describeArrayUnshift = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {

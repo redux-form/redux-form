@@ -1,4 +1,5 @@
-import { stopAsyncValidation } from '../actions'
+import actions from '../actions'
+const { stopAsyncValidation } = actions
 
 const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
   it('should set asyncError on nested fields on stopAsyncValidation', () => {

@@ -1,4 +1,5 @@
-import { arrayPush } from '../actions'
+import actions from '../actions'
+const { arrayPush } = actions
 
 const describeArrayPush = (reducer, expect, { fromJS }) => () => {
   it('should work with empty state', () => {

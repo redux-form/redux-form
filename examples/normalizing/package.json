@@ -18,7 +18,7 @@
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
-    "redux-form": "file:../../",
+    "redux-form": "^7.0.0",
     "redux-form-website-template": "0.0.44"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
-import { stopSubmit } from '../actions'
+import actions from '../actions'
+const { stopSubmit } = actions
 
 const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
   it('should unset submitting on stopSubmit', () => {
