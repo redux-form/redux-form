@@ -1,3 +1,4 @@
+// @flow
 import createIsDirty from './selectors/isDirty'
 import plain from './structure/plain'
 

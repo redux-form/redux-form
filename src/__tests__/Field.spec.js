@@ -37,7 +37,11 @@ const describeField = (name, structure, combineReducers, expect) => {
     const store = makeStore({ [testFormName]: state })
     class Form extends Component {
       render() {
-        return <div><Field name="foo" component={TestInput} /></div>
+        return (
+          <div>
+            <Field name="foo" component={TestInput} />
+          </div>
+        )
       }
     }
     const TestForm = reduxForm({ form: testFormName, ...config })(Form)
@@ -337,7 +341,11 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={TestInput} /></div>
+          return (
+            <div>
+              <Field name="foo" component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -360,7 +368,11 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={TestInput} /></div>
+          return (
+            <div>
+              <Field name="foo" component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -383,7 +395,11 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={TestInput} /></div>
+          return (
+            <div>
+              <Field name="foo" component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -409,7 +425,11 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={TestInput} /></div>
+          return (
+            <div>
+              <Field name="foo" component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -432,7 +452,11 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={TestInput} /></div>
+          return (
+            <div>
+              <Field name="foo" component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -458,7 +482,11 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={TestInput} /></div>
+          return (
+            <div>
+              <Field name="foo" component={TestInput} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -473,12 +501,16 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should have value set to initial value on first render', () => {
       const store = makeStore({})
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={input} /></div>
+          return (
+            <div>
+              <Field name="foo" component={input} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -501,13 +533,17 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const validate = () => ({ foo: ['bar error'] })
       class Form extends Component {
         render() {
-          return <div><Field name="foo[0]" component={input} /></div>
+          return (
+            <div>
+              <Field name="foo[0]" component={input} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -533,13 +569,17 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const warn = () => ({ foo: ['bar warning'] })
       class Form extends Component {
         render() {
-          return <div><Field name="foo[0]" component={input} /></div>
+          return (
+            <div>
+              <Field name="foo[0]" component={input} />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({
@@ -566,7 +606,11 @@ const describeField = (name, structure, combineReducers, expect) => {
       })
       class Form extends Component {
         render() {
-          return <div><Field name="foo" component={TestInput} withRef /></div>
+          return (
+            <div>
+              <Field name="foo" component={TestInput} withRef />
+            </div>
+          )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -595,9 +639,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -789,11 +833,12 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <div>
-          {props.highlighted}<input {...props.input} />
+          {props.highlighted}
+          <input {...props.input} />
         </div>
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         constructor() {
           super()
@@ -833,9 +878,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
       const store = makeStore()
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const renderSpy = createSpy()
       class Form extends Component {
         constructor() {
@@ -886,9 +931,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderUsername = createSpy(props => (
+      const renderUsername = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -948,9 +993,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderUsername = createSpy(props => (
+      const renderUsername = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const normalize = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -1010,9 +1055,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderUsername = createSpy(props => (
+      const renderUsername = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -1047,9 +1092,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderTitle = createSpy(props => (
+      const renderTitle = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return <Field name="title" component={renderTitle} />
@@ -1077,9 +1122,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderSex = createSpy(props => (
+      const renderSex = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -1125,9 +1170,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderTitle = createSpy(props => (
+      const renderTitle = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const dragSpy = createSpy((key, val) => val).andCallThrough()
       const event = dragStartMock(dragSpy)
       class Form extends Component {
@@ -1157,9 +1202,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderTitle = createSpy(props => (
+      const renderTitle = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const dragSpy = createSpy((key, val) => val).andCallThrough()
       const event = dragStartMock(dragSpy)
       class Form extends Component {
@@ -1187,9 +1232,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderTitle = createSpy(props => (
+      const renderTitle = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const dropSpy = createSpy(key => key).andCallThrough()
       const event = dropMock(dropSpy)
       event.preventDefault = createSpy(event.preventDefault)
@@ -1219,9 +1264,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const format = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -1254,9 +1299,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const parse = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -1297,9 +1342,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const parse = createSpy(value => value.toLowerCase()).andCallThrough()
       class Form extends Component {
         render() {
@@ -1340,9 +1385,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -1458,9 +1503,9 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const input = createSpy(props => (
+      const input = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const parse = createSpy(
         value => value && parseInt(value, 10)
       ).andCallThrough()
@@ -1538,12 +1583,12 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const passwordInput = createSpy(props => (
+      const passwordInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
-      const confirmInput = createSpy(props => (
+      ).andCallThrough()
+      const confirmInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1593,9 +1638,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should rerender when sync error is cleared', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const validate = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Required' }
@@ -1647,12 +1692,12 @@ const describeField = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const passwordInput = createSpy(props => (
+      const passwordInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
-      const confirmInput = createSpy(props => (
+      ).andCallThrough()
+      const confirmInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const warn = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1704,9 +1749,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should rerender when sync warning is cleared', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const warn = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Recommended' }
@@ -1751,9 +1796,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should sync validate with field level validator', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const required = createSpy(
         value => (value == null ? 'Required' : undefined)
       ).andCallThrough()
@@ -1802,9 +1847,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should update field level validation when validate prop changes', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const required = createSpy(
         value => (value == null ? 'Required' : undefined)
       ).andCallThrough()
@@ -1822,7 +1867,9 @@ const describeField = (name, structure, combineReducers, expect) => {
                 component={usernameInput}
                 validate={this.state.validate}
               />
-              <button onClick={() => this.setState({ validate: required })}>Change</button>
+              <button onClick={() => this.setState({ validate: required })}>
+                Change
+              </button>
             </div>
           )
         }
@@ -1837,22 +1884,31 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
 
       // username field is ok
-      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.valid).toBe(true)
+      expect(
+        usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta
+          .valid
+      ).toBe(true)
 
       // update validate prop
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       // should be invalid now
-      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.valid).toBe(false)
-      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.error).toBe('Required')
-    });
+      expect(
+        usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta
+          .valid
+      ).toBe(false)
+      expect(
+        usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta
+          .error
+      ).toBe('Required')
+    })
 
     it('should sync warn with field level warning function', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const required = createSpy(
         value => (value == null ? 'Recommended' : undefined)
       ).andCallThrough()
@@ -1903,9 +1959,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should update field level warning when warn prop changes', () => {
       const store = makeStore()
-      const usernameInput = createSpy(props => (
+      const usernameInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const required = createSpy(
         value => (value == null ? 'Required' : undefined)
       ).andCallThrough()
@@ -1923,7 +1979,9 @@ const describeField = (name, structure, combineReducers, expect) => {
                 component={usernameInput}
                 warn={this.state.warn}
               />
-              <button onClick={() => this.setState({ warn: required })}>Change</button>
+              <button onClick={() => this.setState({ warn: required })}>
+                Change
+              </button>
             </div>
           )
         }
@@ -1938,15 +1996,21 @@ const describeField = (name, structure, combineReducers, expect) => {
       )
 
       // username field is ok
-      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.warning).toBe(undefined)
+      expect(
+        usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta
+          .warning
+      ).toBe(undefined)
 
       // update warn prop
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
       // should have warning now
-      expect(usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta.warning).toBe('Required')
-    });
+      expect(
+        usernameInput.calls[usernameInput.calls.length - 1].arguments[0].meta
+          .warning
+      ).toBe('Required')
+    })
 
     it('should not generate any warnings by passing api props into custom', () => {
       const store = makeStore()
@@ -1994,12 +2058,12 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should only rerender field that has changed', () => {
       const store = makeStore()
-      const input1 = createSpy(props => (
+      const input1 = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
-      const input2 = createSpy(props => (
+      ).andCallThrough()
+      const input2 = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       class Form extends Component {
         render() {
           return (
@@ -2037,9 +2101,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onChange callback', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy()
       class Form extends Component {
         render() {
@@ -2082,9 +2146,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onChange callback to prevent change', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy(event =>
         event.preventDefault()
       ).andCallThrough()
@@ -2129,9 +2193,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onBlur callback', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy()
       class Form extends Component {
         render() {
@@ -2174,9 +2238,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onBlur callback to prevent blur', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy(event =>
         event.preventDefault()
       ).andCallThrough()
@@ -2221,9 +2285,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onFocus callback', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy()
       class Form extends Component {
         render() {
@@ -2266,9 +2330,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onFocus callback to prevent focus', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy(event =>
         event.preventDefault()
       ).andCallThrough()
@@ -2313,9 +2377,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onDrop callback', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy()
       class Form extends Component {
         render() {
@@ -2359,9 +2423,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onDrop callback to prevent drop', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy(event =>
         event.preventDefault()
       ).andCallThrough()
@@ -2408,9 +2472,9 @@ const describeField = (name, structure, combineReducers, expect) => {
 
     it('should allow onDragStart callback', () => {
       const store = makeStore()
-      const renderInput = createSpy(props => (
+      const renderInput = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const callback = createSpy()
       class Form extends Component {
         render() {

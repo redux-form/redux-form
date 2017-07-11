@@ -1,4 +1,5 @@
-import { registerField } from '../actions'
+import actions from '../actions'
+const { registerField } = actions
 
 const describeRegisterField = (reducer, expect, { fromJS }) => () => {
   it('should create registeredFields if it does not exist and a field', () => {

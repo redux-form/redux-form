@@ -1,8 +1,9 @@
+// @flow
 import { Iterable } from 'immutable'
 
 import { isEqualWith } from 'lodash'
 
-const customizer = (obj, other) => {
+const customizer = (obj: any, other: any) => {
   if (obj == other) return true // eslint-disable-line eqeqeq
   if (
     (obj == null || obj === '' || obj === false) &&
@@ -22,6 +23,6 @@ const customizer = (obj, other) => {
   return void 0
 }
 
-const deepEqual = (a, b) => isEqualWith(a, b, customizer)
+const deepEqual = (a: any, b: any) => isEqualWith(a, b, customizer)
 
 export default deepEqual

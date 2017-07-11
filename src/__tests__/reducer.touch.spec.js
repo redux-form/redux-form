@@ -1,4 +1,5 @@
-import { touch } from '../actions'
+import actions from '../actions'
+const { touch } = actions
 
 const describeTouch = (reducer, expect, { fromJS }) => () => {
   it('should mark fields as touched on touch', () => {

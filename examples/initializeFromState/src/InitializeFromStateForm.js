@@ -19,7 +19,9 @@ let InitializeFromStateForm = props => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <button type="button" onClick={() => load(data)}>Load Account</button>
+        <button type="button" onClick={() => load(data)}>
+          Load Account
+        </button>
       </div>
       <div>
         <label>First Name</label>
@@ -53,13 +55,21 @@ let InitializeFromStateForm = props => {
         <label>Sex</label>
         <div>
           <label>
-            <Field name="sex" component="input" type="radio" value="male" />
-            {' '}
+            <Field
+              name="sex"
+              component="input"
+              type="radio"
+              value="male"
+            />{' '}
             Male
           </label>
           <label>
-            <Field name="sex" component="input" type="radio" value="female" />
-            {' '}
+            <Field
+              name="sex"
+              component="input"
+              type="radio"
+              value="female"
+            />{' '}
             Female
           </label>
         </div>
@@ -69,11 +79,11 @@ let InitializeFromStateForm = props => {
         <div>
           <Field name="favoriteColor" component="select">
             <option value="">Select a color...</option>
-            {colors.map(colorOption => (
+            {colors.map(colorOption =>
               <option value={colorOption} key={colorOption}>
                 {colorOption}
               </option>
-            ))}
+            )}
           </Field>
         </div>
       </div>
@@ -95,7 +105,9 @@ let InitializeFromStateForm = props => {
         </div>
       </div>
       <div>
-        <button type="submit" disabled={pristine || submitting}>Submit</button>
+        <button type="submit" disabled={pristine || submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Undo Changes
         </button>

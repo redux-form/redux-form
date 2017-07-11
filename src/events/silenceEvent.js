@@ -1,6 +1,7 @@
+// @flow
 import isEvent from './isEvent'
 
-const silenceEvent = event => {
+const silenceEvent = (event: any) => {
   const is = isEvent(event)
   if (is) {
     event.preventDefault()

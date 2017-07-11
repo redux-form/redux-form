@@ -1,4 +1,9 @@
-export default function formatName(context, name) {
-  const { _reduxForm: { sectionPrefix } } = context
-  return !sectionPrefix ? name : `${sectionPrefix}.${name}`
-}
+// @flow
+import type { ReactContext } from '../types'
+
+const formatName = (
+  { _reduxForm: { sectionPrefix } }: ReactContext,
+  name: string
+) => (sectionPrefix ? `${sectionPrefix}.${name}` : name)
+
+export default formatName

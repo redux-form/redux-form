@@ -1,3 +1,4 @@
+// @flow
 const isReactNative =
   typeof window !== 'undefined' &&
   window.navigator &&

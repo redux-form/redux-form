@@ -1,16 +1,32 @@
+// @flow
 import { toPath } from 'lodash'
 
-const deleteInWithPath = (state, first, ...rest) => {
-  if (state === undefined || first === undefined) {
+function deleteInWithPath<T: Object | Array<*>>(
+  state: ?T,
+  first: ?string,
+  ...rest: string[]
+): ?T {
+  if (
+    state === undefined ||
+    state === null ||
+    first === undefined ||
+    first === null
+  ) {
     return state
   }
   if (rest.length) {
     if (Array.isArray(state)) {
-      if (first < state.length) {
-        const result = deleteInWithPath(state && state[first], ...rest)
-        if (result !== state[first]) {
+      if (isNaN(first)) {
+        throw new Error(
+          `Must access array elements with a number, not "${String(first)}".`
+        )
+      }
+      const firstIndex = Number(first)
+      if (firstIndex < state.length) {
+        const result = deleteInWithPath(state && state[firstIndex], ...rest)
+        if (result !== state[firstIndex]) {
           const copy = [...state]
-          copy[first] = result
+          copy[firstIndex] = result
           return copy
         }
       }
@@ -29,11 +45,16 @@ const deleteInWithPath = (state, first, ...rest) => {
   }
   if (Array.isArray(state)) {
     if (isNaN(first)) {
-      throw new Error('Cannot delete non-numerical index from an array')
+      throw new Error(
+        `Cannot delete non-numerical index from an array. Given: "${String(
+          first
+        )}`
+      )
     }
-    if (first < state.length) {
+    const firstIndex = Number(first)
+    if (firstIndex < state.length) {
       const copy = [...state]
-      copy.splice(first, 1)
+      copy.splice(firstIndex, 1)
       return copy
     }
     return state
@@ -46,6 +67,9 @@ const deleteInWithPath = (state, first, ...rest) => {
   return state
 }
 
-const deleteIn = (state, field) => deleteInWithPath(state, ...toPath(field))
+const deleteIn = (
+  state: Object | Array<*>,
+  field: string
+): ?(Object | Array<*>) => deleteInWithPath(state, ...toPath(field))
 
 export default deleteIn

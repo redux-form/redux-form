@@ -33,15 +33,14 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="6.8.0"
+        version="7.0.0"
         path="/examples/remoteSubmit"
         breadcrumbs={generateExampleBreadcrumbs(
           'remoteSubmit',
           'Remote Submit Example',
-          '6.8.0'
+          '7.0.0'
         )}
       >
-
         <Markdown content={readme} />
 
         <div style={{ textAlign: 'center' }}>
@@ -76,7 +75,6 @@ let render = () => {
         <h4>RemoteSubmitButton.js</h4>
 
         <Code source={rawButton} />
-
       </App>
     </Provider>,
     dest

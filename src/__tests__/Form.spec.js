@@ -15,7 +15,9 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import addExpectations from './addExpectations'
 import SubmissionError from '../SubmissionError'
-import {
+import actions from '../actions'
+
+const {
   change,
   clearSubmit,
   setSubmitFailed,
@@ -23,7 +25,7 @@ import {
   submit,
   touch,
   updateSyncErrors
-} from '../actions'
+} = actions
 
 const propsAtNthRender = (componentSpy, callNumber) =>
   componentSpy.calls[callNumber].arguments[0]
@@ -228,9 +230,9 @@ const describeForm = (name, structure, combineReducers, expect) => {
     it('should NOT submit a form with sync validation errors', () => {
       const logger = createSpy((state = {}) => state).andCallThrough()
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props => (
+      const inputRender = createSpy(props =>
         <input {...props.input} />
-      )).andCallThrough()
+      ).andCallThrough()
       const onSubmit = createSpy()
       const formRender = createSpy()
       const validate = values => {

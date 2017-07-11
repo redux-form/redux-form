@@ -1,4 +1,5 @@
-import { setSubmitSucceeded } from '../actions'
+import actions from '../actions'
+const { setSubmitSucceeded } = actions
 
 const describeSetSubmitSucceeded = (reducer, expect, { fromJS }) => () => {
   it('should set submitSucceeded flag on submitSucceeded', () => {

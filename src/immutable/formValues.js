@@ -1,3 +1,4 @@
+// @flow
 import createFormValues from '../createFormValues'
 import immutable from '../structure/immutable'
 

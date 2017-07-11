@@ -1,3 +1,4 @@
+// @flow
 import createIsInvalid from './selectors/isInvalid'
 import plain from './structure/plain'
 

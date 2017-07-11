@@ -1,4 +1,5 @@
-const isChecked = value => {
+// @flow
+const isChecked = (value: any) => {
   if (typeof value === 'boolean') {
     return value
   }

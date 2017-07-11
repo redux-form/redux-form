@@ -1,4 +1,5 @@
-import { arrayPop } from '../actions'
+import actions from '../actions'
+const { arrayPop } = actions
 
 const describeArrayPop = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with no array', () => {

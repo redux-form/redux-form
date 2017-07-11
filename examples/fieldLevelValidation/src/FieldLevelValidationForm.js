@@ -37,17 +37,24 @@ const renderField = ({
   label,
   type,
   meta: { touched, error, warning }
-}) => (
+}) =>
   <div>
-    <label>{label}</label>
+    <label>
+      {label}
+    </label>
     <div>
       <input {...input} placeholder={label} type={type} />
       {touched &&
-        ((error && <span>{error}</span>) ||
-          (warning && <span>{warning}</span>))}
+        ((error &&
+          <span>
+            {error}
+          </span>) ||
+          (warning &&
+            <span>
+              {warning}
+            </span>))}
     </div>
   </div>
-)
 
 const FieldLevelValidationForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
@@ -85,7 +92,9 @@ const FieldLevelValidationForm = props => {
         validate={[required, phoneNumber]}
       />
       <div>
-        <button type="submit" disabled={submitting}>Submit</button>
+        <button type="submit" disabled={submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

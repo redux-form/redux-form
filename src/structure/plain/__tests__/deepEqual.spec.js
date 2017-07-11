@@ -200,7 +200,7 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(b, c, true)
   })
 
-  it('should treat false and undefined as equal', () => {
+  it('should treat false and undefined as not equal', () => {
     testBothWays(
       {
         a: {
@@ -212,7 +212,7 @@ describe('structure.plain.deepEqual', () => {
           b: undefined
         }
       },
-      true
+      false
     )
   })
   it('should not treat a number X and a string "X." as equal', function() {

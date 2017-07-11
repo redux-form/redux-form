@@ -1,4 +1,5 @@
-import { untouch } from '../actions'
+import actions from '../actions'
+const { untouch } = actions
 
 const describeUntouch = (reducer, expect, { fromJS }) => () => {
   it('should unmark fields as touched on untouch', () => {

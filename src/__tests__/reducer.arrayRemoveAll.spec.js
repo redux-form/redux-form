@@ -1,4 +1,5 @@
-import { arrayRemoveAll } from '../actions'
+import actions from '../actions'
+const { arrayRemoveAll } = actions
 
 const describeArrayRemoveAll = (reducer, expect, { fromJS }) => () => {
   it('should do nothing with undefined', () => {

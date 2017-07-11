@@ -1,4 +1,5 @@
-import { unregisterField } from '../actions'
+import actions from '../actions'
+const { unregisterField } = actions
 
 const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
   it('should remove a field from registeredFields', () => {
@@ -122,7 +123,7 @@ const describeUnregisterField = (reducer, expect, { fromJS }) => () => {
       }),
       unregisterField('foo', 'bar')
     )
-    expect(state).toEqualMap({  
+    expect(state).toEqualMap({
       foo: {
         registeredFields: { bar: { name: 'bar', type: 'field', count: 1 } },
         asyncErrors: {

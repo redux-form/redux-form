@@ -1,15 +1,24 @@
+// @flow
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import prefixName from './util/prefixName'
+import type { Structure, ReactContext } from './types'
+import type { FormValuesInterface, PropPath } from './formValues.types.js.flow'
 
-const createValues = ({ getIn }) => (...args) => {
-  let valuesMap
+const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
+  firstArg: string | Object,
+  ...rest: string[]
+) => {
+  let valuesMap: PropPath[]
 
-  if (typeof args[0] === 'string') {
-    valuesMap = args.map(k => ({ prop: k, path: k }))
+  if (typeof firstArg === 'string') {
+    valuesMap = [firstArg, ...rest].map((k: string): PropPath => ({
+      prop: k,
+      path: k
+    }))
   } else {
-    const config = args[0]
+    const config: Object = firstArg
     valuesMap = Object.keys(config).map(k => ({
       prop: k,
       path: config[k]
@@ -23,9 +32,13 @@ const createValues = ({ getIn }) => (...args) => {
 
   // create a class that reads current form name and creates a selector
   // return
-  return Component => {
+  return (Component: ReactClass<*>): ReactClass<*> => {
     class FormValues extends React.Component {
-      constructor(props, context) {
+      props: Object
+      context: ReactContext
+      Component: ReactClass<*>
+
+      constructor(props: Object, context: ReactContext) {
         super(props, context)
         if (!context._reduxForm) {
           throw new Error(

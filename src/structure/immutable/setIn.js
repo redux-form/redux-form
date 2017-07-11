@@ -1,5 +1,7 @@
+// @flow
 import { List, Map } from 'immutable'
 import { toPath } from 'lodash'
+import type { Map as ImmutableMap, List as ImmutableList } from 'immutable'
 
 const arrayPattern = /\[(\d+)\]/
 
@@ -20,7 +22,11 @@ const mergeLists = (original, value) =>
  * the setIn function uses `{}` to mark an unset value instead of 
  * undefined (which is the case for list / arrays).
  */
-export default function setIn(state, field, value) {
+export default function setIn(
+  state: ImmutableMap<string, *> | ImmutableList<*>,
+  field: string,
+  value: any
+) {
   const path = toPath(field)
   if (!field || typeof field !== 'string' || !arrayPattern.test(field)) {
     return state.setIn(path, value)
@@ -33,10 +39,8 @@ export default function setIn(state, field, value) {
         continue
       }
 
-      const arr = []
-      arr[nextPart] = new Map()
       mutable = mutable.updateIn(path.slice(0, pathIndex + 1), value =>
-        mergeLists(value, new List(arr))
+        mergeLists(value, new List().set(parseInt(nextPart, 10), new Map()))
       )
     }
 

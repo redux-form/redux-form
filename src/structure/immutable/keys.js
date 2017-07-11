@@ -1,9 +1,10 @@
+// @flow
 import { Iterable, List } from 'immutable'
 import plainKeys from '../plain/keys'
 
 const empty = List()
 
-const keys = value => {
+const keys = (value: any) => {
   if (List.isList(value)) {
     return value.map(i => i.name)
   }

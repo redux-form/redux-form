@@ -1,7 +1,17 @@
+// @flow
 import isPromise from 'is-promise'
 import SubmissionError from './SubmissionError'
+import type { Props } from './createReduxForm'
 
-const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
+type SubmitFunction = { (values: any, dispatch: Function, props: Object): any }
+
+const handleSubmit = (
+  submit: SubmitFunction,
+  props: Props,
+  valid: boolean,
+  asyncValidate: Function,
+  fields: string[]
+) => {
   const {
     dispatch,
     onSubmitFail,
@@ -24,9 +34,10 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
       try {
         result = submit(values, dispatch, props)
       } catch (submitError) {
-        const error = submitError instanceof SubmissionError
-          ? submitError.errors
-          : undefined
+        const error =
+          submitError instanceof SubmissionError
+            ? submitError.errors
+            : undefined
         stopSubmit(error)
         setSubmitFailed(...fields)
         if (onSubmitFail) {
@@ -51,9 +62,10 @@ const handleSubmit = (submit, props, valid, asyncValidate, fields) => {
             return submitResult
           },
           submitError => {
-            const error = submitError instanceof SubmissionError
-              ? submitError.errors
-              : undefined
+            const error =
+              submitError instanceof SubmissionError
+                ? submitError.errors
+                : undefined
             stopSubmit(error)
             setSubmitFailed(...fields)
             if (onSubmitFail) {

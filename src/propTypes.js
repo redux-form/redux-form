@@ -1,3 +1,4 @@
+// @flow
 import PropTypes from 'prop-types'
 
 const { any, bool, func, shape, string, oneOfType, object } = PropTypes

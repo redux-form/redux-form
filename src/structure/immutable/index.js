@@ -1,3 +1,4 @@
+// @flow
 import { Map, Iterable, List, fromJS } from 'immutable'
 import { toPath } from 'lodash'
 import deepEqual from './deepEqual'
@@ -5,20 +6,28 @@ import keys from './keys'
 import setIn from './setIn'
 import splice from './splice'
 import plainGetIn from '../plain/getIn'
+import type { Structure } from '../../types'
+import type { Map as ImmutableMap, List as ImmutableList } from 'immutable'
 
 const emptyList = List()
 
-const structure = {
+const structure: Structure<ImmutableMap<string, *>, ImmutableList<*>> = {
   allowsArrayErrors: false,
   empty: Map(),
   emptyList,
-  getIn: (state, field) =>
+  getIn: (state: ImmutableMap<string, *> | ImmutableList<*>, field: string) =>
     Iterable.isIterable(state)
       ? state.getIn(toPath(field))
       : plainGetIn(state, field),
   setIn,
   deepEqual,
-  deleteIn: (state, field) => state.deleteIn(toPath(field)),
+  deleteIn: (
+    state: ImmutableMap<string, *> | ImmutableList<*>,
+    field: string
+  ) => state.deleteIn(toPath(field)),
+  forEach: (items, callback) => {
+    items.forEach(callback)
+  },
   fromJS: jsValue =>
     fromJS(
       jsValue,
@@ -27,6 +36,7 @@ const structure = {
     ),
   keys,
   size: list => (list ? list.size : 0),
+  some: (items, callback) => items.some(callback),
   splice,
   toJS: value => (Iterable.isIterable(value) ? value.toJS() : value)
 }

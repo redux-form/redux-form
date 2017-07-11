@@ -1,14 +1,19 @@
+// @flow
 import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
+import type { Structure } from './types.js.flow'
+import type { Props } from './ConnectedFields.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
-const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
-  const getSyncError = (syncErrors, name) => {
+const createConnectedFields = (structure: Structure<*, *>) => {
+  const { deepEqual, getIn, size } = structure
+
+  const getSyncError = (syncErrors: Object, name: string) => {
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
     return (
@@ -16,7 +21,7 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
     )
   }
 
-  const getSyncWarning = (syncWarnings, name) => {
+  const getSyncWarning = (syncWarnings: Object, name: string) => {
     const warning = getIn(syncWarnings, name)
     // Because the warning for this field might not be at a level in the warning structure where
     // it can be set directly, it might need to be unwrapped from the _warning property
@@ -24,54 +29,34 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
   }
 
   class ConnectedFields extends Component {
-    constructor(props) {
+    onChangeFns = {}
+    onFocusFns = {}
+    onBlurFns = {}
+
+    constructor(props: Props) {
       super(props)
-
-      this.handleChange = this.handleChange.bind(this)
-      this.handleFocus = this.handleFocus.bind(this)
-      this.handleBlur = this.handleBlur.bind(this)
-
-      this.onChangeFns = props.names.reduce((acc, name) => {
-        acc[name] = event => this.handleChange(name, event)
-        return acc
-      }, {})
-
-      this.onFocusFns = props.names.reduce((acc, name) => {
-        acc[name] = () => this.handleFocus(name)
-        return acc
-      }, {})
-
-      this.onBlurFns = props.names.reduce((acc, name) => {
-        acc[name] = event => this.handleBlur(name, event)
-        return acc
-      }, {})
+      this.prepareEventHandlers(props)
     }
 
-    componentWillReceiveProps(nextProps) {
+    prepareEventHandlers = ({ names }: Props) =>
+      names.forEach(name => {
+        this.onChangeFns[name] = event => this.handleChange(name, event)
+        this.onFocusFns[name] = () => this.handleFocus(name)
+        this.onBlurFns[name] = event => this.handleBlur(name, event)
+      })
+
+    componentWillReceiveProps(nextProps: Props) {
       if (
         this.props.names !== nextProps.names &&
         (size(this.props.names) !== size(nextProps.names) ||
           nextProps.names.some(nextName => !this.props._fields[nextName]))
       ) {
-        // names is changed. The cached event handlers need to be updated
-        this.onChangeFns = nextProps.names.reduce((acc, name) => {
-          acc[name] = event => this.handleChange(name, event)
-          return acc
-        }, {})
-
-        this.onFocusFns = nextProps.names.reduce((acc, name) => {
-          acc[name] = () => this.handleFocus(name)
-          return acc
-        }, {})
-
-        this.onBlurFns = nextProps.names.reduce((acc, name) => {
-          acc[name] = event => this.handleBlur(name, event)
-          return acc
-        }, {})
+        // names has changed. The cached event handlers need to be updated
+        this.prepareEventHandlers(nextProps)
       }
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
       return (
@@ -85,12 +70,12 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
       )
     }
 
-    isDirty() {
+    isDirty(): boolean {
       const { _fields } = this.props
       return Object.keys(_fields).some(name => _fields[name].dirty)
     }
 
-    getValues() {
+    getValues(): Object {
       const { _fields } = this.props
       return Object.keys(_fields).reduce(
         (accumulator, name) =>
@@ -103,21 +88,21 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
       return this.refs.renderedComponent
     }
 
-    handleChange(name, event) {
-      const { dispatch, parse, normalize, _reduxForm } = this.props
-      const value = onChangeValue(event, { name, parse, normalize })
+    handleChange = (name: string, event: any): void => {
+      const { dispatch, parse, _reduxForm } = this.props
+      const value = onChangeValue(event, { name, parse })
 
       dispatch(_reduxForm.change(name, value))
     }
 
-    handleFocus(name) {
+    handleFocus = (name: string): void => {
       const { dispatch, _reduxForm } = this.props
       dispatch(_reduxForm.focus(name))
     }
 
-    handleBlur(name, event) {
-      const { dispatch, parse, normalize, _reduxForm } = this.props
-      const value = onChangeValue(event, { name, parse, normalize })
+    handleBlur = (name: string, event: any): void => {
+      const { dispatch, parse, _reduxForm } = this.props
+      const value = onChangeValue(event, { name, parse })
 
       // dispatch blur action
       dispatch(_reduxForm.blur(name, value))
@@ -135,18 +120,14 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
         _fields
       ).reduce((accumulator, name) => {
         const connectedProps = _fields[name]
-        const { custom, ...fieldProps } = createFieldProps(
-          { getIn, toJS },
-          name,
-          {
-            ...connectedProps,
-            ...rest,
-            form,
-            onBlur: this.onBlurFns[name],
-            onChange: this.onChangeFns[name],
-            onFocus: this.onFocusFns[name]
-          }
-        )
+        const { custom, ...fieldProps } = createFieldProps(structure, name, {
+          ...connectedProps,
+          ...rest,
+          form,
+          onBlur: this.onBlurFns[name],
+          onChange: this.onChangeFns[name],
+          onFocus: this.onFocusFns[name]
+        })
         accumulator.custom = custom
         const fieldName = sectionPrefix
           ? name.replace(`${sectionPrefix}.`, '')
@@ -175,9 +156,10 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
       return {
         _fields: names.reduce((accumulator, name) => {
           const initialState = getIn(formState, `initial.${name}`)
-          const initial = initialState !== undefined
-            ? initialState
-            : initialValues && getIn(initialValues, name)
+          const initial =
+            initialState !== undefined
+              ? initialState
+              : initialValues && getIn(initialValues, name)
           const value = getIn(formState, `values.${name}`)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
           const syncWarning = getSyncWarning(
@@ -190,6 +172,7 @@ const createConnectedFields = ({ deepEqual, getIn, toJS, size }) => {
             asyncError: getIn(formState, `asyncErrors.${name}`),
             asyncValidating: getIn(formState, 'asyncValidating') === name,
             dirty: !pristine,
+            initial,
             pristine,
             state: getIn(formState, `fields.${name}`),
             submitError: getIn(formState, `submitErrors.${name}`),

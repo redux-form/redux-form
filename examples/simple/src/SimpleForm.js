@@ -42,13 +42,21 @@ const SimpleForm = props => {
         <label>Sex</label>
         <div>
           <label>
-            <Field name="sex" component="input" type="radio" value="male" />
-            {' '}
+            <Field
+              name="sex"
+              component="input"
+              type="radio"
+              value="male"
+            />{' '}
             Male
           </label>
           <label>
-            <Field name="sex" component="input" type="radio" value="female" />
-            {' '}
+            <Field
+              name="sex"
+              component="input"
+              type="radio"
+              value="female"
+            />{' '}
             Female
           </label>
         </div>
@@ -82,7 +90,9 @@ const SimpleForm = props => {
         </div>
       </div>
       <div>
-        <button type="submit" disabled={pristine || submitting}>Submit</button>
+        <button type="submit" disabled={pristine || submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

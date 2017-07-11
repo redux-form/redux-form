@@ -1,4 +1,5 @@
-import { startSubmit } from '../actions'
+import actions from '../actions'
+const { startSubmit } = actions
 
 const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
   it('should set submitting on startSubmit', () => {

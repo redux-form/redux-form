@@ -1,0 +1,168 @@
+// @flow
+import type { Action, ComponentClass, GetFormState } from './types.js.flow'
+import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
+import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
+import type { Config as ReduxFormConfig } from './createReduxForm'
+import type { Props as FormProps } from './Form'
+import type {
+  DefaultProps as FormSectionDefaultProps,
+  Props as FormSectionProps
+} from './FormSection'
+import type { Props as FieldProps } from './Field.types.js.flow'
+import type { Props as FieldsProps } from './Fields.types.js.flow'
+import type { Props as FieldArrayProps } from './FieldArray.types.js.flow'
+import type { FormValueSelectorInterface } from './formValueSelector.types.js.flow'
+import type { FormValuesInterface } from './formValues.types.js.flow'
+import type { GetFormNamesInterface } from './selectors/getFormNames.types.js.flow'
+import type { GetFormValuesInterface } from './selectors/getFormValues.types.js.flow'
+import type { GetFormInitialValuesInterface } from './selectors/getFormInitialValues.types.js.flow'
+import type { GetFormSyncErrorsInterface } from './selectors/getFormSyncErrors.types.js.flow'
+import type { GetFormMetaInterface } from './selectors/getFormMeta.types.js.flow'
+import type { GetFormAsyncErrorsInterface } from './selectors/getFormAsyncErrors.types.js.flow'
+import type { GetFormSyncWarningsInterface } from './selectors/getFormSyncWarnings.types.js.flow'
+import type { GetFormSubmitErrorsInterface } from './selectors/getFormSubmitErrors.types.js.flow'
+import type { HasSubmitSucceededInterface } from './selectors/hasSubmitSucceeded.types.js.flow'
+import type { HasSubmitFailedInterface } from './selectors/hasSubmitFailed.types.js.flow'
+import type { IsDirtyInterface } from './selectors/isDirty.types.js.flow'
+import type { IsInvalidInterface } from './selectors/isInvalid.types.js.flow'
+import type { IsPristineInterface } from './selectors/isPristine.types.js.flow'
+import type { IsValidInterface } from './selectors/isValid.types.js.flow'
+import type { IsSubmittingInterface } from './selectors/isSubmitting.types.js.flow'
+import type { Config as ValuesConfig } from './values.types.js.flow'
+import type { ActionTypes } from './actionTypes.types.js.flow'
+import type { Actions } from './actions.types.js.flow'
+
+type StructureMap = Object
+
+declare export var actionTypes: ActionTypes
+
+declare export var actions: Actions
+
+declare export function defaultShouldAsyncValidate(
+  params: DefaultShouldAsyncValidateParams
+): boolean
+
+declare export function defaultShouldValidate(
+  params: DefaultShouldValidateParams
+): boolean
+
+declare export var propTypes: Object
+
+declare export var fieldInputPropTypes: Object
+
+declare export var fieldMetaPropTypes: Object
+
+declare export var fieldPropTypes: Object
+
+declare export var formPropTypes: Object
+
+declare export var Field: ComponentClass<{}, FieldProps>
+
+declare export var Fields: ComponentClass<{}, FieldsProps>
+
+declare export var FieldArray: ComponentClass<{}, FieldArrayProps>
+
+declare export var Form: ComponentClass<{}, FormProps>
+
+declare export var FormSection: ComponentClass<
+  FormSectionDefaultProps,
+  FormSectionProps
+>
+
+declare export function formValueSelector(
+  form: string,
+  getFormState: ?GetFormState
+): FormValueSelectorInterface
+
+declare export function formValues(
+  firstArg: string | Object,
+  ...rest: string[]
+): FormValuesInterface
+
+declare export function getFormNames(
+  getFormState: ?GetFormState
+): GetFormNamesInterface
+
+declare export function getFormValues(
+  form: string,
+  getFormState: ?GetFormState
+): GetFormValuesInterface
+
+declare export function getFormInitialValues(
+  form: string,
+  getFormState: ?GetFormState
+): GetFormInitialValuesInterface
+
+declare export function getFormSyncErrors(
+  form: string,
+  getFormState: ?GetFormState
+): GetFormSyncErrorsInterface
+
+declare export function getFormMeta(
+  form: string,
+  getFormState: ?GetFormState
+): GetFormMetaInterface
+
+declare export function getFormAsyncErrors(
+  form: string,
+  getFormState: ?GetFormState
+): GetFormAsyncErrorsInterface
+
+declare export function getFormSyncWarnings(
+  form: string,
+  getFormState: ?GetFormState
+): GetFormSyncWarningsInterface
+
+declare export function getFormSubmitErrors(
+  form: string,
+  getFormState: ?GetFormState
+): GetFormSubmitErrorsInterface
+
+declare export function hasSubmitSucceeded(
+  form: string,
+  getFormState: ?GetFormState
+): HasSubmitSucceededInterface
+
+declare export function hasSubmitFailed(
+  form: string,
+  getFormState: ?GetFormState
+): HasSubmitFailedInterface
+
+declare export function isDirty(
+  form: string,
+  getFormState: ?GetFormState
+): IsDirtyInterface
+
+declare export function isInvalid(
+  form: string,
+  getFormState: ?GetFormState
+): IsInvalidInterface
+
+declare export function isPristine(
+  form: string,
+  getFormState: ?GetFormState
+): IsPristineInterface
+
+declare export function isValid(
+  form: string,
+  getFormState: ?GetFormState
+): IsValidInterface
+
+declare export function isSubmitting(
+  form: string,
+  getFormState: ?GetFormState
+): IsSubmittingInterface
+
+declare export function reduxForm(
+  config: ReduxFormConfig
+): { (WrappedComponent: ReactClass<*>): ReactClass<*> }
+
+declare export function reducer(state: any, action: Action): any
+
+declare export class SubmissionError {
+  constructor(errors: Object): void
+}
+
+declare export function values(
+  config: ValuesConfig
+): { (ComponentClass<*, *>): ComponentClass<*, *> }

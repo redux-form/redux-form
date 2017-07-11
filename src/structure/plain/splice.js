@@ -1,12 +1,18 @@
-const splice = (array, index, removeNum, value) => {
+// @flow
+const splice = (
+  array: Array<*>,
+  index: number,
+  removeNum: number,
+  value: any
+): Array<*> => {
   array = array || []
 
   if (index < array.length) {
     if (value === undefined && !removeNum) {
       // inserting undefined
       const copy = [...array]
-      copy.splice(index, 0, null)
-      copy[index] = undefined
+      copy.splice(index, 0, true) // temporary placeholder
+      copy[index] = undefined // set to undefined
       return copy
     }
     if (value != null) {

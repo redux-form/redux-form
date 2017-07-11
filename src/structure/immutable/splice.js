@@ -1,13 +1,22 @@
+// @flow
 import { List } from 'immutable'
+import type { List as ImmutableList } from 'immutable'
 
-export default (list, index, removeNum, value) => {
+export default (
+  list: ImmutableList<*>,
+  index: number,
+  removeNum: number,
+  value: any
+) => {
   list = List.isList(list) ? list : List()
 
   if (index < list.count()) {
     if (value === undefined && !removeNum) {
       // inserting undefined
-      // first insert null and then re-set it to undefined
-      return list.splice(index, 0, null).set(index, undefined)
+      // first insert true and then re-set it to undefined
+      return list
+        .splice(index, 0, true) // placeholder
+        .set(index, undefined)
     }
     if (value != null) {
       return list.splice(index, removeNum, value) // removing and adding

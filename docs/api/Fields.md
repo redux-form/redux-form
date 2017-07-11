@@ -4,7 +4,7 @@
 
 The `Fields` component is similar to the
 [`Field`](https://redux-form.com/6.2.0/docs/api/Field.md/) component, but operates on multiple
-fields at a time. Rather than passing a single `name` prop, `Fields` takes an array of names in 
+fields with a single connected component. Rather than passing a single `name` prop, `Fields` takes an array of names in 
 the `names` prop.
 
 **IMPORTANT: Connecting to multiple fields should be used sparingly, as it will require the 
@@ -149,7 +149,7 @@ For example, if your `names` are `[ 'name.first', 'name.last', 'email' ]`, the `
 ## Props
 
 The props that `Fields` will pass to your component are [the same `input` and `meta` structures 
-that `Field` generates](https://redux-form.com/6.8.0/docs/api/Field.md/#props), except that
+that `Field` generates](https://redux-form.com/7.0.0/docs/api/Field.md/#props), except that
 they are broken up into the structure of the fields you gave as `names`. 
 
 Any additional props that you pass to `Field` will be included at the root of the props structure

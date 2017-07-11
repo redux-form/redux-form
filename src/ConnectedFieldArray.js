@@ -1,3 +1,4 @@
+// @flow
 import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -5,18 +6,21 @@ import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
+import type { Structure } from './types'
+import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
-const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
-  const getSyncError = (syncErrors, name) => {
+const createConnectedFieldArray = (structure: Structure<*, *>) => {
+  const { deepEqual, getIn, size } = structure
+  const getSyncError = (syncErrors: Object, name: string) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
     // one in Field.
     return plain.getIn(syncErrors, `${name}._error`)
   }
 
-  const getSyncWarning = (syncWarnings, name) => {
+  const getSyncWarning = (syncWarnings: Object, name: string) => {
     // For an array, the warning can _ONLY_ be under _warning.
     // This is why this getSyncError is not the same as the
     // one in Field.
@@ -24,12 +28,10 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
   }
 
   class ConnectedFieldArray extends Component {
-    constructor() {
-      super()
-      this.getValue = this.getValue.bind(this)
-    }
+    props: Props
+    static defaultProps: DefaultProps
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
       const thisValue = this.props.value
       const nextValue = nextProps.value
@@ -38,8 +40,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         if (
           thisValue.length !== nextValue.length ||
           (nextProps.rerenderOnEveryChange &&
-            thisValue.some((val, index) => !deepEqual(val, nextValue[index]))
-          )
+            thisValue.some((val, index) => !deepEqual(val, nextValue[index])))
         ) {
           return true
         }
@@ -62,15 +63,15 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       )
     }
 
-    get dirty() {
+    get dirty(): boolean {
       return this.props.dirty
     }
 
-    get pristine() {
+    get pristine(): boolean {
       return this.props.pristine
     }
 
-    get value() {
+    get value(): any {
       return this.props.value
     }
 
@@ -78,9 +79,8 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
       return this.refs.renderedComponent
     }
 
-    getValue(index) {
-      return this.props.value && getIn(this.props.value, index)
-    }
+    getValue = (index: number): any =>
+      this.props.value && getIn(this.props.value, String(index))
 
     render() {
       const {
@@ -94,7 +94,7 @@ const createConnectedFieldArray = ({ deepEqual, getIn, size }) => {
         ...rest
       } = this.props
       const props = createFieldArrayProps(
-        getIn,
+        structure,
         name,
         _reduxForm.form,
         _reduxForm.sectionPrefix,

@@ -1,3 +1,4 @@
+// @flow
 export const prefix = '@@redux-form/'
 
 export const ARRAY_INSERT = `${prefix}ARRAY_INSERT`

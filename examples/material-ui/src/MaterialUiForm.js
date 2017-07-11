@@ -35,7 +35,7 @@ const renderTextField = ({
   label,
   meta: { touched, error },
   ...custom
-}) => (
+}) =>
   <TextField
     hintText={label}
     floatingLabelText={label}
@@ -43,24 +43,21 @@ const renderTextField = ({
     {...input}
     {...custom}
   />
-)
 
-const renderCheckbox = ({ input, label }) => (
+const renderCheckbox = ({ input, label }) =>
   <Checkbox
     label={label}
     checked={input.value ? true : false}
     onCheck={input.onChange}
   />
-)
 
-const renderRadioGroup = ({ input, ...rest }) => (
+const renderRadioGroup = ({ input, ...rest }) =>
   <RadioButtonGroup
     {...input}
     {...rest}
     valueSelected={input.value}
     onChange={(event, value) => input.onChange(value)}
   />
-)
 
 const renderSelectField = ({
   input,
@@ -68,7 +65,7 @@ const renderSelectField = ({
   meta: { touched, error },
   children,
   ...custom
-}) => (
+}) =>
   <SelectField
     floatingLabelText={label}
     errorText={touched && error}
@@ -77,7 +74,6 @@ const renderSelectField = ({
     children={children}
     {...custom}
   />
-)
 
 const MaterialUiForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
@@ -126,7 +122,9 @@ const MaterialUiForm = props => {
         />
       </div>
       <div>
-        <button type="submit" disabled={pristine || submitting}>Submit</button>
+        <button type="submit" disabled={pristine || submitting}>
+          Submit
+        </button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

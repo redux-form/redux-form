@@ -1,11 +1,13 @@
+// @flow
 import splice from './splice'
 import getIn from './getIn'
 import setIn from './setIn'
 import deepEqual from './deepEqual'
 import deleteIn from './deleteIn'
 import keys from './keys'
+import type { Structure } from '../../types'
 
-const structure = {
+const structure: Structure<Object, Array<*>> = {
   allowsArrayErrors: true,
   empty: {},
   emptyList: [],
@@ -13,9 +15,11 @@ const structure = {
   setIn,
   deepEqual,
   deleteIn,
+  forEach: (items, callback) => items.forEach(callback),
   fromJS: value => value,
   keys,
   size: array => (array ? array.length : 0),
+  some: (items, callback) => items.some(callback),
   splice,
   toJS: value => value
 }

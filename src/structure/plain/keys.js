@@ -1,4 +1,9 @@
-const keys = value => {
+// @flow
+type Named = {
+  name: string
+}
+
+function keys<T: Object | Named[]>(value: ?T): Array<*> {
   if (!value) {
     return []
   }
