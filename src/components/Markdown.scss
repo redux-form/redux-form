@@ -1,9 +1,9 @@
 .heading {
-  a {
+  .anchor {
     display: none;
   }
 
-  &:hover a {
+  &:hover .anchor {
     display: inline;
   }
 }

@@ -11,7 +11,7 @@ const prettify = markdown =>
 const renderer = new marked.Renderer()
 renderer.heading = (text, level) => {
   const id = text.toLowerCase().replace(/[^\w]+/g, '-')
-  return `<h${level} class="${styles.heading}" id="${id}">${text} <a href="#${id}">#</a></h${level}>`
+  return `<h${level} class="${styles.heading}" id="${id}">${text} <a href="#${id}" class="${styles.anchor}">#</a></h${level}>`
 }
 
 const Markdown = ({ content }) => {
