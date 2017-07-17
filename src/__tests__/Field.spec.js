@@ -1845,6 +1845,60 @@ const describeField = (name, structure, combineReducers, expect) => {
       expect(usernameInput.calls[2].arguments[0].meta.error).toBe(undefined)
     })
 
+    //it('should sync validate with multiple field level validators', () => {
+    //  const store = makeStore()
+    //  const usernameInput = createSpy(props =>
+    //    <input {...props.input} />
+    //  ).andCallThrough()
+    //  const required = createSpy(
+    //    value => (value == null ? 'Required' : undefined)
+    //  ).andCallThrough()
+    //  const minLength5 = createSpy(
+    //    value => (value && value.length < 5 ? 'Min length 5' : undefined)
+    //  ).andCallThrough()
+    //  class Form extends Component {
+    //    render() {
+    //      return (
+    //        <div>
+    //          <Field
+    //            name="username"
+    //            component={usernameInput}
+    //            validate={[required, minLength5]}
+    //          />
+    //        </div>
+    //      )
+    //    }
+    //  }
+    //  const TestForm = reduxForm({
+    //    form: 'testForm'
+    //  })(Form)
+    //  TestUtils.renderIntoDocument(
+    //    <Provider store={store}>
+    //      <TestForm />
+    //    </Provider>
+    //  )
+    //
+    //  // username input rendered
+    //  expect(usernameInput).toHaveBeenCalled()
+    //  expect(usernameInput.calls.length).toBe(2)
+    //  expect(required).toHaveBeenCalled()
+    //  expect(required.calls.length).toBe(1)
+    //
+    //  // username field has error
+    //  expect(usernameInput.calls[1].arguments[0].meta.valid).toBe(false)
+    //  expect(usernameInput.calls[1].arguments[0].meta.error).toBe('Required')
+    //
+    //  // update username field so it passes
+    //  usernameInput.calls[0].arguments[0].input.onChange('erikras')
+    //
+    //  // username input rerendered
+    //  expect(usernameInput.calls.length).toBe(3)
+    //
+    //  // should be valid now
+    //  expect(usernameInput.calls[2].arguments[0].meta.valid).toBe(true)
+    //  expect(usernameInput.calls[2].arguments[0].meta.error).toBe(undefined)
+    //})
+
     it('should update field level validation when validate prop changes', () => {
       const store = makeStore()
       const usernameInput = createSpy(props =>
