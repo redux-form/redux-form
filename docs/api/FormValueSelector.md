@@ -80,7 +80,7 @@ connect(
 ### 3. Use the selector as `mapStateToProps`
 
 If you don't need any other props from the state, the selector itself works just fine as 
-`mapStateToProps`.
+`mapStateToProps` if you are selecting multiple fields.
 
 ```javascript
 connect(
