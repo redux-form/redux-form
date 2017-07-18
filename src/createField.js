@@ -5,6 +5,7 @@ import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
+import plain from './structure/plain'
 import type {
   ConnectedComponent,
   Structure,
