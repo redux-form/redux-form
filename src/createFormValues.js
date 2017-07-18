@@ -45,14 +45,14 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
             'formValues() must be used inside a React tree decorated with reduxForm()'
           )
         }
-        const { getValues } = context._reduxForm
         const formValuesSelector = _ => {
           // Yes, we're only using connect() for listening to updates
+          const { getValues } = this.context._reduxForm
           const props = {}
           const values = getValues()
           valuesMap.forEach(
             ({ prop, path }) =>
-              (props[prop] = getIn(values, prefixName(context, path)))
+              (props[prop] = getIn(values, prefixName(this.context, path)))
           )
           return props
         }
