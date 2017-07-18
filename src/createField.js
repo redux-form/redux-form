@@ -50,8 +50,9 @@ const createField = (structure: Structure<*, *>) => {
     componentWillReceiveProps(nextProps: Props) {
       if (
         this.props.name !== nextProps.name ||
-        this.props.validate !== nextProps.validate ||
-        this.props.warn !== nextProps.warn
+        // use deepEqual here because they could be a function or an array of functions
+        !plain.deepEqual(this.props.validate, nextProps.validate) ||
+        !plain.deepEqual(this.props.warn, nextProps.warn)
       ) {
         // unregister old name
         this.context._reduxForm.unregister(this.name)
