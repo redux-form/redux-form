@@ -17,7 +17,7 @@ import type { FormProps } from 'redux-form'
 
 type Props = {
   someCustomThing: string
-} | FormProps
+} & FormProps
 // ^^^^^^^^^^
 
 class MyForm extends React.Component {
