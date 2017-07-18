@@ -83,8 +83,7 @@ export const fieldMetaPropTypes = {
 
 export const fieldPropTypes = {
   input: shape(fieldInputPropTypes).isRequired,
-  meta: shape(fieldMetaPropTypes).isRequired,
-  custom: object.isRequired
+  meta: shape(fieldMetaPropTypes).isRequired
 }
 
 export default formPropTypes
