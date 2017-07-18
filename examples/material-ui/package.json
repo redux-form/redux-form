@@ -21,7 +21,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-form": "^7.0.1",
-    "redux-form-website-template": "0.0.48"
+    "redux-form-website-template": "0.0.49"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
