@@ -3,14 +3,14 @@ import type { Action, ComponentClass, GetFormState } from './types.js.flow'
 import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
 import type { Config as ReduxFormConfig } from './createReduxForm'
-import type { Props as FormProps } from './Form'
+import type { Props as _FormProps } from './Form'
 import type {
   DefaultProps as FormSectionDefaultProps,
-  Props as FormSectionProps
+  Props as _FormSectionProps
 } from './FormSection'
-import type { Props as FieldProps } from './Field.types.js.flow'
-import type { Props as FieldsProps } from './Fields.types.js.flow'
-import type { Props as FieldArrayProps } from './FieldArray.types.js.flow'
+import type { Props as _FieldProps } from './Field.types.js.flow'
+import type { Props as _FieldsProps } from './Fields.types.js.flow'
+import type { Props as _FieldArrayProps } from './FieldArray.types.js.flow'
 import type { FormValueSelectorInterface } from './formValueSelector.types.js.flow'
 import type { FormValuesInterface } from './formValues.types.js.flow'
 import type { GetFormNamesInterface } from './selectors/getFormNames.types.js.flow'
@@ -33,6 +33,12 @@ import type { ActionTypes } from './actionTypes.types.js.flow'
 import type { Actions } from './actions.types.js.flow'
 
 type StructureMap = Object
+
+export type FormProps = _FormProps
+export type FormSectionProps = _FormSectionProps
+export type FieldProps = _FieldProps
+export type FieldsProps = _FieldsProps
+export type FieldArrayProps = _FieldArrayProps
 
 declare export var actionTypes: ActionTypes
 
