@@ -6,7 +6,7 @@ import type { Config as ReduxFormConfig } from './createReduxForm'
 import type { Props as _FormProps } from './Form'
 import type {
   DefaultProps as FormSectionDefaultProps,
-  Props as _FormSectionProps
+  Props as FormSectionProps
 } from './FormSection'
 import type { Props as _FieldProps } from './Field.types.js.flow'
 import type { Props as _FieldsProps } from './Fields.types.js.flow'
@@ -35,7 +35,6 @@ import type { Actions } from './actions.types.js.flow'
 type StructureMap = Object
 
 export type FormProps = _FormProps
-export type FormSectionProps = _FormSectionProps
 export type FieldProps = _FieldProps
 export type FieldsProps = _FieldsProps
 export type FieldArrayProps = _FieldArrayProps
