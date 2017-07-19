@@ -62,7 +62,11 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         )(Component)
       }
       render() {
-        return <this.Component {...this.props} />
+        return <this.Component
+          // so that the connected component updates props when sectionPrefix has changed
+          sectionPrefix={this.context._reduxForm.sectionPrefix}
+          {...this.props}
+        />
       }
     }
     FormValues.contextTypes = {
