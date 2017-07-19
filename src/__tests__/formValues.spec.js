@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
 import TestUtils from 'react-dom/test-utils'
+import ReactDOM from 'react-dom'
 import createReducer from '../createReducer'
 import createReduxForm from '../createReduxForm'
 import formValues from '../formValues'
@@ -35,7 +36,15 @@ const describeValues = (
     form: 'test',
     initialValues: fromJS({
       cat: 'rat',
-      sub: { dog: 'cat' }
+      sub: { dog: 'cat' },
+      arr: [
+        {
+          rat: 'cat'
+        },
+        {
+          rat: 'dog'
+        },
+      ]
     })
   })(props => <div {...props} />)
 
@@ -91,6 +100,37 @@ const describeValues = (
     it('should work in FormSection', () => {
       const props = testProps(true, 'dog')
       expect(props.dog).toEqual('cat')
+    })
+
+    it('should update props when FormSection name changes', () => {
+      const node = document.createElement('div');
+      const Spy = createSpy(() => <div />).andCallThrough()
+      const Decorated = formValues('rat')(Spy)
+
+      const Component = ({ name }) => (
+        <Provider store={store}>
+          <Form>
+            <FormSection name={name}>
+              <Decorated />
+            </FormSection>
+          </Form>
+        </Provider>
+      )
+
+      ReactDOM.render(
+        <Component name='arr[0]' />,
+        node
+      );
+
+      ReactDOM.render(
+        <Component name='arr[1]' />,
+        node
+      );
+
+      expect(Spy.calls.length).toEqual(2)
+
+      expect(Spy.calls[0].arguments[0].rat).toEqual('cat')
+      expect(Spy.calls[1].arguments[0].rat).toEqual('dog')
     })
   })
 }
