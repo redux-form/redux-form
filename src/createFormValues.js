@@ -45,8 +45,10 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
             'formValues() must be used inside a React tree decorated with reduxForm()'
           )
         }
-        const formValuesSelector = _ => {
-          // Yes, we're only using connect() for listening to updates
+        const formValuesSelector = (_, { sectionPrefix }) => {
+          // Yes, we're only using connect() for listening to updates.
+          // The second argument needs to be there so that connect calls
+          // the selector when props change
           const { getValues } = this.context._reduxForm
           const props = {}
           const values = getValues()
@@ -59,7 +61,7 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         this.Component = connect(
           formValuesSelector,
           () => ({}) // ignore dispatch
-        )(Component)
+        )(({ sectionPrefix, ...otherProps }) => (<Component {...otherProps} />))
       }
       render() {
         return <this.Component
