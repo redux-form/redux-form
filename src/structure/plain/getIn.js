@@ -14,12 +14,12 @@ const getIn = (state: Object | Array<*>, field: string): any => {
   }
 
   if (Immutable.Iterable.isIterable(state)) {
-    state = state.toJSON();
+    state = state.toJSON()
   }
 
   let result: any = state
   for (let i = 0; i < length && result; ++i) {
-    result = result[path[i]];
+    result = result[path[i]]
   }
 
   return result
