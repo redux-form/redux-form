@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 describe('structure.plain.getIn', () => {
 
-  describe('Immutable Tests', () => {
+  describe('Non-Immutable Object Tests', () => {
     it('should return undefined if state is undefined', () => {
       expect(getIn(undefined, 'dog')).toBe(undefined)
     })
@@ -80,7 +80,7 @@ describe('structure.plain.getIn', () => {
     })
   });
 
-  describe('Immutable Tests', () => {
+  describe('Immutable Object Tests', () => {
     it('should get shallow values', () => {
       expect(getIn(Map({foo: 'bar'}), 'foo')).toBe('bar')
       expect(getIn(Map({foo: 42}), 'foo')).toBe(42)
