@@ -1,6 +1,6 @@
 // @flow
 import { toPath } from 'lodash'
-import Immutable from 'immutable';
+import Immutable from 'immutable'
 
 const getIn = (state: Object | Array<*>, field: string): any => {
   if (!state) {
