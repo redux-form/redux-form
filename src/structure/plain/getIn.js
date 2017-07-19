@@ -1,6 +1,6 @@
 // @flow
 import { toPath } from 'lodash'
-import Immutable from 'immutable'
+import { Iterable } from 'immutable'
 
 const getIn = (state: Object | Array<*>, field: string): any => {
   if (!state) {
@@ -13,7 +13,7 @@ const getIn = (state: Object | Array<*>, field: string): any => {
     return undefined
   }
 
-  if (Immutable.Iterable.isIterable(state)) {
+  if (Iterable.isIterable(state)) {
     state = state.toJSON()
   }
 
