@@ -1,5 +1,6 @@
 // @flow
 import { toPath } from 'lodash'
+import { Iterable } from 'immutable'
 
 const getIn = (state: Object | Array<*>, field: string): any => {
   if (!state) {
@@ -10,6 +11,10 @@ const getIn = (state: Object | Array<*>, field: string): any => {
   const length = path.length
   if (!length) {
     return undefined
+  }
+
+  if (Iterable.isIterable(state)) {
+    state = state.toJSON()
   }
 
   let result: any = state
