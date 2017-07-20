@@ -60,6 +60,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     splice
   } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
+  const plainDeleteInWithCleanUp = createDeleteInWithCleanUp(plain)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
     const existing = getIn(state, `${key}.${field}`)
     return existing || force
@@ -454,10 +455,26 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         if (deepEqual(getIn(result, 'registeredFields'), empty)) {
           result = deleteIn(result, 'registeredFields')
         }
-        result = deleteInWithCleanUp(result, `syncErrors.${name}`)
+        let syncErrors = getIn(result, 'syncErrors')
+        if (syncErrors) {
+          syncErrors = plainDeleteInWithCleanUp(syncErrors, name)
+          if (plain.deepEqual(syncErrors, plain.empty)) {
+            result = deleteIn(result, 'syncErrors')
+          } else {
+            result = setIn(result, 'syncErrors', syncErrors)
+          }
+        }
+        let syncWarnings = getIn(result, 'syncWarnings')
+        if (syncWarnings) {
+          syncWarnings = plainDeleteInWithCleanUp(syncWarnings, name)
+          if (plain.deepEqual(syncWarnings, plain.empty)) {
+            result = deleteIn(result, 'syncWarnings')
+          } else {
+            result = setIn(result, 'syncWarnings', syncWarnings)
+          }
+        }
         result = deleteInWithCleanUp(result, `submitErrors.${name}`)
         result = deleteInWithCleanUp(result, `asyncErrors.${name}`)
-        result = deleteInWithCleanUp(result, `syncWarnings.${name}`)
       } else {
         field = setIn(field, 'count', count)
         result = setIn(result, key, field)
