@@ -13,11 +13,11 @@ const propsToNotUpdateFor = ['_reduxForm']
 const createConnectedFields = (structure: Structure<*, *>) => {
   const { deepEqual, getIn, size } = structure
 
-  const getSyncError = (syncErrors: Object, name: string) => {
+  const getSyncError = (syncErrors: any, name: string) => {
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
     return (
-      plain.getIn(syncErrors, `${name}._error`) || plain.getIn(syncErrors, name)
+      getIn(syncErrors, `${name}._error`) || getIn(syncErrors, name)
     )
   }
 

@@ -273,7 +273,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
       const syncErrors = getIn(state, 'syncErrors')
       if (syncErrors) {
-        result = setIn(result, 'syncErrors', syncErrors)
+        result = setIn(result, 'syncErrors', fromJS(syncErrors))
       }
 
       const registeredFields = getIn(state, 'registeredFields')
@@ -504,7 +504,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         result = deleteIn(result, 'syncError')
       }
       if (Object.keys(syncErrors).length) {
-        result = setIn(result, 'syncErrors', syncErrors)
+        result = setIn(result, 'syncErrors', fromJS(syncErrors))
       } else {
         result = deleteIn(result, 'syncErrors')
       }

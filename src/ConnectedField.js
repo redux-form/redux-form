@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
-import plain from './structure/plain'
 import type { Structure } from './types.js.flow'
 import type { Component as ReactComponent } from 'react'
 import type { Props } from './ConnectedField.types.js.flow'
@@ -44,8 +43,8 @@ const eventDataTransferSetData = (event, key, value) => {
 
 const createConnectedField = (structure: Structure<*, *>) => {
   const { deepEqual, getIn } = structure
-  const getSyncError = (syncErrors: Object, name: string) => {
-    const error = plain.getIn(syncErrors, name)
+  const getSyncError = (syncErrors: any, name: string) => {
+    const error = getIn(syncErrors, name)
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
     return error && error._error ? error._error : error

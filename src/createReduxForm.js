@@ -251,7 +251,7 @@ export type Props = {
  * The decorator that is the main API to redux-form
  */
 const createReduxForm = (structure: Structure<*, *>) => {
-  const { deepEqual, empty, getIn, setIn, keys, fromJS } = structure
+  const { deepEqual, empty, getIn, setIn, keys, fromJS, toJS } = structure
   const isValid = createIsValid(structure)
   return (initialConfig: Config) => {
     const config = {
@@ -381,13 +381,14 @@ const createReduxForm = (structure: Structure<*, *>) => {
                 initialRender || !nextProps ? this.props : nextProps
               const { _error, ...nextSyncErrors } = merge(
                 validate
-                  ? validate(propsToValidate.values, propsToValidate) || {}
+                  // immutable objects does not work with merge
+                  ? toJS(validate(propsToValidate.values, propsToValidate)) || {}
                   : {},
                 fieldLevelValidate
-                  ? fieldLevelValidate(
+                  ? toJS(fieldLevelValidate(
                       propsToValidate.values,
                       propsToValidate
-                    ) || {}
+                    )) || {}
                   : {}
               )
               this.lastFieldValidatorKeys = fieldValidatorKeys

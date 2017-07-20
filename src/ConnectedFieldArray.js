@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
-import plain from './structure/plain'
 import type { Structure } from './types'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
 
@@ -13,11 +12,11 @@ const propsToNotUpdateFor = ['_reduxForm', 'value']
 
 const createConnectedFieldArray = (structure: Structure<*, *>) => {
   const { deepEqual, getIn, size } = structure
-  const getSyncError = (syncErrors: Object, name: string) => {
+  const getSyncError = (syncErrors: any, name: string) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
     // one in Field.
-    return plain.getIn(syncErrors, `${name}._error`)
+    return getIn(syncErrors, `${name}._error`)
   }
 
   const getSyncWarning = (syncWarnings: Object, name: string) => {

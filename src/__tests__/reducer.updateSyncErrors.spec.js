@@ -28,10 +28,10 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           }
         }),
         'foo.syncErrors',
-        {
+        fromJS({
           myField: 'myField error',
           myOtherField: 'myOtherField error'
-        }
+        })
       )
     )
   })
@@ -67,9 +67,9 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           }
         }),
         'foo.syncErrors',
-        {
+        fromJS({
           myField: 'myField error'
-        }
+        })
       )
     )
   })
@@ -100,10 +100,10 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
           }
         }),
         'foo.syncErrors',
-        {
+        fromJS({
           myField: { complex: true, text: 'myField error' },
           myOtherField: { complex: true, text: 'myOtherField error' }
-        }
+        })
       )
     )
   })
