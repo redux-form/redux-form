@@ -2197,7 +2197,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const store = makeStore({
         testForm: {}
       })
-      const errors = { username: 'Required' }
+      const errors = fromJS({ username: 'Required' })
       const onSubmit = createSpy()
       const onSubmitFail = createSpy()
 
@@ -3179,10 +3179,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
       const renderInput = createSpy(props =>
         <input {...props.input} />
       ).andCallThrough()
-      const error = {
+      const error = fromJS({
         complex: 'object',
         manyKeys: true
-      }
+      })
 
       class Form extends Component {
         render() {
@@ -3680,7 +3680,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
             }
           }),
           'form.testForm.syncErrors',
-          { name: 'Required' }
+          fromJS({ name: 'Required' })
         )
       )
 
@@ -3719,7 +3719,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
           }
         }),
         'form.testForm.syncErrors',
-        { name: 'Required' }
+        fromJS({ name: 'Required' })
       )
       expect(store.getState()).toEqualMap(originalState)
 
