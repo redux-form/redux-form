@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
-import plain from './structure/plain'
 import type { Structure } from './types'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
 
