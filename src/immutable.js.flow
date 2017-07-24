@@ -1,5 +1,5 @@
 // @flow
-import type { Action, ComponentClass, GetFormState } from './types.js.flow'
+import type { Action, ComponentClass, GetFormState } from './types'
 import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
 import type { Config as ReduxFormConfig } from './createReduxForm'
@@ -8,41 +8,75 @@ import type {
   DefaultProps as FormSectionDefaultProps,
   Props as _FormSectionProps
 } from './FormSection'
-import type { Props as _FieldProps } from './Field.types.js.flow'
-import type { Props as _FieldsProps } from './Fields.types.js.flow'
-import type { Props as _FieldArrayProps } from './FieldArray.types.js.flow'
-import type { FormValueSelectorInterface } from './formValueSelector.types.js.flow'
-import type { FormValuesInterface } from './formValues.types.js.flow'
-import type { GetFormNamesInterface } from './selectors/getFormNames.types.js.flow'
-import type { GetFormValuesInterface } from './selectors/getFormValues.types.js.flow'
-import type { GetFormInitialValuesInterface } from './selectors/getFormInitialValues.types.js.flow'
-import type { GetFormSyncErrorsInterface } from './selectors/getFormSyncErrors.types.js.flow'
-import type { GetFormMetaInterface } from './selectors/getFormMeta.types.js.flow'
-import type { GetFormAsyncErrorsInterface } from './selectors/getFormAsyncErrors.types.js.flow'
-import type { GetFormSyncWarningsInterface } from './selectors/getFormSyncWarnings.types.js.flow'
-import type { GetFormSubmitErrorsInterface } from './selectors/getFormSubmitErrors.types.js.flow'
-import type { HasSubmitSucceededInterface } from './selectors/hasSubmitSucceeded.types.js.flow'
-import type { HasSubmitFailedInterface } from './selectors/hasSubmitFailed.types.js.flow'
-import type { IsDirtyInterface } from './selectors/isDirty.types.js.flow'
-import type { IsInvalidInterface } from './selectors/isInvalid.types.js.flow'
-import type { IsPristineInterface } from './selectors/isPristine.types.js.flow'
-import type { IsValidInterface } from './selectors/isValid.types.js.flow'
-import type { IsSubmittingInterface } from './selectors/isSubmitting.types.js.flow'
-import type { Config as ValuesConfig } from './values.types.js.flow'
-import type { ActionTypes } from './actionTypes.types.js.flow'
-import type { Actions } from './actions.types.js.flow'
+import type {
+  Props as FieldInputProps,
+  FieldProps as _FieldProps
+} from './FieldProps.types'
+import type { Props as FieldsInputProps } from './FieldsProps.types'
+import type {
+  Props as FieldArrayInputProps,
+  FieldArrayProps as _FieldArrayProps
+} from './FieldArrayProps.types'
+import type { FormValueSelectorInterface } from './formValueSelector.types'
+import type { FormValuesInterface } from './formValues.types'
+import type { GetFormNamesInterface } from './selectors/getFormNames.types'
+import type { GetFormValuesInterface } from './selectors/getFormValues.types'
+import type { GetFormInitialValuesInterface } from './selectors/getFormInitialValues.types'
+import type { GetFormSyncErrorsInterface } from './selectors/getFormSyncErrors.types'
+import type { GetFormMetaInterface } from './selectors/getFormMeta.types'
+import type { GetFormAsyncErrorsInterface } from './selectors/getFormAsyncErrors.types'
+import type { GetFormSyncWarningsInterface } from './selectors/getFormSyncWarnings.types'
+import type { GetFormSubmitErrorsInterface } from './selectors/getFormSubmitErrors.types'
+import type { HasSubmitSucceededInterface } from './selectors/hasSubmitSucceeded.types'
+import type { HasSubmitFailedInterface } from './selectors/hasSubmitFailed.types'
+import type { IsDirtyInterface } from './selectors/isDirty.types'
+import type { IsInvalidInterface } from './selectors/isInvalid.types'
+import type { IsPristineInterface } from './selectors/isPristine.types'
+import type { IsValidInterface } from './selectors/isValid.types'
+import type { IsSubmittingInterface } from './selectors/isSubmitting.types'
+import type { Config as ValuesConfig } from './values.types'
+import type { ActionTypes } from './actionTypes.types'
+import type {
+  ArrayInsertAction,
+  ArrayMoveAction,
+  ArrayPopAction,
+  ArrayPushAction,
+  ArrayRemoveAction,
+  ArrayRemoveAllAction,
+  ArrayShiftAction,
+  ArraySpliceAction,
+  ArraySwapAction,
+  ArrayUnshiftAction,
+  AutofillAction,
+  BlurAction,
+  ChangeAction,
+  ClearSubmitErrorsAction,
+  DestroyAction,
+  FocusAction,
+  InitializeAction,
+  RegisterFieldAction,
+  ResetAction,
+  SetSubmitFailedAction,
+  SetSubmitSucceededAction,
+  StartAsyncValidationAction,
+  StartSubmitAction,
+  StopAsyncValidationAction,
+  StopSubmitAction,
+  SubmitAction,
+  TouchAction,
+  UnregisterFieldAction,
+  UntouchAction
+} from './actions.types'
+import type { Actions } from './actions.types'
 
 type StructureMap = Object
 
 export type FormProps = _FormProps
 export type FormSectionProps = _FormSectionProps
 export type FieldProps = _FieldProps
-export type FieldsProps = _FieldsProps
 export type FieldArrayProps = _FieldArrayProps
 
 declare export var actionTypes: ActionTypes
-
-declare export var actions: Actions
 
 declare export function defaultShouldAsyncValidate(
   params: DefaultShouldAsyncValidateParams
@@ -64,7 +98,7 @@ declare export var formPropTypes: Object
 
 declare export var Field: ComponentClass<*, FieldProps>
 
-declare export var Fields: ComponentClass<*, FieldsProps>
+declare export var Fields: ComponentClass<*, FieldsInputProps>
 
 declare export var FieldArray: ComponentClass<*, FieldArrayProps>
 
@@ -172,3 +206,34 @@ declare export class SubmissionError {
 declare export function values(
   config: ValuesConfig
 ): { (ComponentClass<*, *>): ComponentClass<*, *> }
+
+// Action creators
+declare export var arrayInsert: ArrayInsertAction
+declare export var arrayMove: ArrayMoveAction
+declare export var arrayPop: ArrayPopAction
+declare export var arrayPush: ArrayPushAction
+declare export var arrayRemove: ArrayRemoveAction
+declare export var arrayRemoveAll: ArrayRemoveAllAction
+declare export var arrayShift: ArrayShiftAction
+declare export var arraySplice: ArraySpliceAction
+declare export var arraySwap: ArraySwapAction
+declare export var arrayUnshift: ArrayUnshiftAction
+declare export var autofill: AutofillAction
+declare export var blur: BlurAction
+declare export var change: ChangeAction
+declare export var clearSubmitErrors: ClearSubmitErrorsAction
+declare export var destroy: DestroyAction
+declare export var focus: FocusAction
+declare export var initialize: InitializeAction
+declare export var registerField: RegisterFieldAction
+declare export var reset: ResetAction
+declare export var setSubmitFailed: SetSubmitFailedAction
+declare export var setSubmitSucceeded: SetSubmitSucceededAction
+declare export var startAsyncValidation: StartAsyncValidationAction
+declare export var startSubmit: StartSubmitAction
+declare export var stopAsyncValidation: StopAsyncValidationAction
+declare export var stopSubmit: StopSubmitAction
+declare export var submit: SubmitAction
+declare export var touch: TouchAction
+declare export var unregisterField: UnregisterFieldAction
+declare export var untouch: UntouchAction

@@ -10,7 +10,7 @@ import type {
   ReactContext
 } from './types.js.flow'
 import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types.js.flow'
-import type { Props } from './FieldArray.types.js.flow'
+import type { Props } from './FieldArrayProps.types.js.flow'
 
 const toArray = (value: any): Array<*> =>
   Array.isArray(value) ? value : [value]

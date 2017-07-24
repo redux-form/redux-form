@@ -1,5 +1,5 @@
 // @flow
-import type { Action, FieldType } from './types.js.flow'
+import type { Action, FieldType } from './types'
 
 export type ArrayInsertAction = {
   type: string,

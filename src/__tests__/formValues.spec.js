@@ -43,7 +43,7 @@ const describeValues = (
         },
         {
           rat: 'dog'
-        },
+        }
       ]
     })
   })(props => <div {...props} />)
@@ -103,11 +103,11 @@ const describeValues = (
     })
 
     it('should update props when FormSection name changes', () => {
-      const node = document.createElement('div');
+      const node = document.createElement('div')
       const Spy = createSpy(() => <div />).andCallThrough()
       const Decorated = formValues('rat')(Spy)
 
-      const Component = ({ name }) => (
+      const Component = ({ name }) =>
         <Provider store={store}>
           <Form>
             <FormSection name={name}>
@@ -115,17 +115,10 @@ const describeValues = (
             </FormSection>
           </Form>
         </Provider>
-      )
 
-      ReactDOM.render(
-        <Component name='arr[0]' />,
-        node
-      );
+      ReactDOM.render(<Component name="arr[0]" />, node)
 
-      ReactDOM.render(
-        <Component name='arr[1]' />,
-        node
-      );
+      ReactDOM.render(<Component name="arr[1]" />, node)
 
       expect(Spy.calls.length).toEqual(2)
 
