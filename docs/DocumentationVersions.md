@@ -38,7 +38,7 @@
 * [6.0.0-alpha.6](https://redux-form.com/6.0.0-alpha.6/)
 * [6.0.0-alpha.5](https://redux-form.com/6.0.0-alpha.5/)
 * [6.0.0-alpha.4](https://redux-form.com/6.0.0-alpha.4/)
-* [5.3.3](https://redux-form.com/5.3.3/)
+* [5.3.6](https://redux-form.com/5.3.6/)
 * [5.3.1](https://redux-form.com/5.3.1/)
 * [5.3.0](https://redux-form.com/5.3.0/)
 * [5.2.5](https://redux-form.com/5.2.5/)
