@@ -149,7 +149,7 @@ For example, if your `names` are `[ 'name.first', 'name.last', 'email' ]`, the `
 ## Props
 
 The props that `Fields` will pass to your component are [the same `input` and `meta` structures 
-that `Field` generates](https://redux-form.com/7.0.1/docs/api/Field.md/#props), except that
+that `Field` generates](https://redux-form.com/7.0.2/docs/api/Field.md/#props), except that
 they are broken up into the structure of the fields you gave as `names`. 
 
 Any additional props that you pass to `Field` will be included at the root of the props structure
