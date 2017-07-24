@@ -1,6 +1,4 @@
 // @flow
-import type { Structure, ReactContext } from './types'
-
 export type Props = {
   names: string[],
   component: Function | ReactClass<*>,

@@ -13,7 +13,7 @@ import type {
 } from './types.js.flow'
 import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types.js.flow'
 import type { Component as ReactComponent } from 'react'
-import type { Props } from './Field.types.js.flow'
+import type { Props } from './FieldProps.types.js.flow'
 
 const createField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)

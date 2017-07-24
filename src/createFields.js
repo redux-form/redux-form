@@ -7,7 +7,7 @@ import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
-import type { Props } from './Fields.types.js.flow'
+import type { Props } from './FieldsProps.types.js.flow'
 
 const validateNameProp = prop => {
   if (!prop) {

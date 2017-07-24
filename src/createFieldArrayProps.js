@@ -1,5 +1,6 @@
 // @flow
 import type { Structure } from './types'
+import type { FieldArrayProps } from './FieldArrayProps.types.js.flow'
 
 type Props = {
   arrayInsert(index: number, value: any): void,
@@ -24,43 +25,6 @@ type Props = {
   syncWarning: any,
   value: Array<any>,
   props?: Object
-}
-
-export type Fields = {
-  _isFieldArray: boolean,
-  forEach(callback: Function): void,
-  get(index: number): any,
-  getAll(): Array<any>,
-  insert(index: number, value: any): void,
-  length: number,
-  map(callback: Function): Array<any>,
-  move(from: number, to: number): void,
-  name: string,
-  pop(): any,
-  push(value: any): void,
-  reduce(callback: Function): any,
-  remove(index: number): void,
-  removeAll(): void,
-  shift(): any,
-  some(callback: Function): boolean,
-  swap(from: number, to: number): void,
-  unshift(value: any): void
-}
-
-type Result = {
-  fields: Fields,
-  meta: {
-    dirty: boolean,
-    error: any,
-    warning: any,
-    invalid: boolean,
-    pristine: boolean,
-    submitting: boolean,
-    submitFailed: boolean,
-    touched: boolean,
-    valid: boolean
-  },
-  ref?: string
 }
 
 const createFieldArrayProps = (
@@ -94,7 +58,7 @@ const createFieldArrayProps = (
     props,
     ...rest
   }: Props
-): Result => {
+): FieldArrayProps => {
   const error = syncError || asyncError || submitError
   const warning = syncWarning
   const fieldName = sectionPrefix ? name.replace(`${sectionPrefix}.`, '') : name
