@@ -183,7 +183,7 @@ prop namespace collisions.
 
 #### `pure : boolean` [optional]
 
-> If true, implements `shouldComponentUpdate` and shallowly compares _only the Redux-connected
+> If true, implements `shouldComponentUpdate` and compares _only the Redux-connected
 props_ that are needed to manage the form state, preventing unnecessary
 updates, assuming that the component is a “pure” component and does not rely on any input or
 state other than its props and the selected Redux store’s state. Defaults to `true`.
