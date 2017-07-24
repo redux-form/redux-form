@@ -7,6 +7,7 @@ import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
 import type { Structure } from './types'
+import type { Component as ReactComponent } from 'react'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
@@ -29,6 +30,8 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   class ConnectedFieldArray extends Component {
     props: Props
+    ref: ReactComponent<*, *, *>
+
     static defaultProps: DefaultProps
 
     shouldComponentUpdate(nextProps: Props) {
@@ -76,8 +79,10 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.refs.renderedComponent
+      return this.ref
     }
+
+    saveRef = (ref: ReactComponent<*, *, *>) => (this.ref = ref)
 
     getValue = (index: number): any =>
       this.props.value && getIn(this.props.value, String(index))
@@ -102,7 +107,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
         rest
       )
       if (withRef) {
-        props.ref = 'renderedComponent'
+        props.ref = this.saveRef
       }
       return createElement(component, props)
     }

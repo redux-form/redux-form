@@ -1,5 +1,5 @@
 // @flow
-import type { Structure, Event, Context } from './types.js.flow'
+import type { Structure, Event, Context } from './types'
 
 export type Props = {
   names: string[],

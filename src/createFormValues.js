@@ -61,14 +61,16 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         this.Component = connect(
           formValuesSelector,
           () => ({}) // ignore dispatch
-        )(({ sectionPrefix, ...otherProps }) => (<Component {...otherProps} />))
+        )(({ sectionPrefix, ...otherProps }) => <Component {...otherProps} />)
       }
       render() {
-        return <this.Component
-          // so that the connected component updates props when sectionPrefix has changed
-          sectionPrefix={this.context._reduxForm.sectionPrefix}
-          {...this.props}
-        />
+        return (
+          <this.Component
+            // so that the connected component updates props when sectionPrefix has changed
+            sectionPrefix={this.context._reduxForm.sectionPrefix}
+            {...this.props}
+          />
+        )
       }
     }
     FormValues.contextTypes = {

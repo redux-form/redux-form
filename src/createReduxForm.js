@@ -17,6 +17,7 @@ import handleSubmit from './handleSubmit'
 import createIsValid from './selectors/isValid'
 import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
+import type { Dispatch } from 'redux'
 import type {
   ReactContext,
   GetFormState,
@@ -87,11 +88,11 @@ const checkSubmit = submit => {
 
 type OnSubmitFail = (
   errors: ?Object,
-  dispatch: Function,
+  dispatch: Dispatch,
   submitError: ?any,
   props: Object
 ) => void
-type OnSubmitSuccess = (result: ?any, dispatch: Function, props: Object) => void
+type OnSubmitSuccess = (result: ?any, dispatch: Dispatch, props: Object) => void
 type InitializeAction = (
   initialValues: ?Values,
   keepDirty: boolean,
@@ -132,12 +133,12 @@ type UpdateSyncErrorsAction = (syncErrors: ?Object, error: ?any) => void
 type UpdateSyncWarningsAction = (syncErrors: ?Object, error: ?any) => void
 type OnSubmitFunction = (
   values: Values,
-  dispatch: Function,
+  dispatch: Dispatch,
   props: Object
 ) => Promise<*> | void
 type AsyncValidateFunction = (
   values: Values,
-  dispatch: Function,
+  dispatch: Dispatch,
   props: Object,
   blurredField: ?string
 ) => Promise<void>
@@ -148,7 +149,7 @@ type ShouldAsyncValidateFunction = (
 type ShouldValidateFunction = (params: ShouldValidateParams) => boolean
 type OnChangeFunction = (
   values: Values,
-  dispatch: Function,
+  dispatch: Dispatch,
   props: Object
 ) => void
 
@@ -197,7 +198,7 @@ export type Props = {
   destroyOnUnmount: boolean,
   forceUnregisterOnUnmount: boolean,
   dirty: boolean,
-  dispatch: Function,
+  dispatch: Dispatch,
   enableReinitialize: boolean,
   error?: any,
   focus: FocusAction,
