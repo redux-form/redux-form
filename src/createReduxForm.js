@@ -646,7 +646,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         submitFailed = (error: any): void => {
           delete this.submitPromise
-          throw error
+          return error
         }
 
         listenToSubmit = (promise: any) => {
