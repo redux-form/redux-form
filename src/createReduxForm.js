@@ -88,11 +88,11 @@ const checkSubmit = submit => {
 
 type OnSubmitFail = (
   errors: ?Object,
-  dispatch: Dispatch,
+  dispatch: Dispatch<*>,
   submitError: ?any,
   props: Object
 ) => void
-type OnSubmitSuccess = (result: ?any, dispatch: Dispatch, props: Object) => void
+type OnSubmitSuccess = (result: ?any, dispatch: Dispatch<*>, props: Object) => void
 type InitializeAction = (
   initialValues: ?Values,
   keepDirty: boolean,
@@ -133,12 +133,12 @@ type UpdateSyncErrorsAction = (syncErrors: ?Object, error: ?any) => void
 type UpdateSyncWarningsAction = (syncErrors: ?Object, error: ?any) => void
 type OnSubmitFunction = (
   values: Values,
-  dispatch: Dispatch,
+  dispatch: Dispatch<*>,
   props: Object
 ) => Promise<*> | void
 type AsyncValidateFunction = (
   values: Values,
-  dispatch: Dispatch,
+  dispatch: Dispatch<*>,
   props: Object,
   blurredField: ?string
 ) => Promise<void>
@@ -149,7 +149,7 @@ type ShouldAsyncValidateFunction = (
 type ShouldValidateFunction = (params: ShouldValidateParams) => boolean
 type OnChangeFunction = (
   values: Values,
-  dispatch: Dispatch,
+  dispatch: Dispatch<*>,
   props: Object
 ) => void
 
@@ -198,7 +198,7 @@ export type Props = {
   destroyOnUnmount: boolean,
   forceUnregisterOnUnmount: boolean,
   dirty: boolean,
-  dispatch: Dispatch,
+  dispatch: Dispatch<*>,
   enableReinitialize: boolean,
   error?: any,
   focus: FocusAction,

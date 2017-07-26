@@ -18,7 +18,7 @@ export type Props = {
   onDragStart: { (event: Event): void },
   onFocus: { (event: Event): void },
   dirty: boolean,
-  dispatch: Dispatch,
+  dispatch: Dispatch<*>,
   form: string,
   format?: { (value: any, name: string): any },
   initial: any,

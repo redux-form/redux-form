@@ -4,7 +4,9 @@ import SubmissionError from './SubmissionError'
 import type { Dispatch } from 'redux'
 import type { Props } from './createReduxForm'
 
-type SubmitFunction = { (values: any, dispatch: Dispatch, props: Object): any }
+type SubmitFunction = {
+  (values: any, dispatch: Dispatch<*>, props: Object): any
+}
 
 const handleSubmit = (
   submit: SubmitFunction,
