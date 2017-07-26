@@ -94,11 +94,11 @@ declare export var fieldPropTypes: Object
 
 declare export var formPropTypes: Object
 
-declare export var Field: ComponentClass<{}, FieldProps>
+declare export var Field: ComponentClass<{}, FieldInputProps>
 
 declare export var Fields: ComponentClass<{}, FieldsInputProps>
 
-declare export var FieldArray: ComponentClass<{}, FieldArrayProps>
+declare export var FieldArray: ComponentClass<{}, FieldArrayInputProps>
 
 declare export var Form: ComponentClass<{}, FormProps>
 
