@@ -43,7 +43,7 @@ export type FieldProps = {
     asyncValidating: boolean,
     autofilled: boolean,
     dirty: boolean,
-    dispatch: Dispatch,
+    dispatch: Dispatch<*>,
     error?: any,
     form: string,
     initial?: any,
