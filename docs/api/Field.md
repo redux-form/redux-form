@@ -123,11 +123,11 @@ parsed value to be stored in the Redux store.
 
 #### `validate : (value, allValues, props) => error` [optional]
 
-Allows you to to provide a field-level validation rule. The function will be given the current value of the field, all the other form values, and any props passed to the form. If the field is valid, it should return `undefined`, if the field is invalid, it should return an error (usually, but not necessarily, a `String`).
+Allows you to to provide a field-level validation rule. The function is given the fields current value, all other form values, and the props passed to the form. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered. 
 
 #### `warn : (value, allValues, props) => warning` [optional]
 
-Allows you to to provide a field-level warning rule. The function will be given the current value of the field, all the other form values, and any props passed to the form. If the field needs a warning, it should return the warning (usually, but not necessarily, a `String`). If the field does not need a warning, it should return `undefined`.
+Allows you to to provide a field-level warning rule. The function is given the fields current value, all other form values, and the props passed to the form. If the field does not need a warning it should return `undefined`. If the field needs a warning it should return the warning (usually, but not necessarily, a `String`). Note: if the warn prop changes the field will be re-registered. 
 
 #### `withRef : boolean` [optional]
 
