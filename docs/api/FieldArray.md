@@ -200,6 +200,10 @@ is tracking for you.
 > `true` if the all of the fields in the field array are the same as their initialized
 > value. Opposite of `dirty`.
 
+#### `meta.submitFailed : boolean`
+
+> `true` if form submission has failed for any reason
+
 #### `meta.submitting : boolean`
 
 > `true` if the field is currently being submitted
