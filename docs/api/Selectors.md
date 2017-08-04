@@ -43,7 +43,7 @@ MyComponent = connect(
     asyncErrors: getFormAsyncErrors('myForm')(state),
     syncWarnings: getFormSyncWarnings('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
-    names: getFormNames('myForm')(state),
+    names: getFormNames()(state),
     dirty: isDirty('myForm')(state),
     pristine: isPristine('myForm')(state),
     valid: isValid('myForm')(state),
