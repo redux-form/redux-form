@@ -61,6 +61,10 @@ insert, so the item already at the `to` position will be bumped to a higher inde
 
 > Saves the value to the field.
 
+### `clearSubmitErrors(form:String)`
+
+> Removes `submitErrors` and `error`. 
+
 ### `destroy(...forms:String)`
 
 > Destroys the forms, removing all of their state.
@@ -89,6 +93,14 @@ it will not clear the `submitSucceeded` flag if it is set.
 ### `reset(form:String)`
 
 > Resets the values in the form back to the values past in with the most recent `initialize` action.
+
+### `setSubmitFailed(form:String, ...fields:String)`
+
+> Flips `submitFailed` flag `true`, removes `submitSucceeded` and `submitting`, marks all the fields passed in as `touched`, and if at least one field was passed flips `anyTouched` to `true`. 
+
+### `setSubmitSucceeded(form:String)`
+
+> Flips `submitSucceeded` flag `true` and removes `submitFailed`.
 
 ### `startAsyncValidation(form:String)`
 
