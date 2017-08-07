@@ -361,10 +361,6 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         result = setIn(result, 'values', values)
         result = setIn(result, 'initial', values)
       }
-      var syncErrors = getIn(state, 'syncErrors');
-      if(syncErrors){
-        result = setIn(result, 'syncErrors', syncErrors);
-      }
       var submitFailed = getIn(state, 'submitFailed');
       if(submitFailed){
         result = setIn(result, 'valid', false)
