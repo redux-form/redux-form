@@ -68,7 +68,7 @@ const handleSubmit = (
             const error =
               submitError instanceof SubmissionError
                 ? submitError.errors
-                : undefined
+                : {}
             stopSubmit(error)
             setSubmitFailed(...fields)
             if (onSubmitFail) {
