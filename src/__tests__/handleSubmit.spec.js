@@ -69,7 +69,7 @@ describe('handleSubmit', () => {
     expect(setSubmitFailed)
       .toHaveBeenCalled()
       .toHaveBeenCalledWith('foo', 'baz')
-    expect(result).toBe(syncErrors)
+    expect(result).toEqual(syncErrors)
   })
 
   it('should return result of sync submit', () => {
@@ -503,5 +503,44 @@ describe('handleSubmit', () => {
         )
         expect(errorSpy).toHaveBeenCalled('promise should have rejected')
       })
+  })
+
+  it('should not swallow async errors when form is invalid', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const submit = createSpy().andReturn(69)
+    const syncErrors = { baz: 'sync error' }
+    const asyncErrors = { foo: 'async error' }
+    const startSubmit = createSpy()
+    const stopSubmit = createSpy()
+    const touch = createSpy()
+    const setSubmitFailed = createSpy()
+    const setSubmitSucceeded = createSpy()
+    const asyncValidate = createSpy()
+    const props = {
+      startSubmit,
+      stopSubmit,
+      touch,
+      setSubmitFailed,
+      setSubmitSucceeded,
+      syncErrors,
+      asyncErrors,
+      values
+    }
+
+    const result = handleSubmit(submit, props, false, asyncValidate, [
+      'foo',
+      'baz'
+    ])
+
+    expect(asyncValidate).toNotHaveBeenCalled()
+    expect(submit).toNotHaveBeenCalled()
+    expect(startSubmit).toNotHaveBeenCalled()
+    expect(stopSubmit).toNotHaveBeenCalled()
+    expect(touch).toHaveBeenCalled().toHaveBeenCalledWith('foo', 'baz')
+    expect(setSubmitSucceeded).toNotHaveBeenCalled()
+    expect(setSubmitFailed)
+      .toHaveBeenCalled()
+      .toHaveBeenCalledWith('foo', 'baz')
+    expect(result).toEqual({ ...asyncErrors, ...syncErrors })
   })
 })

@@ -24,6 +24,7 @@ const handleSubmit = (
     setSubmitFailed,
     setSubmitSucceeded,
     syncErrors,
+    asyncErrors,
     touch,
     values,
     persistentSubmitErrors
@@ -112,10 +113,11 @@ const handleSubmit = (
     }
   } else {
     setSubmitFailed(...fields)
+    const errors = { ...asyncErrors, ...syncErrors }
     if (onSubmitFail) {
-      onSubmitFail(syncErrors, dispatch, null, props)
+      onSubmitFail(errors, dispatch, null, props)
     }
-    return syncErrors
+    return errors
   }
 }
 
