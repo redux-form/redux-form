@@ -28,8 +28,8 @@ export type Props = {
 export type InputProps = {
   checked?: boolean,
   name: string,
-  onBlur: { (event: Event): void },
-  onChange: { (event: Event): void },
+  onBlur: { (eventOrValue: Event | any): void },
+  onChange: { (eventOrValue: Event | any): void },
   onDrop: { (event: Event): void },
   onDragStart: { (event: Event): void },
   onFocus: { (event: Event): void },
