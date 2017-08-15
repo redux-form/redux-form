@@ -339,14 +339,14 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'initial', newInitialValues)
       return result
     },
-    [REGISTER_FIELD](state, { payload: { name, type } }) {
+    [REGISTER_FIELD](state, { payload: { name, type, fieldData } }) {
       const key = `registeredFields['${name}']`
       let field = getIn(state, key)
       if (field) {
         const count = getIn(field, 'count') + 1
         field = setIn(field, 'count', count)
       } else {
-        field = fromJS({ name, type, count: 1 })
+        field = fromJS({ name, type, ...fieldData, count: 1 })
       }
       return setIn(state, key, field)
     },
