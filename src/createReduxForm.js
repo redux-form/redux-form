@@ -792,6 +792,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             initialValues,
             invalid,
             pristine,
+            registeredFields,
             reset,
             submitting,
             submitFailed,
