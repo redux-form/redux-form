@@ -157,6 +157,7 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         'invalid',
         'pristine',
         'pure',
+        'registeredFields',
         'reset',
         'submit',
         'submitFailed',
