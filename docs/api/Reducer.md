@@ -30,13 +30,13 @@ var store = redux.createStore(reducer);
 
 ```javascript
 import { createStore, combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
+import { reducer as form } from 'redux-form';
 // Or with Immutablejs:
 // import { reducer as formReducer } from 'redux-form/immutable';
 
 const reducers = {
   // ... your other reducers here ...
-  form: formReducer
+  form
 };
 const reducer = combineReducers(reducers);
 const store = createStore(reducer);
