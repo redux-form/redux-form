@@ -1,5 +1,5 @@
 // @flow
-import { Component, createElement } from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,8 +7,7 @@ import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
 import type { Structure } from './types'
-import type { Component as ReactComponent } from 'react'
-import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
+import type { Props, DefaultProps } from './ConnectedFieldArray.types'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
@@ -28,11 +27,9 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     return getIn(syncWarnings, `${name}._warning`)
   }
 
-  class ConnectedFieldArray extends Component {
-    props: Props
-    ref: ReactComponent<*, *, *>
-
+  class ConnectedFieldArray extends Component<Props> {
     static defaultProps: DefaultProps
+    ref: ?React.Component<*, *>
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
@@ -82,7 +79,9 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       return this.ref
     }
 
-    saveRef = (ref: ReactComponent<*, *, *>) => (this.ref = ref)
+    saveRef = (ref: ?React.Component<*, *>) => {
+      this.ref = ref
+    }
 
     getValue = (index: number): any =>
       this.props.value && getIn(this.props.value, String(index))

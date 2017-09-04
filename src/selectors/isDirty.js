@@ -1,7 +1,7 @@
 // @flow
 import createIsPristine from './isPristine'
 import type { Structure, GetFormState } from '../types'
-import type { IsDirtyInterface } from './isDirty.types.js.flow'
+import type { IsDirtyInterface } from './isDirty.types'
 
 const createIsDirty = (structure: Structure<*, *>) => (
   form: string,

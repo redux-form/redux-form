@@ -1,6 +1,6 @@
 // @flow
 import type { Structure, GetFormState } from '../types'
-import type { GetFormSyncWarningsInterface } from './getFormSyncWarnings.types.js.flow'
+import type { GetFormSyncWarningsInterface } from './getFormSyncWarnings.types'
 
 const createGetFormSyncWarnings = ({ getIn }: Structure<*, *>) => (
   form: string,

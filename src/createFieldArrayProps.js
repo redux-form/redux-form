@@ -1,6 +1,6 @@
 // @flow
 import type { Structure } from './types'
-import type { FieldArrayProps } from './FieldArrayProps.types.js.flow'
+import type { FieldArrayProps } from './FieldArrayProps.types'
 
 type Props = {
   arrayInsert(index: number, value: any): void,

@@ -1,5 +1,5 @@
 // @flow
-import { Component, createElement } from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
@@ -9,8 +9,8 @@ import type {
   Structure,
   ReactContext
 } from './types.js.flow'
-import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types.js.flow'
-import type { Props } from './FieldArrayProps.types.js.flow'
+import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types'
+import type { Props } from './FieldArrayProps.types'
 
 const toArray = (value: any): Array<*> =>
   Array.isArray(value) ? value : [value]
@@ -30,12 +30,11 @@ const wrapError = (fn: ?Function, key: string): ?Function =>
 const createFieldArray = (structure: Structure<*, *>) => {
   const ConnectedFieldArray = createConnectedFieldArray(structure)
 
-  class FieldArray extends Component {
-    props: Props
+  class FieldArray extends Component<Props> {
     context: ReactContext
 
     name: string
-    ref: ConnectedComponent<ConnectedFieldArrayInstanceApi>
+    ref: ?ConnectedComponent<ConnectedFieldArrayInstanceApi>
 
     constructor(props: Props, context: ReactContext) {
       super(props, context)
@@ -71,23 +70,26 @@ const createFieldArray = (structure: Structure<*, *>) => {
       this.context._reduxForm.unregister(this.name)
     }
 
-    saveRef = (ref: ConnectedComponent<ConnectedFieldArrayInstanceApi>) =>
-      (this.ref = ref)
+    saveRef = (ref: ?React.Component<*, *>) => {
+      this.ref = ((ref: any): ?ConnectedComponent<
+        ConnectedFieldArrayInstanceApi
+      >)
+    }
 
     get name(): string {
       return prefixName(this.context, this.props.name)
     }
 
     get dirty(): boolean {
-      return this.ref.getWrappedInstance().dirty
+      return !this.ref || this.ref.getWrappedInstance().dirty
     }
 
     get pristine(): boolean {
-      return this.ref.getWrappedInstance().pristine
+      return !!(this.ref && this.ref.getWrappedInstance().pristine)
     }
 
     get value(): ?(any[]) {
-      return this.ref.getWrappedInstance().value
+      return this.ref ? this.ref.getWrappedInstance().value : undefined
     }
 
     getRenderedComponent() {
@@ -96,7 +98,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to FieldArray'
       )
-      return this.ref.getWrappedInstance().getRenderedComponent()
+      return this.ref && this.ref.getWrappedInstance().getRenderedComponent()
     }
 
     render() {

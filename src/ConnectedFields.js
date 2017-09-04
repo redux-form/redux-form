@@ -6,7 +6,7 @@ import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
 import type { Structure } from './types.js.flow'
-import type { Props } from './ConnectedFields.types.js.flow'
+import type { Props } from './ConnectedFields.types'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -28,7 +28,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedFields extends Component {
+  class ConnectedFields extends Component<Props> {
     onChangeFns = {}
     onFocusFns = {}
     onBlurFns = {}

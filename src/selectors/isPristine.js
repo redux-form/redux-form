@@ -1,6 +1,6 @@
 // @flow
 import type { Structure, GetFormState } from '../types'
-import type { IsPristineInterface } from './isPristine.types.js.flow'
+import type { IsPristineInterface } from './isPristine.types'
 
 const createIsPristine = ({ deepEqual, empty, getIn }: Structure<*, *>) => (
   form: string,

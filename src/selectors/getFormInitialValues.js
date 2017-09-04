@@ -1,6 +1,6 @@
 // @flow
 import type { Structure, GetFormState } from '../types'
-import type { GetFormInitialValuesInterface } from './getFormInitialValues.types.js.flow'
+import type { GetFormInitialValuesInterface } from './getFormInitialValues.types'
 
 const createGetFormInitialValues = ({ getIn }: Structure<*, *>) => (
   form: string,

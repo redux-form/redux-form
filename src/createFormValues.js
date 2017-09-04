@@ -1,10 +1,10 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
-import type { FormValuesInterface, PropPath } from './formValues.types.js.flow'
+import type { FormValuesInterface, PropPath } from './formValues.types'
 
 const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
   firstArg: string | Object,
@@ -32,11 +32,10 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
 
   // create a class that reads current form name and creates a selector
   // return
-  return (Component: ReactClass<*>): ReactClass<*> => {
-    class FormValues extends React.Component {
-      props: Object
+  return (Component: React.ComponentType<*>): React.ComponentType<*> => {
+    class FormValues extends React.Component<Object> {
       context: ReactContext
-      Component: ReactClass<*>
+      Component: React.ComponentType<*>
 
       constructor(props: Object, context: ReactContext) {
         super(props, context)
@@ -64,8 +63,9 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         )(({ sectionPrefix, ...otherProps }) => <Component {...otherProps} />)
       }
       render() {
+        const { Component } = this
         return (
-          <this.Component
+          <Component
             // so that the connected component updates props when sectionPrefix has changed
             sectionPrefix={this.context._reduxForm.sectionPrefix}
             {...this.props}

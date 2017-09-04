@@ -1,6 +1,6 @@
 // @flow
 import type { Structure, GetFormState } from '../types'
-import type { GetFormAsyncErrorsInterface } from './getFormAsyncErrors.types.js.flow'
+import type { GetFormAsyncErrorsInterface } from './getFormAsyncErrors.types'
 
 const createGetFormAsyncErrors = ({ getIn }: Structure<*, *>) => (
   form: string,

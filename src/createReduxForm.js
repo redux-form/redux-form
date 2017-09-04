@@ -1,4 +1,5 @@
 // @flow
+import * as React from 'react'
 import hoistStatics from 'hoist-non-react-statics'
 import isPromise from 'is-promise'
 import { mapValues, merge } from 'lodash'
@@ -19,6 +20,7 @@ import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
 import type { Dispatch } from 'redux'
 import type {
+  ConnectedComponent,
   ReactContext,
   GetFormState,
   FieldType,
@@ -92,7 +94,11 @@ type OnSubmitFail = (
   submitError: ?any,
   props: Object
 ) => void
-type OnSubmitSuccess = (result: ?any, dispatch: Dispatch<*>, props: Object) => void
+type OnSubmitSuccess = (
+  result: ?any,
+  dispatch: Dispatch<*>,
+  props: Object
+) => void
 type InitializeAction = (
   initialValues: ?Values,
   keepDirty: boolean,
@@ -270,11 +276,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
       ...initialConfig
     }
 
-    return (WrappedComponent: ReactClass<*>) => {
-      class Form extends Component {
-        static WrappedComponent: ReactClass<*>
+    return (WrappedComponent: React.ComponentType<*>) => {
+      class Form extends Component<Props> {
+        static WrappedComponent: React.ComponentType<*>
 
-        props: Props
         context: ReactContext
 
         destroyed = false
@@ -960,17 +965,21 @@ const createReduxForm = (structure: Structure<*, *>) => {
       ConnectedForm.defaultProps = config
 
       // build outer component to expose instance api
-      return class ReduxForm extends Component {
+      return class ReduxForm extends Component<Props> {
+        ref: ?ConnectedComponent<Form>
+
         submit() {
-          return this.refs.wrapped.getWrappedInstance().submit()
+          return this.ref && this.ref.getWrappedInstance().submit()
         }
 
         reset(): void {
-          return this.refs.wrapped.getWrappedInstance().reset()
+          if (this.ref) {
+            this.ref.getWrappedInstance().reset()
+          }
         }
 
         get valid(): boolean {
-          return this.refs.wrapped.getWrappedInstance().isValid()
+          return !!(this.ref && this.ref.getWrappedInstance().isValid())
         }
 
         get invalid(): boolean {
@@ -978,7 +987,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         get pristine(): boolean {
-          return this.refs.wrapped.getWrappedInstance().isPristine()
+          return !!(this.ref && this.ref.getWrappedInstance().isPristine())
         }
 
         get dirty(): boolean {
@@ -986,24 +995,24 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         get values(): Values {
-          return this.refs.wrapped.getWrappedInstance().getValues()
+          return this.ref ? this.ref.getWrappedInstance().getValues() : empty
         }
 
         get fieldList(): string[] {
           // mainly provided for testing
-          return this.refs.wrapped.getWrappedInstance().getFieldList()
+          return this.ref ? this.ref.getWrappedInstance().getFieldList() : []
         }
 
-        get wrappedInstance(): ReactClass<*> {
+        get wrappedInstance(): ?React.Component<*, *> {
           // for testing
-          return this.refs.wrapped.getWrappedInstance().refs.wrapped
+          return this.ref && this.ref.getWrappedInstance().refs.wrapped
         }
 
         render() {
           const { initialValues, ...rest } = this.props
           return createElement(ConnectedForm, {
             ...rest,
-            ref: 'wrapped',
+            ref: (ref: ?ConnectedComponent<Form>) => (this.ref = ref),
             // convert initialValues if need to
             initialValues: fromJS(initialValues)
           })
