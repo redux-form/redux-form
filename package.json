@@ -1,8 +1,7 @@
 {
   "name": "redux-form",
   "version": "7.0.3",
-  "description":
-    "A higher order component decorator for forms using Redux and React",
+  "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "jsnext:main": "./es/index.js",
@@ -11,23 +10,16 @@
     "url": "https://github.com/erikras/redux-form"
   },
   "scripts": {
-    "analyze":
-      "webpack src/index.js dist/redux-form.js -p --bail --profile --json > stats.json && webpack-bundle-analyzer stats.json",
-    "build":
-      "npm run build:lib && npm run build:es && npm run build:umd && npm run build:umd:min && npm run build:flow",
+    "analyze": "webpack src/index.js dist/redux-form.js -p --bail --profile --json > stats.json && webpack-bundle-analyzer stats.json",
+    "build": "npm run build:lib && npm run build:es && npm run build:umd && npm run build:umd:min && npm run build:flow",
     "build:lib": "babel src --out-dir lib --ignore __tests__",
-    "build:es":
-      "cross-env BABEL_ENV=es babel src --out-dir es --ignore __tests__",
-    "build:flow":
-      "cp src/*.js.flow lib && cp src/selectors/*.js.flow lib/selectors && cp src/*.js.flow es && cp src/selectors/*.js.flow es/selectors",
-    "build:umd":
-      "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
-    "build:umd:min":
-      "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore __tests__",
+    "build:flow": "cp src/*.js.flow lib && cp src/selectors/*.js.flow lib/selectors && cp src/*.js.flow es && cp src/selectors/*.js.flow es/selectors",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
     "clean": "rimraf dist lib es",
     "lint": "eslint src",
-    "example":
-      "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
+    "example": "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
     "example:asyncValidation": "form=asyncValidation npm run example",
     "example:fieldArrays": "form=fieldArrays npm run example",
     "example:fieldLevelValidation": "form=fieldLevelValidation npm run example",
@@ -41,18 +33,13 @@
     "example:submitValidation": "form=submitValidation npm run example",
     "example:syncValidation": "form=syncValidation npm run example",
     "example:wizard": "form=wizard npm run example",
-    "format":
-      "prettier-eslint \"+(src|examples)/**/*.+(js|js.flow)\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailing-comma=none",
-    "prepublish":
-      "npm run test && npm run test:flow && npm run clean && npm run build",
-    "test":
-      "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
+    "format": "prettier-eslint \"+(src|examples)/**/*.+(js|js.flow)\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailing-comma=none",
+    "prepublish": "npm run test && npm run test:flow && npm run clean && npm run build",
+    "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
     "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov":
-      "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
-    "test:codecov":
-      "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
+    "test:cov": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
+    "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "keywords": [
     "react",
@@ -64,8 +51,7 @@
     "form",
     "decorator"
   ],
-  "author":
-    "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/erikras/redux-form/issues"
@@ -134,9 +120,18 @@
     "react-redux": "^4.3.0 || ^5.0.0",
     "redux": "^3.0.0"
   },
-  "files": ["README.md", "es", "lib", "dist", "immutable.js", "*.js.flow"],
+  "files": [
+    "README.md",
+    "es",
+    "lib",
+    "dist",
+    "immutable.js",
+    "*.js.flow"
+  ],
   "nyc": {
-    "include": ["src/**/*.js"],
+    "include": [
+      "src/**/*.js"
+    ],
     "sourceMap": false,
     "instrument": false
   },
@@ -144,7 +139,9 @@
   "npmFileMap": [
     {
       "basePath": "/dist/",
-      "files": ["*.js"]
+      "files": [
+        "*.js"
+      ]
     }
   ]
 }
