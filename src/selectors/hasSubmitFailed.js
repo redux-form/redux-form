@@ -1,6 +1,6 @@
 // @flow
 import type { Structure, GetFormState } from '../types'
-import type { HasSubmitFailedInterface } from './hasSubmitFailed.types.js.flow'
+import type { HasSubmitFailedInterface } from './hasSubmitFailed.types'
 
 const createHasSubmitFailed = ({ getIn }: Structure<*, *>) => (
   form: string,

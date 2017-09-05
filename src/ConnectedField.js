@@ -1,5 +1,5 @@
 // @flow
-import { Component, createElement } from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
@@ -7,8 +7,7 @@ import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
 import type { Structure } from './types.js.flow'
-import type { Component as ReactComponent } from 'react'
-import type { Props } from './ConnectedField.types.js.flow'
+import type { Props } from './ConnectedField.types'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -58,10 +57,8 @@ const createConnectedField = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedField extends Component {
-    props: Props
-
-    ref: ReactComponent<*, *, *>
+  class ConnectedField extends Component<Props> {
+    ref: React.Component<*, *>
 
     shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
@@ -77,13 +74,13 @@ const createConnectedField = (structure: Structure<*, *>) => {
       )
     }
 
-    saveRef = (ref: ReactComponent<*, *, *>) => (this.ref = ref)
+    saveRef = (ref: React.Component<*, *>) => (this.ref = ref)
 
     isPristine = (): boolean => this.props.pristine
 
     getValue = (): any => this.props.value
 
-    getRenderedComponent(): ReactComponent<*, *, *> {
+    getRenderedComponent(): React.Component<*, *> {
       return this.ref
     }
 

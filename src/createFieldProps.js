@@ -1,7 +1,7 @@
 // @flow
 import type { Event, Structure } from './types'
 import type { Dispatch } from 'redux'
-import type { FieldProps, InputProps } from './FieldProps.types.js.flow'
+import type { FieldProps, InputProps } from './FieldProps.types'
 
 export type Props = {
   asyncError: any,
@@ -32,13 +32,18 @@ export type Props = {
   submitting: boolean,
   syncError?: any,
   syncWarning?: any,
+  type?: string,
   validate?: { (values: any): Object },
   value: any,
   _value: any,
   warn?: { (values: any): Object }
 }
 
-const processProps = (type: string, props: InputProps, _value: any): Object => {
+const processProps = (
+  type: ?string,
+  props: InputProps,
+  _value: any
+): Object => {
   const { value } = props
   if (type === 'checkbox') {
     return {

@@ -102,7 +102,7 @@ import type {
   UpdateSyncErrors,
   UpdateSyncWarningsAction,
   UpdateSyncWarnings
-} from './actions.types.js.flow'
+} from './actions.types'
 
 const arrayInsert: ArrayInsert = (
   form: string,

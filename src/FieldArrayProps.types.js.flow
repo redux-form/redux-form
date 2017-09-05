@@ -1,9 +1,9 @@
 // @flow
-import type { Component as ReactComponent } from 'react'
+import * as React from 'react'
 
 export type Props = {
   name: string,
-  component: ReactClass<*> | Function,
+  component: React.ComponentType<*> | Function,
   props?: Object,
   rerenderOnEveryChange?: boolean,
   validate?: (value: any, allValues: Object, props: Object) => ?any,
@@ -46,5 +46,5 @@ export type FieldArrayProps = {
     valid: boolean,
     warning?: any
   },
-  ref?: (ref: ReactComponent<*, *, *>) => ReactComponent<*, *, *>
+  ref?: (ref: ?React.Component<*, *>) => void
 }

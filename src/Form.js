@@ -7,8 +7,7 @@ export type Props = {
   onSubmit: Function
 }
 
-class Form extends Component {
-  props: Props
+class Form extends Component<Props> {
   context: ReactContext
 
   constructor(props: Props, context: ReactContext) {

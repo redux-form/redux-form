@@ -1,6 +1,6 @@
 // @flow
 import type { Structure, GetFormState } from '../types'
-import type { HasSubmitSucceededInterface } from './hasSubmitSucceeded.types.js.flow'
+import type { HasSubmitSucceededInterface } from './hasSubmitSucceeded.types'
 
 const createHasSubmitSucceeded = ({ getIn }: Structure<*, *>) => (
   form: string,

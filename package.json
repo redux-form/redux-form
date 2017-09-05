@@ -1,7 +1,8 @@
 {
   "name": "redux-form",
   "version": "7.0.3",
-  "description": "A higher order component decorator for forms using Redux and React",
+  "description":
+    "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "jsnext:main": "./es/index.js",
@@ -10,16 +11,23 @@
     "url": "https://github.com/erikras/redux-form"
   },
   "scripts": {
-    "analyze": "webpack src/index.js dist/redux-form.js -p --bail --profile --json > stats.json && webpack-bundle-analyzer stats.json",
-    "build": "npm run build:lib && npm run build:es && npm run build:umd && npm run build:umd:min && npm run build:flow",
+    "analyze":
+      "webpack src/index.js dist/redux-form.js -p --bail --profile --json > stats.json && webpack-bundle-analyzer stats.json",
+    "build":
+      "npm run build:lib && npm run build:es && npm run build:umd && npm run build:umd:min && npm run build:flow",
     "build:lib": "babel src --out-dir lib --ignore __tests__",
-    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore __tests__",
-    "build:flow": "cp src/*.js.flow lib && cp src/selectors/*.js.flow lib/selectors && cp src/*.js.flow es && cp src/selectors/*.js.flow es/selectors",
-    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
-    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
+    "build:es":
+      "cross-env BABEL_ENV=es babel src --out-dir es --ignore __tests__",
+    "build:flow":
+      "cp src/*.js.flow lib && cp src/selectors/*.js.flow lib/selectors && cp src/*.js.flow es && cp src/selectors/*.js.flow es/selectors",
+    "build:umd":
+      "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
+    "build:umd:min":
+      "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
     "clean": "rimraf dist lib es",
     "lint": "eslint src",
-    "example": "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
+    "example":
+      "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
     "example:asyncValidation": "form=asyncValidation npm run example",
     "example:fieldArrays": "form=fieldArrays npm run example",
     "example:fieldLevelValidation": "form=fieldLevelValidation npm run example",
@@ -33,13 +41,18 @@
     "example:submitValidation": "form=submitValidation npm run example",
     "example:syncValidation": "form=syncValidation npm run example",
     "example:wizard": "form=wizard npm run example",
-    "format": "prettier-eslint \"+(src|examples)/**/*.+(js|js.flow)\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailing-comma=none",
-    "prepublish": "npm run test && npm run test:flow && npm run clean && npm run build",
-    "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
+    "format":
+      "prettier-eslint \"+(src|examples)/**/*.+(js|js.flow)\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailing-comma=none",
+    "prepublish":
+      "npm run test && npm run test:flow && npm run clean && npm run build",
+    "test":
+      "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
     "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
-    "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
+    "test:cov":
+      "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
+    "test:codecov":
+      "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "keywords": [
     "react",
@@ -51,7 +64,8 @@
     "form",
     "decorator"
   ],
-  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "author":
+    "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/erikras/redux-form/issues"
@@ -68,71 +82,61 @@
     "prop-types": "^15.5.9"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.25.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.2",
     "babel-loader": "^7.1.1",
     "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "babel-plugin-transform-regenerator": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-es2015-no-commonjs": "^0.0.2",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "babel-register": "^6.24.1",
+    "babel-register": "^6.26.0",
     "codecov.io": "^0.1.6",
     "cross-env": "^5.0.1",
-    "eslint": "^4.3.0",
-    "eslint-config-react-app": "^1.0.5",
+    "eslint": "^4.6.1",
+    "eslint-config-react-app": "^2.0.0",
     "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-flowtype": "^2.35.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-react": "^7.3.0",
     "expect": "^1.20.2",
     "expect-element": "^1.1.1",
     "expect-immutable": "^0.0.3",
     "expect-predicate": "^1.0.0",
-    "flow-bin": "^0.51.0",
-    "flow-coverage-report": "^0.3.0",
+    "flow-bin": "^0.54.0",
     "flux-standard-action": "^1.0.0",
     "get-typed": "^1.0.0-beta.2",
-    "jsdom": "^11.0.0",
+    "jsdom": "^11.2.0",
     "lodash-webpack-plugin": "^0.11.2",
-    "mocha": "^3.2.0",
-    "nyc": "^11.0.3",
-    "prettier": "^1.5.3",
-    "prettier-eslint-cli": "^4.1.0",
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
+    "prettier": "^1.6.1",
+    "prettier-eslint-cli": "^4.3.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-redux": "^5.0.4",
+    "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-immutablejs": "^0.0.8",
     "rifraf": "^2.0.3",
     "rimraf": "^2.5.4",
     "stringstream": "^0.0.5",
-    "tmp": "0.0.31",
-    "webpack": "^3.4.1",
-    "webpack-bundle-analyzer": "^2.8.3"
+    "tmp": "0.0.33",
+    "webpack": "^3.5.5",
+    "webpack-bundle-analyzer": "^2.9.0"
   },
   "peerDependencies": {
     "react": "^15.0.0-0 || ^16.0.0-0",
     "react-redux": "^4.3.0 || ^5.0.0",
     "redux": "^3.0.0"
   },
-  "files": [
-    "README.md",
-    "es",
-    "lib",
-    "dist",
-    "immutable.js",
-    "*.js.flow"
-  ],
+  "files": ["README.md", "es", "lib", "dist", "immutable.js", "*.js.flow"],
   "nyc": {
-    "include": [
-      "src/**/*.js"
-    ],
+    "include": ["src/**/*.js"],
     "sourceMap": false,
     "instrument": false
   },
@@ -140,9 +144,7 @@
   "npmFileMap": [
     {
       "basePath": "/dist/",
-      "files": [
-        "*.js"
-      ]
+      "files": ["*.js"]
     }
   ]
 }

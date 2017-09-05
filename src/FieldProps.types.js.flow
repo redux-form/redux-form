@@ -1,11 +1,11 @@
 // @flow
 import type { Dispatch } from 'redux'
 import type { Event, Validator } from './types'
-import type { Component as ReactComponent } from 'react'
+import * as React from 'react'
 
 export type Props = {
   name: string,
-  component: ReactClass<*> | Function | string,
+  component: React.ComponentType<*> | Function | string,
   format?: ?(value: any, name: string) => ?string,
   normalize?: (
     value: any,
@@ -57,6 +57,6 @@ export type FieldProps = {
     warning?: any
   },
   custom: {
-    ref?: (ref: ReactComponent<*, *, *>) => ReactComponent<*, *, *>
+    ref?: (ref: React.ElementRef<*>) => React.ElementRef<*>
   }
 }

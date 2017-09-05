@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux'
 import type { Structure } from './types'
-import type { Config } from './values.types.js.flow'
+import type { Config } from './values.types'
 
 const createValues = ({ getIn }: Structure<*, *>) => (config: Config) => {
   const { form, prop, getFormState } = {

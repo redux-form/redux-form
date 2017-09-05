@@ -2,7 +2,7 @@
 import invariant from 'invariant'
 import plain from './structure/plain'
 import type { Structure, GetFormState } from './types'
-import type { FormValueSelectorInterface } from './formValueSelector.types.js.flow'
+import type { FormValueSelectorInterface } from './formValueSelector.types'
 
 const createFormValueSelector = ({ getIn }: Structure<*, *>) => (
   form: string,

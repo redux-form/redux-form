@@ -7,7 +7,7 @@ import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
-import type { Props } from './FieldsProps.types.js.flow'
+import type { Props } from './FieldsProps.types'
 
 const validateNameProp = prop => {
   if (!prop) {
@@ -23,7 +23,7 @@ const validateNameProp = prop => {
 const createFields = (structure: Structure<*, *>) => {
   const ConnectedFields = createConnectedFields(structure)
 
-  class Fields extends Component {
+  class Fields extends Component<Props> {
     constructor(props: Props, context: ReactContext) {
       super((props: Props), (context: ReactContext))
       if (!context._reduxForm) {

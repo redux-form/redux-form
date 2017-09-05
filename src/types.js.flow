@@ -1,9 +1,5 @@
 // @flow
-import type { Component as ReactComponent } from 'react'
-
-export type ComponentClass<DefaultProps, Props> = Class<
-  ReactComponent<DefaultProps, Props, {}>
->
+import React from 'react'
 
 export type Action = {
   type: string,
@@ -37,9 +33,9 @@ export type Values = any
 
 export type GetFormState = { (state: any): any }
 
-export type ConnectedComponent<T: ReactComponent<*, *, *>> = {
+export type ConnectedComponent<T: React.Component<*, *>> = {
   getWrappedInstance: { (): T }
-} & ReactComponent<*, *, *>
+} & React.Component<*, *>
 
 export type Option = {
   selected: boolean,
