@@ -18,6 +18,8 @@
 
 [<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
+<a href="https://app.codesponsor.io/link/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form" rel="nofollow"><img src="https://app.codesponsor.io/embed/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
+
 ## Installation
 ```npm install --save redux-form```
 
