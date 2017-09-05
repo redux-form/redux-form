@@ -7,7 +7,6 @@ import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
 import type { Structure } from './types.js.flow'
-import type { Component as ReactComponent } from 'react'
 import type { Props } from './ConnectedField.types'
 
 const propsToNotUpdateFor = ['_reduxForm']
