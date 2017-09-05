@@ -25,12 +25,12 @@
 
 ## Documentation
 
-* [Getting Started](https://redux-form.com/7.0.3/docs/GettingStarted.md/)
-* [Examples](https://redux-form.com/7.0.3/examples/)
-* [API](https://redux-form.com/7.0.3/docs/api/)
-* [FAQ](https://redux-form.com/7.0.3/docs/faq/)
+* [Getting Started](https://redux-form.com/7.0.4/docs/GettingStarted.md/)
+* [Examples](https://redux-form.com/7.0.4/examples/)
+* [API](https://redux-form.com/7.0.4/docs/api/)
+* [FAQ](https://redux-form.com/7.0.4/docs/faq/)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
-* [Older Documentation](https://redux-form.com/7.0.3/docs/DocumentationVersions.md/)
+* [Older Documentation](https://redux-form.com/7.0.4/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
 

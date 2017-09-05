@@ -17,7 +17,7 @@ import { formValues } from 'redux-form';  // ES6
 
 ### name
 
-The path to the field, exactly like the `name` parameter of [`<Field/>`](https://redux-form.com/7.0.3/docs/api/Field.md/).
+The path to the field, exactly like the `name` parameter of [`<Field/>`](https://redux-form.com/7.0.4/docs/api/Field.md/).
 
 ### options: {prop: name, ...}
 

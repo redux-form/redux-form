@@ -21,7 +21,7 @@ It's important to understand their responsibilities:
 
 ## Data flow
 
-The diagram below represents the simplified data flow. Note that in most cases you don't need to worry about the [action creators](http://redux-form.com/7.0.3/docs/api/ActionCreators.md/) for yourself, as they're already bound to dispatch for certain actions.
+The diagram below represents the simplified data flow. Note that in most cases you don't need to worry about the [action creators](http://redux-form.com/7.0.4/docs/api/ActionCreators.md/) for yourself, as they're already bound to dispatch for certain actions.
 
 <div style="text-align: center;">
   <img src="https://github.com/erikras/redux-form/raw/master/docs/reduxFormDiagram.png" width="500" style="max-width: 100%;"/>
@@ -60,7 +60,7 @@ const store = createStore(rootReducer)
 
 Now your store knows how to handle actions coming from the form components.
 
-**NOTE:** The key used to pass the `redux-form` reducer should be named **`form`**. If you need a custom key for some reason see [`getFormState` config](http://redux-form.com/7.0.3/docs/api/ReduxForm.md/#-getformstate-function-optional-) for more details.
+**NOTE:** The key used to pass the `redux-form` reducer should be named **`form`**. If you need a custom key for some reason see [`getFormState` config](http://redux-form.com/7.0.4/docs/api/ReduxForm.md/#-getformstate-function-optional-) for more details.
 
 ### Step 2 of 4: Form component
 
@@ -113,7 +113,7 @@ The `<Field/>` component connects each input to the store. The basic usage goes 
 
 It creates an HTML `<input/>` element of type `text`. It also passes additional props such as `value`, `onChange`, `onBlur`, etc. Those are used to track and maintain the input state under the hood.
 
-**NOTE**: `<Field/>` component is much more powerful. Apart from basic input types, it can take a class or a stateless component. When you're ready, go to the [docs](http://redux-form.com/7.0.3/docs/api/Field.md/#usage) to find out more.
+**NOTE**: `<Field/>` component is much more powerful. Apart from basic input types, it can take a class or a stateless component. When you're ready, go to the [docs](http://redux-form.com/7.0.4/docs/api/Field.md/#usage) to find out more.
 
 Let's finish up our contact form:
 
@@ -173,7 +173,7 @@ class ContactPage extends React.Component {
 }
 ```
 
-You can now take it from here. We recommend to check out the [examples](http://redux-form.com/7.0.3/examples/). The common next steps could also be:
-* setting the [initial form values](http://redux-form.com/7.0.3/examples/initializeFromState/),
-* implementing the [validation](http://redux-form.com/7.0.3/examples/syncValidation/),
-* creating dynamic forms with [arrays of fields](http://redux-form.com/7.0.3/examples/fieldArrays/).
+You can now take it from here. We recommend to check out the [examples](http://redux-form.com/7.0.4/examples/). The common next steps could also be:
+* setting the [initial form values](http://redux-form.com/7.0.4/examples/initializeFromState/),
+* implementing the [validation](http://redux-form.com/7.0.4/examples/syncValidation/),
+* creating dynamic forms with [arrays of fields](http://redux-form.com/7.0.4/examples/fieldArrays/).

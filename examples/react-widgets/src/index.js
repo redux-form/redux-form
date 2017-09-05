@@ -40,12 +40,12 @@ let render = () => {
            * This <App/> component only provides the site wrapper.
            * Remove it on your dev server if you wish. It will not affect the functionality.
            */
-        version="7.0.3"
+        version="7.0.4"
         path="/examples/react-widgets/"
         breadcrumbs={generateExampleBreadcrumbs(
           'react-widgets',
           'React Widgets Form Example',
-          '7.0.3'
+          '7.0.4'
         )}
       >
         <Markdown content={readme} />
