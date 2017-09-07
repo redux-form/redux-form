@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react'
 import hoistStatics from 'hoist-non-react-statics'
 import isPromise from 'is-promise'
 import { mapValues, merge } from 'lodash'
@@ -18,6 +17,7 @@ import handleSubmit from './handleSubmit'
 import createIsValid from './selectors/isValid'
 import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
+import type { ComponentType } from 'react'
 import type { Dispatch } from 'redux'
 import type {
   ConnectedComponent,
@@ -276,9 +276,9 @@ const createReduxForm = (structure: Structure<*, *>) => {
       ...initialConfig
     }
 
-    return (WrappedComponent: React.ComponentType<*>) => {
+    return (WrappedComponent: ComponentType<*>) => {
       class Form extends Component<Props> {
-        static WrappedComponent: React.ComponentType<*>
+        static WrappedComponent: ComponentType<*>
 
         context: ReactContext
 
@@ -1003,7 +1003,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           return this.ref ? this.ref.getWrappedInstance().getFieldList() : []
         }
 
-        get wrappedInstance(): ?React.Component<*, *> {
+        get wrappedInstance(): ?Component<*, *> {
           // for testing
           return this.ref && this.ref.getWrappedInstance().refs.wrapped
         }

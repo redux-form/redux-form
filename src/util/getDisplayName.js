@@ -1,7 +1,7 @@
 // @flow
-import * as React from 'react'
+import type { ComponentType } from 'react'
 
-const getDisplayName = (Comp: React.ComponentType<any>): string =>
+const getDisplayName = (Comp: ComponentType<any>): string =>
   Comp.displayName || Comp.name || 'Component'
 
 export default getDisplayName

@@ -1,8 +1,9 @@
 // @flow
-import * as React from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import prefixName from './util/prefixName'
+import type { ComponentType } from 'react';
 import type { Structure, ReactContext } from './types'
 import type { FormValuesInterface, PropPath } from './formValues.types'
 
@@ -32,10 +33,10 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
 
   // create a class that reads current form name and creates a selector
   // return
-  return (Component: React.ComponentType<*>): React.ComponentType<*> => {
+  return (Component: ComponentType<*>): ComponentType<*> => {
     class FormValues extends React.Component<Object> {
       context: ReactContext
-      Component: React.ComponentType<*>
+      Component: ComponentType<*>
 
       constructor(props: Object, context: ReactContext) {
         super(props, context)
