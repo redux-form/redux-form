@@ -46,18 +46,21 @@ const createField = (structure: Structure<*, *>) => {
       )
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    componentWillReceiveProps(nextProps: Props, nextContext: any) {
+      const oldName = prefixName(this.context, this.props.name)
+      const newName = prefixName(nextContext, nextProps.name)
+
       if (
-        this.props.name !== nextProps.name ||
+        oldName !== newName ||
         // use deepEqual here because they could be a function or an array of functions
         !plain.deepEqual(this.props.validate, nextProps.validate) ||
         !plain.deepEqual(this.props.warn, nextProps.warn)
       ) {
         // unregister old name
-        this.context._reduxForm.unregister(this.name)
+        this.context._reduxForm.unregister(oldName)
         // register new name
         this.context._reduxForm.register(
-          prefixName(this.context, nextProps.name),
+          newName,
           'Field',
           () => nextProps.validate,
           () => nextProps.warn

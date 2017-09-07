@@ -54,13 +54,16 @@ const createFieldArray = (structure: Structure<*, *>) => {
       )
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-      if (this.props.name !== nextProps.name) {
+    componentWillReceiveProps(nextProps: Props, nextContext: any) {
+      const oldName = prefixName(this.context, this.props.name)
+      const newName = prefixName(nextContext, nextProps.name)
+
+      if (oldName !== newName) {
         // unregister old name
-        this.context._reduxForm.unregister(this.name)
+        this.context._reduxForm.unregister(oldName)
         // register new name
         this.context._reduxForm.register(
-          prefixName(this.context, nextProps.name),
+          newName,
           'FieldArray'
         )
       }
