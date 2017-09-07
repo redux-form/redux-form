@@ -10,11 +10,12 @@ const getError = (
   value: any,
   values: Object,
   props: Object,
-  validators: any
+  validators: any,
+  name: string
 ) => {
   const array = toArray(validators)
   for (let i = 0; i < array.length; i++) {
-    const error = array[i](value, values, props)
+    const error = array[i](value, values, props, name)
     if (error) {
       return error
     }
@@ -28,7 +29,7 @@ const generateValidator = (
   let errors = {}
   Object.keys(validators).forEach(name => {
     const value = getIn(values, name)
-    const error = getError(value, values, props, validators[name])
+    const error = getError(value, values, props, validators[name], name)
     if (error) {
       errors = plain.setIn(errors, name, error)
     }

@@ -121,9 +121,9 @@ localized date formats into `Date`s.
 `parse` is called with the field `value` and `name` as arguments and should return the new
 parsed value to be stored in the Redux store.
 
-#### `validate : (value, allValues, props) => error` [optional]
+#### `validate : (value, allValues, props, name) => error` [optional]
 
-Allows you to to provide a field-level validation rule. The function is given the fields current value, all other form values, and the props passed to the form. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered. 
+Allows you to to provide a field-level validation rule. The function is given the fields current value, all other form values, the props passed to the form, and the name of field currently being validated. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered. 
 
 #### `warn : (value, allValues, props) => warning` [optional]
 
