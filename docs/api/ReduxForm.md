@@ -303,6 +303,10 @@ component.
 
 `true` when the current form values are different from the `initialValues`, `false` otherwise.
 
+#### `fieldList : Array`
+
+An array of strings representing all the fields in the form. Mainly useful for testing.
+
 #### `invalid : boolean`
 
 `true` when the form is invalid (has validation errors), `false` otherwise.
@@ -310,10 +314,6 @@ component.
 #### `pristine : boolean`
 
 `true` when the current form values are the same as the `initialValues`, `false` otherwise.
-
-#### `registeredFields : Array`
-
-An array of objects with fields `name` and `type` for each field representing all the fields in the form. Mainly useful for testing.
 
 #### `reset() : void`
 
