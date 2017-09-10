@@ -142,7 +142,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.move).toBeA('function')
       expect(arrayMove).toNotHaveBeenCalled()
       expect(result.fields.move(0, 2)).toNotExist()
-      expect(arrayMove).toHaveBeenCalled().toHaveBeenCalledWith(0, 2)
+      expect(arrayMove).toHaveBeenCalledWith(0, 2)
     })
 
     it('should provide push', () => {
@@ -154,7 +154,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.push).toBeA('function')
       expect(arrayPush).toNotHaveBeenCalled()
       expect(result.fields.push('c')).toNotExist()
-      expect(arrayPush).toHaveBeenCalled().toHaveBeenCalledWith('c')
+      expect(arrayPush).toHaveBeenCalledWith('c')
     })
 
     it('should provide pop', () => {
@@ -167,7 +167,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.pop).toBeA('function')
       expect(arrayPop).toNotHaveBeenCalled()
       expect(result.fields.pop()).toBe('c')
-      expect(arrayPop).toHaveBeenCalled().toHaveBeenCalledWith()
+      expect(arrayPop).toHaveBeenCalledWith()
     })
 
     it('should provide insert', () => {
@@ -179,7 +179,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.insert).toBeA('function')
       expect(arrayInsert).toNotHaveBeenCalled()
       expect(result.fields.insert(1, 'c')).toNotExist()
-      expect(arrayInsert).toHaveBeenCalled().toHaveBeenCalledWith(1, 'c')
+      expect(arrayInsert).toHaveBeenCalledWith(1, 'c')
     })
 
     it('should provide remove', () => {
@@ -191,7 +191,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.remove).toBeA('function')
       expect(arrayRemove).toNotHaveBeenCalled()
       expect(result.fields.remove(2)).toNotExist()
-      expect(arrayRemove).toHaveBeenCalled().toHaveBeenCalledWith(2)
+      expect(arrayRemove).toHaveBeenCalledWith(2)
     })
 
     it('should provide removeAll', () => {
@@ -203,7 +203,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.removeAll).toBeA('function')
       expect(arrayRemoveAll).toNotHaveBeenCalled()
       expect(result.fields.removeAll()).toNotExist()
-      expect(arrayRemoveAll).toHaveBeenCalled().toHaveBeenCalledWith()
+      expect(arrayRemoveAll).toHaveBeenCalledWith()
     })
 
     it('should provide unshift', () => {
@@ -215,7 +215,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.unshift).toBeA('function')
       expect(arrayUnshift).toNotHaveBeenCalled()
       expect(result.fields.unshift('c')).toNotExist()
-      expect(arrayUnshift).toHaveBeenCalled().toHaveBeenCalledWith('c')
+      expect(arrayUnshift).toHaveBeenCalledWith('c')
     })
 
     it('should provide shift', () => {
@@ -227,7 +227,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.shift).toBeA('function')
       expect(arrayShift).toNotHaveBeenCalled()
       expect(result.fields.shift()).toBe('a')
-      expect(arrayShift).toHaveBeenCalled().toHaveBeenCalledWith()
+      expect(arrayShift).toHaveBeenCalledWith()
     })
 
     it('should provide forEach', () => {
@@ -358,7 +358,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.fields.swap).toBeA('function')
       expect(arraySwap).toNotHaveBeenCalled()
       expect(result.fields.swap(0, 2)).toNotExist()
-      expect(arraySwap).toHaveBeenCalled().toHaveBeenCalledWith(0, 2)
+      expect(arraySwap).toHaveBeenCalledWith(0, 2)
     })
 
     it('should provide a _isFieldArray meta prop', () => {

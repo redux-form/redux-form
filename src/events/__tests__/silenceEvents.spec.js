@@ -12,15 +12,15 @@ describe('silenceEvents', () => {
     const silenced = silenceEvents(spy)
 
     silenced(1, 2, 3)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith(1, 2, 3)
+    expect(spy).toHaveBeenCalledWith(1, 2, 3)
     spy.restore()
 
     silenced('foo', 'bar')
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith('foo', 'bar')
+    expect(spy).toHaveBeenCalledWith('foo', 'bar')
     spy.restore()
 
     silenced({ value: 10 }, false)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({ value: 10 }, false)
+    expect(spy).toHaveBeenCalledWith({ value: 10 }, false)
     spy.restore()
   })
 
@@ -33,15 +33,15 @@ describe('silenceEvents', () => {
     }
 
     silenced(event, 1, 2, 3)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith(1, 2, 3)
+    expect(spy).toHaveBeenCalledWith(1, 2, 3)
     spy.restore()
 
     silenced(event, 'foo', 'bar')
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith('foo', 'bar')
+    expect(spy).toHaveBeenCalledWith('foo', 'bar')
     spy.restore()
 
     silenced(event, { value: 10 }, false)
-    expect(spy).toHaveBeenCalled().toHaveBeenCalledWith({ value: 10 }, false)
+    expect(spy).toHaveBeenCalledWith({ value: 10 }, false)
     spy.restore()
   })
 

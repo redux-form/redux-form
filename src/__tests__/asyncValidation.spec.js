@@ -26,7 +26,7 @@ describe('asyncValidation', () => {
     const stop = createSpy()
     const promise = asyncValidation(fn, start, stop, field)
     expect(fn).toHaveBeenCalled()
-    expect(start).toHaveBeenCalled().toHaveBeenCalledWith(field)
+    expect(start).toHaveBeenCalledWith(field)
     return promise.then(() => {
       expect(stop).toHaveBeenCalled()
     })
@@ -38,7 +38,7 @@ describe('asyncValidation', () => {
     const stop = createSpy()
     const promise = asyncValidation(fn, start, stop, field)
     expect(fn).toHaveBeenCalled()
-    expect(start).toHaveBeenCalled().toHaveBeenCalledWith(field)
+    expect(start).toHaveBeenCalledWith(field)
     return promise.catch(() => {
       expect(stop).toHaveBeenCalled()
     })
@@ -51,9 +51,9 @@ describe('asyncValidation', () => {
     const stop = createSpy()
     const promise = asyncValidation(fn, start, stop, field)
     expect(fn).toHaveBeenCalled()
-    expect(start).toHaveBeenCalled().toHaveBeenCalledWith(field)
+    expect(start).toHaveBeenCalledWith(field)
     return promise.catch(() => {
-      expect(stop).toHaveBeenCalled().toHaveBeenCalledWith(errors)
+      expect(stop).toHaveBeenCalledWith(errors)
     })
   })
 })

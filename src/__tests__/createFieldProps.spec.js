@@ -65,7 +65,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.input.onBlur).toBeA('function')
       expect(onBlur).toNotHaveBeenCalled()
       result.input.onBlur('rabbit')
-      expect(onBlur).toHaveBeenCalled().toHaveBeenCalledWith('rabbit')
+      expect(onBlur).toHaveBeenCalledWith('rabbit')
     })
 
     it('should provide onChange', () => {
@@ -78,7 +78,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(result.input.onChange).toBeA('function')
       expect(onChange).toNotHaveBeenCalled()
       result.input.onChange('rabbit')
-      expect(onChange).toHaveBeenCalled().toHaveBeenCalledWith('rabbit')
+      expect(onChange).toHaveBeenCalledWith('rabbit')
     })
 
     it('should provide onFocus', () => {

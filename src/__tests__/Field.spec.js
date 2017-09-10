@@ -968,7 +968,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       )
       renderUsername.calls[0].arguments[0].input.onChange('ERIKRAS')
 
-      expect(normalize).toHaveBeenCalled().toHaveBeenCalledWith(
+      expect(normalize).toHaveBeenCalledWith(
         'ERIKRAS',
         'oldusername',
         fromJS({
@@ -1030,7 +1030,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       )
       renderUsername.calls[0].arguments[0].input.onBlur('ERIKRAS')
 
-      expect(normalize).toHaveBeenCalled().toHaveBeenCalledWith(
+      expect(normalize).toHaveBeenCalledWith(
         'ERIKRAS',
         'oldusername',
         fromJS({
@@ -1193,9 +1193,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(dragSpy).toNotHaveBeenCalled()
       renderTitle.calls[0].arguments[0].input.onDragStart(event)
-      expect(dragSpy)
-        .toHaveBeenCalled()
-        .toHaveBeenCalledWith(dataKey, 'Redux Form')
+      expect(dragSpy).toHaveBeenCalledWith(dataKey, 'Redux Form')
     })
 
     it('should call handle on drag start without value', () => {
@@ -1225,7 +1223,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(dragSpy).toNotHaveBeenCalled()
       renderTitle.calls[0].arguments[0].input.onDragStart(event)
-      expect(dragSpy).toHaveBeenCalled().toHaveBeenCalledWith(dataKey, '')
+      expect(dragSpy).toHaveBeenCalledWith(dataKey, '')
     })
 
     it('should call handle on drop', () => {
@@ -1257,7 +1255,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(dropSpy).toNotHaveBeenCalled()
       renderTitle.calls[0].arguments[0].input.onDrop(event)
       expect(event.preventDefault).toHaveBeenCalled()
-      expect(dropSpy).toHaveBeenCalled().toHaveBeenCalledWith(dataKey)
+      expect(dropSpy).toHaveBeenCalledWith(dataKey)
     })
 
     it('should call format function on first render', () => {
