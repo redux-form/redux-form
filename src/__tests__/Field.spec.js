@@ -332,7 +332,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should provide meta.dispatch', () => {
       const props = testProps({})
-      expect(props.meta.dispatch).toExist().toBeA('function')
+      expect(props.meta.dispatch).toBeA('function')
     })
 
     it('should provide name getter', () => {

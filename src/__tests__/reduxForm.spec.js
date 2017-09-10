@@ -173,7 +173,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'warning'
       ])
       expect(props.anyTouched).toBeA('boolean')
-      expect(props.array).toExist().toBeA('object')
+      expect(props.array).toBeA('object')
       expect(Object.keys(props.array).sort()).toEqual([
         'insert',
         'move',
@@ -186,33 +186,33 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'swap',
         'unshift'
       ])
-      expect(props.array.insert).toExist().toBeA('function')
-      expect(props.array.move).toExist().toBeA('function')
-      expect(props.array.pop).toExist().toBeA('function')
-      expect(props.array.push).toExist().toBeA('function')
-      expect(props.array.remove).toExist().toBeA('function')
-      expect(props.array.removeAll).toExist().toBeA('function')
-      expect(props.array.shift).toExist().toBeA('function')
-      expect(props.array.splice).toExist().toBeA('function')
-      expect(props.array.swap).toExist().toBeA('function')
-      expect(props.array.unshift).toExist().toBeA('function')
-      expect(props.asyncValidate).toExist().toBeA('function')
+      expect(props.array.insert).toBeA('function')
+      expect(props.array.move).toBeA('function')
+      expect(props.array.pop).toBeA('function')
+      expect(props.array.push).toBeA('function')
+      expect(props.array.remove).toBeA('function')
+      expect(props.array.removeAll).toBeA('function')
+      expect(props.array.shift).toBeA('function')
+      expect(props.array.splice).toBeA('function')
+      expect(props.array.swap).toBeA('function')
+      expect(props.array.unshift).toBeA('function')
+      expect(props.asyncValidate).toBeA('function')
       expect(props.asyncValidating).toBeA('boolean')
-      expect(props.autofill).toExist().toBeA('function')
-      expect(props.blur).toExist().toBeA('function')
-      expect(props.change).toExist().toBeA('function')
-      expect(props.destroy).toExist().toBeA('function')
+      expect(props.autofill).toBeA('function')
+      expect(props.blur).toBeA('function')
+      expect(props.change).toBeA('function')
+      expect(props.destroy).toBeA('function')
       expect(props.dirty).toBeA('boolean')
-      expect(props.form).toExist().toBeA('string')
-      expect(props.handleSubmit).toExist().toBeA('function')
-      expect(props.initialize).toExist().toBeA('function')
+      expect(props.form).toBeA('string')
+      expect(props.handleSubmit).toBeA('function')
+      expect(props.initialize).toBeA('function')
       expect(props.initialized).toBeA('boolean')
       expect(props.pristine).toBeA('boolean')
-      expect(props.reset).toExist().toBeA('function')
+      expect(props.reset).toBeA('function')
       expect(props.submitFailed).toBeA('boolean')
       expect(props.submitSucceeded).toBeA('boolean')
-      expect(props.touch).toExist().toBeA('function')
-      expect(props.untouch).toExist().toBeA('function')
+      expect(props.touch).toBeA('function')
+      expect(props.untouch).toBeA('function')
       expect(props.valid).toBeA('boolean')
     })
 
@@ -415,7 +415,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         propNamespace: 'fooProps',
         someOtherProp: 'whatever'
       })
-      expect(props.fooProps).toExist().toBeA('object')
+      expect(props.fooProps).toBeA('object')
       expect(props.dispatch).toNotExist()
       expect(props.dirty).toNotExist()
       expect(props.pristine).toNotExist()
@@ -431,14 +431,14 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('should provide bound array action creators', () => {
       const arrayProp = propChecker({}).array
       expect(arrayProp).toExist()
-      expect(arrayProp.insert).toExist().toBeA('function')
-      expect(arrayProp.pop).toExist().toBeA('function')
-      expect(arrayProp.push).toExist().toBeA('function')
-      expect(arrayProp.remove).toExist().toBeA('function')
-      expect(arrayProp.shift).toExist().toBeA('function')
-      expect(arrayProp.splice).toExist().toBeA('function')
-      expect(arrayProp.swap).toExist().toBeA('function')
-      expect(arrayProp.unshift).toExist().toBeA('function')
+      expect(arrayProp.insert).toBeA('function')
+      expect(arrayProp.pop).toBeA('function')
+      expect(arrayProp.push).toBeA('function')
+      expect(arrayProp.remove).toBeA('function')
+      expect(arrayProp.shift).toBeA('function')
+      expect(arrayProp.splice).toBeA('function')
+      expect(arrayProp.swap).toBeA('function')
+      expect(arrayProp.unshift).toBeA('function')
     })
 
     it('should not rerender unless form-wide props (except value!) change', () => {
@@ -2958,7 +2958,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // rerender form on prop change
       expect(formRender.calls.length).toBe(2)
-      expect(propsAtNthRender(formRender, 1).someOtherProp).toExist().toBe(42)
+      expect(propsAtNthRender(formRender, 1).someOtherProp).toBe(42)
 
       // no need to rerender input
       expect(inputRender.calls.length).toBe(1)

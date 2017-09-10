@@ -4,7 +4,7 @@ import silenceEvents from '../silenceEvents'
 
 describe('silenceEvents', () => {
   it('should return a function', () => {
-    expect(silenceEvents()).toExist().toBeA('function')
+    expect(silenceEvents()).toBeA('function')
   })
 
   it('should return pass all args if first arg is not event', () => {
