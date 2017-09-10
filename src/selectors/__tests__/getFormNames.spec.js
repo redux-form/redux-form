@@ -3,14 +3,18 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeGetFormNames = (name, structure, expect) => {
+
+const describeGetFormNames = (name, structure, setup) => {
   const getFormNames = createGetFormNames(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
       expect(getFormNames()).toBeA('function')
     })
@@ -66,10 +70,10 @@ const describeGetFormNames = (name, structure, expect) => {
 describeGetFormNames(
   'getFormNames.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeGetFormNames(
   'getFormNames.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

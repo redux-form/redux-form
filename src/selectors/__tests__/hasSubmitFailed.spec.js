@@ -3,14 +3,18 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeHasSubmitFailed = (name, structure, expect) => {
+
+const describeHasSubmitFailed = (name, structure, setup) => {
   const hasSubmitFailed = createHasSubmitFailed(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function XXX', () => {
       expect(hasSubmitFailed('foo')).toBeA('function')
     })
@@ -58,10 +62,10 @@ const describeHasSubmitFailed = (name, structure, expect) => {
 describeHasSubmitFailed(
   'hasSubmitFailed.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeHasSubmitFailed(
   'hasSubmitFailed.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

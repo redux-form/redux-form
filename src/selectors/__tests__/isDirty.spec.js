@@ -3,14 +3,18 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeIsDirty = (name, structure, expect) => {
+
+const describeIsDirty = (name, structure, setup) => {
   const isDirty = createIsDirty(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
       expect(isDirty('foo')).toBeA('function')
     })
@@ -90,9 +94,9 @@ const describeIsDirty = (name, structure, expect) => {
   })
 }
 
-describeIsDirty('isDirty.plain', plain, addExpectations(plainExpectations))
+describeIsDirty('isDirty.plain', plain, () => expect.extend(plainExpectations))
 describeIsDirty(
   'isDirty.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

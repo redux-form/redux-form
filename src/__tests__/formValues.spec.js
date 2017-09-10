@@ -15,14 +15,14 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 
 const describeValues = (
   name,
   formValues,
   structure,
   combineReducers,
-  expect
+  setup
 ) => {
   const reducer = createReducer(structure)
   const reduxForm = createReduxForm(structure)
@@ -67,6 +67,10 @@ const describeValues = (
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw on missing names', () => {
       expect(() => testProps(false)).toThrow()
       expect(() => testProps(false, {})).toThrow()
@@ -133,12 +137,12 @@ describeValues(
   formValues,
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeValues(
   'formValues.immutable',
   immutableFormValues,
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

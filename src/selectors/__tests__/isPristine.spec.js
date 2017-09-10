@@ -3,14 +3,18 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeIsPristine = (name, structure, expect) => {
+
+const describeIsPristine = (name, structure, setup) => {
   const isPristine = createIsPristine(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
       expect(isPristine('foo')).toBeA('function')
     })
@@ -93,10 +97,10 @@ const describeIsPristine = (name, structure, expect) => {
 describeIsPristine(
   'isPristine.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeIsPristine(
   'isPristine.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

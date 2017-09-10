@@ -13,7 +13,7 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 import SubmissionError from '../SubmissionError'
 import actions from '../actions'
 
@@ -30,7 +30,7 @@ const {
 const propsAtNthRender = (componentSpy, callNumber) =>
   componentSpy.calls[callNumber].arguments[0]
 
-const describeForm = (name, structure, combineReducers, expect) => {
+const describeForm = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const reducer = createReducer(structure)
@@ -44,6 +44,10 @@ const describeForm = (name, structure, combineReducers, expect) => {
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
         TestUtils.renderIntoDocument(
@@ -354,11 +358,11 @@ describeForm(
   'Form.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeForm(
   'Form.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

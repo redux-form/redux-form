@@ -4,13 +4,17 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 import tmp from 'tmp'
 
-const describeCreateFieldProps = (name, structure, expect) => {
+const describeCreateFieldProps = (name, structure, setup) => {
   const { empty, getIn, fromJS, toJS } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should pass value through', () => {
       expect(
         createFieldProps({ getIn, toJS }, 'foo', { value: 'hello' }).input.value
@@ -422,10 +426,10 @@ const describeCreateFieldProps = (name, structure, expect) => {
 describeCreateFieldProps(
   'createFieldProps.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeCreateFieldProps(
   'createFieldProps.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

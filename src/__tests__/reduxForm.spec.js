@@ -17,7 +17,7 @@ import immutableExpectations from '../structure/immutable/expectations'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import SubmissionError from '../SubmissionError'
-import addExpectations from './addExpectations'
+
 import FormWrapper from '../Form'
 
 const {
@@ -35,7 +35,7 @@ const {
 const propsAtNthRender = (spy, callNumber) => spy.calls[callNumber].arguments[0]
 const propsAtLastRender = spy => propsAtNthRender(spy, spy.calls.length - 1)
 
-const describeReduxForm = (name, structure, combineReducers, expect) => {
+const describeReduxForm = (name, structure, combineReducers, setup) => {
   const { fromJS, getIn, setIn } = structure
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
@@ -43,6 +43,10 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
   const reducer = createReducer(structure)
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     const makeStore = (initial = {}, logger) => {
       const reducers = { form: reducer }
       if (logger) {
@@ -5072,11 +5076,11 @@ describeReduxForm(
   'reduxForm.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeReduxForm(
   'reduxForm.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

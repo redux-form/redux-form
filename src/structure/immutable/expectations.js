@@ -1,7 +1,12 @@
 // @flow
-import expect from 'expect'
 import deepEqual from 'deep-equal'
 import { Map, List, Iterable, fromJS } from 'immutable'
+
+import {
+  matcherHint,
+  printReceived,
+  printExpected,
+} from 'jest-matcher-utils';
 
 const deepEqualValues = (a: any, b: any) => {
   if (Iterable.isIterable(a)) {
@@ -15,58 +20,62 @@ const deepEqualValues = (a: any, b: any) => {
 }
 
 const api = {
-  toBeAMap() {
-    expect.assert(
-      Map.isMap(this.actual),
-      'expected %s to be an immutable Map',
-      this.actual
-    )
-    return this
+  toBeAMap(actual: any) {
+    const pass = Map.isMap(actual)
+    return {
+      pass: pass,
+      message: () => `toBeAMap expected ${actual} to be an immutable Map`
+    }
   },
 
-  toBeAList() {
-    expect.assert(
-      List.isList(this.actual),
-      'expected %s to be an immutable List',
-      this.actual
-    )
-    return this
+  toBeAList(actual: any) {
+    const pass = List.isList(actual)
+    return {
+      pass,
+      message: () => `toBeAList expected ${actual} to be an immutable List`,
+    }
   },
 
-  toBeSize(size: number) {
-    expect.assert(
-      Iterable.isIterable(this.actual) && this.actual.count() === size,
-      'expected %s to contain %s elements',
-      this.actual,
-      size
-    )
-    return this
+  toBeSize(actual: any, size: number) {
+    const pass = Iterable.isIterable(actual) && actual.count() === size
+    return {
+      pass,
+      message: () => `toBeSize expected ${actual} to contain ${size} elements`,
+    }
   },
 
-  toEqualMap(expected: Object) {
-    expect.assert(
-      deepEqualValues(this.actual, fromJS(expected)),
-      'expected...\n%s\n...but found...\n%s',
-      fromJS(expected),
-      this.actual
-    )
-    return this
+  toEqualMap(actual: any, expected: Object) {
+    const pass = deepEqualValues(actual, fromJS(expected))
+    return {
+      pass,
+      message: () =>
+        matcherHint('.toEqualMap') +
+        '\n\n' +
+        `Expected value to equal map:\n` +
+        `  ${printExpected(fromJS(expected))}\n` +
+        `Received:\n` +
+        `  ${printReceived(actual)}`
+    }
   },
 
-  toContainExactly(expected: any[]) {
+  toContainExactly(actual: any, expected: any[]) {
     const expectedItems = expected.map(expectedItem => fromJS(expectedItem))
-    expect.assert(
-      this.actual.count() === expected.length &&
-        this.actual.every(actualItem =>
-          expectedItems.some(expectedItem =>
-            deepEqualValues(actualItem, expectedItem)
-          )
-        ),
-      'expected...\n%s\n...but found...\n%s',
-      this.actual,
-      expected
-    )
-    return this
+    const pass = actual.count() === expected.length && actual.every(actualItem =>
+      expectedItems.some(expectedItem =>
+        deepEqualValues(actualItem, expectedItem)
+      )
+    );
+
+    return {
+      pass,
+      message: () =>
+        matcherHint('.toContainExactly') +
+        '\n\n' +
+        `Expected value to contain:\n` +
+        `  ${printExpected(fromJS(expected))}\n` +
+        `Received:\n` +
+        `  ${printReceived(actual)}`
+    }
   }
 }
 

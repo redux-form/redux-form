@@ -3,7 +3,7 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 import { prefix } from '../actionTypes'
 
 import describeInitialize from './helpers/reducer.initialize'
@@ -78,10 +78,14 @@ const tests = {
   plugin: describePlugin
 }
 
-const describeReducer = (name, structure, expect) => {
+const describeReducer = (name, structure, setup) => {
   const reducer = createReducer(structure)
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should initialize state to {}', () => {
       const state = reducer()
       expect(state).toExist().toBeAMap().toBeSize(0)
@@ -122,9 +126,9 @@ const describeReducer = (name, structure, expect) => {
     })
   })
 }
-describeReducer('reducer.plain', plain, addExpectations(plainExpectations))
+describeReducer('reducer.plain', plain, () => expect.extend(plainExpectations))
 describeReducer(
   'reducer.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

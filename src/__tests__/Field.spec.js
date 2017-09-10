@@ -13,13 +13,13 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 import { dragStartMock, dropMock } from '../util/eventMocks'
 import { dataKey } from '../util/eventConsts'
 
 const testFormName = 'testForm'
 
-const describeField = (name, structure, combineReducers, expect) => {
+const describeField = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const reducer = createReducer(structure)
@@ -54,6 +54,10 @@ const describeField = (name, structure, combineReducers, expect) => {
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
         TestUtils.renderIntoDocument(
@@ -2577,11 +2581,11 @@ describeField(
   'Field.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeField(
   'Field.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

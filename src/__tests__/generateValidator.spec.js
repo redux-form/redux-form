@@ -4,9 +4,9 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeGenerateValidator = (name, structure, expect) => {
+
+const describeGenerateValidator = (name, structure, setup) => {
   const { fromJS } = structure
   const required = value => (value == null ? 'Required' : undefined)
   const minValue = min => value =>
@@ -17,6 +17,10 @@ const describeGenerateValidator = (name, structure, expect) => {
     validatorName === name ? undefined : 'Invalid name'
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
       const validator = generateValidator({}, structure)
       expect(validator).toBeA('function')
@@ -264,10 +268,10 @@ const describeGenerateValidator = (name, structure, expect) => {
 describeGenerateValidator(
   'generateValidator.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeGenerateValidator(
   'generateValidator.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

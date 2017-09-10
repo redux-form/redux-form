@@ -3,14 +3,18 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeGetFormSyncErrors = (name, structure, expect) => {
+
+const describeGetFormSyncErrors = (name, structure, setup) => {
   const getFormSyncErrors = createGetFormSyncErrors(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
       expect(createGetFormSyncErrors('foo')).toBeA('function')
     })
@@ -72,10 +76,10 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
 describeGetFormSyncErrors(
   'getFormSyncErrors.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeGetFormSyncErrors(
   'getFormSyncErrors.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

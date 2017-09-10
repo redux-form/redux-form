@@ -16,11 +16,11 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
-import addExpectations from './addExpectations'
+
 
 domExpect.extend(expectElement)
 
-const describeFieldArray = (name, structure, combineReducers, expect) => {
+const describeFieldArray = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const FieldArray = createFieldArray(structure)
   const Field = createField(structure)
@@ -57,6 +57,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
         TestUtils.renderIntoDocument(
@@ -2473,11 +2477,11 @@ describeFieldArray(
   'FieldArray.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeFieldArray(
   'FieldArray.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

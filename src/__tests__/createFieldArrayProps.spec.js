@@ -4,13 +4,17 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeCreateFieldProps = (name, structure, expect) => {
+
+const describeCreateFieldProps = (name, structure, setup) => {
   const { fromJS, getIn, size } = structure
   const defaultParams = [structure, 'foo', 'testForm', undefined, () => 69]
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should pass props through', () => {
       expect(
         createFieldArrayProps(...defaultParams, { otherProp: 'hello' })
@@ -376,10 +380,10 @@ const describeCreateFieldProps = (name, structure, expect) => {
 describeCreateFieldProps(
   'createFieldArrayProps.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeCreateFieldProps(
   'createFieldArrayProps.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

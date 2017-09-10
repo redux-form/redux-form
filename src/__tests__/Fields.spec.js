@@ -13,9 +13,9 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeFields = (name, structure, combineReducers, expect) => {
+
+const describeFields = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const Fields = createFields(structure)
   const reducer = createReducer(structure)
@@ -50,6 +50,10 @@ const describeFields = (name, structure, combineReducers, expect) => {
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
         TestUtils.renderIntoDocument(
@@ -1797,11 +1801,11 @@ describeFields(
   'Fields.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeFields(
   'Fields.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

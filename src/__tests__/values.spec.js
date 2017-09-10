@@ -11,9 +11,9 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeValues = (name, structure, combineReducers, expect) => {
+
+const describeValues = (name, structure, combineReducers, setup) => {
   const values = createValues(structure)
   const reducer = createReducer(structure)
   const { fromJS } = structure
@@ -35,6 +35,10 @@ const describeValues = (name, structure, combineReducers, expect) => {
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should get values from Redux state', () => {
       const values = {
         cat: 'rat',
@@ -59,11 +63,11 @@ describeValues(
   'values.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeValues(
   'values.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )
