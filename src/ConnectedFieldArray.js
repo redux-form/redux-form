@@ -37,8 +37,11 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       const nextValue = nextProps.value
 
       if (thisValue && nextValue) {
+          let nextValueItemsSame = nextValue.every(val => thisValue.includes(val));
+          let nextValueItemsOrderChanged = nextValue.some((val, index) => val !== thisValue[index]);
         if (
           thisValue.length !== nextValue.length ||
+          (nextValueItemsSame && nextValueItemsOrderChanged) ||
           (nextProps.rerenderOnEveryChange &&
             thisValue.some((val, index) => !deepEqual(val, nextValue[index])))
         ) {
