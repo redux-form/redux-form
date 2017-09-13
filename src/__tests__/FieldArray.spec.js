@@ -1,4 +1,3 @@
-import expectElement from 'expect-element'
 /* eslint react/no-multi-comp:0 */
 import React, { Component } from 'react'
 import TestUtils from 'react-dom/test-utils'
@@ -691,7 +690,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       const error = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
-      expect(error).toHaveText('Too awesome!')
+      expect(error.textContent).toBe('Too awesome!')
     })
 
     it('should provide sync warning for array field', () => {
@@ -747,7 +746,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       const warning = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
-      expect(warning).toHaveText('Too awesome!')
+      expect(warning.textContent).toBe('Too awesome!')
     })
 
     it('should reconnect when name changes', () => {
