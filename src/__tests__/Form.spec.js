@@ -27,7 +27,7 @@ const {
 } = actions
 
 const propsAtNthRender = (componentSpy, callNumber) =>
-  componentSpy.calls[callNumber].arguments[0]
+  componentSpy.mock.calls[callNumber][0]
 
 const describeForm = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
