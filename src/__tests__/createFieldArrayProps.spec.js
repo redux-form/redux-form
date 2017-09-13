@@ -281,7 +281,6 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(typeof result.fields.map).toBe('function')
       expect(callback).not.toHaveBeenCalled()
       const mapResult = result.fields.map(callback)
-      expect(size(mapResult), 3)
       expect(getIn(mapResult, 0)).toEqual({ whatever: true, name: 'foo[0]' })
       expect(getIn(mapResult, 1)).toEqual({ whatever: true, name: 'foo[1]' })
       expect(getIn(mapResult, 2)).toEqual({ whatever: true, name: 'foo[2]' })
@@ -304,7 +303,6 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(typeof result.fields.reduce).toBe('function')
       expect(callback).not.toHaveBeenCalled()
       const reduceResult = result.fields.reduce(callback, {})
-      expect(size(reduceResult), 3)
       expect(reduceResult['foo[0]']).toEqual({ whatever: true, name: 'foo[0]' })
       expect(reduceResult['foo[1]']).toEqual({ whatever: true, name: 'foo[1]' })
       expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
@@ -344,7 +342,6 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(typeof result.fields.reduce).toBe('function')
       expect(callback).not.toHaveBeenCalled()
       const reduceResult = result.fields.reduce(callback, {})
-      expect(size(reduceResult), 0)
       expect(callback).not.toHaveBeenCalled()
     })
 
