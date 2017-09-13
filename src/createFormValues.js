@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import prefixName from './util/prefixName'
-import type { ComponentType } from 'react';
+import type { ComponentType } from 'react'
 import type { Structure, ReactContext } from './types'
 import type { FormValuesInterface, PropPath } from './formValues.types'
 
