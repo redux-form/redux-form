@@ -30,7 +30,7 @@ const describeValues = (name, structure, combineReducers, setup) => {
       </Provider>
     )
     expect(spy).toHaveBeenCalled()
-    return spy.mock.calls[0][0];
+    return spy.mock.calls[0][0]
   }
 
   describe(name, () => {

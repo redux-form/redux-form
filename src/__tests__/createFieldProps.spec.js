@@ -379,7 +379,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
           state: empty,
           type: 'select-multiple'
         }).input.value
-      ).toEqual([]);
+      ).toEqual([])
     })
 
     it('should default value to undefined for file inputs', () => {

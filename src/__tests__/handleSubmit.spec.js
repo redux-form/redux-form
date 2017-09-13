@@ -133,7 +133,7 @@ describe('handleSubmit', () => {
         expect(setSubmitSucceeded).not.toHaveBeenCalled()
         expect(setSubmitFailed)
       .toHaveBeenCalledWith('foo', 'baz')
-      });
+      })
   })
 
   it('should call onSubmitFail with async errors and dispatch if async validation fails and onSubmitFail is defined', () => {
@@ -177,7 +177,7 @@ describe('handleSubmit', () => {
         expect(setSubmitSucceeded).not.toHaveBeenCalled()
         expect(setSubmitFailed)
       .toHaveBeenCalledWith('foo', 'baz')
-      });
+      })
   })
 
   it('should not submit if async validation fails and return rejected promise', () => {
@@ -215,7 +215,7 @@ describe('handleSubmit', () => {
         expect(setSubmitSucceeded).not.toHaveBeenCalled()
         expect(setSubmitFailed)
       .toHaveBeenCalledWith('foo', 'baz')
-      });
+      })
   })
 
   it('should sync submit if async validation passes', () => {
@@ -251,7 +251,7 @@ describe('handleSubmit', () => {
       expect(touch).toHaveBeenCalledWith('foo', 'baz')
       expect(setSubmitFailed).not.toHaveBeenCalled()
       expect(setSubmitSucceeded).toHaveBeenCalled()
-    });
+    })
   })
 
   it('should async submit if async validation passes', () => {
@@ -287,7 +287,7 @@ describe('handleSubmit', () => {
       expect(touch).toHaveBeenCalledWith('foo', 'baz')
       expect(setSubmitFailed).not.toHaveBeenCalled()
       expect(setSubmitSucceeded).toHaveBeenCalled()
-    });
+    })
   })
 
   it('should set submit errors if async submit fails', () => {
@@ -326,7 +326,7 @@ describe('handleSubmit', () => {
       expect(touch).toHaveBeenCalledWith('foo', 'baz')
       expect(setSubmitFailed).toHaveBeenCalled()
       expect(setSubmitSucceeded).not.toHaveBeenCalled()
-    });
+    })
   })
 
   it('should not set errors if rejected value not a SubmissionError', () => {
@@ -366,7 +366,7 @@ describe('handleSubmit', () => {
         expect(touch).toHaveBeenCalledWith('foo', 'baz')
         expect(setSubmitFailed).toHaveBeenCalled()
         expect(setSubmitSucceeded).not.toHaveBeenCalled()
-      });
+      })
   })
 
   it('should set submit errors if async submit fails and return rejected promise', () => {
@@ -405,7 +405,7 @@ describe('handleSubmit', () => {
       expect(touch).toHaveBeenCalledWith('foo', 'baz')
       expect(setSubmitFailed).toHaveBeenCalled()
       expect(setSubmitSucceeded).not.toHaveBeenCalled()
-    });
+    })
   })
 
   it('should submit when there are old submit errors and persistentSubmitErrors is enabled', () => {
@@ -435,7 +435,7 @@ describe('handleSubmit', () => {
   it('should not swallow errors', () => {
     const values = { foo: 'bar', baz: 42 }
     const submit = jest.fn().mockImplementation(() => {
-      throw new Error('spline reticulation failed');
+      throw new Error('spline reticulation failed')
     })
     const startSubmit = jest.fn()
     const stopSubmit = jest.fn()
@@ -487,7 +487,7 @@ describe('handleSubmit', () => {
         expect(submit).toHaveBeenCalled()
         expect(resultSpy).not.toHaveBeenCalled()
         expect(errorSpy).toHaveBeenCalled()
-      });
+      })
   })
 
   it('should not swallow async errors when form is invalid', () => {

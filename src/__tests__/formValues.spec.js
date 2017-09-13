@@ -62,7 +62,7 @@ const describeValues = (
       </Provider>
     )
     expect(Spy).toHaveBeenCalled()
-    return Spy.mock.calls[0][0];
+    return Spy.mock.calls[0][0]
   }
 
   describe(name, () => {

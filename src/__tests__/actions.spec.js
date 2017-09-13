@@ -82,9 +82,9 @@ describe('actions', () => {
       },
 
       payload: 'foo'
-    });
+    })
 
-    expect(isFSA(arrayInsert('myForm', 'myField', 0, 'foo'))).toBe(true);
+    expect(isFSA(arrayInsert('myForm', 'myField', 0, 'foo'))).toBe(true)
   })
 
   it('should create array move action', () => {
@@ -97,9 +97,9 @@ describe('actions', () => {
         from: 2,
         to: 4
       }
-    });
+    })
 
-    expect(isFSA(arrayMove('myForm', 'myField', 2, 4))).toBe(true);
+    expect(isFSA(arrayMove('myForm', 'myField', 2, 4))).toBe(true)
   })
 
   it('should create array pop action', () => {
@@ -110,9 +110,9 @@ describe('actions', () => {
         form: 'myForm',
         field: 'myField'
       }
-    });
+    })
 
-    expect(isFSA(arrayPop('myForm', 'myField'))).toBe(true);
+    expect(isFSA(arrayPop('myForm', 'myField'))).toBe(true)
   })
 
   it('should create array push action', () => {
@@ -125,9 +125,9 @@ describe('actions', () => {
       },
 
       payload: 'foo'
-    });
+    })
 
-    expect(isFSA(arrayPush('myForm', 'myField', 'foo'))).toBe(true);
+    expect(isFSA(arrayPush('myForm', 'myField', 'foo'))).toBe(true)
 
     expect(arrayPush('myForm', 'myField')).toEqual({
       type: ARRAY_PUSH,
@@ -138,9 +138,9 @@ describe('actions', () => {
       },
 
       payload: undefined
-    });
+    })
 
-    expect(isFSA(arrayPush('myForm', 'myField'))).toBe(true);
+    expect(isFSA(arrayPush('myForm', 'myField'))).toBe(true)
   })
 
   it('should create array remove action', () => {
@@ -152,9 +152,9 @@ describe('actions', () => {
         field: 'myField',
         index: 3
       }
-    });
+    })
 
-    expect(isFSA(arrayRemove('myForm', 'myField', 3))).toBe(true);
+    expect(isFSA(arrayRemove('myForm', 'myField', 3))).toBe(true)
   })
 
   it('should create array removeAll action', () => {
@@ -165,9 +165,9 @@ describe('actions', () => {
         form: 'myForm',
         field: 'myField'
       }
-    });
+    })
 
-    expect(isFSA(arrayRemoveAll('myForm', 'myField'))).toBe(true);
+    expect(isFSA(arrayRemoveAll('myForm', 'myField'))).toBe(true)
   })
 
   it('should create array shift action', () => {
@@ -178,9 +178,9 @@ describe('actions', () => {
         form: 'myForm',
         field: 'myField'
       }
-    });
+    })
 
-    expect(isFSA(arrayShift('myForm', 'myField'))).toBe(true);
+    expect(isFSA(arrayShift('myForm', 'myField'))).toBe(true)
   })
 
   it('should create array splice action', () => {
@@ -193,9 +193,9 @@ describe('actions', () => {
         index: 1,
         removeNum: 1
       }
-    });
+    })
 
-    expect(isFSA(arraySplice('myForm', 'myField', 1, 1))).toBe(true);
+    expect(isFSA(arraySplice('myForm', 'myField', 1, 1))).toBe(true)
 
     expect(arraySplice('myForm', 'myField', 2, 1)).toEqual({
       type: ARRAY_SPLICE,
@@ -206,9 +206,9 @@ describe('actions', () => {
         index: 2,
         removeNum: 1
       }
-    });
+    })
 
-    expect(isFSA(arraySplice('myForm', 'myField', 2, 1))).toBe(true);
+    expect(isFSA(arraySplice('myForm', 'myField', 2, 1))).toBe(true)
 
     expect(arraySplice('myForm', 'myField', 2, 0, 'foo')).toEqual({
       type: ARRAY_SPLICE,
@@ -221,9 +221,9 @@ describe('actions', () => {
       },
 
       payload: 'foo'
-    });
+    })
 
-    expect(isFSA(arraySplice('myForm', 'myField', 2, 0, 'foo'))).toBe(true);
+    expect(isFSA(arraySplice('myForm', 'myField', 2, 0, 'foo'))).toBe(true)
 
     expect(arraySplice('myForm', 'myField', 3, 2, { foo: 'bar' })).toEqual({
       type: ARRAY_SPLICE,
@@ -238,9 +238,9 @@ describe('actions', () => {
       payload: {
         foo: 'bar'
       }
-    });
+    })
 
-    expect(isFSA(arraySplice('myForm', 'myField', 3, 2, { foo: 'bar' }))).toBe(true);
+    expect(isFSA(arraySplice('myForm', 'myField', 3, 2, { foo: 'bar' }))).toBe(true)
   })
 
   it('should create array unshift action', () => {
@@ -253,9 +253,9 @@ describe('actions', () => {
       },
 
       payload: 'foo'
-    });
+    })
 
-    expect(isFSA(arrayUnshift('myForm', 'myField', 'foo'))).toBe(true);
+    expect(isFSA(arrayUnshift('myForm', 'myField', 'foo'))).toBe(true)
   })
 
   it('should create array swap action', () => {
@@ -268,9 +268,9 @@ describe('actions', () => {
         indexA: 0,
         indexB: 8
       }
-    });
+    })
 
-    expect(isFSA(arraySwap('myForm', 'myField', 0, 8))).toBe(true);
+    expect(isFSA(arraySwap('myForm', 'myField', 0, 8))).toBe(true)
   })
 
   it('should throw an exception with illegal array swap indices', () => {
@@ -296,9 +296,9 @@ describe('actions', () => {
       },
 
       payload: 'bar'
-    });
+    })
 
-    expect(isFSA(blur('myForm', 'myField', 'bar', false))).toBe(true);
+    expect(isFSA(blur('myForm', 'myField', 'bar', false))).toBe(true)
 
     expect(blur('myForm', 'myField', 7, true)).toEqual({
       type: BLUR,
@@ -310,9 +310,9 @@ describe('actions', () => {
       },
 
       payload: 7
-    });
+    })
 
-    expect(isFSA(blur('myForm', 'myField', 7, true))).toBe(true);
+    expect(isFSA(blur('myForm', 'myField', 7, true))).toBe(true)
   })
 
   it('should create change action', () => {
@@ -327,9 +327,9 @@ describe('actions', () => {
       },
 
       payload: 'bar'
-    });
+    })
 
-    expect(isFSA(change('myForm', 'myField', 'bar', false, true))).toBe(true);
+    expect(isFSA(change('myForm', 'myField', 'bar', false, true))).toBe(true)
 
     expect(change('myForm', 'myField', 7, true, false)).toEqual({
       type: CHANGE,
@@ -342,9 +342,9 @@ describe('actions', () => {
       },
 
       payload: 7
-    });
+    })
 
-    expect(isFSA(change('myForm', 'myField', 7, true, false))).toBe(true);
+    expect(isFSA(change('myForm', 'myField', 7, true, false))).toBe(true)
   })
 
   it('should create focus action', () => {
@@ -355,9 +355,9 @@ describe('actions', () => {
         form: 'myForm',
         field: 'myField'
       }
-    });
+    })
 
-    expect(isFSA(focus('myForm', 'myField'))).toBe(true);
+    expect(isFSA(focus('myForm', 'myField'))).toBe(true)
   })
 
   it('should create clear submit action', () => {
@@ -367,9 +367,9 @@ describe('actions', () => {
       meta: {
         form: 'myForm'
       }
-    });
+    })
 
-    expect(isFSA(clearSubmit('myForm'))).toBe(true);
+    expect(isFSA(clearSubmit('myForm'))).toBe(true)
   })
 
   it('should create clear submit errors action', () => {
@@ -379,9 +379,9 @@ describe('actions', () => {
       meta: {
         form: 'myForm'
       }
-    });
+    })
 
-    expect(isFSA(clearSubmitErrors('myForm'))).toBe(true);
+    expect(isFSA(clearSubmitErrors('myForm'))).toBe(true)
   })
 
   it('should create initialize action', () => {
@@ -396,9 +396,9 @@ describe('actions', () => {
       },
 
       payload: data
-    });
+    })
 
-    expect(isFSA(initialize('myForm', data))).toBe(true);
+    expect(isFSA(initialize('myForm', data))).toBe(true)
   })
 
   it('should create initialize action with a keepDirty value', () => {
@@ -413,9 +413,9 @@ describe('actions', () => {
       },
 
       payload: data
-    });
+    })
 
-    expect(isFSA(initialize('myForm', data, true))).toBe(true);
+    expect(isFSA(initialize('myForm', data, true))).toBe(true)
   })
 
   it('should create registerField action', () => {
@@ -430,9 +430,9 @@ describe('actions', () => {
         name: 'foo',
         type: 'Field'
       }
-    });
+    })
 
-    expect(isFSA(registerField('myForm', 'foo', 'Field'))).toBe(true);
+    expect(isFSA(registerField('myForm', 'foo', 'Field'))).toBe(true)
   })
 
   it('should create reset action', () => {
@@ -442,9 +442,9 @@ describe('actions', () => {
       meta: {
         form: 'myForm'
       }
-    });
+    })
 
-    expect(isFSA(reset('myForm'))).toBe(true);
+    expect(isFSA(reset('myForm'))).toBe(true)
   })
 
   it('should create destroy action', () => {
@@ -454,9 +454,9 @@ describe('actions', () => {
       meta: {
         form: ['myForm']
       }
-    });
+    })
 
-    expect(isFSA(destroy('myForm'))).toBe(true);
+    expect(isFSA(destroy('myForm'))).toBe(true)
 
     expect(destroy('myForm1', 'myForm2')).toEqual({
       type: DESTROY,
@@ -464,9 +464,9 @@ describe('actions', () => {
       meta: {
         form: ['myForm1', 'myForm2']
       }
-    });
+    })
 
-    expect(isFSA(destroy('myForm1', 'myForm2'))).toBe(true);
+    expect(isFSA(destroy('myForm1', 'myForm2'))).toBe(true)
   })
 
   it('should create startAsyncValidation action', () => {
@@ -477,9 +477,9 @@ describe('actions', () => {
         form: 'myForm',
         field: 'myField'
       }
-    });
+    })
 
-    expect(isFSA(startAsyncValidation('myForm', 'myField'))).toBe(true);
+    expect(isFSA(startAsyncValidation('myForm', 'myField'))).toBe(true)
   })
 
   it('should create startSubmit action', () => {
@@ -489,9 +489,9 @@ describe('actions', () => {
       meta: {
         form: 'myForm'
       }
-    });
+    })
 
-    expect(isFSA(startSubmit('myForm'))).toBe(true);
+    expect(isFSA(startSubmit('myForm'))).toBe(true)
   })
 
   it('should create startSubmit action', () => {
@@ -501,9 +501,9 @@ describe('actions', () => {
       meta: {
         form: 'myForm'
       }
-    });
+    })
 
-    expect(isFSA(startSubmit('myForm'))).toBe(true);
+    expect(isFSA(startSubmit('myForm'))).toBe(true)
   })
 
   it('should create stopAsyncValidation action', () => {
@@ -521,9 +521,9 @@ describe('actions', () => {
 
       payload: errors,
       error: true
-    });
+    })
 
-    expect(isFSA(stopAsyncValidation('myForm', errors))).toBe(true);
+    expect(isFSA(stopAsyncValidation('myForm', errors))).toBe(true)
   })
 
   it('should create stopSubmit action', () => {
@@ -536,9 +536,9 @@ describe('actions', () => {
 
       payload: undefined,
       error: false
-    });
+    })
 
-    expect(isFSA(stopSubmit('myForm'))).toBe(true);
+    expect(isFSA(stopSubmit('myForm'))).toBe(true)
     const errors = {
       foo: 'Foo error',
       bar: 'Error for bar'
@@ -553,9 +553,9 @@ describe('actions', () => {
 
       payload: errors,
       error: true
-    });
+    })
 
-    expect(isFSA(stopSubmit('myForm', errors))).toBe(true);
+    expect(isFSA(stopSubmit('myForm', errors))).toBe(true)
   })
 
   it('should create submit action', () => {
@@ -565,9 +565,9 @@ describe('actions', () => {
       meta: {
         form: 'myForm'
       }
-    });
+    })
 
-    expect(isFSA(submit('myForm'))).toBe(true);
+    expect(isFSA(submit('myForm'))).toBe(true)
   })
 
   it('should create setSubmitFailed action', () => {
@@ -580,9 +580,9 @@ describe('actions', () => {
       },
 
       error: true
-    });
+    })
 
-    expect(isFSA(setSubmitFailed('myForm'))).toBe(true);
+    expect(isFSA(setSubmitFailed('myForm'))).toBe(true)
 
     expect(setSubmitFailed('myForm', 'a', 'b', 'c')).toEqual({
       type: SET_SUBMIT_FAILED,
@@ -593,9 +593,9 @@ describe('actions', () => {
       },
 
       error: true
-    });
+    })
 
-    expect(isFSA(setSubmitFailed('myForm', 'a', 'b', 'c'))).toBe(true);
+    expect(isFSA(setSubmitFailed('myForm', 'a', 'b', 'c'))).toBe(true)
   })
 
   it('should create setSubmitSucceeded action', () => {
@@ -608,9 +608,9 @@ describe('actions', () => {
       },
 
       error: false
-    });
+    })
 
-    expect(isFSA(setSubmitSucceeded('myForm'))).toBe(true);
+    expect(isFSA(setSubmitSucceeded('myForm'))).toBe(true)
 
     expect(setSubmitSucceeded('myForm', 'a', 'b', 'c')).toEqual({
       type: SET_SUBMIT_SUCCEEDED,
@@ -621,9 +621,9 @@ describe('actions', () => {
       },
 
       error: false
-    });
+    })
 
-    expect(isFSA(setSubmitSucceeded('myForm', 'a', 'b', 'c'))).toBe(true);
+    expect(isFSA(setSubmitSucceeded('myForm', 'a', 'b', 'c'))).toBe(true)
   })
 
   it('should create touch action', () => {
@@ -634,9 +634,9 @@ describe('actions', () => {
         form: 'myForm',
         fields: ['foo', 'bar']
       }
-    });
+    })
 
-    expect(isFSA(touch('myForm', 'foo', 'bar'))).toBe(true);
+    expect(isFSA(touch('myForm', 'foo', 'bar'))).toBe(true)
 
     expect(touch('myForm', 'cat', 'dog', 'pig')).toEqual({
       type: TOUCH,
@@ -645,9 +645,9 @@ describe('actions', () => {
         form: 'myForm',
         fields: ['cat', 'dog', 'pig']
       }
-    });
+    })
 
-    expect(isFSA(touch('myForm', 'cat', 'dog', 'pig'))).toBe(true);
+    expect(isFSA(touch('myForm', 'cat', 'dog', 'pig'))).toBe(true)
   })
 
   it('should create unregisterField action', () => {
@@ -662,9 +662,9 @@ describe('actions', () => {
         name: 'foo',
         destroyOnUnmount: true
       }
-    });
+    })
 
-    expect(isFSA(unregisterField('myForm', 'foo'))).toBe(true);
+    expect(isFSA(unregisterField('myForm', 'foo'))).toBe(true)
   })
 
   it('should create untouch action', () => {
@@ -675,9 +675,9 @@ describe('actions', () => {
         form: 'myForm',
         fields: ['foo', 'bar']
       }
-    });
+    })
 
-    expect(isFSA(untouch('myForm', 'foo', 'bar'))).toBe(true);
+    expect(isFSA(untouch('myForm', 'foo', 'bar'))).toBe(true)
 
     expect(untouch('myForm', 'cat', 'dog', 'pig')).toEqual({
       type: UNTOUCH,
@@ -686,9 +686,9 @@ describe('actions', () => {
         form: 'myForm',
         fields: ['cat', 'dog', 'pig']
       }
-    });
+    })
 
-    expect(isFSA(untouch('myForm', 'cat', 'dog', 'pig'))).toBe(true);
+    expect(isFSA(untouch('myForm', 'cat', 'dog', 'pig'))).toBe(true)
   })
 
   it('should create updateSyncErrors action', () => {
@@ -706,9 +706,9 @@ describe('actions', () => {
           foo: 'foo error'
         }
       }
-    });
+    })
 
-    expect(isFSA(updateSyncErrors('myForm', { foo: 'foo error' }))).toBe(true);
+    expect(isFSA(updateSyncErrors('myForm', { foo: 'foo error' }))).toBe(true)
   })
 
   it('should create updateSyncErrors action with no errors if none given', () => {
@@ -723,9 +723,9 @@ describe('actions', () => {
         error: undefined,
         syncErrors: {}
       }
-    });
+    })
 
-    expect(isFSA(updateSyncErrors('myForm'))).toBe(true);
+    expect(isFSA(updateSyncErrors('myForm'))).toBe(true)
   })
 
   it('should create updateSyncWarnings action', () => {
@@ -743,9 +743,9 @@ describe('actions', () => {
           foo: 'foo warning'
         }
       }
-    });
+    })
 
-    expect(isFSA(updateSyncWarnings('myForm', { foo: 'foo warning' }))).toBe(true);
+    expect(isFSA(updateSyncWarnings('myForm', { foo: 'foo warning' }))).toBe(true)
   })
 
   it('should create updateSyncWarnings action with no warnings if none given', () => {
@@ -760,9 +760,9 @@ describe('actions', () => {
         warning: undefined,
         syncWarnings: {}
       }
-    });
+    })
 
-    expect(isFSA(updateSyncWarnings('myForm'))).toBe(true);
+    expect(isFSA(updateSyncWarnings('myForm'))).toBe(true)
   })
 
   it('should create clearAsyncError action', () => {
@@ -773,8 +773,8 @@ describe('actions', () => {
         form: 'myForm',
         field: 'foo'
       }
-    });
+    })
 
-    expect(isFSA(clearAsyncError('myForm', 'foo'))).toBe(true);
+    expect(isFSA(clearAsyncError('myForm', 'foo'))).toBe(true)
   })
 })

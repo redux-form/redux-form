@@ -4,7 +4,7 @@ import {
   matcherHint,
   printReceived,
   printExpected,
-} from 'jest-matcher-utils';
+} from 'jest-matcher-utils'
 
 const expectations = {
   toBeAMap(actual: any) {

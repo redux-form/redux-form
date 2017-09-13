@@ -27,8 +27,8 @@ describe('onChangeValue', () => {
     )
     const value = onChangeValue(valueMock('bar'), { name, normalize, parse })
     expect(parse).toHaveBeenCalledWith('bar', name)
-    expect(normalize).toHaveBeenCalled();
-    expect(normalize).toHaveBeenCalledWith(name, 'parsed-bar');
+    expect(normalize).toHaveBeenCalled()
+    expect(normalize).toHaveBeenCalledWith(name, 'parsed-bar')
     expect(value).toBe('normalized-parsed-bar')
   })
 })

@@ -189,7 +189,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       })
       const onSubmit = jest.fn().mockImplementation(
         () => {
-          throw new SubmissionError({ _error: 'Invalid' });
+          throw new SubmissionError({ _error: 'Invalid' })
         }
       )
       const formRender = jest.fn()

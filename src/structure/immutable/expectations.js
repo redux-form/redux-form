@@ -6,7 +6,7 @@ import {
   matcherHint,
   printReceived,
   printExpected,
-} from 'jest-matcher-utils';
+} from 'jest-matcher-utils'
 
 const deepEqualValues = (a: any, b: any) => {
   if (Iterable.isIterable(a)) {
@@ -64,7 +64,7 @@ const api = {
       expectedItems.some(expectedItem =>
         deepEqualValues(actualItem, expectedItem)
       )
-    );
+    )
 
     return {
       pass,

@@ -25,9 +25,8 @@ describe('structure.immutable.setIn', () => {
     expect(a).toBeTruthy()
 
     let b = a.get('b')
-    expect(b).toBeTruthy();
-    expect(b).toBeInstanceOf(List);
-    expect(b).toEqual(fromJS(['success']));
+    expect(b).toBeInstanceOf(List)
+    expect(b).toEqual(fromJS(['success']))
   })
   it('should handle nested array paths', () => {
     const result = setIn(new Map(), 'a.b[2][1]', 'success')
@@ -36,13 +35,11 @@ describe('structure.immutable.setIn', () => {
     expect(a).toBeTruthy()
 
     const b = a.get('b')
-    expect(b).toBeTruthy();
-    expect(b).toBeInstanceOf(List);
+    expect(b).toBeInstanceOf(List)
 
     const b2 = b.get(2)
-    expect(b2).toBeTruthy();
-    expect(b2).toBeInstanceOf(List);
-    expect(b2).toEqual(fromJS([undefined, 'success']));
+    expect(b2).toBeInstanceOf(List)
+    expect(b2).toEqual(fromJS([undefined, 'success']))
   })
   it('should handle array paths with successive sets', () => {
     let result = setIn(new Map(), 'a.b[2]', 'success')
@@ -52,9 +49,8 @@ describe('structure.immutable.setIn', () => {
     expect(a).toBeTruthy()
 
     let b = a.get('b')
-    expect(b).toBeTruthy();
-    expect(b).toBeInstanceOf(List);
-    expect(b).toEqual(fromJS(['success', undefined, 'success']));
+    expect(b).toBeInstanceOf(List)
+    expect(b).toEqual(fromJS(['success', undefined, 'success']))
   })
   it('should handle array paths with existing array', () => {
     let result = setIn(
@@ -71,12 +67,11 @@ describe('structure.immutable.setIn', () => {
     expect(a).toBeTruthy()
 
     let b = a.get('b')
-    expect(b).toBeTruthy();
-    expect(b).toBeInstanceOf(List);
+    expect(b).toBeInstanceOf(List)
 
     expect(b).toEqual(fromJS(['first', {
       value: 'success'
-    }]));
+    }]))
   })
   it('should handle array paths with existing array with undefined', () => {
     let result = setIn(
@@ -93,43 +88,35 @@ describe('structure.immutable.setIn', () => {
     expect(a).toBeTruthy()
 
     let b = a.get('b')
-    expect(b).toBeTruthy();
-    expect(b).toBeInstanceOf(List);
+    expect(b).toBeInstanceOf(List)
 
     expect(b).toEqual(fromJS(['first', {
       value: 'success'
-    }]));
+    }]))
   })
   it('should handle multiple array paths', () => {
     let result = setIn(new Map(), 'a.b[0].c.d[13].e', 'success')
 
     let a = result.get('a')
-    expect(a).toBeTruthy();
-    expect(a).toBeInstanceOf(Map);
+    expect(a).toBeInstanceOf(Map)
 
     let b = a.get('b')
-    expect(b).toBeTruthy();
-    expect(b).toBeInstanceOf(List);
+    expect(b).toBeInstanceOf(List)
 
     let b0 = b.get(0)
-    expect(b0).toBeTruthy();
-    expect(b0).toBeInstanceOf(Map);
+    expect(b0).toBeInstanceOf(Map)
 
     let c = b0.get('c')
-    expect(c).toBeTruthy();
-    expect(c).toBeInstanceOf(Map);
+    expect(c).toBeInstanceOf(Map)
 
     let d = c.get('d')
-    expect(d).toBeTruthy();
-    expect(d).toBeInstanceOf(List);
+    expect(d).toBeInstanceOf(List)
 
     let d13 = d.get(13)
-    expect(d13).toBeTruthy();
-    expect(d13).toBeInstanceOf(Map);
+    expect(d13).toBeInstanceOf(Map)
 
     let e = d13.get('e')
-    expect(e).toBeTruthy();
-    expect(e).toEqual('success');
+    expect(e).toEqual('success')
   })
   it('should handle indexer paths', () => {
     let result = setIn(new Map(), 'a.b[c].d[e]', 'success')
@@ -147,8 +134,7 @@ describe('structure.immutable.setIn', () => {
     expect(d).toBeTruthy()
 
     let e = d.get('e')
-    expect(e).toBeTruthy();
-    expect(e).toEqual('success');
+    expect(e).toEqual('success')
   })
   it('should update existing Map', () => {
     let initial = fromJS({

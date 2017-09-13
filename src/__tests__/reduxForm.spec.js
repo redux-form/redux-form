@@ -2181,7 +2181,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(onSubmitFail.mock.calls[0][1]).toEqual(store.dispatch)
         expect(onSubmitFail.mock.calls[0][2]).toBeInstanceOf(SubmissionError)
         expect(caught).toBe(errors)
-      });
+      })
     })
 
     it('should call onSubmitFail if sync validation prevents submit', () => {
@@ -2268,7 +2268,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(onSubmitFail.mock.calls[0][1]).toEqual(store.dispatch)
         expect(onSubmitFail.mock.calls[0][2]).toBe(null)
         expect(error).toBe(errors)
-      });
+      })
     })
 
     it('should call onSubmitSuccess if sync submit succeeds', () => {
@@ -2348,7 +2348,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(onSubmitSuccess.mock.calls[0][1]).toBe(store.dispatch)
         expect(typeof onSubmitSuccess.mock.calls[0][2]).toBe('object')
         expect(returned).toBe(result)
-      });
+      })
     })
 
     it('should return error thrown by sync onSubmit', () => {
@@ -4619,7 +4619,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           expect(renderSpy.mock.calls.length).toBe(6)
           expect(renderSpy.mock.calls[5][0]).toBe(true)
           expect(renderSpy.mock.calls[5][1]).toBe(undefined)
-        });
+        })
     })
 
     it('submits (via config) when the SUBMIT action is dispatched', () => {

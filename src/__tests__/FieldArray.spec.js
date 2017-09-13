@@ -1475,8 +1475,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           // field array rerendered, items swapped
           expect(renderFieldArray.mock.calls.length).toBe(2)
           expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(2)
-          expect(renderField.mock.calls[2][0].input.value).toBe('cat');
-          expect(renderField.mock.calls[3][0].input.value).toBe('dog');
+          expect(renderField.mock.calls[2][0].input.value).toBe('cat')
+          expect(renderField.mock.calls[3][0].input.value).toBe('dog')
 
           expect(renderFieldArray.mock.calls[1][0].fields.get(0)).toBe('cat')
           expect(renderFieldArray.mock.calls[1][0].fields.get(1)).toBe('dog')
@@ -1541,8 +1541,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         expect(renderFieldArray).toHaveBeenCalled()
         expect(renderFieldArray.mock.calls.length).toBe(2)
         expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy();
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs');
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs')
 
         renderFieldArray.mockClear()
         TestUtils.Simulate.click(addButton) // length goes to 1, no error yet
@@ -1556,8 +1556,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
         expect(renderFieldArray).toHaveBeenCalled()
         expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy();
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('Too many');
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('Too many')
 
         renderFieldArray.mockClear()
         TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
@@ -1571,8 +1571,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
         expect(renderFieldArray).toHaveBeenCalled()
         expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy();
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs');
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs')
       }
     })
 
@@ -1631,8 +1631,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderFieldArray).toHaveBeenCalled()
       expect(renderFieldArray.mock.calls.length).toBe(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
-      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBeTruthy();
-      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBe('No dogs');
+      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBe('No dogs')
 
       TestUtils.Simulate.click(addButton) // length goes to 1, no warning yet
 
@@ -1644,8 +1644,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       expect(renderFieldArray.mock.calls.length).toBe(3)
       expect(renderFieldArray.mock.calls[2][0].fields.length).toBe(2)
-      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBeTruthy();
-      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBe('Too many');
+      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBe('Too many')
 
       TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
@@ -1657,8 +1657,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       expect(renderFieldArray.mock.calls.length).toBe(5)
       expect(renderFieldArray.mock.calls[4][0].fields.length).toBe(0)
-      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBeTruthy();
-      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBe('No dogs');
+      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBe('No dogs')
     })
 
     it('should rerender when depending value has updated', () => {
