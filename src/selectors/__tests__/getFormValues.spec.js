@@ -16,7 +16,7 @@ const describeGetFormValues = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(getFormValues('foo')).toBeA('function')
+      expect(typeof getFormValues('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {

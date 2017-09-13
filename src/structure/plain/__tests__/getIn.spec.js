@@ -1,4 +1,3 @@
-import expect from 'expect'
 import getIn from '../getIn'
 
 describe('structure.plain.getIn', () => {

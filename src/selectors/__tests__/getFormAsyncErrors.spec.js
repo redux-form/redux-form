@@ -16,7 +16,7 @@ const describeGetFormAsyncErrors = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(createGetFormAsyncErrors('foo')).toBeA('function')
+      expect(typeof createGetFormAsyncErrors('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {

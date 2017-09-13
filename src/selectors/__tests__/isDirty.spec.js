@@ -16,7 +16,7 @@ const describeIsDirty = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(isDirty('foo')).toBeA('function')
+      expect(typeof isDirty('foo')).toBe('function')
     })
 
     it('should return false when values not present', () => {

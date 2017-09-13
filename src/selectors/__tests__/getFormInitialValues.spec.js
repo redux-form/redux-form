@@ -16,7 +16,7 @@ const describeGetFormInitialValues = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(getFormInitialValues('foo')).toBeA('function')
+      expect(typeof getFormInitialValues('foo')).toBe('function')
     })
 
     it('should get the initial form values from state', () => {

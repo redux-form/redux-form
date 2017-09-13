@@ -88,7 +88,8 @@ const describeReducer = (name, structure, setup) => {
 
     it('should initialize state to {}', () => {
       const state = reducer()
-      expect(state).toBeAMap().toBeSize(0)
+      expect(state).toBeAMap();
+      expect(state).toBeSize(0);
     })
 
     it('should not modify state when action has no form', () => {
@@ -108,9 +109,12 @@ const describeReducer = (name, structure, setup) => {
         type: `${prefix}SOME_ACTION`,
         meta: { form: 'foo' }
       })
-      expect(state).toBeAMap().toBeSize(1).toEqualMap({
+      expect(state).toBeAMap();
+      expect(state).toBeSize(1);
+
+      expect(state).toEqualMap({
         foo: {}
-      })
+      });
     })
 
     it('should ignore non-redux-form actions', () => {

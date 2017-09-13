@@ -16,7 +16,7 @@ const describeIsSubmitting = (name, structure, setup) => {
     })
 
     it('should return a function XXX', () => {
-      expect(isSubmitting('foo')).toBeA('function')
+      expect(typeof isSubmitting('foo')).toBe('function')
     })
 
     it('should return false when value not present', () => {

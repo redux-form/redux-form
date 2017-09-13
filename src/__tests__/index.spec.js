@@ -1,4 +1,3 @@
-import expect from 'expect'
 import * as expectedActionTypes from '../actionTypes'
 import expectedPropTypes, {
   fieldPropTypes as expectedFieldPropTypes
@@ -71,124 +70,124 @@ describe('index', () => {
     expect(actionTypes).toEqual(expectedActionTypes)
   })
   it('should export arrayInsert', () => {
-    expect(arrayInsert).toBeA('function')
+    expect(typeof arrayInsert).toBe('function')
   })
   it('should export arrayMove', () => {
-    expect(arrayMove).toBeA('function')
+    expect(typeof arrayMove).toBe('function')
   })
   it('should export arrayPop', () => {
-    expect(arrayPop).toBeA('function')
+    expect(typeof arrayPop).toBe('function')
   })
   it('should export arrayPush', () => {
-    expect(arrayPush).toBeA('function')
+    expect(typeof arrayPush).toBe('function')
   })
   it('should export arrayRemove', () => {
-    expect(arrayRemove).toBeA('function')
+    expect(typeof arrayRemove).toBe('function')
   })
   it('should export arrayRemoveAll', () => {
-    expect(arrayRemoveAll).toBeA('function')
+    expect(typeof arrayRemoveAll).toBe('function')
   })
   it('should export arrayShift', () => {
-    expect(arrayShift).toBeA('function')
+    expect(typeof arrayShift).toBe('function')
   })
   it('should export arraySplice', () => {
-    expect(arraySplice).toBeA('function')
+    expect(typeof arraySplice).toBe('function')
   })
   it('should export arraySwap', () => {
-    expect(arraySwap).toBeA('function')
+    expect(typeof arraySwap).toBe('function')
   })
   it('should export arrayUnshift', () => {
-    expect(arrayUnshift).toBeA('function')
+    expect(typeof arrayUnshift).toBe('function')
   })
   it('should export autofill', () => {
-    expect(autofill).toBeA('function')
+    expect(typeof autofill).toBe('function')
   })
   it('should export blur', () => {
-    expect(blur).toBeA('function')
+    expect(typeof blur).toBe('function')
   })
   it('should export change', () => {
-    expect(change).toBeA('function')
+    expect(typeof change).toBe('function')
   })
   it('should export clearSubmitErrors', () => {
-    expect(clearSubmitErrors).toBeA('function')
+    expect(typeof clearSubmitErrors).toBe('function')
   })
   it('should export defaultShouldAsyncValidate', () => {
-    expect(defaultShouldAsyncValidate).toBeA('function')
+    expect(typeof defaultShouldAsyncValidate).toBe('function')
   })
   it('should export defaultShouldValidate', () => {
-    expect(defaultShouldValidate).toBeA('function')
+    expect(typeof defaultShouldValidate).toBe('function')
   })
   it('should export destroy', () => {
-    expect(destroy).toBeA('function')
+    expect(typeof destroy).toBe('function')
   })
   it('should export Field', () => {
-    expect(Field).toBeA('function')
+    expect(typeof Field).toBe('function')
   })
   it('should export Fields', () => {
-    expect(Fields).toBeA('function')
+    expect(typeof Fields).toBe('function')
   })
   it('should export FieldArray', () => {
-    expect(FieldArray).toBeA('function')
+    expect(typeof FieldArray).toBe('function')
   })
   it('should export Form', () => {
-    expect(Form).toBeA('function')
+    expect(typeof Form).toBe('function')
   })
   it('should export FormSection', () => {
-    expect(FormSection).toBeA('function')
+    expect(typeof FormSection).toBe('function')
   })
   it('should export focus', () => {
-    expect(focus).toBeA('function')
+    expect(typeof focus).toBe('function')
   })
   it('should export formValueSelector', () => {
-    expect(formValueSelector).toBeA('function')
+    expect(typeof formValueSelector).toBe('function')
   })
   it('should export getFormNames', () => {
-    expect(getFormNames).toBeA('function')
+    expect(typeof getFormNames).toBe('function')
   })
   it('should export getFormValues', () => {
-    expect(getFormValues).toBeA('function')
+    expect(typeof getFormValues).toBe('function')
   })
   it('should export getFormInitialValues', () => {
-    expect(getFormInitialValues).toBeA('function')
+    expect(typeof getFormInitialValues).toBe('function')
   })
   it('should export getFormSyncErrors', () => {
-    expect(getFormSyncErrors).toBeA('function')
+    expect(typeof getFormSyncErrors).toBe('function')
   })
   it('should export getFormMeta', () => {
-    expect(getFormMeta).toBeA('function')
+    expect(typeof getFormMeta).toBe('function')
   })
   it('should export getFormAsyncErrors', () => {
-    expect(getFormAsyncErrors).toBeA('function')
+    expect(typeof getFormAsyncErrors).toBe('function')
   })
   it('should export getFormSyncWarnings', () => {
-    expect(getFormSyncWarnings).toBeA('function')
+    expect(typeof getFormSyncWarnings).toBe('function')
   })
   it('should export getFormSubmitErrors', () => {
-    expect(getFormSubmitErrors).toBeA('function')
+    expect(typeof getFormSubmitErrors).toBe('function')
   })
   it('should export initialize', () => {
-    expect(initialize).toBeA('function')
+    expect(typeof initialize).toBe('function')
   })
   it('should export isDirty', () => {
-    expect(isDirty).toBeA('function')
+    expect(typeof isDirty).toBe('function')
   })
   it('should export isInvalid', () => {
-    expect(isInvalid).toBeA('function')
+    expect(typeof isInvalid).toBe('function')
   })
   it('should export isPristine', () => {
-    expect(isPristine).toBeA('function')
+    expect(typeof isPristine).toBe('function')
   })
   it('should export isValid', () => {
-    expect(isValid).toBeA('function')
+    expect(typeof isValid).toBe('function')
   })
   it('should export isSubmitting', () => {
-    expect(isSubmitting).toBeA('function')
+    expect(typeof isSubmitting).toBe('function')
   })
   it('should export hasSubmitSucceeded', () => {
-    expect(hasSubmitSucceeded).toBeA('function')
+    expect(typeof hasSubmitSucceeded).toBe('function')
   })
   it('should export hasSubmitFailed', () => {
-    expect(hasSubmitFailed).toBeA('function')
+    expect(typeof hasSubmitFailed).toBe('function')
   })
   it('should export fieldPropTypes', () => {
     expect(fieldPropTypes).toEqual(expectedFieldPropTypes)
@@ -200,51 +199,51 @@ describe('index', () => {
     expect(formPropTypes).toEqual(expectedPropTypes)
   })
   it('should export reducer', () => {
-    expect(reducer).toBeA('function')
+    expect(typeof reducer).toBe('function')
   })
   it('should export reduxForm', () => {
-    expect(reduxForm).toBeA('function')
+    expect(typeof reduxForm).toBe('function')
   })
   it('should export registerField', () => {
-    expect(registerField).toBeA('function')
+    expect(typeof registerField).toBe('function')
   })
   it('should export reset', () => {
-    expect(reset).toBeA('function')
+    expect(typeof reset).toBe('function')
   })
   it('should export startAsyncValidation', () => {
-    expect(startAsyncValidation).toBeA('function')
+    expect(typeof startAsyncValidation).toBe('function')
   })
   it('should export startSubmit', () => {
-    expect(startSubmit).toBeA('function')
+    expect(typeof startSubmit).toBe('function')
   })
   it('should export setSubmitFailed', () => {
-    expect(setSubmitFailed).toBeA('function')
+    expect(typeof setSubmitFailed).toBe('function')
   })
   it('should export setSubmitSucceeded', () => {
-    expect(setSubmitSucceeded).toBeA('function')
+    expect(typeof setSubmitSucceeded).toBe('function')
   })
   it('should export stopAsyncValidation', () => {
-    expect(stopAsyncValidation).toBeA('function')
+    expect(typeof stopAsyncValidation).toBe('function')
   })
   it('should export stopSubmit', () => {
-    expect(stopSubmit).toBeA('function')
+    expect(typeof stopSubmit).toBe('function')
   })
   it('should export submit', () => {
-    expect(submit).toBeA('function')
+    expect(typeof submit).toBe('function')
   })
   it('should export SubmissionError', () => {
-    expect(SubmissionError).toBeA('function')
+    expect(typeof SubmissionError).toBe('function')
   })
   it('should export touch', () => {
-    expect(touch).toBeA('function')
+    expect(typeof touch).toBe('function')
   })
   it('should export unregisterField', () => {
-    expect(unregisterField).toBeA('function')
+    expect(typeof unregisterField).toBe('function')
   })
   it('should export untouch', () => {
-    expect(untouch).toBeA('function')
+    expect(typeof untouch).toBe('function')
   })
   it('should export values', () => {
-    expect(values).toBeA('function')
+    expect(typeof values).toBe('function')
   })
 })

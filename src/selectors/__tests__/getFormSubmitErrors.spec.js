@@ -16,7 +16,7 @@ const describeGetFormSubmitErrors = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(createGetFormSubmitErrors('foo')).toBeA('function')
+      expect(typeof createGetFormSubmitErrors('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {

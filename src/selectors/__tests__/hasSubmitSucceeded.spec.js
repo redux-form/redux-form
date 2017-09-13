@@ -16,7 +16,7 @@ const describeHasSubmitSucceeded = (name, structure, setup) => {
     })
 
     it('should return a function XXX', () => {
-      expect(hasSubmitSucceeded('foo')).toBeA('function')
+      expect(typeof hasSubmitSucceeded('foo')).toBe('function')
     })
 
     it('should return false when value not present', () => {

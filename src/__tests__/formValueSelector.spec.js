@@ -5,7 +5,6 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 
-
 const describeFormValueSelector = (name, structure, setup) => {
   const { fromJS, getIn } = structure
   const formValueSelector = createFormValueSelector(structure)
@@ -20,7 +19,7 @@ const describeFormValueSelector = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(formValueSelector('myForm')).toBeA('function')
+      expect(typeof formValueSelector('myForm')).toBe('function')
     })
 
     it('should throw an error if no fields specified', () => {

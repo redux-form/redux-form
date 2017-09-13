@@ -1,4 +1,3 @@
-import expect from 'expect'
 import { is, fromJS, Map, List } from 'immutable'
 import keys from '../keys'
 

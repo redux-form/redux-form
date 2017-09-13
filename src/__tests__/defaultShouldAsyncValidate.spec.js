@@ -1,4 +1,3 @@
-import expect from 'expect'
 import defaultShouldAsyncValidate from '../defaultShouldAsyncValidate'
 
 describe('defaultShouldAsyncValidate', () => {

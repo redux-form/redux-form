@@ -16,7 +16,7 @@ const describeGetFormMeta = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(createGetFormMeta('foo')).toBeA('function')
+      expect(typeof createGetFormMeta('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {

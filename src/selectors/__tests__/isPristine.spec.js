@@ -16,7 +16,7 @@ const describeIsPristine = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(isPristine('foo')).toBeA('function')
+      expect(typeof isPristine('foo')).toBe('function')
     })
 
     it('should return true when values not present', () => {

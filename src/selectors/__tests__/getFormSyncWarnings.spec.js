@@ -16,7 +16,7 @@ const describeGetFormSyncErrors = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(createGetFormSyncErrors('foo')).toBeA('function')
+      expect(typeof createGetFormSyncErrors('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {

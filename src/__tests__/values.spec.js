@@ -1,6 +1,5 @@
 /* eslint react/no-multi-comp:0 */
 import React from 'react'
-import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
@@ -22,7 +21,7 @@ const describeValues = (name, structure, combineReducers, setup) => {
 
   const testProps = (state, config = {}) => {
     const store = makeStore({ testForm: state })
-    const spy = createSpy(() => <div />).andCallThrough()
+    const spy = jest.fn(() => <div />)
 
     const Decorated = values({ form: 'testForm', ...config })(spy)
     TestUtils.renderIntoDocument(
@@ -31,7 +30,7 @@ const describeValues = (name, structure, combineReducers, setup) => {
       </Provider>
     )
     expect(spy).toHaveBeenCalled()
-    return spy.calls[0].arguments[0]
+    return spy.mock.calls[0][0];
   }
 
   describe(name, () => {

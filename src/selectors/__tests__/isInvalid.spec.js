@@ -17,7 +17,7 @@ const describeIsInvalid = (name, structure, setup) => {
     })
 
     it('should return a function', () => {
-      expect(isInvalid('foo', getFormState)).toBeA('function')
+      expect(typeof isInvalid('foo', getFormState)).toBe('function')
     })
 
     it('should return false when form data not present', () => {

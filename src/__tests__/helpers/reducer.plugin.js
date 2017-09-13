@@ -12,7 +12,8 @@ const describePlugin = (
       foo: state => state
     })
     const state = reducer()
-    expect(state).toBeAMap().toBeSize(0)
+    expect(state).toBeAMap()
+    expect(state).toBeSize(0)
   })
 
   it('should let plugin reducer respond to another action type', () => {
