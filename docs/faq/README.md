@@ -20,4 +20,6 @@ Below is a list of common problems or questions that people have using `redux-fo
 
 9. [How do I `mapStateToProps` or `mapDispatchToProps`?](HowToConnect.md)
 
-9. [How to reduce  `redux-form`'s bundle size?](BundleSize.md)
+10. [How to reduce `redux-form`'s bundle size?](BundleSize.md)
+
+11. [Why are all my buttons triggering `onSubmit`?](ButtonType.md)

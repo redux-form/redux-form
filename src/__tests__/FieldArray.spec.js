@@ -1430,6 +1430,63 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       expect(renderFieldArray.calls[5].arguments[0].fields.length).toBe(3)
     })
 
+    it('should rerender when items swapped', () => {
+        const store = makeStore({
+            testForm: {
+                values: {
+                    items: ['dog', 'cat']
+                }
+            }
+        })
+          const renderField = createSpy(props => (
+              <input {...props.input} />
+          )).andCallThrough()
+          const renderFieldArray = createSpy(({ fields }) => (
+              <div>
+                  {fields.map(field => (
+                      <Field name={field} component={renderField} key={field} />
+                  ))}
+                  <button className="swap" onClick={() => fields.swap(0, 1)}>
+                      Swap items
+                  </button>
+              </div>
+          )).andCallThrough()
+          class Form extends Component {
+              render() {
+                  return <FieldArray name="items" component={renderFieldArray} />
+              }
+          }
+          const TestForm = reduxForm({ form: 'testForm' })(Form)
+          const dom = TestUtils.renderIntoDocument(
+              <Provider store={store}>
+                  <TestForm />
+              </Provider>
+          )
+          const swapButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'swap')
+
+          // length is 0
+          expect(renderFieldArray).toHaveBeenCalled()
+          expect(renderFieldArray.calls.length).toBe(1)
+          expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
+          expect(renderField.calls[0].arguments[0].input.value).toBe('dog');
+          expect(renderField.calls[1].arguments[0].input.value).toBe('cat');
+
+          expect(renderFieldArray.calls[0].arguments[0].fields.get(0)).toBe('dog')
+          expect(renderFieldArray.calls[0].arguments[0].fields.get(1)).toBe('cat')
+
+          // add field
+          TestUtils.Simulate.click(swapButton)
+
+          // field array rerendered, items swapped
+          expect(renderFieldArray.calls.length).toBe(2)
+          expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(2)
+          expect(renderField.calls[2].arguments[0].input.value).toBe('cat');
+          expect(renderField.calls[3].arguments[0].input.value).toBe('dog');
+
+          expect(renderFieldArray.calls[1].arguments[0].fields.get(0)).toBe('cat')
+          expect(renderFieldArray.calls[1].arguments[0].fields.get(1)).toBe('dog')
+      })
+
     it('should rerender when array sync error appears or disappears', () => {
       if (allowsArrayErrors) {
         const store = makeStore({
