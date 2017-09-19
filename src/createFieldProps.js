@@ -42,7 +42,8 @@ export type Props = {
 const processProps = (
   type: ?string,
   props: InputProps,
-  _value: any
+  _value: any,
+  deepEqual: Function
 ): Object => {
   const { value } = props
   if (type === 'checkbox') {
@@ -54,7 +55,7 @@ const processProps = (
   if (type === 'radio') {
     return {
       ...props,
-      checked: value === _value,
+      checked: deepEqual(value, _value),
       value: _value
     }
   }
@@ -74,7 +75,7 @@ const processProps = (
 }
 
 const createFieldProps = (
-  { getIn, toJS }: Structure<*, *>,
+  { getIn, toJS, deepEqual }: Structure<*, *>,
   name: string,
   {
     asyncError,
@@ -130,7 +131,8 @@ const createFieldProps = (
         onFocus,
         value: formattedFieldValue
       },
-      _value
+      _value,
+      deepEqual
     ),
     meta: {
       ...toJS(state),
