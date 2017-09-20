@@ -368,6 +368,29 @@ const describeCreateFieldProps = (name, structure, expect) => {
           _value: 'bar'
         }).input.checked
       ).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
+          state: empty,
+          type: 'radio',
+          _value: { randomName: 'bar' }
+        }).input.checked
+      ).toBe(false)
+      expect(
+        createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
+          value: { randomName: 'bar' },
+          state: empty,
+          type: 'radio',
+          _value: { randomName: 'bar' }
+        }).input.checked
+      ).toBe(true)
+      expect(
+        createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
+          value: { randomName: 'baz' },
+          state: empty,
+          type: 'radio',
+          _value: { randomName: 'bar' }
+        }).input.checked
+      ).toBe(false)
     })
 
     it('should default value to [] for multi-selects', () => {
