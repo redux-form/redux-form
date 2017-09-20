@@ -58,7 +58,7 @@ const describeValues = (
             ? <FormSection name="sub">
                 <Decorated />
               </FormSection>
-            : <Decorated />}
+            : <Decorated fooFormFieldName="cat" barFormFieldName="sub.dog" />}
         </Form>
       </Provider>
     )
@@ -100,12 +100,12 @@ const describeValues = (
     })
 
     it('should get values from Redux state when using a value mapper function', () => {
-      const props = testProps(false, (props) => 'cat')
+      const props = testProps(false, (props) => props.fooFormFieldName)
       expect(props.cat).toEqual('rat')
     })
 
     it('should use given prop names when using a value mapper function', () => {
-      const props = testProps(false, (props) => ({ foo: 'cat', bar: 'sub.dog' }))
+      const props = testProps(false, (props) => ({ foo: props.fooFormFieldName, bar: props.barFormFieldName }))
       expect(props.foo).toEqual('rat')
       expect(props.bar).toEqual('cat')
     })
