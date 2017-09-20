@@ -8,29 +8,9 @@ import type { Structure, ReactContext } from './types'
 import type { FormValuesInterface, PropPath } from './formValues.types'
 
 const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
-  firstArg: string | Object,
+  firstArg: string | Object | Function,
   ...rest: string[]
 ) => {
-  let valuesMap: PropPath[]
-
-  if (typeof firstArg === 'string') {
-    valuesMap = [firstArg, ...rest].map((k: string): PropPath => ({
-      prop: k,
-      path: k
-    }))
-  } else {
-    const config: Object = firstArg
-    valuesMap = Object.keys(config).map(k => ({
-      prop: k,
-      path: config[k]
-    }))
-  }
-  if (!valuesMap.length) {
-    throw new Error(
-      'formValues(): You must specify values to get as formValues(name1, name2, ...) or formValues({propName1: propPath1, ...})'
-    )
-  }
-
   // create a class that reads current form name and creates a selector
   // return
   return (Component: ComponentType<*>): ComponentType<*> => {
@@ -43,6 +23,25 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         if (!context._reduxForm) {
           throw new Error(
             'formValues() must be used inside a React tree decorated with reduxForm()'
+          )
+        }
+        let valuesMap: PropPath[]
+        const resolvedFirstArg: string | Object = typeof firstArg === 'function' ? firstArg(props) : firstArg
+        if (typeof resolvedFirstArg === 'string') {
+          valuesMap = [resolvedFirstArg, ...rest].map((k: string): PropPath => ({
+            prop: k,
+            path: k
+          }))
+        } else {
+          const config: Object = resolvedFirstArg
+          valuesMap = Object.keys(config).map(k => ({
+            prop: k,
+            path: config[k]
+          }))
+        }
+        if (!valuesMap.length) {
+          throw new Error(
+            'formValues(): You must specify values to get as formValues(name1, name2, ...) or formValues({propName1: propPath1, ...}) or formValues((props) => name) or formValues((props) => ({propName1: propPath1, ...}))'
           )
         }
         const formValuesSelector = (_, { sectionPrefix }) => {
