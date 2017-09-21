@@ -76,7 +76,8 @@ const propsToNotUpdateFor = [
   'syncErrors',
   'syncWarnings',
   'values',
-  'registeredFields'
+  'registeredFields',
+  'dirty'
 ]
 
 const checkSubmit = submit => {
