@@ -20,7 +20,7 @@
     "react-widgets": "^3.3.1",
     "redux": "^3.6.0",
     "redux-form": "^7.0.4",
-    "redux-form-website-template": "0.0.77"
+    "redux-form-website-template": "0.0.56"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
