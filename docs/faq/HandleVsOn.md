@@ -47,26 +47,23 @@ const SearchBar = ({ handleChange, handleSubmit, value }) => (
 export default reduxForm({ form: 'SearchBar' })(SearchBar)
 ```
 
-You can access your form's input values via the aptly-named `values` prop provided by the redux-form [Instance API](http://redux-form.com/7.0.4/docs/api/ReduxForm.md/).
+You can access your form's input values via the `values` parameter provided to the `onSubmit` prop:
 
 ```javascript
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
 import SearchBar from './SearchBar';
 
 let SearchContainer = ({ handleSearchSubmit, values }) => 
   <SearchBar
-    onSubmit={values => handleSearchSubmit(values.SearchContainer)}
+    onSubmit={values => handleSearchSubmit(values.search)}
   />
 
 const mapDispatchToProps = (dispatch) => ({
   handleSearchSubmit: value => dispatch({ type: 'SEARCH_CONTAINER_SUBMIT', payload: value }),
 });
 
-export default reduxForm({ form: 'SearchContainer' })(connect(null, mapDispatchToProps)(SearchContainer));
+export default connect(null, mapDispatchToProps)(SearchContainer);
 ```
-
-> Note that the `values` mapped in state will correspond to the name provide to your `reduxForm()` call.
 
 That's it! No need to specify `event.preventDefault()`. All that's left to do is handle the dispatched form data in your reducer.
