@@ -965,7 +965,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
       ConnectedForm.defaultProps = config
 
       // build outer component to expose instance api
-      return class ReduxForm extends Component<Props> {
+      class ReduxForm extends Component<Props> {
         ref: ?ConnectedComponent<Form>
 
         submit() {
@@ -1018,6 +1018,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
           })
         }
       }
+
+      return hoistStatics(ReduxForm, WrappedComponent)
     }
   }
 }
