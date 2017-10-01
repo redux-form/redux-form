@@ -21,6 +21,8 @@ import {
   clearSubmitErrors,
   defaultShouldAsyncValidate,
   defaultShouldValidate,
+  defaultShouldError,
+  defaultShouldWarn,
   destroy,
   Field,
   Fields,
@@ -117,6 +119,12 @@ describe('index', () => {
   })
   it('should export defaultShouldValidate', () => {
     expect(defaultShouldValidate).toExist().toBeA('function')
+  })
+  it('should export defaultShouldError', () => {
+    expect(defaultShouldError).toExist().toBeA('function')
+  })
+  it('should export defaultShouldWarn', () => {
+    expect(defaultShouldWarn).toExist().toBeA('function')
   })
   it('should export destroy', () => {
     expect(destroy).toExist().toBeA('function')

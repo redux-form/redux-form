@@ -10,6 +10,8 @@ import importedActions from './actions'
 import asyncValidation from './asyncValidation'
 import defaultShouldAsyncValidate from './defaultShouldAsyncValidate'
 import defaultShouldValidate from './defaultShouldValidate'
+import defaultShouldError from './defaultShouldError'
+import defaultShouldWarn from './defaultShouldWarn'
 import silenceEvent from './events/silenceEvent'
 import silenceEvents from './events/silenceEvents'
 import generateValidator from './generateValidator'
@@ -29,6 +31,8 @@ import type {
 } from './types'
 import type { Params as ShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as ShouldValidateParams } from './defaultShouldValidate'
+import type { Params as ShouldErrorParams } from './defaultShouldError'
+import type { Params as ShouldWarnParams } from './defaultShouldWarn'
 
 const isClassComponent = (Component: ?any) =>
   Boolean(
@@ -153,6 +157,8 @@ type ShouldAsyncValidateFunction = (
   params: ShouldAsyncValidateParams
 ) => boolean
 type ShouldValidateFunction = (params: ShouldValidateParams) => boolean
+type ShouldErrorFunction = (params: ShouldErrorParams) => boolean
+type ShouldWarnFunction = (params: ShouldWarnParams) => boolean
 type OnChangeFunction = (
   values: Values,
   dispatch: Dispatch<*>,
@@ -228,6 +234,8 @@ export type Props = {
   setSubmitSucceeded: SetSubmitSucceededAction,
   shouldAsyncValidate: ShouldAsyncValidateFunction,
   shouldValidate: ShouldValidateFunction,
+  shouldError: ShouldErrorFunction,
+  shouldWarn: ShouldWarnFunction,
   startAsyncValidation: StartAsyncValidationAction,
   startSubmit: StartSubmitAction,
   stopAsyncValidation: StopAsyncValidationAction,
@@ -268,6 +276,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
       destroyOnUnmount: true,
       shouldAsyncValidate: defaultShouldAsyncValidate,
       shouldValidate: defaultShouldValidate,
+      shouldError: defaultShouldError,
+      shouldWarn: defaultShouldWarn,
       enableReinitialize: false,
       keepDirtyOnReinitialize: false,
       getFormState: state => getIn(state, 'form'),
@@ -367,12 +377,12 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         validateIfNeeded(nextProps: ?Props) {
-          const { shouldValidate, validate, values } = this.props
+          const { shouldValidate, shouldError, validate, values } = this.props
           const fieldLevelValidate = this.generateValidator()
           if (validate || fieldLevelValidate) {
             const initialRender = nextProps === undefined
             const fieldValidatorKeys = Object.keys(this.getValidators())
-            const shouldValidateResult = shouldValidate({
+            const validateParams = {
               values,
               nextProps,
               props: this.props,
@@ -380,9 +390,11 @@ const createReduxForm = (structure: Structure<*, *>) => {
               lastFieldValidatorKeys: this.lastFieldValidatorKeys,
               fieldValidatorKeys,
               structure
-            })
+            }
+            const shouldValidateResult = shouldValidate(validateParams)
+            const shouldErrorResult = shouldError(validateParams)
 
-            if (shouldValidateResult) {
+            if (shouldValidateResult || shouldErrorResult) {
               const propsToValidate =
                 initialRender || !nextProps ? this.props : nextProps
               const { _error, ...nextSyncErrors } = merge(
@@ -427,12 +439,12 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         warnIfNeeded(nextProps: ?Props) {
-          const { shouldValidate, warn, values } = this.props
+          const { shouldValidate, shouldWarn, warn, values } = this.props
           const fieldLevelWarn = this.generateWarner()
           if (warn || fieldLevelWarn) {
             const initialRender = nextProps === undefined
             const fieldWarnerKeys = Object.keys(this.getWarners())
-            const shouldWarnResult = shouldValidate({
+            const validateParams = {
               values,
               nextProps,
               props: this.props,
@@ -440,9 +452,11 @@ const createReduxForm = (structure: Structure<*, *>) => {
               lastFieldValidatorKeys: this.lastFieldWarnerKeys,
               fieldValidatorKeys: fieldWarnerKeys,
               structure
-            })
+            }
+            const shouldWarnResult = shouldWarn(validateParams)
+            const shouldValidateResult = shouldValidate(validateParams)
 
-            if (shouldWarnResult) {
+            if (shouldValidateResult || shouldWarnResult) {
               const propsToWarn =
                 initialRender || !nextProps ? this.props : nextProps
               const { _warning, ...nextSyncWarnings } = merge(
@@ -756,6 +770,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
             setSubmitSucceeded,
             shouldAsyncValidate,
             shouldValidate,
+            shouldError,
+            shouldWarn,
             startAsyncValidation,
             startSubmit,
             stopAsyncValidation,

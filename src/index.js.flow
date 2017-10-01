@@ -3,6 +3,8 @@ import * as React from 'react'
 import type { Action, GetFormState } from './types'
 import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
+import type { Params as DefaultShouldErrorParams } from './defaultShouldError'
+import type { Params as DefaultShouldWarnParams } from './defaultShouldWarn'
 import type { Config as ReduxFormConfig } from './createReduxForm'
 import type { Props as _FormProps } from './Form'
 import type {
@@ -83,6 +85,14 @@ declare export function defaultShouldAsyncValidate(
 
 declare export function defaultShouldValidate(
   params: DefaultShouldValidateParams
+): boolean
+
+declare export function defaultShouldError(
+  params: DefaultShouldErrorParams
+): boolean
+
+declare export function defaultShouldWarn(
+  params: DefaultShouldWarnParams
 ): boolean
 
 declare export var propTypes: Object

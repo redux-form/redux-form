@@ -3885,19 +3885,23 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
     })
 
     describe('validateIfNeeded', () => {
-      it('should not call validate if shouldValidate returns false', () => {
+      it('should not call validate if shouldValidate and shouldError returns false', () => {
         const validate = createSpy().andReturn({})
         const shouldValidate = createSpy().andReturn(false)
+        const shouldError = createSpy().andReturn(false)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { validate, shouldValidate })
+        const dom = renderForm(Form, {}, { validate, shouldValidate, shouldError })
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(true)
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.calls[0].arguments[0].initialRender).toBe(true)
         expect(validate).toNotHaveBeenCalled()
 
         shouldValidate.reset()
+        shouldError.reset()
 
         // on change
         const inputElement = TestUtils.findRenderedDOMComponentWithTag(
@@ -3908,6 +3912,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.calls[0].arguments[0].initialRender).toBe(false)
         expect(validate).toNotHaveBeenCalled()
       })
 
@@ -3937,7 +3943,33 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(validate).toHaveBeenCalled()
       })
 
-      it('should pass values and props to validate if called', () => {
+      it('should call validate if shouldError returns true', () => {
+        const validate = createSpy().andReturn({})
+        const shouldError = createSpy().andReturn(true)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { validate, shouldError })
+
+        // initial render
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.calls[0].arguments[0].initialRender).toBe(true)
+        expect(validate).toHaveBeenCalled()
+
+        shouldError.reset()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.calls[0].arguments[0].initialRender).toBe(false)
+        expect(validate).toHaveBeenCalled()
+      })
+
+      it('should pass values and props to validate if shouldValidate called', () => {
         const propsSpy = createSpy()
         const validate = createSpy().andReturn({})
         const shouldValidate = args => {
@@ -3963,22 +3995,53 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         const propArray = Object.keys(propsSpy.calls[0].arguments[0])
         expect(Object.keys(validate.calls[0].arguments[1])).toEqual(propArray)
       })
+
+      it('should pass values and props to validate if shouldError called', () => {
+        const propsSpy = createSpy()
+        const validate = createSpy().andReturn({})
+        const shouldError = args => {
+          propsSpy(args.props)
+          return true
+        }
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { validate, shouldError })
+
+        validate.reset()
+
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        // compare values
+        expect(validate.calls[0].arguments[0]).toEqualMap({ foo: 'bar' })
+
+        // compare props
+        const propArray = Object.keys(propsSpy.calls[0].arguments[0])
+        expect(Object.keys(validate.calls[0].arguments[1])).toEqual(propArray)
+      })
     })
 
     describe('warnIfNeeded', () => {
-      it('should not call warn if shouldValidate returns false', () => {
+      it('should not call warn if shouldValidate and shouldWarn returns false', () => {
         const warn = createSpy().andReturn({})
         const shouldValidate = createSpy().andReturn(false)
+        const shouldWarn = createSpy().andReturn(false)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { warn, shouldValidate })
+        const dom = renderForm(Form, {}, { warn, shouldValidate, shouldWarn })
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(true)
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.calls[0].arguments[0].initialRender).toBe(true)
         expect(warn).toNotHaveBeenCalled()
 
         shouldValidate.reset()
+        shouldWarn.reset()
 
         // on change
         const inputElement = TestUtils.findRenderedDOMComponentWithTag(
@@ -3989,6 +4052,8 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.calls[0].arguments[0].initialRender).toBe(false)
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.calls[0].arguments[0].initialRender).toBe(false)
         expect(warn).toNotHaveBeenCalled()
       })
 
@@ -4018,7 +4083,34 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
         expect(warn).toHaveBeenCalled()
       })
 
-      it('should pass values and props to warn if called', () => {
+      it('should call warn if shouldWarn returns true', () => {
+        const warn = createSpy().andReturn({})
+        const shouldWarn = createSpy().andReturn(true)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { warn, shouldWarn })
+
+        // initial render
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.calls[0].arguments[0].initialRender).toBe(true)
+        expect(warn).toHaveBeenCalled()
+
+        shouldWarn.reset()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.calls[0].arguments[0].initialRender).toBe(false)
+        expect(warn).toHaveBeenCalled()
+      })
+
+
+      it('should pass values and props to warn if shouldValidate called', () => {
         const propsSpy = createSpy()
         const warn = createSpy().andReturn({})
         const shouldValidate = args => {
@@ -4028,6 +4120,33 @@ const describeReduxForm = (name, structure, combineReducers, expect) => {
 
         const Form = makeForm()
         const dom = renderForm(Form, {}, { warn, shouldValidate })
+
+        warn.reset()
+
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        // compare values
+        expect(warn.calls[0].arguments[0]).toEqualMap({ foo: 'bar' })
+
+        // compare props
+        const propArray = Object.keys(propsSpy.calls[0].arguments[0])
+        expect(Object.keys(warn.calls[0].arguments[1])).toEqual(propArray)
+      })
+
+      it('should pass values and props to warn if shouldWarn called', () => {
+        const propsSpy = createSpy()
+        const warn = createSpy().andReturn({})
+        const shouldWarn = args => {
+          propsSpy(args.props)
+          return true
+        }
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { warn, shouldWarn })
 
         warn.reset()
 
