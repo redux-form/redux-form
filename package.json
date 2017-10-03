@@ -34,12 +34,11 @@
     "example:syncValidation": "form=syncValidation npm run example",
     "example:wizard": "form=wizard npm run example",
     "format": "prettier-eslint \"+(src|examples)/**/*.+(js|js.flow)\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailing-comma=none",
-    "prepublish": "npm run test && npm run test:flow && npm run clean && npm run build",
+    "prepublish": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
     "test": "cross-env NODE_ENV=test jest --runInBand",
     "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov": "npm run test -- --coverage",
-    "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
+    "test:cov": "npm run test -- --coverage"
   },
   "keywords": [
     "react",
