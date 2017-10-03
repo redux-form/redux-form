@@ -1,6 +1,5 @@
 /* eslint react/no-multi-comp:0 */
 import React, { Component } from 'react'
-import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
@@ -13,7 +12,7 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 import SubmissionError from '../SubmissionError'
 import actions from '../actions'
 
@@ -28,9 +27,9 @@ const {
 } = actions
 
 const propsAtNthRender = (componentSpy, callNumber) =>
-  componentSpy.calls[callNumber].arguments[0]
+  componentSpy.mock.calls[callNumber][0]
 
-const describeForm = (name, structure, combineReducers, expect) => {
+const describeForm = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
   const reducer = createReducer(structure)
@@ -44,6 +43,10 @@ const describeForm = (name, structure, combineReducers, expect) => {
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
         TestUtils.renderIntoDocument(
@@ -62,7 +65,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const onSubmit = createSpy()
+      const onSubmit = jest.fn()
       class TestForm extends Component {
         render() {
           return (
@@ -85,7 +88,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
         </Provider>
       )
 
-      expect(onSubmit).toNotHaveBeenCalled()
+      expect(onSubmit).not.toHaveBeenCalled()
 
       const tag = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
 
@@ -106,7 +109,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const onSubmit = createSpy().andReturn(7)
+      const onSubmit = jest.fn().mockImplementation(() => 7)
       class TestForm extends Component {
         render() {
           return (
@@ -128,16 +131,16 @@ const describeForm = (name, structure, combineReducers, expect) => {
         DecoratedTestForm
       )
 
-      expect(onSubmit).toNotHaveBeenCalled()
+      expect(onSubmit).not.toHaveBeenCalled()
 
       const result = decoratedForm.submit()
       expect(result).toBe(7)
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
-      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
+      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 42 })
+      expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
+      expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 42 })
     })
 
     it('should call the onSubmit given to <Form> when SUBMIT action is dispatched', () => {
@@ -148,7 +151,7 @@ const describeForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const onSubmit = createSpy()
+      const onSubmit = jest.fn()
       class TestForm extends Component {
         render() {
           return (
@@ -165,15 +168,15 @@ const describeForm = (name, structure, combineReducers, expect) => {
         </Provider>
       )
 
-      expect(onSubmit).toNotHaveBeenCalled()
+      expect(onSubmit).not.toHaveBeenCalled()
 
       store.dispatch(submit('testForm'))
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
-      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
+      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 42 })
+      expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
+      expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 42 })
     })
 
     it('should properly handle submission errors', () => {
@@ -184,10 +187,12 @@ const describeForm = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const onSubmit = createSpy().andThrow(
-        new SubmissionError({ _error: 'Invalid' })
+      const onSubmit = jest.fn().mockImplementation(
+        () => {
+          throw new SubmissionError({ _error: 'Invalid' })
+        }
       )
-      const formRender = createSpy()
+      const formRender = jest.fn()
       class TestForm extends Component {
         render() {
           formRender(this.props)
@@ -206,35 +211,35 @@ const describeForm = (name, structure, combineReducers, expect) => {
       )
 
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.calls.length).toBe(1)
+      expect(formRender.mock.calls.length).toBe(1)
 
       const decoratedForm = TestUtils.findRenderedComponentWithType(
         dom,
         DecoratedTestForm
       )
 
-      expect(onSubmit).toNotHaveBeenCalled()
+      expect(onSubmit).not.toHaveBeenCalled()
 
       decoratedForm.submit()
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 42 })
-      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 42 })
+      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 42 })
+      expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
+      expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 42 })
 
-      expect(formRender.calls.length).toBe(3)
-      expect(formRender.calls[2].arguments[0].error).toBe('Invalid')
+      expect(formRender.mock.calls.length).toBe(3)
+      expect(formRender.mock.calls[2][0].error).toBe('Invalid')
     })
 
     it('should NOT submit a form with sync validation errors', () => {
-      const logger = createSpy((state = {}) => state).andCallThrough()
+      const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
-      const inputRender = createSpy(props =>
+      const inputRender = jest.fn(props =>
         <input {...props.input} />
-      ).andCallThrough()
-      const onSubmit = createSpy()
-      const formRender = createSpy()
+      )
+      const onSubmit = jest.fn()
+      const formRender = jest.fn()
       const validate = values => {
         const errors = {}
         if (!getIn(values, 'foo')) {
@@ -262,10 +267,10 @@ const describeForm = (name, structure, combineReducers, expect) => {
         </Provider>
       )
 
-      let callIndex = logger.calls.length
+      let callIndex = logger.mock.calls.length
 
       // form renders before sync validation and then again with invalid flag
-      expect(formRender.calls.length).toBe(2)
+      expect(formRender.mock.calls.length).toBe(2)
       expect(propsAtNthRender(formRender, 0).invalid).toBe(false)
       expect(propsAtNthRender(formRender, 1).invalid).toBe(true)
       expect(propsAtNthRender(formRender, 1).submitFailed).toBe(false)
@@ -274,43 +279,43 @@ const describeForm = (name, structure, combineReducers, expect) => {
       store.dispatch(submit('testForm'))
 
       // check that submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(submit('testForm'))
+      expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         clearSubmit('testForm')
       )
 
       // check that touch action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         touch('testForm', 'foo')
       )
 
       // check that setSubmitFailed action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         setSubmitFailed('testForm', 'foo')
       )
 
       // form rerendered twice, once with submit trigger, and then after submit failure
-      expect(formRender.calls.length).toBe(4)
+      expect(formRender.mock.calls.length).toBe(4)
       expect(propsAtNthRender(formRender, 3).invalid).toBe(true)
       expect(propsAtNthRender(formRender, 3).submitFailed).toBe(true)
 
       // update input
-      inputRender.calls[0].arguments[0].input.onChange('hello')
+      inputRender.mock.calls[0][0].input.onChange('hello')
 
       // check that change action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         change('testForm', 'foo', 'hello', false, false)
       )
 
       // check that updateSyncErrors action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         updateSyncErrors('testForm', {})
       )
 
       // rerendered once to flip dirty flag, and again to flip invalid flag
-      expect(formRender.calls.length).toBe(6)
+      expect(formRender.mock.calls.length).toBe(6)
       expect(propsAtNthRender(formRender, 3).dirty).toBe(false)
       expect(propsAtNthRender(formRender, 4).dirty).toBe(true)
       expect(propsAtNthRender(formRender, 4).invalid).toBe(true)
@@ -321,31 +326,31 @@ const describeForm = (name, structure, combineReducers, expect) => {
       store.dispatch(submit('testForm'))
 
       // check that submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(submit('testForm'))
+      expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         clearSubmit('testForm')
       )
 
       // check that touch action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         touch('testForm', 'foo')
       )
 
       // check that submit succeeded action was dispatched
-      expect(logger.calls[callIndex++].arguments[1]).toEqual(
+      expect(logger.mock.calls[callIndex++][1]).toEqual(
         setSubmitSucceeded('testForm')
       )
 
       // check no additional actions dispatched
-      expect(logger.calls.length).toBe(callIndex)
+      expect(logger.mock.calls.length).toBe(callIndex)
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.calls.length).toBe(1)
-      expect(onSubmit.calls[0].arguments[0]).toEqualMap({ foo: 'hello' })
-      expect(onSubmit.calls[0].arguments[1]).toBeA('function')
-      expect(onSubmit.calls[0].arguments[2].values).toEqualMap({ foo: 'hello' })
+      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 'hello' })
+      expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
+      expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 'hello' })
     })
   })
 }
@@ -354,11 +359,11 @@ describeForm(
   'Form.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeForm(
   'Form.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

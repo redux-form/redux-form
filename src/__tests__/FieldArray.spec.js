@@ -1,5 +1,3 @@
-import domExpect, { createSpy } from 'expect'
-import expectElement from 'expect-element'
 /* eslint react/no-multi-comp:0 */
 import React, { Component } from 'react'
 import TestUtils from 'react-dom/test-utils'
@@ -16,11 +14,8 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
-import addExpectations from './addExpectations'
 
-domExpect.extend(expectElement)
-
-const describeFieldArray = (name, structure, combineReducers, expect) => {
+const describeFieldArray = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const FieldArray = createFieldArray(structure)
   const Field = createField(structure)
@@ -57,6 +52,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if not in ReduxForm', () => {
       expect(() => {
         TestUtils.renderIntoDocument(
@@ -77,14 +76,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
     })
 
     it('should be okay with no array value', () => {
-      const iterate = createSpy()
+      const iterate = jest.fn()
       const props = testProps({
         values: {}
       })
       expect(props.fields.length).toBe(0)
       props.fields.forEach(iterate)
       props.fields.map(iterate)
-      expect(iterate).toNotHaveBeenCalled()
+      expect(iterate).not.toHaveBeenCalled()
     })
 
     it('should get dirty/pristine from Redux state', () => {
@@ -117,7 +116,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should not pass api props into custom', () => {
       const store = makeStore()
-      const renderSpy = createSpy()
+      const renderSpy = jest.fn()
       class ArrayComponent extends Component {
         render() {
           renderSpy(this.props)
@@ -152,8 +151,8 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
 
       expect(renderSpy).toHaveBeenCalled()
-      const props = renderSpy.calls[0].arguments[0]
-      Object.keys(apiProps).forEach(key => expect(props[key]).toNotExist())
+      const props = renderSpy.mock.calls[0][0]
+      Object.keys(apiProps).forEach(key => expect(props[key]).toBeFalsy())
     })
 
     it('should provide name', () => {
@@ -199,14 +198,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: ['a', 'b', 'c']
         }
       })
-      expect(props.fields.forEach).toBeA('function')
-      const iterate = createSpy()
+      expect(typeof props.fields.forEach).toBe('function')
+      const iterate = jest.fn()
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
-      expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[0].arguments).toEqual(['foo[0]', 0, props.fields])
-      expect(iterate.calls[1].arguments).toEqual(['foo[1]', 1, props.fields])
-      expect(iterate.calls[2].arguments).toEqual(['foo[2]', 2, props.fields])
+      expect(iterate.mock.calls.length).toBe(3)
+      expect(iterate.mock.calls[0]).toEqual(['foo[0]', 0, props.fields])
+      expect(iterate.mock.calls[1]).toEqual(['foo[1]', 1, props.fields])
+      expect(iterate.mock.calls[2]).toEqual(['foo[2]', 2, props.fields])
     })
 
     it('should provide map', () => {
@@ -215,14 +214,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: ['a', 'b', 'c']
         }
       })
-      expect(props.fields.map).toBeA('function')
-      const iterate = createSpy()
+      expect(typeof props.fields.map).toBe('function')
+      const iterate = jest.fn()
       props.fields.map(iterate)
       expect(iterate).toHaveBeenCalled()
-      expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[0].arguments).toEqual(['foo[0]', 0, props.fields])
-      expect(iterate.calls[1].arguments).toEqual(['foo[1]', 1, props.fields])
-      expect(iterate.calls[2].arguments).toEqual(['foo[2]', 2, props.fields])
+      expect(iterate.mock.calls.length).toBe(3)
+      expect(iterate.mock.calls[0]).toEqual(['foo[0]', 0, props.fields])
+      expect(iterate.mock.calls[1]).toEqual(['foo[1]', 1, props.fields])
+      expect(iterate.mock.calls[2]).toEqual(['foo[2]', 2, props.fields])
     })
 
     it('should provide insert', () => {
@@ -231,7 +230,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.insert).toBeA('function')
+      expect(typeof props.fields.insert).toBe('function')
     })
 
     it('should provide push', () => {
@@ -240,7 +239,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.push).toBeA('function')
+      expect(typeof props.fields.push).toBe('function')
     })
 
     it('should provide pop', () => {
@@ -249,7 +248,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.pop).toBeA('function')
+      expect(typeof props.fields.pop).toBe('function')
     })
 
     it('should provide shift', () => {
@@ -258,7 +257,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.shift).toBeA('function')
+      expect(typeof props.fields.shift).toBe('function')
     })
 
     it('should provide unshift', () => {
@@ -267,7 +266,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.unshift).toBeA('function')
+      expect(typeof props.fields.unshift).toBe('function')
     })
 
     it('should provide move', () => {
@@ -276,7 +275,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.move).toBeA('function')
+      expect(typeof props.fields.move).toBe('function')
     })
 
     it('should provide remove', () => {
@@ -285,7 +284,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.remove).toBeA('function')
+      expect(typeof props.fields.remove).toBe('function')
     })
 
     it('should provide removeAll', () => {
@@ -294,7 +293,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.removeAll).toBeA('function')
+      expect(typeof props.fields.removeAll).toBe('function')
     })
 
     it('should provide swap', () => {
@@ -303,7 +302,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           foo: []
         }
       })
-      expect(props.fields.swap).toBeA('function')
+      expect(typeof props.fields.swap).toBe('function')
     })
 
     it('should provide pass through other props', () => {
@@ -314,7 +313,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(() => <div />).andCallThrough()
+      const renderArray = jest.fn(() => <div />)
       class Form extends Component {
         render() {
           return (
@@ -336,10 +335,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].fields.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].otherProp).toBe('dog')
-      expect(renderArray.calls[0].arguments[0].anotherProp).toBe('cat')
+      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray.mock.calls[0][0].fields.length).toBe(1)
+      expect(renderArray.mock.calls[0][0].otherProp).toBe('dog')
+      expect(renderArray.mock.calls[0][0].anotherProp).toBe('cat')
     })
 
     it('should provide access to rendered component', () => {
@@ -389,13 +388,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         }
       )
       expect(props.fields.length).toBe(3)
-      const iterate = createSpy()
+      const iterate = jest.fn()
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
-      expect(iterate.calls.length).toBe(3)
-      expect(iterate.calls[0].arguments[0]).toBe('foo[0]')
-      expect(iterate.calls[1].arguments[0]).toBe('foo[1]')
-      expect(iterate.calls[2].arguments[0]).toBe('foo[2]')
+      expect(iterate.mock.calls.length).toBe(3)
+      expect(iterate.mock.calls[0][0]).toBe('foo[0]')
+      expect(iterate.mock.calls[1][0]).toBe('foo[1]')
+      expect(iterate.mock.calls[2][0]).toBe('foo[2]')
     })
 
     it('should get sync errors from outer reduxForm component', () => {
@@ -691,9 +690,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       const error = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
-      domExpect(error)
-        .toExist()
-        .toHaveText('Too awesome!')
+      expect(error.textContent).toBe('Too awesome!')
     })
 
     it('should provide sync warning for array field', () => {
@@ -749,9 +746,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       const warning = TestUtils.findRenderedDOMComponentWithTag(dom, 'strong')
-      domExpect(warning)
-        .toExist()
-        .toHaveText('Too awesome!')
+      expect(warning.textContent).toBe('Too awesome!')
     })
 
     it('should reconnect when name changes', () => {
@@ -763,7 +758,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const component = createSpy(() => <div />).andCallThrough()
+      const component = jest.fn(() => <div />)
       class Form extends Component {
         constructor() {
           super()
@@ -788,14 +783,14 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(component).toHaveBeenCalled()
-      expect(component.calls.length).toBe(1)
-      expect(component.calls[0].arguments[0].fields.length).toBe(2)
+      expect(component.mock.calls.length).toBe(1)
+      expect(component.mock.calls[0][0].fields.length).toBe(2)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(component.calls.length).toBe(2)
-      expect(component.calls[1].arguments[0].fields.length).toBe(1)
+      expect(component.mock.calls.length).toBe(2)
+      expect(component.mock.calls[1][0].fields.length).toBe(1)
     })
 
     it('should not prefix name in fields map callback when inside FormSection', () => {
@@ -1004,16 +999,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) => (
+      const renderArray = jest.fn(({ fields }) => (
         <div>
           {fields.map((name, index) => (
             <Field name={`${name}`} component="input" key={index} />
           ))}
         </div>
-      )).andCallThrough()
-      const noMoreThanTwo = createSpy(
+      ))
+      const noMoreThanTwo = jest.fn(
         value => (value && size(value) > 2 ? 'Too many' : undefined)
-      ).andCallThrough()
+      )
 
       class Form extends Component {
         render() {
@@ -1038,28 +1033,28 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
-      expect(renderArray.calls[0].arguments[0].meta.error).toNotExist()
+      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
+      expect(renderArray.mock.calls[0][0].meta.error).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
+      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[0].arguments[0].fields.push('rat')
+      renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
         'dog',
         'cat',
         'rat'
       ])
 
       // should rerender
-      expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(false)
-      expect(renderArray.calls[1].arguments[0].meta.error).toBe('Too many')
+      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray.mock.calls[1][0].meta.valid).toBe(false)
+      expect(renderArray.mock.calls[1][0].meta.error).toBe('Too many')
     })
 
     it('should provide field-level sync error (with multiple validators) for array field', () => {
@@ -1070,19 +1065,19 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) => (
+      const renderArray = jest.fn(({ fields }) => (
         <div>
           {fields.map((name, index) => (
             <Field name={`${name}`} component="input" key={index} />
           ))}
         </div>
-      )).andCallThrough()
-      const atLeastOne = createSpy(
+      ))
+      const atLeastOne = jest.fn(
         value => (value && size(value) < 1 ? 'Too few' : undefined)
-      ).andCallThrough()
-      const noMoreThanTwo = createSpy(
+      )
+      const noMoreThanTwo = jest.fn(
         value => (value && size(value) > 2 ? 'Too many' : undefined)
-      ).andCallThrough()
+      )
 
       class Form extends Component {
         render() {
@@ -1107,28 +1102,28 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
-      expect(renderArray.calls[0].arguments[0].meta.error).toNotExist()
+      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
+      expect(renderArray.mock.calls[0][0].meta.error).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
+      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[0].arguments[0].fields.push('rat')
+      renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
         'dog',
         'cat',
         'rat'
       ])
 
       // should rerender
-      expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(false)
-      expect(renderArray.calls[1].arguments[0].meta.error).toBe('Too many')
+      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray.mock.calls[1][0].meta.valid).toBe(false)
+      expect(renderArray.mock.calls[1][0].meta.error).toBe('Too many')
     })
 
     it('should provide field-level sync warning for array field', () => {
@@ -1139,16 +1134,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) => (
+      const renderArray = jest.fn(({ fields }) => (
         <div>
           {fields.map((name, index) => (
             <Field name={`${name}`} component="input" key={index} />
           ))}
         </div>
-      )).andCallThrough()
-      const noMoreThanTwo = createSpy(
+      ))
+      const noMoreThanTwo = jest.fn(
         value => (value && size(value) > 2 ? 'Too many' : undefined)
-      ).andCallThrough()
+      )
 
       class Form extends Component {
         render() {
@@ -1173,28 +1168,28 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
-      expect(renderArray.calls[0].arguments[0].meta.warning).toNotExist()
+      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
+      expect(renderArray.mock.calls[0][0].meta.warning).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
+      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[0].arguments[0].fields.push('rat')
+      renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
         'dog',
         'cat',
         'rat'
       ])
 
       // should rerender
-      expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(true) // just a warning
-      expect(renderArray.calls[1].arguments[0].meta.warning).toBe('Too many')
+      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray.mock.calls[1][0].meta.valid).toBe(true) // just a warning
+      expect(renderArray.mock.calls[1][0].meta.warning).toBe('Too many')
     })
 
     it('should provide field-level sync warning (with multiple validators) for array field', () => {
@@ -1205,19 +1200,19 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderArray = createSpy(({ fields }) => (
+      const renderArray = jest.fn(({ fields }) => (
         <div>
           {fields.map((name, index) => (
             <Field name={`${name}`} component="input" key={index} />
           ))}
         </div>
-      )).andCallThrough()
-      const atLeastOne = createSpy(
+      ))
+      const atLeastOne = jest.fn(
         value => (value && size(value) < 1 ? 'Too few' : undefined)
-      ).andCallThrough()
-      const noMoreThanTwo = createSpy(
+      )
+      const noMoreThanTwo = jest.fn(
         value => (value && size(value) > 2 ? 'Too many' : undefined)
-      ).andCallThrough()
+      )
 
       class Form extends Component {
         render() {
@@ -1242,33 +1237,33 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.calls.length).toBe(1)
-      expect(renderArray.calls[0].arguments[0].meta.valid).toBe(true)
-      expect(renderArray.calls[0].arguments[0].meta.warning).toNotExist()
+      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
+      expect(renderArray.mock.calls[0][0].meta.warning).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.calls.length).toBe(1)
-      expect(noMoreThanTwo.calls[0].arguments[0]).toEqualMap(['dog', 'cat'])
+      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
-      renderArray.calls[0].arguments[0].fields.push('rat')
+      renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.calls.length).toBe(2)
-      expect(noMoreThanTwo.calls[1].arguments[0]).toEqualMap([
+      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
         'dog',
         'cat',
         'rat'
       ])
 
       // should rerender
-      expect(renderArray.calls.length).toBe(2)
-      expect(renderArray.calls[1].arguments[0].meta.valid).toBe(true) // just a warning
-      expect(renderArray.calls[1].arguments[0].meta.warning).toBe('Too many')
+      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray.mock.calls[1][0].meta.valid).toBe(true) // just a warning
+      expect(renderArray.mock.calls[1][0].meta.warning).toBe('Too many')
     })
 
     it('should reconnect when props change', () => {
       const store = makeStore()
-      const component = createSpy(() => <div />).andCallThrough()
+      const component = jest.fn(() => <div />)
       class Form extends Component {
         constructor() {
           super()
@@ -1298,21 +1293,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(component).toHaveBeenCalled()
-      expect(component.calls.length).toBe(1)
-      expect(component.calls[0].arguments[0].foo).toBe('foo')
-      expect(component.calls[0].arguments[0].bar).toBe('bar')
+      expect(component.mock.calls.length).toBe(1)
+      expect(component.mock.calls[0][0].foo).toBe('foo')
+      expect(component.mock.calls[0][0].bar).toBe('bar')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(component.calls.length).toBe(2)
-      expect(component.calls[1].arguments[0].foo).toBe('qux')
-      expect(component.calls[1].arguments[0].bar).toBe('baz')
+      expect(component.mock.calls.length).toBe(2)
+      expect(component.mock.calls[1][0].foo).toBe('qux')
+      expect(component.mock.calls[1][0].bar).toBe('baz')
     })
 
     it('should allow addition after focus', () => {
       const store = makeStore()
-      const component = createSpy(() => <div />).andCallThrough()
+      const component = jest.fn(() => <div />)
       class Form extends Component {
         constructor() {
           super()
@@ -1342,24 +1337,24 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(component).toHaveBeenCalled()
-      expect(component.calls.length).toBe(1)
-      expect(component.calls[0].arguments[0].foo).toBe('foo')
-      expect(component.calls[0].arguments[0].bar).toBe('bar')
+      expect(component.mock.calls.length).toBe(1)
+      expect(component.mock.calls[0][0].foo).toBe('foo')
+      expect(component.mock.calls[0][0].bar).toBe('bar')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(component.calls.length).toBe(2)
-      expect(component.calls[1].arguments[0].foo).toBe('qux')
-      expect(component.calls[1].arguments[0].bar).toBe('baz')
+      expect(component.mock.calls.length).toBe(2)
+      expect(component.mock.calls[1][0].foo).toBe('qux')
+      expect(component.mock.calls[1][0].bar).toBe('baz')
     })
 
     it('should rerender when items added or removed', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
@@ -1371,7 +1366,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             Remove Dog
           </button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -1391,43 +1386,43 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 1
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 2
-      expect(renderFieldArray.calls.length).toBe(3)
-      expect(renderFieldArray.calls[2].arguments[0].fields.length).toBe(2)
+      expect(renderFieldArray.mock.calls.length).toBe(3)
+      expect(renderFieldArray.mock.calls[2][0].fields.length).toBe(2)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 3
-      expect(renderFieldArray.calls.length).toBe(4)
-      expect(renderFieldArray.calls[3].arguments[0].fields.length).toBe(3)
+      expect(renderFieldArray.mock.calls.length).toBe(4)
+      expect(renderFieldArray.mock.calls[3][0].fields.length).toBe(3)
 
       // remove field
       TestUtils.Simulate.click(removeButton)
 
       // field array rerendered, length is 2
-      expect(renderFieldArray.calls.length).toBe(5)
-      expect(renderFieldArray.calls[4].arguments[0].fields.length).toBe(2)
+      expect(renderFieldArray.mock.calls.length).toBe(5)
+      expect(renderFieldArray.mock.calls[4][0].fields.length).toBe(2)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 3
-      expect(renderFieldArray.calls.length).toBe(6)
-      expect(renderFieldArray.calls[5].arguments[0].fields.length).toBe(3)
+      expect(renderFieldArray.mock.calls.length).toBe(6)
+      expect(renderFieldArray.mock.calls[5][0].fields.length).toBe(3)
     })
 
     it('should rerender when items swapped', () => {
@@ -1438,10 +1433,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
                 }
             }
         })
-          const renderField = createSpy(props => (
+          const renderField = jest.fn(props => (
               <input {...props.input} />
-          )).andCallThrough()
-          const renderFieldArray = createSpy(({ fields }) => (
+          ))
+          const renderFieldArray = jest.fn(({ fields }) => (
               <div>
                   {fields.map(field => (
                       <Field name={field} component={renderField} key={field} />
@@ -1450,7 +1445,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
                       Swap items
                   </button>
               </div>
-          )).andCallThrough()
+          ))
           class Form extends Component {
               render() {
                   return <FieldArray name="items" component={renderFieldArray} />
@@ -1466,25 +1461,25 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
           // length is 0
           expect(renderFieldArray).toHaveBeenCalled()
-          expect(renderFieldArray.calls.length).toBe(1)
-          expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
-          expect(renderField.calls[0].arguments[0].input.value).toBe('dog');
-          expect(renderField.calls[1].arguments[0].input.value).toBe('cat');
+          expect(renderFieldArray.mock.calls.length).toBe(1)
+          expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
+          expect(renderField.mock.calls[0][0].input.value).toBe('dog')
+          expect(renderField.mock.calls[1][0].input.value).toBe('cat')
 
-          expect(renderFieldArray.calls[0].arguments[0].fields.get(0)).toBe('dog')
-          expect(renderFieldArray.calls[0].arguments[0].fields.get(1)).toBe('cat')
+          expect(renderFieldArray.mock.calls[0][0].fields.get(0)).toBe('dog')
+          expect(renderFieldArray.mock.calls[0][0].fields.get(1)).toBe('cat')
 
           // add field
           TestUtils.Simulate.click(swapButton)
 
           // field array rerendered, items swapped
-          expect(renderFieldArray.calls.length).toBe(2)
-          expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(2)
-          expect(renderField.calls[2].arguments[0].input.value).toBe('cat');
-          expect(renderField.calls[3].arguments[0].input.value).toBe('dog');
+          expect(renderFieldArray.mock.calls.length).toBe(2)
+          expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(2)
+          expect(renderField.mock.calls[2][0].input.value).toBe('cat')
+          expect(renderField.mock.calls[3][0].input.value).toBe('dog')
 
-          expect(renderFieldArray.calls[1].arguments[0].fields.get(0)).toBe('cat')
-          expect(renderFieldArray.calls[1].arguments[0].fields.get(1)).toBe('dog')
+          expect(renderFieldArray.mock.calls[1][0].fields.get(0)).toBe('cat')
+          expect(renderFieldArray.mock.calls[1][0].fields.get(1)).toBe('dog')
       })
 
     it('should rerender when array sync error appears or disappears', () => {
@@ -1496,7 +1491,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             }
           }
         })
-        const renderFieldArray = createSpy(({ fields }) => (
+        const renderFieldArray = jest.fn(({ fields }) => (
           <div>
             {fields.map((field, index) => <div key={index}>{field}</div>)}
             <button className="add" onClick={() => fields.push()}>
@@ -1506,7 +1501,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
               Remove Dog
             </button>
           </div>
-        )).andCallThrough()
+        ))
         class Form extends Component {
           render() {
             return <FieldArray name="dogs" component={renderFieldArray} />
@@ -1544,43 +1539,40 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
         // length is 0, ERROR!
         expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.calls.length).toBe(2)
-        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
-        expect(renderFieldArray.calls[0].arguments[0].meta.error)
-          .toExist()
-          .toBe('No dogs')
+        expect(renderFieldArray.mock.calls.length).toBe(2)
+        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs')
 
-        renderFieldArray.reset()
+        renderFieldArray.mockClear()
         TestUtils.Simulate.click(addButton) // length goes to 1, no error yet
 
         expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(1)
-        expect(renderFieldArray.calls[0].arguments[0].meta.error).toNotExist()
+        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(1)
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeFalsy()
 
-        renderFieldArray.reset()
+        renderFieldArray.mockClear()
         TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
         expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
-        expect(renderFieldArray.calls[0].arguments[0].meta.error)
-          .toExist()
-          .toBe('Too many')
+        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('Too many')
 
-        renderFieldArray.reset()
+        renderFieldArray.mockClear()
         TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
         expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(1)
-        expect(renderFieldArray.calls[0].arguments[0].meta.error).toNotExist()
+        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(1)
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeFalsy()
 
-        renderFieldArray.reset()
+        renderFieldArray.mockClear()
         TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
         expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
-        expect(renderFieldArray.calls[0].arguments[0].meta.error)
-          .toExist()
-          .toBe('No dogs')
+        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs')
       }
     })
 
@@ -1592,7 +1584,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderFieldArray = createSpy(({ fields }) => (
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map((field, index) => <div key={index}>{field}</div>)}
           <button className="add" onClick={() => fields.push()}>
@@ -1602,7 +1594,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             Remove Dog
           </button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -1637,39 +1629,36 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
-      expect(renderFieldArray.calls[0].arguments[0].meta.warning)
-        .toExist()
-        .toBe('No dogs')
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBe('No dogs')
 
       TestUtils.Simulate.click(addButton) // length goes to 1, no warning yet
 
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
-      expect(renderFieldArray.calls[1].arguments[0].meta.warning).toNotExist()
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls[1][0].meta.warning).toBeFalsy()
 
       TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
-      expect(renderFieldArray.calls.length).toBe(3)
-      expect(renderFieldArray.calls[2].arguments[0].fields.length).toBe(2)
-      expect(renderFieldArray.calls[2].arguments[0].meta.warning)
-        .toExist()
-        .toBe('Too many')
+      expect(renderFieldArray.mock.calls.length).toBe(3)
+      expect(renderFieldArray.mock.calls[2][0].fields.length).toBe(2)
+      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBe('Too many')
 
       TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
-      expect(renderFieldArray.calls.length).toBe(4)
-      expect(renderFieldArray.calls[3].arguments[0].fields.length).toBe(1)
-      expect(renderFieldArray.calls[3].arguments[0].meta.warning).toNotExist()
+      expect(renderFieldArray.mock.calls.length).toBe(4)
+      expect(renderFieldArray.mock.calls[3][0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls[3][0].meta.warning).toBeFalsy()
 
       TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
-      expect(renderFieldArray.calls.length).toBe(5)
-      expect(renderFieldArray.calls[4].arguments[0].fields.length).toBe(0)
-      expect(renderFieldArray.calls[4].arguments[0].meta.warning)
-        .toExist()
-        .toBe('No dogs')
+      expect(renderFieldArray.mock.calls.length).toBe(5)
+      expect(renderFieldArray.mock.calls[4][0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBe('No dogs')
     })
 
     it('should rerender when depending value has updated', () => {
@@ -1689,7 +1678,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderFieldArray = createSpy(({ fields }) => (
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map((field, index) => (
             <div key={index}>
@@ -1711,7 +1700,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             Remove Dog
           </button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -1753,16 +1742,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -1777,23 +1766,23 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
 
       // both fields rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(2)
-      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+      expect(renderField.mock.calls.length).toBe(2)
+      expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first field
-      renderField.calls[0].arguments[0].input.onChange('Odie')
+      renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first field rerendered, second field is NOT
-      expect(renderField.calls.length).toBe(3)
-      expect(renderField.calls[2].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[2].arguments[0].input.value).toBe('Odie')
+      expect(renderField.mock.calls.length).toBe(3)
+      expect(renderField.mock.calls[2][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[2][0].input.value).toBe('Odie')
 
       // field array NOT rerendered
-      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
     })
 
     it('should rerender when a value changes if rerenderOnEveryChange is set', () => {
@@ -1804,16 +1793,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return (
@@ -1834,23 +1823,23 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
 
       // both fields rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(2)
-      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+      expect(renderField.mock.calls.length).toBe(2)
+      expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first field
-      renderField.calls[0].arguments[0].input.onChange('Odie')
+      renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first field rerendered, second field is NOT
-      expect(renderField.calls.length).toBe(3)
-      expect(renderField.calls[2].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[2].arguments[0].input.value).toBe('Odie')
+      expect(renderField.mock.calls.length).toBe(3)
+      expect(renderField.mock.calls[2][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[2][0].input.value).toBe('Odie')
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
     })
 
     it('should rerender when a value changes if rerenderOnEveryChange is set and FieldArray has multiple groups with same values', () => {
@@ -1878,10 +1867,10 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(member => (
             <div key={member}>
@@ -1890,7 +1879,7 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
             </div>
           ))}
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return (
@@ -1911,38 +1900,38 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
 
       // both fields rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(8)
-      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+      expect(renderField.mock.calls.length).toBe(8)
+      expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first name field
-      renderField.calls[0].arguments[0].input.onChange('Odie')
+      renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first name field rerendered, other fields is NOT
-      expect(renderField.calls.length).toBe(9)
-      expect(renderField.calls[8].arguments[0].input.name).toBe('dogs[0].name')
-      expect(renderField.calls[8].arguments[0].input.value).toBe('Odie')
+      expect(renderField.mock.calls.length).toBe(9)
+      expect(renderField.mock.calls[8][0].input.name).toBe('dogs[0].name')
+      expect(renderField.mock.calls[8][0].input.value).toBe('Odie')
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
     })
 
     it('should create a list in the store on push(undefined)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
           <button onClick={() => fields.push()}>Add Dog</button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -1969,21 +1958,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[0].arguments[0].input.value).toBe('')
+      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[0][0].input.value).toBe('')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
@@ -2006,17 +1995,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on push(value)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
           <button onClick={() => fields.push('Fido')}>Add Dog</button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -2043,21 +2032,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
@@ -2080,17 +2069,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on unshift(undefined)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
           <button onClick={() => fields.unshift()}>Add Dog</button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -2117,21 +2106,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[0].arguments[0].input.value).toBe('')
+      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[0][0].input.value).toBe('')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
@@ -2154,17 +2143,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on unshift(value)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
           <button onClick={() => fields.unshift('Fido')}>Add Dog</button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -2191,21 +2180,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
@@ -2228,17 +2217,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on insert(undefined)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
           <button onClick={() => fields.insert(0)}>Add Dog</button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -2265,21 +2254,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[0].arguments[0].input.value).toBe('')
+      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[0][0].input.value).toBe('')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
@@ -2302,17 +2291,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
     it('should create a list in the store on insert(value)', () => {
       const store = makeStore({})
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
           <button onClick={() => fields.insert(0, 'Fido')}>Add Dog</button>
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -2339,21 +2328,21 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.calls.length).toBe(2)
-      expect(renderFieldArray.calls[1].arguments[0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(1)
-      expect(renderField.calls[0].arguments[0].input.name).toBe('dogs[0]')
-      expect(renderField.calls[0].arguments[0].input.value).toBe('Fido')
+      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
+      expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // field registered in store
       expect(store.getState()).toEqualMap({
@@ -2382,17 +2371,17 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(field => <input {...field.input} />)
+      const renderField = jest.fn(field => <input {...field.input} />)
 
-      const renderFields = createSpy(({ foo }) => (
+      const renderFields = jest.fn(({ foo }) => (
         <div>{foo.map(renderField)}</div>
-      )).andCallThrough()
+      ))
 
-      const component = createSpy(({ fields }) => (
+      const component = jest.fn(({ fields }) => (
         <div>
           <Fields names={fields} component={renderFields} />
         </div>
-      )).andCallThrough()
+      ))
 
       class Form extends Component {
         render() {
@@ -2410,13 +2399,13 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
         </Provider>
       )
       expect(renderFields).toHaveBeenCalled()
-      expect(renderFields.calls.length).toBe(1)
-      expect(renderFields.calls[0].arguments[0].foo.length).toBe(2)
+      expect(renderFields.mock.calls.length).toBe(1)
+      expect(renderFields.mock.calls[0][0].foo.length).toBe(2)
 
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.calls.length).toBe(2)
-      expect(renderField.calls[0].arguments[0].input.value).toBe('firstValue')
-      expect(renderField.calls[1].arguments[0].input.value).toBe('secondValue')
+      expect(renderField.mock.calls.length).toBe(2)
+      expect(renderField.mock.calls[0][0].input.value).toBe('firstValue')
+      expect(renderField.mock.calls[1][0].input.value).toBe('secondValue')
     })
 
     it('should get() actual current value from redux store', () => {
@@ -2427,16 +2416,16 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
           }
         }
       })
-      const renderField = createSpy(props => (
+      const renderField = jest.fn(props => (
         <input {...props.input} />
-      )).andCallThrough()
-      const renderFieldArray = createSpy(({ fields }) => (
+      ))
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
           ))}
         </div>
-      )).andCallThrough()
+      ))
       class Form extends Component {
         render() {
           return <FieldArray name="dogs" component={renderFieldArray} />
@@ -2451,20 +2440,20 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
 
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
-      expect(renderFieldArray.calls[0].arguments[0].fields.get(0)).toBe('Fido')
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
+      expect(renderFieldArray.mock.calls[0][0].fields.get(0)).toBe('Fido')
 
       // change first field
-      renderField.calls[0].arguments[0].input.onChange('Odie')
+      renderField.mock.calls[0][0].input.onChange('Odie')
 
       // field array NOT rerendered
-      expect(renderFieldArray.calls.length).toBe(1)
-      expect(renderFieldArray.calls[0].arguments[0].fields.length).toBe(2)
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
 
       // but get() should get the new value
-      expect(renderFieldArray.calls[0].arguments[0].fields.get(0)).toBe('Odie')
+      expect(renderFieldArray.mock.calls[0][0].fields.get(0)).toBe('Odie')
     })
   })
 }
@@ -2473,11 +2462,11 @@ describeFieldArray(
   'FieldArray.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeFieldArray(
   'FieldArray.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

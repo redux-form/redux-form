@@ -3,16 +3,20 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeIsSubmitting = (name, structure, expect) => {
+
+const describeIsSubmitting = (name, structure, setup) => {
   const isSubmitting = createIsSubmitting(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function XXX', () => {
-      expect(isSubmitting('foo')).toBeA('function')
+      expect(typeof isSubmitting('foo')).toBe('function')
     })
 
     it('should return false when value not present', () => {
@@ -58,10 +62,10 @@ const describeIsSubmitting = (name, structure, expect) => {
 describeIsSubmitting(
   'isSubmitting.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeIsSubmitting(
   'isSubmitting.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

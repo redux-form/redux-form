@@ -1,16 +1,19 @@
-import { createSpy } from 'expect'
 import createFieldProps from '../createFieldProps'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 import tmp from 'tmp'
 
-const describeCreateFieldProps = (name, structure, expect) => {
+const describeCreateFieldProps = (name, structure, setup) => {
   const { empty, getIn, fromJS, toJS } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should pass value through', () => {
       expect(
         createFieldProps({ getIn, toJS }, 'foo', { value: 'hello' }).input.value
@@ -52,60 +55,60 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should provide onBlur', () => {
-      const onBlur = createSpy()
-      expect(onBlur).toNotHaveBeenCalled()
+      const onBlur = jest.fn()
+      expect(onBlur).not.toHaveBeenCalled()
       const result = createFieldProps({ getIn, toJS }, 'foo', {
         value: 'bar',
         onBlur
       })
-      expect(result.input.onBlur).toBeA('function')
-      expect(onBlur).toNotHaveBeenCalled()
+      expect(typeof result.input.onBlur).toBe('function')
+      expect(onBlur).not.toHaveBeenCalled()
       result.input.onBlur('rabbit')
-      expect(onBlur).toHaveBeenCalled().toHaveBeenCalledWith('rabbit')
+      expect(onBlur).toHaveBeenCalledWith('rabbit')
     })
 
     it('should provide onChange', () => {
-      const onChange = createSpy()
-      expect(onChange).toNotHaveBeenCalled()
+      const onChange = jest.fn()
+      expect(onChange).not.toHaveBeenCalled()
       const result = createFieldProps({ getIn, toJS }, 'foo', {
         value: 'bar',
         onChange
       })
-      expect(result.input.onChange).toBeA('function')
-      expect(onChange).toNotHaveBeenCalled()
+      expect(typeof result.input.onChange).toBe('function')
+      expect(onChange).not.toHaveBeenCalled()
       result.input.onChange('rabbit')
-      expect(onChange).toHaveBeenCalled().toHaveBeenCalledWith('rabbit')
+      expect(onChange).toHaveBeenCalledWith('rabbit')
     })
 
     it('should provide onFocus', () => {
-      const onFocus = createSpy()
-      expect(onFocus).toNotHaveBeenCalled()
+      const onFocus = jest.fn()
+      expect(onFocus).not.toHaveBeenCalled()
       const result = createFieldProps({ getIn, toJS }, 'foo', {
         value: 'bar',
         onFocus
       })
-      expect(result.input.onFocus).toBeA('function')
-      expect(onFocus).toNotHaveBeenCalled()
+      expect(typeof result.input.onFocus).toBe('function')
+      expect(onFocus).not.toHaveBeenCalled()
       result.input.onFocus('rabbit')
       expect(onFocus).toHaveBeenCalled()
     })
 
     it('should provide onDragStart', () => {
-      const onDragStart = createSpy()
+      const onDragStart = jest.fn()
       const result = createFieldProps({ getIn, toJS }, 'foo', {
         value: 'bar',
         onDragStart
       })
-      expect(result.input.onDragStart).toBeA('function')
+      expect(typeof result.input.onDragStart).toBe('function')
     })
 
     it('should provide onDrop', () => {
-      const onDrop = createSpy()
+      const onDrop = jest.fn()
       const result = createFieldProps({ getIn, toJS }, 'foo', {
         value: 'bar',
         onDrop
       })
-      expect(result.input.onDrop).toBeA('function')
+      expect(typeof result.input.onDrop).toBe('function')
     })
 
     it('should read active from state', () => {
@@ -211,7 +214,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: 'bar',
         state: empty
       })
-      expect(noErrorResult.meta.error).toNotExist()
+      expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
       const errorResult = createFieldProps({ getIn, toJS }, 'foo', {
@@ -229,7 +232,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: 'bar',
         state: empty
       })
-      expect(noWarningResult.meta.warning).toNotExist()
+      expect(noWarningResult.meta.warning).toBeFalsy()
       const warningResult = createFieldProps({ getIn, toJS }, 'foo', {
         value: 'bar',
         state: empty,
@@ -243,7 +246,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: 'bar',
         state: empty
       })
-      expect(noErrorResult.meta.error).toNotExist()
+      expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
       const errorResult = createFieldProps({ getIn, toJS }, 'foo', {
@@ -261,7 +264,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: 'bar',
         state: empty
       })
-      expect(noErrorResult.meta.error).toNotExist()
+      expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
       const errorResult = createFieldProps({ getIn, toJS }, 'foo', {
@@ -279,7 +282,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         value: 'bar',
         state: empty
       })
-      expect(noErrorResult.meta.error).toNotExist()
+      expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
       const errorResult = createFieldProps({ getIn, toJS }, 'foo', {
@@ -300,8 +303,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
         someOtherProp: 'dog',
         className: 'my-class'
       })
-      expect(result.initial).toNotExist()
-      expect(result.state).toNotExist()
+      expect(result.initial).toBeFalsy()
+      expect(result.state).toBeFalsy()
       expect(result.custom.someOtherProp).toBe('dog')
       expect(result.custom.className).toBe('my-class')
     })
@@ -315,8 +318,8 @@ const describeCreateFieldProps = (name, structure, expect) => {
           className: 'my-class'
         }
       })
-      expect(result.initial).toNotExist()
-      expect(result.state).toNotExist()
+      expect(result.initial).toBeFalsy()
+      expect(result.state).toBeFalsy()
       expect(result.custom.someOtherProp).toBe('dog')
       expect(result.custom.className).toBe('my-class')
     })
@@ -376,9 +379,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
           state: empty,
           type: 'select-multiple'
         }).input.value
-      )
-        .toBeA('array')
-        .toEqual([])
+      ).toEqual([])
     })
 
     it('should default value to undefined for file inputs', () => {
@@ -422,10 +423,10 @@ const describeCreateFieldProps = (name, structure, expect) => {
 describeCreateFieldProps(
   'createFieldProps.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeCreateFieldProps(
   'createFieldProps.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

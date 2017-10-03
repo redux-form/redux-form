@@ -4,19 +4,22 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeFormValueSelector = (name, structure, expect) => {
+const describeFormValueSelector = (name, structure, setup) => {
   const { fromJS, getIn } = structure
   const formValueSelector = createFormValueSelector(structure)
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if no form specified', () => {
       expect(() => formValueSelector()).toThrow('Form value must be specified')
     })
 
     it('should return a function', () => {
-      expect(formValueSelector('myForm')).toBeA('function')
+      expect(typeof formValueSelector('myForm')).toBe('function')
     })
 
     it('should throw an error if no fields specified', () => {
@@ -230,10 +233,10 @@ const describeFormValueSelector = (name, structure, expect) => {
 describeFormValueSelector(
   'formValueSelector.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeFormValueSelector(
   'formValueSelector.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

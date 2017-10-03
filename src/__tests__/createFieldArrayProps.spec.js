@@ -1,16 +1,19 @@
-import { createSpy } from 'expect'
 import createFieldArrayProps from '../createFieldArrayProps'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeCreateFieldProps = (name, structure, expect) => {
+
+const describeCreateFieldProps = (name, structure, setup) => {
   const { fromJS, getIn, size } = structure
   const defaultParams = [structure, 'foo', 'testForm', undefined, () => 69]
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should pass props through', () => {
       expect(
         createFieldArrayProps(...defaultParams, { otherProp: 'hello' })
@@ -130,115 +133,115 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should provide move', () => {
-      const arrayMove = createSpy()
+      const arrayMove = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c']),
         arrayMove
       })
-      expect(result.fields.move).toBeA('function')
-      expect(arrayMove).toNotHaveBeenCalled()
-      expect(result.fields.move(0, 2)).toNotExist()
-      expect(arrayMove).toHaveBeenCalled().toHaveBeenCalledWith(0, 2)
+      expect(typeof result.fields.move).toBe('function')
+      expect(arrayMove).not.toHaveBeenCalled()
+      expect(result.fields.move(0, 2)).toBeFalsy()
+      expect(arrayMove).toHaveBeenCalledWith(0, 2)
     })
 
     it('should provide push', () => {
-      const arrayPush = createSpy()
+      const arrayPush = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b']),
         arrayPush
       })
-      expect(result.fields.push).toBeA('function')
-      expect(arrayPush).toNotHaveBeenCalled()
-      expect(result.fields.push('c')).toNotExist()
-      expect(arrayPush).toHaveBeenCalled().toHaveBeenCalledWith('c')
+      expect(typeof result.fields.push).toBe('function')
+      expect(arrayPush).not.toHaveBeenCalled()
+      expect(result.fields.push('c')).toBeFalsy()
+      expect(arrayPush).toHaveBeenCalledWith('c')
     })
 
     it('should provide pop', () => {
-      const arrayPop = createSpy()
+      const arrayPop = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c']),
         length: 3,
         arrayPop
       })
-      expect(result.fields.pop).toBeA('function')
-      expect(arrayPop).toNotHaveBeenCalled()
+      expect(typeof result.fields.pop).toBe('function')
+      expect(arrayPop).not.toHaveBeenCalled()
       expect(result.fields.pop()).toBe('c')
-      expect(arrayPop).toHaveBeenCalled().toHaveBeenCalledWith()
+      expect(arrayPop).toHaveBeenCalledWith()
     })
 
     it('should provide insert', () => {
-      const arrayInsert = createSpy()
+      const arrayInsert = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b']),
         arrayInsert
       })
-      expect(result.fields.insert).toBeA('function')
-      expect(arrayInsert).toNotHaveBeenCalled()
-      expect(result.fields.insert(1, 'c')).toNotExist()
-      expect(arrayInsert).toHaveBeenCalled().toHaveBeenCalledWith(1, 'c')
+      expect(typeof result.fields.insert).toBe('function')
+      expect(arrayInsert).not.toHaveBeenCalled()
+      expect(result.fields.insert(1, 'c')).toBeFalsy()
+      expect(arrayInsert).toHaveBeenCalledWith(1, 'c')
     })
 
     it('should provide remove', () => {
-      const arrayRemove = createSpy()
+      const arrayRemove = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b']),
         arrayRemove
       })
-      expect(result.fields.remove).toBeA('function')
-      expect(arrayRemove).toNotHaveBeenCalled()
-      expect(result.fields.remove(2)).toNotExist()
-      expect(arrayRemove).toHaveBeenCalled().toHaveBeenCalledWith(2)
+      expect(typeof result.fields.remove).toBe('function')
+      expect(arrayRemove).not.toHaveBeenCalled()
+      expect(result.fields.remove(2)).toBeFalsy()
+      expect(arrayRemove).toHaveBeenCalledWith(2)
     })
 
     it('should provide removeAll', () => {
-      const arrayRemoveAll = createSpy()
+      const arrayRemoveAll = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b']),
         arrayRemoveAll
       })
-      expect(result.fields.removeAll).toBeA('function')
-      expect(arrayRemoveAll).toNotHaveBeenCalled()
-      expect(result.fields.removeAll()).toNotExist()
-      expect(arrayRemoveAll).toHaveBeenCalled().toHaveBeenCalledWith()
+      expect(typeof result.fields.removeAll).toBe('function')
+      expect(arrayRemoveAll).not.toHaveBeenCalled()
+      expect(result.fields.removeAll()).toBeFalsy()
+      expect(arrayRemoveAll).toHaveBeenCalledWith()
     })
 
     it('should provide unshift', () => {
-      const arrayUnshift = createSpy()
+      const arrayUnshift = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b']),
         arrayUnshift
       })
-      expect(result.fields.unshift).toBeA('function')
-      expect(arrayUnshift).toNotHaveBeenCalled()
-      expect(result.fields.unshift('c')).toNotExist()
-      expect(arrayUnshift).toHaveBeenCalled().toHaveBeenCalledWith('c')
+      expect(typeof result.fields.unshift).toBe('function')
+      expect(arrayUnshift).not.toHaveBeenCalled()
+      expect(result.fields.unshift('c')).toBeFalsy()
+      expect(arrayUnshift).toHaveBeenCalledWith('c')
     })
 
     it('should provide shift', () => {
-      const arrayShift = createSpy()
+      const arrayShift = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c']),
         arrayShift
       })
-      expect(result.fields.shift).toBeA('function')
-      expect(arrayShift).toNotHaveBeenCalled()
+      expect(typeof result.fields.shift).toBe('function')
+      expect(arrayShift).not.toHaveBeenCalled()
       expect(result.fields.shift()).toBe('a')
-      expect(arrayShift).toHaveBeenCalled().toHaveBeenCalledWith()
+      expect(arrayShift).toHaveBeenCalledWith()
     })
 
     it('should provide forEach', () => {
-      const callback = createSpy()
+      const callback = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c'])
       })
-      expect(result.fields.forEach).toBeA('function')
-      expect(callback).toNotHaveBeenCalled()
+      expect(typeof result.fields.forEach).toBe('function')
+      expect(callback).not.toHaveBeenCalled()
       result.fields.forEach(callback)
       expect(callback).toHaveBeenCalled()
-      expect(callback.calls.length).toBe(3)
-      expect(callback.calls[0].arguments).toEqual(['foo[0]', 0, result.fields])
-      expect(callback.calls[1].arguments).toEqual(['foo[1]', 1, result.fields])
-      expect(callback.calls[2].arguments).toEqual(['foo[2]', 2, result.fields])
+      expect(callback.mock.calls.length).toBe(3)
+      expect(callback.mock.calls[0]).toEqual(['foo[0]', 0, result.fields])
+      expect(callback.mock.calls[1]).toEqual(['foo[1]', 1, result.fields])
+      expect(callback.mock.calls[2]).toEqual(['foo[2]', 2, result.fields])
     })
 
     it('should provide get that uses passed in getValue', () => {
@@ -252,7 +255,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         getValue,
         { value }
       )
-      expect(result.fields.get).toBeA('function')
+      expect(typeof result.fields.get).toBe('function')
       expect(result.fields.get(0)).toBe('aDOG')
       expect(result.fields.get(1)).toBe('bDOG')
       expect(result.fields.get(2)).toBe('cDOG')
@@ -262,58 +265,56 @@ const describeCreateFieldProps = (name, structure, expect) => {
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c'])
       })
-      expect(result.fields.getAll).toBeA('function')
+      expect(typeof result.fields.getAll).toBe('function')
       expect(result.fields.getAll()).toEqualMap(['a', 'b', 'c'])
     })
 
     it('should provide map', () => {
-      const callback = createSpy(name => ({
+      const callback = jest.fn(name => ({
         whatever: true,
         name
-      })).andCallThrough()
+      }))
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c']),
         length: 3
       })
-      expect(result.fields.map).toBeA('function')
-      expect(callback).toNotHaveBeenCalled()
+      expect(typeof result.fields.map).toBe('function')
+      expect(callback).not.toHaveBeenCalled()
       const mapResult = result.fields.map(callback)
-      expect(size(mapResult), 3)
       expect(getIn(mapResult, 0)).toEqual({ whatever: true, name: 'foo[0]' })
       expect(getIn(mapResult, 1)).toEqual({ whatever: true, name: 'foo[1]' })
       expect(getIn(mapResult, 2)).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
-      expect(callback.calls.length).toBe(3)
-      expect(callback.calls[0].arguments).toEqual(['foo[0]', 0, result.fields])
-      expect(callback.calls[1].arguments).toEqual(['foo[1]', 1, result.fields])
-      expect(callback.calls[2].arguments).toEqual(['foo[2]', 2, result.fields])
+      expect(callback.mock.calls.length).toBe(3)
+      expect(callback.mock.calls[0]).toEqual(['foo[0]', 0, result.fields])
+      expect(callback.mock.calls[1]).toEqual(['foo[1]', 1, result.fields])
+      expect(callback.mock.calls[2]).toEqual(['foo[2]', 2, result.fields])
     })
 
     it('should provide reduce', () => {
-      const callback = createSpy((accumulator, name) => ({
+      const callback = jest.fn((accumulator, name) => ({
         ...accumulator,
         [name]: { whatever: true, name }
-      })).andCallThrough()
+      }))
       const result = createFieldArrayProps(...defaultParams, {
         value: fromJS(['a', 'b', 'c']),
         length: 3
       })
-      expect(result.fields.reduce).toBeA('function')
-      expect(callback).toNotHaveBeenCalled()
+      expect(typeof result.fields.reduce).toBe('function')
+      expect(callback).not.toHaveBeenCalled()
       const reduceResult = result.fields.reduce(callback, {})
-      expect(size(reduceResult), 3)
       expect(reduceResult['foo[0]']).toEqual({ whatever: true, name: 'foo[0]' })
       expect(reduceResult['foo[1]']).toEqual({ whatever: true, name: 'foo[1]' })
       expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
-      expect(callback.calls.length).toBe(3)
-      expect(callback.calls[0].arguments).toEqual([
+      expect(callback.mock.calls.length).toBe(3)
+      expect(callback.mock.calls[0]).toEqual([
         {},
         'foo[0]',
         0,
         result.fields
       ])
-      expect(callback.calls[1].arguments).toEqual([
+      expect(callback.mock.calls[1]).toEqual([
         {
           'foo[0]': { whatever: true, name: 'foo[0]' }
         },
@@ -321,7 +322,7 @@ const describeCreateFieldProps = (name, structure, expect) => {
         1,
         result.fields
       ])
-      expect(callback.calls[2].arguments).toEqual([
+      expect(callback.mock.calls[2]).toEqual([
         {
           'foo[0]': { whatever: true, name: 'foo[0]' },
           'foo[1]': { whatever: true, name: 'foo[1]' }
@@ -333,28 +334,27 @@ const describeCreateFieldProps = (name, structure, expect) => {
     })
 
     it('should provide reduce when no value', () => {
-      const callback = createSpy((accumulator, name) => ({
+      const callback = jest.fn((accumulator, name) => ({
         ...accumulator,
         [name]: { whatever: true, name }
-      })).andCallThrough()
+      }))
       const result = createFieldArrayProps(...defaultParams, {})
-      expect(result.fields.reduce).toBeA('function')
-      expect(callback).toNotHaveBeenCalled()
+      expect(typeof result.fields.reduce).toBe('function')
+      expect(callback).not.toHaveBeenCalled()
       const reduceResult = result.fields.reduce(callback, {})
-      expect(size(reduceResult), 0)
-      expect(callback).toNotHaveBeenCalled()
+      expect(callback).not.toHaveBeenCalled()
     })
 
     it('should provide swap', () => {
-      const arraySwap = createSpy()
+      const arraySwap = jest.fn()
       const result = createFieldArrayProps(...defaultParams, {
         arraySwap,
         value: fromJS(['a', 'b', 'c'])
       })
-      expect(result.fields.swap).toBeA('function')
-      expect(arraySwap).toNotHaveBeenCalled()
-      expect(result.fields.swap(0, 2)).toNotExist()
-      expect(arraySwap).toHaveBeenCalled().toHaveBeenCalledWith(0, 2)
+      expect(typeof result.fields.swap).toBe('function')
+      expect(arraySwap).not.toHaveBeenCalled()
+      expect(result.fields.swap(0, 2)).toBeFalsy()
+      expect(arraySwap).toHaveBeenCalledWith(0, 2)
     })
 
     it('should provide a _isFieldArray meta prop', () => {
@@ -376,10 +376,10 @@ const describeCreateFieldProps = (name, structure, expect) => {
 describeCreateFieldProps(
   'createFieldArrayProps.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeCreateFieldProps(
   'createFieldArrayProps.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

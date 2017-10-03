@@ -35,10 +35,10 @@
     "example:wizard": "form=wizard npm run example",
     "format": "prettier-eslint \"+(src|examples)/**/*.+(js|js.flow)\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailing-comma=none",
     "prepublish": "npm run test && npm run test:flow && npm run clean && npm run build",
-    "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
+    "test": "cross-env NODE_ENV=test jest --runInBand",
     "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
+    "test:cov": "npm run test -- --coverage",
     "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
   },
   "keywords": [
@@ -58,11 +58,14 @@
   },
   "homepage": "https://redux-form.com/",
   "dependencies": {
+    "babel-jest": "21.0.2",
     "deep-equal": "^1.0.1",
     "es6-error": "^4.0.0",
     "hoist-non-react-statics": "^2.3.1",
+    "immutable": "3.8.1",
     "invariant": "^2.2.2",
     "is-promise": "^2.1.0",
+    "jest": "21.0.2",
     "lodash": "^4.17.3",
     "lodash-es": "^4.17.3",
     "prop-types": "^15.5.9"
@@ -90,17 +93,10 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
-    "expect": "^1.20.2",
-    "expect-element": "^1.1.1",
-    "expect-immutable": "^0.0.3",
-    "expect-predicate": "^1.0.0",
     "flow-bin": "^0.54.1",
     "flux-standard-action": "^1.0.0",
     "get-typed": "^1.0.0-beta.2",
-    "jsdom": "^11.2.0",
     "lodash-webpack-plugin": "^0.11.2",
-    "mocha": "^3.5.0",
-    "nyc": "^11.2.1",
     "prettier": "^1.6.1",
     "prettier-eslint-cli": "^4.3.0",
     "react": "^15.5.4",
@@ -128,12 +124,20 @@
     "immutable.js",
     "*.js.flow"
   ],
-  "nyc": {
-    "include": [
+  "jest": {
+    "collectCoverageFrom": [
       "src/**/*.js"
     ],
-    "sourceMap": false,
-    "instrument": false
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
+    "testRegex": "__tests__/.*\\.spec\\.js$",
+    "testEnvironment": "jsdom"
   },
   "npmName": "redux-form",
   "npmFileMap": [

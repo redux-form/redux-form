@@ -1,4 +1,3 @@
-import expect from 'expect'
 import deepEqual from '../deepEqual'
 
 describe('structure.plain.deepEqual', () => {

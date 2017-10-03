@@ -3,16 +3,20 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeGetFormSubmitErrors = (name, structure, expect) => {
+
+const describeGetFormSubmitErrors = (name, structure, setup) => {
   const getFormSubmitErrors = createGetFormSubmitErrors(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
-      expect(createGetFormSubmitErrors('foo')).toBeA('function')
+      expect(typeof createGetFormSubmitErrors('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {
@@ -72,10 +76,10 @@ const describeGetFormSubmitErrors = (name, structure, expect) => {
 describeGetFormSubmitErrors(
   'getFormSubmitErrors.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeGetFormSubmitErrors(
   'getFormSubmitErrors.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

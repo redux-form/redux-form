@@ -1,4 +1,3 @@
-import expect from 'expect'
 import shallowCompare from '../shallowCompare'
 
 describe('shallowCompare', () => {
