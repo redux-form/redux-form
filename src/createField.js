@@ -42,7 +42,8 @@ const createField = (structure: Structure<*, *>) => {
         this.name,
         'Field',
         () => this.props.validate,
-        () => this.props.warn
+        () => this.props.warn,
+        this.props.fieldData
       )
     }
 
@@ -63,7 +64,8 @@ const createField = (structure: Structure<*, *>) => {
           newName,
           'Field',
           () => nextProps.validate,
-          () => nextProps.warn
+          () => nextProps.warn,
+          this.props.fieldData
         )
       }
     }
@@ -145,7 +147,8 @@ const createField = (structure: Structure<*, *>) => {
       PropTypes.func,
       PropTypes.arrayOf(PropTypes.func)
     ]),
-    withRef: PropTypes.bool
+    withRef: PropTypes.bool,
+    fieldData: PropTypes.object
   }
   Field.contextTypes = {
     _reduxForm: PropTypes.object

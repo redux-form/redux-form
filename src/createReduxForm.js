@@ -124,7 +124,7 @@ type ArrayRemoveAllAction = (field: string) => void
 type ArraySwapAction = (field: string, indexA: number, indexB: number) => void
 type ClearSubmitAction = () => void
 type DestroyAction = () => void
-type RegisterFieldAction = (name: string, type: FieldType) => void
+type RegisterFieldAction = (name: string, type: FieldType, fieldData: ?Object) => void
 type UnregisterFieldAction = (name: string, destroyOnUnmount: ?boolean) => void
 type ResetAction = () => void
 type SetSubmitFailedAction = (...fields: string[]) => void
@@ -515,9 +515,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
           name: string,
           type: FieldType,
           getValidator: Function,
-          getWarner: Function
+          getWarner: Function,
+          fieldData: ?Object = {}
         ) => {
-          this.props.registerField(name, type)
+          this.props.registerField(name, type, fieldData)
           if (getValidator) {
             this.fieldValidators[name] = getValidator
           }

@@ -290,11 +290,12 @@ const initialize: Initialize = (
 const registerField: RegisterField = (
   form: string,
   name: string,
-  type: FieldType
+  type: FieldType,
+  fieldData: Object = {},
 ): RegisterFieldAction => ({
   type: REGISTER_FIELD,
   meta: { form },
-  payload: { name, type }
+  payload: { name, type, fieldData }
 })
 
 const reset: Reset = (form: string): ResetAction => ({

@@ -72,7 +72,8 @@ export type Context = {
     name: string,
     type: string,
     getValidator: ?() => ?(Validator | Validator[]),
-    getWarner: ?() => ?(Validator | Validator[])
+    getWarner: ?() => ?(Validator | Validator[]),
+    fieldData: ?Object
   ) => void,
   unregister: (name: string) => void,
   registerInnerOnSubmit: (innerOnSubmit: Function) => void,

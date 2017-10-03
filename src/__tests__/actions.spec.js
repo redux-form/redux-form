@@ -385,6 +385,7 @@ describe('actions', () => {
           form: 'myForm'
         },
         payload: {
+          fieldData: {},
           name: 'foo',
           type: 'Field'
         }
