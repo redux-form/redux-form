@@ -10,9 +10,4 @@ node_js:
   - "stable"
 
 script:
-  - npm run lint
-  - npm test
-
-after_success:
-  - npm run test:cov
-  - npm run test:codecov
+  - # prepublish does it all
