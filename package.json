@@ -18,6 +18,7 @@
     "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-form.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-form.min.js",
     "clean": "rimraf dist lib es",
+    "ci": "npm run lint && npm run test:flow && npm run test:cov && npm run test:codecov",
     "lint": "eslint src",
     "example": "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
     "example:asyncValidation": "form=asyncValidation npm run example",
