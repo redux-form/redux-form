@@ -95,6 +95,12 @@ declare export var fieldMetaPropTypes: Object
 
 declare export var fieldPropTypes: Object
 
+declare export var fieldArrayFieldsPropTypes: Object
+
+declare export var fieldArrayMetaPropTypes: Object
+
+declare export var fieldArrayPropTypes: Object
+
 declare export var formPropTypes: Object
 
 declare export var Field: React.ComponentType<FieldInputProps>
