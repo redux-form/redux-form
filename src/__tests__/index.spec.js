@@ -1,7 +1,8 @@
 import expect from 'expect'
 import * as expectedActionTypes from '../actionTypes'
 import expectedPropTypes, {
-  fieldPropTypes as expectedFieldPropTypes
+  fieldPropTypes as expectedFieldPropTypes,
+  fieldArrayPropTypes as expectedFieldArrayPropTypes
 } from '../propTypes'
 import {
   actionTypes,
@@ -46,6 +47,7 @@ import {
   hasSubmitSucceeded,
   hasSubmitFailed,
   fieldPropTypes,
+  fieldArrayPropTypes,
   propTypes,
   formPropTypes,
   reducer,
@@ -192,6 +194,9 @@ describe('index', () => {
   })
   it('should export fieldPropTypes', () => {
     expect(fieldPropTypes).toEqual(expectedFieldPropTypes)
+  })
+  it('should export fieldArrayPropTypes', () => {
+    expect(fieldArrayPropTypes).toEqual(expectedFieldArrayPropTypes)
   })
   it('should export propTypes', () => {
     expect(propTypes).toEqual(expectedPropTypes)

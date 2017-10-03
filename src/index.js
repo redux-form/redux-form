@@ -14,6 +14,9 @@ export {
   fieldInputPropTypes,
   fieldMetaPropTypes,
   fieldPropTypes,
+  fieldArrayFieldsPropTypes,
+  fieldArrayMetaPropTypes,
+  fieldArrayPropTypes,
   formPropTypes
 } from './propTypes'
 export { default as Field } from './Field'
