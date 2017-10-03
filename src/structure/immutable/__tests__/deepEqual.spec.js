@@ -1,4 +1,3 @@
-import expect from 'expect'
 import { fromJS, List } from 'immutable'
 import deepEqual from '../deepEqual'
 

@@ -1,6 +1,5 @@
 /* eslint react/no-multi-comp:0 */
 import React from 'react'
-import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
@@ -15,14 +14,14 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+
 
 const describeValues = (
   name,
   formValues,
   structure,
   combineReducers,
-  expect
+  setup
 ) => {
   const reducer = createReducer(structure)
   const reduxForm = createReduxForm(structure)
@@ -49,7 +48,7 @@ const describeValues = (
   })(props => <div {...props} />)
 
   const testProps = (useSection, ...config) => {
-    const Spy = createSpy(() => <div />).andCallThrough()
+    const Spy = jest.fn(() => <div />)
     const Decorated = formValues(...config)(Spy)
     TestUtils.renderIntoDocument(
       <Provider store={store}>
@@ -63,10 +62,14 @@ const describeValues = (
       </Provider>
     )
     expect(Spy).toHaveBeenCalled()
-    return Spy.calls[0].arguments[0]
+    return Spy.mock.calls[0][0]
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw on missing names', () => {
       expect(() => testProps(false)).toThrow()
       expect(() => testProps(false, {})).toThrow()
@@ -75,7 +78,7 @@ const describeValues = (
     })
 
     it('should throw on missing context', () => {
-      const Spy = createSpy(() => <div />).andCallThrough()
+      const Spy = jest.fn(() => <div />)
 
       const Decorated = formValues('meep')(Spy)
       expect(() =>
@@ -117,7 +120,7 @@ const describeValues = (
 
     it('should update props when FormSection name changes', () => {
       const node = document.createElement('div')
-      const Spy = createSpy(() => <div />).andCallThrough()
+      const Spy = jest.fn(() => <div />)
       const Decorated = formValues('rat')(Spy)
 
       const Component = ({ name }) =>
@@ -133,10 +136,10 @@ const describeValues = (
 
       ReactDOM.render(<Component name="arr[1]" />, node)
 
-      expect(Spy.calls.length).toEqual(2)
+      expect(Spy.mock.calls.length).toEqual(2)
 
-      expect(Spy.calls[0].arguments[0].rat).toEqual('cat')
-      expect(Spy.calls[1].arguments[0].rat).toEqual('dog')
+      expect(Spy.mock.calls[0][0].rat).toEqual('cat')
+      expect(Spy.mock.calls[1][0].rat).toEqual('dog')
     })
   })
 }
@@ -146,12 +149,12 @@ describeValues(
   formValues,
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeValues(
   'formValues.immutable',
   immutableFormValues,
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

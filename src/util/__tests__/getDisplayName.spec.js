@@ -1,4 +1,3 @@
-import expect from 'expect'
 import getDisplayName from '../getDisplayName'
 
 describe('getDisplayName', () => {

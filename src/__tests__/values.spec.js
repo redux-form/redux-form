@@ -1,6 +1,5 @@
 /* eslint react/no-multi-comp:0 */
 import React from 'react'
-import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
@@ -11,9 +10,9 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeValues = (name, structure, combineReducers, expect) => {
+
+const describeValues = (name, structure, combineReducers, setup) => {
   const values = createValues(structure)
   const reducer = createReducer(structure)
   const { fromJS } = structure
@@ -22,7 +21,7 @@ const describeValues = (name, structure, combineReducers, expect) => {
 
   const testProps = (state, config = {}) => {
     const store = makeStore({ testForm: state })
-    const spy = createSpy(() => <div />).andCallThrough()
+    const spy = jest.fn(() => <div />)
 
     const Decorated = values({ form: 'testForm', ...config })(spy)
     TestUtils.renderIntoDocument(
@@ -31,10 +30,14 @@ const describeValues = (name, structure, combineReducers, expect) => {
       </Provider>
     )
     expect(spy).toHaveBeenCalled()
-    return spy.calls[0].arguments[0]
+    return spy.mock.calls[0][0]
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should get values from Redux state', () => {
       const values = {
         cat: 'rat',
@@ -59,11 +62,11 @@ describeValues(
   'values.plain',
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeValues(
   'values.immutable',
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

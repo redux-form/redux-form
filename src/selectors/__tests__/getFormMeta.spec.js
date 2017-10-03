@@ -3,16 +3,20 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeGetFormMeta = (name, structure, expect) => {
+
+const describeGetFormMeta = (name, structure, setup) => {
   const getFormMeta = createGetFormMeta(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
-      expect(createGetFormMeta('foo')).toBeA('function')
+      expect(typeof createGetFormMeta('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {
@@ -96,10 +100,10 @@ const describeGetFormMeta = (name, structure, expect) => {
 describeGetFormMeta(
   'getFormMeta.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeGetFormMeta(
   'getFormMeta.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

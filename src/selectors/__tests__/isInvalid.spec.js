@@ -3,17 +3,21 @@ import plain from '../../structure/plain'
 import plainExpectations from '../../structure/plain/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
 
-const describeIsInvalid = (name, structure, expect) => {
+
+const describeIsInvalid = (name, structure, setup) => {
   const isInvalid = createIsInvalid(structure)
 
   const { fromJS, getIn, setIn } = structure
   const getFormState = state => getIn(state, 'form')
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
-      expect(isInvalid('foo', getFormState)).toBeA('function')
+      expect(typeof isInvalid('foo', getFormState)).toBe('function')
     })
 
     it('should return false when form data not present', () => {
@@ -329,9 +333,9 @@ const describeIsInvalid = (name, structure, expect) => {
   })
 }
 
-describeIsInvalid('isInvalid.plain', plain, addExpectations(plainExpectations))
+describeIsInvalid('isInvalid.plain', plain, () => expect.extend(plainExpectations))
 describeIsInvalid(
   'isInvalid.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

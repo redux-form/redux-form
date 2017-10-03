@@ -1,12 +1,11 @@
-import { createSpy } from 'expect'
 import generateValidator from '../generateValidator'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
 
-const describeGenerateValidator = (name, structure, expect) => {
+
+const describeGenerateValidator = (name, structure, setup) => {
   const { fromJS } = structure
   const required = value => (value == null ? 'Required' : undefined)
   const minValue = min => value =>
@@ -17,9 +16,13 @@ const describeGenerateValidator = (name, structure, expect) => {
     validatorName === name ? undefined : 'Invalid name'
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
       const validator = generateValidator({}, structure)
-      expect(validator).toBeA('function')
+      expect(typeof validator).toBe('function')
     })
 
     it('should always pass validation when no validators given', () => {
@@ -36,8 +39,8 @@ const describeGenerateValidator = (name, structure, expect) => {
     })
 
     it('should validate simple fields', () => {
-      const requiredSpy = createSpy(required).andCallThrough()
-      const minValueSpy = createSpy(minValue(4)).andCallThrough()
+      const requiredSpy = jest.fn(required)
+      const minValueSpy = jest.fn(minValue(4))
       const validator = generateValidator(
         {
           foo: requiredSpy,
@@ -46,19 +49,19 @@ const describeGenerateValidator = (name, structure, expect) => {
         structure
       )
 
-      expect(requiredSpy).toNotHaveBeenCalled()
-      expect(minValueSpy).toNotHaveBeenCalled()
+      expect(requiredSpy).not.toHaveBeenCalled()
+      expect(minValueSpy).not.toHaveBeenCalled()
 
       const values1 = fromJS({})
       const result = validator(values1)
       expect(requiredSpy).toHaveBeenCalled()
-      expect(requiredSpy.calls.length).toBe(1)
-      expect(requiredSpy.calls[0].arguments[0]).toBe(undefined)
-      expect(requiredSpy.calls[0].arguments[1]).toEqual(values1)
+      expect(requiredSpy.mock.calls.length).toBe(1)
+      expect(requiredSpy.mock.calls[0][0]).toBe(undefined)
+      expect(requiredSpy.mock.calls[0][1]).toEqual(values1)
       expect(minValueSpy).toHaveBeenCalled()
-      expect(minValueSpy.calls.length).toBe(1)
-      expect(minValueSpy.calls[0].arguments[0]).toBe(undefined)
-      expect(minValueSpy.calls[0].arguments[1]).toEqual(values1)
+      expect(minValueSpy.mock.calls.length).toBe(1)
+      expect(minValueSpy.mock.calls[0][0]).toBe(undefined)
+      expect(minValueSpy.mock.calls[0][1]).toEqual(values1)
       expect(result).toEqual({
         foo: 'Required'
       })
@@ -68,12 +71,12 @@ const describeGenerateValidator = (name, structure, expect) => {
         bar: 3
       })
       const result2 = validator(values2)
-      expect(requiredSpy.calls.length).toBe(2)
-      expect(requiredSpy.calls[1].arguments[0]).toBe('Hello')
-      expect(requiredSpy.calls[1].arguments[1]).toEqual(values2)
-      expect(minValueSpy.calls.length).toBe(2)
-      expect(minValueSpy.calls[1].arguments[0]).toBe(3)
-      expect(minValueSpy.calls[1].arguments[1]).toEqual(values2)
+      expect(requiredSpy.mock.calls.length).toBe(2)
+      expect(requiredSpy.mock.calls[1][0]).toBe('Hello')
+      expect(requiredSpy.mock.calls[1][1]).toEqual(values2)
+      expect(minValueSpy.mock.calls.length).toBe(2)
+      expect(minValueSpy.mock.calls[1][0]).toBe(3)
+      expect(minValueSpy.mock.calls[1][1]).toEqual(values2)
       expect(result2).toEqual({
         bar: 'Too low'
       })
@@ -83,63 +86,63 @@ const describeGenerateValidator = (name, structure, expect) => {
         bar: 4
       })
       const result3 = validator(values3)
-      expect(requiredSpy.calls.length).toBe(3)
-      expect(requiredSpy.calls[2].arguments[0]).toBe('Hello')
-      expect(requiredSpy.calls[2].arguments[1]).toEqual(values3)
-      expect(minValueSpy.calls.length).toBe(3)
-      expect(minValueSpy.calls[2].arguments[0]).toBe(4)
-      expect(minValueSpy.calls[2].arguments[1]).toEqual(values3)
+      expect(requiredSpy.mock.calls.length).toBe(3)
+      expect(requiredSpy.mock.calls[2][0]).toBe('Hello')
+      expect(requiredSpy.mock.calls[2][1]).toEqual(values3)
+      expect(minValueSpy.mock.calls.length).toBe(3)
+      expect(minValueSpy.mock.calls[2][0]).toBe(4)
+      expect(minValueSpy.mock.calls[2][1]).toEqual(values3)
       expect(result3).toEqual({})
     })
 
     it('allows validation to refer to props', () => {
-      const withPropsSpy = createSpy(withProps).andCallThrough()
+      const withPropsSpy = jest.fn(withProps)
       const props1 = { valid: false }
       const props2 = { valid: true }
       const validator = generateValidator({ foo: withPropsSpy }, structure)
 
-      expect(withPropsSpy).toNotHaveBeenCalled()
+      expect(withPropsSpy).not.toHaveBeenCalled()
 
       const values = fromJS({})
       const result1 = validator(values, props1)
       expect(withPropsSpy).toHaveBeenCalled()
-      expect(withPropsSpy.calls.length).toBe(1)
-      expect(withPropsSpy.calls[0].arguments[0]).toBe(undefined)
-      expect(withPropsSpy.calls[0].arguments[1]).toEqual(values)
-      expect(withPropsSpy.calls[0].arguments[2]).toEqual(props1)
+      expect(withPropsSpy.mock.calls.length).toBe(1)
+      expect(withPropsSpy.mock.calls[0][0]).toBe(undefined)
+      expect(withPropsSpy.mock.calls[0][1]).toEqual(values)
+      expect(withPropsSpy.mock.calls[0][2]).toEqual(props1)
       expect(result1).toEqual({
         foo: 'Invalid'
       })
 
       const result2 = validator(values, props2)
-      expect(withPropsSpy.calls.length).toBe(2)
-      expect(withPropsSpy.calls[1].arguments[0]).toBe(undefined)
-      expect(withPropsSpy.calls[1].arguments[1]).toEqual(values)
-      expect(withPropsSpy.calls[1].arguments[2]).toEqual(props2)
+      expect(withPropsSpy.mock.calls.length).toBe(2)
+      expect(withPropsSpy.mock.calls[1][0]).toBe(undefined)
+      expect(withPropsSpy.mock.calls[1][1]).toEqual(values)
+      expect(withPropsSpy.mock.calls[1][2]).toEqual(props2)
       expect(result2).toEqual({})
     })
 
     it('allows validation to refer to field name', () => {
       const name = 'foobar'
-      const withNameSpy = createSpy(withName(name)).andCallThrough()
+      const withNameSpy = jest.fn(withName(name))
       const validator = generateValidator({ [name]: withNameSpy }, structure)
 
-      expect(withNameSpy).toNotHaveBeenCalled()
+      expect(withNameSpy).not.toHaveBeenCalled()
 
       const values = fromJS({})
       const result1 = validator(values)
       expect(withNameSpy).toHaveBeenCalled()
-      expect(withNameSpy.calls.length).toBe(1)
-      expect(withNameSpy.calls[0].arguments[0]).toBe(undefined)
-      expect(withNameSpy.calls[0].arguments[1]).toEqual(values)
-      expect(withNameSpy.calls[0].arguments[2]).toEqual(undefined)
-      expect(withNameSpy.calls[0].arguments[3]).toEqual(name)
+      expect(withNameSpy.mock.calls.length).toBe(1)
+      expect(withNameSpy.mock.calls[0][0]).toBe(undefined)
+      expect(withNameSpy.mock.calls[0][1]).toEqual(values)
+      expect(withNameSpy.mock.calls[0][2]).toEqual(undefined)
+      expect(withNameSpy.mock.calls[0][3]).toEqual(name)
       expect(result1).toEqual({})
     })
 
     it('should validate deep fields', () => {
-      const requiredSpy = createSpy(required).andCallThrough()
-      const minValueSpy = createSpy(minValue(4)).andCallThrough()
+      const requiredSpy = jest.fn(required)
+      const minValueSpy = jest.fn(minValue(4))
       const validator = generateValidator(
         {
           'deep.foo': requiredSpy,
@@ -148,18 +151,18 @@ const describeGenerateValidator = (name, structure, expect) => {
         structure
       )
 
-      expect(requiredSpy).toNotHaveBeenCalled()
-      expect(minValueSpy).toNotHaveBeenCalled()
+      expect(requiredSpy).not.toHaveBeenCalled()
+      expect(minValueSpy).not.toHaveBeenCalled()
 
       const result = validator(fromJS({}))
       expect(requiredSpy).toHaveBeenCalled()
-      expect(requiredSpy.calls.length).toBe(1)
-      expect(requiredSpy.calls[0].arguments[0]).toBe(undefined)
-      expect(requiredSpy.calls[0].arguments[1]).toEqual(fromJS({}))
+      expect(requiredSpy.mock.calls.length).toBe(1)
+      expect(requiredSpy.mock.calls[0][0]).toBe(undefined)
+      expect(requiredSpy.mock.calls[0][1]).toEqual(fromJS({}))
       expect(minValueSpy).toHaveBeenCalled()
-      expect(minValueSpy.calls.length).toBe(1)
-      expect(minValueSpy.calls[0].arguments[0]).toBe(undefined)
-      expect(minValueSpy.calls[0].arguments[1]).toEqual(fromJS({}))
+      expect(minValueSpy.mock.calls.length).toBe(1)
+      expect(minValueSpy.mock.calls[0][0]).toBe(undefined)
+      expect(minValueSpy.mock.calls[0][1]).toEqual(fromJS({}))
       expect(result).toEqual({
         deep: {
           foo: 'Required'
@@ -177,12 +180,12 @@ const describeGenerateValidator = (name, structure, expect) => {
         }
       })
       const result2 = validator(values2)
-      expect(requiredSpy.calls.length).toBe(2)
-      expect(requiredSpy.calls[1].arguments[0]).toBe('Hello')
-      expect(requiredSpy.calls[1].arguments[1]).toEqual(values2)
-      expect(minValueSpy.calls.length).toBe(2)
-      expect(minValueSpy.calls[1].arguments[0]).toBe(3)
-      expect(minValueSpy.calls[1].arguments[1]).toEqual(values2)
+      expect(requiredSpy.mock.calls.length).toBe(2)
+      expect(requiredSpy.mock.calls[1][0]).toBe('Hello')
+      expect(requiredSpy.mock.calls[1][1]).toEqual(values2)
+      expect(minValueSpy.mock.calls.length).toBe(2)
+      expect(minValueSpy.mock.calls[1][0]).toBe(3)
+      expect(minValueSpy.mock.calls[1][1]).toEqual(values2)
       expect(result2).toEqual({
         even: {
           deeper: {
@@ -202,18 +205,18 @@ const describeGenerateValidator = (name, structure, expect) => {
         }
       })
       const result3 = validator(values3)
-      expect(requiredSpy.calls.length).toBe(3)
-      expect(requiredSpy.calls[2].arguments[0]).toBe('Hello')
-      expect(requiredSpy.calls[2].arguments[1]).toEqual(values3)
-      expect(minValueSpy.calls.length).toBe(3)
-      expect(minValueSpy.calls[2].arguments[0]).toBe(4)
-      expect(minValueSpy.calls[2].arguments[1]).toEqual(values3)
+      expect(requiredSpy.mock.calls.length).toBe(3)
+      expect(requiredSpy.mock.calls[2][0]).toBe('Hello')
+      expect(requiredSpy.mock.calls[2][1]).toEqual(values3)
+      expect(minValueSpy.mock.calls.length).toBe(3)
+      expect(minValueSpy.mock.calls[2][0]).toBe(4)
+      expect(minValueSpy.mock.calls[2][1]).toEqual(values3)
       expect(result3).toEqual({})
     })
 
     it('should accept multiple validators', () => {
-      const requiredSpy = createSpy(required).andCallThrough()
-      const minValueSpy = createSpy(minValue(4)).andCallThrough()
+      const requiredSpy = jest.fn(required)
+      const minValueSpy = jest.fn(minValue(4))
       const validator = generateValidator(
         {
           foo: [requiredSpy, minValueSpy]
@@ -221,41 +224,41 @@ const describeGenerateValidator = (name, structure, expect) => {
         structure
       )
 
-      expect(requiredSpy).toNotHaveBeenCalled()
-      expect(minValueSpy).toNotHaveBeenCalled()
+      expect(requiredSpy).not.toHaveBeenCalled()
+      expect(minValueSpy).not.toHaveBeenCalled()
 
       const values1 = fromJS({})
       const result1 = validator(values1)
       expect(requiredSpy).toHaveBeenCalled()
-      expect(requiredSpy.calls.length).toBe(1)
-      expect(requiredSpy.calls[0].arguments[0]).toBe(undefined)
-      expect(requiredSpy.calls[0].arguments[1]).toEqual(values1)
-      expect(minValueSpy).toNotHaveBeenCalled() // because required errored
+      expect(requiredSpy.mock.calls.length).toBe(1)
+      expect(requiredSpy.mock.calls[0][0]).toBe(undefined)
+      expect(requiredSpy.mock.calls[0][1]).toEqual(values1)
+      expect(minValueSpy).not.toHaveBeenCalled() // because required errored
       expect(result1).toEqual({
         foo: 'Required'
       })
 
       const values2 = fromJS({ foo: '3' })
       const result2 = validator(values2)
-      expect(requiredSpy.calls.length).toBe(2)
-      expect(requiredSpy.calls[1].arguments[0]).toBe('3')
-      expect(requiredSpy.calls[1].arguments[1]).toEqual(values2)
+      expect(requiredSpy.mock.calls.length).toBe(2)
+      expect(requiredSpy.mock.calls[1][0]).toBe('3')
+      expect(requiredSpy.mock.calls[1][1]).toEqual(values2)
       expect(minValueSpy).toHaveBeenCalled()
-      expect(minValueSpy.calls.length).toBe(1)
-      expect(minValueSpy.calls[0].arguments[0]).toBe('3')
-      expect(minValueSpy.calls[0].arguments[1]).toEqual(values2)
+      expect(minValueSpy.mock.calls.length).toBe(1)
+      expect(minValueSpy.mock.calls[0][0]).toBe('3')
+      expect(minValueSpy.mock.calls[0][1]).toEqual(values2)
       expect(result2).toEqual({
         foo: 'Too low'
       })
 
       const values3 = fromJS({ foo: '4' })
       const result3 = validator(values3)
-      expect(requiredSpy.calls.length).toBe(3)
-      expect(requiredSpy.calls[2].arguments[0]).toBe('4')
-      expect(requiredSpy.calls[2].arguments[1]).toEqual(values3)
-      expect(minValueSpy.calls.length).toBe(2)
-      expect(minValueSpy.calls[1].arguments[0]).toBe('4')
-      expect(minValueSpy.calls[1].arguments[1]).toEqual(values3)
+      expect(requiredSpy.mock.calls.length).toBe(3)
+      expect(requiredSpy.mock.calls[2][0]).toBe('4')
+      expect(requiredSpy.mock.calls[2][1]).toEqual(values3)
+      expect(minValueSpy.mock.calls.length).toBe(2)
+      expect(minValueSpy.mock.calls[1][0]).toBe('4')
+      expect(minValueSpy.mock.calls[1][1]).toEqual(values3)
       expect(result3).toEqual({})
     })
   })
@@ -264,10 +267,10 @@ const describeGenerateValidator = (name, structure, expect) => {
 describeGenerateValidator(
   'generateValidator.plain',
   plain,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeGenerateValidator(
   'generateValidator.immutable',
   immutable,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )
