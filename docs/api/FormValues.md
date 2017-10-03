@@ -1,4 +1,4 @@
-# `formValues(options:Object<String, String> | name1:String, name2:String, ...)`
+# `formValues(options:Object<String, String> | valuesMapper:Function | name1:String, name2:String, ...)`
 
 [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/formValues.js)
 
@@ -23,6 +23,10 @@ The path to the field, exactly like the `name` parameter of [`<Field/>`](https:/
 
 If you use the first form with the options object, the keys of the object will be the names of the props passed.
 
+### valuesMapper: (props) => name:String | (props) => options:Object<String, String>
+
+A function to map values. Like this you can create the path to the field(s) dynamically. Return a name or an options object.
+
 ## Usage
 
 ```javascript
@@ -30,6 +34,12 @@ const ItemList = formValues('withVat')(MyItemizedList)
 ```
 ```javascript
 const ItemList = formValues({showVat: 'withVat'})(MyItemizedList)
+```
+```javascript
+const ItemList = formValues((props) => props.formValueName)(MyItemizedList)
+```
+```javascript
+const ItemList = formValues((props) => ({showVat: props.formValueName}))(MyItemizedList)
 ```
 
 These decorated components will now get the props `withVat` and `showVat`, respectively.

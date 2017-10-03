@@ -58,7 +58,7 @@ const describeValues = (
             ? <FormSection name="sub">
                 <Decorated />
               </FormSection>
-            : <Decorated />}
+            : <Decorated fooFormFieldName="cat" barFormFieldName="sub.dog" />}
         </Form>
       </Provider>
     )
@@ -70,6 +70,8 @@ const describeValues = (
     it('should throw on missing names', () => {
       expect(() => testProps(false)).toThrow()
       expect(() => testProps(false, {})).toThrow()
+      expect(() => testProps(false, () => {})).toThrow()
+      expect(() => testProps(false, () => ({}))).toThrow()
     })
 
     it('should throw on missing context', () => {
@@ -93,6 +95,17 @@ const describeValues = (
 
     it('should use given prop names', () => {
       const props = testProps(false, { foo: 'cat', bar: 'sub.dog' })
+      expect(props.foo).toEqual('rat')
+      expect(props.bar).toEqual('cat')
+    })
+
+    it('should get values from Redux state when using a value mapper function', () => {
+      const props = testProps(false, (props) => props.fooFormFieldName)
+      expect(props.cat).toEqual('rat')
+    })
+
+    it('should use given prop names when using a value mapper function', () => {
+      const props = testProps(false, (props) => ({ foo: props.fooFormFieldName, bar: props.barFormFieldName }))
       expect(props.foo).toEqual('rat')
       expect(props.bar).toEqual('cat')
     })
