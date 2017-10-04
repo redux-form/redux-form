@@ -11,9 +11,9 @@ import FormSection from '../FormSection'
 import createReducer from '../createReducer'
 import createReduxForm from '../createReduxForm'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 
 const describeFieldArray = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
