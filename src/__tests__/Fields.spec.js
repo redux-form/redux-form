@@ -13,7 +13,6 @@ import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-
 const describeFields = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const Fields = createFields(structure)
@@ -463,9 +462,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
     it('should have value set to initial value on first render', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.foo.input} />
-      )
+      const input = jest.fn(props => <input {...props.foo.input} />)
       class Form extends Component {
         render() {
           return (
@@ -496,9 +493,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const validate = () => ({ foo: ['first error', 'second error'] })
       class Form extends Component {
         render() {
@@ -539,9 +534,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const validate = () => ({
         authors: [{ _error: 'Object Error' }]
       })
@@ -566,9 +559,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(input).toHaveBeenCalled()
       expect(input.mock.calls.length).toBe(1)
       expect(input.mock.calls[0][0].authors[0].meta.valid).toBe(false)
-      expect(input.mock.calls[0][0].authors[0].meta.error).toBe(
-        'Object Error'
-      )
+      expect(input.mock.calls[0][0].authors[0].meta.error).toBe('Object Error')
     })
 
     it('should provide sync warning for array field', () => {
@@ -579,9 +570,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const warn = () => ({ foo: ['first warning', 'second warning'] })
       class Form extends Component {
         render() {
@@ -603,12 +592,8 @@ const describeFields = (name, structure, combineReducers, setup) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input.mock.calls.length).toBe(1)
-      expect(input.mock.calls[0][0].foo[0].meta.warning).toBe(
-        'first warning'
-      )
-      expect(input.mock.calls[0][0].foo[1].meta.warning).toBe(
-        'second warning'
-      )
+      expect(input.mock.calls[0][0].foo[0].meta.warning).toBe('first warning')
+      expect(input.mock.calls[0][0].foo[1].meta.warning).toBe('second warning')
     })
 
     it('should provide sync warning for array-of-objects field', () => {
@@ -624,9 +609,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const warn = () => ({
         authors: [{ _warning: 'Object Error' }]
       })
@@ -687,9 +670,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
     it('should unregister fields when unmounted', () => {
       const store = makeStore()
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         constructor() {
           super()
@@ -756,9 +737,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         constructor() {
           super()
@@ -797,11 +776,12 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
     it('should prefix name getter when inside FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) =>
+      const renderFields = ({ foo, bar }) => (
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
+      )
       class Form extends Component {
         render() {
           return (
@@ -822,11 +802,12 @@ const describeFields = (name, structure, combineReducers, setup) => {
     })
     it('should prefix name getter when inside multiple FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) =>
+      const renderFields = ({ foo, bar }) => (
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
+      )
       class Form extends Component {
         render() {
           return (
@@ -850,11 +831,12 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
     it('should prefix name when inside FormSection', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) =>
+      const renderFields = ({ foo, bar }) => (
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
+      )
       class Form extends Component {
         render() {
           return (
@@ -885,11 +867,12 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
     it('should prefix name when inside multiple FormSections', () => {
       const store = makeStore()
-      const renderFields = ({ foo, bar }) =>
+      const renderFields = ({ foo, bar }) => (
         <div>
           <input {...foo.input} />
           <input {...bar.input} />
         </div>
+      )
       class Form extends Component {
         render() {
           return (
@@ -930,12 +913,12 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const renderFields = jest.fn(props =>
+      const renderFields = jest.fn(props => (
         <div>
           {props.highlighted}
           <input {...props.foo.input} />
         </div>
-      )
+      ))
       class Form extends Component {
         constructor() {
           super()
@@ -979,9 +962,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
       const store = makeStore()
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const renderSpy = jest.fn()
       class Form extends Component {
         constructor() {
@@ -1037,18 +1018,18 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const inputPair1 = jest.fn(({ cat, dog }) =>
+      const inputPair1 = jest.fn(({ cat, dog }) => (
         <div>
           <input {...cat.input} />
           <input {...dog.input} />
         </div>
-      )
-      const inputPair2 = jest.fn(({ ewe, fox }) =>
+      ))
+      const inputPair2 = jest.fn(({ ewe, fox }) => (
         <div>
           <input {...ewe.input} />
           <input {...fox.input} />
         </div>
-      )
+      ))
       class Form extends Component {
         render() {
           return (
@@ -1094,9 +1075,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const format = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1129,9 +1108,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const parse = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1161,9 +1138,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(parse.mock.calls[0]).toEqual(['REDUX FORM ROCKS', 'name'])
 
       expect(input.mock.calls.length).toBe(2)
-      expect(input.mock.calls[1][0].name.input.value).toBe(
-        'redux form rocks'
-      )
+      expect(input.mock.calls[1][0].name.input.value).toBe('redux form rocks')
     })
 
     it('should call parse function on blur', () => {
@@ -1174,9 +1149,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const parse = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1206,9 +1179,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(parse.mock.calls[0]).toEqual(['REDUX FORM ROCKS', 'name'])
 
       expect(input.mock.calls.length).toBe(2)
-      expect(input.mock.calls[1][0].name.input.value).toBe(
-        'redux form rocks'
-      )
+      expect(input.mock.calls[1][0].name.input.value).toBe('redux form rocks')
     })
 
     it('should handle on focus', () => {
@@ -1219,9 +1190,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -1255,15 +1224,9 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const parse = jest.fn(
-        value => value && parseInt(value, 10)
-      )
-      const format = jest.fn(
-        value => value && value.toString()
-      )
+      const input = jest.fn(props => <input {...props.input} />)
+      const parse = jest.fn(value => value && parseInt(value, 10))
+      const format = jest.fn(value => value && value.toString())
       class Form extends Component {
         render() {
           return (
@@ -1335,12 +1298,8 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const passwordInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const confirmInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const passwordInput = jest.fn(props => <input {...props.input} />)
+      const confirmInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1379,9 +1338,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       )
 
       // update password field so that they match
-      passwordInput.mock.calls[0][0].password.input.onChange(
-        'redux-form rocks'
-      )
+      passwordInput.mock.calls[0][0].password.input.onChange('redux-form rocks')
 
       // password input rerendered
       expect(passwordInput.mock.calls.length).toBe(2)
@@ -1389,16 +1346,12 @@ const describeFields = (name, structure, combineReducers, setup) => {
       // confirm input should also rerender, but with no error
       expect(confirmInput.mock.calls.length).toBe(2)
       expect(confirmInput.mock.calls[1][0].confirm.meta.valid).toBe(true)
-      expect(confirmInput.mock.calls[1][0].confirm.meta.error).toBe(
-        undefined
-      )
+      expect(confirmInput.mock.calls[1][0].confirm.meta.error).toBe(undefined)
     })
 
     it('should rerender when sync error is cleared', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Required' }
@@ -1427,9 +1380,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls.length).toBe(1)
 
       // username field has error
-      expect(usernameInput.mock.calls[0][0].username.meta.valid).toBe(
-        false
-      )
+      expect(usernameInput.mock.calls[0][0].username.meta.valid).toBe(false)
       expect(usernameInput.mock.calls[0][0].username.meta.error).toBe(
         'Required'
       )
@@ -1442,9 +1393,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
       // should be valid now
       expect(usernameInput.mock.calls[1][0].username.meta.valid).toBe(true)
-      expect(usernameInput.mock.calls[1][0].username.meta.error).toBe(
-        undefined
-      )
+      expect(usernameInput.mock.calls[1][0].username.meta.error).toBe(undefined)
     })
 
     it('should rerender when sync warning changes', () => {
@@ -1456,12 +1405,8 @@ const describeFields = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const passwordInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const confirmInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const passwordInput = jest.fn(props => <input {...props.input} />)
+      const confirmInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1501,25 +1446,19 @@ const describeFields = (name, structure, combineReducers, setup) => {
       )
 
       // update password field so that they match
-      passwordInput.mock.calls[0][0].password.input.onChange(
-        'redux-form rocks'
-      )
+      passwordInput.mock.calls[0][0].password.input.onChange('redux-form rocks')
 
       // password input rerendered
       expect(passwordInput.mock.calls.length).toBe(2)
 
       // confirm input should also rerender, but with no warning
       expect(confirmInput.mock.calls.length).toBe(2)
-      expect(confirmInput.mock.calls[1][0].confirm.meta.warning).toBe(
-        undefined
-      )
+      expect(confirmInput.mock.calls[1][0].confirm.meta.warning).toBe(undefined)
     })
 
     it('should rerender when sync warning is cleared', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Recommended' }
@@ -1750,9 +1689,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       // foo is blurred
       expect(renderFields.mock.calls.length).toBe(4)
       expect(renderFields.mock.calls[3][0].foo.meta.active).toBe(false)
-      expect(renderFields.mock.calls[3][0].foo.input.value).toBe(
-        '@erikras'
-      )
+      expect(renderFields.mock.calls[3][0].foo.input.value).toBe('@erikras')
 
       // swap out fields
       TestUtils.Simulate.click(button)
@@ -1796,15 +1733,9 @@ const describeFields = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeFields(
-  'Fields.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeFields('Fields.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
-describeFields(
-  'Fields.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeFields('Fields.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )
