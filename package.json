@@ -129,6 +129,7 @@
     ],
     "coverageReporters": [
       "text",
+      "lcov",
       "html"
     ],
     "coveragePathIgnorePatterns": [
