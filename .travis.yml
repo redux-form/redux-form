@@ -10,7 +10,4 @@ node_js:
   - "stable"
 
 script:
-  - npm run lint
-
-after_success:
-  - npm run test:codecov
+  - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js

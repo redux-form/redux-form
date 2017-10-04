@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0 */
 import createFormValueSelector from '../createFormValueSelector'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 const describeFormValueSelector = (name, structure, setup) => {
   const { fromJS, getIn } = structure
