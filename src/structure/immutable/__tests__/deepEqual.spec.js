@@ -116,7 +116,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', { h: { i: 29 } }),
+      }).setIn(['a', 'b', 'g'], { h: { i: 29 } }),
       fromJS({
         a: {
           b: {
@@ -126,7 +126,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', { h: { i: 29 } }),
+      }).setIn(['a', 'b', 'g'], { h: { i: 29 } }),
       true
     )
     testBothWays(
@@ -139,7 +139,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', { h: { i: 29 } }),
+      }).setIn(['a', 'b', 'g'], { h: { i: 29 } }),
       fromJS({
         a: {
           b: {
@@ -149,7 +149,7 @@ describe('structure.immutable.deepEqual', () => {
           e: 3
         },
         f: 4
-      }).setIn('a.b.g', { h: { i: 30 } }),
+      }).setIn(['a', 'b', 'g'], { h: { i: 30 } }),
       false
     )
   })

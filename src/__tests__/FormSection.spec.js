@@ -15,7 +15,6 @@ import plainExpectations from '../structure/plain/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/expectations'
 
-
 const describeFormSection = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const Field = createField(structure)
@@ -106,8 +105,8 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
 
       const section = TestUtils.findRenderedDOMComponentWithTag(dom, 'section')
 
-      // 🤢 This line is DISGUSTING!! Is there a better way to get the props on the <section> ??
-      const props = section[Object.keys(section)[0]]._currentElement.props
+      // 🤢 Is there a better way to get the props on the <section> ??
+      const props = section[Object.keys(section)[1]]
 
       expect(props.name).toBeFalsy()
       expect(props.component).toBeFalsy()
@@ -126,9 +125,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -183,9 +180,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.bar.input} />
-      )
+      const input = jest.fn(props => <input {...props.bar.input} />)
 
       class Form extends Component {
         render() {
@@ -244,14 +239,12 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
         }
       })
 
-      const renderField = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const renderFieldArray = jest.fn(({ fields }) =>
+      const renderField = jest.fn(props => <input {...props.input} />)
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
-          {fields.map(field =>
+          {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
-          )}
+          ))}
           <button className="add" onClick={() => fields.push('fish')}>
             Add Dog
           </button>
@@ -259,7 +252,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
             Remove Dog
           </button>
         </div>
-      )
+      ))
 
       class Form extends Component {
         render() {
@@ -334,9 +327,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
 
       class Form extends Component {
         render() {
@@ -365,11 +356,8 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeFormSection(
-  'FormSection.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeFormSection('FormSection.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
 describeFormSection(
   'FormSection.immutable',

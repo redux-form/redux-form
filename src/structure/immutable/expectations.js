@@ -1,22 +1,18 @@
 // @flow
 import deepEqual from 'deep-equal'
-import { Map, List, Iterable, fromJS } from 'immutable'
+import { Map, List, isCollection, fromJS } from 'immutable'
 
-import {
-  matcherHint,
-  printReceived,
-  printExpected,
-} from 'jest-matcher-utils'
+import { matcherHint, printReceived, printExpected } from 'jest-matcher-utils'
 
 const deepEqualValues = (a: any, b: any) => {
-  if (Iterable.isIterable(a)) {
+  if (isCollection(a)) {
     return (
-      Iterable.isIterable(b) &&
+      isCollection(b) &&
       a.count() === b.count() &&
       a.every((value, key) => deepEqualValues(value, b.get(key)))
     )
   }
-  return deepEqual(a, b) // neither are immutable iterables
+  return deepEqual(a, b) // neither are immutable collections
 }
 
 const api = {
@@ -32,15 +28,15 @@ const api = {
     const pass = List.isList(actual)
     return {
       pass,
-      message: () => `toBeAList expected ${actual} to be an immutable List`,
+      message: () => `toBeAList expected ${actual} to be an immutable List`
     }
   },
 
   toBeSize(actual: any, size: number) {
-    const pass = Iterable.isIterable(actual) && actual.count() === size
+    const pass = isCollection(actual) && actual.count() === size
     return {
       pass,
-      message: () => `toBeSize expected ${actual} to contain ${size} elements`,
+      message: () => `toBeSize expected ${actual} to contain ${size} elements`
     }
   },
 
@@ -60,11 +56,13 @@ const api = {
 
   toContainExactly(actual: any, expected: any[]) {
     const expectedItems = expected.map(expectedItem => fromJS(expectedItem))
-    const pass = actual.count() === expected.length && actual.every(actualItem =>
-      expectedItems.some(expectedItem =>
-        deepEqualValues(actualItem, expectedItem)
+    const pass =
+      actual.count() === expected.length &&
+      actual.every(actualItem =>
+        expectedItems.some(expectedItem =>
+          deepEqualValues(actualItem, expectedItem)
+        )
       )
-    )
 
     return {
       pass,

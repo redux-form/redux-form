@@ -92,8 +92,8 @@ const describeForm = (name, structure, combineReducers, setup) => {
 
       const tag = TestUtils.findRenderedDOMComponentWithTag(dom, 'form')
 
-      // 🤢 This line is DISGUSTING!! Is there a better way to get the props on the <form> ??
-      const props = tag[Object.keys(tag)[0]]._currentElement.props
+      // 🤢 Is there a better way to get the props on the <form> ??
+      const props = tag[Object.keys(tag)[1]]
 
       expect(props.onSubmit).toBe(onSubmit)
       expect(props.action).toBe('/save')
@@ -187,11 +187,9 @@ const describeForm = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const onSubmit = jest.fn().mockImplementation(
-        () => {
-          throw new SubmissionError({ _error: 'Invalid' })
-        }
-      )
+      const onSubmit = jest.fn().mockImplementation(() => {
+        throw new SubmissionError({ _error: 'Invalid' })
+      })
       const formRender = jest.fn()
       class TestForm extends Component {
         render() {
@@ -235,9 +233,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
     it('should NOT submit a form with sync validation errors', () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const onSubmit = jest.fn()
       const formRender = jest.fn()
       const validate = values => {
@@ -282,9 +278,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -329,9 +323,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -355,15 +347,9 @@ const describeForm = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeForm(
-  'Form.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeForm('Form.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
-describeForm(
-  'Form.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeForm('Form.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )
