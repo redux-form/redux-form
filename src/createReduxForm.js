@@ -482,19 +482,25 @@ const createReduxForm = (structure: Structure<*, *>) => {
         shouldComponentUpdate(nextProps: Props): boolean {
           if (!this.props.pure) return true
           const { immutableProps = [] } = config
-          return Object.keys(nextProps).some(prop => {
-            // useful to debug rerenders
-            // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
-            //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
-            // }
-            if (~immutableProps.indexOf(prop)) {
-              return this.props[prop] !== nextProps[prop]
-            }
-            return (
-              !~propsToNotUpdateFor.indexOf(prop) &&
-              !deepEqual(this.props[prop], nextProps[prop])
-            )
-          })
+          // if we have children, we MUST update in React 16
+          // https://twitter.com/erikras/status/915866544558788608
+          return !!(
+            this.props.children ||
+            nextProps.children ||
+            Object.keys(nextProps).some(prop => {
+              // useful to debug rerenders
+              // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
+              //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
+              // }
+              if (~immutableProps.indexOf(prop)) {
+                return this.props[prop] !== nextProps[prop]
+              }
+              return (
+                !~propsToNotUpdateFor.indexOf(prop) &&
+                !deepEqual(this.props[prop], nextProps[prop])
+              )
+            })
+          )
         }
 
         componentWillUnmount() {

@@ -53,7 +53,11 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
-      return (
+      // if we have children, we MUST update in React 16
+      // https://twitter.com/erikras/status/915866544558788608
+      return !!(
+        this.props.children ||
+        nextProps.children ||
         nextPropsKeys.length !== thisPropsKeys.length ||
         nextPropsKeys.some(prop => {
           // useful to debug rerenders
