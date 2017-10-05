@@ -3571,6 +3571,47 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
     })
 
+    it('should call form-level onChange when values change using ===', () => {
+      const store = makeStore({})
+      const renderFoo = jest.fn(props => <input {...props.input} />)
+      const onChange = jest.fn()
+
+      class Form extends Component {
+        render() {
+          return (
+            <form>
+              <Field name="foo" component={renderFoo} type="text" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm'
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated onChange={onChange} />
+        </Provider>
+      )
+
+      const changeFoo = renderFoo.mock.calls[0][0].input.onChange
+
+      expect(onChange).not.toHaveBeenCalled()
+
+      changeFoo(1)
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      changeFoo('1.')
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+
+      changeFoo(1.2)
+
+      expect(onChange).toHaveBeenCalledTimes(3)
+    })
+
     it('should update sync errors after reset when using field-level validation', () => {
       const store = makeStore({})
       const renderName = jest.fn(props => <input {...props.input} />)

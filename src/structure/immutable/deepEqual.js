@@ -4,7 +4,7 @@ import { isCollection } from 'immutable'
 import { isEqualWith } from 'lodash'
 
 const customizer = (obj: any, other: any) => {
-  if (obj == other) return true // eslint-disable-line eqeqeq
+  if (obj === other) return true
   if (
     (obj == null || obj === '' || obj === false) &&
     (other == null || other === '' || other === false)
