@@ -237,7 +237,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(callback).not.toHaveBeenCalled()
       result.fields.forEach(callback)
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(3)
+      expect(callback).toHaveBeenCalledTimes(3)
       expect(callback.mock.calls[0]).toEqual(['foo[0]', 0, result.fields])
       expect(callback.mock.calls[1]).toEqual(['foo[1]', 1, result.fields])
       expect(callback.mock.calls[2]).toEqual(['foo[2]', 2, result.fields])
@@ -284,7 +284,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(getIn(mapResult, 1)).toEqual({ whatever: true, name: 'foo[1]' })
       expect(getIn(mapResult, 2)).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(3)
+      expect(callback).toHaveBeenCalledTimes(3)
       expect(callback.mock.calls[0]).toEqual(['foo[0]', 0, result.fields])
       expect(callback.mock.calls[1]).toEqual(['foo[1]', 1, result.fields])
       expect(callback.mock.calls[2]).toEqual(['foo[2]', 2, result.fields])
@@ -306,7 +306,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(reduceResult['foo[1]']).toEqual({ whatever: true, name: 'foo[1]' })
       expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(3)
+      expect(callback).toHaveBeenCalledTimes(3)
       expect(callback.mock.calls[0]).toEqual([{}, 'foo[0]', 0, result.fields])
       expect(callback.mock.calls[1]).toEqual([
         {

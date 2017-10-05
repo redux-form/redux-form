@@ -137,7 +137,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       expect(result).toBe(7)
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 42 })
       expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
       expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 42 })
@@ -173,7 +173,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       store.dispatch(submit('testForm'))
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 42 })
       expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
       expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 42 })
@@ -209,7 +209,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       )
 
       expect(formRender).toHaveBeenCalled()
-      expect(formRender.mock.calls.length).toBe(1)
+      expect(formRender).toHaveBeenCalledTimes(1)
 
       const decoratedForm = TestUtils.findRenderedComponentWithType(
         dom,
@@ -221,12 +221,12 @@ const describeForm = (name, structure, combineReducers, setup) => {
       decoratedForm.submit()
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 42 })
       expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
       expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 42 })
 
-      expect(formRender.mock.calls.length).toBe(3)
+      expect(formRender).toHaveBeenCalledTimes(3)
       expect(formRender.mock.calls[2][0].error).toBe('Invalid')
     })
 
@@ -266,7 +266,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       let callIndex = logger.mock.calls.length
 
       // form renders before sync validation and then again with invalid flag
-      expect(formRender.mock.calls.length).toBe(2)
+      expect(formRender).toHaveBeenCalledTimes(2)
       expect(propsAtNthRender(formRender, 0).invalid).toBe(false)
       expect(propsAtNthRender(formRender, 1).invalid).toBe(true)
       expect(propsAtNthRender(formRender, 1).submitFailed).toBe(false)
@@ -291,7 +291,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       )
 
       // form rerendered twice, once with submit trigger, and then after submit failure
-      expect(formRender.mock.calls.length).toBe(4)
+      expect(formRender).toHaveBeenCalledTimes(4)
       expect(propsAtNthRender(formRender, 3).invalid).toBe(true)
       expect(propsAtNthRender(formRender, 3).submitFailed).toBe(true)
 
@@ -309,7 +309,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       )
 
       // rerendered once to flip dirty flag, and again to flip invalid flag
-      expect(formRender.mock.calls.length).toBe(6)
+      expect(formRender).toHaveBeenCalledTimes(6)
       expect(propsAtNthRender(formRender, 3).dirty).toBe(false)
       expect(propsAtNthRender(formRender, 4).dirty).toBe(true)
       expect(propsAtNthRender(formRender, 4).invalid).toBe(true)
@@ -336,10 +336,10 @@ const describeForm = (name, structure, combineReducers, setup) => {
       )
 
       // check no additional actions dispatched
-      expect(logger.mock.calls.length).toBe(callIndex)
+      expect(logger).toHaveBeenCalledTimes(callIndex)
 
       expect(onSubmit).toHaveBeenCalled()
-      expect(onSubmit.mock.calls.length).toBe(1)
+      expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(onSubmit.mock.calls[0][0]).toEqualMap({ foo: 'hello' })
       expect(typeof onSubmit.mock.calls[0][1]).toBe('function')
       expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 'hello' })

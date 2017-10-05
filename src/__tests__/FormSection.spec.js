@@ -143,14 +143,14 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       )
 
       // input displaying string value
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('42')
 
       // update value
       input.mock.calls[0][0].input.onChange('15')
 
       // input displaying updated string value
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('15')
 
       expect(store.getState()).toEqualMap({
@@ -199,7 +199,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       )
 
       // input displaying string value
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].bar.input.value).toBe('42')
       expect(input.mock.calls[0][0].baz.input.value).toBe('100')
 
@@ -207,7 +207,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       input.mock.calls[0][0].bar.input.onChange('15')
 
       // input displaying updated string value
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].bar.input.value).toBe('15')
 
       expect(store.getState()).toEqualMap({
@@ -349,7 +349,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
 
       // input gets the correct name and value
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('42')
       expect(input.mock.calls[0][0].input.name).toBe('deep.foo.bar')
     })

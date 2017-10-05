@@ -202,7 +202,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       const iterate = jest.fn()
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
-      expect(iterate.mock.calls.length).toBe(3)
+      expect(iterate).toHaveBeenCalledTimes(3)
       expect(iterate.mock.calls[0]).toEqual(['foo[0]', 0, props.fields])
       expect(iterate.mock.calls[1]).toEqual(['foo[1]', 1, props.fields])
       expect(iterate.mock.calls[2]).toEqual(['foo[2]', 2, props.fields])
@@ -218,7 +218,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       const iterate = jest.fn()
       props.fields.map(iterate)
       expect(iterate).toHaveBeenCalled()
-      expect(iterate.mock.calls.length).toBe(3)
+      expect(iterate).toHaveBeenCalledTimes(3)
       expect(iterate.mock.calls[0]).toEqual(['foo[0]', 0, props.fields])
       expect(iterate.mock.calls[1]).toEqual(['foo[1]', 1, props.fields])
       expect(iterate.mock.calls[2]).toEqual(['foo[2]', 2, props.fields])
@@ -335,7 +335,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray).toHaveBeenCalledTimes(1)
       expect(renderArray.mock.calls[0][0].fields.length).toBe(1)
       expect(renderArray.mock.calls[0][0].otherProp).toBe('dog')
       expect(renderArray.mock.calls[0][0].anotherProp).toBe('cat')
@@ -391,7 +391,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       const iterate = jest.fn()
       props.fields.forEach(iterate)
       expect(iterate).toHaveBeenCalled()
-      expect(iterate.mock.calls.length).toBe(3)
+      expect(iterate).toHaveBeenCalledTimes(3)
       expect(iterate.mock.calls[0][0]).toBe('foo[0]')
       expect(iterate.mock.calls[1][0]).toBe('foo[1]')
       expect(iterate.mock.calls[2][0]).toBe('foo[2]')
@@ -783,13 +783,13 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(component).toHaveBeenCalled()
-      expect(component.mock.calls.length).toBe(1)
+      expect(component).toHaveBeenCalledTimes(1)
       expect(component.mock.calls[0][0].fields.length).toBe(2)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(component.mock.calls.length).toBe(2)
+      expect(component).toHaveBeenCalledTimes(2)
       expect(component.mock.calls[1][0].fields.length).toBe(1)
     })
 
@@ -1033,22 +1033,22 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray).toHaveBeenCalledTimes(1)
       expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
       expect(renderArray.mock.calls[0][0].meta.error).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(1)
       expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
       renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(2)
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray).toHaveBeenCalledTimes(2)
       expect(renderArray.mock.calls[1][0].meta.valid).toBe(false)
       expect(renderArray.mock.calls[1][0].meta.error).toBe('Too many')
     })
@@ -1098,22 +1098,22 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray).toHaveBeenCalledTimes(1)
       expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
       expect(renderArray.mock.calls[0][0].meta.error).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(1)
       expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
       renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(2)
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray).toHaveBeenCalledTimes(2)
       expect(renderArray.mock.calls[1][0].meta.valid).toBe(false)
       expect(renderArray.mock.calls[1][0].meta.error).toBe('Too many')
     })
@@ -1160,22 +1160,22 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray).toHaveBeenCalledTimes(1)
       expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
       expect(renderArray.mock.calls[0][0].meta.warning).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(1)
       expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
       renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(2)
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray).toHaveBeenCalledTimes(2)
       expect(renderArray.mock.calls[1][0].meta.valid).toBe(true) // just a warning
       expect(renderArray.mock.calls[1][0].meta.warning).toBe('Too many')
     })
@@ -1225,22 +1225,22 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       )
 
       expect(renderArray).toHaveBeenCalled()
-      expect(renderArray.mock.calls.length).toBe(1)
+      expect(renderArray).toHaveBeenCalledTimes(1)
       expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
       expect(renderArray.mock.calls[0][0].meta.warning).toBeFalsy()
 
       expect(noMoreThanTwo).toHaveBeenCalled()
-      expect(noMoreThanTwo.mock.calls.length).toBe(1)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(1)
       expect(noMoreThanTwo.mock.calls[0][0]).toEqualMap(['dog', 'cat'])
 
       renderArray.mock.calls[0][0].fields.push('rat')
 
       // should validate
-      expect(noMoreThanTwo.mock.calls.length).toBe(2)
+      expect(noMoreThanTwo).toHaveBeenCalledTimes(2)
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray.mock.calls.length).toBe(2)
+      expect(renderArray).toHaveBeenCalledTimes(2)
       expect(renderArray.mock.calls[1][0].meta.valid).toBe(true) // just a warning
       expect(renderArray.mock.calls[1][0].meta.warning).toBe('Too many')
     })
@@ -1277,14 +1277,14 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(component).toHaveBeenCalled()
-      expect(component.mock.calls.length).toBe(1)
+      expect(component).toHaveBeenCalledTimes(1)
       expect(component.mock.calls[0][0].foo).toBe('foo')
       expect(component.mock.calls[0][0].bar).toBe('bar')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(component.mock.calls.length).toBe(2)
+      expect(component).toHaveBeenCalledTimes(2)
       expect(component.mock.calls[1][0].foo).toBe('qux')
       expect(component.mock.calls[1][0].bar).toBe('baz')
     })
@@ -1321,14 +1321,14 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(component).toHaveBeenCalled()
-      expect(component.mock.calls.length).toBe(1)
+      expect(component).toHaveBeenCalledTimes(1)
       expect(component.mock.calls[0][0].foo).toBe('foo')
       expect(component.mock.calls[0][0].bar).toBe('bar')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(component.mock.calls.length).toBe(2)
+      expect(component).toHaveBeenCalledTimes(2)
       expect(component.mock.calls[1][0].foo).toBe('qux')
       expect(component.mock.calls[1][0].bar).toBe('baz')
     })
@@ -1368,42 +1368,42 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 1
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 2
-      expect(renderFieldArray.mock.calls.length).toBe(3)
+      expect(renderFieldArray).toHaveBeenCalledTimes(3)
       expect(renderFieldArray.mock.calls[2][0].fields.length).toBe(2)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 3
-      expect(renderFieldArray.mock.calls.length).toBe(4)
+      expect(renderFieldArray).toHaveBeenCalledTimes(4)
       expect(renderFieldArray.mock.calls[3][0].fields.length).toBe(3)
 
       // remove field
       TestUtils.Simulate.click(removeButton)
 
       // field array rerendered, length is 2
-      expect(renderFieldArray.mock.calls.length).toBe(5)
+      expect(renderFieldArray).toHaveBeenCalledTimes(5)
       expect(renderFieldArray.mock.calls[4][0].fields.length).toBe(2)
 
       // add field
       TestUtils.Simulate.click(addButton)
 
       // field array rerendered, length is 3
-      expect(renderFieldArray.mock.calls.length).toBe(6)
+      expect(renderFieldArray).toHaveBeenCalledTimes(6)
       expect(renderFieldArray.mock.calls[5][0].fields.length).toBe(3)
     })
 
@@ -1444,7 +1444,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
       expect(renderField.mock.calls[0][0].input.value).toBe('dog')
       expect(renderField.mock.calls[1][0].input.value).toBe('cat')
@@ -1456,7 +1456,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       TestUtils.Simulate.click(swapButton)
 
       // field array rerendered, items swapped
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(2)
       expect(renderField.mock.calls[2][0].input.value).toBe('cat')
       expect(renderField.mock.calls[3][0].input.value).toBe('dog')
@@ -1522,7 +1522,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
         // length is 0, ERROR!
         expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.mock.calls.length).toBe(2)
+        expect(renderFieldArray).toHaveBeenCalledTimes(2)
         expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
         expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
         expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs')
@@ -1612,33 +1612,33 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
       expect(renderFieldArray.mock.calls[0][0].meta.warning).toBeTruthy()
       expect(renderFieldArray.mock.calls[0][0].meta.warning).toBe('No dogs')
 
       TestUtils.Simulate.click(addButton) // length goes to 1, no warning yet
 
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
       expect(renderFieldArray.mock.calls[1][0].meta.warning).toBeFalsy()
 
       TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
-      expect(renderFieldArray.mock.calls.length).toBe(3)
+      expect(renderFieldArray).toHaveBeenCalledTimes(3)
       expect(renderFieldArray.mock.calls[2][0].fields.length).toBe(2)
       expect(renderFieldArray.mock.calls[2][0].meta.warning).toBeTruthy()
       expect(renderFieldArray.mock.calls[2][0].meta.warning).toBe('Too many')
 
       TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
-      expect(renderFieldArray.mock.calls.length).toBe(4)
+      expect(renderFieldArray).toHaveBeenCalledTimes(4)
       expect(renderFieldArray.mock.calls[3][0].fields.length).toBe(1)
       expect(renderFieldArray.mock.calls[3][0].meta.warning).toBeFalsy()
 
       TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
-      expect(renderFieldArray.mock.calls.length).toBe(5)
+      expect(renderFieldArray).toHaveBeenCalledTimes(5)
       expect(renderFieldArray.mock.calls[4][0].fields.length).toBe(0)
       expect(renderFieldArray.mock.calls[4][0].meta.warning).toBeTruthy()
       expect(renderFieldArray.mock.calls[4][0].meta.warning).toBe('No dogs')
@@ -1747,23 +1747,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
 
       // both fields rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(2)
+      expect(renderField).toHaveBeenCalledTimes(2)
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first field
       renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first field rerendered, second field is NOT
-      expect(renderField.mock.calls.length).toBe(3)
+      expect(renderField).toHaveBeenCalledTimes(3)
       expect(renderField.mock.calls[2][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[2][0].input.value).toBe('Odie')
 
       // field array NOT rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
     })
 
     it('should rerender when a value changes if rerenderOnEveryChange is set', () => {
@@ -1802,23 +1802,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
 
       // both fields rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(2)
+      expect(renderField).toHaveBeenCalledTimes(2)
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first field
       renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first field rerendered, second field is NOT
-      expect(renderField.mock.calls.length).toBe(3)
+      expect(renderField).toHaveBeenCalledTimes(3)
       expect(renderField.mock.calls[2][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[2][0].input.value).toBe('Odie')
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
     })
 
     it('should rerender when a value changes if rerenderOnEveryChange is set and FieldArray has multiple groups with same values', () => {
@@ -1877,23 +1877,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
 
       // both fields rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(8)
+      expect(renderField).toHaveBeenCalledTimes(8)
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first name field
       renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first name field rerendered, other fields is NOT
-      expect(renderField.mock.calls.length).toBe(9)
+      expect(renderField).toHaveBeenCalledTimes(9)
       expect(renderField.mock.calls[8][0].input.name).toBe('dogs[0].name')
       expect(renderField.mock.calls[8][0].input.value).toBe('Odie')
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
     })
 
     it('should create a list in the store on push(undefined)', () => {
@@ -1933,19 +1933,19 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField).toHaveBeenCalledTimes(1)
       expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[0][0].input.value).toBe('')
 
@@ -2005,19 +2005,19 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField).toHaveBeenCalledTimes(1)
       expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
@@ -2077,19 +2077,19 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField).toHaveBeenCalledTimes(1)
       expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[0][0].input.value).toBe('')
 
@@ -2149,19 +2149,19 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField).toHaveBeenCalledTimes(1)
       expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
@@ -2221,19 +2221,19 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField).toHaveBeenCalledTimes(1)
       expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[0][0].input.value).toBe('')
 
@@ -2293,19 +2293,19 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
 
       // add field
       TestUtils.Simulate.click(button)
 
       // field array rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
       expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
 
       // field rendered
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(1)
+      expect(renderField).toHaveBeenCalledTimes(1)
       expect(renderField.mock.calls[0][0].input.name).toBe('dogs[0]')
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
@@ -2364,11 +2364,11 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(renderFields).toHaveBeenCalled()
-      expect(renderFields.mock.calls.length).toBe(1)
+      expect(renderFields).toHaveBeenCalledTimes(1)
       expect(renderFields.mock.calls[0][0].foo.length).toBe(2)
 
       expect(renderField).toHaveBeenCalled()
-      expect(renderField.mock.calls.length).toBe(2)
+      expect(renderField).toHaveBeenCalledTimes(2)
       expect(renderField.mock.calls[0][0].input.value).toBe('firstValue')
       expect(renderField.mock.calls[1][0].input.value).toBe('secondValue')
     })
@@ -2403,7 +2403,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // field array rendered
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
 
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
       expect(renderFieldArray.mock.calls[0][0].fields.get(0)).toBe('Fido')
@@ -2412,7 +2412,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       renderField.mock.calls[0][0].input.onChange('Odie')
 
       // field array NOT rerendered
-      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray).toHaveBeenCalledTimes(1)
       expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
 
       // but get() should get the new value

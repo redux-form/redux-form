@@ -555,7 +555,7 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].meta.valid).toBe(false)
       expect(input.mock.calls[0][0].meta.error).toBe('bar error')
     })
@@ -589,7 +589,7 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].meta.warning).toBe('bar warning')
     })
 
@@ -661,14 +661,14 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('fooValue')
       expect(input.mock.calls[0][0].meta.touched).toBe(false)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('barValue')
       expect(input.mock.calls[1][0].meta.touched).toBe(true)
     })
@@ -861,13 +861,13 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].highlighted).toBe(0)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].highlighted).toBe(1)
     })
 
@@ -900,18 +900,18 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(renderSpy).toHaveBeenCalled()
-      expect(renderSpy.mock.calls.length).toBe(1)
+      expect(renderSpy).toHaveBeenCalledTimes(1)
 
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].rel).toBe('test')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(renderSpy.mock.calls.length).toBe(2)
+      expect(renderSpy).toHaveBeenCalledTimes(2)
 
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
     })
 
     it('should call normalize function on change', () => {
@@ -967,7 +967,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           username: 'oldusername'
         })
       )
-      expect(normalize.mock.calls.length).toBe(1)
+      expect(normalize).toHaveBeenCalledTimes(1)
 
       expect(renderUsername.mock.calls[1][0].input.value).toBe('erikras')
     })
@@ -1025,7 +1025,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           username: 'oldusername'
         })
       )
-      expect(normalize.mock.calls.length).toBe(1)
+      expect(normalize).toHaveBeenCalledTimes(1)
 
       expect(renderUsername.mock.calls[1][0].input.value).toBe('erikras')
     })
@@ -1252,7 +1252,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       )
 
       expect(format).toHaveBeenCalled()
-      expect(format.mock.calls.length).toBe(1)
+      expect(format).toHaveBeenCalledTimes(1)
       expect(format.mock.calls[0]).toEqual(['Redux Form', 'name'])
 
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
@@ -1286,16 +1286,16 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(parse).not.toHaveBeenCalled()
 
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
       input.mock.calls[0][0].input.onChange('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
-      expect(parse.mock.calls.length).toBe(1)
+      expect(parse).toHaveBeenCalledTimes(1)
       expect(parse.mock.calls[0]).toEqual(['REDUX FORM ROCKS', 'name'])
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('redux form rocks')
     })
 
@@ -1327,16 +1327,16 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(parse).not.toHaveBeenCalled()
 
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
       input.mock.calls[0][0].input.onBlur('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
-      expect(parse.mock.calls.length).toBe(1)
+      expect(parse).toHaveBeenCalledTimes(1)
       expect(parse.mock.calls[0]).toEqual(['REDUX FORM ROCKS', 'name'])
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('redux form rocks')
     })
 
@@ -1385,7 +1385,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // verify props
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].meta.active).toBe(false)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
@@ -1418,7 +1418,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       })
 
       // verify props
-      expect(input.mock.calls.length).toBe(2) // active now
+      expect(input).toHaveBeenCalledTimes(2) // active now
       expect(input.mock.calls[1][0].meta.active).toBe(true)
       expect(input.mock.calls[1][0].input.value).toBe('redux form')
 
@@ -1451,7 +1451,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       })
 
       // verify props
-      expect(input.mock.calls.length).toBe(3) // not active now
+      expect(input).toHaveBeenCalledTimes(3) // not active now
       expect(input.mock.calls[2][0].meta.active).toBe(false)
       expect(input.mock.calls[2][0].input.value).toBe('redux form') // UNCHANGED!
     })
@@ -1490,13 +1490,13 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // format called once
       expect(format).toHaveBeenCalled()
-      expect(format.mock.calls.length).toBe(1)
+      expect(format).toHaveBeenCalledTimes(1)
 
       // parse not called yet
       expect(parse).not.toHaveBeenCalled()
 
       // input displaying string value
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('42')
 
       // update value
@@ -1504,7 +1504,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // parse was called
       expect(parse).toHaveBeenCalled()
-      expect(parse.mock.calls.length).toBe(1)
+      expect(parse).toHaveBeenCalledTimes(1)
       expect(parse.mock.calls[0]).toEqual(['15', 'age'])
 
       // value in store is number
@@ -1521,11 +1521,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // format called again
       expect(format).toHaveBeenCalled()
-      expect(format.mock.calls.length).toBe(2)
+      expect(format).toHaveBeenCalledTimes(2)
       expect(format.mock.calls[1]).toEqual([15, 'age'])
 
       // input rerendered with string value
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('15')
     })
 
@@ -1567,11 +1567,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // password input rendered
       expect(passwordInput).toHaveBeenCalled()
-      expect(passwordInput.mock.calls.length).toBe(1)
+      expect(passwordInput).toHaveBeenCalledTimes(1)
 
       // confirm input rendered with error
       expect(confirmInput).toHaveBeenCalled()
-      expect(confirmInput.mock.calls.length).toBe(1)
+      expect(confirmInput).toHaveBeenCalledTimes(1)
       expect(confirmInput.mock.calls[0][0].meta.valid).toBe(false)
       expect(confirmInput.mock.calls[0][0].meta.error).toBe('Must match!')
 
@@ -1579,10 +1579,10 @@ const describeField = (name, structure, combineReducers, setup) => {
       passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
 
       // password input rerendered
-      expect(passwordInput.mock.calls.length).toBe(2)
+      expect(passwordInput).toHaveBeenCalledTimes(2)
 
       // confirm input should also rerender, but with no error
-      expect(confirmInput.mock.calls.length).toBe(2)
+      expect(confirmInput).toHaveBeenCalledTimes(2)
       expect(confirmInput.mock.calls[1][0].meta.valid).toBe(true)
       expect(confirmInput.mock.calls[1][0].meta.error).toBe(undefined)
     })
@@ -1615,7 +1615,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(1)
+      expect(usernameInput).toHaveBeenCalledTimes(1)
 
       // username field has error
       expect(usernameInput.mock.calls[0][0].meta.valid).toBe(false)
@@ -1625,7 +1625,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
 
       // should be valid now
       expect(usernameInput.mock.calls[1][0].meta.valid).toBe(true)
@@ -1672,11 +1672,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // password input rendered
       expect(passwordInput).toHaveBeenCalled()
-      expect(passwordInput.mock.calls.length).toBe(1)
+      expect(passwordInput).toHaveBeenCalledTimes(1)
 
       // confirm input rendered with warning
       expect(confirmInput).toHaveBeenCalled()
-      expect(confirmInput.mock.calls.length).toBe(1)
+      expect(confirmInput).toHaveBeenCalledTimes(1)
       expect(confirmInput.mock.calls[0][0].meta.warning).toBe(
         'Should match. Or not. Whatever.'
       )
@@ -1685,10 +1685,10 @@ const describeField = (name, structure, combineReducers, setup) => {
       passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
 
       // password input rerendered
-      expect(passwordInput.mock.calls.length).toBe(2)
+      expect(passwordInput).toHaveBeenCalledTimes(2)
 
       // confirm input should also rerender, but with no warning
-      expect(confirmInput.mock.calls.length).toBe(2)
+      expect(confirmInput).toHaveBeenCalledTimes(2)
       expect(confirmInput.mock.calls[1][0].meta.warning).toBe(undefined)
     })
 
@@ -1720,7 +1720,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(1)
+      expect(usernameInput).toHaveBeenCalledTimes(1)
 
       // username field has warning
       expect(usernameInput.mock.calls[0][0].meta.warning).toBe('Recommended')
@@ -1729,7 +1729,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
 
       // should be valid now
       expect(usernameInput.mock.calls[1][0].meta.warning).toBe(undefined)
@@ -1765,9 +1765,9 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
       expect(required).toHaveBeenCalled()
-      expect(required.mock.calls.length).toBe(1)
+      expect(required).toHaveBeenCalledTimes(1)
 
       // username field has error
       expect(usernameInput.mock.calls[1][0].meta.valid).toBe(false)
@@ -1777,7 +1777,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(3)
+      expect(usernameInput).toHaveBeenCalledTimes(3)
 
       // should be valid now
       expect(usernameInput.mock.calls[2][0].meta.valid).toBe(true)
@@ -1925,9 +1925,9 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
       expect(required).toHaveBeenCalled()
-      expect(required.mock.calls.length).toBe(1)
+      expect(required).toHaveBeenCalledTimes(1)
 
       // username field has warning
       expect(usernameInput.mock.calls[1][0].meta.valid).toBe(true)
@@ -1937,7 +1937,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(3)
+      expect(usernameInput).toHaveBeenCalledTimes(3)
 
       // should be valid now
       expect(usernameInput.mock.calls[2][0].meta.valid).toBe(true)
@@ -2062,22 +2062,22 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input1).toHaveBeenCalled()
-      expect(input1.mock.calls.length).toBe(1)
+      expect(input1).toHaveBeenCalledTimes(1)
       expect(input1.mock.calls[0][0].input.value).toBe('')
 
       expect(input2).toHaveBeenCalled()
-      expect(input2.mock.calls.length).toBe(1)
+      expect(input2).toHaveBeenCalledTimes(1)
       expect(input2.mock.calls[0][0].input.value).toBe('')
 
       // change input #1
       input1.mock.calls[0][0].input.onChange('foo')
 
       // expect input #1 to have been rerendered
-      expect(input1.mock.calls.length).toBe(2)
+      expect(input1).toHaveBeenCalledTimes(2)
       expect(input1.mock.calls[1][0].input.value).toBe('foo')
 
       // expect input #2 to NOT have been rerendered
-      expect(input2.mock.calls.length).toBe(1)
+      expect(input2).toHaveBeenCalledTimes(1)
     })
 
     it('should allow onChange callback', () => {
@@ -2106,20 +2106,20 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onChange prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onChange).toBeFalsy()
 
       TestUtils.Simulate.change(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value changed
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
     })
 
@@ -2149,20 +2149,20 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onChange prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onChange).toBeFalsy()
 
       TestUtils.Simulate.change(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
@@ -2192,20 +2192,20 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onBlur prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onBlur).toBeFalsy()
 
       TestUtils.Simulate.blur(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value changed
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
     })
 
@@ -2235,20 +2235,20 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onBlur prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onBlur).toBeFalsy()
 
       TestUtils.Simulate.blur(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
@@ -2277,7 +2277,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onFocus prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onFocus).toBeFalsy()
 
       // not marked as active
@@ -2287,11 +2287,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
 
       // field marked active
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].meta.active).toBe(true)
     })
 
@@ -2320,7 +2320,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onFocus prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onFocus).toBeFalsy()
 
       // not marked as active
@@ -2330,11 +2330,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
 
       // field NOT marked active
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].meta.active).toBe(false)
     })
 
@@ -2363,7 +2363,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onDrop prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onDrop).toBeFalsy()
 
       TestUtils.Simulate.drop(input, {
@@ -2372,13 +2372,13 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value changed
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
     })
 
@@ -2408,7 +2408,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onDrop prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onDrop).toBeFalsy()
 
       TestUtils.Simulate.drop(input, {
@@ -2417,13 +2417,13 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
@@ -2456,7 +2456,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onDragStart prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onDragStart).toBeFalsy()
 
       TestUtils.Simulate.dragStart(input, {
@@ -2465,11 +2465,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
     })
   })
 }
