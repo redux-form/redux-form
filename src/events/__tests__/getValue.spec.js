@@ -124,7 +124,7 @@ describe('getValue', () => {
         },
         true
       )
-    ).toBe('')
+    ).toBe(false)
     expect(
       getValue(
         {
@@ -137,7 +137,7 @@ describe('getValue', () => {
         },
         false
       )
-    ).toBe('')
+    ).toBe(false)
   })
 
   it('should return a number type for numeric inputs, when a value is set', () => {

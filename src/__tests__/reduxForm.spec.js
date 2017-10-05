@@ -578,6 +578,107 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(1)
     })
 
+    it('should set checkbox values to false when unchecked', () => {
+      const store = makeStore({})
+      const inputRender = jest.fn(props => (
+        <input {...props.input} type="checkbox" />
+      ))
+      const formRender = jest.fn()
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={inputRender} type="checkbox" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
+      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(
+        dom,
+        'input'
+      ).find(element => element.getAttribute('name') === 'foo')
+
+      expect(formRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(getIn(store.getState(), 'form.testForm.values.foo')).toBeFalsy()
+
+      expect(propsAtNthRender(inputRender, 0).input.checked).toBe(false)
+      TestUtils.Simulate.change(checkbox, {
+        target: { type: 'checkbox', checked: true }
+      })
+
+      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputRender, 1).input.checked).toBe(true)
+      expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
+
+      TestUtils.Simulate.change(checkbox, {
+        target: { type: 'checkbox', checked: false }
+      })
+
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(inputRender, 2).input.value).toBe(false)
+      expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(false)
+    })
+
+    it('should set checkbox values to false when unchecked (when initialized)', () => {
+      const store = makeStore({})
+      const inputRender = jest.fn(props => (
+        <input {...props.input} type="checkbox" />
+      ))
+      const formRender = jest.fn()
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={inputRender} type="checkbox" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        initialValues: { foo: true }
+      })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
+      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(
+        dom,
+        'input'
+      ).find(element => element.getAttribute('name') === 'foo')
+
+      expect(formRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
+
+      expect(propsAtNthRender(inputRender, 0).input.checked).toBe(true)
+      TestUtils.Simulate.change(checkbox, {
+        target: { type: 'checkbox', checked: false }
+      })
+
+      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputRender, 1).input.checked).toBe(false)
+      expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(false)
+
+      TestUtils.Simulate.change(checkbox, {
+        target: { type: 'checkbox', checked: true }
+      })
+
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(inputRender, 2).input.value).toBe(true)
+      expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
+    })
+
     it('should initialize values with initialValues on first render', () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
