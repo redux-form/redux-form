@@ -1,3 +1,4 @@
+import React from 'react'
 import deepEqual from '../deepEqual'
 
 describe('structure.plain.deepEqual', () => {
@@ -230,6 +231,7 @@ describe('structure.plain.deepEqual', () => {
       false
     )
   })
+
   it('should not treat a number X and a string "X." as equal', function() {
     testBothWays(
       {
@@ -237,6 +239,18 @@ describe('structure.plain.deepEqual', () => {
       },
       {
         a: '1.'
+      },
+      false
+    )
+  })
+
+  it('should treat even the React elements as NOT equal', function() {
+    testBothWays(
+      {
+        a: <div>Hi there</div>
+      },
+      {
+        a: <div>Hi there</div>
       },
       false
     )
