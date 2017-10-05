@@ -140,6 +140,22 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(base1, base2, true)
   })
 
+  it("should treat 1 and '1' as NOT equal", () => {
+    testBothWays(
+      {
+        a: {
+          b: '1'
+        }
+      },
+      {
+        a: {
+          b: 1
+        }
+      },
+      false
+    )
+  })
+
   it("should treat undefined and '' as equal", () => {
     testBothWays(
       {

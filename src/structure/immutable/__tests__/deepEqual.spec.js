@@ -301,6 +301,22 @@ describe('structure.immutable.deepEqual', () => {
     )
   })
 
+  it("should treat 1 and '1' as NOT equal", () => {
+    testBothWays(
+      fromJS({
+        a: {
+          b: '1'
+        }
+      }),
+      fromJS({
+        a: {
+          b: 1
+        }
+      }),
+      false
+    )
+  })
+
   it("should treat null and '' as equal", () => {
     testBothWays(
       fromJS({
