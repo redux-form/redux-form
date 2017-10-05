@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeIsPristine = (name, structure, setup) => {
   const isPristine = createIsPristine(structure)
 
@@ -94,13 +93,9 @@ const describeIsPristine = (name, structure, setup) => {
   })
 }
 
-describeIsPristine(
-  'isPristine.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeIsPristine('isPristine.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeIsPristine(
-  'isPristine.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeIsPristine('isPristine.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

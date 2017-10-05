@@ -1045,11 +1045,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // should validate
       expect(noMoreThanTwo.mock.calls.length).toBe(2)
-      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
-        'dog',
-        'cat',
-        'rat'
-      ])
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.mock.calls.length).toBe(2)
@@ -1114,11 +1110,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // should validate
       expect(noMoreThanTwo.mock.calls.length).toBe(2)
-      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
-        'dog',
-        'cat',
-        'rat'
-      ])
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.mock.calls.length).toBe(2)
@@ -1180,11 +1172,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // should validate
       expect(noMoreThanTwo.mock.calls.length).toBe(2)
-      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
-        'dog',
-        'cat',
-        'rat'
-      ])
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.mock.calls.length).toBe(2)
@@ -1249,11 +1237,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // should validate
       expect(noMoreThanTwo.mock.calls.length).toBe(2)
-      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap([
-        'dog',
-        'cat',
-        'rat'
-      ])
+      expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
       expect(renderArray.mock.calls.length).toBe(2)
@@ -1351,9 +1335,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
     it('should rerender when items added or removed', () => {
       const store = makeStore({})
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -1426,61 +1408,62 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
     })
 
     it('should rerender when items swapped', () => {
-        const store = makeStore({
-            testForm: {
-                values: {
-                    items: ['dog', 'cat']
-                }
-            }
-        })
-          const renderField = jest.fn(props => (
-              <input {...props.input} />
-          ))
-          const renderFieldArray = jest.fn(({ fields }) => (
-              <div>
-                  {fields.map(field => (
-                      <Field name={field} component={renderField} key={field} />
-                  ))}
-                  <button className="swap" onClick={() => fields.swap(0, 1)}>
-                      Swap items
-                  </button>
-              </div>
-          ))
-          class Form extends Component {
-              render() {
-                  return <FieldArray name="items" component={renderFieldArray} />
-              }
+      const store = makeStore({
+        testForm: {
+          values: {
+            items: ['dog', 'cat']
           }
-          const TestForm = reduxForm({ form: 'testForm' })(Form)
-          const dom = TestUtils.renderIntoDocument(
-              <Provider store={store}>
-                  <TestForm />
-              </Provider>
-          )
-          const swapButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'swap')
-
-          // length is 0
-          expect(renderFieldArray).toHaveBeenCalled()
-          expect(renderFieldArray.mock.calls.length).toBe(1)
-          expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
-          expect(renderField.mock.calls[0][0].input.value).toBe('dog')
-          expect(renderField.mock.calls[1][0].input.value).toBe('cat')
-
-          expect(renderFieldArray.mock.calls[0][0].fields.get(0)).toBe('dog')
-          expect(renderFieldArray.mock.calls[0][0].fields.get(1)).toBe('cat')
-
-          // add field
-          TestUtils.Simulate.click(swapButton)
-
-          // field array rerendered, items swapped
-          expect(renderFieldArray.mock.calls.length).toBe(2)
-          expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(2)
-          expect(renderField.mock.calls[2][0].input.value).toBe('cat')
-          expect(renderField.mock.calls[3][0].input.value).toBe('dog')
-
-          expect(renderFieldArray.mock.calls[1][0].fields.get(0)).toBe('cat')
-          expect(renderFieldArray.mock.calls[1][0].fields.get(1)).toBe('dog')
+        }
       })
+      const renderField = jest.fn(props => <input {...props.input} />)
+      const renderFieldArray = jest.fn(({ fields }) => (
+        <div>
+          {fields.map(field => (
+            <Field name={field} component={renderField} key={field} />
+          ))}
+          <button className="swap" onClick={() => fields.swap(0, 1)}>
+            Swap items
+          </button>
+        </div>
+      ))
+      class Form extends Component {
+        render() {
+          return <FieldArray name="items" component={renderFieldArray} />
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+      const swapButton = TestUtils.findRenderedDOMComponentWithClass(
+        dom,
+        'swap'
+      )
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.mock.calls.length).toBe(1)
+      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
+      expect(renderField.mock.calls[0][0].input.value).toBe('dog')
+      expect(renderField.mock.calls[1][0].input.value).toBe('cat')
+
+      expect(renderFieldArray.mock.calls[0][0].fields.get(0)).toBe('dog')
+      expect(renderFieldArray.mock.calls[0][0].fields.get(1)).toBe('cat')
+
+      // add field
+      TestUtils.Simulate.click(swapButton)
+
+      // field array rerendered, items swapped
+      expect(renderFieldArray.mock.calls.length).toBe(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(2)
+      expect(renderField.mock.calls[2][0].input.value).toBe('cat')
+      expect(renderField.mock.calls[3][0].input.value).toBe('dog')
+
+      expect(renderFieldArray.mock.calls[1][0].fields.get(0)).toBe('cat')
+      expect(renderFieldArray.mock.calls[1][0].fields.get(1)).toBe('dog')
+    })
 
     it('should rerender when array sync error appears or disappears', () => {
       if (allowsArrayErrors) {
@@ -1742,9 +1725,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -1793,9 +1774,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -1867,9 +1846,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(member => (
@@ -1921,9 +1898,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
     it('should create a list in the store on push(undefined)', () => {
       const store = makeStore({})
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -1995,9 +1970,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
     it('should create a list in the store on push(value)', () => {
       const store = makeStore({})
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -2069,9 +2042,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
     it('should create a list in the store on unshift(undefined)', () => {
       const store = makeStore({})
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -2143,9 +2114,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
     it('should create a list in the store on unshift(value)', () => {
       const store = makeStore({})
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -2217,9 +2186,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
     it('should create a list in the store on insert(undefined)', () => {
       const store = makeStore({})
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -2291,9 +2258,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
     it('should create a list in the store on insert(value)', () => {
       const store = makeStore({})
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -2416,9 +2381,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderField = jest.fn(props => (
-        <input {...props.input} />
-      ))
+      const renderField = jest.fn(props => <input {...props.input} />)
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
           {fields.map(field => (
@@ -2458,11 +2421,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeFieldArray(
-  'FieldArray.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeFieldArray('FieldArray.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
 describeFieldArray(
   'FieldArray.immutable',

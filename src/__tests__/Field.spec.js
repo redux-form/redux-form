@@ -504,9 +504,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should have value set to initial value on first render', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -536,9 +534,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const validate = () => ({ foo: ['bar error'] })
       class Form extends Component {
         render() {
@@ -572,9 +568,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const warn = () => ({ foo: ['bar warning'] })
       class Form extends Component {
         render() {
@@ -642,9 +636,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         constructor() {
           super()
@@ -836,12 +828,12 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const input = jest.fn(props =>
+      const input = jest.fn(props => (
         <div>
           {props.highlighted}
           <input {...props.input} />
         </div>
-      )
+      ))
       class Form extends Component {
         constructor() {
           super()
@@ -881,9 +873,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
       const store = makeStore()
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const renderSpy = jest.fn()
       class Form extends Component {
         constructor() {
@@ -934,9 +924,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderUsername = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderUsername = jest.fn(props => <input {...props.input} />)
       const normalize = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -962,9 +950,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(normalize).not.toHaveBeenCalled()
 
-      expect(renderUsername.mock.calls[0][0].input.value).toBe(
-        'oldusername'
-      )
+      expect(renderUsername.mock.calls[0][0].input.value).toBe('oldusername')
       renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
 
       expect(normalize).toHaveBeenCalledWith(
@@ -996,9 +982,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderUsername = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderUsername = jest.fn(props => <input {...props.input} />)
       const normalize = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1024,9 +1008,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(normalize).not.toHaveBeenCalled()
 
-      expect(renderUsername.mock.calls[0][0].input.value).toBe(
-        'oldusername'
-      )
+      expect(renderUsername.mock.calls[0][0].input.value).toBe('oldusername')
       renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
 
       expect(normalize).toHaveBeenCalledWith(
@@ -1058,9 +1040,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderUsername = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderUsername = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -1072,9 +1052,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           )
         }
       }
-      const asyncValidate = jest.fn(
-        () => new Promise(resolve => resolve())
-      )
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
       const TestForm = reduxForm({ form: 'testForm', asyncValidate })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1095,9 +1073,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return <Field name="title" component={renderTitle} />
@@ -1125,9 +1101,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderSex = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderSex = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -1173,9 +1147,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       const dragSpy = jest.fn((key, val) => val)
       const event = dragStartMock(dragSpy)
       class Form extends Component {
@@ -1203,9 +1175,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       const dragSpy = jest.fn((key, val) => val)
       const event = dragStartMock(dragSpy)
       class Form extends Component {
@@ -1233,9 +1203,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       const dropSpy = jest.fn(key => key)
       const event = dropMock(dropSpy)
       event.preventDefault = jest.fn(event.preventDefault)
@@ -1265,9 +1233,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const format = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1300,9 +1266,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const parse = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1343,9 +1307,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const parse = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1386,9 +1348,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -1504,15 +1464,9 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const parse = jest.fn(
-        value => value && parseInt(value, 10)
-      )
-      const format = jest.fn(
-        value => value && value.toString()
-      )
+      const input = jest.fn(props => <input {...props.input} />)
+      const parse = jest.fn(value => value && parseInt(value, 10))
+      const format = jest.fn(value => value && value.toString())
       class Form extends Component {
         render() {
           return (
@@ -1584,12 +1538,8 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const passwordInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const confirmInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const passwordInput = jest.fn(props => <input {...props.input} />)
+      const confirmInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1639,9 +1589,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should rerender when sync error is cleared', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Required' }
@@ -1693,12 +1641,8 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const passwordInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const confirmInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const passwordInput = jest.fn(props => <input {...props.input} />)
+      const confirmInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1750,9 +1694,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should rerender when sync warning is cleared', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Recommended' }
@@ -1781,9 +1723,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls.length).toBe(1)
 
       // username field has warning
-      expect(usernameInput.mock.calls[0][0].meta.warning).toBe(
-        'Recommended'
-      )
+      expect(usernameInput.mock.calls[0][0].meta.warning).toBe('Recommended')
 
       // update username field so it passes
       usernameInput.mock.calls[0][0].input.onChange('erikras')
@@ -1797,9 +1737,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should sync validate with field level validator', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Required' : undefined)
       )
@@ -1902,9 +1840,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should update field level validation when validate prop changes', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Required' : undefined)
       )
@@ -1961,9 +1897,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should sync warn with field level warning function', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Recommended' : undefined)
       )
@@ -1997,9 +1931,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username field has warning
       expect(usernameInput.mock.calls[1][0].meta.valid).toBe(true)
-      expect(usernameInput.mock.calls[1][0].meta.warning).toBe(
-        'Recommended'
-      )
+      expect(usernameInput.mock.calls[1][0].meta.warning).toBe('Recommended')
 
       // update username field so it passes
       usernameInput.mock.calls[0][0].input.onChange('erikras')
@@ -2014,9 +1946,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should update field level warning when warn prop changes', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Required' : undefined)
       )
@@ -2113,12 +2043,8 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should only rerender field that has changed', () => {
       const store = makeStore()
-      const input1 = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const input2 = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input1 = jest.fn(props => <input {...props.input} />)
+      const input2 = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -2156,9 +2082,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onChange callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2201,12 +2125,8 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onChange callback to prevent change', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2248,9 +2168,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onBlur callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2293,12 +2211,8 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onBlur callback to prevent blur', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2340,9 +2254,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onFocus callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2385,12 +2297,8 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onFocus callback to prevent focus', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2432,9 +2340,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onDrop callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2478,12 +2384,8 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onDrop callback to prevent drop', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2527,9 +2429,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should allow onDragStart callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2574,15 +2474,9 @@ const describeField = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeField(
-  'Field.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeField('Field.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
-describeField(
-  'Field.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeField('Field.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )

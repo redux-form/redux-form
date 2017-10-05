@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeGetFormSyncErrors = (name, structure, setup) => {
   const getFormSyncWarnings = createGetFormSyncErrors(structure)
 
@@ -73,13 +72,9 @@ const describeGetFormSyncErrors = (name, structure, setup) => {
   })
 }
 
-describeGetFormSyncErrors(
-  'getFormSyncWarnings.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeGetFormSyncErrors('getFormSyncWarnings.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormSyncErrors(
-  'getFormSyncWarnings.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeGetFormSyncErrors('getFormSyncWarnings.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

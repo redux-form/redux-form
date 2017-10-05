@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeGetFormValues = (name, structure, setup) => {
   const getFormValues = createGetFormValues(structure)
 
@@ -61,13 +60,9 @@ const describeGetFormValues = (name, structure, setup) => {
   })
 }
 
-describeGetFormValues(
-  'getFormValues.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeGetFormValues('getFormValues.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormValues(
-  'getFormValues.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeGetFormValues('getFormValues.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

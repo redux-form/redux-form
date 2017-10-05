@@ -11,7 +11,6 @@ import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-
 const describeValues = (name, structure, combineReducers, setup) => {
   const values = createValues(structure)
   const reducer = createReducer(structure)
@@ -58,15 +57,9 @@ const describeValues = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeValues(
-  'values.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeValues('values.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
-describeValues(
-  'values.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeValues('values.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )

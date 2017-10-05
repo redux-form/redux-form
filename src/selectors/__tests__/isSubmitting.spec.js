@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeIsSubmitting = (name, structure, setup) => {
   const isSubmitting = createIsSubmitting(structure)
 
@@ -59,13 +58,9 @@ const describeIsSubmitting = (name, structure, setup) => {
   })
 }
 
-describeIsSubmitting(
-  'isSubmitting.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeIsSubmitting('isSubmitting.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeIsSubmitting(
-  'isSubmitting.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeIsSubmitting('isSubmitting.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

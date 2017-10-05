@@ -32,7 +32,8 @@ const {
   updateSyncErrors
 } = actions
 const propsAtNthRender = (spy, callNumber) => spy.mock.calls[callNumber][0]
-const propsAtLastRender = spy => propsAtNthRender(spy, spy.mock.calls.length - 1)
+const propsAtLastRender = spy =>
+  propsAtNthRender(spy, spy.mock.calls.length - 1)
 
 const describeReduxForm = (name, structure, combineReducers, setup) => {
   const { fromJS, getIn, setIn } = structure
@@ -512,9 +513,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should strict equals props in immutableProps', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
 
       class Form extends Component {
@@ -581,9 +580,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should initialize values with initialValues on first render', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues = {
         deep: {
@@ -636,9 +633,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should initialize with initialValues on later render if not already initialized', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues = {
         deep: {
@@ -730,9 +725,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should NOT reinitialize with initialValues', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues1 = {
         deep: {
@@ -832,9 +825,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should reinitialize with initialValues if enableReinitialize', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues1 = {
         deep: {
@@ -931,12 +922,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender.mock.calls.length).toBe(2)
 
       // Expect that input value has been changed and is dirty now
-      checkInputProps(
-        inputRender.mock.calls[1][0],
-        'dirtyvalue',
-        false,
-        true
-      )
+      checkInputProps(inputRender.mock.calls[1][0], 'dirtyvalue', false, true)
 
       // Re-initialize form and check if it is pristine and not dirty
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -970,9 +956,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues1 = {
         deep: {
@@ -1090,9 +1074,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should not retain dirty fields if keepDirtyOnReinitialize is not set', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues1 = {
         deep: {
@@ -1204,9 +1186,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should be pristine after initialize() if enableReinitialize', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues1 = {
         deep: {
@@ -1269,9 +1249,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should have initialized prop after initialization from initialValues config', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues = {
         foo: 'bar'
@@ -1305,9 +1283,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should have initialized prop after initialization from initialize()', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues = {
         foo: 'bar'
@@ -1347,9 +1323,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const initialValues1 = {
         deep: {
@@ -1558,9 +1532,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should destroy on unmount by default', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
 
       class Form extends Component {
@@ -1588,9 +1560,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           return (
             <div>
               <Provider store={store}>
-                <div>
-                  {showForm && <Decorated {...this.state} />}
-                </div>
+                <div>{showForm && <Decorated {...this.state} />}</div>
               </Provider>
               <button onClick={() => this.setState({ showForm: !showForm })}>
                 Toggle
@@ -1671,9 +1641,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should not destroy on unmount if told not to', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
 
       class Form extends Component {
@@ -1702,9 +1670,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           return (
             <div>
               <Provider store={store}>
-                <div>
-                  {showForm && <Decorated {...this.state} />}
-                </div>
+                <div>{showForm && <Decorated {...this.state} />}</div>
               </Provider>
               <button onClick={() => this.setState({ showForm: !showForm })}>
                 Toggle
@@ -1809,19 +1775,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           return (
             <form>
               {!showBar && <Field name="foo" component="input" type="text" />}
-              {!showBar &&
+              {!showBar && (
                 <FieldArray
                   name="fooArray"
                   component={noopRender}
                   type="text"
-                />}
+                />
+              )}
               {showBar && <Field name="bar" component="input" type="text" />}
-              {showBar &&
+              {showBar && (
                 <FieldArray
                   name="barArray"
                   component={noopRender}
                   type="text"
-                />}
+                />
+              )}
               <button onClick={() => this.setState({ showBar: true })}>
                 Show Bar
               </button>
@@ -1863,19 +1831,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
             <form>
               <FormSection name="sec">
                 {!showBar && <Field name="foo" component="input" type="text" />}
-                {!showBar &&
+                {!showBar && (
                   <FieldArray
                     name="fooArray"
                     component={noopRender}
                     type="text"
-                  />}
+                  />
+                )}
                 {showBar && <Field name="bar" component="input" type="text" />}
-                {showBar &&
+                {showBar && (
                   <FieldArray
                     name="barArray"
                     component={noopRender}
                     type="text"
-                  />}
+                  />
+                )}
                 <button onClick={() => this.setState({ showBar: true })}>
                   Show Bar
                 </button>
@@ -1943,14 +1913,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should provide valid/invalid/values/dirty/pristine getters', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -1987,18 +1956,17 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const store = makeStore({
         testForm: {}
       })
-      const username = jest.fn(props =>
-        <input {...props.input} type="text" />
-      )
-      const password = jest.fn(props =>
+      const username = jest.fn(props => <input {...props.input} type="text" />)
+      const password = jest.fn(props => (
         <input {...props.input} type="password" />
-      )
+      ))
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component={username} type="text" />
           <Field name="password" component={password} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2068,11 +2036,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const errors = { username: 'Required' }
       const onSubmitFail = jest.fn()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2109,11 +2078,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
       const onSubmitFail = jest.fn()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2151,11 +2121,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const errors = { username: 'Required' }
       const onSubmitFail = jest.fn()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2192,11 +2163,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const onSubmit = jest.fn()
       const onSubmitFail = jest.fn()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2235,11 +2207,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const onSubmit = jest.fn()
       const onSubmitFail = jest.fn()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2278,11 +2251,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const result = { message: 'Good job!' }
       const onSubmitSuccess = jest.fn()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2318,11 +2292,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const result = { message: 'Good job!' }
       const onSubmitSuccess = jest.fn()
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2357,11 +2332,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
       const errors = { username: 'Required' }
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2393,14 +2369,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2434,11 +2409,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
       const submit = jest.fn()
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit(submit)}>
           <Field name="bar" component="textarea" />
           <input type="submit" value="Submit" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm'
@@ -2468,11 +2444,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <FormWrapper onSubmit={handleSubmit}>
           <Field name="bar" component="textarea" />
           <input type="submit" value="Submit" />
         </FormWrapper>
+      )
 
       const submit = jest.fn()
       const Decorated = reduxForm({
@@ -2503,11 +2480,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         testForm: {}
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const submitSpy = jest.fn().mockImplementation(
         () =>
@@ -2540,11 +2518,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         testForm: {}
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="username" component="input" type="text" />
           <Field name="password" component="input" type="text" />
         </form>
+      )
 
       const submitSpy = jest.fn().mockImplementation(
         () =>
@@ -2581,14 +2560,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="foo" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm'
@@ -2606,14 +2584,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should be fine if getFormState returns nothing', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="foo" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2639,10 +2616,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm'
@@ -2668,15 +2646,14 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const asyncValidate = jest.fn(() => Promise.resolve())
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2714,9 +2691,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const asyncValidate = jest.fn(
         () => new Promise(resolve => setTimeout(resolve, 100))
       )
@@ -2724,10 +2699,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2768,10 +2744,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component="input" type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2798,9 +2775,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const asyncValidate = jest.fn(
         () => new Promise(resolve => setTimeout(resolve, 100))
       )
@@ -2808,10 +2783,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
 
-      const Form = ({ handleSubmit }) =>
+      const Form = ({ handleSubmit }) => (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2844,14 +2820,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should reset when reset() called', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="bar" component={input} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -2882,9 +2857,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should rerender form, but not fields, when non-redux-form props change', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
 
       class Form extends Component {
@@ -3018,9 +2991,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('should re-run sync validation when props change iff shouldValidate is overridden', () => {
       const store = makeStore({})
       const formRender = jest.fn()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const validate = jest.fn((values, props) => {
         const errors = {}
         if (getIn(values, 'amount') > props.max) {
@@ -3123,9 +3094,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should properly remove error prop from sync validation', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
 
       class Form extends Component {
@@ -3167,9 +3136,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('should allow for sync errors to be objects', () => {
       const store = makeStore({})
       const formRender = jest.fn()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const error = {
         complex: 'object',
         manyKeys: true
@@ -3214,12 +3181,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         jest.fn(props => <input {...props.input} />),
         jest.fn(props => <input {...props.input} />)
       ]
-      const renderArray = ({ fields }) =>
+      const renderArray = ({ fields }) => (
         <div>
-          {fields.map((name, index) =>
+          {fields.map((name, index) => (
             <Field name={name} key={index} component={inputs[index]} />
-          )}
+          ))}
         </div>
+      )
       const validate = values => {
         const errors = { foo: [] }
         const foo = getIn(values, 'foo')
@@ -3329,9 +3297,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should properly remove warning prop from sync warning', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
 
       class Form extends Component {
@@ -3371,9 +3337,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('should allow for sync warnings to be objects', () => {
       const store = makeStore({})
       const formRender = jest.fn()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const warning = {
         complex: 'object',
         manyKeys: true
@@ -3410,16 +3374,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should call async on blur of async blur field', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const asyncErrors = {
         deep: {
           foo: 'async error'
         }
       }
-      const asyncValidate = jest.fn().mockImplementation(() => Promise.reject(asyncErrors))
+      const asyncValidate = jest
+        .fn()
+        .mockImplementation(() => Promise.reject(asyncErrors))
 
       class Form extends Component {
         render() {
@@ -3538,12 +3502,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should call form-level onChange when values change', () => {
       const store = makeStore({})
-      const renderFoo = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const renderBar = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderFoo = jest.fn(props => <input {...props.input} />)
+      const renderBar = jest.fn(props => <input {...props.input} />)
       const onChange = jest.fn()
 
       class Form extends Component {
@@ -3613,12 +3573,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should update sync errors after reset when using field-level validation', () => {
       const store = makeStore({})
-      const renderName = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const renderAge = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderName = jest.fn(props => <input {...props.input} />)
+      const renderAge = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const onChange = jest.fn()
       const required = value => (value ? undefined : 'Required')
@@ -3745,12 +3701,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should update sync warnings after reset when using field-level validation', () => {
       const store = makeStore({})
-      const renderName = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const renderAge = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderName = jest.fn(props => <input {...props.input} />)
+      const renderAge = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const onChange = jest.fn()
       const required = value => (value ? undefined : 'Required')
@@ -4039,18 +3991,15 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should not call async validate if shouldAsyncValidate returns false', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const asyncValidate = jest.fn(() =>
-        Promise.reject({ foo: 'bad user!' })
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
+      const asyncValidate = jest.fn(() => Promise.reject({ foo: 'bad user!' }))
       const shouldAsyncValidate = jest.fn().mockImplementation(() => false)
 
-      const Form = () =>
+      const Form = () => (
         <form>
           <Field name="foo" component={inputRender} type="text" />
         </form>
+      )
 
       const Decorated = reduxForm({
         form: 'testForm',
@@ -4139,17 +4088,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
-      expect(
-        decorated.ref.getWrappedInstance().getFieldList()
-      ).toEqual([])
+      expect(decorated.ref.getWrappedInstance().getFieldList()).toEqual([])
     })
 
     it('should set autofilled and unset it on change', () => {
       const store = makeStore({})
 
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const renderForm = jest.fn()
       const onSubmit = jest.fn()
       class Form extends Component {
@@ -4201,9 +4146,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       // check field
       expect(renderInput).toHaveBeenCalled()
       expect(renderInput.mock.calls.length).toBe(3)
-      expect(renderInput.mock.calls[2][0].input.value).toBe(
-        'autofilled value'
-      )
+      expect(renderInput.mock.calls[2][0].input.value).toBe('autofilled value')
       expect(renderInput.mock.calls[2][0].meta.autofilled).toBe(true)
 
       // test submitting autofilled value
@@ -4240,9 +4183,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should not reinitialize values on remount if destroyOnMount is false', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const initialValues = {
         foo: 'fooInitial'
       }
@@ -4625,9 +4566,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('submits (via config) when the SUBMIT action is dispatched', () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const onSubmit = jest.fn()
 
       class Form extends Component {
@@ -4668,9 +4607,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -4695,9 +4632,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('submits (via prop) when the SUBMIT action is dispatched', () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const onSubmit = jest.fn()
 
       class Form extends Component {
@@ -4737,9 +4672,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -4764,9 +4697,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('does NOT submit (via config) invalid form when the SUBMIT action is dispatched', () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const onSubmit = jest.fn()
       const formRender = jest.fn()
       const validate = values => {
@@ -4815,9 +4746,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -4862,9 +4791,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -4889,9 +4816,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('does NOT submit (via prop) invalid form when the SUBMIT action is dispatched', () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const onSubmit = jest.fn()
       const validate = values => {
@@ -4939,9 +4864,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -4986,9 +4909,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(submit('testForm'))
 
       // check that clear submit action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        clearSubmit('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -5013,9 +4934,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('should allow initialize on componentWillMount with sync validation', () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
-      const inputRender = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
       const validate = values => {
         const errors = {}
@@ -5059,11 +4978,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeReduxForm(
-  'reduxForm.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeReduxForm('reduxForm.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
 describeReduxForm(
   'reduxForm.immutable',

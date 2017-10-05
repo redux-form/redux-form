@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeIsDirty = (name, structure, setup) => {
   const isDirty = createIsDirty(structure)
 
@@ -95,8 +94,6 @@ const describeIsDirty = (name, structure, setup) => {
 }
 
 describeIsDirty('isDirty.plain', plain, () => expect.extend(plainExpectations))
-describeIsDirty(
-  'isDirty.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeIsDirty('isDirty.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

@@ -8,24 +8,17 @@ const renderField = ({
   label,
   type,
   meta: { touched, error, warning }
-}) =>
+}) => (
   <div>
-    <label>
-      {label}
-    </label>
+    <label>{label}</label>
     <div>
       <input {...input} type={type} placeholder={label} />
       {touched &&
-        ((error &&
-          <span>
-            {error}
-          </span>) ||
-          (warning &&
-            <span>
-              {warning}
-            </span>))}
+        ((error && <span>{error}</span>) ||
+          (warning && <span>{warning}</span>))}
     </div>
   </div>
+)
 
 const ImmutableForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props

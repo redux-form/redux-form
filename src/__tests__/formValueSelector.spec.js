@@ -230,13 +230,9 @@ const describeFormValueSelector = (name, structure, setup) => {
   })
 }
 
-describeFormValueSelector(
-  'formValueSelector.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeFormValueSelector('formValueSelector.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeFormValueSelector(
-  'formValueSelector.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeFormValueSelector('formValueSelector.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

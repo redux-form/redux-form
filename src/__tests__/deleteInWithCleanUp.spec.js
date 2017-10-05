@@ -4,7 +4,6 @@ import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-
 const describeDeleteInWithCleanUp = (name, structure, setup) => {
   const { fromJS } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
@@ -149,13 +148,9 @@ const describeDeleteInWithCleanUp = (name, structure, setup) => {
   })
 }
 
-describeDeleteInWithCleanUp(
-  'deleteInWithCleanUp.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeDeleteInWithCleanUp('deleteInWithCleanUp.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeDeleteInWithCleanUp(
-  'deleteInWithCleanUp.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeDeleteInWithCleanUp('deleteInWithCleanUp.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

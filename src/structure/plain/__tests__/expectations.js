@@ -1,17 +1,13 @@
 // @flow
 import { isEqual, isObject } from 'lodash'
-import {
-  matcherHint,
-  printReceived,
-  printExpected,
-} from 'jest-matcher-utils'
+import { matcherHint, printReceived, printExpected } from 'jest-matcher-utils'
 
 const expectations = {
   toBeAMap(actual: any) {
     const pass = isObject(actual)
     return {
       pass,
-      message: () => `expected ${actual} to be an object`,
+      message: () => `expected ${actual} to be an object`
     }
   },
 
@@ -19,7 +15,7 @@ const expectations = {
     const pass = Array.isArray(actual)
     return {
       pass,
-      message: () => `expected ${actual} to be an array`,
+      message: () => `expected ${actual} to be an array`
     }
   },
 
@@ -27,7 +23,7 @@ const expectations = {
     const pass = actual && Object.keys(actual).length === size
     return {
       pass,
-      message: () => `expected ${actual} to contain ${size} elements`,
+      message: () => `expected ${actual} to contain ${size} elements`
     }
   },
 
@@ -42,7 +38,7 @@ const expectations = {
         `  ${printExpected(expected)}\n` +
         `Received:\n` +
         `  ${printReceived(actual)}`
-      }
+    }
   },
 
   toContainExactly(actual: any, expected: any[]) {

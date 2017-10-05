@@ -131,8 +131,6 @@ const describeReducer = (name, structure, setup) => {
   })
 }
 describeReducer('reducer.plain', plain, () => expect.extend(plainExpectations))
-describeReducer(
-  'reducer.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeReducer('reducer.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

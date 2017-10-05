@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeIsInvalid = (name, structure, setup) => {
   const isInvalid = createIsInvalid(structure)
 
@@ -333,9 +332,9 @@ const describeIsInvalid = (name, structure, setup) => {
   })
 }
 
-describeIsInvalid('isInvalid.plain', plain, () => expect.extend(plainExpectations))
-describeIsInvalid(
-  'isInvalid.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeIsInvalid('isInvalid.plain', plain, () =>
+  expect.extend(plainExpectations)
+)
+describeIsInvalid('isInvalid.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

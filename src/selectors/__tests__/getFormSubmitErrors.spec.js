@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeGetFormSubmitErrors = (name, structure, setup) => {
   const getFormSubmitErrors = createGetFormSubmitErrors(structure)
 
@@ -73,13 +72,9 @@ const describeGetFormSubmitErrors = (name, structure, setup) => {
   })
 }
 
-describeGetFormSubmitErrors(
-  'getFormSubmitErrors.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeGetFormSubmitErrors('getFormSubmitErrors.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormSubmitErrors(
-  'getFormSubmitErrors.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeGetFormSubmitErrors('getFormSubmitErrors.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

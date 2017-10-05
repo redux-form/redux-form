@@ -15,7 +15,6 @@ import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-
 const describeValues = (
   name,
   formValues,
@@ -53,11 +52,13 @@ const describeValues = (
     TestUtils.renderIntoDocument(
       <Provider store={store}>
         <Form>
-          {useSection
-            ? <FormSection name="sub">
-                <Decorated />
-              </FormSection>
-            : <Decorated fooFormFieldName="cat" barFormFieldName="sub.dog" />}
+          {useSection ? (
+            <FormSection name="sub">
+              <Decorated />
+            </FormSection>
+          ) : (
+            <Decorated fooFormFieldName="cat" barFormFieldName="sub.dog" />
+          )}
         </Form>
       </Provider>
     )
@@ -103,12 +104,15 @@ const describeValues = (
     })
 
     it('should get values from Redux state when using a value mapper function', () => {
-      const props = testProps(false, (props) => props.fooFormFieldName)
+      const props = testProps(false, props => props.fooFormFieldName)
       expect(props.cat).toEqual('rat')
     })
 
     it('should use given prop names when using a value mapper function', () => {
-      const props = testProps(false, (props) => ({ foo: props.fooFormFieldName, bar: props.barFormFieldName }))
+      const props = testProps(false, props => ({
+        foo: props.fooFormFieldName,
+        bar: props.barFormFieldName
+      }))
       expect(props.foo).toEqual('rat')
       expect(props.bar).toEqual('cat')
     })
@@ -123,7 +127,7 @@ const describeValues = (
       const Spy = jest.fn(() => <div />)
       const Decorated = formValues('rat')(Spy)
 
-      const Component = ({ name }) =>
+      const Component = ({ name }) => (
         <Provider store={store}>
           <Form>
             <FormSection name={name}>
@@ -131,6 +135,7 @@ const describeValues = (
             </FormSection>
           </Form>
         </Provider>
+      )
 
       ReactDOM.render(<Component name="arr[0]" />, node)
 

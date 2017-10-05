@@ -30,7 +30,9 @@ describe('structure.immutable.splice', () => {
     it('should insert in out of range', () => {
       const structure = splice(fromJS(['a', 'b', 'c']), 5, 0, value)
       expect(structure).toBeInstanceOf(List)
-      expect(structure).toEqual(fromJS(['a', 'b', 'c', undefined, undefined, value]))
+      expect(structure).toEqual(
+        fromJS(['a', 'b', 'c', undefined, undefined, value])
+      )
     })
   }
 
@@ -62,7 +64,6 @@ describe('structure.immutable.splice', () => {
   })
 
   it('should remove in middle', () => {
-
     const structure = splice(fromJS(['a', 'b', 'c', 'd']), 2, 1)
     expect(structure).toBeInstanceOf(List)
     expect(structure).toEqual(fromJS(['a', 'b', 'd']))

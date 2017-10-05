@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeIsValid = (name, structure, setup) => {
   const isValid = createIsValid(structure)
 
@@ -412,8 +411,6 @@ const describeIsValid = (name, structure, setup) => {
 }
 
 describeIsValid('isValid.plain', plain, () => expect.extend(plainExpectations))
-describeIsValid(
-  'isValid.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeIsValid('isValid.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

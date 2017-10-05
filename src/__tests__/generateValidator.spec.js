@@ -4,7 +4,6 @@ import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-
 const describeGenerateValidator = (name, structure, setup) => {
   const { fromJS } = structure
   const required = value => (value == null ? 'Required' : undefined)
@@ -264,13 +263,9 @@ const describeGenerateValidator = (name, structure, setup) => {
   })
 }
 
-describeGenerateValidator(
-  'generateValidator.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeGenerateValidator('generateValidator.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGenerateValidator(
-  'generateValidator.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeGenerateValidator('generateValidator.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

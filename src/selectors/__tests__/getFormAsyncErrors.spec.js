@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeGetFormAsyncErrors = (name, structure, setup) => {
   const getFormAsyncErrors = createGetFormAsyncErrors(structure)
 
@@ -73,13 +72,9 @@ const describeGetFormAsyncErrors = (name, structure, setup) => {
   })
 }
 
-describeGetFormAsyncErrors(
-  'getFormAsyncErrors.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeGetFormAsyncErrors('getFormAsyncErrors.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormAsyncErrors(
-  'getFormAsyncErrors.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeGetFormAsyncErrors('getFormAsyncErrors.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

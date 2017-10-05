@@ -15,7 +15,7 @@ export type DefaultProps = {
 }
 
 class FormSection extends Component<Props> {
-  static defaultProps: DefaultProps;
+  static defaultProps: DefaultProps
   context: ReactContext
 
   constructor(props: Props, context: ReactContext) {

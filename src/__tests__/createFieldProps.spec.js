@@ -420,13 +420,9 @@ const describeCreateFieldProps = (name, structure, setup) => {
   })
 }
 
-describeCreateFieldProps(
-  'createFieldProps.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeCreateFieldProps('createFieldProps.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeCreateFieldProps(
-  'createFieldProps.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeCreateFieldProps('createFieldProps.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

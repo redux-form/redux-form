@@ -4,7 +4,6 @@ import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
 import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-
 const describeHasSubmitSucceeded = (name, structure, setup) => {
   const hasSubmitSucceeded = createHasSubmitSucceeded(structure)
 
@@ -59,13 +58,9 @@ const describeHasSubmitSucceeded = (name, structure, setup) => {
   })
 }
 
-describeHasSubmitSucceeded(
-  'hasSubmitSucceeded.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeHasSubmitSucceeded('hasSubmitSucceeded.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeHasSubmitSucceeded(
-  'hasSubmitSucceeded.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeHasSubmitSucceeded('hasSubmitSucceeded.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

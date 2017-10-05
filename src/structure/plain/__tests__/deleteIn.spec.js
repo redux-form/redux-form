@@ -79,9 +79,11 @@ describe('structure.plain.deleteIn', () => {
 
     expect(result1).toEqual({
       foo: {
-        bar: [{
-          dog: 42
-        }]
+        bar: [
+          {
+            dog: 42
+          }
+        ]
       }
     })
 

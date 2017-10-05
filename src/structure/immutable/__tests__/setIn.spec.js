@@ -69,9 +69,14 @@ describe('structure.immutable.setIn', () => {
     let b = a.get('b')
     expect(b).toBeInstanceOf(List)
 
-    expect(b).toEqual(fromJS(['first', {
-      value: 'success'
-    }]))
+    expect(b).toEqual(
+      fromJS([
+        'first',
+        {
+          value: 'success'
+        }
+      ])
+    )
   })
   it('should handle array paths with existing array with undefined', () => {
     let result = setIn(
@@ -90,9 +95,14 @@ describe('structure.immutable.setIn', () => {
     let b = a.get('b')
     expect(b).toBeInstanceOf(List)
 
-    expect(b).toEqual(fromJS(['first', {
-      value: 'success'
-    }]))
+    expect(b).toEqual(
+      fromJS([
+        'first',
+        {
+          value: 'success'
+        }
+      ])
+    )
   })
   it('should handle multiple array paths', () => {
     let result = setIn(new Map(), 'a.b[0].c.d[13].e', 'success')
