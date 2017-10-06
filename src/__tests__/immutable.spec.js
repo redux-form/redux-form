@@ -21,6 +21,8 @@ import {
   clearSubmitErrors,
   defaultShouldAsyncValidate,
   defaultShouldValidate,
+  defaultShouldError,
+  defaultShouldWarn,
   destroy,
   Field,
   Fields,
@@ -117,6 +119,12 @@ describe('immutable', () => {
   })
   it('should export defaultShouldValidate', () => {
     expect(typeof defaultShouldValidate).toBe('function')
+  })
+  it('should export defaultShouldError', () => {
+    expect(typeof defaultShouldError).toBe('function')
+  })
+  it('should export defaultShouldWarn', () => {
+    expect(typeof defaultShouldWarn).toBe('function')
   })
   it('should export destroy', () => {
     expect(typeof destroy).toBe('function')
