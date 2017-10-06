@@ -31,4 +31,3 @@ const defaultShouldError = ({
 }
 
 export default defaultShouldError
-

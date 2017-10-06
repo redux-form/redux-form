@@ -6,7 +6,7 @@ import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
-import isReactNative from './isReactNative';
+import isReactNative from './isReactNative'
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedField.types'
 

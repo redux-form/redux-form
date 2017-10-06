@@ -31,5 +31,3 @@ const defaultShouldWarn = ({
 }
 
 export default defaultShouldWarn
-
-
