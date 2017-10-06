@@ -1159,6 +1159,9 @@ describe('reducer', () => {
           value: 'initialValue',
           _isFieldValue: true
         },
+        _initData: {
+          myField: 'initialValue',
+        },
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
@@ -1186,6 +1189,10 @@ describe('reducer', () => {
           value: null,
           _isFieldValue: true
         },
+        _initData: {
+          bar: 'baz',
+          dog: null,
+        },
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
@@ -1209,6 +1216,11 @@ describe('reducer', () => {
             initial: 'initialValue',
             value: 'initialValue',
             _isFieldValue: true
+          }
+        },
+        _initData: {
+          myField: {
+            subField: 'initialValue'
           }
         },
         _active: undefined,
@@ -1236,6 +1248,11 @@ describe('reducer', () => {
             _isFieldValue: true
           }
         ],
+        _initData: {
+          myField: [
+            'initialValue'
+          ]
+        },
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
@@ -1291,6 +1308,18 @@ describe('reducer', () => {
             }
           }
         ],
+        _initData: {
+          accounts: [
+            {
+              email: 'bobby@gmail.com',
+              name: 'Bobby Tables'
+            },
+            {
+              email: 'sammy@gmail.com',
+              name: 'Sammy Tables'
+            }
+          ]
+        },
         _active: undefined,
         _asyncValidating: false,
         [globalErrorKey]: undefined,
@@ -1334,6 +1363,9 @@ describe('reducer', () => {
           _isFieldValue: true
         },
         _active: undefined,
+        _initData: {
+          myField: 'cleanValue',
+        },
         _asyncValidating: false,
         [globalErrorKey]: undefined,
         _initialized: true,
@@ -1368,6 +1400,9 @@ describe('reducer', () => {
           initial: 'cleanValue',
           value: 'dirtyValue',
           _isFieldValue: true
+        },
+        _initData: {
+          myField: 'cleanValue'
         },
         _active: undefined,
         _asyncValidating: false,
