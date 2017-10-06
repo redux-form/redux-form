@@ -42,10 +42,13 @@ const describePlugin = (
 
     const reducer = vanillaReducer.plugin({ foo: plugin })
 
-    const state2 = reducer(state1, { type: 'MILK', form: 'foo' })
+    const state2 = reducer(state1, { type: 'MILK', meta: { form: 'foo' } })
     expect(state2).toBe(state1) // no change
 
-    const state3 = reducer(state2, { type: 'RAT_POISON', form: 'foo' })
+    const state3 = reducer(state2, {
+      type: 'RAT_POISON',
+      meta: { form: 'foo' }
+    })
     expect(state3).toEqualMap({
       foo: {
         values: {
@@ -92,12 +95,15 @@ const describePlugin = (
       return state
     }
 
-    const reducer = vanillaReducer.plugin({ foo: plugin })
+    const reducer = vanillaReducer.plugin({ foo: plugin, bar: plugin })
 
-    const state2 = reducer(state1, { type: 'MILK', form: 'foo' })
+    const state2 = reducer(state1, { type: 'MILK', meta: { form: 'foo' } })
     expect(state2).toBe(state1) // no change
 
-    const state3 = reducer(state2, { type: 'RAT_POISON', form: 'foo' })
+    const state3 = reducer(state2, {
+      type: 'RAT_POISON',
+      meta: { form: 'foo' }
+    })
     expect(state3).toEqualMap({
       foo: {
         values: {

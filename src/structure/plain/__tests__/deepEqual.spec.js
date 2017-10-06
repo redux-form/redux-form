@@ -247,7 +247,7 @@ describe('structure.plain.deepEqual', () => {
       false
     )
   })
-  
+
   it('should not treat a number X and a string "X." as equal', () => {
     testBothWays(
       {

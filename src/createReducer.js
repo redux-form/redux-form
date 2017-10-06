@@ -554,20 +554,28 @@ function createReducer<M, L>(structure: Structure<M, L>) {
    * Adds additional functionality to the reducer
    */
   function decorate(target) {
-    target.plugin = function plugin(reducers) {
+    target.plugin = function(reducers) {
       // use 'function' keyword to enable 'this'
-      return decorate((state: any = empty, action: Action = { type: 'NONE' }) =>
-        Object.keys(reducers).reduce((accumulator, key) => {
-          const previousState = getIn(accumulator, key)
-          const nextState = reducers[key](
-            previousState,
-            action,
-            getIn(state, key)
-          )
-          return nextState === previousState
-            ? accumulator
-            : setIn(accumulator, key, nextState)
-        }, this(state, action))
+      return decorate(
+        (state: any = empty, action: Action = { type: 'NONE' }) => {
+          const processed = this(state, action) // run through redux-form reducer
+          const form = action && action.meta && action.meta.form
+
+          // see if we have a plugin that matches this action's form
+          if (form && reducers[form]) {
+            // we DO have a plugin that matches!
+            const previousState = getIn(processed, form)
+            const nextState = reducers[form](
+              previousState,
+              action,
+              getIn(state, form)
+            )
+            if (nextState !== previousState) {
+              return setIn(processed, form, nextState)
+            }
+          }
+          return processed
+        }
       )
     }
 
