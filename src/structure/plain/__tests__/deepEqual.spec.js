@@ -232,7 +232,23 @@ describe('structure.plain.deepEqual', () => {
     )
   })
 
-  it('should not treat a number X and a string "X." as equal', function() {
+  it('should treat false and null as not equal', () => {
+    testBothWays(
+      {
+        a: {
+          b: false
+        }
+      },
+      {
+        a: {
+          b: null
+        }
+      },
+      false
+    )
+  })
+  
+  it('should not treat a number X and a string "X." as equal', () => {
     testBothWays(
       {
         a: 1
