@@ -57,11 +57,10 @@
   },
   "homepage": "https://redux-form.com/",
   "dependencies": {
-    "babel-jest": "21.0.2",
+    "babel-jest": "^21.2.0",
     "deep-equal": "^1.0.1",
     "es6-error": "^4.0.0",
     "hoist-non-react-statics": "^2.3.1",
-    "immutable": "^3.8.1",
     "invariant": "^2.2.2",
     "is-promise": "^2.1.0",
     "lodash": "^4.17.3",
@@ -71,12 +70,13 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^7.2.2",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-react-jsx-source": "^6.22.0",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-es2015-no-commonjs": "^0.0.2",
     "babel-preset-react": "^6.24.1",
@@ -91,15 +91,16 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
-    "flow-bin": "^0.54.1",
+    "flow-bin": "^0.56.0",
     "flux-standard-action": "^1.0.0",
     "get-typed": "^1.0.0-beta.2",
+    "immutable": "^4.0.0-rc.3",
     "jest": "^21.0.2",
     "lodash-webpack-plugin": "^0.11.2",
     "prettier": "^1.6.1",
     "prettier-eslint-cli": "^4.3.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-immutablejs": "^0.0.8",
@@ -125,10 +126,12 @@
   ],
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.js",
+      "!src/**/__tests__/**/*.js"
     ],
     "coverageReporters": [
       "text",
+      "lcov",
       "html"
     ],
     "coveragePathIgnorePatterns": [

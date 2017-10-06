@@ -10,4 +10,4 @@ node_js:
   - "stable"
 
 script:
-  - # prepublish does it all
+  - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js

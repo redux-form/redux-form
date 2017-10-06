@@ -1,8 +1,8 @@
 import createFieldProps from '../createFieldProps'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 import tmp from 'tmp'
 
@@ -420,13 +420,9 @@ const describeCreateFieldProps = (name, structure, setup) => {
   })
 }
 
-describeCreateFieldProps(
-  'createFieldProps.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeCreateFieldProps('createFieldProps.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeCreateFieldProps(
-  'createFieldProps.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeCreateFieldProps('createFieldProps.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

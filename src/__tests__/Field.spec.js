@@ -9,9 +9,9 @@ import createReducer from '../createReducer'
 import createField from '../createField'
 import FormSection from '../FormSection'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 import { dragStartMock, dropMock } from '../util/eventMocks'
 import { dataKey } from '../util/eventConsts'
@@ -504,9 +504,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should have value set to initial value on first render', () => {
       const store = makeStore({})
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -536,9 +534,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const validate = () => ({ foo: ['bar error'] })
       class Form extends Component {
         render() {
@@ -559,7 +555,7 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].meta.valid).toBe(false)
       expect(input.mock.calls[0][0].meta.error).toBe('bar error')
     })
@@ -572,9 +568,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const warn = () => ({ foo: ['bar warning'] })
       class Form extends Component {
         render() {
@@ -595,7 +589,7 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].meta.warning).toBe('bar warning')
     })
 
@@ -642,9 +636,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         constructor() {
           super()
@@ -669,14 +661,14 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('fooValue')
       expect(input.mock.calls[0][0].meta.touched).toBe(false)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('barValue')
       expect(input.mock.calls[1][0].meta.touched).toBe(true)
     })
@@ -836,12 +828,12 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should rerender when props change', () => {
       const store = makeStore()
-      const input = jest.fn(props =>
+      const input = jest.fn(props => (
         <div>
           {props.highlighted}
           <input {...props.input} />
         </div>
-      )
+      ))
       class Form extends Component {
         constructor() {
           super()
@@ -869,21 +861,19 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].highlighted).toBe(0)
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].highlighted).toBe(1)
     })
 
     it('should NOT rerender when props.props is shallow-equal, but !==', () => {
       const store = makeStore()
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const renderSpy = jest.fn()
       class Form extends Component {
         constructor() {
@@ -910,18 +900,18 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(renderSpy).toHaveBeenCalled()
-      expect(renderSpy.mock.calls.length).toBe(1)
+      expect(renderSpy).toHaveBeenCalledTimes(1)
 
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].rel).toBe('test')
 
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(renderSpy.mock.calls.length).toBe(2)
+      expect(renderSpy).toHaveBeenCalledTimes(2)
 
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
     })
 
     it('should call normalize function on change', () => {
@@ -934,9 +924,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderUsername = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderUsername = jest.fn(props => <input {...props.input} />)
       const normalize = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -962,9 +950,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(normalize).not.toHaveBeenCalled()
 
-      expect(renderUsername.mock.calls[0][0].input.value).toBe(
-        'oldusername'
-      )
+      expect(renderUsername.mock.calls[0][0].input.value).toBe('oldusername')
       renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
 
       expect(normalize).toHaveBeenCalledWith(
@@ -981,7 +967,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           username: 'oldusername'
         })
       )
-      expect(normalize.mock.calls.length).toBe(1)
+      expect(normalize).toHaveBeenCalledTimes(1)
 
       expect(renderUsername.mock.calls[1][0].input.value).toBe('erikras')
     })
@@ -996,9 +982,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderUsername = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderUsername = jest.fn(props => <input {...props.input} />)
       const normalize = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1024,9 +1008,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(normalize).not.toHaveBeenCalled()
 
-      expect(renderUsername.mock.calls[0][0].input.value).toBe(
-        'oldusername'
-      )
+      expect(renderUsername.mock.calls[0][0].input.value).toBe('oldusername')
       renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
 
       expect(normalize).toHaveBeenCalledWith(
@@ -1043,7 +1025,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           username: 'oldusername'
         })
       )
-      expect(normalize.mock.calls.length).toBe(1)
+      expect(normalize).toHaveBeenCalledTimes(1)
 
       expect(renderUsername.mock.calls[1][0].input.value).toBe('erikras')
     })
@@ -1058,9 +1040,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderUsername = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderUsername = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -1072,9 +1052,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           )
         }
       }
-      const asyncValidate = jest.fn(
-        () => new Promise(resolve => resolve())
-      )
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
       const TestForm = reduxForm({ form: 'testForm', asyncValidate })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
@@ -1095,9 +1073,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return <Field name="title" component={renderTitle} />
@@ -1125,9 +1101,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderSex = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderSex = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -1173,9 +1147,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       const dragSpy = jest.fn((key, val) => val)
       const event = dragStartMock(dragSpy)
       class Form extends Component {
@@ -1203,9 +1175,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       const dragSpy = jest.fn((key, val) => val)
       const event = dragStartMock(dragSpy)
       class Form extends Component {
@@ -1233,9 +1203,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const renderTitle = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderTitle = jest.fn(props => <input {...props.input} />)
       const dropSpy = jest.fn(key => key)
       const event = dropMock(dropSpy)
       event.preventDefault = jest.fn(event.preventDefault)
@@ -1265,9 +1233,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const format = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1286,7 +1252,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       )
 
       expect(format).toHaveBeenCalled()
-      expect(format.mock.calls.length).toBe(1)
+      expect(format).toHaveBeenCalledTimes(1)
       expect(format.mock.calls[0]).toEqual(['Redux Form', 'name'])
 
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
@@ -1300,9 +1266,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const parse = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1322,16 +1286,16 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(parse).not.toHaveBeenCalled()
 
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
       input.mock.calls[0][0].input.onChange('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
-      expect(parse.mock.calls.length).toBe(1)
+      expect(parse).toHaveBeenCalledTimes(1)
       expect(parse.mock.calls[0]).toEqual(['REDUX FORM ROCKS', 'name'])
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('redux form rocks')
     })
 
@@ -1343,9 +1307,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       const parse = jest.fn(value => value.toLowerCase())
       class Form extends Component {
         render() {
@@ -1365,16 +1327,16 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(parse).not.toHaveBeenCalled()
 
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
       input.mock.calls[0][0].input.onBlur('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
-      expect(parse.mock.calls.length).toBe(1)
+      expect(parse).toHaveBeenCalledTimes(1)
       expect(parse.mock.calls[0]).toEqual(['REDUX FORM ROCKS', 'name'])
 
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('redux form rocks')
     })
 
@@ -1386,9 +1348,7 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -1425,7 +1385,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // verify props
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].meta.active).toBe(false)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
@@ -1458,7 +1418,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       })
 
       // verify props
-      expect(input.mock.calls.length).toBe(2) // active now
+      expect(input).toHaveBeenCalledTimes(2) // active now
       expect(input.mock.calls[1][0].meta.active).toBe(true)
       expect(input.mock.calls[1][0].input.value).toBe('redux form')
 
@@ -1491,7 +1451,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       })
 
       // verify props
-      expect(input.mock.calls.length).toBe(3) // not active now
+      expect(input).toHaveBeenCalledTimes(3) // not active now
       expect(input.mock.calls[2][0].meta.active).toBe(false)
       expect(input.mock.calls[2][0].input.value).toBe('redux form') // UNCHANGED!
     })
@@ -1504,15 +1464,9 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const parse = jest.fn(
-        value => value && parseInt(value, 10)
-      )
-      const format = jest.fn(
-        value => value && value.toString()
-      )
+      const input = jest.fn(props => <input {...props.input} />)
+      const parse = jest.fn(value => value && parseInt(value, 10))
+      const format = jest.fn(value => value && value.toString())
       class Form extends Component {
         render() {
           return (
@@ -1536,13 +1490,13 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // format called once
       expect(format).toHaveBeenCalled()
-      expect(format.mock.calls.length).toBe(1)
+      expect(format).toHaveBeenCalledTimes(1)
 
       // parse not called yet
       expect(parse).not.toHaveBeenCalled()
 
       // input displaying string value
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('42')
 
       // update value
@@ -1550,7 +1504,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // parse was called
       expect(parse).toHaveBeenCalled()
-      expect(parse.mock.calls.length).toBe(1)
+      expect(parse).toHaveBeenCalledTimes(1)
       expect(parse.mock.calls[0]).toEqual(['15', 'age'])
 
       // value in store is number
@@ -1567,11 +1521,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // format called again
       expect(format).toHaveBeenCalled()
-      expect(format.mock.calls.length).toBe(2)
+      expect(format).toHaveBeenCalledTimes(2)
       expect(format.mock.calls[1]).toEqual([15, 'age'])
 
       // input rerendered with string value
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('15')
     })
 
@@ -1584,12 +1538,8 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const passwordInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const confirmInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const passwordInput = jest.fn(props => <input {...props.input} />)
+      const confirmInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1617,11 +1567,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // password input rendered
       expect(passwordInput).toHaveBeenCalled()
-      expect(passwordInput.mock.calls.length).toBe(1)
+      expect(passwordInput).toHaveBeenCalledTimes(1)
 
       // confirm input rendered with error
       expect(confirmInput).toHaveBeenCalled()
-      expect(confirmInput.mock.calls.length).toBe(1)
+      expect(confirmInput).toHaveBeenCalledTimes(1)
       expect(confirmInput.mock.calls[0][0].meta.valid).toBe(false)
       expect(confirmInput.mock.calls[0][0].meta.error).toBe('Must match!')
 
@@ -1629,19 +1579,17 @@ const describeField = (name, structure, combineReducers, setup) => {
       passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
 
       // password input rerendered
-      expect(passwordInput.mock.calls.length).toBe(2)
+      expect(passwordInput).toHaveBeenCalledTimes(2)
 
       // confirm input should also rerender, but with no error
-      expect(confirmInput.mock.calls.length).toBe(2)
+      expect(confirmInput).toHaveBeenCalledTimes(2)
       expect(confirmInput.mock.calls[1][0].meta.valid).toBe(true)
       expect(confirmInput.mock.calls[1][0].meta.error).toBe(undefined)
     })
 
     it('should rerender when sync error is cleared', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Required' }
@@ -1667,7 +1615,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(1)
+      expect(usernameInput).toHaveBeenCalledTimes(1)
 
       // username field has error
       expect(usernameInput.mock.calls[0][0].meta.valid).toBe(false)
@@ -1677,7 +1625,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
 
       // should be valid now
       expect(usernameInput.mock.calls[1][0].meta.valid).toBe(true)
@@ -1693,12 +1641,8 @@ const describeField = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const passwordInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const confirmInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const passwordInput = jest.fn(props => <input {...props.input} />)
+      const confirmInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
@@ -1728,11 +1672,11 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // password input rendered
       expect(passwordInput).toHaveBeenCalled()
-      expect(passwordInput.mock.calls.length).toBe(1)
+      expect(passwordInput).toHaveBeenCalledTimes(1)
 
       // confirm input rendered with warning
       expect(confirmInput).toHaveBeenCalled()
-      expect(confirmInput.mock.calls.length).toBe(1)
+      expect(confirmInput).toHaveBeenCalledTimes(1)
       expect(confirmInput.mock.calls[0][0].meta.warning).toBe(
         'Should match. Or not. Whatever.'
       )
@@ -1741,18 +1685,16 @@ const describeField = (name, structure, combineReducers, setup) => {
       passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
 
       // password input rerendered
-      expect(passwordInput.mock.calls.length).toBe(2)
+      expect(passwordInput).toHaveBeenCalledTimes(2)
 
       // confirm input should also rerender, but with no warning
-      expect(confirmInput.mock.calls.length).toBe(2)
+      expect(confirmInput).toHaveBeenCalledTimes(2)
       expect(confirmInput.mock.calls[1][0].meta.warning).toBe(undefined)
     })
 
     it('should rerender when sync warning is cleared', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
         const username = getIn(values, 'username')
         return username ? {} : { username: 'Recommended' }
@@ -1778,18 +1720,16 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(1)
+      expect(usernameInput).toHaveBeenCalledTimes(1)
 
       // username field has warning
-      expect(usernameInput.mock.calls[0][0].meta.warning).toBe(
-        'Recommended'
-      )
+      expect(usernameInput.mock.calls[0][0].meta.warning).toBe('Recommended')
 
       // update username field so it passes
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
 
       // should be valid now
       expect(usernameInput.mock.calls[1][0].meta.warning).toBe(undefined)
@@ -1797,9 +1737,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should sync validate with field level validator', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Required' : undefined)
       )
@@ -1827,9 +1765,9 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
       expect(required).toHaveBeenCalled()
-      expect(required.mock.calls.length).toBe(1)
+      expect(required).toHaveBeenCalledTimes(1)
 
       // username field has error
       expect(usernameInput.mock.calls[1][0].meta.valid).toBe(false)
@@ -1839,7 +1777,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(3)
+      expect(usernameInput).toHaveBeenCalledTimes(3)
 
       // should be valid now
       expect(usernameInput.mock.calls[2][0].meta.valid).toBe(true)
@@ -1902,9 +1840,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should update field level validation when validate prop changes', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Required' : undefined)
       )
@@ -1961,9 +1897,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should sync warn with field level warning function', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Recommended' : undefined)
       )
@@ -1991,21 +1925,19 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // username input rendered
       expect(usernameInput).toHaveBeenCalled()
-      expect(usernameInput.mock.calls.length).toBe(2)
+      expect(usernameInput).toHaveBeenCalledTimes(2)
       expect(required).toHaveBeenCalled()
-      expect(required.mock.calls.length).toBe(1)
+      expect(required).toHaveBeenCalledTimes(1)
 
       // username field has warning
       expect(usernameInput.mock.calls[1][0].meta.valid).toBe(true)
-      expect(usernameInput.mock.calls[1][0].meta.warning).toBe(
-        'Recommended'
-      )
+      expect(usernameInput.mock.calls[1][0].meta.warning).toBe('Recommended')
 
       // update username field so it passes
       usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
-      expect(usernameInput.mock.calls.length).toBe(3)
+      expect(usernameInput).toHaveBeenCalledTimes(3)
 
       // should be valid now
       expect(usernameInput.mock.calls[2][0].meta.valid).toBe(true)
@@ -2014,9 +1946,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should update field level warning when warn prop changes', () => {
       const store = makeStore()
-      const usernameInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(
         value => (value == null ? 'Required' : undefined)
       )
@@ -2113,12 +2043,8 @@ const describeField = (name, structure, combineReducers, setup) => {
 
     it('should only rerender field that has changed', () => {
       const store = makeStore()
-      const input1 = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const input2 = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input1 = jest.fn(props => <input {...props.input} />)
+      const input2 = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -2136,29 +2062,27 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input1).toHaveBeenCalled()
-      expect(input1.mock.calls.length).toBe(1)
+      expect(input1).toHaveBeenCalledTimes(1)
       expect(input1.mock.calls[0][0].input.value).toBe('')
 
       expect(input2).toHaveBeenCalled()
-      expect(input2.mock.calls.length).toBe(1)
+      expect(input2).toHaveBeenCalledTimes(1)
       expect(input2.mock.calls[0][0].input.value).toBe('')
 
       // change input #1
       input1.mock.calls[0][0].input.onChange('foo')
 
       // expect input #1 to have been rerendered
-      expect(input1.mock.calls.length).toBe(2)
+      expect(input1).toHaveBeenCalledTimes(2)
       expect(input1.mock.calls[1][0].input.value).toBe('foo')
 
       // expect input #2 to NOT have been rerendered
-      expect(input2.mock.calls.length).toBe(1)
+      expect(input2).toHaveBeenCalledTimes(1)
     })
 
     it('should allow onChange callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2182,31 +2106,27 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onChange prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onChange).toBeFalsy()
 
       TestUtils.Simulate.change(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value changed
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
     })
 
     it('should allow onChange callback to prevent change', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2229,28 +2149,26 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onChange prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onChange).toBeFalsy()
 
       TestUtils.Simulate.change(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
     it('should allow onBlur callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2274,31 +2192,27 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onBlur prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onBlur).toBeFalsy()
 
       TestUtils.Simulate.blur(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value changed
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
     })
 
     it('should allow onBlur callback to prevent blur', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2321,28 +2235,26 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onBlur prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onBlur).toBeFalsy()
 
       TestUtils.Simulate.blur(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
     it('should allow onFocus callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2365,7 +2277,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onFocus prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onFocus).toBeFalsy()
 
       // not marked as active
@@ -2375,22 +2287,18 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
 
       // field marked active
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].meta.active).toBe(true)
     })
 
     it('should allow onFocus callback to prevent focus', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2412,7 +2320,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onFocus prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onFocus).toBeFalsy()
 
       // not marked as active
@@ -2422,19 +2330,17 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
 
       // field NOT marked active
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].meta.active).toBe(false)
     })
 
     it('should allow onDrop callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2457,7 +2363,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onDrop prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onDrop).toBeFalsy()
 
       TestUtils.Simulate.drop(input, {
@@ -2466,24 +2372,20 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value changed
-      expect(renderInput.mock.calls.length).toBe(2)
+      expect(renderInput).toHaveBeenCalledTimes(2)
       expect(renderInput.mock.calls[1][0].input.value).toBe('bar')
     })
 
     it('should allow onDrop callback to prevent drop', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const callback = jest.fn(event =>
-        event.preventDefault()
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
+      const callback = jest.fn(event => event.preventDefault())
       class Form extends Component {
         render() {
           return (
@@ -2506,7 +2408,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onDrop prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onDrop).toBeFalsy()
 
       TestUtils.Simulate.drop(input, {
@@ -2515,21 +2417,19 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
     it('should allow onDragStart callback', () => {
       const store = makeStore()
-      const renderInput = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
       class Form extends Component {
         render() {
@@ -2556,7 +2456,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).not.toHaveBeenCalled()
 
       // rendered once with no onDragStart prop passed down in custom props
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onDragStart).toBeFalsy()
 
       TestUtils.Simulate.dragStart(input, {
@@ -2565,24 +2465,18 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // call back was called
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(1)
+      expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
 
       // value NOT changed
-      expect(renderInput.mock.calls.length).toBe(1)
+      expect(renderInput).toHaveBeenCalledTimes(1)
     })
   })
 }
 
-describeField(
-  'Field.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeField('Field.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
-describeField(
-  'Field.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeField('Field.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )

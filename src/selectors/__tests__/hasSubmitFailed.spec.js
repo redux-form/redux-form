@@ -1,9 +1,8 @@
 import createHasSubmitFailed from '../hasSubmitFailed'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
 const describeHasSubmitFailed = (name, structure, setup) => {
   const hasSubmitFailed = createHasSubmitFailed(structure)
@@ -59,13 +58,9 @@ const describeHasSubmitFailed = (name, structure, setup) => {
   })
 }
 
-describeHasSubmitFailed(
-  'hasSubmitFailed.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeHasSubmitFailed('hasSubmitFailed.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeHasSubmitFailed(
-  'hasSubmitFailed.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeHasSubmitFailed('hasSubmitFailed.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

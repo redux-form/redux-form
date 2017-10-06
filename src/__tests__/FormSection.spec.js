@@ -11,10 +11,9 @@ import createFields from '../createFields'
 import createFieldArray from '../createFieldArray'
 import FormSection from '../FormSection'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
-
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 const describeFormSection = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
@@ -106,8 +105,8 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
 
       const section = TestUtils.findRenderedDOMComponentWithTag(dom, 'section')
 
-      // 🤢 This line is DISGUSTING!! Is there a better way to get the props on the <section> ??
-      const props = section[Object.keys(section)[0]]._currentElement.props
+      // 🤢 Is there a better way to get the props on the <section> ??
+      const props = section[Object.keys(section)[1]]
 
       expect(props.name).toBeFalsy()
       expect(props.component).toBeFalsy()
@@ -126,9 +125,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
       class Form extends Component {
         render() {
           return (
@@ -146,14 +143,14 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       )
 
       // input displaying string value
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('42')
 
       // update value
       input.mock.calls[0][0].input.onChange('15')
 
       // input displaying updated string value
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].input.value).toBe('15')
 
       expect(store.getState()).toEqualMap({
@@ -183,9 +180,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.bar.input} />
-      )
+      const input = jest.fn(props => <input {...props.bar.input} />)
 
       class Form extends Component {
         render() {
@@ -204,7 +199,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       )
 
       // input displaying string value
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].bar.input.value).toBe('42')
       expect(input.mock.calls[0][0].baz.input.value).toBe('100')
 
@@ -212,7 +207,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       input.mock.calls[0][0].bar.input.onChange('15')
 
       // input displaying updated string value
-      expect(input.mock.calls.length).toBe(2)
+      expect(input).toHaveBeenCalledTimes(2)
       expect(input.mock.calls[1][0].bar.input.value).toBe('15')
 
       expect(store.getState()).toEqualMap({
@@ -244,14 +239,12 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
         }
       })
 
-      const renderField = jest.fn(props =>
-        <input {...props.input} />
-      )
-      const renderFieldArray = jest.fn(({ fields }) =>
+      const renderField = jest.fn(props => <input {...props.input} />)
+      const renderFieldArray = jest.fn(({ fields }) => (
         <div>
-          {fields.map(field =>
+          {fields.map(field => (
             <Field name={field} component={renderField} key={field} />
-          )}
+          ))}
           <button className="add" onClick={() => fields.push('fish')}>
             Add Dog
           </button>
@@ -259,7 +252,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
             Remove Dog
           </button>
         </div>
-      )
+      ))
 
       class Form extends Component {
         render() {
@@ -334,9 +327,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const input = jest.fn(props =>
-        <input {...props.input} />
-      )
+      const input = jest.fn(props => <input {...props.input} />)
 
       class Form extends Component {
         render() {
@@ -358,18 +349,15 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
 
       // input gets the correct name and value
       expect(input).toHaveBeenCalled()
-      expect(input.mock.calls.length).toBe(1)
+      expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('42')
       expect(input.mock.calls[0][0].input.name).toBe('deep.foo.bar')
     })
   })
 }
 
-describeFormSection(
-  'FormSection.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeFormSection('FormSection.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
 describeFormSection(
   'FormSection.immutable',

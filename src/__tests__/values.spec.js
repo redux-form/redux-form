@@ -7,10 +7,9 @@ import TestUtils from 'react-dom/test-utils'
 import createReducer from '../createReducer'
 import createValues from '../createValues'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
-
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 const describeValues = (name, structure, combineReducers, setup) => {
   const values = createValues(structure)
@@ -58,15 +57,9 @@ const describeValues = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeValues(
-  'values.plain',
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeValues('values.plain', plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
-describeValues(
-  'values.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeValues('values.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )

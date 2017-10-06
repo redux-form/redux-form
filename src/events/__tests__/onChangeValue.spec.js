@@ -12,9 +12,7 @@ describe('onChangeValue', () => {
   })
 
   it('should normalize the value before returning', () => {
-    const normalize = jest.fn(
-      (_, value) => `normalized-${value}`
-    )
+    const normalize = jest.fn((_, value) => `normalized-${value}`)
     const value = onChangeValue(valueMock('bar'), { name, normalize })
     expect(normalize).toHaveBeenCalledWith(name, 'bar')
     expect(value).toBe('normalized-bar')
@@ -22,9 +20,7 @@ describe('onChangeValue', () => {
 
   it('should parse before normalize', () => {
     const parse = jest.fn(value => `parsed-${value}`)
-    const normalize = jest.fn(
-      (_, value) => `normalized-${value}`
-    )
+    const normalize = jest.fn((_, value) => `normalized-${value}`)
     const value = onChangeValue(valueMock('bar'), { name, normalize, parse })
     expect(parse).toHaveBeenCalledWith('bar', name)
     expect(normalize).toHaveBeenCalled()

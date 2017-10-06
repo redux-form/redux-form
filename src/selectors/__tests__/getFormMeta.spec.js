@@ -1,9 +1,8 @@
 import createGetFormMeta from '../getFormMeta'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
 const describeGetFormMeta = (name, structure, setup) => {
   const getFormMeta = createGetFormMeta(structure)
@@ -97,13 +96,9 @@ const describeGetFormMeta = (name, structure, setup) => {
   })
 }
 
-describeGetFormMeta(
-  'getFormMeta.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeGetFormMeta('getFormMeta.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormMeta(
-  'getFormMeta.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeGetFormMeta('getFormMeta.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

@@ -4,11 +4,7 @@ import validate from './validate'
 import renderField from './renderField'
 
 const renderError = ({ meta: { touched, error } }) =>
-  touched && error
-    ? <span>
-        {error}
-      </span>
-    : false
+  touched && error ? <span>{error}</span> : false
 
 const WizardFormSecondPage = props => {
   const { handleSubmit, previousPage } = props

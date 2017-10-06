@@ -26,9 +26,13 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
           )
         }
         let valuesMap: PropPath[]
-        const resolvedFirstArg: string | Object = typeof firstArg === 'function' ? firstArg(props) : firstArg
+        const resolvedFirstArg: string | Object =
+          typeof firstArg === 'function' ? firstArg(props) : firstArg
         if (typeof resolvedFirstArg === 'string') {
-          valuesMap = [resolvedFirstArg, ...rest].map((k: string): PropPath => ({
+          valuesMap = [
+            resolvedFirstArg,
+            ...rest
+          ].map((k: string): PropPath => ({
             prop: k,
             path: k
           }))

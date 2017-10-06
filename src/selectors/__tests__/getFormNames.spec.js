@@ -1,9 +1,8 @@
 import createGetFormNames from '../getFormNames'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
 const describeGetFormNames = (name, structure, setup) => {
   const getFormNames = createGetFormNames(structure)
@@ -67,13 +66,9 @@ const describeGetFormNames = (name, structure, setup) => {
   })
 }
 
-describeGetFormNames(
-  'getFormNames.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeGetFormNames('getFormNames.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormNames(
-  'getFormNames.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeGetFormNames('getFormNames.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

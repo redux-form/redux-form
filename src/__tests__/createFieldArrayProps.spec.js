@@ -1,12 +1,11 @@
 import createFieldArrayProps from '../createFieldArrayProps'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
-
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 const describeCreateFieldProps = (name, structure, setup) => {
-  const { fromJS, getIn, size } = structure
+  const { fromJS, getIn } = structure
   const defaultParams = [structure, 'foo', 'testForm', undefined, () => 69]
 
   describe(name, () => {
@@ -238,7 +237,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(callback).not.toHaveBeenCalled()
       result.fields.forEach(callback)
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(3)
+      expect(callback).toHaveBeenCalledTimes(3)
       expect(callback.mock.calls[0]).toEqual(['foo[0]', 0, result.fields])
       expect(callback.mock.calls[1]).toEqual(['foo[1]', 1, result.fields])
       expect(callback.mock.calls[2]).toEqual(['foo[2]', 2, result.fields])
@@ -285,7 +284,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(getIn(mapResult, 1)).toEqual({ whatever: true, name: 'foo[1]' })
       expect(getIn(mapResult, 2)).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(3)
+      expect(callback).toHaveBeenCalledTimes(3)
       expect(callback.mock.calls[0]).toEqual(['foo[0]', 0, result.fields])
       expect(callback.mock.calls[1]).toEqual(['foo[1]', 1, result.fields])
       expect(callback.mock.calls[2]).toEqual(['foo[2]', 2, result.fields])
@@ -307,13 +306,8 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(reduceResult['foo[1]']).toEqual({ whatever: true, name: 'foo[1]' })
       expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
       expect(callback).toHaveBeenCalled()
-      expect(callback.mock.calls.length).toBe(3)
-      expect(callback.mock.calls[0]).toEqual([
-        {},
-        'foo[0]',
-        0,
-        result.fields
-      ])
+      expect(callback).toHaveBeenCalledTimes(3)
+      expect(callback.mock.calls[0]).toEqual([{}, 'foo[0]', 0, result.fields])
       expect(callback.mock.calls[1]).toEqual([
         {
           'foo[0]': { whatever: true, name: 'foo[0]' }
@@ -341,7 +335,7 @@ const describeCreateFieldProps = (name, structure, setup) => {
       const result = createFieldArrayProps(...defaultParams, {})
       expect(typeof result.fields.reduce).toBe('function')
       expect(callback).not.toHaveBeenCalled()
-      const reduceResult = result.fields.reduce(callback, {})
+      result.fields.reduce(callback, {})
       expect(callback).not.toHaveBeenCalled()
     })
 
@@ -373,13 +367,9 @@ const describeCreateFieldProps = (name, structure, setup) => {
   })
 }
 
-describeCreateFieldProps(
-  'createFieldArrayProps.plain',
-  plain,
-  () => expect.extend(plainExpectations)
+describeCreateFieldProps('createFieldArrayProps.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeCreateFieldProps(
-  'createFieldArrayProps.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeCreateFieldProps('createFieldArrayProps.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

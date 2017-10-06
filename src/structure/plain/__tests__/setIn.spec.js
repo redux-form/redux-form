@@ -60,9 +60,12 @@ describe('structure.plain.setIn', () => {
 
     expect(result1).toEqual({
       foo: {
-        bar: ['baz', {
-          dog: 42
-        }]
+        bar: [
+          'baz',
+          {
+            dog: 42
+          }
+        ]
       },
 
       tv: {
@@ -79,9 +82,12 @@ describe('structure.plain.setIn', () => {
 
     expect(result2).toEqual({
       foo: {
-        bar: ['cat', {
-          dog: 42
-        }]
+        bar: [
+          'cat',
+          {
+            dog: 42
+          }
+        ]
       }
     })
 
@@ -94,9 +100,12 @@ describe('structure.plain.setIn', () => {
 
     expect(result3).toEqual({
       foo: {
-        bar: ['baz', {
-          dog: 7
-        }]
+        bar: [
+          'baz',
+          {
+            dog: 7
+          }
+        ]
       }
     })
 

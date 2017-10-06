@@ -1,8 +1,8 @@
 import createReducer from '../createReducer'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 import { prefix } from '../actionTypes'
 
@@ -131,8 +131,6 @@ const describeReducer = (name, structure, setup) => {
   })
 }
 describeReducer('reducer.plain', plain, () => expect.extend(plainExpectations))
-describeReducer(
-  'reducer.immutable',
-  immutable,
-  () => expect.extend(immutableExpectations)
+describeReducer('reducer.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

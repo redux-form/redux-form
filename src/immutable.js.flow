@@ -125,7 +125,7 @@ declare export function formValues(
 
 declare export function getFormNames(
   getFormState: ?GetFormState
-): GetFormNamesInterface
+): GetFormNamesInterface<*>
 
 declare export function getFormValues(
   form: string,
@@ -204,7 +204,7 @@ declare export function reduxForm(
 declare export function reducer(state: any, action: Action): any
 
 declare export class SubmissionError {
-  constructor(errors: Object): void
+  constructor(errors: Object): void;
 }
 
 declare export function values(

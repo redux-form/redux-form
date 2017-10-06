@@ -240,7 +240,9 @@ describe('actions', () => {
       }
     })
 
-    expect(isFSA(arraySplice('myForm', 'myField', 3, 2, { foo: 'bar' }))).toBe(true)
+    expect(isFSA(arraySplice('myForm', 'myField', 3, 2, { foo: 'bar' }))).toBe(
+      true
+    )
   })
 
   it('should create array unshift action', () => {
@@ -745,7 +747,9 @@ describe('actions', () => {
       }
     })
 
-    expect(isFSA(updateSyncWarnings('myForm', { foo: 'foo warning' }))).toBe(true)
+    expect(isFSA(updateSyncWarnings('myForm', { foo: 'foo warning' }))).toBe(
+      true
+    )
   })
 
   it('should create updateSyncWarnings action with no warnings if none given', () => {

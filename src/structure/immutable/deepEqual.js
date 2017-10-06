@@ -1,17 +1,17 @@
 // @flow
-import { Iterable } from 'immutable'
+import { isCollection } from 'immutable'
 
 import { isEqualWith } from 'lodash'
 
 const customizer = (obj: any, other: any) => {
-  if (obj == other) return true // eslint-disable-line eqeqeq
+  if (obj === other) return true
   if (
     (obj == null || obj === '' || obj === false) &&
     (other == null || other === '' || other === false)
   )
     return true
 
-  if (Iterable.isIterable(obj) && Iterable.isIterable(other)) {
+  if (isCollection(obj) && isCollection(other)) {
     return (
       obj.count() === other.count() &&
       obj.every((value, key) => {

@@ -11,20 +11,20 @@ export type Action = {
 export type Validator = (value: any, allValues: Object, props: Object) => ?any
 
 export interface Structure<M, L> {
-  allowsArrayErrors: boolean,
-  empty: M,
-  emptyList: L,
-  getIn(state: any, field: string): any,
-  setIn(state: any, field: string, value: any): any,
-  deepEqual(a: any, b: any): boolean,
-  deleteIn(state: any, field: string): any,
-  forEach(list: L, callback: { (item: any, index: number): void }): void,
-  fromJS(value: any): any,
-  keys(value: M): L,
-  size(array: L): number,
-  some(list: L, callback: { (item: any, index: number): boolean }): boolean,
-  splice(array: L, index: number, removeNum: number, value: any): L,
-  toJS(value: M): any
+  allowsArrayErrors: boolean;
+  empty: M;
+  emptyList: L;
+  getIn(state: any, field: string): any;
+  setIn(state: any, field: string, value: any): any;
+  deepEqual(a: any, b: any): boolean;
+  deleteIn(state: any, field: string): any;
+  forEach(list: L, callback: { (item: any, index: number): void }): void;
+  fromJS(value: any): any;
+  keys(value: M): L;
+  size(array: L): number;
+  some(list: L, callback: { (item: any, index: number): boolean }): boolean;
+  splice(array: L, index: number, removeNum: number, value: any): L;
+  toJS(value: M): any;
 }
 
 export type FieldType = 'Field' | 'FieldArray'
