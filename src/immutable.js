@@ -26,6 +26,7 @@ export { default as Fields } from './immutable/Fields'
 export { default as FieldArray } from './immutable/FieldArray'
 export { default as formValueSelector } from './immutable/formValueSelector'
 export { default as formValues } from './immutable/formValues'
+export { default as getFormError } from './immutable/getFormError'
 export { default as getFormNames } from './immutable/getFormNames'
 export { default as getFormValues } from './immutable/getFormValues'
 export {

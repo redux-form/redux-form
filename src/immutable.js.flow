@@ -22,6 +22,7 @@ import type {
 } from './FieldArrayProps.types'
 import type { FormValueSelectorInterface } from './formValueSelector.types'
 import type { FormValuesInterface } from './formValues.types'
+import type { GetFormErrorInterface } from './selectors/getFormError.types'
 import type { GetFormNamesInterface } from './selectors/getFormNames.types'
 import type { GetFormValuesInterface } from './selectors/getFormValues.types'
 import type { GetFormInitialValuesInterface } from './selectors/getFormInitialValues.types'
@@ -132,6 +133,10 @@ declare export function formValues(
   firstArg: string | Object,
   ...rest: string[]
 ): FormValuesInterface
+
+declare export function getFormError(
+  getFormState: ?GetFormState
+): GetFormErrorInterface<*>
 
 declare export function getFormNames(
   getFormState: ?GetFormState
