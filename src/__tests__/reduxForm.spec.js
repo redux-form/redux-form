@@ -3970,19 +3970,27 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     })
 
     describe('validateIfNeeded', () => {
-      it('should not call validate if shouldValidate returns false', () => {
+      it('should not call validate if shouldValidate and shouldError returns false', () => {
         const validate = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = jest.fn().mockImplementation(() => false)
+        const shouldError = jest.fn().mockImplementation(() => false)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { validate, shouldValidate })
+        const dom = renderForm(
+          Form,
+          {},
+          { validate, shouldValidate, shouldError }
+        )
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(true)
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.mock.calls[0][0].initialRender).toBe(true)
         expect(validate).not.toHaveBeenCalled()
 
         shouldValidate.mockClear()
+        shouldError.mockClear()
 
         // on change
         const inputElement = TestUtils.findRenderedDOMComponentWithTag(
@@ -3993,6 +4001,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(false)
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.mock.calls[0][0].initialRender).toBe(false)
         expect(validate).not.toHaveBeenCalled()
       })
 
@@ -4022,6 +4032,32 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(validate).toHaveBeenCalled()
       })
 
+      it('should call validate if shouldError returns true', () => {
+        const validate = jest.fn().mockImplementation(() => ({}))
+        const shouldError = jest.fn().mockImplementation(() => true)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { validate, shouldError })
+
+        // initial render
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.mock.calls[0][0].initialRender).toBe(true)
+        expect(validate).toHaveBeenCalled()
+
+        shouldError.mockClear()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldError).toHaveBeenCalled()
+        expect(shouldError.mock.calls[0][0].initialRender).toBe(false)
+        expect(validate).toHaveBeenCalled()
+      })
+
       it('should pass values and props to validate if called', () => {
         const propsSpy = jest.fn()
         const validate = jest.fn().mockImplementation(() => ({}))
@@ -4048,22 +4084,53 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         const propArray = Object.keys(propsSpy.mock.calls[0][0])
         expect(Object.keys(validate.mock.calls[0][1])).toEqual(propArray)
       })
+
+      it('should pass values and props to validate if shouldError called', () => {
+        const propsSpy = jest.fn()
+        const validate = jest.fn().mockImplementation(() => ({}))
+        const shouldError = args => {
+          propsSpy(args.props)
+          return true
+        }
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { validate, shouldError })
+
+        validate.mockClear()
+
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        // compare values
+        expect(validate.mock.calls[0][0]).toEqualMap({ foo: 'bar' })
+
+        // compare props
+        const propArray = Object.keys(propsSpy.mock.calls[0][0])
+        expect(Object.keys(validate.mock.calls[0][1])).toEqual(propArray)
+      })
     })
 
     describe('warnIfNeeded', () => {
-      it('should not call warn if shouldValidate returns false', () => {
+      it('should not call warn if shouldValidate and shouldWarn returns false', () => {
         const warn = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = jest.fn().mockImplementation(() => false)
+        const shouldWarn = jest.fn().mockImplementation(() => false)
 
         const Form = makeForm()
-        const dom = renderForm(Form, {}, { warn, shouldValidate })
+        const dom = renderForm(Form, {}, { warn, shouldValidate, shouldWarn })
 
         // initial render
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(true)
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.mock.calls[0][0].initialRender).toBe(true)
         expect(warn).not.toHaveBeenCalled()
 
         shouldValidate.mockClear()
+        shouldWarn.mockClear()
 
         // on change
         const inputElement = TestUtils.findRenderedDOMComponentWithTag(
@@ -4074,6 +4141,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(false)
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.mock.calls[0][0].initialRender).toBe(false)
         expect(warn).not.toHaveBeenCalled()
       })
 
@@ -4103,6 +4172,32 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(warn).toHaveBeenCalled()
       })
 
+      it('should call warn if shouldWarn returns true', () => {
+        const warn = jest.fn().mockImplementation(() => ({}))
+        const shouldWarn = jest.fn().mockImplementation(() => true)
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { warn, shouldWarn })
+
+        // initial render
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.mock.calls[0][0].initialRender).toBe(true)
+        expect(warn).toHaveBeenCalled()
+
+        shouldWarn.mockClear()
+
+        // on change
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        expect(shouldWarn).toHaveBeenCalled()
+        expect(shouldWarn.mock.calls[0][0].initialRender).toBe(false)
+        expect(warn).toHaveBeenCalled()
+      })
+
       it('should pass values and props to warn if called', () => {
         const propsSpy = jest.fn()
         const warn = jest.fn().mockImplementation(() => ({}))
@@ -4113,6 +4208,33 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         const Form = makeForm()
         const dom = renderForm(Form, {}, { warn, shouldValidate })
+
+        warn.mockClear()
+
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+          dom,
+          'input'
+        )
+        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+        // compare values
+        expect(warn.mock.calls[0][0]).toEqualMap({ foo: 'bar' })
+
+        // compare props
+        const propArray = Object.keys(propsSpy.mock.calls[0][0])
+        expect(Object.keys(warn.mock.calls[0][1])).toEqual(propArray)
+      })
+
+      it('should pass values and props to warn if shouldWarn called', () => {
+        const propsSpy = jest.fn()
+        const warn = jest.fn().mockImplementation(() => ({}))
+        const shouldWarn = args => {
+          propsSpy(args.props)
+          return true
+        }
+
+        const Form = makeForm()
+        const dom = renderForm(Form, {}, { warn, shouldWarn })
 
         warn.mockClear()
 
