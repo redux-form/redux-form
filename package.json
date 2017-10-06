@@ -63,7 +63,6 @@
     "hoist-non-react-statics": "^2.3.1",
     "invariant": "^2.2.2",
     "is-promise": "^2.1.0",
-    "jest": "^21.2.1",
     "lodash": "^4.17.3",
     "lodash-es": "^4.17.3",
     "prop-types": "^15.5.9"
@@ -96,6 +95,7 @@
     "flux-standard-action": "^1.0.0",
     "get-typed": "^1.0.0-beta.2",
     "immutable": "^4.0.0-rc.3",
+    "jest": "^21.0.2",
     "lodash-webpack-plugin": "^0.11.2",
     "prettier": "^1.6.1",
     "prettier-eslint-cli": "^4.3.0",
