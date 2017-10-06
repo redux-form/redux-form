@@ -1,18 +1,21 @@
 import createHasSubmitFailed from '../hasSubmitFailed'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-const describeHasSubmitFailed = (name, structure, expect) => {
+const describeHasSubmitFailed = (name, structure, setup) => {
   const hasSubmitFailed = createHasSubmitFailed(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function XXX', () => {
-      expect(hasSubmitFailed('foo')).toBeA('function')
+      expect(typeof hasSubmitFailed('foo')).toBe('function')
     })
 
     it('should return false when value not present', () => {
@@ -55,13 +58,9 @@ const describeHasSubmitFailed = (name, structure, expect) => {
   })
 }
 
-describeHasSubmitFailed(
-  'hasSubmitFailed.plain',
-  plain,
-  addExpectations(plainExpectations)
+describeHasSubmitFailed('hasSubmitFailed.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeHasSubmitFailed(
-  'hasSubmitFailed.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeHasSubmitFailed('hasSubmitFailed.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

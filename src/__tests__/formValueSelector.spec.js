@@ -1,22 +1,25 @@
 /* eslint react/no-multi-comp:0 */
 import createFormValueSelector from '../createFormValueSelector'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-const describeFormValueSelector = (name, structure, expect) => {
+const describeFormValueSelector = (name, structure, setup) => {
   const { fromJS, getIn } = structure
   const formValueSelector = createFormValueSelector(structure)
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error if no form specified', () => {
       expect(() => formValueSelector()).toThrow('Form value must be specified')
     })
 
     it('should return a function', () => {
-      expect(formValueSelector('myForm')).toBeA('function')
+      expect(typeof formValueSelector('myForm')).toBe('function')
     })
 
     it('should throw an error if no fields specified', () => {
@@ -227,13 +230,9 @@ const describeFormValueSelector = (name, structure, expect) => {
   })
 }
 
-describeFormValueSelector(
-  'formValueSelector.plain',
-  plain,
-  addExpectations(plainExpectations)
+describeFormValueSelector('formValueSelector.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeFormValueSelector(
-  'formValueSelector.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeFormValueSelector('formValueSelector.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

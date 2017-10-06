@@ -1,7 +1,7 @@
 // @flow
 import PropTypes from 'prop-types'
 
-const { any, bool, func, shape, string, oneOfType, object } = PropTypes
+const { any, bool, func, shape, string, oneOfType, object, number } = PropTypes
 
 export const formPropTypes = {
   // State:
@@ -81,9 +81,45 @@ export const fieldMetaPropTypes = {
   warning: string
 }
 
+export const fieldArrayMetaPropTypes = {
+  dirty: bool.isRequired,
+  error: string,
+  form: string.isRequired,
+  invalid: bool.isRequired,
+  pristine: bool.isRequired,
+  submitFailed: bool,
+  submitting: bool,
+  valid: bool.isRequired,
+  warning: string
+}
+
+export const fieldArrayFieldsPropTypes = {
+  name: string.isRequired,
+  forEach: func.isRequired,
+  get: func.isRequired,
+  getAll: func.isRequired,
+  insert: func.isRequired,
+  length: number.isRequired,
+  map: func.isRequired,
+  move: func.isRequired,
+  pop: func.isRequired,
+  push: func.isRequired,
+  reduce: func.isRequired,
+  remove: func.isRequired,
+  removeAll: func.isRequired,
+  shift: func.isRequired,
+  swap: func.isRequired,
+  unshift: func.isRequired
+}
+
 export const fieldPropTypes = {
   input: shape(fieldInputPropTypes).isRequired,
   meta: shape(fieldMetaPropTypes).isRequired
+}
+
+export const fieldArrayPropTypes = {
+  fields: shape(fieldArrayFieldsPropTypes).isRequired,
+  meta: shape(fieldArrayMetaPropTypes).isRequired
 }
 
 export default formPropTypes

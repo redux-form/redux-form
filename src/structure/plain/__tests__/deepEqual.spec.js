@@ -1,4 +1,4 @@
-import expect from 'expect'
+import React from 'react'
 import deepEqual from '../deepEqual'
 
 describe('structure.plain.deepEqual', () => {
@@ -141,6 +141,22 @@ describe('structure.plain.deepEqual', () => {
     testBothWays(base1, base2, true)
   })
 
+  it("should treat 1 and '1' as NOT equal", () => {
+    testBothWays(
+      {
+        a: {
+          b: '1'
+        }
+      },
+      {
+        a: {
+          b: 1
+        }
+      },
+      false
+    )
+  })
+
   it("should treat undefined and '' as equal", () => {
     testBothWays(
       {
@@ -215,6 +231,7 @@ describe('structure.plain.deepEqual', () => {
       false
     )
   })
+
   it('should not treat a number X and a string "X." as equal', function() {
     testBothWays(
       {
@@ -222,6 +239,18 @@ describe('structure.plain.deepEqual', () => {
       },
       {
         a: '1.'
+      },
+      false
+    )
+  })
+
+  it('should treat even the React elements as NOT equal', function() {
+    testBothWays(
+      {
+        a: <div>Hi there</div>
+      },
+      {
+        a: <div>Hi there</div>
       },
       false
     )

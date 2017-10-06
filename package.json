@@ -34,12 +34,11 @@
     "example:syncValidation": "form=syncValidation npm run example",
     "example:wizard": "form=wizard npm run example",
     "format": "prettier-eslint \"+(src|examples)/**/*.+(js|js.flow)\" --ignore \"**/bundle.js\" --write --no-semi --single-quote --trailing-comma=none",
-    "prepublish": "npm run test && npm run test:flow && npm run clean && npm run build",
-    "test": "mocha --compilers js:babel-register --recursive --recursive \"src/**/__tests__/*\" --require src/__tests__/setup.js",
+    "prepublish": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
+    "test": "cross-env NODE_ENV=test jest --runInBand",
     "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text npm test",
-    "test:codecov": "cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js"
+    "test:cov": "npm run test -- --coverage"
   },
   "keywords": [
     "react",
@@ -58,6 +57,7 @@
   },
   "homepage": "https://redux-form.com/",
   "dependencies": {
+    "babel-jest": "^21.2.0",
     "deep-equal": "^1.0.1",
     "es6-error": "^4.0.0",
     "hoist-non-react-statics": "^2.3.1",
@@ -70,12 +70,13 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^7.2.2",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-react-jsx-source": "^6.22.0",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-es2015-no-commonjs": "^0.0.2",
     "babel-preset-react": "^6.24.1",
@@ -90,21 +91,16 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
-    "expect": "^1.20.2",
-    "expect-element": "^1.1.1",
-    "expect-immutable": "^0.0.3",
-    "expect-predicate": "^1.0.0",
-    "flow-bin": "^0.54.1",
+    "flow-bin": "^0.56.0",
     "flux-standard-action": "^1.0.0",
     "get-typed": "^1.0.0-beta.2",
-    "jsdom": "^11.2.0",
+    "immutable": "^4.0.0-rc.3",
+    "jest": "^21.0.2",
     "lodash-webpack-plugin": "^0.11.2",
-    "mocha": "^3.5.0",
-    "nyc": "^11.2.1",
     "prettier": "^1.6.1",
     "prettier-eslint-cli": "^4.3.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-immutablejs": "^0.0.8",
@@ -128,12 +124,22 @@
     "immutable.js",
     "*.js.flow"
   ],
-  "nyc": {
-    "include": [
-      "src/**/*.js"
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/__tests__/**/*.js"
     ],
-    "sourceMap": false,
-    "instrument": false
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
+    "testRegex": "__tests__/.*\\.spec\\.js$",
+    "testEnvironment": "jsdom"
   },
   "npmName": "redux-form",
   "npmFileMap": [
