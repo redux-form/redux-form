@@ -24,6 +24,7 @@ import {
   getFormAsyncErrors,
   getFormSyncWarnings,
   getFormSubmitErrors,
+  getFormError,
   getFormNames,
   isDirty,
   isPristine,
@@ -43,6 +44,7 @@ MyComponent = connect(
     asyncErrors: getFormAsyncErrors('myForm')(state),
     syncWarnings: getFormSyncWarnings('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
+    formError: getFormError()(state),
     names: getFormNames()(state),
     dirty: isDirty('myForm')(state),
     pristine: isPristine('myForm')(state),
@@ -64,6 +66,10 @@ MyComponent = connect(
 ### `getFormInitialValues(formName:String)` returns `(state) => formInitialValues:Object`
 
 > Gets the form's initial values.
+
+### `getFormError(formName:String)` returns `(state) => formError:any`
+
+> Returns the form-wide error, the one set with the special `_error` property.
 
 ### `getFormSyncErrors(formName:String)` returns `(state) => formSyncErrors:Object`
 
