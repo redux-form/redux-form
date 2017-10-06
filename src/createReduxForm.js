@@ -1,5 +1,6 @@
 // @flow
 import hoistStatics from 'hoist-non-react-statics'
+import invariant from 'invariant'
 import isPromise from 'is-promise'
 import { mapValues, merge } from 'lodash'
 import PropTypes from 'prop-types'
@@ -479,6 +480,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
           this.initIfNeeded()
           this.validateIfNeeded()
           this.warnIfNeeded()
+          invariant(
+            this.props.shouldValidate,
+            'shouldValidate() is deprecated and will be removed in v8.0.0. Use shouldWarn() or shouldError() instead.'
+          )
         }
 
         componentWillReceiveProps(nextProps: Props) {
