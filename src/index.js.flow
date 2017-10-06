@@ -3,6 +3,8 @@ import * as React from 'react'
 import type { Action, GetFormState } from './types'
 import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
+import type { Params as DefaultShouldErrorParams } from './defaultShouldError'
+import type { Params as DefaultShouldWarnParams } from './defaultShouldWarn'
 import type { Config as ReduxFormConfig } from './createReduxForm'
 import type { Props as _FormProps } from './Form'
 import type {
@@ -20,6 +22,7 @@ import type {
 } from './FieldArrayProps.types'
 import type { FormValueSelectorInterface } from './formValueSelector.types'
 import type { FormValuesInterface } from './formValues.types'
+import type { GetFormErrorInterface } from './selectors/getFormError.types'
 import type { GetFormNamesInterface } from './selectors/getFormNames.types'
 import type { GetFormValuesInterface } from './selectors/getFormValues.types'
 import type { GetFormInitialValuesInterface } from './selectors/getFormInitialValues.types'
@@ -85,6 +88,14 @@ declare export function defaultShouldValidate(
   params: DefaultShouldValidateParams
 ): boolean
 
+declare export function defaultShouldError(
+  params: DefaultShouldErrorParams
+): boolean
+
+declare export function defaultShouldWarn(
+  params: DefaultShouldWarnParams
+): boolean
+
 declare export var propTypes: Object
 
 declare export var fieldInputPropTypes: Object
@@ -92,6 +103,12 @@ declare export var fieldInputPropTypes: Object
 declare export var fieldMetaPropTypes: Object
 
 declare export var fieldPropTypes: Object
+
+declare export var fieldArrayFieldsPropTypes: Object
+
+declare export var fieldArrayMetaPropTypes: Object
+
+declare export var fieldArrayPropTypes: Object
 
 declare export var formPropTypes: Object
 
@@ -115,9 +132,13 @@ declare export function formValues(
   ...rest: string[]
 ): FormValuesInterface
 
+declare export function getFormError(
+  getFormState: ?GetFormState
+): GetFormErrorInterface<*>
+
 declare export function getFormNames(
   getFormState: ?GetFormState
-): GetFormNamesInterface
+): GetFormNamesInterface<*>
 
 declare export function getFormValues(
   form: string,
@@ -196,7 +217,7 @@ declare export function reduxForm(
 declare export function reducer(state: any, action: Action): any
 
 declare export class SubmissionError {
-  constructor(errors: Object): void
+  constructor(errors: Object): void;
 }
 
 declare export function values(

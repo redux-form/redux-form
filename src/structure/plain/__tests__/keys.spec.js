@@ -1,4 +1,3 @@
-import expect from 'expect'
 import keys from '../keys'
 
 describe('structure.plain.keys', () => {

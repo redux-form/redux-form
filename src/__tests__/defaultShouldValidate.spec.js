@@ -1,4 +1,3 @@
-import expect from 'expect'
 import plain from '../structure/plain'
 import immutable from '../structure/immutable'
 import defaultShouldValidate from '../defaultShouldValidate'
@@ -28,9 +27,8 @@ describe('defaultShouldValidate', () => {
               foo: 'fooChanged'
             })
           }
-        }),
-        true
-      )
+        })
+      ).toBe(true)
     })
 
     it('should not validate if values have not changed', () => {
@@ -46,9 +44,8 @@ describe('defaultShouldValidate', () => {
               foo: 'fooInitial'
             })
           }
-        }),
-        false
-      )
+        })
+      ).toBe(false)
     })
     it('should validate if field validator keys have changed', () => {
       expect(
@@ -65,9 +62,8 @@ describe('defaultShouldValidate', () => {
           },
           lastFieldValidatorKeys: [],
           fieldValidatorKeys: ['foo']
-        }),
-        true
-      )
+        })
+      ).toBe(true)
     })
 
     it('should not validate if field validator keys have not changed', () => {
@@ -85,9 +81,8 @@ describe('defaultShouldValidate', () => {
           },
           lastFieldValidatorKeys: ['foo'],
           fieldValidatorKeys: ['foo']
-        }),
-        false
-      )
+        })
+      ).toBe(false)
     })
   }
 

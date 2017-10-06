@@ -5,6 +5,8 @@ export {
   default as defaultShouldAsyncValidate
 } from './defaultShouldAsyncValidate'
 export { default as defaultShouldValidate } from './defaultShouldValidate'
+export { default as defaultShouldError } from './defaultShouldError'
+export { default as defaultShouldWarn } from './defaultShouldWarn'
 export { default as Form } from './Form'
 export { default as FormSection } from './FormSection'
 export { default as SubmissionError } from './SubmissionError'
@@ -14,6 +16,9 @@ export {
   fieldInputPropTypes,
   fieldMetaPropTypes,
   fieldPropTypes,
+  fieldArrayFieldsPropTypes,
+  fieldArrayMetaPropTypes,
+  fieldArrayPropTypes,
   formPropTypes
 } from './propTypes'
 export { default as Field } from './immutable/Field'
@@ -21,6 +26,7 @@ export { default as Fields } from './immutable/Fields'
 export { default as FieldArray } from './immutable/FieldArray'
 export { default as formValueSelector } from './immutable/formValueSelector'
 export { default as formValues } from './immutable/formValues'
+export { default as getFormError } from './immutable/getFormError'
 export { default as getFormNames } from './immutable/getFormNames'
 export { default as getFormValues } from './immutable/getFormValues'
 export {

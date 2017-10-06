@@ -191,31 +191,6 @@ state other than its props and the selected Redux store’s state. Defaults to `
 > Similar to the `pure` parameter in [`react-redux`'s `connect()`
 API](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)
 
-#### `shouldValidate(params) : boolean` [optional]
-
-> An optional function you may provide to have full control over when sync validation happens.
-Your `shouldValidate()` function will be given an object with the following values:
-
-> ##### `values : Object`
-
-> The values in the form of `{ field1: 'value1', field2: 'value2' }`.
-
-> ##### `nextProps : Object`
-
-> The next props.
-
-> ##### `props : Object`
-
-> The current props.
-
-> ##### `initialRender : boolean`
-
-> `true` if the form is being initially rendered.
-
-> ##### `structure : Object`
-
-> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
-
 #### `shouldAsyncValidate(params) : boolean` [optional]
 
 > An optional function you may provide to have full control over when async validation happens.
@@ -265,6 +240,83 @@ form has triggered it, respectively.
       return false
   }
 ```
+
+#### `shouldError(params) : boolean` [optional]
+
+> An optional function you may provide to have full control over when sync validation happens.
+Your `shouldError()` function will be given an object with the following values:
+
+> ##### `values : Object`
+
+> The values in the form of `{ field1: 'value1', field2: 'value2' }`.
+
+> ##### `nextProps : Object`
+
+> The next props.
+
+> ##### `props : Object`
+
+> The current props.
+
+> ##### `initialRender : boolean`
+
+> `true` if the form is being initially rendered.
+
+> ##### `structure : Object`
+
+> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
+
+#### ~~`shouldValidate(params) : boolean`~~ [optional] **DEPRECATED**
+
+> ** DEPRECATED: Use `shouldError()` and `shouldWarn()`. Will be removed in v8.**
+
+> An optional function you may provide to have full control over when sync validation happens.
+Your `shouldValidate()` function will be given an object with the following values:
+
+> ##### `values : Object`
+
+> The values in the form of `{ field1: 'value1', field2: 'value2' }`.
+
+> ##### `nextProps : Object`
+
+> The next props.
+
+> ##### `props : Object`
+
+> The current props.
+
+> ##### `initialRender : boolean`
+
+> `true` if the form is being initially rendered.
+
+> ##### `structure : Object`
+
+> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
+
+#### `shouldWarn(params) : boolean` [optional]
+
+> An optional function you may provide to have full control over when sync validation happens.
+Your `shouldWarn()` function will be given an object with the following values:
+
+> ##### `values : Object`
+
+> The values in the form of `{ field1: 'value1', field2: 'value2' }`.
+
+> ##### `nextProps : Object`
+
+> The next props.
+
+> ##### `props : Object`
+
+> The current props.
+
+> ##### `initialRender : boolean`
+
+> `true` if the form is being initially rendered.
+
+> ##### `structure : Object`
+
+> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
 
 #### `touchOnBlur : boolean` [optional]
 

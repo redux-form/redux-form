@@ -1,18 +1,21 @@
 import createGetFormAsyncErrors from '../getFormAsyncErrors'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-const describeGetFormAsyncErrors = (name, structure, expect) => {
+const describeGetFormAsyncErrors = (name, structure, setup) => {
   const getFormAsyncErrors = createGetFormAsyncErrors(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
-      expect(createGetFormAsyncErrors('foo')).toBeA('function')
+      expect(typeof createGetFormAsyncErrors('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {
@@ -69,13 +72,9 @@ const describeGetFormAsyncErrors = (name, structure, expect) => {
   })
 }
 
-describeGetFormAsyncErrors(
-  'getFormAsyncErrors.plain',
-  plain,
-  addExpectations(plainExpectations)
+describeGetFormAsyncErrors('getFormAsyncErrors.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormAsyncErrors(
-  'getFormAsyncErrors.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeGetFormAsyncErrors('getFormAsyncErrors.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

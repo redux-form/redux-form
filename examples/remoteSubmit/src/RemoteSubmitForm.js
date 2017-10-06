@@ -2,20 +2,15 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import submit from './submit'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) =>
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
   <div>
-    <label>
-      {label}
-    </label>
+    <label>{label}</label>
     <div>
       <input {...input} placeholder={label} type={type} />
-      {touched &&
-        error &&
-        <span>
-          {error}
-        </span>}
+      {touched && error && <span>{error}</span>}
     </div>
   </div>
+)
 
 const RemoteSubmitForm = props => {
   const { error, handleSubmit } = props
@@ -33,10 +28,7 @@ const RemoteSubmitForm = props => {
         component={renderField}
         label="Password"
       />
-      {error &&
-        <strong>
-          {error}
-        </strong>}
+      {error && <strong>{error}</strong>}
       <div>
         No submit button in the form. The submit button below is a separate
         unlinked component.

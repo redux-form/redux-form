@@ -1,4 +1,5 @@
 // @flow
+import React from 'react'
 import { isEqualWith } from 'lodash'
 
 const customizer = (obj: any, other: any) => {
@@ -12,6 +13,7 @@ const customizer = (obj: any, other: any) => {
 
   if (obj && other && obj._error !== other._error) return false
   if (obj && other && obj._warning !== other._warning) return false
+  if (React.isValidElement(obj) || React.isValidElement(other)) return false
 }
 
 const deepEqual = (a: any, b: any) => isEqualWith(a, b, customizer)

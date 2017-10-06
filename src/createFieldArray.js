@@ -62,10 +62,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
         // unregister old name
         this.context._reduxForm.unregister(oldName)
         // register new name
-        this.context._reduxForm.register(
-          newName,
-          'FieldArray'
-        )
+        this.context._reduxForm.register(newName, 'FieldArray')
       }
     }
 

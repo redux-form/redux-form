@@ -33,7 +33,7 @@ const getValue = (event: Event, isReactNative: ?boolean) => {
       dataTransfer
     } = detypedEvent
     if (type === 'checkbox') {
-      return checked || ''
+      return !!checked
     }
     if (type === 'file') {
       return files || (dataTransfer && dataTransfer.files)
