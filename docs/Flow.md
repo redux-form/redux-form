@@ -6,7 +6,7 @@ you may import types for all the props provided by `redux-form` to your componen
 
 ## Props Types
 
-This will give you the types of the [`props`](http://redux-form.com/7.0.4/docs/api/Props.md/) 
+This will give you the types of the [`props`](http://redux-form.com/7.1.0/docs/api/Props.md/) 
 that will be injected into your decorated form component by the 
 `reduxForm()` higher order component.
 

@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist",
-    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build:webpack":
+      "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
     "lint": "eslint src",
     "start": "node devServer.js",
@@ -15,12 +16,12 @@
     "markdown-loader": "^2.0.0",
     "material-ui": "^0.18.7",
     "raw-loader": "0.5.1",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-redux": "^5.0.3",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.7.2",
-    "redux-form": "^7.0.4",
+    "redux-form": "^7.1.0",
     "redux-form-website-template": "0.0.56"
   },
   "devDependencies": {

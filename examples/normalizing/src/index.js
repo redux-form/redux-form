@@ -40,12 +40,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="7.0.4"
+        version="7.1.0"
         path="/examples/normalizing"
         breadcrumbs={generateExampleBreadcrumbs(
           'normalizing',
           'Field Normalizing Example',
-          '7.0.4'
+          '7.1.0'
         )}
       >
         <Markdown content={readme} />
