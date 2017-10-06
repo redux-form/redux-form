@@ -6,6 +6,7 @@ import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
+import isReactNative from './isReactNative';
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedField.types'
 
@@ -102,17 +103,26 @@ const createConnectedField = (structure: Structure<*, *>) => {
 
       let defaultPrevented = false
       if (onChange) {
-        onChange(
-          {
-            ...event,
-            preventDefault: () => {
-              defaultPrevented = true
-              return eventPreventDefault(event)
-            }
-          },
-          newValue,
-          previousValue
-        )
+        // Can't seem to find a way to extend Event in React Native,
+        // thus I simply avoid adding preventDefault() in a RN environment
+        // to prevent the following error:
+        // `One of the sources for assign has an enumerable key on the prototype chain`
+        // Reference: https://github.com/facebook/react-native/issues/5507
+        if (!isReactNative) {
+          onChange(
+            {
+              ...event,
+              preventDefault: () => {
+                defaultPrevented = true
+                return eventPreventDefault(event)
+              }
+            },
+            newValue,
+            previousValue
+          )
+        } else {
+          onChange(event, newValue, previousValue)
+        }
       }
       if (!defaultPrevented) {
         // dispatch change action
