@@ -2,8 +2,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist",
-    "build:webpack":
-      "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
     "lint": "eslint src",
     "start": "node devServer.js"
