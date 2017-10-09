@@ -37,7 +37,7 @@ class MyForm extends React.Component {
 ### `FieldProps`
 
 This will give you the shape of the props provided from
-[`Field`](http://redux-form.com/7.0.0/docs/api/Field.md/) to your field component.
+[`Field`](http://redux-form.com/7.1.0/docs/api/Field.md/) to your field component.
 
 ```jsx
 import type { FieldProps } from 'redux-form'
@@ -57,7 +57,7 @@ const renderField = ({ input, meta, ...rest } : FieldProps) =>
 ### `FieldsProps`
 
 This will give you the shape of the props provided from
-[`Fields`](http://redux-form.com/7.0.0/docs/api/Fields.md/) to your fields component.
+[`Fields`](http://redux-form.com/7.1.0/docs/api/Fields.md/) to your fields component.
 
 ```jsx
 import type { FieldsProps } from 'redux-form'
@@ -81,7 +81,7 @@ const renderField = (fields : FieldsProps) =>
 ### `FieldArrayProps`
 
 This will give you the shape of the props provided from
-[`FieldArray`](http://redux-form.com/7.0.0/docs/api/FieldArray.md/) to your field array
+[`FieldArray`](http://redux-form.com/7.1.0/docs/api/FieldArray.md/) to your field array
 component.
 
 ```jsx
