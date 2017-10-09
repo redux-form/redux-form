@@ -46,8 +46,7 @@ const describePlugin = (
     expect(state2).toBe(state1) // no change
 
     const state3 = reducer(state2, {
-      type: 'RAT_POISON',
-      meta: { form: 'foo' }
+      type: 'RAT_POISON'
     })
     expect(state3).toEqualMap({
       foo: {

@@ -558,23 +558,28 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       // use 'function' keyword to enable 'this'
       return decorate(
         (state: any = empty, action: Action = { type: 'NONE' }) => {
+          const callPlugin = (processed: any, key: string) => {
+            const previousState = getIn(processed, key)
+            const nextState = reducers[key](
+              previousState,
+              action,
+              getIn(state, key)
+            )
+            return nextState !== previousState
+              ? setIn(processed, key, nextState)
+              : processed
+          }
+
           const processed = this(state, action) // run through redux-form reducer
           const form = action && action.meta && action.meta.form
 
-          // see if we have a plugin that matches this action's form
-          if (form && reducers[form]) {
-            // we DO have a plugin that matches!
-            const previousState = getIn(processed, form)
-            const nextState = reducers[form](
-              previousState,
-              action,
-              getIn(state, form)
-            )
-            if (nextState !== previousState) {
-              return setIn(processed, form, nextState)
-            }
+          if (form) {
+            // this is an action aimed at forms, so only give it to the specified form's plugin
+            return reducers[form] ? callPlugin(processed, form) : processed
+          } else {
+            // this is not a form-specific action, so send it to all the plugins
+            return Object.keys(reducers).reduce(callPlugin, processed)
           }
-          return processed
         }
       )
     }
