@@ -134,7 +134,6 @@ const createConnectedField = (structure: Structure<*, *>) => {
       const { name, dispatch, onFocus, _reduxForm } = this.props
 
       let defaultPrevented = false
-
       if (onFocus) {
         if (!isReactNative) {
           onFocus({
@@ -174,7 +173,6 @@ const createConnectedField = (structure: Structure<*, *>) => {
       }
 
       let defaultPrevented = false
-      
       if (onBlur) {
         if (!isReactNative) {
           onBlur(
