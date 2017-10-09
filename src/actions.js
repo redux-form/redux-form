@@ -1,39 +1,4 @@
 // @flow
-import {
-  ARRAY_INSERT,
-  ARRAY_MOVE,
-  ARRAY_POP,
-  ARRAY_PUSH,
-  ARRAY_REMOVE,
-  ARRAY_REMOVE_ALL,
-  ARRAY_SHIFT,
-  ARRAY_SPLICE,
-  ARRAY_SWAP,
-  ARRAY_UNSHIFT,
-  AUTOFILL,
-  BLUR,
-  CHANGE,
-  CLEAR_SUBMIT,
-  CLEAR_SUBMIT_ERRORS,
-  CLEAR_ASYNC_ERROR,
-  DESTROY,
-  FOCUS,
-  INITIALIZE,
-  REGISTER_FIELD,
-  RESET,
-  SET_SUBMIT_FAILED,
-  SET_SUBMIT_SUCCEEDED,
-  START_ASYNC_VALIDATION,
-  START_SUBMIT,
-  STOP_ASYNC_VALIDATION,
-  STOP_SUBMIT,
-  SUBMIT,
-  TOUCH,
-  UNREGISTER_FIELD,
-  UNTOUCH,
-  UPDATE_SYNC_ERRORS,
-  UPDATE_SYNC_WARNINGS
-} from './actionTypes'
 import type { FieldType } from './types.js.flow'
 import type {
   ArrayInsertAction,
@@ -110,7 +75,7 @@ const arrayInsert: ArrayInsert = (
   index: number,
   value: any
 ): ArrayInsertAction => ({
-  type: ARRAY_INSERT,
+  type: '@@redux-form/ARRAY_INSERT',
   meta: { form, field, index },
   payload: value
 })
@@ -121,12 +86,12 @@ const arrayMove: ArrayMove = (
   from: number,
   to: number
 ): ArrayMoveAction => ({
-  type: ARRAY_MOVE,
+  type: '@@redux-form/ARRAY_MOVE',
   meta: { form, field, from, to }
 })
 
 const arrayPop: ArrayPop = (form: string, field: string): ArrayPopAction => ({
-  type: ARRAY_POP,
+  type: '@@redux-form/ARRAY_POP',
   meta: { form, field }
 })
 
@@ -135,7 +100,7 @@ const arrayPush: ArrayPush = (
   field: string,
   value: any
 ): ArrayPushAction => ({
-  type: ARRAY_PUSH,
+  type: '@@redux-form/ARRAY_PUSH',
   meta: { form, field },
   payload: value
 })
@@ -145,7 +110,7 @@ const arrayRemove: ArrayRemove = (
   field: string,
   index: number
 ): ArrayRemoveAction => ({
-  type: ARRAY_REMOVE,
+  type: '@@redux-form/ARRAY_REMOVE',
   meta: { form, field, index }
 })
 
@@ -153,7 +118,7 @@ const arrayRemoveAll: ArrayRemoveAll = (
   form: string,
   field: string
 ): ArrayRemoveAllAction => ({
-  type: ARRAY_REMOVE_ALL,
+  type: '@@redux-form/ARRAY_REMOVE_ALL',
   meta: { form, field }
 })
 
@@ -161,7 +126,7 @@ const arrayShift: ArrayShift = (
   form: string,
   field: string
 ): ArrayShiftAction => ({
-  type: ARRAY_SHIFT,
+  type: '@@redux-form/ARRAY_SHIFT',
   meta: { form, field }
 })
 
@@ -173,7 +138,7 @@ const arraySplice: ArraySplice = (
   value: any
 ): ArraySpliceAction => {
   const action: ArraySpliceAction = {
-    type: ARRAY_SPLICE,
+    type: '@@redux-form/ARRAY_SPLICE',
     meta: { form, field, index, removeNum }
   }
   if (value !== undefined) {
@@ -194,7 +159,10 @@ const arraySwap: ArraySwap = (
   if (indexA < 0 || indexB < 0) {
     throw new Error('Swap indices cannot be negative')
   }
-  return { type: ARRAY_SWAP, meta: { form, field, indexA, indexB } }
+  return {
+    type: '@@redux-form/ARRAY_SWAP',
+    meta: { form, field, indexA, indexB }
+  }
 }
 
 const arrayUnshift: ArrayUnshift = (
@@ -202,7 +170,7 @@ const arrayUnshift: ArrayUnshift = (
   field: string,
   value: any
 ): ArrayUnshiftAction => ({
-  type: ARRAY_UNSHIFT,
+  type: '@@redux-form/ARRAY_UNSHIFT',
   meta: { form, field },
   payload: value
 })
@@ -212,7 +180,7 @@ const autofill: Autofill = (
   field: string,
   value: any
 ): AutofillAction => ({
-  type: AUTOFILL,
+  type: '@@redux-form/AUTOFILL',
   meta: { form, field },
   payload: value
 })
@@ -223,7 +191,7 @@ const blur: Blur = (
   value: any,
   touch: boolean
 ): BlurAction => ({
-  type: BLUR,
+  type: '@@redux-form/BLUR',
   meta: { form, field, touch },
   payload: value
 })
@@ -235,20 +203,20 @@ const change: Change = (
   touch: boolean,
   persistentSubmitErrors: boolean
 ): ChangeAction => ({
-  type: CHANGE,
+  type: '@@redux-form/CHANGE',
   meta: { form, field, touch, persistentSubmitErrors },
   payload: value
 })
 
 const clearSubmit: ClearSubmit = (form: string): ClearSubmitAction => ({
-  type: CLEAR_SUBMIT,
+  type: '@@redux-form/CLEAR_SUBMIT',
   meta: { form }
 })
 
 const clearSubmitErrors: ClearSubmitErrors = (
   form: string
 ): ClearSubmitErrorsAction => ({
-  type: CLEAR_SUBMIT_ERRORS,
+  type: '@@redux-form/CLEAR_SUBMIT_ERRORS',
   meta: { form }
 })
 
@@ -256,17 +224,17 @@ const clearAsyncError: ClearAsyncError = (
   form: string,
   field: string
 ): ClearAsyncErrorAction => ({
-  type: CLEAR_ASYNC_ERROR,
+  type: '@@redux-form/CLEAR_ASYNC_ERROR',
   meta: { form, field }
 })
 
 const destroy: Destroy = (...form: string[]): DestroyAction => ({
-  type: DESTROY,
+  type: '@@redux-form/DESTROY',
   meta: { form }
 })
 
 const focus: Focus = (form: string, field: string): FocusAction => ({
-  type: FOCUS,
+  type: '@@redux-form/FOCUS',
   meta: { form, field }
 })
 
@@ -281,7 +249,7 @@ const initialize: Initialize = (
     keepDirty = false
   }
   return {
-    type: INITIALIZE,
+    type: '@@redux-form/INITIALIZE',
     meta: { form, keepDirty, ...otherMeta },
     payload: values
   }
@@ -292,13 +260,13 @@ const registerField: RegisterField = (
   name: string,
   type: FieldType
 ): RegisterFieldAction => ({
-  type: REGISTER_FIELD,
+  type: '@@redux-form/REGISTER_FIELD',
   meta: { form },
   payload: { name, type }
 })
 
 const reset: Reset = (form: string): ResetAction => ({
-  type: RESET,
+  type: '@@redux-form/RESET',
   meta: { form }
 })
 
@@ -306,12 +274,12 @@ const startAsyncValidation: StartAsyncValidation = (
   form: string,
   field: string
 ): StartAsyncValidationAction => ({
-  type: START_ASYNC_VALIDATION,
+  type: '@@redux-form/START_ASYNC_VALIDATION',
   meta: { form, field }
 })
 
 const startSubmit: StartSubmit = (form: string): StartSubmitAction => ({
-  type: START_SUBMIT,
+  type: '@@redux-form/START_SUBMIT',
   meta: { form }
 })
 
@@ -319,7 +287,7 @@ const stopAsyncValidation: StopAsyncValidation = (
   form: string,
   errors: ?Object
 ): StopAsyncValidationAction => ({
-  type: STOP_ASYNC_VALIDATION,
+  type: '@@redux-form/STOP_ASYNC_VALIDATION',
   meta: { form },
   payload: errors,
   error: !!(errors && Object.keys(errors).length)
@@ -329,14 +297,14 @@ const stopSubmit: StopSubmit = (
   form: string,
   errors: ?Object
 ): StopSubmitAction => ({
-  type: STOP_SUBMIT,
+  type: '@@redux-form/STOP_SUBMIT',
   meta: { form },
   payload: errors,
   error: !!(errors && Object.keys(errors).length)
 })
 
 const submit: Submit = (form: string): SubmitAction => ({
-  type: SUBMIT,
+  type: '@@redux-form/SUBMIT',
   meta: { form }
 })
 
@@ -344,7 +312,7 @@ const setSubmitFailed: SetSubmitFailed = (
   form: string,
   ...fields: string[]
 ): SetSubmitFailedAction => ({
-  type: SET_SUBMIT_FAILED,
+  type: '@@redux-form/SET_SUBMIT_FAILED',
   meta: { form, fields },
   error: true
 })
@@ -353,13 +321,13 @@ const setSubmitSucceeded: SetSubmitSucceeded = (
   form: string,
   ...fields: string[]
 ): SetSubmitSucceededAction => ({
-  type: SET_SUBMIT_SUCCEEDED,
+  type: '@@redux-form/SET_SUBMIT_SUCCEEDED',
   meta: { form, fields },
   error: false
 })
 
 const touch: Touch = (form: string, ...fields: string[]): TouchAction => ({
-  type: TOUCH,
+  type: '@@redux-form/TOUCH',
   meta: { form, fields }
 })
 
@@ -368,7 +336,7 @@ const unregisterField: UnregisterField = (
   name: string,
   destroyOnUnmount: boolean = true
 ): UnregisterFieldAction => ({
-  type: UNREGISTER_FIELD,
+  type: '@@redux-form/UNREGISTER_FIELD',
   meta: { form },
   payload: { name, destroyOnUnmount }
 })
@@ -377,7 +345,7 @@ const untouch: Untouch = (
   form: string,
   ...fields: string[]
 ): UntouchAction => ({
-  type: UNTOUCH,
+  type: '@@redux-form/UNTOUCH',
   meta: { form, fields }
 })
 
@@ -386,7 +354,7 @@ const updateSyncErrors: UpdateSyncErrors = (
   syncErrors: Object = {},
   error: any
 ): UpdateSyncErrorsAction => ({
-  type: UPDATE_SYNC_ERRORS,
+  type: '@@redux-form/UPDATE_SYNC_ERRORS',
   meta: { form },
   payload: { syncErrors, error }
 })
@@ -396,7 +364,7 @@ const updateSyncWarnings: UpdateSyncWarnings = (
   syncWarnings: Object = {},
   warning: any
 ): UpdateSyncWarningsAction => ({
-  type: UPDATE_SYNC_WARNINGS,
+  type: '@@redux-form/UPDATE_SYNC_WARNINGS',
   meta: { form },
   payload: { syncWarnings, warning }
 })
