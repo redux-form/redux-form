@@ -94,7 +94,7 @@
     "flow-bin": "^0.56.0",
     "flux-standard-action": "^1.0.0",
     "get-typed": "^1.0.0-beta.2",
-    "immutable": "^4.0.0-rc.3",
+    "immutable": "4.0.0-rc.3",
     "jest": "^21.0.2",
     "lodash-webpack-plugin": "^0.11.2",
     "prettier": "^1.6.1",

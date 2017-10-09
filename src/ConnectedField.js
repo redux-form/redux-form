@@ -134,14 +134,19 @@ const createConnectedField = (structure: Structure<*, *>) => {
       const { name, dispatch, onFocus, _reduxForm } = this.props
 
       let defaultPrevented = false
+
       if (onFocus) {
-        onFocus({
-          ...event,
-          preventDefault: () => {
-            defaultPrevented = true
-            return eventPreventDefault(event)
-          }
-        })
+        if (!isReactNative) {
+          onFocus({
+            ...event,
+            preventDefault: () => {
+              defaultPrevented = true
+              return eventPreventDefault(event)
+            }
+          })
+        } else {
+          onFocus(event)
+        }
       }
 
       if (!defaultPrevented) {
@@ -169,18 +174,23 @@ const createConnectedField = (structure: Structure<*, *>) => {
       }
 
       let defaultPrevented = false
+      
       if (onBlur) {
-        onBlur(
-          {
-            ...event,
-            preventDefault: () => {
-              defaultPrevented = true
-              return eventPreventDefault(event)
-            }
-          },
-          newValue,
-          previousValue
-        )
+        if (!isReactNative) {
+          onBlur(
+            {
+              ...event,
+              preventDefault: () => {
+                defaultPrevented = true
+                return eventPreventDefault(event)
+              }
+            },
+            newValue,
+            previousValue
+          )
+        } else {
+          onBlur(event, newValue, previousValue)
+        }
       }
 
       if (!defaultPrevented) {
