@@ -39,7 +39,42 @@ import type { IsPristineInterface } from './selectors/isPristine.types'
 import type { IsValidInterface } from './selectors/isValid.types'
 import type { IsSubmittingInterface } from './selectors/isSubmitting.types'
 import type { Config as ValuesConfig } from './values.types'
-import type { ActionTypes } from './actionTypes.types'
+import type {
+  ActionTypes,
+  ArrayInsertType as _ArrayInsertType,
+  ArrayMoveType as _ArrayMoveType,
+  ArrayPopType as _ArrayPopType,
+  ArrayPushType as _ArrayPushType,
+  ArrayRemoveType as _ArrayRemoveType,
+  ArrayRemoveAllType as _ArrayRemoveAllType,
+  ArrayShiftType as _ArrayShiftType,
+  ArraySpliceType as _ArraySpliceType,
+  ArrayUnshiftType as _ArrayUnshiftType,
+  ArraySwapType as _ArraySwapType,
+  AutofillType as _AutofillType,
+  BlurType as _BlurType,
+  ChangeType as _ChangeType,
+  ClearSubmitType as _ClearSubmitType,
+  ClearSubmitErrorsType as _ClearSubmitErrorsType,
+  ClearAsyncErrorType as _ClearAsyncErrorType,
+  DestroyType as _DestroyType,
+  FocusType as _FocusType,
+  InitializeType as _InitializeType,
+  RegisterFieldType as _RegisterFieldType,
+  ResetType as _ResetType,
+  SetSubmitFailedType as _SetSubmitFailedType,
+  SetSubmitSucceededType as _SetSubmitSucceededType,
+  StartAsyncValidationType as _StartAsyncValidationType,
+  StartSubmitType as _StartSubmitType,
+  StopAsyncValidationType as _StopAsyncValidationType,
+  StopSubmitType as _StopSubmitType,
+  SubmitType as _SubmitType,
+  TouchType as _TouchType,
+  UnregisterFieldType as _UnregisterFieldType,
+  UntouchType as _UntouchType,
+  UpdateSyncErrorsType as _UpdateSyncErrorsType,
+  UpdateSyncWarningsType as _UpdateSyncWarningsType
+} from './actionTypes.types'
 import type {
   ArrayInsert,
   ArrayMove,
@@ -79,6 +114,39 @@ export type FieldProps = _FieldProps
 export type FieldArrayProps = _FieldArrayProps
 
 declare export var actionTypes: ActionTypes
+export type ArrayInsertType = _ArrayInsertType
+export type ArrayMoveType = _ArrayMoveType
+export type ArrayPopType = _ArrayPopType
+export type ArrayPushType = _ArrayPushType
+export type ArrayRemoveType = _ArrayRemoveType
+export type ArrayRemoveAllType = _ArrayRemoveAllType
+export type ArrayShiftType = _ArrayShiftType
+export type ArraySpliceType = _ArraySpliceType
+export type ArrayUnshiftType = _ArrayUnshiftType
+export type ArraySwapType = _ArraySwapType
+export type AutofillType = _AutofillType
+export type BlurType = _BlurType
+export type ChangeType = _ChangeType
+export type ClearSubmitType = _ClearSubmitType
+export type ClearSubmitErrorsType = _ClearSubmitErrorsType
+export type ClearAsyncErrorType = _ClearAsyncErrorType
+export type DestroyType = _DestroyType
+export type FocusType = _FocusType
+export type InitializeType = _InitializeType
+export type RegisterFieldType = _RegisterFieldType
+export type ResetType = _ResetType
+export type SetSubmitFailedType = _SetSubmitFailedType
+export type SetSubmitSucceededType = _SetSubmitSucceededType
+export type StartAsyncValidationType = _StartAsyncValidationType
+export type StartSubmitType = _StartSubmitType
+export type StopAsyncValidationType = _StopAsyncValidationType
+export type StopSubmitType = _StopSubmitType
+export type SubmitType = _SubmitType
+export type TouchType = _TouchType
+export type UnregisterFieldType = _UnregisterFieldType
+export type UntouchType = _UntouchType
+export type UpdateSyncErrorsType = _UpdateSyncErrorsType
+export type UpdateSyncWarningsType = _UpdateSyncWarningsType
 
 declare export function defaultShouldAsyncValidate(
   params: DefaultShouldAsyncValidateParams

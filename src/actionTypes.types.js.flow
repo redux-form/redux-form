@@ -1,36 +1,70 @@
 // @flow
+export type ArrayInsertType = '@@redux-form/ARRAY_INSERT'
+export type ArrayMoveType = '@@redux-form/ARRAY_MOVE'
+export type ArrayPopType = '@@redux-form/ARRAY_POP'
+export type ArrayPushType = '@@redux-form/ARRAY_PUSH'
+export type ArrayRemoveType = '@@redux-form/ARRAY_REMOVE'
+export type ArrayRemoveAllType = '@@redux-form/ARRAY_REMOVE_ALL'
+export type ArrayShiftType = '@@redux-form/ARRAY_SHIFT'
+export type ArraySpliceType = '@@redux-form/ARRAY_SPLICE'
+export type ArrayUnshiftType = '@@redux-form/ARRAY_UNSHIFT'
+export type ArraySwapType = '@@redux-form/ARRAY_SWAP'
+export type AutofillType = '@@redux-form/AUTOFILL'
+export type BlurType = '@@redux-form/BLUR'
+export type ChangeType = '@@redux-form/CHANGE'
+export type ClearSubmitType = '@@redux-form/CLEAR_SUBMIT'
+export type ClearSubmitErrorsType = '@@redux-form/CLEAR_SUBMIT_ERRORS'
+export type ClearAsyncErrorType = '@@redux-form/CLEAR_ASYNC_ERROR'
+export type DestroyType = '@@redux-form/DESTROY'
+export type FocusType = '@@redux-form/FOCUS'
+export type InitializeType = '@@redux-form/INITIALIZE'
+export type RegisterFieldType = '@@redux-form/REGISTER_FIELD'
+export type ResetType = '@@redux-form/RESET'
+export type SetSubmitFailedType = '@@redux-form/SET_SUBMIT_FAILED'
+export type SetSubmitSucceededType = '@@redux-form/SET_SUBMIT_SUCCEEDED'
+export type StartAsyncValidationType = '@@redux-form/START_ASYNC_VALIDATION'
+export type StartSubmitType = '@@redux-form/START_SUBMIT'
+export type StopAsyncValidationType = '@@redux-form/STOP_ASYNC_VALIDATION'
+export type StopSubmitType = '@@redux-form/STOP_SUBMIT'
+export type SubmitType = '@@redux-form/SUBMIT'
+export type TouchType = '@@redux-form/TOUCH'
+export type UnregisterFieldType = '@@redux-form/UNREGISTER_FIELD'
+export type UntouchType = '@@redux-form/UNTOUCH'
+export type UpdateSyncErrorsType = '@@redux-form/UPDATE_SYNC_ERRORS'
+export type UpdateSyncWarningsType = '@@redux-form/UPDATE_SYNC_WARNINGS'
+
 export type ActionTypes = {
-  ARRAY_INSERT: string,
-  ARRAY_MOVE: string,
-  ARRAY_POP: string,
-  ARRAY_PUSH: string,
-  ARRAY_REMOVE: string,
-  ARRAY_REMOVE_ALL: string,
-  ARRAY_SHIFT: string,
-  ARRAY_SPLICE: string,
-  ARRAY_UNSHIFT: string,
-  ARRAY_SWAP: string,
-  AUTOFILL: string,
-  BLUR: string,
-  CHANGE: string,
-  CLEAR_SUBMIT: string,
-  CLEAR_SUBMIT_ERRORS: string,
-  CLEAR_ASYNC_ERROR: string,
-  DESTROY: string,
-  FOCUS: string,
-  INITIALIZE: string,
-  REGISTER_FIELD: string,
-  RESET: string,
-  SET_SUBMIT_FAILED: string,
-  SET_SUBMIT_SUCCEEDED: string,
-  START_ASYNC_VALIDATION: string,
-  START_SUBMIT: string,
-  STOP_ASYNC_VALIDATION: string,
-  STOP_SUBMIT: string,
-  SUBMIT: string,
-  TOUCH: string,
-  UNREGISTER_FIELD: string,
-  UNTOUCH: string,
-  UPDATE_SYNC_ERRORS: string,
-  UPDATE_SYNC_WARNINGS: string
+  ARRAY_INSERT: ArrayInsertType,
+  ARRAY_MOVE: ArrayMoveType,
+  ARRAY_POP: ArrayPopType,
+  ARRAY_PUSH: ArrayPushType,
+  ARRAY_REMOVE: ArrayRemoveType,
+  ARRAY_REMOVE_ALL: ArrayRemoveAllType,
+  ARRAY_SHIFT: ArrayShiftType,
+  ARRAY_SPLICE: ArraySpliceType,
+  ARRAY_UNSHIFT: ArrayUnshiftType,
+  ARRAY_SWAP: ArraySwapType,
+  AUTOFILL: AutofillType,
+  BLUR: BlurType,
+  CHANGE: ChangeType,
+  CLEAR_SUBMIT: ClearSubmitType,
+  CLEAR_SUBMIT_ERRORS: ClearSubmitErrorsType,
+  CLEAR_ASYNC_ERROR: ClearAsyncErrorType,
+  DESTROY: DestroyType,
+  FOCUS: FocusType,
+  INITIALIZE: InitializeType,
+  REGISTER_FIELD: RegisterFieldType,
+  RESET: ResetType,
+  SET_SUBMIT_FAILED: SetSubmitFailedType,
+  SET_SUBMIT_SUCCEEDED: SetSubmitSucceededType,
+  START_ASYNC_VALIDATION: StartAsyncValidationType,
+  START_SUBMIT: StartSubmitType,
+  STOP_ASYNC_VALIDATION: StopAsyncValidationType,
+  STOP_SUBMIT: StopSubmitType,
+  SUBMIT: SubmitType,
+  TOUCH: TouchType,
+  UNREGISTER_FIELD: UnregisterFieldType,
+  UNTOUCH: UntouchType,
+  UPDATE_SYNC_ERRORS: UpdateSyncErrorsType,
+  UPDATE_SYNC_WARNINGS: UpdateSyncWarningsType
 }

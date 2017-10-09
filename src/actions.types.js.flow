@@ -1,8 +1,43 @@
 // @flow
 import type { Action, FieldType } from './types'
+import type {
+  ArrayInsertType,
+  ArrayMoveType,
+  ArrayPopType,
+  ArrayPushType,
+  ArrayRemoveType,
+  ArrayRemoveAllType,
+  ArrayShiftType,
+  ArraySpliceType,
+  ArrayUnshiftType,
+  ArraySwapType,
+  AutofillType,
+  BlurType,
+  ChangeType,
+  ClearSubmitType,
+  ClearSubmitErrorsType,
+  ClearAsyncErrorType,
+  DestroyType,
+  FocusType,
+  InitializeType,
+  RegisterFieldType,
+  ResetType,
+  SetSubmitFailedType,
+  SetSubmitSucceededType,
+  StartAsyncValidationType,
+  StartSubmitType,
+  StopAsyncValidationType,
+  StopSubmitType,
+  SubmitType,
+  TouchType,
+  UnregisterFieldType,
+  UntouchType,
+  UpdateSyncErrorsType,
+  UpdateSyncWarningsType
+} from './actionTypes.types'
 
 export type ArrayInsertAction = {
-  type: string,
+  type: ArrayInsertType,
   meta: { form: string, field: string, index: number },
   payload: any
 } & Action
@@ -10,19 +45,19 @@ export type ArrayInsert = {
   (form: string, field: string, index: number, value: any): ArrayInsertAction
 }
 export type ArrayMoveAction = {
-  type: string,
+  type: ArrayMoveType,
   meta: { form: string, field: string, from: number, to: number }
 } & Action
 export type ArrayMove = {
   (form: string, field: string, from: number, to: number): ArrayMoveAction
 }
 export type ArrayPopAction = {
-  type: string,
+  type: ArrayPopType,
   meta: { form: string, field: string }
 } & Action
 export type ArrayPop = { (form: string, field: string): ArrayPopAction }
 export type ArrayPushAction = {
-  type: string,
+  type: ArrayPushType,
   meta: { form: string, field: string },
   payload: any
 } & Action
@@ -30,26 +65,26 @@ export type ArrayPush = {
   (form: string, field: string, value: any): ArrayPushAction
 }
 export type ArrayRemoveAction = {
-  type: string,
+  type: ArrayRemoveType,
   meta: { form: string, field: string, index: number }
 } & Action
 export type ArrayRemove = {
   (form: string, field: string, index: number): ArrayRemoveAction
 }
 export type ArrayRemoveAllAction = {
-  type: string,
+  type: ArrayRemoveAllType,
   meta: { form: string, field: string }
 } & Action
 export type ArrayRemoveAll = {
   (form: string, field: string): ArrayRemoveAllAction
 }
 export type ArrayShiftAction = {
-  type: string,
+  type: ArrayShiftType,
   meta: { form: string, field: string }
 } & Action
 export type ArrayShift = { (form: string, field: string): ArrayShiftAction }
 export type ArraySpliceAction = {
-  type: string,
+  type: ArraySpliceType,
   meta: {
     form: string,
     field: string,
@@ -68,14 +103,14 @@ export type ArraySplice = {
   ): ArraySpliceAction
 }
 export type ArraySwapAction = {
-  type: string,
+  type: ArraySwapType,
   meta: { form: string, field: string, indexA: number, indexB: number }
 } & Action
 export type ArraySwap = {
   (form: string, field: string, indexA: number, indexB: number): ArraySwapAction
 }
 export type ArrayUnshiftAction = {
-  type: string,
+  type: ArrayUnshiftType,
   meta: { form: string, field: string },
   payload: any
 } & Action
@@ -83,7 +118,7 @@ export type ArrayUnshift = {
   (form: string, field: string, value: any): ArrayUnshiftAction
 }
 export type AutofillAction = {
-  type: string,
+  type: AutofillType,
   meta: { form: string, field: string },
   payload: any
 } & Action
@@ -91,7 +126,7 @@ export type Autofill = {
   (form: string, field: string, value: any): AutofillAction
 }
 export type BlurAction = {
-  type: string,
+  type: BlurType,
   meta: { form: string, field: string, touch: boolean },
   payload: any
 } & Action
@@ -99,7 +134,7 @@ export type Blur = {
   (form: string, field: string, value: any, touch: boolean): BlurAction
 }
 export type ChangeAction = {
-  type: string,
+  type: ChangeType,
   meta: {
     form: string,
     field: string,
@@ -118,31 +153,34 @@ export type Change = {
   ): ChangeAction
 }
 export type ClearSubmitAction = {
-  type: string,
+  type: ClearSubmitType,
   meta: { form: string }
 } & Action
 export type ClearSubmit = { (form: string): ClearSubmitAction }
 export type ClearSubmitErrorsAction = {
-  type: string,
+  type: ClearSubmitErrorsType,
   meta: { form: string }
 } & Action
 export type ClearSubmitErrors = { (form: string): ClearSubmitErrorsAction }
 export type ClearAsyncErrorAction = {
-  type: string,
+  type: ClearAsyncErrorType,
   meta: { form: string, field: string }
 } & Action
 export type ClearAsyncError = {
   (form: string, field: string): ClearAsyncErrorAction
 }
-export type DestroyAction = { type: string, meta: { form: string[] } } & Action
+export type DestroyAction = {
+  type: DestroyType,
+  meta: { form: string[] }
+} & Action
 export type Destroy = { (...forms: string[]): DestroyAction }
 export type FocusAction = {
-  type: string,
+  type: FocusType,
   meta: { form: string, field: string }
 } & Action
 export type Focus = { (form: string, field: string): FocusAction }
 export type InitializeAction = {
-  type: string,
+  type: InitializeType,
   meta: { form: string, keepDirty: boolean },
   payload: Object
 } & Action
@@ -155,17 +193,20 @@ export type Initialize = {
   ): InitializeAction
 }
 export type RegisterFieldAction = {
-  type: string,
+  type: RegisterFieldType,
   meta: { form: string },
   payload: { name: string, type: FieldType }
 } & Action
 export type RegisterField = {
   (form: string, name: string, type: FieldType): RegisterFieldAction
 }
-export type ResetAction = { type: string, meta: { form: string } } & Action
+export type ResetAction = {
+  type: ResetType,
+  meta: { form: string }
+} & Action
 export type Reset = { (form: string): ResetAction }
 export type StartAsyncValidationAction = {
-  type: string,
+  type: StartAsyncValidationType,
   meta: { form: string, field: string }
 } & Action
 export type StartAsyncValidation = {
@@ -177,12 +218,12 @@ export type StartAsyncValidation = {
   ): StartAsyncValidationAction
 }
 export type StartSubmitAction = {
-  type: string,
+  type: StartSubmitType,
   meta: { form: string }
 } & Action
 export type StartSubmit = { (form: string): StartSubmitAction }
 export type StopAsyncValidationAction = {
-  type: string,
+  type: StopAsyncValidationType,
   meta: { form: string },
   payload: ?Object,
   error: boolean
@@ -191,16 +232,19 @@ export type StopAsyncValidation = {
   (form: string, errors: ?Object): StopAsyncValidationAction
 }
 export type StopSubmitAction = {
-  type: string,
+  type: StopSubmitType,
   meta: { form: string },
   payload: ?Object,
   error: boolean
 } & Action
 export type StopSubmit = { (form: string, errors: ?Object): StopSubmitAction }
-export type SubmitAction = { type: string, meta: { form: string } } & Action
+export type SubmitAction = {
+  type: SubmitType,
+  meta: { form: string }
+} & Action
 export type Submit = { (form: string): SubmitAction }
 export type SetSubmitFailedAction = {
-  type: string,
+  type: SetSubmitFailedType,
   meta: { form: string, fields: string[] },
   error: true
 } & Action
@@ -208,7 +252,7 @@ export type SetSubmitFailed = {
   (form: string, ...fields: string[]): SetSubmitFailedAction
 }
 export type SetSubmitSucceededAction = {
-  type: string,
+  type: SetSubmitSucceededType,
   meta: { form: string, fields: string[] },
   error: false
 } & Action
@@ -216,12 +260,12 @@ export type SetSubmitSucceeded = {
   (form: string, ...fields: string[]): SetSubmitSucceededAction
 }
 export type TouchAction = {
-  type: string,
+  type: TouchType,
   meta: { form: string, fields: string[] }
 } & Action
 export type Touch = { (form: string, ...fields: string[]): TouchAction }
 export type UnregisterFieldAction = {
-  type: string,
+  type: UnregisterFieldType,
   meta: { form: string },
   payload: { name: string, destroyOnUnmount: boolean }
 } & Action
@@ -229,12 +273,12 @@ export type UnregisterField = {
   (form: string, name: string, destroyOnUnmount: boolean): UnregisterFieldAction
 }
 export type UntouchAction = {
-  type: string,
+  type: UntouchType,
   meta: { form: string, fields: string[] }
 } & Action
 export type Untouch = { (form: string, ...fields: string[]): UntouchAction }
 export type UpdateSyncErrorsAction = {
-  type: string,
+  type: UpdateSyncErrorsType,
   meta: { form: string },
   payload: { syncErrors: Object, error: any }
 } & Action
@@ -242,7 +286,7 @@ export type UpdateSyncErrors = {
   (form: string, syncErrors: Object, error: any): UpdateSyncErrorsAction
 }
 export type UpdateSyncWarningsAction = {
-  type: string,
+  type: UpdateSyncWarningsType,
   meta: { form: string },
   payload: { syncWarnings: Object, warning: any }
 } & Action
