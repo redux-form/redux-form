@@ -19,7 +19,7 @@
     "react-redux": "^5.0.3",
     "react-widgets": "^3.3.1",
     "redux": "^3.6.0",
-    "redux-form": "^7.1.0",
+    "redux-form": "^7.1.1",
     "redux-form-website-template": "0.0.56"
   },
   "devDependencies": {

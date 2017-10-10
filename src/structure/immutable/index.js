@@ -1,5 +1,5 @@
 // @flow
-import { Map, isCollection, isIndexed, List, fromJS } from 'immutable'
+import { Map, Iterable, List, fromJS } from 'immutable'
 import { toPath } from 'lodash'
 import deepEqual from './deepEqual'
 import keys from './keys'
@@ -16,7 +16,9 @@ const structure: Structure<ImmutableMap<string, *>, ImmutableList<*>> = {
   empty: Map(),
   emptyList,
   getIn: (state: ImmutableMap<string, *> | ImmutableList<*>, field: string) =>
-    isCollection(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
+    Iterable.isIterable(state)
+      ? state.getIn(toPath(field))
+      : plainGetIn(state, field),
   setIn,
   deepEqual,
   deleteIn: (
@@ -29,13 +31,14 @@ const structure: Structure<ImmutableMap<string, *>, ImmutableList<*>> = {
   fromJS: jsValue =>
     fromJS(
       jsValue,
-      (key, value) => (isIndexed(value) ? value.toList() : value.toMap())
+      (key, value) =>
+        Iterable.isIndexed(value) ? value.toList() : value.toMap()
     ),
   keys,
   size: list => (list ? list.size : 0),
   some: (items, callback) => items.some(callback),
   splice,
-  toJS: value => (isCollection(value) ? value.toJS() : value)
+  toJS: value => (Iterable.isIterable(value) ? value.toJS() : value)
 }
 
 export default structure

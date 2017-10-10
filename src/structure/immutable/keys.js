@@ -1,5 +1,5 @@
 // @flow
-import { isCollection, List } from 'immutable'
+import { Iterable, List } from 'immutable'
 import plainKeys from '../plain/keys'
 
 const empty = List()
@@ -9,7 +9,7 @@ const keys = (value: any) => {
     return value.map(i => i.name)
   }
 
-  if (isCollection(value)) {
+  if (Iterable.isIterable(value)) {
     return value.keySeq()
   }
 

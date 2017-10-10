@@ -39,12 +39,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="7.1.0"
+        version="7.1.1"
         path="/examples/selectingFormValues"
         breadcrumbs={generateExampleBreadcrumbs(
           'selectingFormValues',
           'Selecting Form Values Example',
-          '7.1.0'
+          '7.1.1'
         )}
       >
         <Markdown content={readme} />
