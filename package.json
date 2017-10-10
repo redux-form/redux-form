@@ -57,7 +57,6 @@
   },
   "homepage": "https://redux-form.com/",
   "dependencies": {
-    "babel-jest": "^21.2.0",
     "deep-equal": "^1.0.1",
     "es6-error": "^4.0.0",
     "hoist-non-react-statics": "^2.3.1",
@@ -71,6 +70,7 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
+    "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-lodash": "^3.2.11",
