@@ -1,13 +1,13 @@
 // @flow
 import deepEqual from 'deep-equal'
-import { Map, List, isCollection, fromJS } from 'immutable'
+import { Map, List, Iterable, fromJS } from 'immutable'
 
 import { matcherHint, printReceived, printExpected } from 'jest-matcher-utils'
 
 const deepEqualValues = (a: any, b: any) => {
-  if (isCollection(a)) {
+  if (Iterable.isIterable(a)) {
     return (
-      isCollection(b) &&
+      Iterable.isIterable(b) &&
       a.count() === b.count() &&
       a.every((value, key) => deepEqualValues(value, b.get(key)))
     )
@@ -33,7 +33,7 @@ const api = {
   },
 
   toBeSize(actual: any, size: number) {
-    const pass = isCollection(actual) && actual.count() === size
+    const pass = Iterable.isIterable(actual) && actual.count() === size
     return {
       pass,
       message: () => `toBeSize expected ${actual} to contain ${size} elements`

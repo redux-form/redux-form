@@ -1,5 +1,5 @@
 // @flow
-import { isCollection } from 'immutable'
+import { Iterable } from 'immutable'
 
 import { isEqualWith } from 'lodash'
 
@@ -11,7 +11,7 @@ const customizer = (obj: any, other: any) => {
     return objIsEmpty === otherIsEmpty
   }
 
-  if (isCollection(obj) && isCollection(other)) {
+  if (Iterable.isIterable(obj) && Iterable.isIterable(other)) {
     return (
       obj.count() === other.count() &&
       obj.every((value, key) => {
