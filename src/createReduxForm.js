@@ -20,6 +20,7 @@ import handleSubmit from './handleSubmit'
 import createIsValid from './selectors/isValid'
 import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
+import isHotReloading from './util/isHotReloading'
 import type { ComponentType } from 'react'
 import type { Dispatch } from 'redux'
 import type {
@@ -477,9 +478,11 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         componentWillMount() {
-          this.initIfNeeded()
-          this.validateIfNeeded()
-          this.warnIfNeeded()
+          if (!isHotReloading()) {
+            this.initIfNeeded()
+            this.validateIfNeeded()
+            this.warnIfNeeded()
+          }
           invariant(
             this.props.shouldValidate,
             'shouldValidate() is deprecated and will be removed in v8.0.0. Use shouldWarn() or shouldError() instead.'
@@ -524,7 +527,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         componentWillUnmount() {
           const { destroyOnUnmount, destroy } = this.props
-          if (destroyOnUnmount) {
+          if (destroyOnUnmount && !isHotReloading()) {
             this.destroyed = true
             destroy()
           }
