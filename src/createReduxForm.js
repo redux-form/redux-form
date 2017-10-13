@@ -297,7 +297,8 @@ const createReduxForm = structure => {
               nextProps.onChange(
                 nextProps.values,
                 nextProps.dispatch,
-                nextProps
+                nextProps,
+                this.props.values,
               )
             }
           }
