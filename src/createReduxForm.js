@@ -834,6 +834,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             touch,
             untouch,
             valid,
+            values,
             warning
           }
           const propsToPass = {
