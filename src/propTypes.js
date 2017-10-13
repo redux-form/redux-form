@@ -69,7 +69,7 @@ export const fieldMetaPropTypes = {
   autofilled: bool.isRequired,
   dirty: bool.isRequired,
   dispatch: func.isRequired,
-  error: string,
+  error: any,
   form: string.isRequired,
   invalid: bool.isRequired,
   pristine: bool.isRequired,
@@ -83,7 +83,7 @@ export const fieldMetaPropTypes = {
 
 export const fieldArrayMetaPropTypes = {
   dirty: bool.isRequired,
-  error: string,
+  error: any,
   form: string.isRequired,
   invalid: bool.isRequired,
   pristine: bool.isRequired,
