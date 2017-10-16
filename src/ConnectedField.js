@@ -127,6 +127,11 @@ const createConnectedField = (structure: Structure<*, *>) => {
       if (!defaultPrevented) {
         // dispatch change action
         dispatch(_reduxForm.change(name, newValue))
+
+        // call post-change callback
+        if (_reduxForm.asyncValidate) {
+          _reduxForm.asyncValidate(name, newValue, 'change')
+        }
       }
     }
 
@@ -197,7 +202,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
 
         // call post-blur callback
         if (_reduxForm.asyncValidate) {
-          _reduxForm.asyncValidate(name, newValue)
+          _reduxForm.asyncValidate(name, newValue, 'blur')
         }
       }
     }

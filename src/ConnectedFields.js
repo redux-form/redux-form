@@ -97,6 +97,11 @@ const createConnectedFields = (structure: Structure<*, *>) => {
       const value = onChangeValue(event, { name, parse })
 
       dispatch(_reduxForm.change(name, value))
+
+      // call post-change callback
+      if (_reduxForm.asyncValidate) {
+        _reduxForm.asyncValidate(name, value, 'change')
+      }
     }
 
     handleFocus = (name: string): void => {
@@ -113,7 +118,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
 
       // call post-blur callback
       if (_reduxForm.asyncValidate) {
-        _reduxForm.asyncValidate(name, value)
+        _reduxForm.asyncValidate(name, value, 'blur')
       }
     }
 

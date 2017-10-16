@@ -19,6 +19,7 @@ const defaultShouldAsyncValidate = ({
   }
   switch (trigger) {
     case 'blur':
+    case 'change':
       // blurring
       return true
     case 'submit':
