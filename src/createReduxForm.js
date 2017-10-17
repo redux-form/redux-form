@@ -165,7 +165,7 @@ type OnChangeFunction = (
   values: Values,
   dispatch: Dispatch<*>,
   props: Object,
-  prevValus: Values,
+  previousValues: Values
 ) => void
 
 export type Config = {
