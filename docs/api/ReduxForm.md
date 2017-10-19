@@ -108,6 +108,10 @@ values change.
 
 > The props passed into your decorated component.
 
+> ##### `previousValues : Object`
+
+> The previous field values in the form of `{ field1: 'value1', field2: 'value2' }`.
+
 #### `onSubmit : Function` [optional]
 
 > The function to call with the form data when the `handleSubmit()` is fired from within the
