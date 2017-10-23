@@ -164,7 +164,8 @@ type ShouldWarnFunction = (params: ShouldWarnParams) => boolean
 type OnChangeFunction = (
   values: Values,
   dispatch: Dispatch<*>,
-  props: Object
+  props: Object,
+  previousValues: Values
 ) => void
 
 export type Config = {
@@ -497,7 +498,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           this.submitIfNeeded(nextProps)
           const { onChange, values, dispatch } = nextProps
           if (onChange && !deepEqual(values, this.props.values)) {
-            onChange(values, dispatch, nextProps)
+            onChange(values, dispatch, nextProps, this.props.values)
           }
         }
 

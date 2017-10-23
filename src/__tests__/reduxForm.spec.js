@@ -3640,6 +3640,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onChange.mock.calls[0][0]).toEqualMap({ foo: 'dog' })
       expect(typeof onChange.mock.calls[0][1]).toBe('function')
       expect(onChange.mock.calls[0][2].values).toEqualMap({ foo: 'dog' })
+      expect(onChange.mock.calls[0][3]).toEqualMap({})
 
       changeBar('cat')
 
@@ -3652,6 +3653,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onChange.mock.calls[1][2].values).toEqualMap({
         foo: 'dog',
         bar: 'cat'
+      })
+      expect(onChange.mock.calls[1][3]).toEqualMap({
+        foo: 'dog',
       })
 
       changeFoo('dog')
@@ -3668,6 +3672,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(typeof onChange.mock.calls[2][1]).toBe('function')
       expect(onChange.mock.calls[2][2].values).toEqualMap({
         foo: 'doggy',
+        bar: 'cat'
+      })
+      expect(onChange.mock.calls[2][3]).toEqualMap({
+        foo: 'dog',
         bar: 'cat'
       })
     })
