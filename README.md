@@ -16,6 +16,8 @@
 [React](https://github.com/facebook/react) to use [Redux](https://github.com/rackt/redux) to store all of its state.
 [![Beerpay](https://beerpay.io/erikras/redux-form/badge.svg)](https://beerpay.io/erikras/redux-form)
 
+<a href="https://app.codesponsor.io/link/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
+
 [<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
 ## Installation
@@ -51,5 +53,3 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 
 - [Abstracting Form State with Redux Form at JS Channel - Bengaluru 2016](https://youtu.be/eDTi7lYR1VU)
 [![Abstracting Form State with Redux Form at JS Channel - Bengaluru 2016](docs/video-thumb.jpg)](https://youtu.be/eDTi7lYR1VU)
-
-<a href="https://app.codesponsor.io/link/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
