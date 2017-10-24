@@ -557,15 +557,17 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         unregister = (name: string) => {
           if (!this.destroyed) {
-            if (
-              this.props.destroyOnUnmount ||
-              this.props.forceUnregisterOnUnmount
-            ) {
-              this.props.unregisterField(name)
+            const {
+              destroyOnUnmount,
+              forceUnregisterOnUnmount,
+              unregisterField
+            } = this.props
+            if (destroyOnUnmount || forceUnregisterOnUnmount) {
+              unregisterField(name, destroyOnUnmount)
               delete this.fieldValidators[name]
               delete this.fieldWarners[name]
             } else {
-              this.props.unregisterField(name, false)
+              unregisterField(name, false)
             }
           }
         }
