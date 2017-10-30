@@ -13,6 +13,7 @@ import {
   CHANGE,
   CLEAR_SUBMIT,
   CLEAR_SUBMIT_ERRORS,
+  CLEAR_FIELDS,
   DESTROY,
   FOCUS,
   INITIALIZE,
@@ -50,6 +51,7 @@ const {
   change,
   clearSubmit,
   clearSubmitErrors,
+  clearFields,
   destroy,
   focus,
   initialize,
@@ -380,6 +382,21 @@ describe('actions', () => {
 
       meta: {
         form: 'myForm'
+      }
+    })
+
+    expect(isFSA(clearSubmitErrors('myForm'))).toBe(true)
+  })
+
+  it('should create clear fields action', () => {
+    expect(clearFields('myForm', true, true, 'a', 'b')).toEqual({
+      type: CLEAR_FIELDS,
+
+      meta: {
+        form: 'myForm',
+        keepTouched: true,
+        persistentSubmitErrors: true,
+        fields: ['a', 'b']
       }
     })
 

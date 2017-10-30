@@ -16,7 +16,8 @@ const describeCreateFieldProps = (name, structure, setup) => {
 
     it('should pass value through', () => {
       expect(
-        createFieldProps({ getIn, toJS, deepEqual }, 'foo', { value: 'hello' }).input.value
+        createFieldProps({ getIn, toJS, deepEqual }, 'foo', { value: 'hello' })
+          .input.value
       ).toBe('hello')
     })
 
@@ -49,8 +50,9 @@ const describeCreateFieldProps = (name, structure, setup) => {
 
     it('should pass initial value through', () => {
       expect(
-        createFieldProps({ getIn, toJS, deepEqual }, 'foo', { initial: 'hello' }).meta
-          .initial
+        createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
+          initial: 'hello'
+        }).meta.initial
       ).toBe('hello')
     })
 
@@ -112,10 +114,14 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should read active from state', () => {
-      const inactiveResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const inactiveResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(inactiveResult.meta.active).toBe(false)
       const activeResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
         value: 'bar',
@@ -127,21 +133,33 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should pass along submitting flag', () => {
-      const notSubmittingResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar'
-      })
+      const notSubmittingResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar'
+        }
+      )
       expect(notSubmittingResult.meta.submitting).toBe(false)
-      const submittingResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        submitting: true
-      })
+      const submittingResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          submitting: true
+        }
+      )
       expect(submittingResult.meta.submitting).toBe(true)
     })
 
     it('should pass along submitFailed flag', () => {
-      const notFailedResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar'
-      })
+      const notFailedResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar'
+        }
+      )
       expect(notFailedResult.meta.submitFailed).toBe(false)
       const failedResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
         value: 'bar',
@@ -151,9 +169,13 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should pass along all custom state props', () => {
-      const pristineResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar'
-      })
+      const pristineResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar'
+        }
+      )
       expect(pristineResult.meta.customProp).toBe(undefined)
       const customResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
         value: 'bar',
@@ -165,9 +187,13 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should not override canonical props with custom props', () => {
-      const pristineResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar'
-      })
+      const pristineResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar'
+        }
+      )
       expect(pristineResult.meta.customProp).toBe(undefined)
       const customResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
         value: 'bar',
@@ -180,40 +206,60 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should read touched from state', () => {
-      const untouchedResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const untouchedResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(untouchedResult.meta.touched).toBe(false)
-      const touchedResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: fromJS({
-          touched: true
-        })
-      })
+      const touchedResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: fromJS({
+            touched: true
+          })
+        }
+      )
       expect(touchedResult.meta.touched).toBe(true)
     })
 
     it('should read visited from state', () => {
-      const notVisitedResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const notVisitedResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(notVisitedResult.meta.visited).toBe(false)
-      const visitedResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: fromJS({
-          visited: true
-        })
-      })
+      const visitedResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: fromJS({
+            visited: true
+          })
+        }
+      )
       expect(visitedResult.meta.visited).toBe(true)
     })
 
     it('should read sync errors from prop', () => {
-      const noErrorResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const noErrorResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
@@ -228,24 +274,36 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should read sync warnings from prop', () => {
-      const noWarningResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const noWarningResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(noWarningResult.meta.warning).toBeFalsy()
-      const warningResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty,
-        syncWarning: 'This is an warning'
-      })
+      const warningResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty,
+          syncWarning: 'This is an warning'
+        }
+      )
       expect(warningResult.meta.warning).toBe('This is an warning')
     })
 
     it('should read async errors from state', () => {
-      const noErrorResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const noErrorResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
@@ -260,10 +318,14 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should read submit errors from state', () => {
-      const noErrorResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const noErrorResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
@@ -278,10 +340,14 @@ const describeCreateFieldProps = (name, structure, setup) => {
     })
 
     it('should prioritize sync errors over async or submit errors', () => {
-      const noErrorResult = createFieldProps({ getIn, toJS, deepEqual }, 'foo', {
-        value: 'bar',
-        state: empty
-      })
+      const noErrorResult = createFieldProps(
+        { getIn, toJS, deepEqual },
+        'foo',
+        {
+          value: 'bar',
+          state: empty
+        }
+      )
       expect(noErrorResult.meta.error).toBeFalsy()
       expect(noErrorResult.meta.valid).toBe(true)
       expect(noErrorResult.meta.invalid).toBe(false)
