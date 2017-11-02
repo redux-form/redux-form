@@ -37,9 +37,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       const nextValue = nextProps.value
 
       if (thisValue && nextValue) {
-        let nextValueItemsSame = nextValue.every(
-          val => ~thisValue.indexOf(val)
-        )
+        let nextValueItemsSame = nextValue.every(val => ~thisValue.indexOf(val))
         let nextValueItemsOrderChanged = nextValue.some(
           (val, index) => val !== thisValue[index]
         )

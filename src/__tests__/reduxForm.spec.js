@@ -147,6 +147,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'blur',
         'change',
         'clearAsyncError',
+        'clearFields',
         'clearSubmit',
         'clearSubmitErrors',
         'destroy',
@@ -201,6 +202,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(typeof props.autofill).toBe('function')
       expect(typeof props.blur).toBe('function')
       expect(typeof props.change).toBe('function')
+      expect(typeof props.clearFields).toBe('function')
       expect(typeof props.destroy).toBe('function')
       expect(typeof props.dirty).toBe('boolean')
       expect(typeof props.form).toBe('string')
@@ -3655,7 +3657,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         bar: 'cat'
       })
       expect(onChange.mock.calls[1][3]).toEqualMap({
-        foo: 'dog',
+        foo: 'dog'
       })
 
       changeFoo('dog')

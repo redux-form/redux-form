@@ -134,6 +134,23 @@ export type ClearAsyncErrorAction = {
 export type ClearAsyncError = {
   (form: string, field: string): ClearAsyncErrorAction
 }
+export type ClearFieldsAction = {
+  type: string,
+  meta: {
+    form: string,
+    keepTouched: boolean,
+    persistentSubmitErrors: boolean,
+    fields: string[]
+  }
+} & Action
+export type ClearFields = {
+  (
+    form: string,
+    keepTouched: boolean,
+    persistentSubmitErrors: boolean,
+    ...fields: string[]
+  ): ClearFieldsAction
+}
 export type DestroyAction = { type: string, meta: { form: string[] } } & Action
 export type Destroy = { (...forms: string[]): DestroyAction }
 export type FocusAction = {
@@ -267,6 +284,7 @@ export type Actions = {
   clearSubmit: ClearSubmit,
   clearSubmitErrors: ClearSubmitErrors,
   clearAsyncError: ClearAsyncError,
+  clearFields: ClearFields,
   destroy: Destroy,
   focus: Focus,
   initialize: Initialize,

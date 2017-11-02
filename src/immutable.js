@@ -62,6 +62,7 @@ export const autofill = actions.autofill
 export const blur = actions.blur
 export const change = actions.change
 export const clearSubmitErrors = actions.clearSubmitErrors
+export const clearFields = actions.clearFields
 export const destroy = actions.destroy
 export const focus = actions.focus
 export const initialize = actions.initialize

@@ -14,6 +14,7 @@ export const ARRAY_SWAP = `${prefix}ARRAY_SWAP`
 export const AUTOFILL = `${prefix}AUTOFILL`
 export const BLUR = `${prefix}BLUR`
 export const CHANGE = `${prefix}CHANGE`
+export const CLEAR_FIELDS = `${prefix}CLEAR_FIELDS`
 export const CLEAR_SUBMIT = `${prefix}CLEAR_SUBMIT`
 export const CLEAR_SUBMIT_ERRORS = `${prefix}CLEAR_SUBMIT_ERRORS`
 export const CLEAR_ASYNC_ERROR = `${prefix}CLEAR_ASYNC_ERROR`

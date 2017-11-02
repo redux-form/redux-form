@@ -23,6 +23,7 @@ import describeChange from './helpers/reducer.change'
 import describeClearSubmit from './helpers/reducer.clearSubmit'
 import describeClearSubmitErrors from './helpers/reducer.clearSubmitErrors'
 import describeClearAsyncError from './helpers/reducer.clearAsyncError'
+import describeClearFields from './helpers/reducer.clearFields'
 import describeDestroy from './helpers/reducer.destroy'
 import describeFocus from './helpers/reducer.focus'
 import describeTouch from './helpers/reducer.touch'
@@ -59,6 +60,7 @@ const tests = {
   clearSubmit: describeClearSubmit,
   clearSubmitErrors: describeClearSubmitErrors,
   clearAsyncError: describeClearAsyncError,
+  clearFields: describeClearFields,
   destroy: describeDestroy,
   focus: describeFocus,
   reset: describeReset,

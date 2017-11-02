@@ -33,6 +33,7 @@ import {
   UNREGISTER_FIELD,
   UNTOUCH,
   UPDATE_SYNC_ERRORS,
+  CLEAR_FIELDS,
   UPDATE_SYNC_WARNINGS
 } from './actionTypes'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
@@ -242,6 +243,30 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     },
     [CLEAR_ASYNC_ERROR](state, { meta: { field } }) {
       return deleteIn(state, `asyncErrors.${field}`)
+    },
+    [CLEAR_FIELDS](
+      state,
+      { meta: { keepTouched, persistentSubmitErrors, fields } }
+    ) {
+      let result = state
+      fields.forEach(field => {
+        result = deleteInWithCleanUp(result, `values.${field}`)
+        result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
+        if (!persistentSubmitErrors) {
+          result = deleteInWithCleanUp(result, `submitErrors.${field}`)
+        }
+        result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
+        if (!keepTouched) {
+          result = deleteIn(result, `fields.${field}.touched`)
+        }
+      })
+      const anyTouched = some(keys(getIn(result, 'registeredFields')), key =>
+        getIn(result, `fields.${key}.touched`)
+      )
+      result = anyTouched
+        ? setIn(result, 'anyTouched', true)
+        : deleteIn(result, 'anyTouched')
+      return result
     },
     [FOCUS](state, { meta: { field } }) {
       let result = state
