@@ -2,7 +2,7 @@
   
 Excellent question. You have several options:
 
-### A) You can use [the `plugin()` API](../api/ReducerPlugin.md) to teach the `redux-form` reducer to respond to the action dispatched when your submission succeeds.
+### A) You can use [the `plugin()` API](../../api/ReducerPlugin.md) to teach the `redux-form` reducer to respond to the action dispatched when your submission succeeds.
 
 > This is the proper Redux way to do it and has the benefit of not dispatching another action.
 
