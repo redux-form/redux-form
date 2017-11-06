@@ -386,6 +386,11 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         result = setIn(result, 'values', values)
         result = setIn(result, 'initial', values)
       }
+      var submitFailed = getIn(state, 'submitFailed');
+      if(submitFailed){
+        result = setIn(result, 'valid', false)
+        result = setIn(result, 'invalid', true)
+      }
       return result
     },
     [SUBMIT](state) {
