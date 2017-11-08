@@ -7,5 +7,7 @@ export type Props = {
   format?: (value: any, name: string) => ?any,
   parse?: (value: any, name: string) => ?any,
   props?: Object,
+  validate?: Object[],
+  warn?: Object[],
   withRef?: boolean
 }
