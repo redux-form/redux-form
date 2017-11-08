@@ -3,6 +3,7 @@ import { Component, createElement } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
+import { get, find } from 'lodash'
 import createConnectedFields from './ConnectedFields'
 import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
@@ -51,7 +52,14 @@ const createFields = (structure: Structure<*, *>) => {
       const {
         _reduxForm: { register }
       } = props
-      this.names.forEach(name => register(name, 'Field'))
+      this.names.forEach(name =>
+        register(
+          name,
+          'Field',
+          () => get(find(this.props.validate, { name }), 'funcs', undefined),
+          () => get(find(this.props.validate, { name }), 'funcs', undefined)
+        )
+      )
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -62,7 +70,12 @@ const createFields = (structure: Structure<*, *>) => {
         this.props.names.forEach(name => unregister(prefixName(props, name)))
         // register new name
         nextProps.names.forEach(name =>
-          register(prefixName(props, name), 'Field')
+          register(
+            prefixName(context, name),
+            'Field',
+            () => get(find(this.props.validate, { name }), 'funcs', undefined),
+            () => get(find(this.props.validate, { name }), 'funcs', undefined)
+          )
         )
       }
     }
@@ -77,7 +90,7 @@ const createFields = (structure: Structure<*, *>) => {
       invariant(
         this.props.forwardRef,
         'If you want to access getRenderedComponent(), ' +
-          'you must specify a forwardRef prop to Fields'
+        'you must specify a forwardRef prop to Fields'
       )
       return this.refs.connected.getRenderedComponent()
     }
@@ -116,7 +129,24 @@ const createFields = (structure: Structure<*, *>) => {
     parse: PropTypes.func,
     props: PropTypes.object,
     forwardRef: PropTypes.bool,
-    _reduxForm: PropTypes.object
+    validate: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        funcs: PropTypes.oneOfType([
+          PropTypes.func,
+          PropTypes.arrayOf(PropTypes.func)
+        ])
+      })
+    ),
+    warn: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        funcs: PropTypes.oneOfType([
+          PropTypes.func,
+          PropTypes.arrayOf(PropTypes.func)
+        ])
+      })
+    ),
   }
 
   polyfill(Fields)
