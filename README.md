@@ -51,5 +51,10 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 
 ## Videos
 
-- [Abstracting Form State with Redux Form at JS Channel - Bengaluru 2016](https://youtu.be/eDTi7lYR1VU)
-[![Abstracting Form State with Redux Form at JS Channel - Bengaluru 2016](docs/video-thumb.jpg)](https://youtu.be/eDTi7lYR1VU)
+| [![Abstracting Form State with Redux Form – JS Channel 2016](docs/JSChannel2016.gif)](https://youtu.be/eDTi7lYR1VU) |
+| :--------------------------------------: |
+| Abstracting Form State with Redux Form – JS Channel 2016 |
+
+| [![A Practical Guide to Redux Form – React Alicante 2017](docs/ReactAlicante2017.gif)](https://youtu.be/ey7H8h4ERHg) |
+| :--------------------------------------: |
+| A Practical Guide to Redux Form – React Alicante 2017 |
