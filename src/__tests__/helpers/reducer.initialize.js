@@ -447,7 +447,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
     })
   })
 
-  it('should update pristine values if keepDirty, even if the field is not registered (yet)', () => {
+  it('should update pristine values if keepDirty and updateUnregisteredFields, even if the field is not registered (yet)', () => {
     const values = {
       myField: [{ name: 'One' }, { name: 'Two' }]
     }
@@ -463,7 +463,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
 
     const state = reducer(
       fromJS({ foo: { registeredFields, values, initial } }),
-      initialize('foo', newInitial, true)
+      initialize('foo', newInitial, true, { updateUnregisteredFields: true })
     )
 
     expect(state).toEqualMap({

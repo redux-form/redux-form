@@ -224,6 +224,7 @@ export type Props = {
   initialValues?: any,
   invalid: boolean,
   keepDirtyOnReinitialize: any,
+  updateUnregisteredFields: boolean,
   onChange?: OnChangeFunction,
   onSubmit?: OnSubmitFunction,
   onSubmitFail?: OnSubmitFail,
@@ -283,6 +284,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
       shouldWarn: defaultShouldWarn,
       enableReinitialize: false,
       keepDirtyOnReinitialize: false,
+      updateUnregisteredFields: false,
       getFormState: state => getIn(state, 'form'),
       pure: true,
       forceUnregisterOnUnmount: false,
@@ -330,7 +332,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
               const keepDirty =
                 nextProps.initialized && this.props.keepDirtyOnReinitialize
               this.props.initialize(nextProps.initialValues, keepDirty, {
-                lastInitialValues: this.props.initialValues
+                lastInitialValues: this.props.initialValues,
+                updateUnregisteredFields: nextProps.updateUnregisteredFields,
               })
             }
           } else if (
@@ -339,7 +342,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
           ) {
             this.props.initialize(
               this.props.initialValues,
-              this.props.keepDirtyOnReinitialize
+              this.props.keepDirtyOnReinitialize,
+              {
+                updateUnregisteredFields: this.props.updateUnregisteredFields,
+              }
             )
           }
         }
@@ -778,6 +784,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             initialValues,
             invalid,
             keepDirtyOnReinitialize,
+            updateUnregisteredFields,
             pristine,
             propNamespace,
             registeredFields,
