@@ -37,7 +37,10 @@ const describeHasError = (name, structure, setup) => {
     })
 
     it('should return false for deeply nested structures with undefined values', () => {
-      const field1 = fromJS({ name: 'nested.myArrayField', type: 'FieldArray' })
+      const field1 = fromJS({
+        name: 'nested.myArrayField',
+        type: 'FieldArray'
+      })
       expect(
         hasError(
           field1,

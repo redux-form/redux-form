@@ -302,9 +302,18 @@ const describeCreateFieldProps = (name, structure, setup) => {
       expect(typeof result.fields.reduce).toBe('function')
       expect(callback).not.toHaveBeenCalled()
       const reduceResult = result.fields.reduce(callback, {})
-      expect(reduceResult['foo[0]']).toEqual({ whatever: true, name: 'foo[0]' })
-      expect(reduceResult['foo[1]']).toEqual({ whatever: true, name: 'foo[1]' })
-      expect(reduceResult['foo[2]']).toEqual({ whatever: true, name: 'foo[2]' })
+      expect(reduceResult['foo[0]']).toEqual({
+        whatever: true,
+        name: 'foo[0]'
+      })
+      expect(reduceResult['foo[1]']).toEqual({
+        whatever: true,
+        name: 'foo[1]'
+      })
+      expect(reduceResult['foo[2]']).toEqual({
+        whatever: true,
+        name: 'foo[2]'
+      })
       expect(callback).toHaveBeenCalled()
       expect(callback).toHaveBeenCalledTimes(3)
       expect(callback.mock.calls[0]).toEqual([{}, 'foo[0]', 0, result.fields])
