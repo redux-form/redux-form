@@ -65,7 +65,7 @@ export type Event = {
 export type Context = {
   form: string,
   getFormState: GetFormState,
-  asyncValidate: { (name: ?string, value: ?any): Promise<*> },
+  asyncValidate: { (name: ?string, value: ?any, trigger: 'blur' | 'change'): Promise<*> },
   getValues: { (): Object },
   sectionPrefix?: string,
   register: (

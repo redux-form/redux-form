@@ -202,6 +202,7 @@ export type Props = {
   arraySwap: ArraySwapAction,
   arrayUnshift: ArrayUnshiftAction,
   asyncBlurFields?: string[],
+  asyncChangeFields?: string[],
   asyncErrors?: any,
   asyncValidate: AsyncValidateFunction,
   asyncValidating: boolean,
