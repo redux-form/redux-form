@@ -747,6 +747,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           /* eslint-disable no-unused-vars */
           const {
             anyTouched,
+            array,
             arrayInsert,
             arrayMove,
             arrayPop,
@@ -814,6 +815,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           } = this.props
           /* eslint-enable no-unused-vars */
           const reduxFormProps = {
+            array,
             anyTouched,
             asyncValidate: this.asyncValidate,
             asyncValidating,
