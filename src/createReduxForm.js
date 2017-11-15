@@ -191,6 +191,7 @@ export type Config = {
 }
 
 export type Props = {
+  array: Object,
   anyTouched: boolean,
   arrayInsert: ArrayInsertAction,
   arrayMove: ArrayMoveAction,
