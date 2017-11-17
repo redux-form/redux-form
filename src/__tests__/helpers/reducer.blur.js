@@ -242,6 +242,42 @@ const describeBlur = (reducer, expect, { fromJS, setIn }) => () => {
     })
   })
 
+  it('should NOT remove nested value container if it is included inside the initial values', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          initial: {
+            nested: {}
+          },
+          values: {
+            nested: {
+              myField: 'initialValue'
+            }
+          }
+        }
+      }),
+      blur('foo', 'nested.myField', '', true)
+    )
+    expect(state).toEqualMap({
+      foo: {
+        anyTouched: true,
+        fields: {
+          nested: {
+            myField: {
+              touched: true
+            }
+          }
+        },
+        initial: {
+          nested: {}
+        },
+        values: {
+          nested: {}
+        }
+      }
+    })
+  })
+
   it('should set nested value on blur', () => {
     const state = reducer(
       fromJS({
