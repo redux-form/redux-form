@@ -2,50 +2,42 @@
 import { toPath } from 'lodash'
 import type { Structure } from './types'
 
-function createDeleteInWithCleanUp<DIM, DIL>({
-  deepEqual,
-  empty,
-  getIn,
-  deleteIn,
-  setIn
-}: Structure<DIM, DIL>) {
-  const deleteInWithCleanUp = (state: DIM | DIL, path: string): DIM | DIL => {
-    let initialValuesPath = null
+function createCreateDeleteInWithCleanUp<DIM, DIL>(structure: Structure<DIM, DIL>) {
+  const shouldDeleteDefault = (structure) => (state, path) => structure.getIn(state, path) !== undefined
 
-    if (path.startsWith('values')) {
-      initialValuesPath = path.replace('values', 'initial')
-    }
+  const { deepEqual, empty, getIn, deleteIn, setIn } = structure
 
-    if (path[path.length - 1] === ']') {
-      // array path
-      const pathTokens = toPath(path)
-      pathTokens.pop()
-      const parent = getIn(state, pathTokens.join('.'))
-      return parent ? setIn(state, path) : state
-    }
+  return (shouldDelete = shouldDeleteDefault) => {
+    const deleteInWithCleanUp = (state: DIM | DIL, path: string): DIM | DIL => {
+      if (path[path.length - 1] === ']') {
+        // array path
+        const pathTokens = toPath(path)
+        pathTokens.pop()
+        const parent = getIn(state, pathTokens.join('.'))
+        return parent ? setIn(state, path) : state
+      }
 
-    let result: DIM | DIL = state
+      let result: DIM | DIL = state
 
-    const initialValueComparison = initialValuesPath ? (getIn(state, initialValuesPath) === undefined) : true
+      if (shouldDelete(structure)(state, path)) {
+        result = deleteIn(state, path)
+      }
 
-    if (getIn(state, path) !== undefined && initialValueComparison) {
-      result = deleteIn(state, path)
-    }
-
-    const dotIndex = path.lastIndexOf('.')
-    if (dotIndex > 0) {
-      const parentPath = path.substring(0, dotIndex)
-      if (parentPath[parentPath.length - 1] !== ']') {
-        const parent = getIn(result, parentPath)
-        if (deepEqual(parent, empty)) {
-          return deleteInWithCleanUp(result, parentPath)
+      const dotIndex = path.lastIndexOf('.')
+      if (dotIndex > 0) {
+        const parentPath = path.substring(0, dotIndex)
+        if (parentPath[parentPath.length - 1] !== ']') {
+          const parent = getIn(result, parentPath)
+          if (deepEqual(parent, empty)) {
+            return deleteInWithCleanUp(result, parentPath)
+          }
         }
       }
+      return result
     }
-    return result
-  }
 
-  return deleteInWithCleanUp
+    return deleteInWithCleanUp
+  }
 }
 
-export default createDeleteInWithCleanUp
+export default createCreateDeleteInWithCleanUp
