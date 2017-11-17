@@ -145,6 +145,35 @@ const describeDeleteInWithCleanUp = (name, structure, setup) => {
         )
       ).toEqualMap({})
     })
+
+    it('should only delete cats because I am a dog person', () => {
+      const validation = (structure) => (state, path) => path.startsWith('cat')
+      const deleteInSpecial = createCreateDeleteInWithCleanUp(structure)(validation)
+
+      expect(
+        deleteInSpecial(
+          fromJS({
+            dog: 'Scooby',
+            cat: 'Garfield'
+          }),
+          'dog'
+        )
+      ).toEqualMap({
+        dog: 'Scooby',
+        cat: 'Garfield'
+      })
+      expect(
+        deleteInSpecial(
+          fromJS({
+            dog: 'Scooby',
+            cat: 'Garfield'
+          }),
+          'cat'
+        )
+      ).toEqualMap({
+        dog: 'Scooby',
+      })
+    })
   })
 }
 
