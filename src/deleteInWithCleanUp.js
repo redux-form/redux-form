@@ -10,6 +10,12 @@ function createDeleteInWithCleanUp<DIM, DIL>({
   setIn
 }: Structure<DIM, DIL>) {
   const deleteInWithCleanUp = (state: DIM | DIL, path: string): DIM | DIL => {
+    let initialValuesPath = null
+
+    if (path.startsWith('values')) {
+      initialValuesPath = path.replace('values', 'initial')
+    }
+
     if (path[path.length - 1] === ']') {
       // array path
       const pathTokens = toPath(path)
@@ -19,7 +25,10 @@ function createDeleteInWithCleanUp<DIM, DIL>({
     }
 
     let result: DIM | DIL = state
-    if (getIn(state, path) !== undefined) {
+
+    const initialValueComparison = initialValuesPath ? (getIn(state, initialValuesPath) === undefined) : true
+
+    if (getIn(state, path) !== undefined && initialValueComparison) {
       result = deleteIn(state, path)
     }
 
