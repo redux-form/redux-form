@@ -526,6 +526,18 @@ const createReduxForm = (structure: Structure<*, *>) => {
           )
         }
 
+        componentDidMount() {
+          if (!isHotReloading()) {
+            this.initIfNeeded()
+            this.validateIfNeeded()
+            this.warnIfNeeded()
+          }
+          invariant(
+            this.props.shouldValidate,
+            'shouldValidate() is deprecated and will be removed in v8.0.0. Use shouldWarn() or shouldError() instead.'
+          )
+        }
+
         componentWillUnmount() {
           const { destroyOnUnmount, destroy } = this.props
           if (destroyOnUnmount && !isHotReloading()) {
