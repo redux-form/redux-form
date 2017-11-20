@@ -84,10 +84,15 @@ The values should be in the form `{ field1: 'value1', field2: 'value2' }`.
 #### `keepDirtyOnReinitialize : boolean` [optional]
 
 > When set to `true` and `enableReinitialize` is also set, the form will retain the value
-of dirty fields when reinitializing. When this option is not set (the default), reinitializing
+of dirty fields and update every registered field which is still pristine when reinitializing. When this option is not set (the default), reinitializing
 the form replaces all field values. This option is useful in situations where the form has
 live updates or continues to be editable after form submission; it prevents
 reinitialization from overwriting user changes. Defaults to `false`.
+
+#### `updateUnregisteredFields : boolean` [optional]
+
+> Used in combination with `keepDirty(OnReinitialize)`. Will update every initialValue which is still pristine. Normally only registered Fields will be updated.
+In most cases, this option should be set to `true` to work as expected and avoid edge cases. It defaults to `false` because of non-breaking backwards compatibility.
 
 #### `onChange : Function` [optional]
 

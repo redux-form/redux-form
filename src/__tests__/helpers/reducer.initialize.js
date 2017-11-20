@@ -447,6 +447,30 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
     })
   })
 
+  it('should update pristine values if keepDirty and updateUnregisteredFields, even if the field is not registered (yet)', () => {
+    const values = {
+      myField: [{ name: 'One' }, { name: 'Two' }]
+    }
+    const initial = {
+      myField: [{ name: 'One' }, { name: 'Two' }]
+    }
+
+    const newInitial = {
+      myField: [{ name: 'One' }, { name: 'Two' }, { name: 'Three' }]
+    }
+
+    const registeredFields = {}
+
+    const state = reducer(
+      fromJS({ foo: { registeredFields, values, initial } }),
+      initialize('foo', newInitial, true, { updateUnregisteredFields: true })
+    )
+
+    expect(state).toEqualMap({
+      foo: { registeredFields, values: newInitial, initial: newInitial }
+    })
+  })
+
   it('should not create empty object if new initial value is an empty array and keepDirty is set', () => {
     const before = {
       myForm: {

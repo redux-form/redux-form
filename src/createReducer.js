@@ -277,7 +277,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { payload, meta: { keepDirty, keepSubmitSucceeded } }) {
+    [INITIALIZE](state, { payload, meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields } }) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
 
@@ -327,7 +327,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           // initialize action causes the field to become pristine. That effect
           // is what we want.
           //
-          forEach(keys(registeredFields), name => {
+          const overwritePristineValue = name => {
             const previousInitialValue = getIn(previousInitialValues, name)
             const previousValue = getIn(previousValues, name)
 
@@ -342,7 +342,11 @@ function createReducer<M, L>(structure: Structure<M, L>) {
                 newValues = setIn(newValues, name, newInitialValue)
               }
             }
-          })
+          }
+
+          if (!updateUnregisteredFields) {
+            forEach(keys(registeredFields), name => overwritePristineValue(name))
+          }
 
           forEach(keys(newInitialValues), name => {
             const previousInitialValue = getIn(previousInitialValues, name)
@@ -350,6 +354,10 @@ function createReducer<M, L>(structure: Structure<M, L>) {
               // Add new values at the root level.
               const newInitialValue = getIn(newInitialValues, name)
               newValues = setIn(newValues, name, newInitialValue)
+            }
+
+            if (updateUnregisteredFields) {
+              overwritePristineValue(name)
             }
           })
         }

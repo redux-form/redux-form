@@ -81,7 +81,7 @@ insert, so the item already at the `to` position will be bumped to a higher inde
 
 > Marks the given field as `active` and `visited`.
 
-### `initialize(form:String, data:Object, [keepDirty:boolean], [options:{keepDirty:boolean, keepSubmitSucceeded:boolean}])`
+### `initialize(form:String, data:Object, [keepDirty:boolean], [options:{keepDirty:boolean, keepSubmitSucceeded:boolean, updateUnregisteredFields:boolean}])`
 
 > Sets the initial values in the form with which future data values will be compared to calculate
 `dirty` and `pristine`. The `data` parameter may contain deep nested array and object values that match the shape of
@@ -93,6 +93,10 @@ the 3rd or 4th argument, for the sake of backwards compatibility).
 
 > If the `keepSubmitSucceeded` parameter is `true`,
 it will not clear the `submitSucceeded` flag if it is set.
+
+> If the `updateUnregisteredFields` parameter is `true`,
+it will update every initialValue if still pristine instead of only registered fields.
+Highly recommended, defaults to false because of non-breaking backwards compatibility. 
 
 ### `registerField(form:String, name:String, type:String)`
 
