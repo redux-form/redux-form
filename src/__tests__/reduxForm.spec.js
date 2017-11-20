@@ -3502,7 +3502,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const Decorated = reduxForm({
         form: 'testForm',
         asyncValidate,
-        asyncBlurFields: ['deep.foo']
+        asyncBlurFields: ['deep.foo'],
+        asyncChangeFields: [],
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -3597,6 +3598,90 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         // input rerendered twice, at start and end of async validation
         expect(inputRender).toHaveBeenCalledTimes(4)
+        expect(propsAtNthRender(inputRender, 3).meta.pristine).toBe(false)
+        expect(propsAtNthRender(inputRender, 3).input.value).toBe('bar')
+        expect(propsAtNthRender(inputRender, 3).meta.valid).toBe(false)
+        expect(propsAtNthRender(inputRender, 3).meta.error).toBe('async error')
+      })
+    })
+
+    it('should call async on change of async change field', () => {
+      const store = makeStore({})
+      const inputRender = jest.fn(props => <input {...props.input} />)
+      const formRender = jest.fn()
+      const asyncErrors = {
+        deep: {
+          foo: 'async error'
+        }
+      }
+      const asyncValidate = jest
+        .fn()
+        .mockImplementation(() => Promise.reject(asyncErrors))
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncBlurFields: [],
+        asyncChangeFields: ['deep.foo'],
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
+
+      const inputElement = TestUtils.findRenderedDOMComponentWithTag(
+        dom,
+        'input'
+      )
+
+      TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+
+      setTimeout(() => {
+        expect(store.getState()).toEqualMap({
+          form: {
+            testForm: {
+              anyTouched: true,
+              values: {
+                deep: {
+                  foo: 'bar'
+                }
+              },
+              fields: {
+                deep: {
+                  foo: {
+                    touched: true
+                  }
+                }
+              },
+              registeredFields: {
+                'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+              },
+              asyncErrors
+            }
+          }
+        })
+        // rerender form twice because of async validation start and again for valid -> invalid
+        expect(formRender.calls.length).toBe(4)
+
+        expect(asyncValidate).toHaveBeenCalled()
+        expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({
+          deep: { foo: 'bar' }
+        })
+
+        // input rerendered twice, at start and end of async validation
+        expect(inputRender.calls.length).toBe(4)
         expect(propsAtNthRender(inputRender, 3).meta.pristine).toBe(false)
         expect(propsAtNthRender(inputRender, 3).input.value).toBe('bar')
         expect(propsAtNthRender(inputRender, 3).meta.valid).toBe(false)
@@ -4280,6 +4365,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         form: 'testForm',
         asyncValidate,
         asyncBlurFields: ['foo'],
+        asyncChangeFields: [],
         shouldAsyncValidate
       })(Form)
 

@@ -204,6 +204,7 @@ export type Props = {
   arraySwap: ArraySwapAction,
   arrayUnshift: ArrayUnshiftAction,
   asyncBlurFields?: string[],
+  asyncChangeFields?: string[],
   asyncErrors?: any,
   asyncValidate: AsyncValidateFunction,
   asyncValidating: boolean,
@@ -648,9 +649,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
             : undefined
         }
 
-        asyncValidate = (name: string, value: any) => {
+        asyncValidate = (name: string, value: any, trigger: 'blur' | 'change') => {
           const {
             asyncBlurFields,
+            asyncChangeFields,
             asyncErrors,
             asyncValidate,
             dispatch,
@@ -668,16 +670,19 @@ const createReduxForm = (structure: Structure<*, *>) => {
               ? values
               : setIn(values, name, value)
             const syncValidationPasses = submitting || !getIn(syncErrors, name)
-            const isBlurredField =
+            const fieldNeedsValidation =
               !submitting &&
-              (!asyncBlurFields ||
-                ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
+              trigger === 'blur'
+                ? (!asyncBlurFields ||
+                  ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
+                : (!asyncChangeFields ||
+                  ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
             if (
-              (isBlurredField || submitting) &&
+              (fieldNeedsValidation || submitting) &&
               shouldAsyncValidate({
                 asyncErrors,
                 initialized,
-                trigger: submitting ? 'submit' : 'blur',
+                trigger: submitting ? 'submit' : trigger,
                 blurredField: name,
                 pristine,
                 syncValidationPasses
