@@ -428,6 +428,7 @@ const actions = {
   autofill,
   blur,
   change,
+  clearFields,
   clearSubmit,
   clearSubmitErrors,
   clearAsyncError,
