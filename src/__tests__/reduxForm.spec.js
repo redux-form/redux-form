@@ -427,6 +427,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(typeof props.fooProps.dirty).toBe('boolean')
       expect(typeof props.fooProps.pristine).toBe('boolean')
       expect(typeof props.fooProps.submitting).toBe('boolean')
+      expect(typeof props.fooProps.array).toBe('object')
       expect(props.fooProps.someOtherProp).toBeFalsy()
     })
 
