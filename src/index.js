@@ -75,3 +75,4 @@ export const submit = actions.submit
 export const touch = actions.touch
 export const unregisterField = actions.unregisterField
 export const untouch = actions.untouch
+export const updateSyncWarnings = actions.updateSyncWarnings
