@@ -38,7 +38,7 @@ const describeGetFormSyncErrors = (name, structure, setup) => {
       })
     })
 
-    it('should return undefined if there are no syncWarnings', () => {
+    it('should return object if there are no syncWarnings', () => {
       expect(
         getFormSyncWarnings('foo')(
           fromJS({
@@ -47,7 +47,7 @@ const describeGetFormSyncErrors = (name, structure, setup) => {
             }
           })
         )
-      ).toEqual(undefined)
+      ).toEqual(fromJS({}))
     })
 
     it('should use getFormState if provided', () => {

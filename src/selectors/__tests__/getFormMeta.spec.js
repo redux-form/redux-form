@@ -50,7 +50,7 @@ const describeGetFormMeta = (name, structure, setup) => {
       })
     })
 
-    it('should return undefined if there are no fields', () => {
+    it('should return object if there are no fields', () => {
       expect(
         getFormMeta('foo')(
           fromJS({
@@ -59,7 +59,7 @@ const describeGetFormMeta = (name, structure, setup) => {
             }
           })
         )
-      ).toEqual(undefined)
+      ).toEqual(fromJS({}))
     })
 
     it('should use getFormState if provided', () => {
