@@ -38,7 +38,7 @@ const describeGetFormSubmitErrors = (name, structure, setup) => {
       })
     })
 
-    it('should return undefined if there are no submitErrors', () => {
+    it('should return object if there are no submitErrors', () => {
       expect(
         getFormSubmitErrors('foo')(
           fromJS({
@@ -47,7 +47,7 @@ const describeGetFormSubmitErrors = (name, structure, setup) => {
             }
           })
         )
-      ).toEqual(undefined)
+      ).toEqual(fromJS({}))
     })
 
     it('should use getFormState if provided', () => {
