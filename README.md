@@ -1,8 +1,10 @@
 # redux-form
+
 ---
+
 [<img src="http://npm.packagequality.com/badge/redux-form.png" align="right"/>](http://packagequality.com/#?package=redux-form)
 
-[![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form) 
+[![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
 [![Build Status](https://img.shields.io/travis/erikras/redux-form/v6.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
 [![codecov.io](https://codecov.io/gh/erikras/redux-form/branch/master/graph/badge.svg)](https://codecov.io/gh/erikras/redux-form)
@@ -12,8 +14,9 @@
 [![Twitter URL](https://img.shields.io/twitter/url/https/github.com/erikras/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
 [![Patreon](https://img.shields.io/badge/patreon-support%20the%20author-blue.svg)](https://www.patreon.com/erikras)
 
-`redux-form` works with [React Redux](https://github.com/rackt/react-redux) to enable an html form in
-[React](https://github.com/facebook/react) to use [Redux](https://github.com/rackt/redux) to store all of its state.
+`redux-form` works with [React Redux](https://github.com/rackt/react-redux) to
+enable an html form in [React](https://github.com/facebook/react) to use
+[Redux](https://github.com/rackt/redux) to store all of its state.
 [![Beerpay](https://beerpay.io/erikras/redux-form/badge.svg)](https://beerpay.io/erikras/redux-form)
 
 <a href="https://app.codesponsor.io/link/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/P3WjkUw9LiYdiQBdHrtHZSSL/erikras/redux-form.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
@@ -21,16 +24,17 @@
 [<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
 ## Installation
-```npm install --save redux-form```
+
+`npm install --save redux-form`
 
 ## Documentation
 
-* [Getting Started](https://redux-form.com/7.1.2/docs/GettingStarted.md/)
-* [Examples](https://redux-form.com/7.1.2/examples/)
-* [API](https://redux-form.com/7.1.2/docs/api/)
-* [FAQ](https://redux-form.com/7.1.2/docs/faq/)
+* [Getting Started](https://redux-form.com/7.2.0/docs/GettingStarted.md/)
+* [Examples](https://redux-form.com/7.2.0/examples/)
+* [API](https://redux-form.com/7.2.0/docs/api/)
+* [FAQ](https://redux-form.com/7.2.0/docs/faq/)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
-* [Older Documentation](https://redux-form.com/7.1.2/docs/DocumentationVersions.md/)
+* [Older Documentation](https://redux-form.com/7.2.0/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
 
@@ -52,9 +56,9 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 ## Videos
 
 | [![A Practical Guide to Redux Form – React Alicante 2017](docs/ReactAlicante2017.gif)](https://youtu.be/ey7H8h4ERHg) |
-| :--------------------------------------: |
-| **A Practical Guide to Redux Form – React Alicante 2017** |
+| :------------------------------------------------------------------------------------------------------------------: |
+|                              **A Practical Guide to Redux Form – React Alicante 2017**                               |
 
 | [![Abstracting Form State with Redux Form – JS Channel 2016](docs/JSChannel2016.gif)](https://youtu.be/eDTi7lYR1VU) |
-| :--------------------------------------: |
-| **Abstracting Form State with Redux Form – JS Channel 2016** |
+| :-----------------------------------------------------------------------------------------------------------------: |
+|                            **Abstracting Form State with Redux Form – JS Channel 2016**                             |

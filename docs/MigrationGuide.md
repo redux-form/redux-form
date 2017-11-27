@@ -1,32 +1,35 @@
 # `v5` → `v6` Migration Guide
 
-`redux-form` has been _completely_ rewritten for `v6`, because of a fundamental design change.
+`redux-form` has been _completely_ rewritten for `v6`, because of a fundamental
+design change.
 
 ## Inversion of Control
 
-In `v5`, only the outer form component was connected to the Redux state, and the props for each
-field were passed in via the form component. The problem with this is that the _entire_ form
-component had to rerender _on every single keypress_ that changed a form value. This was fine for
-small login forms, but lead to extremely slow performance on larger forms with dozens or hundreds
-of fields.
+In `v5`, only the outer form component was connected to the Redux state, and the
+props for each field were passed in via the form component. The problem with
+this is that the _entire_ form component had to rerender _on every single
+keypress_ that changed a form value. This was fine for small login forms, but
+lead to extremely slow performance on larger forms with dozens or hundreds of
+fields.
 
-**In `v6`, every single field is connected to the Redux store.** The outer form component is also
-connected, but is connected in such a manner that does not require it to refresh every time a
-value changes.
+**In `v6`, every single field is connected to the Redux store.** The outer form
+component is also connected, but is connected in such a manner that does not
+require it to refresh every time a value changes.
 
-Because of this inversion of control, **there is no incremental upgrade path**. I would love to
-provide new API and provide deprecation warnings on the old API, but there is just no path from
-here to there that allows for such a transition.
+Because of this inversion of control, **there is no incremental upgrade path**.
+I would love to provide new API and provide deprecation warnings on the old API,
+but there is just no path from here to there that allows for such a transition.
 
-The `v6` `Field` API was designed, however, in such a way as to minimize the migration pains.
-This document will outline the minimum migration distance from `v5` to `v6`.
+The `v6` `Field` API was designed, however, in such a way as to minimize the
+migration pains. This document will outline the minimum migration distance from
+`v5` to `v6`.
 
 ## Goodbye `fields`... Hello `Field`!
 
-In `v5`, you were required to provide an array of `fields` names, and then a `fields` object prop
-was provided to your decorated component. The mechanism that generates the props (`value`,
-`onChange`, `onBlur`, etc.) for your input from the string name of your field is the new `Field`
-component.
+In `v5`, you were required to provide an array of `fields` names, and then a
+`fields` object prop was provided to your decorated component. The mechanism
+that generates the props (`value`, `onChange`, `onBlur`, etc.) for your input
+from the string name of your field is the new `Field` component.
 
 #### `v5`
 
@@ -36,29 +39,26 @@ import { reduxForm } from 'redux-form'
 
 class MyForm extends Component {
   render() {
-
     const { fields: { username, password }, handleSubmit } = this.props
 
     return (
       <form onSubmit={handleSubmit}>
-
         <div>
           <label htmlFor="username">Username</label>
           <div>
-            <input type="text" {...username}/>
+            <input type="text" {...username} />
             {username.touched &&
-             username.error &&
-             <span className="error">{username.error}</span>}
+              username.error && <span className="error">{username.error}</span>}
           </div>
         </div>
 
         <div>
           <label htmlFor="password">Password</label>
           <div>
-            <input type="password" {...password}/>  // Duplicating same code as above
-            {password.touched &&                    // except for "type" prop
-             password.error &&
-             <span className="error">{password.error}</span>}
+            <input type="password" {...password} /> // Duplicating same code as
+            above
+            {password.touched && // except for "type" prop
+              password.error && <span className="error">{password.error}</span>}
           </div>
         </div>
 
@@ -70,7 +70,7 @@ class MyForm extends Component {
 
 export default reduxForm({
   form: 'myForm',
-  fields: [ 'username', 'password' ]
+  fields: ['username', 'password']
 })(MyForm)
 ```
 
@@ -124,63 +124,69 @@ export default reduxForm({
 })(MyForm)
 ```
 
-In `v5` the field name strings were all bundled together as input and the field objects came out
-bundled together as output (of `redux-form`), and now, in `v6`, the conversion from field name to
-field object is done one at a time at the location of each field.
+In `v5` the field name strings were all bundled together as input and the field
+objects came out bundled together as output (of `redux-form`), and now, in `v6`,
+the conversion from field name to field object is done one at a time at the
+location of each field.
 
 ## `handleSubmit` and `onSubmit`
 
-The only thing that has changed about form submission is that your submit validation
-errors must now be wrapped in a `SubmissionError` object. This is to distinguish between
-validation errors and AJAX or server errors.
+The only thing that has changed about form submission is that your submit
+validation errors must now be wrapped in a `SubmissionError` object. This is to
+distinguish between validation errors and AJAX or server errors.
 [See discussion on PR #602](https://github.com/erikras/redux-form/pull/602)
 
 #### `v5`
 
 ```js
-<MyForm onSubmit={values =>
-  ajax.send(values) // however you send data to your server...
-    .catch(error => {
-      // how you pass server-side validation errors back is up to you
-      if(error.validationErrors) {
-        return Promise.reject(error.validationErrors)
-      } else {
-        // what you do about other communication errors is up to you
-        reportServerError(error)
-      }
-    })
-}/>
+;<MyForm
+  onSubmit={values =>
+    ajax
+      .send(values) // however you send data to your server...
+      .catch(error => {
+        // how you pass server-side validation errors back is up to you
+        if (error.validationErrors) {
+          return Promise.reject(error.validationErrors)
+        } else {
+          // what you do about other communication errors is up to you
+          reportServerError(error)
+        }
+      })
+  }
+/>
 ```
 
 #### `v6`
 
 ```js
-<MyForm onSubmit={values =>
-  ajax.send(values)
-    .catch(error => {
-      if(error.validationErrors) {
+;<MyForm
+  onSubmit={values =>
+    ajax.send(values).catch(error => {
+      if (error.validationErrors) {
         throw new SubmissionError(error.validationErrors) // <----- only difference
       } else {
         reportServerError(error)
       }
     })
-}/>
+  }
+/>
 ```
 
 ## `mapStateToProps` and `mapDispatchToProps`
 
-In `v5`, the `reduxForm()` decorator allowed these parameters to be given and it passed them
-along to `react-redux`'s `connect()` API.
+In `v5`, the `reduxForm()` decorator allowed these parameters to be given and it
+passed them along to `react-redux`'s `connect()` API.
 
-`v6` no longer does this. You will need to separately decorate your form component with `connect()`
-yourself if you need to access other values in the Redux store or bind action creators to
-`dispatch`.
+`v6` no longer does this. You will need to separately decorate your form
+component with `connect()` yourself if you need to access other values in the
+Redux store or bind action creators to `dispatch`.
 
 ## Sync Validation
 
-Sync validation is exactly the same as in `v5`. The only small difference is that if you are
-using ImmutableJS, the `values` given to your sync validation function will be an an
-`Immutable.Map`. The errors returned, however, should be a plain JS object, like always.
+Sync validation is exactly the same as in `v5`. The only small difference is
+that if you are using ImmutableJS, the `values` given to your sync validation
+function will be an an `Immutable.Map`. The errors returned, however, should be
+a plain JS object, like always.
 
 ## Initialization with `initialValues`
 
@@ -188,8 +194,8 @@ Nothing has changed with this, apart from fixing some pesky bugs like
 [#514](https://github.com/erikras/redux-form/issues/514),
 [#621](https://github.com/erikras/redux-form/issues/621),
 [#628](https://github.com/erikras/redux-form/issues/628), and
-[#756](https://github.com/erikras/redux-form/issues/756). In `v6`, each field will have its
-initial value on the very first render.
+[#756](https://github.com/erikras/redux-form/issues/756). In `v6`, each field
+will have its initial value on the very first render.
 
 ## Async Validation
 
@@ -197,7 +203,8 @@ No changes. Works exactly like `v5`.
 
 ## Deep Fields
 
-There is no mystery to deep fields in `v6`. You simply use dot-syntax on your field name.
+There is no mystery to deep fields in `v6`. You simply use dot-syntax on your
+field name.
 
 #### `v5`
 
@@ -232,8 +239,9 @@ render() {
 
 ## Field Arrays
 
-To get the field array object that was passed as a prop to the whole form in `v5`, you must use
-the `FieldArray` component, much like the `Field` component is used.
+To get the field array object that was passed as a prop to the whole form in
+`v5`, you must use the `FieldArray` component, much like the `Field` component
+is used.
 
 #### `v5`
 
@@ -293,7 +301,7 @@ const reducer = combineReducers({
       myUppercaseField: upper
     }
   })
-});
+})
 ```
 
 #### `v6`
@@ -306,15 +314,16 @@ const upper = value => value && value.toUpperCase()
 <Field name="myUppercaseField" component="input" normalize={upper}/>
 ```
 
-See the [Normalizing Example](https://redux-form.com/7.1.2/examples/normalizing/) and
-[Value Lifecycle](https://redux-form.com/7.1.2/docs/ValueLifecycle.md/) for
-more details.
+See the
+[Normalizing Example](https://redux-form.com/7.2.0/examples/normalizing/) and
+[Value Lifecycle](https://redux-form.com/7.2.0/docs/ValueLifecycle.md/) for more
+details.
 
 ## Listening to other actions
 
-The `plugin()` API is identical to that of `v5`. However, the internal structure of the form
-state _has_ changed, so your plugin reducer that was modifying it will need to be updated. It
-more or less changed as follows:
+The `plugin()` API is identical to that of `v5`. However, the internal structure
+of the form state _has_ changed, so your plugin reducer that was modifying it
+will need to be updated. It more or less changed as follows:
 
 #### `v5`
 
@@ -360,6 +369,13 @@ more or less changed as follows:
 
 ### react-hot-loader
 
-If you are using react-hot-loader 1.X and see the error `Uncaught TypeError: Cannot read property 'wrapped' of undefined` then you will need to upgrade react-hot-loader to 3.X.
+If you are using react-hot-loader 1.X and see the error `Uncaught TypeError:
+Cannot read property 'wrapped' of undefined` then you will need to upgrade
+react-hot-loader to 3.X.
 
-While react-hot-loader v3 is still in beta, the best documentation is available [in this annotated commit](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915) and in the [this example](https://github.com/gaearon/redux-devtools/tree/master/examples/todomvc) and [this example](https://github.com/gaearon/redux-devtools/tree/master/examples/counter).
+While react-hot-loader v3 is still in beta, the best documentation is available
+[in this annotated commit](https://github.com/gaearon/redux-devtools/commit/64f58b7010a1b2a71ad16716eb37ac1031f93915)
+and in the
+[this example](https://github.com/gaearon/redux-devtools/tree/master/examples/todomvc)
+and
+[this example](https://github.com/gaearon/redux-devtools/tree/master/examples/counter).
