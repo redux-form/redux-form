@@ -34,6 +34,8 @@ has been touched, a flag that is set for you by `redux-form` when the onBlur
 event occurs on your field. When you submit the form, all the fields are marked
 as touched, allowing any of their validation errors to show.
 
+**IMPORTANT**: In your validate function, values can be `undefined`, so pay attention when you are validating nested fields. If not, you could encounter some `TypeError: undefined is not an object`.
+
 ## Running this example locally
 
 To run this example locally on your machine clone the `redux-form` repository,
