@@ -254,22 +254,29 @@ at "design time" or passed in as props to your component at runtime.**
 
 > The default behavior is:
 
-> ```js
->   if(!syncValidationPasses) {
-> ```
-
+```js
+if (!syncValidationPasses) {
+  return false
+}
+switch (trigger) {
+  case 'blur':
+    // blurring
+    return true
+  case 'submit':
+    // submitting, so only async validate if form is dirty or was never initialized
+    // conversely, DON'T async validate if the form is pristine just as it was
+    // initialized
+    return !pristine || !initialized
+  default:
     return false
-
-} switch(trigger) { case 'blur': // blurring return true case 'submit': //
-submitting, so only async validate if form is dirty or was never initialized //
-conversely, DON'T async validate if the form is pristine just as it was
-initialized return !pristine || !initialized default: return false }
-
+}
 ```
+
 #### `shouldError(params) : boolean` [optional]
 
-> An optional function you may provide to have full control over when sync validation happens.
-Your `shouldError()` function will be given an object with the following values:
+> An optional function you may provide to have full control over when sync
+> validation happens. Your `shouldError()` function will be given an object with
+> the following values:
 
 > ##### `values : Object`
 
@@ -289,14 +296,17 @@ Your `shouldError()` function will be given an object with the following values:
 
 > ##### `structure : Object`
 
-> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
+> The structure object being used internally for values. You may wish to use
+> `deepEqual` from the structure.
 
 #### ~~`shouldValidate(params) : boolean`~~ [optional] **DEPRECATED**
 
-> ** DEPRECATED: Use `shouldError()` and `shouldWarn()`. Will be removed in v8.**
+> ** DEPRECATED: Use `shouldError()` and `shouldWarn()`. Will be removed in
+> v8.**
 
-> An optional function you may provide to have full control over when sync validation happens.
-Your `shouldValidate()` function will be given an object with the following values:
+> An optional function you may provide to have full control over when sync
+> validation happens. Your `shouldValidate()` function will be given an object
+> with the following values:
 
 > ##### `values : Object`
 
@@ -316,12 +326,14 @@ Your `shouldValidate()` function will be given an object with the following valu
 
 > ##### `structure : Object`
 
-> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
+> The structure object being used internally for values. You may wish to use
+> `deepEqual` from the structure.
 
 #### `shouldWarn(params) : boolean` [optional]
 
-> An optional function you may provide to have full control over when sync validation happens.
-Your `shouldWarn()` function will be given an object with the following values:
+> An optional function you may provide to have full control over when sync
+> validation happens. Your `shouldWarn()` function will be given an object with
+> the following values:
 
 > ##### `values : Object`
 
@@ -341,7 +353,8 @@ Your `shouldWarn()` function will be given an object with the following values:
 
 > ##### `structure : Object`
 
-> The structure object being used internally for values. You may wish to use `deepEqual` from the structure.
+> The structure object being used internally for values. You may wish to use
+> `deepEqual` from the structure.
 
 #### `touchOnBlur : boolean` [optional]
 
@@ -349,40 +362,47 @@ Your `shouldWarn()` function will be given an object with the following values:
 
 #### `touchOnChange : boolean` [optional]
 
-> marks fields as `touched` when the change action is fired. Defaults to `false`.
+> marks fields as `touched` when the change action is fired. Defaults to
+> `false`.
 
 #### `persistentSubmitErrors : boolean` [optional]
 
-> do not remove submit errors when the change action is fired. Defaults to `false`.
+> do not remove submit errors when the change action is fired. Defaults to
+> `false`.
 
 #### `validate : (values:Object, props:Object) => errors:Object` [optional]
 
-> a synchronous validation function that takes the form values and props passed into your component.
-If validation passes, it should return `{}`. If validation fails, it should return the validation errors in the
-form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
+> a synchronous validation function that takes the form values and props passed
+> into your component. If validation passes, it should return `{}`. If
+> validation fails, it should return the validation errors in the form `{
+> field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
-> See [Synchronous Validation Example](https://redux-form.com/7.2.0/examples/syncValidation/)
-for more details.
+> See
+> [Synchronous Validation Example](https://redux-form.com/7.2.0/examples/syncValidation/)
+> for more details.
 
 #### `warn : (values:Object, props:Object) => warnings:Object` [optional]
 
-> a synchronous warning function that takes the form values and props passed into your component. Warnings work
-the same as validations, but do not mark a form as invalid. If the warning check passes, it should return `{}`.
-If the check fails, it should return the warnings in the form `{ field1: <String>, field2: <String> }`.
-Defaults to `(values, props) => ({})`.
+> a synchronous warning function that takes the form values and props passed
+> into your component. Warnings work the same as validations, but do not mark a
+> form as invalid. If the warning check passes, it should return `{}`. If the
+> check fails, it should return the warnings in the form `{ field1: <String>,
+> field2: <String> }`. Defaults to `(values, props) => ({})`.
 
 ## Instance API
 
-The following are methods or properties that you can access on an instance of your decorated form
-component.
+The following are methods or properties that you can access on an instance of
+your decorated form component.
 
 #### `dirty : boolean`
 
-`true` when the current form values are different from the `initialValues`, `false` otherwise.
+`true` when the current form values are different from the `initialValues`,
+`false` otherwise.
 
 #### `fieldList : Array`
 
-An array of strings representing all the fields in the form. Mainly useful for testing.
+An array of strings representing all the fields in the form. Mainly useful for
+testing.
 
 #### `invalid : boolean`
 
@@ -390,7 +410,8 @@ An array of strings representing all the fields in the form. Mainly useful for t
 
 #### `pristine : boolean`
 
-`true` when the current form values are the same as the `initialValues`, `false` otherwise.
+`true` when the current form values are the same as the `initialValues`, `false`
+otherwise.
 
 #### `reset() : void`
 
@@ -398,8 +419,9 @@ Resets the form to the `initialValues`. It will be `pristine` after reset.
 
 #### `submit() : Promise`
 
-Submits the form. [You'd never have guessed that, right?] Returns a promise that will be resolved
-when the form is submitted successfully, or rejected if the submission fails.
+Submits the form. [You'd never have guessed that, right?] Returns a promise that
+will be resolved when the form is submitted successfully, or rejected if the
+submission fails.
 
 #### `valid : boolean`
 
@@ -411,6 +433,5 @@ The current values of all the fields in the form.
 
 #### `wrappedInstance : ReactElement`
 
-A reference to the instance of the component you decorated with `reduxForm()`. Mainly useful for
-testing.
-```
+A reference to the instance of the component you decorated with `reduxForm()`.
+Mainly useful for testing.
