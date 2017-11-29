@@ -335,7 +335,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
                 nextProps.initialized && this.props.keepDirtyOnReinitialize
               this.props.initialize(nextProps.initialValues, keepDirty, {
                 lastInitialValues: this.props.initialValues,
-                updateUnregisteredFields: nextProps.updateUnregisteredFields,
+                updateUnregisteredFields: nextProps.updateUnregisteredFields
               })
             }
           } else if (
@@ -346,7 +346,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
               this.props.initialValues,
               this.props.keepDirtyOnReinitialize,
               {
-                updateUnregisteredFields: this.props.updateUnregisteredFields,
+                updateUnregisteredFields: this.props.updateUnregisteredFields
               }
             )
           }
@@ -649,7 +649,11 @@ const createReduxForm = (structure: Structure<*, *>) => {
             : undefined
         }
 
-        asyncValidate = (name: string, value: any, trigger: 'blur' | 'change') => {
+        asyncValidate = (
+          name: string,
+          value: any,
+          trigger: 'blur' | 'change'
+        ) => {
           const {
             asyncBlurFields,
             asyncChangeFields,
@@ -670,13 +674,19 @@ const createReduxForm = (structure: Structure<*, *>) => {
               ? values
               : setIn(values, name, value)
             const syncValidationPasses = submitting || !getIn(syncErrors, name)
+            const fieldNeedsValidationForBlur =
+              asyncBlurFields &&
+              ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+            const fieldNeedsValidationForChange =
+              asyncChangeFields &&
+              ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+            const formHasAsyncFields = !asyncBlurFields && !asyncChangeFields
             const fieldNeedsValidation =
               !submitting &&
-              trigger === 'blur'
-                ? (!asyncBlurFields ||
-                  ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
-                : (!asyncChangeFields ||
-                  ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]')))
+              (formHasAsyncFields ||
+                (trigger === 'blur'
+                  ? fieldNeedsValidationForBlur
+                  : fieldNeedsValidationForChange))
             if (
               (fieldNeedsValidation || submitting) &&
               shouldAsyncValidate({
