@@ -5,6 +5,23 @@ automatically import the types when you import the components and functions from
 `redux-form`. In addition, you may import types for all the props provided by
 `redux-form` to your components.
 
+If you ignore your `node_modules` folder inside your `.flowconfig`, the types will not import and you will receive an error:
+
+```
+  3: import { Field, reduxForm } from 'redux-form'
+                                      ^^^^^^^^^^^^ redux-form. Required module not found
+```
+
+Inside your `.flowconfig`, ensure the entire folder is not ignored:
+
+```
+...
+[ignore]
+  <PROJECT_ROOT>/node_modules/editions  # you can still selectively ignore packages that cause flow errors
+[include]
+...
+```
+
 ## Props Types
 
 This will give you the types of the
