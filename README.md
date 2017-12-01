@@ -24,10 +24,8 @@ enable an html form in [React](https://github.com/facebook/react) to use
 ## Sponsorship
 
 Redux-form is proudly sponsored by [Rollbar](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4
-). They provide real-time error monitoring, alerting, and analytics for developers.
-
-You can try Rollbar for free at [https://rollbar.com](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4
-)
+). They provide real-time error monitoring, alerting, and analytics for developers. [Try Rollbar for free](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4
+).
 
 ![](https://cs.berry.sh/l/1c4ce130-ac45-48c2-a057-ecce3b62b8e4/pixel.png)
 
