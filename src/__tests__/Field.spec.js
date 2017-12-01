@@ -1065,6 +1065,275 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(asyncValidate).toHaveBeenCalled()
     })
 
+    it('should call asyncValidate function on change', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = jest.fn(props => <input {...props.input} />)
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input" />
+              <Field name="author" component="input" />
+              <Field name="username" component={renderUsername} />
+            </div>
+          )
+        }
+      }
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
+      const TestForm = reduxForm({ form: 'testForm', asyncValidate })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+
+      expect(asyncValidate).toHaveBeenCalled()
+    })
+
+    it('should call asyncValidate function on blur if field is specified', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = jest.fn(props => <input {...props.input} />)
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input" />
+              <Field name="author" component="input" />
+              <Field name="username" component={renderUsername} />
+            </div>
+          )
+        }
+      }
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
+      const TestForm = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncBlurFields: ['username']
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+
+      expect(asyncValidate).toHaveBeenCalled()
+    })
+
+    it('should call asyncValidate function on change if field is specified', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = jest.fn(props => <input {...props.input} />)
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input" />
+              <Field name="author" component="input" />
+              <Field name="username" component={renderUsername} />
+            </div>
+          )
+        }
+      }
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
+      const TestForm = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncChangeFields: ['username']
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+
+      expect(asyncValidate).toHaveBeenCalled()
+    })
+
+    it('should not call asyncValidate function on blur if field is specified and different', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = jest.fn(props => <input {...props.input} />)
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input" />
+              <Field name="author" component="input" />
+              <Field name="username" component={renderUsername} />
+            </div>
+          )
+        }
+      }
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
+      const TestForm = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncBlurFields: ['author']
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+
+      expect(asyncValidate).not.toHaveBeenCalled()
+    })
+
+    it('should not call asyncValidate function on change if field is specified and different', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = jest.fn(props => <input {...props.input} />)
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input" />
+              <Field name="author" component="input" />
+              <Field name="username" component={renderUsername} />
+            </div>
+          )
+        }
+      }
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
+      const TestForm = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncChangeFields: ['author']
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+
+      expect(asyncValidate).not.toHaveBeenCalled()
+    })
+
+    it('should not call asyncValidate function on change if field is specified as onBlur', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = jest.fn(props => <input {...props.input} />)
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input" />
+              <Field name="author" component="input" />
+              <Field name="username" component={renderUsername} />
+            </div>
+          )
+        }
+      }
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
+      const TestForm = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncBlurFields: ['username']
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+
+      expect(asyncValidate).not.toHaveBeenCalled()
+    })
+
+    it('should not call asyncValidate function on blur if field is specified as onChange', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            title: 'Redux Form',
+            author: 'Erik Rasmussen',
+            username: 'oldusername'
+          }
+        }
+      })
+      const renderUsername = jest.fn(props => <input {...props.input} />)
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field name="title" component="input" />
+              <Field name="author" component="input" />
+              <Field name="username" component={renderUsername} />
+            </div>
+          )
+        }
+      }
+      const asyncValidate = jest.fn(() => new Promise(resolve => resolve()))
+      const TestForm = reduxForm({
+        form: 'testForm',
+        asyncValidate,
+        asyncChangeFields: ['username']
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+
+      expect(asyncValidate).not.toHaveBeenCalled()
+    })
+
     it('should call handle on focus', () => {
       const store = makeStore({
         testForm: {
