@@ -137,9 +137,9 @@ const describeValues = (
         </Provider>
       )
 
-      ReactDOM.render(<Component name="arr[0]" />, node)
+      ReactDOM.hydrate(<Component name="arr[0]" />, node)
 
-      ReactDOM.render(<Component name="arr[1]" />, node)
+      ReactDOM.hydrate(<Component name="arr[1]" />, node)
 
       expect(Spy.mock.calls.length).toEqual(2)
 

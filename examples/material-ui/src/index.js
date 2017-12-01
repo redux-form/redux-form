@@ -36,7 +36,7 @@ let render = () => {
   const readme = require('./MaterialUi.md')
   const raw = require('!!raw-loader!./MaterialUiForm')
   const asyncValidateraw = require('!!raw-loader!./asyncValidate')
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <App
@@ -93,7 +93,7 @@ if (module.hot) {
   const renderApp = render
   const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
+    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

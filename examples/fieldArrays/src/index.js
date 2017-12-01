@@ -33,7 +33,7 @@ let render = () => {
   const readme = require('./FieldArrays.md')
   const raw = require('!!raw-loader!./FieldArraysForm')
   const rawValidate = require('!!raw-loader!./validate')
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <App
         /**
@@ -88,7 +88,7 @@ if (module.hot) {
   const renderApp = render
   const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
+    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

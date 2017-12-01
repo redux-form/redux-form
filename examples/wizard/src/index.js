@@ -37,7 +37,7 @@ let render = () => {
   const WizardFormFirstPage = require('!!raw-loader!./WizardFormFirstPage')
   const WizardFormSecondPage = require('!!raw-loader!./WizardFormSecondPage')
   const WizardFormThirdPage = require('!!raw-loader!./WizardFormThirdPage')
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <App
         /**
@@ -108,7 +108,7 @@ if (module.hot) {
   const renderApp = render
   const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
+    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

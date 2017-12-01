@@ -26,7 +26,7 @@ let render = () => {
   const raw = require('!!raw-loader!./RemoteSubmitForm')
   const rawButton = require('!!raw-loader!./RemoteSubmitButton')
   const rawSubmit = require('!!raw-loader!./submit')
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <App
         /**
@@ -87,7 +87,7 @@ if (module.hot) {
   const renderApp = render
   const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
+    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

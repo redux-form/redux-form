@@ -32,7 +32,7 @@ let render = () => {
   const SelectingFormValuesForm = require('./SelectingFormValuesForm').default
   const readme = require('./SelectingFormValues.md')
   const raw = require('!!raw-loader!./SelectingFormValuesForm')
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <App
         /**
@@ -83,7 +83,7 @@ if (module.hot) {
   const renderApp = render
   const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
+    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

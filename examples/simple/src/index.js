@@ -81,16 +81,8 @@ if (module.hot) {
   // Support hot reloading of components
   // and display an overlay for runtime errors
   const renderApp = render
-  const renderError = error => {
-    const RedBox = require('redbox-react')
-    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
-  }
   render = () => {
-    try {
-      renderApp()
-    } catch (error) {
-      renderError(error)
-    }
+    renderApp()
   }
   const rerender = () => {
     setTimeout(render)
