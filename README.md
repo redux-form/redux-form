@@ -21,6 +21,16 @@ enable an html form in [React](https://github.com/facebook/react) to use
 
 [<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
+## Sponsorship
+
+Redux-form is proudly sponsored by [Rollbar](https://app.codesponsor.io/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4
+). They provide real-time error monitoring, alerting, and analytics for developers.
+
+You can try Rollbar for free at [https://rollbar.com](https://app.codesponsor.io/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4
+)
+
+![](https://cs.berry.sh/l/1c4ce130-ac45-48c2-a057-ecce3b62b8e4/pixel.png)
+
 ## Installation
 
 `npm install --save redux-form`
