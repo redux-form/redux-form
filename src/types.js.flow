@@ -8,7 +8,12 @@ export type Action = {
   error?: any
 }
 
-export type Validator = (value: any, allValues: Object, props: Object) => ?any
+export type Validator = (
+  value: any,
+  allValues: Object,
+  props: Object,
+  name: string
+) => ?any
 
 export interface Structure<M, L> {
   allowsArrayErrors: boolean;
