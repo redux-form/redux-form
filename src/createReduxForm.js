@@ -675,9 +675,11 @@ const createReduxForm = (structure: Structure<*, *>) => {
               : setIn(values, name, value)
             const syncValidationPasses = submitting || !getIn(syncErrors, name)
             const fieldNeedsValidationForBlur =
+              !submitting &&
               asyncBlurFields &&
               ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
             const fieldNeedsValidationForChange =
+              !submitting &&
               asyncChangeFields &&
               ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
             const formHasAsyncFields = !asyncBlurFields && !asyncChangeFields
