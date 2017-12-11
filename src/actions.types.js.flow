@@ -103,8 +103,8 @@ export type ChangeAction = {
   meta: {
     form: string,
     field: string,
-    touch: boolean,
-    persistentSubmitErrors: boolean
+    touch: ?boolean,
+    persistentSubmitErrors: ?boolean
   },
   payload: any
 } & Action
@@ -113,8 +113,8 @@ export type Change = {
     form: string,
     field: string,
     value: any,
-    touch: boolean,
-    persistentSubmitErrors: boolean
+    touch?: boolean,
+    persistentSubmitErrors?: boolean
   ): ChangeAction
 }
 export type ClearSubmitAction = {

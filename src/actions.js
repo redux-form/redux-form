@@ -235,8 +235,8 @@ const change: Change = (
   form: string,
   field: string,
   value: any,
-  touch: boolean,
-  persistentSubmitErrors: boolean
+  touch?: boolean,
+  persistentSubmitErrors?: boolean
 ): ChangeAction => ({
   type: CHANGE,
   meta: { form, field, touch, persistentSubmitErrors },
