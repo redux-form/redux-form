@@ -7,7 +7,7 @@ three fundamental things that you need to understand in order to use `Field` cor
 
 1. The `name` prop is required. It is a string path, in dot-and-bracket notation, corresponding to
    a value in the form values. It may be as simple as `'firstName'` or as complicated as
-   `contact.billing.address[2].phones[1].areaCode`.
+   `'contact.billing.address[2].phones[1].areaCode'`.
 
 2. The `component` prop is required. It may be a `Component`, a stateless
    function, or string name of one of the default supported DOM inputs (`input`, `textarea` or
@@ -43,7 +43,7 @@ See the [Usage](#usage) section below for details.
 
 #### `format : (value, name) => formattedValue` [optional]
 
-Formats the value from the Redux store to be displayed in the field input. Common use cases are 
+Formats the value from the Redux store to be displayed in the field input. Common use cases are
 to format `Number`s into currencies or `Date`s into a localized date format.
 
 `format` is called with the field `value` and `name` as arguments and should return the
@@ -53,8 +53,8 @@ To respect React 15 input behavior there is `defaultFormat = value => value == n
 
 #### `normalize : (value, previousValue, allValues, previousAllValues) => nextValue` [optional]
 
-A function to convert whatever value the user has entered into the value that you want stored in 
-the Redux store for the field. For instance, if you want the value to be in all uppercase, you 
+A function to convert whatever value the user has entered into the value that you want stored in
+the Redux store for the field. For instance, if you want the value to be in all uppercase, you
 would pass `value => value.toUpperCase()`. The parameters to your normalize function are:
 
 > ##### `value : any`
@@ -114,8 +114,8 @@ passing them into `props`.
 
 #### `parse : (value, name) => parsedValue` [optional]
 
-Parses the value given from the field input component to the type that you want stored in the 
-Redux store. Common use cases are to parse currencies into `Number`s or 
+Parses the value given from the field input component to the type that you want stored in the
+Redux store. Common use cases are to parse currencies into `Number`s or
 localized date formats into `Date`s.
 
 `parse` is called with the field `value` and `name` as arguments and should return the new
@@ -123,11 +123,11 @@ parsed value to be stored in the Redux store.
 
 #### `validate : (value, allValues, props, name) => error` [optional]
 
-Allows you to to provide a field-level validation rule. The function is given the fields current value, all other form values, the props passed to the form, and the name of field currently being validated. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered. 
+Allows you to to provide a field-level validation rule. The function is given the fields current value, all other form values, the props passed to the form, and the name of field currently being validated. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered.
 
 #### `warn : (value, allValues, props) => warning` [optional]
 
-Allows you to to provide a field-level warning rule. The function is given the fields current value, all other form values, and the props passed to the form. If the field does not need a warning it should return `undefined`. If the field needs a warning it should return the warning (usually, but not necessarily, a `String`). Note: if the warn prop changes the field will be re-registered. 
+Allows you to to provide a field-level warning rule. The function is given the fields current value, all other form values, and the props passed to the form. If the field does not need a warning it should return `undefined`. If the field needs a warning it should return the warning (usually, but not necessarily, a `String`). Note: if the warn prop changes the field will be re-registered.
 
 #### `withRef : boolean` [optional]
 
@@ -189,7 +189,7 @@ your input will lose focus whenever the entire form component rerenders.
 const renderField = (field) => (
     <div className="input-row">
       <input {...field.input} type="text"/>
-      {field.meta.touched && field.meta.error && 
+      {field.meta.touched && field.meta.error &&
        <span className="error">{field.meta.error}</span>}
     </div>
   )
@@ -291,15 +291,15 @@ Otherwise, returns the `name` prop that you passed in.
 #### `input.value: any`
 
 > The value of this form field. It will be a boolean for checkboxes, and a string for all other
-> input types. If there is no value in the Redux state for this field, it will default to 
+> input types. If there is no value in the Redux state for this field, it will default to
 > `''`. This is to ensure that the input is
 > [controlled](https://facebook.github.io/react/docs/forms.html#controlled-components).
-> If you require that the value be of another type (e.g. `Date` or `Number`), you _must_ provide 
+> If you require that the value be of another type (e.g. `Date` or `Number`), you _must_ provide
 > `initialValues` to your form with the desired type of this field.
 
 ### Meta Props
 
-The props under the `meta` key are metadata about the state of this field that `redux-form` is 
+The props under the `meta` key are metadata about the state of this field that `redux-form` is
 tracking for you.
 
 #### `meta.active : boolean`
@@ -309,8 +309,8 @@ tracking for you.
 
 #### `meta.autofilled : boolean`
 
-> `true` if this field has been set with the `AUTOFILL` action and has not since been changed 
-> with a `CHANGE` action. This is useful to render the field in a way that the user can tell that 
+> `true` if this field has been set with the `AUTOFILL` action and has not since been changed
+> with a `CHANGE` action. This is useful to render the field in a way that the user can tell that
 > the value was autofilled for them.
 
 #### `meta.asyncValidating : boolean`
