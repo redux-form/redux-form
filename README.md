@@ -1,3 +1,5 @@
+[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
+
 # redux-form
 
 ---
@@ -18,8 +20,6 @@
 enable an html form in [React](https://github.com/facebook/react) to use
 [Redux](https://github.com/rackt/redux) to store all of its state.
 [![Beerpay](https://beerpay.io/erikras/redux-form/badge.svg)](https://beerpay.io/erikras/redux-form)
-
-[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
 
 ## Sponsorship
 
