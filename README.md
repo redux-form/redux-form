@@ -1,10 +1,10 @@
-[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="151" width="250"/>](http://erikras.github.io/redux-form/)
+[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](http://erikras.github.io/redux-form/)
 
 # redux-form
 
 ---
 
-[<img src="http://npm.packagequality.com/badge/redux-form.png" align="right"/>](http://packagequality.com/#?package=redux-form)
+[<img src="http://npm.packagequality.com/badge/redux-" align="right"/>](http://packagequality.com/#?package=redux-form)form.png
 
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
