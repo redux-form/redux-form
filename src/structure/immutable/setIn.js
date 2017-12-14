@@ -10,16 +10,28 @@ const undefinedArrayMerge = (previous, next) =>
 
 const mergeLists = (original, value) =>
   original && List.isList(original)
-    ? original.mergeDeepWith(undefinedArrayMerge, value)
+    ? mergeDeepWithHelper(original, undefinedArrayMerge, value)
     : value
+
+const mergeDeepWithHelper = (originalList, mergeFunction, listToMerge) => {
+  if (originalList.size < listToMerge.size) {
+    return listToMerge.map((value, index) =>
+      mergeFunction(originalList.get(index), value)
+    )
+  } else {
+    return originalList.map((value, index) =>
+      mergeFunction(value, listToMerge.get(index))
+    )
+  }
+}
 
 /*
  * ImmutableJS' setIn function doesn't support array (List) creation
  * so we must pre-insert all arrays in the path ahead of time.
- * 
+ *
  * Additionally we must also pre-set a dummy Map at the location
- * of an array index if there's parts that come afterwards because 
- * the setIn function uses `{}` to mark an unset value instead of 
+ * of an array index if there's parts that come afterwards because
+ * the setIn function uses `{}` to mark an unset value instead of
  * undefined (which is the case for list / arrays).
  */
 export default function setIn(
