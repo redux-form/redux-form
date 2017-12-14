@@ -4,8 +4,6 @@
 
 ---
 
-[<img src="http://npm.packagequality.com/badge/redux-" align="right"/>](http://packagequality.com/#?package=redux-form)form.png
-
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
 [![Build Status](https://img.shields.io/travis/erikras/redux-form/v6.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
