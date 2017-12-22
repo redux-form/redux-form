@@ -1053,6 +1053,69 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderArray.mock.calls[1][0].meta.error).toBe('Too many')
     })
 
+    it('should provide field-level sync error for field added to a FieldArray that has been emptied', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: ['dog']
+          }
+        }
+      })
+      const required = jest.fn(
+        value => (value == null ? 'Required' : undefined)
+      )
+      const renderArray = jest.fn(({ fields }) => (
+        <div>
+          {fields.map((name, index) => (
+            <Field
+              name={`${name}`}
+              component="input"
+              key={index}
+              validate={required}
+            />
+          ))}
+        </div>
+      ))
+
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <FieldArray name="foo" component={renderArray} />
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      expect(renderArray).toHaveBeenCalled()
+      expect(renderArray).toHaveBeenCalledTimes(1)
+      expect(renderArray.mock.calls[0][0].meta.valid).toBe(true)
+      expect(renderArray.mock.calls[0][0].meta.error).toBeFalsy()
+
+      expect(required).toHaveBeenCalled()
+      expect(required).toHaveBeenCalledTimes(1)
+      expect(required.mock.calls[0][0]).toEqual('dog')
+
+      renderArray.mock.calls[0][0].fields.pop()
+
+      required.mockClear()
+
+      renderArray.mock.calls[0][0].fields.push('rat')
+
+      // should validate
+      expect(required).toHaveBeenCalled()
+      expect(required).toHaveBeenCalledTimes(1)
+      expect(required.mock.calls[0][0]).toEqual('rat')
+    })
+
     it('should provide field-level sync error (with multiple validators) for array field', () => {
       const store = makeStore({
         testForm: {

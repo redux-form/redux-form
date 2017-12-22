@@ -426,6 +426,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
                 propsToValidate.syncErrors
               )
             }
+          } else {
+            this.lastFieldValidatorKeys = []
           }
         }
 
