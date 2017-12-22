@@ -10,7 +10,7 @@ const undefinedArrayMerge = (previous, next) =>
 
 const mergeLists = (original, value) =>
   original && List.isList(original)
-    ? original.mergeDeepWith(undefinedArrayMerge, value)
+    ? original.toMap().mergeDeepWith(undefinedArrayMerge, value.toMap()).toList()
     : value
 
 /*
