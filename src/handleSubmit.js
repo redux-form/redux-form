@@ -56,24 +56,30 @@ const handleSubmit = (
       }
       if (isPromise(result)) {
         startSubmit()
-        return result.then(
-          submitResult => {
-            stopSubmit()
-            setSubmitSucceeded()
-            if (onSubmitSuccess) {
-              onSubmitSuccess(submitResult, dispatch, props)
+        return result
+          .then(submitResult => {
+            try {
+              stopSubmit()
+              setSubmitSucceeded()
+              if (onSubmitSuccess) {
+                onSubmitSuccess(submitResult, dispatch, props)
+              }
+              return submitResult
+            } catch (err) {
+              throw err
             }
-            return submitResult
-          },
-          submitError => {
+          })
+          .catch(submitError => {
             const error =
               submitError instanceof SubmissionError
                 ? submitError.errors
                 : undefined
             stopSubmit(error)
             setSubmitFailed(...fields)
-            if (onSubmitFail) {
+            if (error && onSubmitFail) {
               onSubmitFail(error, dispatch, submitError, props)
+            } else if (error === undefined) {
+              console.error(submitError)
             }
             if (error || onSubmitFail) {
               // if you've provided an onSubmitFail callback, don't re-throw the error
@@ -81,8 +87,7 @@ const handleSubmit = (
             } else {
               throw submitError
             }
-          }
-        )
+          })
       } else {
         setSubmitSucceeded()
         if (onSubmitSuccess) {
