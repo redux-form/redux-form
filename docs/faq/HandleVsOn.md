@@ -17,7 +17,7 @@ render() {
     event.preventDefault();
     console.log('Submitted!');
   }
-  return <button onClick={handleClick}>Click me</button>;
+  return <button onClick={handleSubmit}>Click me</button>;
 }
 ```
 
