@@ -2303,7 +2303,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(result).toEqual(errors)
     })
 
-    it('should call onSubmitFail if async validation prevents submit', () => {
+    const itShouldCallOnSubmitFailIfAsyncValidationPreventsSubmit = formProps => {
       const store = makeStore({
         testForm: {}
       })
@@ -2322,7 +2322,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         form: 'testForm',
         asyncValidate: () => Promise.reject(errors),
         onSubmit,
-        onSubmitFail
+        onSubmitFail,
+        ...formProps
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -2346,7 +2347,20 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(onSubmitFail.mock.calls[0][2]).toBe(null)
         expect(error).toBe(errors)
       })
-    })
+    }
+
+    it('should call onSubmitFail if async validation prevents submit', () =>
+      itShouldCallOnSubmitFailIfAsyncValidationPreventsSubmit())
+
+    it('should call onSubmitFail if async validation prevents submit with asyncChangeFields specified', () =>
+      itShouldCallOnSubmitFailIfAsyncValidationPreventsSubmit({
+        asyncChangeFields: ['username']
+      }))
+
+    it('should call onSubmitFail if async validation prevents submit with asyncBlurFields specified', () =>
+      itShouldCallOnSubmitFailIfAsyncValidationPreventsSubmit({
+        asyncBlurFields: ['username']
+      }))
 
     it('should call onSubmitSuccess if sync submit succeeds', () => {
       const store = makeStore({
@@ -3503,7 +3517,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         form: 'testForm',
         asyncValidate,
         asyncBlurFields: ['deep.foo'],
-        asyncChangeFields: [],
+        asyncChangeFields: []
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
@@ -3632,7 +3646,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         form: 'testForm',
         asyncValidate,
         asyncBlurFields: [],
-        asyncChangeFields: ['deep.foo'],
+        asyncChangeFields: ['deep.foo']
       })(Form)
 
       const dom = TestUtils.renderIntoDocument(
