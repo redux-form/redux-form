@@ -671,28 +671,36 @@ const createReduxForm = (structure: Structure<*, *>) => {
             values
           } = this.props
           const submitting = !name
+
+          const fieldNeedsValidation = () => {
+            const fieldNeedsValidationForBlur =
+              asyncBlurFields &&
+              name &&
+              ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+            const fieldNeedsValidationForChange =
+              asyncChangeFields &&
+              name &&
+              ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+            const asyncValidateByDefault = !(
+              asyncBlurFields || asyncChangeFields
+            )
+
+            return (
+              submitting ||
+              asyncValidateByDefault ||
+              (trigger === 'blur'
+                ? fieldNeedsValidationForBlur
+                : fieldNeedsValidationForChange)
+            )
+          }
+
           if (asyncValidate) {
             const valuesToValidate = submitting
               ? values
               : setIn(values, name, value)
             const syncValidationPasses = submitting || !getIn(syncErrors, name)
-            const fieldNeedsValidationForBlur = name =>
-              asyncBlurFields &&
-              ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
-            const fieldNeedsValidationForChange = name =>
-              asyncChangeFields &&
-              ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
-            const asyncValidateByDefault = !(
-              asyncBlurFields || asyncChangeFields
-            )
-            const fieldNeedsValidation =
-              submitting ||
-              asyncValidateByDefault ||
-              (trigger === 'blur'
-                ? fieldNeedsValidationForBlur(name)
-                : fieldNeedsValidationForChange(name))
             if (
-              fieldNeedsValidation &&
+              fieldNeedsValidation() &&
               shouldAsyncValidate({
                 asyncErrors,
                 initialized,

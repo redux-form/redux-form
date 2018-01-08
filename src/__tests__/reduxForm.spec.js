@@ -2303,6 +2303,49 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(result).toEqual(errors)
     })
 
+    const UsernamePasswordForm = () => (
+      <form>
+        <Field name="username" component="input" type="text" />
+        <Field name="password" component="input" type="text" />
+      </form>
+    )
+
+    const expectReadyForFirstSubmission = (submit, onSubmit, onSubmitFail) => {
+      expect(typeof submit).toBe('function')
+
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(onSubmitFail).not.toHaveBeenCalled()
+    }
+
+    const expectSubmitFailedWithErrors = (
+      onSubmit,
+      onSubmitFail,
+      dispatch,
+      errors
+    ) => error => {
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(onSubmitFail).toHaveBeenCalled()
+      expect(onSubmitFail.mock.calls[0][0]).toEqual(errors)
+      expect(onSubmitFail.mock.calls[0][1]).toEqual(dispatch)
+      expect(onSubmitFail.mock.calls[0][2]).toBe(null)
+      expect(error).toBe(errors)
+    }
+
+    const wrappedInProvider = (TheComponent, store) => (
+      <Provider store={store}>
+        <TheComponent />
+      </Provider>
+    )
+
+    const rejectPromiseWith = errors => () => Promise.reject(errors)
+
+    const renderAndFindComponent = (TheComponent, store) => {
+      const dom = TestUtils.renderIntoDocument(
+        wrappedInProvider(TheComponent, store)
+      )
+
+      return TestUtils.findRenderedComponentWithType(dom, TheComponent)
+    }
     const itShouldCallOnSubmitFailIfAsyncValidationPreventsSubmit = formProps => {
       const store = makeStore({
         testForm: {}
@@ -2311,42 +2354,27 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const onSubmit = jest.fn()
       const onSubmitFail = jest.fn()
 
-      const Form = () => (
-        <form>
-          <Field name="username" component="input" type="text" />
-          <Field name="password" component="input" type="text" />
-        </form>
-      )
-
       const Decorated = reduxForm({
         form: 'testForm',
-        asyncValidate: () => Promise.reject(errors),
+        asyncValidate: rejectPromiseWith(errors),
         onSubmit,
         onSubmitFail,
         ...formProps
-      })(Form)
+      })(UsernamePasswordForm)
 
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <Decorated />
-        </Provider>
-      )
+      const stub = renderAndFindComponent(Decorated, store)
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(typeof stub.submit).toBe('function')
-
-      expect(onSubmit).not.toHaveBeenCalled()
-      expect(onSubmitFail).not.toHaveBeenCalled()
-
-      return stub.submit().catch(error => {
-        expect(onSubmit).not.toHaveBeenCalled()
-        expect(onSubmitFail).toHaveBeenCalled()
-        expect(onSubmitFail.mock.calls[0][0]).toEqual(errors)
-        expect(onSubmitFail.mock.calls[0][1]).toEqual(store.dispatch)
-        expect(onSubmitFail.mock.calls[0][2]).toBe(null)
-        expect(error).toBe(errors)
-      })
+      expectReadyForFirstSubmission(stub.submit, onSubmit, onSubmitFail)
+      return stub
+        .submit()
+        .catch(
+          expectSubmitFailedWithErrors(
+            onSubmit,
+            onSubmitFail,
+            store.dispatch,
+            errors
+          )
+        )
     }
 
     it('should call onSubmitFail if async validation prevents submit', () =>
