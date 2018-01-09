@@ -14,19 +14,25 @@ const createIsValid = (structure: Structure<*, *>) => {
     const nonNullGetFormState: GetFormState =
       getFormState || (state => getIn(state, 'form'))
     const formState = nonNullGetFormState(state)
-    const syncError = getIn(formState, `${form}.syncError`)
-    if (syncError) {
+    const submitErrorsToBeRespected = !ignoreSubmitErrors
+      ? true
+      : !!getIn(formState, `${form}.submitErrorsUpToDate`)
+
+    const syncFormWideError = getIn(formState, `${form}.syncFormWideError`)
+    const asyncFormWideError = getIn(formState, `${form}.asyncFormWideError`)
+    const submitFormWideError = getIn(formState, `${form}.submitFormWideError`)
+
+    if (
+      syncFormWideError ||
+      asyncFormWideError ||
+      (submitFormWideError && submitErrorsToBeRespected)
+    ) {
       return false
     }
-    if (!ignoreSubmitErrors) {
-      const error = getIn(formState, `${form}.error`)
-      if (error) {
-        return false
-      }
-    }
+
     const syncErrors = getIn(formState, `${form}.syncErrors`)
     const asyncErrors = getIn(formState, `${form}.asyncErrors`)
-    const submitErrors = ignoreSubmitErrors
+    const submitErrors = !submitErrorsToBeRespected
       ? undefined
       : getIn(formState, `${form}.submitErrors`)
     if (!syncErrors && !asyncErrors && !submitErrors) {

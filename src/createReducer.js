@@ -222,8 +222,11 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         result = setIn(result, `values.${field}`, payload)
       }
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
-      if (!persistentSubmitErrors) {
+      if (persistentSubmitErrors) {
+        result = setIn(result, `submitErrorsUpToDate`, false)
+      } else {
         result = deleteInWithCleanUp(result, `submitErrors.${field}`)
+        result = deleteIn(result, `submitErrorsUpToDate`)
       }
       result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
       if (touch) {
@@ -238,7 +241,8 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     [CLEAR_SUBMIT_ERRORS](state) {
       let result = state
       result = deleteInWithCleanUp(result, 'submitErrors')
-      result = deleteIn(result, 'error')
+      result = deleteIn(result, 'submitFormWideError')
+      result = deleteIn(result, `submitErrorsUpToDate`)
       return result
     },
     [CLEAR_ASYNC_ERROR](state, { meta: { field } }) {
@@ -252,8 +256,11 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       fields.forEach(field => {
         result = deleteInWithCleanUp(result, `values.${field}`)
         result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
-        if (!persistentSubmitErrors) {
+        if (persistentSubmitErrors) {
+          result = setIn(result, `submitErrorsUpToDate`, false)
+        } else {
           result = deleteInWithCleanUp(result, `submitErrors.${field}`)
+          result = deleteIn(result, `submitErrorsUpToDate`)
         }
         result = deleteInWithCleanUp(result, `fields.${field}.autofilled`)
         if (!keepTouched) {
@@ -277,7 +284,13 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { payload, meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields } }) {
+    [INITIALIZE](
+      state,
+      {
+        payload,
+        meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields }
+      }
+    ) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
 
@@ -292,9 +305,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
 
       // persist old errors, they will get recalculated if the new form values are different from the old values
-      const error = getIn(state, 'error')
-      if (error) {
-        result = setIn(result, 'error', error)
+      const syncFormWideError = getIn(state, 'syncFormWideError')
+      if (syncFormWideError) {
+        result = setIn(result, 'syncFormWideError', syncFormWideError)
       }
       const syncErrors = getIn(state, 'syncErrors')
       if (syncErrors) {
@@ -345,7 +358,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           }
 
           if (!updateUnregisteredFields) {
-            forEach(keys(registeredFields), name => overwritePristineValue(name))
+            forEach(keys(registeredFields), name =>
+              overwritePristineValue(name)
+            )
           }
 
           forEach(keys(newInitialValues), name => {
@@ -411,13 +426,13 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       if (payload && Object.keys(payload).length) {
         const { _error, ...fieldErrors } = payload
         if (_error) {
-          result = setIn(result, 'error', _error)
+          result = setIn(result, 'asyncFormWideError', _error)
         }
         if (Object.keys(fieldErrors).length) {
           result = setIn(result, 'asyncErrors', fromJS(fieldErrors))
         }
       } else {
-        result = deleteIn(result, 'error')
+        result = deleteIn(result, 'asyncFormWideError')
       }
       return result
     },
@@ -426,23 +441,32 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = deleteIn(result, 'submitting')
       result = deleteIn(result, 'submitFailed')
       result = deleteIn(result, 'submitSucceeded')
+
       if (payload && Object.keys(payload).length) {
         const { _error, ...fieldErrors } = payload
+        const isFieldErrorsPresent = !!Object.keys(fieldErrors).length
         if (_error) {
-          result = setIn(result, 'error', _error)
+          result = setIn(result, 'submitFormWideError', _error)
+          result = setIn(result, `submitErrorsUpToDate`, true)
         } else {
-          result = deleteIn(result, 'error')
+          result = deleteIn(result, 'submitFormWideError')
         }
-        if (Object.keys(fieldErrors).length) {
+        if (isFieldErrorsPresent) {
           result = setIn(result, 'submitErrors', fromJS(fieldErrors))
+          result = setIn(result, `submitErrorsUpToDate`, true)
         } else {
           result = deleteIn(result, 'submitErrors')
         }
+        if (!_error && !isFieldErrorsPresent) {
+          result = deleteIn(result, `submitErrorsUpToDate`)
+        }
+        result = setIn(result, `submitErrorsUpToDate`, true)
         result = setIn(result, 'submitFailed', true)
       } else {
         result = setIn(result, 'submitSucceeded', true)
-        result = deleteIn(result, 'error')
+        result = deleteIn(result, 'submitFormWideError')
         result = deleteIn(result, 'submitErrors')
+        result = deleteIn(result, `submitErrorsUpToDate`)
       }
       return result
     },
@@ -530,11 +554,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     [UPDATE_SYNC_ERRORS](state, { payload: { syncErrors, error } }) {
       let result = state
       if (error) {
-        result = setIn(result, 'error', error)
-        result = setIn(result, 'syncError', true)
+        result = setIn(result, 'syncFormWideError', error)
       } else {
-        result = deleteIn(result, 'error')
-        result = deleteIn(result, 'syncError')
+        result = deleteIn(result, 'syncFormWideError')
       }
       if (Object.keys(syncErrors).length) {
         result = setIn(result, 'syncErrors', syncErrors)
@@ -546,9 +568,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     [UPDATE_SYNC_WARNINGS](state, { payload: { syncWarnings, warning } }) {
       let result = state
       if (warning) {
-        result = setIn(result, 'warning', warning)
+        result = setIn(result, 'warningSync', warning)
       } else {
-        result = deleteIn(result, 'warning')
+        result = deleteIn(result, 'warningSync')
       }
       if (Object.keys(syncWarnings).length) {
         result = setIn(result, 'syncWarnings', syncWarnings)

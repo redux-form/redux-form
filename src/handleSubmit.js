@@ -26,13 +26,12 @@ const handleSubmit = (
     syncErrors,
     asyncErrors,
     touch,
-    values,
-    persistentSubmitErrors
+    values
   } = props
 
   touch(...fields) // mark all fields as touched
 
-  if (valid || persistentSubmitErrors) {
+  if (valid) {
     const doSubmit = () => {
       let result
       try {

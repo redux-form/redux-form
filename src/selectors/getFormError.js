@@ -8,7 +8,13 @@ const createGetFormError = ({ getIn }: Structure<*, *>) => (
 ): GetFormErrorInterface => (state: any) => {
   const nonNullGetFormState: GetFormState =
     getFormState || (state => getIn(state, 'form'))
-  return getIn(nonNullGetFormState(state), `${form}.error`)
+  const formState = nonNullGetFormState(state)
+
+  return (
+    getIn(formState, `${form}.syncFormWideError`) ||
+    getIn(formState, `${form}.asyncFormWideError`) ||
+    getIn(formState, `${form}.submitFormWideError`)
+  )
 }
 
 export default createGetFormError
