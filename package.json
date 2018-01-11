@@ -68,7 +68,7 @@
   "homepage": "https://redux-form.com/",
   "dependencies": {
     "deep-equal": "^1.0.1",
-    "es6-error": "^4.0.0",
+    "es6-error": "^4.1.1",
     "hoist-non-react-statics": "^2.3.1",
     "invariant": "^2.2.2",
     "is-promise": "^2.1.0",
