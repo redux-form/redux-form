@@ -101,12 +101,12 @@ describe('actions', () => {
     expect(removeArrayValue('foo', 3)).toEqual({
       type: REMOVE_ARRAY_VALUE,
       path: 'foo',
-      index: 3
+      indexOrPredicate: 3
     });
     expect(removeArrayValue('bar.baz')).toEqual({
       type: REMOVE_ARRAY_VALUE,
       path: 'bar.baz',
-      index: undefined
+      indexOrPredicate: undefined
     });
   });
 
