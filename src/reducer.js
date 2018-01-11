@@ -10,6 +10,7 @@ import setErrors from './setErrors';
 import {makeFieldValue} from './fieldValue';
 import normalizeFields from './normalizeFields';
 import createInitialState from './createInitialState';
+import isFunction from './isFunction';
 
 export const globalErrorKey = '_error';
 
@@ -79,10 +80,20 @@ const behaviors = {
   [INITIALIZE](state, {data, fields, overwriteValues}) {
     return createInitialState(data, fields, state, overwriteValues);
   },
-  [REMOVE_ARRAY_VALUE](state, {path, index}) {
+  [REMOVE_ARRAY_VALUE](state, {path, indexOrPredicate}) {
     const array = read(path, state);
     const stateCopy = {...state};
     const arrayCopy = array ? [...array] : [];
+
+    let index;
+
+    if (isFunction(indexOrPredicate)) {
+      const predicate = indexOrPredicate;
+      index = arrayCopy.findIndex(predicate);
+    } else {
+      index = indexOrPredicate;
+    }
+
     if (index === undefined) {
       arrayCopy.pop();
     } else if (isNaN(index)) {

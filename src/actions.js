@@ -26,8 +26,8 @@ export const initialize = (data, fields, overwriteValues = true) => {
   return {type: INITIALIZE, data, fields, overwriteValues};
 };
 
-export const removeArrayValue = (path, index) =>
-  ({type: REMOVE_ARRAY_VALUE, path, index});
+export const removeArrayValue = (path, indexOrPredicate) =>
+  ({type: REMOVE_ARRAY_VALUE, path, indexOrPredicate});
 
 export const reset = () =>
   ({type: RESET});
