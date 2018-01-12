@@ -23,7 +23,7 @@ important that this not be defined inline (in the `render()` function), because
 it will be created anew on every render and trigger a rerender for the field,
 because the `component` prop will have changed.
 
-**IMPORTANT**: If validation function returns errors and the form does not
+**IMPORTANT**: If the validation function returns errors and the form does not
 currently render fields for all of the errors, then the form will be considered
 valid and will be submitted.
 
