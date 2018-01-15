@@ -300,6 +300,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         context: ReactContext
 
         destroyed = false
+        fieldCounts = {}
         fieldValidators = {}
         lastFieldValidatorKeys = []
         fieldWarners = {}
@@ -568,6 +569,9 @@ const createReduxForm = (structure: Structure<*, *>) => {
           getValidator: Function,
           getWarner: Function
         ) => {
+          const lastCount = this.fieldCounts[name]
+          const nextCount = (lastCount || 0) + 1
+          this.fieldCounts[name] = nextCount
           this.props.registerField(name, type)
           if (getValidator) {
             this.fieldValidators[name] = getValidator
@@ -578,6 +582,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         unregister = (name: string) => {
+          const lastCount = this.fieldCounts[name]
+          if (lastCount === 1) delete this.fieldCounts[name]
+          else if (lastCount != null) this.fieldCounts[name] = lastCount - 1
+
           if (!this.destroyed) {
             const {
               destroyOnUnmount,
@@ -586,8 +594,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
             } = this.props
             if (destroyOnUnmount || forceUnregisterOnUnmount) {
               unregisterField(name, destroyOnUnmount)
-              delete this.fieldValidators[name]
-              delete this.fieldWarners[name]
+              if (!this.fieldCounts[name]) {
+                delete this.fieldValidators[name]
+                delete this.fieldWarners[name]
+              }
             } else {
               unregisterField(name, false)
             }
