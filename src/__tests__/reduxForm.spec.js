@@ -5390,6 +5390,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(required).toHaveBeenCalled()
       expect(propsAtLastRender(inputRender).input.value).toEqual('bar')
       expect(propsAtLastRender(inputRender).meta.error).toEqual(undefined)
+      expect(propsAtLastRender(formRender).valid).toEqual(true)
+
+      formRender.mockClear()
+      inputRender.mockClear()
+      required.mockClear()
+      store.dispatch(change('testForm', 'foo', ''))
+          
+      expect(required).toHaveBeenCalled()
+      expect(propsAtLastRender(inputRender).input.value).toEqual('')
+      expect(propsAtLastRender(inputRender).meta.error).toEqual('required')
       expect(propsAtLastRender(formRender).valid).toEqual(false)
       
       formRender.mockClear()
