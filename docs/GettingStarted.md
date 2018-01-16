@@ -9,7 +9,7 @@ it, it's recommended to have basic knowledge on:
 
 ## Overview
 
-To connect your React form components to your Redux store you'll need following
+To connect your React form components to your Redux store you'll need the following
 pieces from the `redux-form` package:
 
 * Redux Reducer: `formReducer`,
