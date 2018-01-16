@@ -5378,6 +5378,81 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 1).valid).toBe(false)
       expect(propsAtNthRender(formRender, 2).valid).toBe(true)
     })
+    
+    it('should preserve validators when a duplicate field is unmounted', async () => {
+      const logger = jest.fn((state = {}) => state)
+      const store = makeStore({}, logger)
+      const inputRender = jest.fn(props => <input {...props.input} />)
+      const formRender = jest.fn()
+      const required = jest.fn(value => value == null || value === '' ? 'required' : undefined)
+      
+      class Form extends Component {
+        constructor(props) {
+          super(props)
+          this.state = {fieldCount: 2}
+        }
+        render() {
+          formRender(this.props)
+          const {fieldCount} = this.state
+          const keys = []
+          for (let i = 0; i < fieldCount; i++) keys.push(i)
+          return (
+            <form>
+              {keys.map(key => (
+                <Field key={key} name="foo" component={inputRender} validate={required} />
+              ))}
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+      })(Form)
+
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
+      const form = TestUtils.findRenderedComponentWithType(dom, Form)
+      
+      store.dispatch(initialize('testForm', {foo: ''}))
+
+      expect(required).toHaveBeenCalled()
+      expect(propsAtLastRender(inputRender).input.value).toEqual('')
+      expect(propsAtLastRender(inputRender).meta.error).toEqual('required')
+      expect(propsAtLastRender(formRender).valid).toEqual(false)
+      
+      formRender.mockClear()
+      inputRender.mockClear()
+      required.mockClear()
+      await new Promise(resolve => form.setState({fieldCount: 1}, resolve))
+      store.dispatch(change('testForm', 'foo', 'bar'))
+          
+      expect(required).toHaveBeenCalled()
+      expect(propsAtLastRender(inputRender).input.value).toEqual('bar')
+      expect(propsAtLastRender(inputRender).meta.error).toEqual(undefined)
+      expect(propsAtLastRender(formRender).valid).toEqual(true)
+
+      formRender.mockClear()
+      inputRender.mockClear()
+      required.mockClear()
+      store.dispatch(change('testForm', 'foo', ''))
+          
+      expect(required).toHaveBeenCalled()
+      expect(propsAtLastRender(inputRender).input.value).toEqual('')
+      expect(propsAtLastRender(inputRender).meta.error).toEqual('required')
+      expect(propsAtLastRender(formRender).valid).toEqual(false)
+      
+      formRender.mockClear()
+      inputRender.mockClear()
+      required.mockClear()
+      await new Promise(resolve => form.setState({fieldCount: 0}, resolve))
+           
+      expect(required).not.toHaveBeenCalled()
+      expect(inputRender).not.toHaveBeenCalled()
+      expect(propsAtLastRender(formRender).valid).toEqual(true)
+    })
   })
 }
 
