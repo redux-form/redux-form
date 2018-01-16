@@ -671,26 +671,36 @@ const createReduxForm = (structure: Structure<*, *>) => {
             values
           } = this.props
           const submitting = !name
+
+          const fieldNeedsValidation = () => {
+            const fieldNeedsValidationForBlur =
+              asyncBlurFields &&
+              name &&
+              ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+            const fieldNeedsValidationForChange =
+              asyncChangeFields &&
+              name &&
+              ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+            const asyncValidateByDefault = !(
+              asyncBlurFields || asyncChangeFields
+            )
+
+            return (
+              submitting ||
+              asyncValidateByDefault ||
+              (trigger === 'blur'
+                ? fieldNeedsValidationForBlur
+                : fieldNeedsValidationForChange)
+            )
+          }
+
           if (asyncValidate) {
             const valuesToValidate = submitting
               ? values
               : setIn(values, name, value)
             const syncValidationPasses = submitting || !getIn(syncErrors, name)
-            const fieldNeedsValidationForBlur =
-              asyncBlurFields &&
-              ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
-            const fieldNeedsValidationForChange =
-              asyncChangeFields &&
-              ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
-            const formHasAsyncFields = !asyncBlurFields && !asyncChangeFields
-            const fieldNeedsValidation =
-              !submitting &&
-              (formHasAsyncFields ||
-                (trigger === 'blur'
-                  ? fieldNeedsValidationForBlur
-                  : fieldNeedsValidationForChange))
             if (
-              (fieldNeedsValidation || submitting) &&
+              fieldNeedsValidation() &&
               shouldAsyncValidate({
                 asyncErrors,
                 initialized,
