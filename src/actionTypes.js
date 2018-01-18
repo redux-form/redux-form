@@ -23,6 +23,7 @@ export const FOCUS = `${prefix}FOCUS`
 export const INITIALIZE = `${prefix}INITIALIZE`
 export const REGISTER_FIELD = `${prefix}REGISTER_FIELD`
 export const RESET = `${prefix}RESET`
+export const RESET_SECTION = `${prefix}RESET_SECTION`
 export const SET_SUBMIT_FAILED = `${prefix}SET_SUBMIT_FAILED`
 export const SET_SUBMIT_SUCCEEDED = `${prefix}SET_SUBMIT_SUCCEEDED`
 export const START_ASYNC_VALIDATION = `${prefix}START_ASYNC_VALIDATION`

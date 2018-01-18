@@ -22,6 +22,7 @@ import {
   prefix,
   REGISTER_FIELD,
   RESET,
+  RESET_SECTION,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
   START_ASYNC_VALIDATION,
@@ -277,7 +278,13 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { payload, meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields } }) {
+    [INITIALIZE](
+      state,
+      {
+        payload,
+        meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields }
+      }
+    ) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
 
@@ -345,7 +352,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           }
 
           if (!updateUnregisteredFields) {
-            forEach(keys(registeredFields), name => overwritePristineValue(name))
+            forEach(keys(registeredFields), name =>
+              overwritePristineValue(name)
+            )
           }
 
           forEach(keys(newInitialValues), name => {
@@ -394,6 +403,27 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         result = setIn(result, 'values', values)
         result = setIn(result, 'initial', values)
       }
+      return result
+    },
+    [RESET_SECTION](state, { meta: { section } }) {
+      let result = state
+
+      result = deleteInWithCleanUp(result, `asyncErrors.${section}`)
+      result = deleteInWithCleanUp(result, `submitErrors.${section}`)
+      result = deleteInWithCleanUp(result, `fields.${section}`)
+
+      const values = getIn(state, `initial.${section}`)
+      result = values
+        ? setIn(result, `values.${section}`, values)
+        : deleteInWithCleanUp(result, `values.${section}`)
+
+      const anyTouched = some(keys(getIn(result, 'registeredFields')), key =>
+        getIn(result, `fields.${key}.touched`)
+      )
+      result = anyTouched
+        ? setIn(result, 'anyTouched', true)
+        : deleteIn(result, 'anyTouched')
+
       return result
     },
     [SUBMIT](state) {
