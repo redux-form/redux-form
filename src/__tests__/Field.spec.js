@@ -914,6 +914,52 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input).toHaveBeenCalledTimes(1)
     })
 
+    it('The render() function should not be called if neither state nor props of the field has changed', () => {
+      const store = makeStore()
+      const input = jest.fn(props => <input {...props.input} />)
+      const renderSpy = jest.fn()
+
+      class TestField extends Field {
+        render() {
+          renderSpy()
+          return super.render()
+        }
+      }
+
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = { foo: 'bar' }
+        }
+
+        render() {
+          return (
+            <div>
+              <TestField name="myField" component={input} />
+              <button onClick={() => this.setState({ foo: 'qux' })}>
+                Change
+              </button>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      expect(renderSpy).toHaveBeenCalledTimes(1)
+      expect(input).toHaveBeenCalledTimes(1)
+
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(renderSpy).toHaveBeenCalledTimes(1)
+      expect(input).toHaveBeenCalledTimes(1)
+    })
+
     it('should call normalize function on change', () => {
       const store = makeStore({
         testForm: {

@@ -33,8 +33,8 @@ const createField = (structure: Structure<*, *>) => {
       }
     }
 
-    shouldComponentUpdate(nextProps: Props) {
-      return shallowCompare(this, nextProps)
+    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
+      return shallowCompare(this, nextProps, nextState)
     }
 
     componentWillMount() {
