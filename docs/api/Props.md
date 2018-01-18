@@ -5,7 +5,7 @@
 > The `props` listed on this page are the `props` that `redux-form` generates to
 > give to your decorated form component. The `props` that _you pass into your
 > wrapped component_ are listed
-> [here](https://redux-form.com/7.2.0/docs/api/ReduxForm.md/).
+> [here](https://redux-form.com/7.2.1/docs/api/ReduxForm.md/).
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of
 > these
@@ -154,13 +154,11 @@ class SimpleForm extends Component {
 > with the contents of the form data.
 
 > Optionally, you may also pass your `onSubmit` function to `handleSubmit` which
-> will take the place of the `onSubmit` prop. For example: `<form
-> onSubmit={handleSubmit(this.save.bind(this))}>`
+> will take the place of the `onSubmit` prop. For example: `<form onSubmit={handleSubmit(this.save.bind(this))}>`
 
 > If your `onSubmit` function returns a promise, the `submitting` property will
 > be set to `true` until the promise has been resolved or rejected. If it is
-> rejected with an object like `new SubmissionError({ field1: 'error', field2:
-> 'error' })` then the submission errors will be added to each field (to the
+> rejected with an object like `new SubmissionError({ field1: 'error', field2: 'error' })` then the submission errors will be added to each field (to the
 > `error` prop) just like async validation errors are. If there is an error that
 > is not specific to any field, but applicable to the entire form, you may pass
 > that as if it were the error for a field called `_error`, and it will be given

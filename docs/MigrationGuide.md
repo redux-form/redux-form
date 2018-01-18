@@ -315,8 +315,8 @@ const upper = value => value && value.toUpperCase()
 ```
 
 See the
-[Normalizing Example](https://redux-form.com/7.2.0/examples/normalizing/) and
-[Value Lifecycle](https://redux-form.com/7.2.0/docs/ValueLifecycle.md/) for more
+[Normalizing Example](https://redux-form.com/7.2.1/examples/normalizing/) and
+[Value Lifecycle](https://redux-form.com/7.2.1/docs/ValueLifecycle.md/) for more
 details.
 
 ## Listening to other actions
@@ -369,8 +369,7 @@ will need to be updated. It more or less changed as follows:
 
 ### react-hot-loader
 
-If you are using react-hot-loader 1.X and see the error `Uncaught TypeError:
-Cannot read property 'wrapped' of undefined` then you will need to upgrade
+If you are using react-hot-loader 1.X and see the error `Uncaught TypeError: Cannot read property 'wrapped' of undefined` then you will need to upgrade
 react-hot-loader to 3.X.
 
 While react-hot-loader v3 is still in beta, the best documentation is available

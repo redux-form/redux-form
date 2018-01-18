@@ -21,9 +21,7 @@ enable an html form in [React](https://github.com/facebook/react) to use
 
 ## Sponsorship
 
-Redux-form is proudly sponsored by [Rollbar](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4
-). They provide real-time error monitoring, alerting, and analytics for developers. [Try Rollbar for free](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4
-).
+Redux-form is proudly sponsored by [Rollbar](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4). They provide real-time error monitoring, alerting, and analytics for developers. [Try Rollbar for free](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4).
 
 ![](https://cs.berry.sh/l/1c4ce130-ac45-48c2-a057-ecce3b62b8e4/pixel.png)
 
@@ -33,12 +31,12 @@ Redux-form is proudly sponsored by [Rollbar](https://cs.berry.sh/c/1c4ce130-ac45
 
 ## Documentation
 
-* [Getting Started](https://redux-form.com/7.2.0/docs/GettingStarted.md/)
-* [Examples](https://redux-form.com/7.2.0/examples/)
-* [API](https://redux-form.com/7.2.0/docs/api/)
-* [FAQ](https://redux-form.com/7.2.0/docs/faq/)
+* [Getting Started](https://redux-form.com/7.2.1/docs/GettingStarted.md/)
+* [Examples](https://redux-form.com/7.2.1/examples/)
+* [API](https://redux-form.com/7.2.1/docs/api/)
+* [FAQ](https://redux-form.com/7.2.1/docs/faq/)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
-* [Older Documentation](https://redux-form.com/7.2.0/docs/DocumentationVersions.md/)
+* [Older Documentation](https://redux-form.com/7.2.1/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
 

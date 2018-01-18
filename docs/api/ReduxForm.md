@@ -39,7 +39,7 @@ at "design time" or passed in as props to your component at runtime.**
 > async validation only being run before submission.
 
 > See
-> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.0/examples/asyncValidation/)
+> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.1/examples/asyncValidation/)
 > for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
@@ -47,11 +47,10 @@ at "design time" or passed in as props to your component at runtime.**
 > a function that takes all the form values, the `dispatch` function, the
 > `props` given to your component and the current blurred field, and returns a
 > Promise that will resolve if the validation is passed, or will reject with an
-> object of validation errors in the form `{ field1: <String>, field2: <String>
-> }`.
+> object of validation errors in the form `{ field1: <String>, field2: <String> }`.
 
 > See
-> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.0/examples/asyncValidation/)
+> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.1/examples/asyncValidation/)
 > for more details.
 
 #### `destroyOnUnmount : boolean` [optional]
@@ -117,8 +116,7 @@ at "design time" or passed in as props to your component at runtime.**
 
 > ##### `values : Object`
 
-> The changed field values in the form of `{ field1: 'value1', field2: 'value2'
-> }`.
+> The changed field values in the form of `{ field1: 'value1', field2: 'value2' }`.
 
 > ##### `dispatch : Function`
 
@@ -130,8 +128,7 @@ at "design time" or passed in as props to your component at runtime.**
 
 > ##### `previousValues : Object`
 
-> The previous field values in the form of `{ field1: 'value1', field2: 'value2'
-> }`.
+> The previous field values in the form of `{ field1: 'value1', field2: 'value2' }`.
 
 #### `onSubmit : Function` [optional]
 
@@ -374,11 +371,10 @@ switch (trigger) {
 
 > a synchronous validation function that takes the form values and props passed
 > into your component. If validation passes, it should return `{}`. If
-> validation fails, it should return the validation errors in the form `{
-> field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
+> validation fails, it should return the validation errors in the form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
 > See
-> [Synchronous Validation Example](https://redux-form.com/7.2.0/examples/syncValidation/)
+> [Synchronous Validation Example](https://redux-form.com/7.2.1/examples/syncValidation/)
 > for more details.
 
 #### `warn : (values:Object, props:Object) => warnings:Object` [optional]
@@ -386,8 +382,7 @@ switch (trigger) {
 > a synchronous warning function that takes the form values and props passed
 > into your component. Warnings work the same as validations, but do not mark a
 > form as invalid. If the warning check passes, it should return `{}`. If the
-> check fails, it should return the warnings in the form `{ field1: <String>,
-> field2: <String> }`. Defaults to `(values, props) => ({})`.
+> check fails, it should return the warnings in the form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
 ## Instance API
 
