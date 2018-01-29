@@ -42,7 +42,8 @@ const describeValues = (
         {
           rat: 'dog'
         }
-      ]
+      ],
+      spider: 'mosquito'
     })
   })(props => <div {...props} />)
 
@@ -145,6 +146,31 @@ const describeValues = (
 
       expect(Spy.mock.calls[0][0].rat).toEqual('cat')
       expect(Spy.mock.calls[1][0].rat).toEqual('dog')
+    })
+
+    it('should update formValues props when props change', () => {
+      const node = document.createElement('div')
+      const Spy = jest.fn(() => <div />)
+      const Decorated = formValues(({ pet }) => ({
+        food: pet
+      }))(Spy)
+
+      const Component = ({ pet }) => (
+        <Provider store={store}>
+          <Form>
+            <Decorated pet={pet} />
+          </Form>
+        </Provider>
+      )
+
+      ReactDOM.hydrate(<Component pet="cat" />, node)
+
+      ReactDOM.hydrate(<Component pet="spider" />, node)
+
+      expect(Spy.mock.calls.length).toEqual(2)
+
+      expect(Spy.mock.calls[0][0].food).toEqual('rat')
+      expect(Spy.mock.calls[1][0].food).toEqual('mosquito')
     })
   })
 }
