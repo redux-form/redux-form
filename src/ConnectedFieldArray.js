@@ -149,11 +149,11 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)
       const pristine = deepEqual(value, initial)
       return {
-        asyncError: getIn(formState, `asyncErrors.${name}._error`),
+        asyncError: getIn(formState, `asyncErrors['${name}._error']`),
         dirty: !pristine,
         pristine,
         state: getIn(formState, `fields.${name}`),
-        submitError: getIn(formState, `submitErrors.${name}._error`),
+        submitError: getIn(formState, `submitErrors['${name}._error']`),
         submitFailed: getIn(formState, 'submitFailed'),
         submitting,
         syncError,

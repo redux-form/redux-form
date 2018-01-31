@@ -431,9 +431,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           foo: ['bar']
         },
         asyncErrors: {
-          foo: {
-            _error: 'foo error'
-          }
+          'foo._error': 'foo error'
         }
       })
       expect(props.meta.error).toBe('foo error')
@@ -445,12 +443,67 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           foo: ['bar']
         },
         submitErrors: {
-          foo: {
-            _error: 'foo error'
-          }
+          'foo._error': 'foo error'
         }
       })
       expect(props.meta.error).toBe('foo error')
+    })
+
+    it('Should get deeply nested submit errors from Redux state', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [
+              {
+                bar: 'baz'
+              }
+            ]
+          },
+          submitErrors: {
+            'foo[0].bar': 'My little error message',
+            'foo._error': 'FieldArray error'
+          }
+        }
+      })
+
+      class TestInput extends Component {
+        render() {
+          return <div>TEST INPUT</div>
+        }
+      }
+      class TestFieldArrayComponent extends Component {
+        render() {
+          return this.props.fields.map(field => (
+            <Field component={TestInput} name={`${field}.bar`} key={field} />
+          ))
+        }
+      }
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <FieldArray name="foo" component={TestFieldArrayComponent} />
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+      const testInputProps = TestUtils.findRenderedComponentWithType(
+        dom,
+        TestInput
+      ).props
+      const fieldArrayProps = TestUtils.findRenderedComponentWithType(
+        dom,
+        TestFieldArrayComponent
+      ).props
+
+      expect(fieldArrayProps.meta.error).toBe('FieldArray error')
+      expect(testInputProps.meta.error).toBe('My little error message')
     })
 
     it('should get submitFailed from Redux state', () => {

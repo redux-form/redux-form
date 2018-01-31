@@ -125,24 +125,25 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     render() {
       const { component, withRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
-      const { custom, ...props } = Object.keys(
-        _fields
-      ).reduce((accumulator, name) => {
-        const connectedProps = _fields[name]
-        const { custom, ...fieldProps } = createFieldProps(structure, name, {
-          ...connectedProps,
-          ...rest,
-          form,
-          onBlur: this.onBlurFns[name],
-          onChange: this.onChangeFns[name],
-          onFocus: this.onFocusFns[name]
-        })
-        accumulator.custom = custom
-        const fieldName = sectionPrefix
-          ? name.replace(`${sectionPrefix}.`, '')
-          : name
-        return plain.setIn(accumulator, fieldName, fieldProps)
-      }, {})
+      const { custom, ...props } = Object.keys(_fields).reduce(
+        (accumulator, name) => {
+          const connectedProps = _fields[name]
+          const { custom, ...fieldProps } = createFieldProps(structure, name, {
+            ...connectedProps,
+            ...rest,
+            form,
+            onBlur: this.onBlurFns[name],
+            onChange: this.onChangeFns[name],
+            onFocus: this.onFocusFns[name]
+          })
+          accumulator.custom = custom
+          const fieldName = sectionPrefix
+            ? name.replace(`${sectionPrefix}.`, '')
+            : name
+          return plain.setIn(accumulator, fieldName, fieldProps)
+        },
+        {}
+      )
       if (withRef) {
         props.ref = 'renderedComponent'
       }
@@ -178,13 +179,13 @@ const createConnectedFields = (structure: Structure<*, *>) => {
           const submitting = getIn(formState, 'submitting')
           const pristine = value === initial
           accumulator[name] = {
-            asyncError: getIn(formState, `asyncErrors.${name}`),
+            asyncError: getIn(formState, `asyncErrors['${name}']`),
             asyncValidating: getIn(formState, 'asyncValidating') === name,
             dirty: !pristine,
             initial,
             pristine,
             state: getIn(formState, `fields.${name}`),
-            submitError: getIn(formState, `submitErrors.${name}`),
+            submitError: getIn(formState, `submitErrors['${name}']`),
             submitFailed: getIn(formState, 'submitFailed'),
             submitting,
             syncError,
