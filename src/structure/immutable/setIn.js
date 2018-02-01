@@ -10,20 +10,11 @@ const undefinedArrayMerge = (previous, next) =>
 
 const mergeLists = (originalList, value) => {
   if (originalList && List.isList(originalList)) {
-    if (originalList.mergeDeepWith) {
-      // In this case we are using Immutable.js@3.x since we still have List.mergeDeepWith
-      return originalList.mergeDeepWith(undefinedArrayMerge, value)
-    }
-
-    // Immutable 4.x users will end here.
-
-    let mapped = originalList
+    return originalList
       .map((originalListValue, index) =>
         undefinedArrayMerge(value.get(index), originalListValue)
       )
       .concat(value.slice(originalList.size))
-
-    return mapped
   }
 
   return value
