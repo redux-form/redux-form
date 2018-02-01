@@ -42,6 +42,15 @@ at "design time" or passed in as props to your component at runtime.**
 > [Asynchronous Blur Validation Example](https://redux-form.com/7.2.1/examples/asyncValidation/)
 > for more details.
 
+#### -`asyncChangeFields : Array<String>` [optional]
+
+> field names for which `onChange` should trigger a call to the `asyncValidate`
+> function.
+
+> See
+> [Asynchronous Change Validation Example](https://redux-form.com/7.2.1/examples/asyncChangeFieldsValidation/)
+> for more details.
+
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
 
 > a function that takes all the form values, the `dispatch` function, the
@@ -257,7 +266,8 @@ if (!syncValidationPasses) {
 }
 switch (trigger) {
   case 'blur':
-    // blurring
+  case 'change':
+    // blurring or changing
     return true
   case 'submit':
     // submitting, so only async validate if form is dirty or was never initialized
