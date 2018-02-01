@@ -54,6 +54,7 @@ import {
   reduxForm,
   registerField,
   reset,
+  resetSection,
   setSubmitFailed,
   setSubmitSucceeded,
   startAsyncValidation,
@@ -218,6 +219,9 @@ describe('immutable', () => {
   })
   it('should export reset', () => {
     expect(typeof reset).toBe('function')
+  })
+  it('should export resetSection', () => {
+    expect(typeof resetSection).toBe('function')
   })
   it('should export startAsyncValidation', () => {
     expect(typeof startAsyncValidation).toBe('function')

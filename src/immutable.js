@@ -68,6 +68,7 @@ export const focus = actions.focus
 export const initialize = actions.initialize
 export const registerField = actions.registerField
 export const reset = actions.reset
+export const resetSection = actions.resetSection
 export const setSubmitFailed = actions.setSubmitFailed
 export const setSubmitSucceeded = actions.setSubmitSucceeded
 export const startAsyncValidation = actions.startAsyncValidation

@@ -320,10 +320,10 @@ const reset: Reset = (form: string): ResetAction => ({
 
 const resetSection: ResetSection = (
   form: string,
-  section: string
+  ...sections: string[]
 ): ResetSectionAction => ({
   type: RESET_SECTION,
-  meta: { form, section }
+  meta: { form, sections }
 })
 
 const startAsyncValidation: StartAsyncValidation = (

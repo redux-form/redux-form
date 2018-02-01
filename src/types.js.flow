@@ -128,6 +128,7 @@ export type FormProps = {
   invalid: boolean,
   pristine: boolean,
   reset: () => void,
+  resetSection: () => void,
   submitting: boolean,
   submitFailed: boolean,
   submitSucceeded: boolean,

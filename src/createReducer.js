@@ -405,17 +405,19 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
       return result
     },
-    [RESET_SECTION](state, { meta: { section } }) {
+    [RESET_SECTION](state, { meta: { sections } }) {
       let result = state
 
-      result = deleteInWithCleanUp(result, `asyncErrors.${section}`)
-      result = deleteInWithCleanUp(result, `submitErrors.${section}`)
-      result = deleteInWithCleanUp(result, `fields.${section}`)
+      sections.forEach(section => {
+        result = deleteInWithCleanUp(result, `asyncErrors.${section}`)
+        result = deleteInWithCleanUp(result, `submitErrors.${section}`)
+        result = deleteInWithCleanUp(result, `fields.${section}`)
 
-      const values = getIn(state, `initial.${section}`)
-      result = values
-        ? setIn(result, `values.${section}`, values)
-        : deleteInWithCleanUp(result, `values.${section}`)
+        const values = getIn(state, `initial.${section}`)
+        result = values
+          ? setIn(result, `values.${section}`, values)
+          : deleteInWithCleanUp(result, `values.${section}`)
+      })
 
       const anyTouched = some(keys(getIn(result, 'registeredFields')), key =>
         getIn(result, `fields.${key}.touched`)
