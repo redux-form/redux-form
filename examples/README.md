@@ -8,10 +8,11 @@ examples locally, clone the `redux-form` repository and run `npm install` to ins
 necessary dependencies for `redux-form`. Then you can run the examples locally using either
 two methods:
 
-1. Run `npm run example:EXAMPLE_FOLDER` (Remember to replace EXAMPLE\_FOLDER with the name of the 
-folder for the example you want to run like `npm run example:simple` or `npm run example:material-ui`)
+1. Run `npm run example:EXAMPLE_FOLDER` (Remember to replace EXAMPLE_FOLDER with the name of the
+   folder for the example you want to run like `npm run example:simple` or `npm run example:material-ui`)
 
 2. Manually run the following commands:
+
 ```
 # Remember to replace EXAMPLE_FOLDER with the name of the example's folder
 cd ./examples/EXAMPLE_FOLDER
@@ -22,7 +23,6 @@ npm start
 After following either of these methods, open [`localhost:3030`](http://localhost:3030) in your
 browser to view the example running locally on your machine.
 
-
 ---
 
 ### [Simple Form](simple)
@@ -30,7 +30,7 @@ browser to view the example running locally on your machine.
 > The simplest form. Demonstrates how to attach standard inputs to Redux.
 
 ---
-  
+
 ### [Synchronous Validation](syncValidation)
 
 > How to add synchronous client-side validation to your form.
@@ -42,25 +42,25 @@ browser to view the example running locally on your machine.
 > How to add field-level client-side validation to your form.
 
 ---
-  
+
 ### [Submit Validation](submitValidation)
 
 > How to return server-side validation errors back from your submit function.
 
 ---
-  
+
 ### [Asynchronous Blur Validation](asyncValidation)
 
 > How to run asynchronous server-side onBlur validation on your form when certain fields lose focus.
 
 ---
-  
+
 ### [Asynchronous Change Validation](asyncChangeValidation)
 
-> How to run asynchronous server-side onChange validation on your form when certain fields lose focus.
+> How to run asynchronous server-side onChange validation on your form when certain fields change.
 
 ---
-  
+
 ### [Initializing From State](initializeFromState)
 
 > How to initialize your form data from any slice of the Redux state.
@@ -111,6 +111,6 @@ browser to view the example running locally on your machine.
 
 ### [React-Widgets Examples](react-widgets)
 
-> How to use `react-widgets` components with `redux-form` 
+> How to use `react-widgets` components with `redux-form`
 
 ---
