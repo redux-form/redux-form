@@ -312,7 +312,7 @@ describe('structure.immutable.setIn', () => {
     let b0c = b0.get('c')
     expect(b0c).toEqual('123')
   })
-  it('should handle arrays with length 64', () => {
+  it('should handle arrays with length 65', () => {
     let initial = fromJS({
       a: {
         b: []
@@ -320,6 +320,29 @@ describe('structure.immutable.setIn', () => {
     })
 
     let result = setIn(initial, 'a.b[64].d', '12')
+
+    let a = result.get('a')
+    expect(a).toBeTruthy()
+
+    let b = a.get('b')
+    expect(b).toBeTruthy()
+
+    let b64 = b.get(64)
+    expect(b64).toBeTruthy()
+
+    let b64d = b64.get('d')
+    expect(b64d).toEqual('12')
+  })
+  it('should handle arrays with length 65 with existing content', () => {
+    let initial = fromJS({
+      a: {
+        b: [undefined, undefined, 'val']
+      }
+    })
+
+    let result = setIn(initial, 'a.b[64].d', '12')
+
+    expect(result.getIn(['a', 'b', 2])).toEqual('val')
 
     let a = result.get('a')
     expect(a).toBeTruthy()

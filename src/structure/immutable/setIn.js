@@ -1,6 +1,5 @@
 // @flow
-// $FlowFixMe: Need to ignore the mergeDeepWith import until we are on Immutable@4.0.0
-import { List, Map, mergeDeepWith } from 'immutable'
+import { List, Map } from 'immutable'
 import { toPath } from 'lodash'
 import type { Map as ImmutableMap, List as ImmutableList } from 'immutable'
 
@@ -9,15 +8,22 @@ const arrayPattern = /\[(\d+)\]/
 const undefinedArrayMerge = (previous, next) =>
   next !== undefined ? next : previous
 
-const mergeLists = (original, value) => {
-  if (original && List.isList(original)) {
-    if (original.mergeDeepWith) {
+const mergeLists = (originalList, value) => {
+  if (originalList && List.isList(originalList)) {
+    if (originalList.mergeDeepWith) {
       // In this case we are using Immutable.js@3.x since we still have List.mergeDeepWith
-      return original.mergeDeepWith(undefinedArrayMerge, value)
+      return originalList.mergeDeepWith(undefinedArrayMerge, value)
     }
 
     // Immutable 4.x users will end here.
-    return mergeDeepWith(undefinedArrayMerge, original, value)
+
+    let mapped = originalList
+      .map((originalListValue, index) =>
+        undefinedArrayMerge(value.get(index), originalListValue)
+      )
+      .concat(value.slice(originalList.size))
+
+    return mapped
   }
 
   return value
