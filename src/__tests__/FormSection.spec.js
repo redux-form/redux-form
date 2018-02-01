@@ -71,47 +71,6 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       expect(divTags.length).toEqual(0)
     })
 
-    it('Should get submit errors from redux state', () => {
-      const store = makeStore({
-        testForm: {
-          values: {
-            foo: {
-              bar: '42'
-            }
-          },
-          submitErrors: {
-            'foo.bar': 'foo bar error message'
-          }
-        }
-      })
-
-      class TestInput extends Component {
-        render() {
-          return <div>TEST INPUT</div>
-        }
-      }
-
-      class Form extends Component {
-        render() {
-          return (
-            <FormSection name="foo">
-              <Field name="bar" component={TestInput} />
-            </FormSection>
-          )
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <TestForm />
-        </Provider>
-      )
-
-      var props = TestUtils.findRenderedComponentWithType(dom, TestInput).props
-
-      expect(props.meta.error).toBe('foo bar error message')
-    })
-
     it('should pass along unused props to div', () => {
       const store = makeStore({
         testForm: {
