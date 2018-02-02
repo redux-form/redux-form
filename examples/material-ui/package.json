@@ -21,13 +21,13 @@
     "react-redux": "^5.0.3",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
-    "redux-form": "^7.2.2",
-    "redux-form-website-template": "0.0.99"
+    "redux-form": "^7.2.3",
+    "redux-form-website-template": "0.0.103"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.2.3",
-    "babel-loader": "^7.2.2",
+    "babel-loader": "^7.2.3",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",

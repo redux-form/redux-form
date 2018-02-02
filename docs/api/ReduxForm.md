@@ -39,7 +39,7 @@ at "design time" or passed in as props to your component at runtime.**
 > async validation only being run before submission.
 
 > See
-> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.2/examples/asyncValidation/)
+> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.3/examples/asyncValidation/)
 > for more details.
 
 #### -`asyncChangeFields : Array<String>` [optional]
@@ -48,7 +48,7 @@ at "design time" or passed in as props to your component at runtime.**
 > function.
 
 > See
-> [Asynchronous Change Validation Example](https://redux-form.com/7.2.2/examples/asyncChangeFieldsValidation/)
+> [Asynchronous Change Validation Example](https://redux-form.com/7.2.3/examples/asyncChangeFieldsValidation/)
 > for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
@@ -59,7 +59,7 @@ at "design time" or passed in as props to your component at runtime.**
 > object of validation errors in the form `{ field1: <String>, field2: <String> }`.
 
 > See
-> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.2/examples/asyncValidation/)
+> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.3/examples/asyncValidation/)
 > for more details.
 
 #### `destroyOnUnmount : boolean` [optional]
@@ -384,7 +384,7 @@ switch (trigger) {
 > validation fails, it should return the validation errors in the form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
 > See
-> [Synchronous Validation Example](https://redux-form.com/7.2.2/examples/syncValidation/)
+> [Synchronous Validation Example](https://redux-form.com/7.2.3/examples/syncValidation/)
 > for more details.
 
 #### `warn : (values:Object, props:Object) => warnings:Object` [optional]
