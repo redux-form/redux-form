@@ -59,6 +59,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
+      const { _reduxForm: { immutableProps } } = nextProps
       // if we have children, we MUST update in React 16
       // https://twitter.com/erikras/status/915866544558788608
       return !!(
@@ -66,6 +67,9 @@ const createConnectedFields = (structure: Structure<*, *>) => {
         nextProps.children ||
         nextPropsKeys.length !== thisPropsKeys.length ||
         nextPropsKeys.some(prop => {
+          if (~immutableProps.indexOf(prop)) {
+            return this.props[prop] !== nextProps[prop]
+          }
           return (
             !~propsToNotUpdateFor.indexOf(prop) &&
             !deepEqual(this.props[prop], nextProps[prop])
@@ -125,24 +129,25 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     render() {
       const { component, withRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
-      const { custom, ...props } = Object.keys(
-        _fields
-      ).reduce((accumulator, name) => {
-        const connectedProps = _fields[name]
-        const { custom, ...fieldProps } = createFieldProps(structure, name, {
-          ...connectedProps,
-          ...rest,
-          form,
-          onBlur: this.onBlurFns[name],
-          onChange: this.onChangeFns[name],
-          onFocus: this.onFocusFns[name]
-        })
-        accumulator.custom = custom
-        const fieldName = sectionPrefix
-          ? name.replace(`${sectionPrefix}.`, '')
-          : name
-        return plain.setIn(accumulator, fieldName, fieldProps)
-      }, {})
+      const { custom, ...props } = Object.keys(_fields).reduce(
+        (accumulator, name) => {
+          const connectedProps = _fields[name]
+          const { custom, ...fieldProps } = createFieldProps(structure, name, {
+            ...connectedProps,
+            ...rest,
+            form,
+            onBlur: this.onBlurFns[name],
+            onChange: this.onChangeFns[name],
+            onFocus: this.onFocusFns[name]
+          })
+          accumulator.custom = custom
+          const fieldName = sectionPrefix
+            ? name.replace(`${sectionPrefix}.`, '')
+            : name
+          return plain.setIn(accumulator, fieldName, fieldProps)
+        },
+        {}
+      )
       if (withRef) {
         props.ref = 'renderedComponent'
       }

@@ -83,7 +83,8 @@ export type Context = {
   registerInnerOnSubmit: (innerOnSubmit: Function) => void,
   focus: (name: string) => void,
   change: (name: string, value: any) => void,
-  blur: (name: string, value: any) => void
+  blur: (name: string, value: any) => void,
+  immutableProps: string[]
 }
 
 export type ReactContext = {

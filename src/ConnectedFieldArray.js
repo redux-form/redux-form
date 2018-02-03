@@ -53,6 +53,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
+      const { _reduxForm: { immutableProps } } = nextProps
       // if we have children, we MUST update in React 16
       // https://twitter.com/erikras/status/915866544558788608
       return !!(
@@ -64,6 +65,9 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
           // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
           //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
           // }
+          if (~immutableProps.indexOf(prop)) {
+            return this.props[prop] !== nextProps[prop]
+          }
           return (
             !~propsToNotUpdateFor.indexOf(prop) &&
             !deepEqual(this.props[prop], nextProps[prop])

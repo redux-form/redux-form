@@ -176,6 +176,7 @@ export type Config = {
   keepDirtyOnReinitialize?: boolean,
   form: string,
   initialValues?: Values,
+  immutableProps?: string[],
   getFormState?: GetFormState,
   onChange?: OnChangeFunction,
   onSubmit?: OnSubmitFunction,
@@ -225,6 +226,7 @@ export type Props = {
   initialized: boolean,
   initialValues?: any,
   invalid: boolean,
+  immutableProps: string[],
   keepDirtyOnReinitialize: any,
   updateUnregisteredFields: boolean,
   onChange?: OnChangeFunction,
@@ -290,6 +292,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
       getFormState: state => getIn(state, 'form'),
       pure: true,
       forceUnregisterOnUnmount: false,
+      immutableProps: [],
       ...initialConfig
     }
 
@@ -515,7 +518,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         shouldComponentUpdate(nextProps: Props): boolean {
           if (!this.props.pure) return true
-          const { immutableProps = [] } = config
+          const { immutableProps } = config
           // if we have children, we MUST update in React 16
           // https://twitter.com/erikras/status/915866544558788608
           return !!(
