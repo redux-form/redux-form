@@ -156,6 +156,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'error',
         'form',
         'handleSubmit',
+        'immutableProps',
         'initialValues',
         'initialize',
         'initialized',
