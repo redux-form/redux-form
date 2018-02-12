@@ -277,7 +277,13 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { payload, meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields } }) {
+    [INITIALIZE](
+      state,
+      {
+        payload,
+        meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields }
+      }
+    ) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
 
@@ -345,7 +351,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           }
 
           if (!updateUnregisteredFields) {
-            forEach(keys(registeredFields), name => overwritePristineValue(name))
+            forEach(keys(registeredFields), name =>
+              overwritePristineValue(name)
+            )
           }
 
           forEach(keys(newInitialValues), name => {
@@ -440,7 +448,6 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         }
         result = setIn(result, 'submitFailed', true)
       } else {
-        result = setIn(result, 'submitSucceeded', true)
         result = deleteIn(result, 'error')
         result = deleteIn(result, 'submitErrors')
       }

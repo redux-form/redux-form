@@ -16,8 +16,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
     expect(state).toEqualMap({
       foo: {
         doesnt: 'matter',
-        should: 'notchange',
-        submitSucceeded: true
+        should: 'notchange'
       }
     })
   })
@@ -238,8 +237,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
               touched: true
             }
           ]
-        },
-        submitSucceeded: true
+        }
       }
     })
   })
@@ -307,8 +305,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
           myField: {
             touched: true
           }
-        },
-        submitSucceeded: true
+        }
       }
     })
   })
@@ -364,8 +361,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
     expect(state).toEqualMap({
       foo: {
         doesnt: 'matter',
-        should: 'notchange',
-        submitSucceeded: true
+        should: 'notchange'
       }
     })
   })
