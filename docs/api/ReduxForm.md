@@ -70,7 +70,15 @@ at "design time" or passed in as props to your component at runtime.**
 #### `enableReinitialize : boolean` [optional]
 
 > When set to `true`, the form will reinitialize every time the `initialValues`
-> prop changes. Defaults to `false`. If the `keepDirtyOnReinitialize` option is
+> prop changes. Defaults to `false`. If the `
+
+
+
+
+
+
+
+` option is
 > also set, the form will retain the value of dirty fields when reinitializing.
 
 #### `forceUnregisterOnUnmount : boolean` [optional]
@@ -110,7 +118,7 @@ at "design time" or passed in as props to your component at runtime.**
 
 #### `updateUnregisteredFields : boolean` [optional]
 
-> Used in combination with `keepDirty(OnReinitialize)`. Will update every
+> Used in combination with `keepDirtyOnReinitialize`. Will update every
 > initialValue which is still pristine. Normally only registered Fields will be
 > updated. In most cases, this option should be set to `true` to work as
 > expected and avoid edge cases. It defaults to `false` because of non-breaking
