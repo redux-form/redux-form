@@ -70,15 +70,7 @@ at "design time" or passed in as props to your component at runtime.**
 #### `enableReinitialize : boolean` [optional]
 
 > When set to `true`, the form will reinitialize every time the `initialValues`
-> prop changes. Defaults to `false`. If the `
-
-
-
-
-
-
-
-` option is
+> prop changes. Defaults to `false`. If the `keepDirtyOnReinitialize` option is
 > also set, the form will retain the value of dirty fields when reinitializing.
 
 #### `forceUnregisterOnUnmount : boolean` [optional]
