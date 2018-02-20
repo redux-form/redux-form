@@ -134,6 +134,12 @@ Allows you to to provide a field-level warning rule. The function is given the f
 If `true`, the rendered component will be available with the `getRenderedComponent()` method.
 Defaults to `false`. **Cannot be used if your component is a stateless function component.**
 
+#### `immutableProps : Array<String>` [optional]
+
+> Prop names that only require strict-equals, not deep equals, to determine
+> `shouldComponentUpdate`. Useful for performance and compatibility with 3rd
+> party immutable libraries. Defaults to `[]`.
+
 ## Usage
 
 The `component` prop will be passed to

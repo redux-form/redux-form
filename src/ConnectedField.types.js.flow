@@ -14,6 +14,7 @@ export type Props = {
   component: Function | string,
   withRef?: boolean,
   _reduxForm: Context,
+  immutableProps?: Array<string>,
 
   // same as Props in createFieldProps.js:
   asyncError: any,

@@ -22,7 +22,8 @@ export type Props = {
   props?: Object,
   validate?: Validator | Validator[],
   warn?: Validator | Validator[],
-  withRef?: boolean
+  withRef?: boolean,
+  immutableProps?: Array<string>
 }
 
 export type InputProps = {
