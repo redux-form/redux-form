@@ -118,10 +118,11 @@ const createConnectedField = (structure: Structure<*, *>) => {
               }
             },
             newValue,
-            previousValue
+            previousValue,
+            name
           )
         } else {
-          onChange(event, newValue, previousValue)
+          onChange(event, newValue, previousValue, name)
         }
       }
       if (!defaultPrevented) {
@@ -141,15 +142,18 @@ const createConnectedField = (structure: Structure<*, *>) => {
       let defaultPrevented = false
       if (onFocus) {
         if (!isReactNative) {
-          onFocus({
-            ...event,
-            preventDefault: () => {
-              defaultPrevented = true
-              return eventPreventDefault(event)
-            }
-          })
+          onFocus(
+            {
+              ...event,
+              preventDefault: () => {
+                defaultPrevented = true
+                return eventPreventDefault(event)
+              }
+            },
+            name
+          )
         } else {
-          onFocus(event)
+          onFocus(event, name)
         }
       }
 
@@ -189,10 +193,11 @@ const createConnectedField = (structure: Structure<*, *>) => {
               }
             },
             newValue,
-            previousValue
+            previousValue,
+            name
           )
         } else {
-          onBlur(event, newValue, previousValue)
+          onBlur(event, newValue, previousValue, name)
         }
       }
 
@@ -208,11 +213,11 @@ const createConnectedField = (structure: Structure<*, *>) => {
     }
 
     handleDragStart = (event: any) => {
-      const { onDragStart, value } = this.props
+      const { name, onDragStart, value } = this.props
       eventDataTransferSetData(event, dataKey, value == null ? '' : value)
 
       if (onDragStart) {
-        onDragStart(event)
+        onDragStart(event, name)
       }
     }
 
@@ -237,7 +242,8 @@ const createConnectedField = (structure: Structure<*, *>) => {
             }
           },
           newValue,
-          previousValue
+          previousValue,
+          name
         )
       }
 

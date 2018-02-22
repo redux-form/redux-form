@@ -7,16 +7,16 @@ export type Props = {
   asyncError: any,
   asyncValidating: boolean,
   onBlur: {
-    (event: Event, newValue: ?any, previousValue: ?any): void
+    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
   },
   onChange: {
-    (event: Event, newValue: ?any, previousValue: ?any): void
+    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
   },
   onDrop: {
-    (event: Event, newValue: ?any, previousValue: ?any): void
+    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
   },
-  onDragStart: { (event: Event): void },
-  onFocus: { (event: Event): void },
+  onDragStart: { (event: Event, name: ?string): void },
+  onFocus: { (event: Event, name: ?string): void },
   dirty: boolean,
   dispatch: Dispatch<*>,
   form: string,
