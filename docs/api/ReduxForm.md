@@ -48,7 +48,7 @@ at "design time" or passed in as props to your component at runtime.**
 > function.
 
 > See
-> [Asynchronous Change Validation Example](https://redux-form.com/7.2.3/examples/asyncChangeFieldsValidation/)
+> [Asynchronous Change Validation Example](https://redux-form.com/7.2.3/examples/asyncChangeValidation/)
 > for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
