@@ -219,9 +219,6 @@ export type Props = {
   enableReinitialize: boolean,
   error?: any,
   syncFormWideError?: any,
-  asyncFormWideError?: any,
-  submitFormWideError?: any,
-  submitErrorsUpToDate: boolean,
   focus: FocusAction,
   form: string,
   getFormState: GetFormState,
@@ -392,7 +389,6 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
         }
 
-        // Runs synchronous validators
         validateIfNeeded(nextProps: ?Props) {
           const { shouldValidate, shouldError, validate, values } = this.props
           const fieldLevelValidate = this.generateValidator()
@@ -811,6 +807,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             dispatch,
             enableReinitialize,
             error,
+            syncFormWideError,
             focus,
             form,
             getFormState,
@@ -952,7 +949,6 @@ const createReduxForm = (structure: Structure<*, *>) => {
           const pristine = shouldResetValues || deepEqual(initial, values)
           const asyncErrors = getIn(formState, 'asyncErrors')
           const syncErrors = getIn(formState, 'syncErrors') || {}
-          const submitErrors = getIn(formState, 'submitErrors')
           const syncWarnings = getIn(formState, 'syncWarnings') || {}
           const registeredFields = getIn(formState, 'registeredFields')
           const valid = isValid(form, getFormState, false)(state)
@@ -962,7 +958,6 @@ const createReduxForm = (structure: Structure<*, *>) => {
           const submitFailed = !!getIn(formState, 'submitFailed')
           const submitSucceeded = !!getIn(formState, 'submitSucceeded')
           const syncFormWideError = getIn(formState, 'syncFormWideError')
-          const submitFormWideError = getIn(formState, 'submitFormWideError')
           const error =
             syncFormWideError ||
             getIn(formState, 'asyncFormWideError') ||
@@ -982,10 +977,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
             pristine,
             registeredFields,
             submitting,
-            submitErrors,
             submitFailed,
             submitSucceeded,
-            submitFormWideError,
             syncErrors,
             syncWarnings,
             triggerSubmit,
