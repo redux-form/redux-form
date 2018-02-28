@@ -78,7 +78,7 @@ at "design time" or passed in as props to your component at runtime.**
 > Whether or not to force unregistration of fields -- use in conjunction with
 > `destroyOnUnmount`. Useful for wizard-type forms where you want to destroy
 > fields as they unmount, but not the form's state. Defaults to `false`, as
-> forms are normally unregistered on unmount.
+> forms are normally destroyed on unmount.
 
 #### `getFormState : Function` [optional]
 
