@@ -568,9 +568,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     [UPDATE_SYNC_WARNINGS](state, { payload: { syncWarnings, warning } }) {
       let result = state
       if (warning) {
-        result = setIn(result, 'warningSync', warning)
+        result = setIn(result, 'warning', warning)
       } else {
-        result = deleteIn(result, 'warningSync')
+        result = deleteIn(result, 'warning')
       }
       if (Object.keys(syncWarnings).length) {
         result = setIn(result, 'syncWarnings', syncWarnings)
