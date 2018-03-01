@@ -135,7 +135,7 @@ const describeIsValid = (name, structure, setup) => {
       ).toBe(false)
     })
 
-    it('should return false when there is a syncError', () => {
+    it('should return false when there is a sync form wide error', () => {
       expect(
         isValid('foo', getFormState)(
           fromJS({
@@ -145,8 +145,7 @@ const describeIsValid = (name, structure, setup) => {
                   dog: 'Odie',
                   cat: 'Garfield'
                 },
-                error: 'Bad data',
-                syncError: true,
+                syncFormWideError: 'Bad data',
                 registeredFields: {
                   dog: { name: 'dog', type: 'Field', count: 1 },
                   cat: { name: 'cat', type: 'Field', count: 1 }
@@ -224,6 +223,28 @@ const describeIsValid = (name, structure, setup) => {
                   cats: {
                     _error: 'Too many cats'
                   }
+                }
+              }
+            }
+          })
+        )
+      ).toBe(false)
+    })
+
+    it('should return false when there is an async form wide error', () => {
+      expect(
+        isValid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                asyncFormWideError: 'Bad data',
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 }
               }
             }
@@ -316,11 +337,11 @@ const describeIsValid = (name, structure, setup) => {
                   dog: 'Odie',
                   cat: 'Garfield'
                 },
+                submitFormWideError: 'Bad data',
                 registeredFields: {
                   dog: { name: 'dog', type: 'Field', count: 1 },
                   cat: { name: 'cat', type: 'Field', count: 1 }
-                },
-                error: 'Form wide'
+                }
               }
             }
           })
@@ -328,7 +349,32 @@ const describeIsValid = (name, structure, setup) => {
       ).toBe(false)
     })
 
-    it('should return true when there are submit errors for registered fields but told to ignore submit errors', () => {
+    it('should return false when there are submit errors for registered fields and told to ignore outdated submit errors, but errors are still relevant', () => {
+      expect(
+        isValid('foo', getFormState, true)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                },
+                submitErrors: {
+                  dog: 'Too old'
+                },
+                submitErrorsUpToDate: true
+              }
+            }
+          })
+        )
+      ).toBe(false)
+    })
+
+    it('should return true when there are outdated submit errors for registered fields but told to ignore outdated submit errors', () => {
       expect(
         isValid('foo', getFormState, true)(
           fromJS({
@@ -352,7 +398,7 @@ const describeIsValid = (name, structure, setup) => {
       ).toBe(true)
     })
 
-    it('should return true when there is a form-wide submit error, but ignoring submit errors', () => {
+    it('should return false when there is form-wide submit error that is still relevant, but ignoring outdated submit errors', () => {
       expect(
         isValid('foo', getFormState, true)(
           fromJS({
@@ -366,7 +412,31 @@ const describeIsValid = (name, structure, setup) => {
                   dog: { name: 'dog', type: 'Field', count: 1 },
                   cat: { name: 'cat', type: 'Field', count: 1 }
                 },
-                error: 'Form wide'
+                submitFormWideError: 'Form wide',
+                submitErrorsUpToDate: true
+              }
+            }
+          })
+        )
+      ).toBe(false)
+    })
+
+    it('should return true when there is an outdated form-wide submit error, but ignoring outdated submit errors', () => {
+      expect(
+        isValid('foo', getFormState, true)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                },
+                submitFormWideError: 'Form wide',
+                submitErrorsUpToDate: false
               }
             }
           })

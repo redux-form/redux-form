@@ -24,7 +24,7 @@ const describeGetFormError = (name, structure, setup) => {
           fromJS({
             form: {
               foo: {
-                error: 'Wow'
+                syncFormWideError: 'Wow'
               }
             }
           })
@@ -32,7 +32,66 @@ const describeGetFormError = (name, structure, setup) => {
       ).toBe('Wow')
     })
 
-    it('should return undefined when it is not presented', () => {
+    it('should return async error when it is presented', () => {
+      expect(
+        getFormError('foo')(
+          fromJS({
+            form: {
+              foo: {
+                asyncFormWideError: 'Wow'
+              }
+            }
+          })
+        )
+      ).toBe('Wow')
+    })
+
+    it('should return submit error when it is presented', () => {
+      expect(
+        getFormError('foo')(
+          fromJS({
+            form: {
+              foo: {
+                submitFormWideError: 'Wow'
+              }
+            }
+          })
+        )
+      ).toBe('Wow')
+    })
+
+    it('should prioritize async error to submit error when it is presented', () => {
+      expect(
+        getFormError('foo')(
+          fromJS({
+            form: {
+              foo: {
+                asyncFormWideError: 'Wow (async)',
+                submitFormWideError: 'Wow (submit)'
+              }
+            }
+          })
+        )
+      ).toBe('Wow (async)')
+    })
+
+    it('should prioritize sync error when it is presented', () => {
+      expect(
+        getFormError('foo')(
+          fromJS({
+            form: {
+              foo: {
+                syncFormWideError: 'Wow (sync)',
+                asyncFormWideError: 'Wow (async)',
+                submitFormWideError: 'Wow (submit)'
+              }
+            }
+          })
+        )
+      ).toBe('Wow (sync)')
+    })
+
+    it('should return undefined when error is not presented', () => {
       expect(
         getFormError('foo')(
           fromJS({
@@ -48,12 +107,14 @@ const describeGetFormError = (name, structure, setup) => {
           fromJS({
             someOtherSlice: {
               foo: {
-                error: 'Wow'
+                syncFormWideError: 'Wow (sync)',
+                asyncFormWideError: 'Wow (async)',
+                submitFormWideError: 'Wow (submit)'
               }
             }
           })
         )
-      ).toBe('Wow')
+      ).toBe('Wow (sync)')
     })
   })
 }

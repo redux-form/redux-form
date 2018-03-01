@@ -280,7 +280,7 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
           submitErrors: {
             myField: 'submit error'
           },
-          error: 'some global error'
+          submitFormWideError: 'some global error'
         }
       }),
       change('foo', 'myField', 'different', false, true)
@@ -293,7 +293,8 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
         submitErrors: {
           myField: 'submit error'
         },
-        error: 'some global error'
+        submitFormWideError: 'some global error',
+        submitErrorsUpToDate: false
       }
     })
   })

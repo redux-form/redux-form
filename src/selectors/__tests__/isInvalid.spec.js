@@ -135,7 +135,7 @@ const describeIsInvalid = (name, structure, setup) => {
       ).toBe(true)
     })
 
-    it('should return true when there is a syncError', () => {
+    it('should return true when there is a sync form-wide error', () => {
       expect(
         isInvalid('foo', getFormState)(
           fromJS({
@@ -145,8 +145,7 @@ const describeIsInvalid = (name, structure, setup) => {
                   dog: 'Odie',
                   cat: 'Garfield'
                 },
-                error: 'Bad Data',
-                syncError: true,
+                syncFormWideError: 'Bad Data',
                 registeredFields: {
                   dog: { name: 'dog', type: 'Field', count: 1 },
                   cat: { name: 'cat', type: 'Field', count: 1 }
@@ -232,6 +231,28 @@ const describeIsInvalid = (name, structure, setup) => {
       ).toBe(true)
     })
 
+    it('should return true when there is an async form wide error', () => {
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                asyncFormWideError: 'Bad data',
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
+                }
+              }
+            }
+          })
+        )
+      ).toBe(true)
+    })
+
     it('should return false when there are submit errors for a NON-registered field', () => {
       expect(
         isInvalid('foo', getFormState)(
@@ -298,6 +319,28 @@ const describeIsInvalid = (name, structure, setup) => {
                   cats: {
                     _error: 'Too many cats'
                   }
+                }
+              }
+            }
+          })
+        )
+      ).toBe(true)
+    })
+
+    it('should return true when there is a form-wide submit error', () => {
+      expect(
+        isInvalid('foo', getFormState)(
+          fromJS({
+            form: {
+              foo: {
+                values: {
+                  dog: 'Odie',
+                  cat: 'Garfield'
+                },
+                submitFormWideError: 'Bad data',
+                registeredFields: {
+                  dog: { name: 'dog', type: 'Field', count: 1 },
+                  cat: { name: 'cat', type: 'Field', count: 1 }
                 }
               }
             }

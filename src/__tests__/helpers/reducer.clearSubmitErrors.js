@@ -29,7 +29,7 @@ const describeClearSubmitErrors = (reducer, expect, { fromJS }) => () => {
           submitErrors: {
             some: 'error'
           },
-          error: 'form-wide error',
+          submitFormWideError: 'form-wide error',
           active: 'otherField',
           triggerSubmit: true
         }

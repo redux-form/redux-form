@@ -79,7 +79,7 @@ const describeClearFields = (reducer, expect, { fromJS }) => () => {
             }
           },
           anyTouched: true,
-          error: 'some global error'
+          submitFormWideError: 'some global error'
         }
       }),
       clearFields('foo', false, true, 'myField', 'myOtherField')
@@ -98,7 +98,8 @@ const describeClearFields = (reducer, expect, { fromJS }) => () => {
           myField: 'submit error',
           myOtherField: 'submit error'
         },
-        error: 'some global error'
+        submitErrorsUpToDate: false,
+        submitFormWideError: 'some global error'
       }
     })
   })
@@ -266,7 +267,8 @@ const describeClearFields = (reducer, expect, { fromJS }) => () => {
               touched: true
             }
           },
-          error: 'some global error',
+          submitErrorsUpToDate: true,
+          submitFormWideError: 'some global error',
           anyTouched: true
         }
       }),
@@ -296,7 +298,8 @@ const describeClearFields = (reducer, expect, { fromJS }) => () => {
           myField: 'submit error',
           myOtherField: 'submit error'
         },
-        error: 'some global error',
+        submitErrorsUpToDate: false,
+        submitFormWideError: 'some global error',
         anyTouched: true
       }
     })

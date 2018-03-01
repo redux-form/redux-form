@@ -78,6 +78,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
             myOtherField: 'Error about myOtherField'
           }
         },
+        submitErrorsUpToDate: true,
         fields: {
           bar: {
             myField: {
@@ -131,6 +132,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         submitErrors: {
           bar: ['Error about myField', 'Error about myOtherField']
         },
+        submitErrorsUpToDate: true,
         fields: {
           bar: [
             {
@@ -180,6 +182,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
           cat: ['Not funny', 'Sleeps too much'],
           dog: ['Unhelpful', 'Not house trained']
         },
+        submitErrorsUpToDate: true,
         fields: {
           cat: {
             touched: true
@@ -274,7 +277,8 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
             touched: true
           }
         },
-        error: 'some global error',
+        submitFormWideError: 'some global error',
+        submitErrorsUpToDate: true,
         submitFailed: true
       }
     })
@@ -293,7 +297,8 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
             }
           },
           submitting: true,
-          error: 'Previous global error'
+          submitFormWideError: 'Previous global error',
+          submitErrorsUpToDate: true
         }
       }),
       stopSubmit('foo')
@@ -326,7 +331,8 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
             }
           },
           submitting: true,
-          error: 'some global error'
+          submitFormWideError: 'Previous global error',
+          submitErrorsUpToDate: true
         }
       }),
       stopSubmit('foo', { myField: 'some submit error' })
@@ -339,6 +345,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
         submitErrors: {
           myField: 'some submit error'
         },
+        submitErrorsUpToDate: true,
         fields: {
           myField: {
             touched: true
@@ -412,6 +419,7 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
           myField: 'Error about myField',
           myOtherField: 'Error about myOtherField'
         },
+        submitErrorsUpToDate: true,
         fields: {
           myField: {
             touched: true
@@ -454,7 +462,8 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
             touched: true
           }
         },
-        error: 'This is a global error',
+        submitFormWideError: 'This is a global error',
+        submitErrorsUpToDate: true,
         submitFailed: true
       }
     })

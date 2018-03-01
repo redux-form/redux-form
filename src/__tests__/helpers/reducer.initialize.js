@@ -398,7 +398,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
           initial: {
             myField: 'initialValue'
           },
-          error: 'form wide error',
+          syncFormWideError: 'form wide error',
           syncErrors: {
             myField: 'field error'
           }
@@ -415,7 +415,7 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
         initial: {
           myField: 'newValue'
         },
-        error: 'form wide error',
+        syncFormWideError: 'form wide error',
         syncErrors: {
           myField: 'field error'
         }

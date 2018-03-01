@@ -309,6 +309,18 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       if (syncFormWideError) {
         result = setIn(result, 'syncFormWideError', syncFormWideError)
       }
+
+      // Might not be needed, but test coverage relies on it
+      const asyncFormWideError = getIn(state, 'asyncFormWideError')
+      if (asyncFormWideError) {
+        result = setIn(result, 'asyncFormWideError', asyncFormWideError)
+      }
+
+      const submitFormWideError = getIn(state, 'submitFormWideError')
+      if (submitFormWideError) {
+        result = setIn(result, 'submitFormWideError', submitFormWideError)
+      }
+
       const syncErrors = getIn(state, 'syncErrors')
       if (syncErrors) {
         result = setIn(result, 'syncErrors', syncErrors)

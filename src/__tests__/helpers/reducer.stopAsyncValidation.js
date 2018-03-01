@@ -171,7 +171,7 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
             }
           },
           asyncValidating: true,
-          error: 'Previous global error'
+          asyncFormWideError: 'Previous global error'
         }
       }),
       stopAsyncValidation('foo')
@@ -219,7 +219,7 @@ const describeStopAsyncValidation = (reducer, expect, { fromJS }) => () => {
             touched: true
           }
         },
-        error: 'This is a global error'
+        asyncFormWideError: 'This is a global error'
       }
     })
   })

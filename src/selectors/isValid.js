@@ -9,12 +9,12 @@ const createIsValid = (structure: Structure<*, *>) => {
   return (
     form: string,
     getFormState: ?GetFormState,
-    ignoreSubmitErrors: ?boolean = false
+    ignoreOutdatedSubmitErrors: ?boolean = false
   ): IsValidInterface => (state: any) => {
     const nonNullGetFormState: GetFormState =
       getFormState || (state => getIn(state, 'form'))
     const formState = nonNullGetFormState(state)
-    const submitErrorsToBeRespected = !ignoreSubmitErrors
+    const submitErrorsToBeRespected = !ignoreOutdatedSubmitErrors
       ? true
       : !!getIn(formState, `${form}.submitErrorsUpToDate`)
 

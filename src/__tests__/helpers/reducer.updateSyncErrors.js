@@ -62,8 +62,7 @@ const describeUpdateSyncErrors = (reducer, expect, { fromJS, setIn }) => () => {
               myField: 'value',
               myOtherField: 'otherValue'
             },
-            syncError: true,
-            error: 'form wide error'
+            syncFormWideError: 'form wide error'
           }
         }),
         'foo.syncErrors',
