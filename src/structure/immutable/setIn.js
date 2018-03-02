@@ -8,10 +8,17 @@ const arrayPattern = /\[(\d+)\]/
 const undefinedArrayMerge = (previous, next) =>
   next !== undefined ? next : previous
 
-const mergeLists = (original, value) =>
-  original && List.isList(original)
-    ? original.toMap().mergeDeepWith(undefinedArrayMerge, value.toMap()).toList()
-    : value
+const mergeLists = (originalList, value) => {
+  if (originalList && List.isList(originalList)) {
+    return originalList
+      .map((originalListValue, index) =>
+        undefinedArrayMerge(value.get(index), originalListValue)
+      )
+      .concat(value.slice(originalList.size))
+  }
+
+  return value
+}
 
 /*
  * ImmutableJS' setIn function doesn't support array (List) creation

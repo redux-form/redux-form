@@ -1,11 +1,12 @@
 {
   "name": "redux-form",
-  "version": "7.2.1",
+  "version": "7.2.3",
   "description":
     "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "jsnext:main": "./es/index.js",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/erikras/redux-form"
@@ -28,6 +29,8 @@
     "lint": "eslint src",
     "example":
       "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
+    "example:asyncChangeValidation":
+      "form=asyncChangeValidation npm run example",
     "example:asyncValidation": "form=asyncValidation npm run example",
     "example:fieldArrays": "form=fieldArrays npm run example",
     "example:fieldLevelValidation": "form=fieldLevelValidation npm run example",

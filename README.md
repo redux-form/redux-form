@@ -5,7 +5,7 @@
 ---
 
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
-[![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
+[![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://npmcharts.com/compare/redux-form?minimal=true)
 [![Build Status](https://img.shields.io/travis/erikras/redux-form/v6.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
 [![codecov.io](https://codecov.io/gh/erikras/redux-form/branch/master/graph/badge.svg)](https://codecov.io/gh/erikras/redux-form)
 [![Code Climate](https://codeclimate.com/github/erikras/redux-form/badges/gpa.svg)](https://codeclimate.com/github/erikras/redux-form)
@@ -21,9 +21,9 @@ enable an html form in [React](https://github.com/facebook/react) to use
 
 ## Sponsorship
 
-Redux-form is proudly sponsored by [Rollbar](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4). They provide real-time error monitoring, alerting, and analytics for developers. [Try Rollbar for free](https://cs.berry.sh/c/1c4ce130-ac45-48c2-a057-ecce3b62b8e4).
+Redux-form is proudly sponsored by [Rollbar](https://codesponsor.io/t/c/07f83dcd8b17080d225df0abb69cdd0a/). They provide real-time error monitoring, alerting, and analytics for developers. [Try Rollbar for free](https://codesponsor.io/t/c/07f83dcd8b17080d225df0abb69cdd0a/).
 
-![](https://cs.berry.sh/l/1c4ce130-ac45-48c2-a057-ecce3b62b8e4/pixel.png)
+![](https://codesponsor.io/t/l/07f83dcd8b17080d225df0abb69cdd0a/pixel.png)
 
 ## Installation
 
@@ -31,12 +31,12 @@ Redux-form is proudly sponsored by [Rollbar](https://cs.berry.sh/c/1c4ce130-ac45
 
 ## Documentation
 
-* [Getting Started](https://redux-form.com/7.2.1/docs/GettingStarted.md/)
-* [Examples](https://redux-form.com/7.2.1/examples/)
-* [API](https://redux-form.com/7.2.1/docs/api/)
-* [FAQ](https://redux-form.com/7.2.1/docs/faq/)
+* [Getting Started](https://redux-form.com/7.2.3/docs/GettingStarted.md/)
+* [Examples](https://redux-form.com/7.2.3/examples/)
+* [API](https://redux-form.com/7.2.3/docs/api/)
+* [FAQ](https://redux-form.com/7.2.3/docs/faq/)
 * [Release Notes](https://github.com/erikras/redux-form/releases)
-* [Older Documentation](https://redux-form.com/7.2.1/docs/DocumentationVersions.md/)
+* [Older Documentation](https://redux-form.com/7.2.3/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
 

@@ -10,6 +10,7 @@ import createField from '../createField'
 import createFieldArray from '../createFieldArray'
 import createReducer from '../createReducer'
 import createReduxForm from '../createReduxForm'
+import formPropTypes from '../propTypes'
 import FormSection from '../FormSection'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
@@ -218,6 +219,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(typeof props.touch).toBe('function')
       expect(typeof props.untouch).toBe('function')
       expect(typeof props.valid).toBe('boolean')
+    })
+
+    it('should have declared all propTypes passed to decorated component', () => {
+      const passedProps = Object.keys(propChecker({})).sort()
+      const declaredPropTypes = Object.keys(formPropTypes).sort()
+
+      expect(passedProps).toEqual(declaredPropTypes)
     })
 
     describe('dirty prop', () => {
@@ -735,6 +743,71 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 0).meta.pristine).toBe(true)
       expect(propsAtNthRender(inputRender, 0).meta.dirty).toBe(false)
       expect(propsAtNthRender(inputRender, 0).input.value).toBe('bar')
+    })
+
+    it('should support calling change in Form componentDidMount', () => {
+      const store = makeStore({})
+      const inputRender = jest.fn(props => <input {...props.input} />)
+      const formRender = jest.fn()
+      const initialValues = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      class Form extends Component {
+        componentDidMount() {
+          this.props.change('deep.foo', 'baz')
+        }
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated initialValues={initialValues} />
+        </Provider>
+      )
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            initial: initialValues,
+            values: {
+              deep: {
+                foo: 'baz'
+              }
+            },
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 }
+            }
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender).toHaveBeenCalledTimes(2)
+      const checkProps = props => {
+        expect(props.pristine).toBe(false)
+        expect(props.dirty).toBe(true)
+        expect(props.initialized).toBe(true)
+        expect(props.initialValues).toEqualMap(initialValues)
+      }
+      checkProps(propsAtNthRender(formRender, 1))
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputRender, 0).meta.pristine).toBe(true)
+      expect(propsAtNthRender(inputRender, 0).meta.dirty).toBe(false)
+      expect(propsAtNthRender(inputRender, 0).input.value).toBe('bar')
+
+      // should be dirty on second render, after change completes
+      expect(propsAtNthRender(inputRender, 1).meta.pristine).toBe(false)
+      expect(propsAtNthRender(inputRender, 1).meta.dirty).toBe(true)
+      expect(propsAtNthRender(inputRender, 1).input.value).toBe('baz')
     })
 
     it('should initialize with initialValues on later render if not already initialized', () => {

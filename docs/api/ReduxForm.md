@@ -39,7 +39,16 @@ at "design time" or passed in as props to your component at runtime.**
 > async validation only being run before submission.
 
 > See
-> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.1/examples/asyncValidation/)
+> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.3/examples/asyncValidation/)
+> for more details.
+
+#### -`asyncChangeFields : Array<String>` [optional]
+
+> field names for which `onChange` should trigger a call to the `asyncValidate`
+> function.
+
+> See
+> [Asynchronous Change Validation Example](https://redux-form.com/7.2.3/examples/asyncChangeValidation/)
 > for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
@@ -50,7 +59,7 @@ at "design time" or passed in as props to your component at runtime.**
 > object of validation errors in the form `{ field1: <String>, field2: <String> }`.
 
 > See
-> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.1/examples/asyncValidation/)
+> [Asynchronous Blur Validation Example](https://redux-form.com/7.2.3/examples/asyncValidation/)
 > for more details.
 
 #### `destroyOnUnmount : boolean` [optional]
@@ -69,7 +78,7 @@ at "design time" or passed in as props to your component at runtime.**
 > Whether or not to force unregistration of fields -- use in conjunction with
 > `destroyOnUnmount`. Useful for wizard-type forms where you want to destroy
 > fields as they unmount, but not the form's state. Defaults to `false`, as
-> forms are normally unregistered on unmount.
+> forms are normally destroyed on unmount.
 
 #### `getFormState : Function` [optional]
 
@@ -101,7 +110,7 @@ at "design time" or passed in as props to your component at runtime.**
 
 #### `updateUnregisteredFields : boolean` [optional]
 
-> Used in combination with `keepDirty(OnReinitialize)`. Will update every
+> Used in combination with `keepDirtyOnReinitialize`. Will update every
 > initialValue which is still pristine. Normally only registered Fields will be
 > updated. In most cases, this option should be set to `true` to work as
 > expected and avoid edge cases. It defaults to `false` because of non-breaking
@@ -257,7 +266,8 @@ if (!syncValidationPasses) {
 }
 switch (trigger) {
   case 'blur':
-    // blurring
+  case 'change':
+    // blurring or changing
     return true
   case 'submit':
     // submitting, so only async validate if form is dirty or was never initialized
@@ -374,7 +384,7 @@ switch (trigger) {
 > validation fails, it should return the validation errors in the form `{ field1: <String>, field2: <String> }`. Defaults to `(values, props) => ({})`.
 
 > See
-> [Synchronous Validation Example](https://redux-form.com/7.2.1/examples/syncValidation/)
+> [Synchronous Validation Example](https://redux-form.com/7.2.3/examples/syncValidation/)
 > for more details.
 
 #### `warn : (values:Object, props:Object) => warnings:Object` [optional]

@@ -2432,6 +2432,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
+      expect(callback.mock.calls[0][3]).toBe('foo')
 
       // value changed
       expect(renderInput).toHaveBeenCalledTimes(2)
@@ -2475,6 +2476,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
+      expect(callback.mock.calls[0][3]).toBe('foo')
 
       // value NOT changed
       expect(renderInput).toHaveBeenCalledTimes(1)
@@ -2518,6 +2520,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
+      expect(callback.mock.calls[0][3]).toBe('foo')
 
       // value changed
       expect(renderInput).toHaveBeenCalledTimes(2)
@@ -2561,6 +2564,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
+      expect(callback.mock.calls[0][3]).toBe('foo')
 
       // value NOT changed
       expect(renderInput).toHaveBeenCalledTimes(1)
@@ -2604,6 +2608,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).toHaveBeenCalled()
       expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
+      expect(callback.mock.calls[0][1]).toBe('foo')
 
       // field marked active
       expect(renderInput).toHaveBeenCalledTimes(2)
@@ -2647,6 +2652,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).toHaveBeenCalled()
       expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy()
+      expect(callback.mock.calls[0][1]).toBe('foo')
 
       // field NOT marked active
       expect(renderInput).toHaveBeenCalledTimes(1)
@@ -2691,6 +2697,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
+      expect(callback.mock.calls[0][3]).toBe('foo')
 
       // value changed
       expect(renderInput).toHaveBeenCalledTimes(2)
@@ -2736,6 +2743,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback.mock.calls[0][0]).toBeTruthy()
       expect(callback.mock.calls[0][1]).toBe('bar')
       expect(callback.mock.calls[0][2]).toBe(undefined)
+      expect(callback.mock.calls[0][3]).toBe('foo')
 
       // value NOT changed
       expect(renderInput).toHaveBeenCalledTimes(1)
@@ -2782,6 +2790,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(callback).toHaveBeenCalled()
       expect(callback).toHaveBeenCalledTimes(1)
       expect(callback.mock.calls[0][0]).toBeTruthy() // event
+      expect(callback.mock.calls[0][1]).toBe('foo')
 
       // value NOT changed
       expect(renderInput).toHaveBeenCalledTimes(1)

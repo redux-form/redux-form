@@ -541,7 +541,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         componentDidMount() {
           if (!isHotReloading()) {
-            this.initIfNeeded()
+            this.initIfNeeded(this.props)
             this.validateIfNeeded()
             this.warnIfNeeded()
           }
