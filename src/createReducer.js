@@ -277,7 +277,18 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'active', field)
       return result
     },
-    [INITIALIZE](state, { payload, meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields } }) {
+    [INITIALIZE](
+      state,
+      {
+        payload,
+        meta: {
+          keepDirty,
+          keepSubmitSucceeded,
+          updateUnregisteredFields,
+          keepValues
+        }
+      }
+    ) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
 
@@ -308,8 +319,8 @@ function createReducer<M, L>(structure: Structure<M, L>) {
 
       const previousValues = getIn(state, 'values')
       const previousInitialValues = getIn(state, 'initial')
-      const newInitialValues = mapData
 
+      let newInitialValues = mapData
       let newValues = previousValues
 
       if (keepDirty && registeredFields) {
@@ -345,7 +356,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           }
 
           if (!updateUnregisteredFields) {
-            forEach(keys(registeredFields), name => overwritePristineValue(name))
+            forEach(keys(registeredFields), name =>
+              overwritePristineValue(name)
+            )
           }
 
           forEach(keys(newInitialValues), name => {
@@ -363,6 +376,20 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         }
       } else {
         newValues = newInitialValues
+      }
+
+      if (keepValues) {
+        forEach(keys(previousValues), name => {
+          const previousValue = getIn(previousValues, name)
+
+          newValues = setIn(newValues, name, previousValue)
+        })
+
+        forEach(keys(previousInitialValues), name => {
+          const previousInitialValue = getIn(previousInitialValues, name)
+
+          newInitialValues = setIn(newInitialValues, name, previousInitialValue)
+        })
       }
 
       if (keepSubmitSucceeded && getIn(state, 'submitSucceeded')) {
