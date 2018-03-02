@@ -7,8 +7,8 @@ const warn = values => {
   if (values.get('email') && /.+@aol\.com/.test(values.get('email'))) {
     errors.email = 'Really? You still use AOL for your email?'
   }
-  if (values.get('age') && values.get('age') > 65) {
-    errors.age = 'You might be too old for this'
+  if (values.get('age') && values.get('age') < 13) {
+    errors.age = 'You do not meet the minimum age requirement!'
   }
   return errors
 }
