@@ -281,7 +281,6 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       state,
       {
         payload,
-        meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields }
         meta: {
           keepDirty,
           keepSubmitSucceeded,
