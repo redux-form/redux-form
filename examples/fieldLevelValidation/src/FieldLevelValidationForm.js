@@ -12,7 +12,7 @@ const number = value =>
   value && isNaN(Number(value)) ? 'Must be a number' : undefined
 const minValue = min => value =>
   value && value < min ? `Must be at least ${min}` : undefined
-const minValue1 = minValue(1)
+const minValue13 = minValue(13)
 const email = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'Invalid email address'
@@ -76,7 +76,7 @@ const FieldLevelValidationForm = props => {
         type="number"
         component={renderField}
         label="Age"
-        validate={[required, number, minValue18]}
+        validate={[required, number, minValue13]}
         warn={tooYoung}
       />
       <Field
