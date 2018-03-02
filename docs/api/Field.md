@@ -75,29 +75,29 @@ would pass `value => value.toUpperCase()`. The parameters to your normalize func
 > All the values in the entire form before the current change. This will be an Immutable `Map` if
 > you are using Immutable JS.
 
-#### `onBlur : (event, newValue, previousValue) => void` [optional]
+#### `onBlur : (event, newValue, previousValue, name) => void` [optional]
 
 A callback that will be called whenever an `onBlur` event is fired from the underlying input.
 If you call `event.preventDefault()`, the `BLUR` action will _NOT_ be dispatched, and the value
 and focus state will not be updated in the Redux store.
 
-#### `onChange : (event, newValue, previousValue) => void` [optional]
+#### `onChange : (event, newValue, previousValue, name) => void` [optional]
 
 A callback that will be called whenever an `onChange` event is fired from the underlying input.
 If you call `event.preventDefault()`, the `CHANGE` action will _NOT_ be dispatched, and the value
 will not be updated in the Redux store.
 
-#### `onDragStart : (event) => void` [optional]
+#### `onDragStart : (event, name) => void` [optional]
 
 A callback that will be called whenever an `onDragStart` event is fired from the underlying input.
 
-#### `onDrop : (event, newValue, previousValue) => void` [optional]
+#### `onDrop : (event, newValue, previousValue, name) => void` [optional]
 
 A callback that will be called whenever an `onDrop` event is fired from the underlying input.
 If you call `event.preventDefault()`, the `CHANGE` action will _NOT_ be dispatched, and the value
 will not be updated in the Redux store.
 
-#### `onFocus : (event) => void` [optional]
+#### `onFocus : (event, name) => void` [optional]
 
 A callback that will be called whenever an `onFocus` event is fired from the underlying input.
 If you call `event.preventDefault()`, the `FOCUS` action will _NOT_ be dispatched, and
