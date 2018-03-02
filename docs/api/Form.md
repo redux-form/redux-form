@@ -11,10 +11,10 @@ It is only useful if you are:
   component
 * **AND EITHER:**
   * initiating your submission via the
-    [`submit()` Instance API](http://redux-form.com/7.2.3/docs/api/ReduxForm.md/#-submit-promise-)
+    [`submit()` Instance API](http://redux-form.com/7.3.0/docs/api/ReduxForm.md/#-submit-promise-)
     (i.e. calling it directly on a reference to your decorated form component)
   * initiating your submission by
-    [dispatching the `submit(form)` action](http://redux-form.com/7.2.3/examples/remoteSubmit/)
+    [dispatching the `submit(form)` action](http://redux-form.com/7.3.0/examples/remoteSubmit/)
 
 If you are passing in your `onSubmit` function as a config parameter or prop,
 this component will do nothing for you.

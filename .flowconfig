@@ -1,5 +1,6 @@
 [ignore]
-./node_modules/**
+.*/node_modules/editions/.*
+.*/__tests__/.*
 
 [include]
 ./src/**

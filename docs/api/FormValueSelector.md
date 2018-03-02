@@ -22,7 +22,7 @@ import { formValueSelector } from 'redux-form' // ES6
 
 > The name of the form you are connecting to. Must be the same as the `form`
 > config value you gave to
-> [`reduxForm()`](https://redux-form.com/7.2.3/docs/api/ReduxForm.md/).
+> [`reduxForm()`](https://redux-form.com/7.3.0/docs/api/ReduxForm.md/).
 
 ### `getFormState : Function` [optional]
 
@@ -89,5 +89,5 @@ connect(state => selector(state, 'first', 'second'))(MyFormComponent)
 ## Example
 
 See the
-[Selecting Form Values](https://redux-form.com/7.2.3/examples/selectingFormValues/)
+[Selecting Form Values](https://redux-form.com/7.3.0/examples/selectingFormValues/)
 example.
