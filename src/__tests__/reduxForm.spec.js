@@ -5069,7 +5069,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         .then(() => {
           expect(onSubmit).toHaveBeenCalledTimes(2)
 
-          expect(renderSpy).toHaveBeenCalledTimes(6)
+          expect(renderSpy).toHaveBeenCalledTimes(7)
           expect(renderSpy.mock.calls[5][0]).toBe(true)
           expect(renderSpy.mock.calls[5][1]).toBe(undefined)
         })

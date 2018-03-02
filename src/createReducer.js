@@ -468,7 +468,6 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         }
         result = setIn(result, 'submitFailed', true)
       } else {
-        result = setIn(result, 'submitSucceeded', true)
         result = deleteIn(result, 'error')
         result = deleteIn(result, 'submitErrors')
       }
