@@ -48,7 +48,7 @@ at "design time" or passed in as props to your component at runtime.**
 > function.
 
 > See
-> [Asynchronous Change Validation Example](https://redux-form.com/7.2.3/examples/asyncChangeFieldsValidation/)
+> [Asynchronous Change Validation Example](https://redux-form.com/7.2.3/examples/asyncChangeValidation/)
 > for more details.
 
 #### `asyncValidate : (values:Object, dispatch:Function, props:Object, blurredField:String) => Promise<undefined, errors:Object>` [optional]
@@ -78,7 +78,7 @@ at "design time" or passed in as props to your component at runtime.**
 > Whether or not to force unregistration of fields -- use in conjunction with
 > `destroyOnUnmount`. Useful for wizard-type forms where you want to destroy
 > fields as they unmount, but not the form's state. Defaults to `false`, as
-> forms are normally unregistered on unmount.
+> forms are normally destroyed on unmount.
 
 #### `getFormState : Function` [optional]
 
@@ -110,7 +110,7 @@ at "design time" or passed in as props to your component at runtime.**
 
 #### `updateUnregisteredFields : boolean` [optional]
 
-> Used in combination with `keepDirty(OnReinitialize)`. Will update every
+> Used in combination with `keepDirtyOnReinitialize`. Will update every
 > initialValue which is still pristine. Normally only registered Fields will be
 > updated. In most cases, this option should be set to `true` to work as
 > expected and avoid edge cases. It defaults to `false` because of non-breaking

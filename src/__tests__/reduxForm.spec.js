@@ -10,6 +10,7 @@ import createField from '../createField'
 import createFieldArray from '../createFieldArray'
 import createReducer from '../createReducer'
 import createReduxForm from '../createReduxForm'
+import formPropTypes from '../propTypes'
 import FormSection from '../FormSection'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
@@ -216,6 +217,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(typeof props.touch).toBe('function')
       expect(typeof props.untouch).toBe('function')
       expect(typeof props.valid).toBe('boolean')
+    })
+
+    it('should have declared all propTypes passed to decorated component', () => {
+      const passedProps = Object.keys(propChecker({})).sort()
+      const declaredPropTypes = Object.keys(formPropTypes).sort()
+
+      expect(passedProps).toEqual(declaredPropTypes)
     })
 
     describe('dirty prop', () => {

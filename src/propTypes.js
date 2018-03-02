@@ -38,6 +38,8 @@ export const formPropTypes = {
   blur: func.isRequired, // action to mark a field as blurred
   change: func.isRequired, // action to change the value of a field
   clearAsyncError: func.isRequired, // action to clear the async error of a field
+  clearFields: func.isRequired, // action to clean fields values for all fields
+  clearSubmitErrors: func.isRequired, // action to remove submitErrors and error
   destroy: func.isRequired, // action to destroy the form's data in Redux
   dispatch: func.isRequired, // the Redux dispatch action
   handleSubmit: func.isRequired, // function to submit the form

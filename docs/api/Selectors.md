@@ -39,9 +39,9 @@ MyComponent = connect(
   state => ({
     values: getFormValues('myForm')(state),
     initialValues: getFormInitialValues('myForm')(state),
-    syncErrors: getFormSyncErrors('myForm')(state),
+    formSyncErrors: getFormSyncErrors('myForm')(state),
     fields: getFormMeta('myForm')(state),
-    asyncErrors: getFormAsyncErrors('myForm')(state),
+    formAsyncErrors: getFormAsyncErrors('myForm')(state),
     syncWarnings: getFormSyncWarnings('myForm')(state),
     submitErrors: getFormSubmitErrors('myForm')(state),
     formError: getFormError()(state),

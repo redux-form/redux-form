@@ -5,7 +5,7 @@
 ---
 
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
-[![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
+[![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://npmcharts.com/compare/redux-form?minimal=true)
 [![Build Status](https://img.shields.io/travis/erikras/redux-form/v6.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
 [![codecov.io](https://codecov.io/gh/erikras/redux-form/branch/master/graph/badge.svg)](https://codecov.io/gh/erikras/redux-form)
 [![Code Climate](https://codeclimate.com/github/erikras/redux-form/badges/gpa.svg)](https://codeclimate.com/github/erikras/redux-form)

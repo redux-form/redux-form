@@ -599,6 +599,73 @@ const describeInitialize = (reducer, expect, { fromJS }) => () => {
       }
     })
   })
+
+  it('should keep initial values although new ones are added', () => {
+    const initial = {
+      existingField: 'existingValue'
+    }
+
+    const newInitial = {
+      newField: 'newValue'
+    }
+
+    const expectedInitial = {
+      ...initial,
+      ...newInitial
+    }
+
+    const state = reducer(undefined, initialize('foo', initial))
+    const newState = reducer(
+      state,
+      initialize('foo', newInitial, { keepValues: true })
+    )
+
+    expect(newState).toEqualMap({
+      foo: {
+        initial: expectedInitial,
+        values: expectedInitial
+      }
+    })
+  })
+
+  it('should keep old values add new pristine values at the root level', () => {
+    const newInitial = {
+      newField: 'newValue'
+    }
+
+    const registeredFields = {
+      oldField: { name: 'oldField', type: 'Field', count: 1 }
+    }
+
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields,
+          values: {
+            oldField: 'oldValue'
+          },
+          initial: {
+            oldField: 'oldValue'
+          }
+        }
+      }),
+      initialize('foo', newInitial, true, { keepValues: true })
+    )
+
+    expect(state).toEqualMap({
+      foo: {
+        registeredFields,
+        values: {
+          oldField: 'oldValue',
+          newField: 'newValue'
+        },
+        initial: {
+          oldField: 'oldValue',
+          newField: 'newValue'
+        }
+      }
+    })
+  })
 }
 
 export default describeInitialize
