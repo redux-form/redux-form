@@ -164,6 +164,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'pristine',
         'pure',
         'reset',
+        'resetSection',
         'submit',
         'submitFailed',
         'submitSucceeded',
@@ -212,6 +213,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(typeof props.initialized).toBe('boolean')
       expect(typeof props.pristine).toBe('boolean')
       expect(typeof props.reset).toBe('function')
+      expect(typeof props.resetSection).toBe('function')
       expect(typeof props.submitFailed).toBe('boolean')
       expect(typeof props.submitSucceeded).toBe('boolean')
       expect(typeof props.touch).toBe('function')

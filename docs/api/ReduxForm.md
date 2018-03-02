@@ -422,6 +422,10 @@ otherwise.
 
 Resets the form to the `initialValues`. It will be `pristine` after reset.
 
+#### `resetSection(...sections:String) : void`
+
+Resets the form sections to the `initialValues`. It will be `pristine` after reset.
+
 #### `submit() : Promise`
 
 Submits the form. [You'd never have guessed that, right?] Returns a promise that

@@ -133,6 +133,7 @@ type DestroyAction = () => void
 type RegisterFieldAction = (name: string, type: FieldType) => void
 type UnregisterFieldAction = (name: string, destroyOnUnmount: ?boolean) => void
 type ResetAction = () => void
+type ResetSectionAction = () => void
 type SetSubmitFailedAction = (...fields: string[]) => void
 type SetSubmitSucceededAction = (...fields: string[]) => void
 type StartAsyncValidationAction = (field: string) => void
@@ -236,6 +237,7 @@ export type Props = {
   registeredFields: Array<{ name: string, type: FieldType, count: number }>,
   registerField: RegisterFieldAction,
   reset: ResetAction,
+  resetSection: ResetSectionAction,
   setSubmitFailed: SetSubmitFailedAction,
   setSubmitSucceeded: SetSubmitSucceededAction,
   shouldAsyncValidate: ShouldAsyncValidateFunction,
@@ -861,6 +863,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             registeredFields,
             registerField,
             reset,
+            resetSection,
             setSubmitFailed,
             setSubmitSucceeded,
             shouldAsyncValidate,
@@ -910,6 +913,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             invalid,
             pristine,
             reset,
+            resetSection,
             submitting,
             submitFailed,
             submitSucceeded,

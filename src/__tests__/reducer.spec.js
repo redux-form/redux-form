@@ -28,6 +28,7 @@ import describeDestroy from './helpers/reducer.destroy'
 import describeFocus from './helpers/reducer.focus'
 import describeTouch from './helpers/reducer.touch'
 import describeReset from './helpers/reducer.reset'
+import describeResetSection from './helpers/reducer.resetSection'
 import describePlugin from './helpers/reducer.plugin'
 import describeStartSubmit from './helpers/reducer.startSubmit'
 import describeStopSubmit from './helpers/reducer.stopSubmit'
@@ -64,6 +65,7 @@ const tests = {
   destroy: describeDestroy,
   focus: describeFocus,
   reset: describeReset,
+  resetSection: describeResetSection,
   touch: describeTouch,
   setSubmitFailed: describeSetSubmitFailed,
   setSubmitSucceeded: describeSetSubmitSucceeded,

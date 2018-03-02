@@ -60,6 +60,7 @@ import type {
   InitializeAction,
   RegisterFieldAction,
   ResetAction,
+  ResetSectionAction,
   SetSubmitFailedAction,
   SetSubmitSucceededAction,
   StartAsyncValidationAction,
@@ -246,6 +247,7 @@ declare export var focus: FocusAction
 declare export var initialize: InitializeAction
 declare export var registerField: RegisterFieldAction
 declare export var reset: ResetAction
+declare export var resetSection: ResetSectionAction
 declare export var setSubmitFailed: SetSubmitFailedAction
 declare export var setSubmitSucceeded: SetSubmitSucceededAction
 declare export var startAsyncValidation: StartAsyncValidationAction

@@ -45,6 +45,7 @@ export const formPropTypes = {
   handleSubmit: func.isRequired, // function to submit the form
   initialize: func.isRequired, // action to initialize form data
   reset: func.isRequired, // action to reset the form data to previously initialized values
+  resetSection: func.isRequired, // action to reset the form sections data to previously initialized values
   touch: func.isRequired, // action to mark fields as touched
   submit: func.isRequired, // action to trigger a submission of the specified form
   untouch: func.isRequired, // action to mark fields as untouched

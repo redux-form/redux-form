@@ -181,6 +181,8 @@ export type RegisterField = {
 }
 export type ResetAction = { type: string, meta: { form: string } } & Action
 export type Reset = { (form: string): ResetAction }
+export type ResetSectionAction = { type: string, meta: { form: string, sections: string[] } } & Action
+export type ResetSection = { (form: string, ...sections: string[] ): ResetSectionAction }
 export type StartAsyncValidationAction = {
   type: string,
   meta: { form: string, field: string }
@@ -290,6 +292,7 @@ export type Actions = {
   initialize: Initialize,
   registerField: RegisterField,
   reset: Reset,
+  resetSection: ResetSection,
   startAsyncValidation: StartAsyncValidation,
   startSubmit: StartSubmit,
   stopAsyncValidation: StopAsyncValidation,

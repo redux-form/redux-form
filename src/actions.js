@@ -21,6 +21,7 @@ import {
   INITIALIZE,
   REGISTER_FIELD,
   RESET,
+  RESET_SECTION,
   CLEAR_FIELDS,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
@@ -81,6 +82,8 @@ import type {
   RegisterField,
   ResetAction,
   Reset,
+  ResetSectionAction,
+  ResetSection,
   StartAsyncValidationAction,
   StartAsyncValidation,
   StartSubmitAction,
@@ -315,6 +318,14 @@ const reset: Reset = (form: string): ResetAction => ({
   meta: { form }
 })
 
+const resetSection: ResetSection = (
+  form: string,
+  ...sections: string[]
+): ResetSectionAction => ({
+  type: RESET_SECTION,
+  meta: { form, sections }
+})
+
 const startAsyncValidation: StartAsyncValidation = (
   form: string,
   field: string
@@ -437,6 +448,7 @@ const actions = {
   initialize,
   registerField,
   reset,
+  resetSection,
   startAsyncValidation,
   startSubmit,
   stopAsyncValidation,

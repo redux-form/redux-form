@@ -61,6 +61,7 @@ import type {
   Initialize,
   RegisterField,
   Reset,
+  ResetSection,
   SetSubmitFailed,
   SetSubmitSucceeded,
   StartAsyncValidation,
@@ -246,6 +247,7 @@ declare export var focus: Focus
 declare export var initialize: Initialize
 declare export var registerField: RegisterField
 declare export var reset: Reset
+declare export var resetSection: ResetSection
 declare export var setSubmitFailed: SetSubmitFailed
 declare export var setSubmitSucceeded: SetSubmitSucceeded
 declare export var startAsyncValidation: StartAsyncValidation

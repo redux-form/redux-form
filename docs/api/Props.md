@@ -220,6 +220,11 @@ class SimpleForm extends Component {
 > Resets all the values in the form to the initialized state, making it pristine
 > again. This is a bound action creator, so it returns nothing.
 
+#### `resetSection(...sections:String) : Function`
+
+> Resets all the values in the form sections to the initialized state, making it pristine
+> again. This is a bound action creator, so it returns nothing.
+
 #### `submitFailed : boolean`
 
 > Starts as `false`. If `onSubmit` is called, and fails to submit _for any

@@ -19,6 +19,7 @@ import {
   INITIALIZE,
   REGISTER_FIELD,
   RESET,
+  RESET_SECTION,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
   START_ASYNC_VALIDATION,
@@ -57,6 +58,7 @@ const {
   initialize,
   registerField,
   reset,
+  resetSection,
   setSubmitFailed,
   setSubmitSucceeded,
   startAsyncValidation,
@@ -464,6 +466,19 @@ describe('actions', () => {
     })
 
     expect(isFSA(reset('myForm'))).toBe(true)
+  })
+
+  it('should create resetSection action', () => {
+    expect(resetSection('myForm', 'mySection')).toEqual({
+      type: RESET_SECTION,
+
+      meta: {
+        form: 'myForm',
+        sections: ['mySection']
+      }
+    })
+
+    expect(isFSA(resetSection('myForm', 'mySection'))).toBe(true)
   })
 
   it('should create destroy action', () => {

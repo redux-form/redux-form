@@ -120,6 +120,11 @@ actions such as `CHANGE` or `BLUR`, the specific field.
 > Resets the values in the form back to the values past in with the most recent
 > `initialize` action.
 
+### `resetSection(form:String, ...sections:String)`
+
+> Resets the values in the form sections back to the values past in with the most recent
+> `initialize` action.
+
 ### `setSubmitFailed(form:String, ...fields:String)`
 
 > Flips `submitFailed` flag `true`, removes `submitSucceeded` and `submitting`,
