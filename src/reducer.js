@@ -79,10 +79,18 @@ const behaviors = {
   [INITIALIZE](state, {data, fields, overwriteValues}) {
     return createInitialState(data, fields, state, overwriteValues);
   },
-  [REMOVE_ARRAY_VALUE](state, {path, index}) {
+  [REMOVE_ARRAY_VALUE](state, {path, index: indexOfValue, predicate}) {
     const array = read(path, state);
     const stateCopy = {...state};
     const arrayCopy = array ? [...array] : [];
+    let index;
+
+    if (predicate) {
+      index = arrayCopy.findIndex(predicate);
+    } else {
+      index = indexOfValue;
+    }
+
     if (index === undefined) {
       arrayCopy.pop();
     } else if (isNaN(index)) {

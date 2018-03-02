@@ -1580,6 +1580,55 @@ describe('reducer', () => {
     expect(isFieldValue(state.testForm.myField[1])).toBe(true);
   });
 
+  it('should remove an array value from by predicate', () => {
+    const state = reducer({
+      testForm: {
+        myField: [
+          makeFieldValue({
+            value: 'foo'
+          }),
+          makeFieldValue({
+            value: 'bar'
+          }),
+          makeFieldValue({
+            value: 'baz'
+          })
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      }
+    }, {
+      ...removeArrayValue('myField', (field) => field.value === 'bar'),
+      form: 'testForm'
+    });
+    expect(state.testForm)
+      .toEqual({
+        myField: [
+          {
+            value: 'foo',
+            _isFieldValue: true
+          },
+          {
+            value: 'baz',
+            _isFieldValue: true
+          }
+        ],
+        _active: undefined,
+        _asyncValidating: false,
+        [globalErrorKey]: undefined,
+        _initialized: false,
+        _submitting: false,
+        _submitFailed: false
+      });
+    expect(isFieldValue(state.testForm.myField)).toBe(false);
+    expect(isFieldValue(state.testForm.myField[0])).toBe(true);
+    expect(isFieldValue(state.testForm.myField[1])).toBe(true);
+  });
+
   it('should not change empty array value on swap', () => {
     const state = reducer({
       testForm: {

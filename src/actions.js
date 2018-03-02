@@ -1,5 +1,6 @@
 import { ADD_ARRAY_VALUE, AUTOFILL, BLUR, CHANGE, DESTROY, FOCUS, INITIALIZE, REMOVE_ARRAY_VALUE, RESET, START_ASYNC_VALIDATION,
   START_SUBMIT, STOP_ASYNC_VALIDATION, STOP_SUBMIT, SUBMIT_FAILED, SWAP_ARRAY_VALUES, TOUCH, UNTOUCH } from './actionTypes';
+import isFunction from './isFunction';
 
 export const addArrayValue = (path, value, index, fields) =>
   ({type: ADD_ARRAY_VALUE, path, value, index, fields});
@@ -26,8 +27,18 @@ export const initialize = (data, fields, overwriteValues = true) => {
   return {type: INITIALIZE, data, fields, overwriteValues};
 };
 
-export const removeArrayValue = (path, index) =>
-  ({type: REMOVE_ARRAY_VALUE, path, index});
+export const removeArrayValue = (path, indexOrPredicate) => {
+  let index;
+  let predicate;
+
+  if (isFunction(indexOrPredicate)) {
+    predicate = indexOrPredicate;
+  } else {
+    index = indexOrPredicate;
+  }
+
+  return ({type: REMOVE_ARRAY_VALUE, path, index, predicate});
+};
 
 export const reset = () =>
   ({type: RESET});
