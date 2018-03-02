@@ -110,7 +110,7 @@ at "design time" or passed in as props to your component at runtime.**
 
 #### `updateUnregisteredFields : boolean` [optional]
 
-> Used in combination with `keepDirty(OnReinitialize)`. Will update every
+> Used in combination with `keepDirtyOnReinitialize`. Will update every
 > initialValue which is still pristine. Normally only registered Fields will be
 > updated. In most cases, this option should be set to `true` to work as
 > expected and avoid edge cases. It defaults to `false` because of non-breaking
