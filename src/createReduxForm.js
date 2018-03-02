@@ -388,8 +388,20 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
         }
 
+        shouldErrorFunction(): ShouldValidateFunction | ShouldErrorFunction {
+          const { shouldValidate, shouldError } = this.props
+          const shouldValidateOverridden =
+            shouldValidate !== defaultShouldValidate
+          const shouldErrorOverridden = shouldError !== defaultShouldError
+
+          return shouldValidateOverridden && !shouldErrorOverridden
+            ? shouldValidate
+            : shouldError
+        }
+
         validateIfNeeded(nextProps: ?Props) {
-          const { shouldValidate, shouldError, validate, values } = this.props
+          const { validate, values } = this.props
+          const shouldError = this.shouldErrorFunction()
           const fieldLevelValidate = this.generateValidator()
           if (validate || fieldLevelValidate) {
             const initialRender = nextProps === undefined
@@ -403,10 +415,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
               fieldValidatorKeys,
               structure
             }
-            const shouldValidateResult = shouldValidate(validateParams)
-            const shouldErrorResult = shouldError(validateParams)
 
-            if (shouldValidateResult || shouldErrorResult) {
+            if (shouldError(validateParams)) {
               const propsToValidate =
                 initialRender || !nextProps ? this.props : nextProps
               const { _error, ...nextSyncErrors } = merge(
@@ -452,8 +462,20 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
         }
 
+        shouldWarnFunction(): ShouldValidateFunction | ShouldWarnFunction {
+          const { shouldValidate, shouldWarn } = this.props
+          const shouldValidateOverridden =
+            shouldValidate !== defaultShouldValidate
+          const shouldWarnOverridden = shouldWarn !== defaultShouldWarn
+
+          return shouldValidateOverridden && !shouldWarnOverridden
+            ? shouldValidate
+            : shouldWarn
+        }
+
         warnIfNeeded(nextProps: ?Props) {
-          const { shouldValidate, shouldWarn, warn, values } = this.props
+          const { warn, values } = this.props
+          const shouldWarn = this.shouldWarnFunction()
           const fieldLevelWarn = this.generateWarner()
           if (warn || fieldLevelWarn) {
             const initialRender = nextProps === undefined
@@ -467,10 +489,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
               fieldValidatorKeys: fieldWarnerKeys,
               structure
             }
-            const shouldWarnResult = shouldWarn(validateParams)
-            const shouldValidateResult = shouldValidate(validateParams)
 
-            if (shouldValidateResult || shouldWarnResult) {
+            if (shouldWarn(validateParams)) {
               const propsToWarn =
                 initialRender || !nextProps ? this.props : nextProps
               const { _warning, ...nextSyncWarnings } = merge(
