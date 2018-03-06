@@ -289,8 +289,8 @@ const focus: Focus = (form: string, field: string): FocusAction => ({
 const initialize: Initialize = (
   form: string,
   values: Object,
-  keepDirty: boolean,
-  otherMeta: Object = {}
+  keepDirty?: boolean | Object,
+  otherMeta?: Object = {}
 ): InitializeAction => {
   if (keepDirty instanceof Object) {
     otherMeta = keepDirty
