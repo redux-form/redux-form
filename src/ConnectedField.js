@@ -71,6 +71,9 @@ const createConnectedField = (structure: Structure<*, *>) => {
         nextProps.children ||
         (nextPropsKeys.length !== thisPropsKeys.length ||
           nextPropsKeys.some(prop => {
+            if (~(nextProps.immutableProps || []).indexOf(prop)) {
+              return this.props[prop] !== nextProps[prop]
+            }
             return (
               !~propsToNotUpdateFor.indexOf(prop) &&
               !deepEqual(this.props[prop], nextProps[prop])
@@ -267,6 +270,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         onFocus, // eslint-disable-line no-unused-vars
         onDragStart, // eslint-disable-line no-unused-vars
         onDrop, // eslint-disable-line no-unused-vars
+        immutableProps, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
       const { custom, ...props } = createFieldProps(structure, name, {

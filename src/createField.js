@@ -145,7 +145,8 @@ const createField = (structure: Structure<*, *>) => {
       PropTypes.func,
       PropTypes.arrayOf(PropTypes.func)
     ]),
-    withRef: PropTypes.bool
+    withRef: PropTypes.bool,
+    immutableProps: PropTypes.arrayOf(PropTypes.string)
   }
   Field.contextTypes = {
     _reduxForm: PropTypes.object

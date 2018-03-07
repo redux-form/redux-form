@@ -2331,7 +2331,8 @@ const describeField = (name, structure, combineReducers, setup) => {
         format: x => x,
         validate: () => undefined,
         warn: () => undefined,
-        withRef: true
+        withRef: true,
+        immutableProps: []
       }
       class Form extends Component {
         render() {
@@ -2794,6 +2795,65 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       // value NOT changed
       expect(renderInput).toHaveBeenCalledTimes(1)
+    })
+
+    it('should strict equals props in immutableProps', () => {
+      const store = makeStore()
+      const inputRender = jest.fn(props => <input {...props.input} />)
+      const formRender = jest.fn()
+
+      class Form extends Component {
+        constructor() {
+          super()
+          this.state = {
+            foo: {
+              get no() {
+                throw new Error(
+                  'props inside an immutableProps object should not be looked at'
+                )
+              }
+            }
+          }
+        }
+
+        render() {
+          formRender(this.props)
+          return (
+            <div>
+              <Field
+                name="input"
+                component={inputRender}
+                immutableProps={['foo']}
+                foo={this.state.foo}
+              />
+              <button onClick={() => this.setState({ foo: { no: undefined } })}>
+                Change
+              </button>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender).toHaveBeenCalledTimes(1)
+
+      expect(inputRender).toHaveBeenCalled()
+      expect(inputRender).toHaveBeenCalledTimes(1)
+
+      // update foo prop
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(button)
+
+      expect(formRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(2)
     })
   })
 }
