@@ -620,7 +620,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
                 delete this.fieldValidators[name]
                 delete this.fieldWarners[name]
                 this.lastFieldValidatorKeys = this.lastFieldValidatorKeys.filter(
-                  item => item !== name
+                  key => key !== name
                 )
               }
             } else {
