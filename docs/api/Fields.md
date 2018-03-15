@@ -174,7 +174,7 @@ the props structure given to your component
 For example, if the fields you gave are...
 
 ```jsx
-;<Fields
+<Fields
   names={[
     'name',
     'email',
