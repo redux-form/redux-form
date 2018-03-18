@@ -8,6 +8,7 @@ The following tools are either built on top of `redux-form` or are compatible wi
 * [`redux-validate`](https://github.com/ashtonwar/redux-validate)
 * [`revalidate`](https://github.com/jfairbank/revalidate)
 * [`redux-form-input-masks`](https://github.com/renato-bohler/redux-form-input-masks)
+* [`redux-form-validators`](https://github.com/gtournie/redux-form-validators)
 
 ## Application structure
 * [Steve's Opinionated React Project](https://github.com/aikidoshi/Opinionated)  
