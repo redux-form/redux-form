@@ -2,12 +2,23 @@
 import { toPath } from 'lodash'
 import type { Structure } from './types'
 
-function createCreateDeleteInWithCleanUp<DIM, DIL>(structure: Structure<DIM, DIL>) {
-  const shouldDeleteDefault = (structure) => (state, path) => structure.getIn(state, path) !== undefined
+type ShouldDelete<SDM, SDL> = (
+  structure: Structure<SDM, SDL>
+) => (state: SDM | SDL, path: string) => boolean
+
+function createCreateDeleteInWithCleanUp<DIM, DIL>(
+  structure: Structure<DIM, DIL>
+) {
+  const shouldDeleteDefault: ShouldDelete<DIM, DIL> = structure => (
+    state,
+    path
+  ) => structure.getIn(state, path) !== undefined
 
   const { deepEqual, empty, getIn, deleteIn, setIn } = structure
 
-  return (shouldDelete = shouldDeleteDefault) => {
+  return (
+    shouldDelete: ShouldDelete<DIM, DIL> = shouldDeleteDefault
+  ): DIM | DIL => {
     const deleteInWithCleanUp = (state: DIM | DIL, path: string): DIM | DIL => {
       if (path[path.length - 1] === ']') {
         // array path
