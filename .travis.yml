@@ -1,7 +1,7 @@
 language: node_js
 
 before_install:
-  - npm install -g npm@5.3.0
+  - npm install -g npm@5.6.0
 
 node_js:
   - "6"
