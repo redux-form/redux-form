@@ -35,26 +35,24 @@ import {
   hasSubmitFailed
 } from 'redux-form'
 
-MyComponent = connect(
-  state => ({
-    values: getFormValues('myForm')(state),
-    initialValues: getFormInitialValues('myForm')(state),
-    formSyncErrors: getFormSyncErrors('myForm')(state),
-    fields: getFormMeta('myForm')(state),
-    formAsyncErrors: getFormAsyncErrors('myForm')(state),
-    syncWarnings: getFormSyncWarnings('myForm')(state),
-    submitErrors: getFormSubmitErrors('myForm')(state),
-    formError: getFormError()(state),
-    names: getFormNames()(state),
-    dirty: isDirty('myForm')(state),
-    pristine: isPristine('myForm')(state),
-    valid: isValid('myForm')(state),
-    invalid: isInvalid('myForm')(state),
-    submitting: isSubmitting('myForm')(state),
-    submitSucceeded: hasSubmitSucceeded('myForm')(state),
-    submitFailed: hasSubmitFailed('myForm')(state)
-  })
-)(MyComponent)
+MyComponent = connect(state => ({
+  values: getFormValues('myForm')(state),
+  initialValues: getFormInitialValues('myForm')(state),
+  formSyncErrors: getFormSyncErrors('myForm')(state),
+  fields: getFormMeta('myForm')(state),
+  formAsyncErrors: getFormAsyncErrors('myForm')(state),
+  syncWarnings: getFormSyncWarnings('myForm')(state),
+  submitErrors: getFormSubmitErrors('myForm')(state),
+  formError: getFormError()(state),
+  names: getFormNames()(state),
+  dirty: isDirty('myForm')(state),
+  pristine: isPristine('myForm')(state),
+  valid: isValid('myForm')(state),
+  invalid: isInvalid('myForm')(state),
+  submitting: isSubmitting('myForm')(state),
+  submitSucceeded: hasSubmitSucceeded('myForm')(state),
+  submitFailed: hasSubmitFailed('myForm')(state)
+}))(MyComponent)
 ```
 
 ## List of Selectors
@@ -97,30 +95,30 @@ MyComponent = connect(
 
 > The reason that this is a function that returns a function is twofold:
 
-> 1. symmetry with the other selectors
-> 2. to allow for the `getFormState` parameter described at the top of this page.
+> 1.  symmetry with the other selectors
+> 2.  to allow for the `getFormState` parameter described at the top of this page.
 
 > If you are using ImmutableJS, it will return a `List`.
 
-### `isDirty(formName:String)` returns `(state) => dirty:boolean`
+### `isDirty(formName:String)` returns `(state, ...fields:String[]) => dirty:boolean`
 
 > Returns `true` if the form is dirty, i.e. the values have been altered from the original
-`initialValues` provided. The opposite of `isPristine`.
+> `initialValues` provided. The opposite of `isPristine`.
 
-### `isPristine(formName:String)` returns `(state) => pristine:boolean`
+### `isPristine(formName:String)` returns `(state, ...fields:String[]) => pristine:boolean`
 
 > Returns `true` if the form is pristine, i.e. the values have NOT been altered from the original
-`initialValues` provided. The opposite of `isDirty`.
+> `initialValues` provided. The opposite of `isDirty`.
 
 ### `isValid(formName:String)` returns `(state) => valid:boolean`
 
 > Returns `true` if the form is valid, i.e. has no sync, async, or submission errors. The opposite
-of `isInvalid`.
+> of `isInvalid`.
 
 ### `isInvalid(formName:String)` returns `(state) => invalid:boolean`
 
 > Returns `true` if the form is invalid, i.e. has sync, async, or submission errors. The opposite
-of `isValid`.
+> of `isValid`.
 
 ### `isSubmitting(formName:String)` returns `(state) => submitting:boolean`
 
