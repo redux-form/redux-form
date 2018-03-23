@@ -37,9 +37,21 @@ import {
   CLEAR_FIELDS,
   UPDATE_SYNC_WARNINGS
 } from './actionTypes'
-import createDeleteInWithCleanUp from './deleteInWithCleanUp'
+import createCreateDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
 import type { Action, Structure } from './types.js.flow'
+
+const shouldDelete = ({ getIn }) => (state, path) => {
+  let initialValuesPath = null
+
+  if (path.startsWith('values')) {
+    initialValuesPath = path.replace('values', 'initial')
+  }
+
+  const initialValueComparison = initialValuesPath ? (getIn(state, initialValuesPath) === undefined) : true
+
+  return (getIn(state, path) !== undefined) && initialValueComparison
+}
 
 const isReduxFormAction = action =>
   action &&
@@ -61,8 +73,8 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     some,
     splice
   } = structure
-  const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
-  const plainDeleteInWithCleanUp = createDeleteInWithCleanUp(plain)
+  const deleteInWithCleanUp = createCreateDeleteInWithCleanUp(structure)(shouldDelete)
+  const plainDeleteInWithCleanUp = createCreateDeleteInWithCleanUp(plain)(shouldDelete)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
     const existing = getIn(state, `${key}.${field}`)
     return existing || force

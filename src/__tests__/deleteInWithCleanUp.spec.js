@@ -1,4 +1,4 @@
-import createDeleteInWithCleanUp from '../deleteInWithCleanUp'
+import createCreateDeleteInWithCleanUp from '../deleteInWithCleanUp'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
@@ -6,7 +6,7 @@ import immutableExpectations from '../structure/immutable/__tests__/expectations
 
 const describeDeleteInWithCleanUp = (name, structure, setup) => {
   const { fromJS } = structure
-  const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
+  const deleteInWithCleanUp = createCreateDeleteInWithCleanUp(structure)()
 
   describe(name, () => {
     beforeAll(() => {
@@ -144,6 +144,35 @@ const describeDeleteInWithCleanUp = (name, structure, setup) => {
           'a.b.c.d.e.f'
         )
       ).toEqualMap({})
+    })
+
+    it('should only delete cats because I am a dog person', () => {
+      const validation = (structure) => (state, path) => path.startsWith('cat')
+      const deleteInSpecial = createCreateDeleteInWithCleanUp(structure)(validation)
+
+      expect(
+        deleteInSpecial(
+          fromJS({
+            dog: 'Scooby',
+            cat: 'Garfield'
+          }),
+          'dog'
+        )
+      ).toEqualMap({
+        dog: 'Scooby',
+        cat: 'Garfield'
+      })
+      expect(
+        deleteInSpecial(
+          fromJS({
+            dog: 'Scooby',
+            cat: 'Garfield'
+          }),
+          'cat'
+        )
+      ).toEqualMap({
+        dog: 'Scooby',
+      })
     })
   })
 }
