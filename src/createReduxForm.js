@@ -619,6 +619,9 @@ const createReduxForm = (structure: Structure<*, *>) => {
               if (!this.fieldCounts[name]) {
                 delete this.fieldValidators[name]
                 delete this.fieldWarners[name]
+                this.lastFieldValidatorKeys = this.lastFieldValidatorKeys.filter(
+                  key => key !== name
+                )
               }
             } else {
               unregisterField(name, false)
