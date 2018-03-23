@@ -45,7 +45,7 @@
     "example:syncValidation": "form=syncValidation npm run example",
     "example:wizard": "form=wizard npm run example",
     "precommit": "lint-staged",
-    "prepublish":
+    "prepublishOnly":
       "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
     "test": "cross-env NODE_ENV=test jest --runInBand",
     "test:flow": "flow check",
