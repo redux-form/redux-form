@@ -6,6 +6,8 @@ engines:
       - javascript
   eslint:
     enabled: true
+  method-complexity:
+    enabled: false
 ratings:
   paths:
   - "**.js"
