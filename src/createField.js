@@ -37,7 +37,7 @@ const createField = (structure: Structure<*, *>) => {
       return shallowCompare(this, nextProps, nextState)
     }
 
-    componentWillMount() {
+    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'Field',

@@ -31,17 +31,17 @@ const createFields = (structure: Structure<*, *>) => {
           'Fields must be inside a component decorated with reduxForm()'
         )
       }
+      const error = validateNameProp(props.names)
+      if (error) {
+        throw error
+      }
     }
 
     shouldComponentUpdate(nextProps: Props) {
       return shallowCompare(this, nextProps)
     }
 
-    componentWillMount() {
-      const error = validateNameProp(this.props.names)
-      if (error) {
-        throw error
-      }
+    componentDidMount() {
       const { context } = this
       const { _reduxForm: { register } } = context
       this.names.forEach(name => register(name, 'Field'))
