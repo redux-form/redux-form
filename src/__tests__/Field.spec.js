@@ -2274,16 +2274,16 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      testWeightValidator(initialWeightLimit);
+      testWeightValidator(initialWeightLimit)
       const changeWeightLimit = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(changeWeightLimit)
-      testWeightValidator(nextWeightLimit);
+      testWeightValidator(nextWeightLimit)
 
       function testWeightValidator(weightLimit) {
         expect(
           renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
             .valid
-        ).toBe(false);
+        ).toBe(false)
         expect(
           renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
             .error
