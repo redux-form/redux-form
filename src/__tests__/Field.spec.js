@@ -2274,27 +2274,22 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      expect(
-        renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
-          .valid
-      ).toBe(false)
-      expect(
-        renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
-          .error
-      ).toBe(weightValidationText + initialWeightLimit)
+      testWeightValidator(initialWeightLimit);
+      const changeWeightLimit = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(changeWeightLimit)
+      testWeightValidator(nextWeightLimit);
 
-      // update weight limit and validate prop
-      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
-      TestUtils.Simulate.click(button)
-      
-      expect(
-        renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
-          .valid
-      ).toBe(false)
-      expect(
-        renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
-          .error
-      ).toBe(weightValidationText + nextWeightLimit)
+      function testWeightValidator(weightLimit) {
+        expect(
+          renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
+            .valid
+        ).toBe(false);
+        expect(
+          renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
+            .error
+        ).toBe(weightValidationText + weightLimit)
+      }
+
     })
 
     it('should sync warn with field level warning function', () => {
