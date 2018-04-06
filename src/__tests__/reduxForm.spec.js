@@ -154,6 +154,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'destroy',
         'dirty',
         'dispatch',
+        'dispatchSubmit',
         'error',
         'form',
         'handleSubmit',
