@@ -41,6 +41,7 @@ export const formPropTypes = {
   clearFields: func.isRequired, // action to clean fields values for all fields
   clearSubmitErrors: func.isRequired, // action to remove submitErrors and error
   destroy: func.isRequired, // action to destroy the form's data in Redux
+  dispatchSubmit: func.isRequired, // action to signal form submission to redux
   dispatch: func.isRequired, // the Redux dispatch action
   handleSubmit: func.isRequired, // function to submit the form
   initialize: func.isRequired, // action to initialize form data

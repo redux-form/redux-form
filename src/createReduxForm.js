@@ -218,6 +218,7 @@ export type Props = {
   forceUnregisterOnUnmount: boolean,
   dirty: boolean,
   dispatch: Dispatch<*>,
+  dispatchSubmit: Function,
   enableReinitialize: boolean,
   error?: any,
   focus: FocusAction,
@@ -852,6 +853,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             forceUnregisterOnUnmount,
             dirty,
             dispatch,
+            dispatchSubmit,
             enableReinitialize,
             error,
             focus,
@@ -910,6 +912,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             destroy,
             dirty,
             dispatch,
+            dispatchSubmit,
             error,
             form,
             handleSubmit: this.submit,
@@ -1076,6 +1079,12 @@ const createReduxForm = (structure: Structure<*, *>) => {
             change: boundChange,
             array: connectedArrayACs,
             focus: boundFocus,
+            dispatchSubmit: bindActionCreators(
+              () => ({
+                type: 'DISPATCH_SUBMIT'
+              }),
+              dispatch
+            ),
             dispatch
           }
 
