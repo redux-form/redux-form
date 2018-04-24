@@ -77,6 +77,8 @@ MyComponent = connect(state => ({
 
 > Returns the form's fields meta data, namely `touched` and `visited`.
 
+> NOTE: redux-form creates the `formMeta` object lazily as each individual form field gets visited/touched/etc. Empty/missing properties imply that the corresponding field (or set of fields) has neither been visited nor touched.
+
 ### `getFormAsyncErrors(formName:String)` returns `(state) => formAsyncErrors:Object`
 
 > Returns the form asynchronous validation errors.
