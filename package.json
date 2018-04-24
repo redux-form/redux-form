@@ -128,7 +128,7 @@
   "peerDependencies": {
     "react": "^15.0.0-0 || ^16.0.0-0",
     "react-redux": "^4.3.0 || ^5.0.0",
-    "redux": "^3.0.0"
+    "redux": "^3.0.0 || ^4.0.0"
   },
   "files": ["README.md", "es", "lib", "dist", "immutable.js", "*.js.flow"],
   "lint-staged": {
