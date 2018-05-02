@@ -31,13 +31,6 @@ const createField = (structure: Structure<*, *>) => {
           'Field must be inside a component decorated with reduxForm()'
         )
       }
-    }
-
-    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
-      return shallowCompare(this, nextProps, nextState)
-    }
-
-    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'Field',
@@ -46,6 +39,10 @@ const createField = (structure: Structure<*, *>) => {
       )
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
+      return shallowCompare(this, nextProps, nextState)
+    }
+    
     componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)

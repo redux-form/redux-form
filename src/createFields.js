@@ -35,16 +35,12 @@ const createFields = (structure: Structure<*, *>) => {
       if (error) {
         throw error
       }
+      const { _reduxForm: { register } } = context
+      this.names.forEach(name => register(name, 'Field'))
     }
 
     shouldComponentUpdate(nextProps: Props) {
       return shallowCompare(this, nextProps)
-    }
-
-    componentDidMount() {
-      const { context } = this
-      const { _reduxForm: { register } } = context
-      this.names.forEach(name => register(name, 'Field'))
     }
 
     componentWillReceiveProps(nextProps: Props) {
