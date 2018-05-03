@@ -8,6 +8,85 @@ type SubmitFunction = {
   (values: any, dispatch: Dispatch<*>, props: Object): any
 }
 
+const getExecuteSubmit = (
+  submit: SubmitFunction,
+  fields: string[],
+  props: Props
+) => () => {
+  const {
+    dispatch,
+    submitAsSideEffect,
+    onSubmitFail,
+    onSubmitSuccess,
+    startSubmit,
+    stopSubmit,
+    setSubmitFailed,
+    setSubmitSucceeded,
+    values
+  } = props
+
+  let result
+  try {
+    result = submit(values, dispatch, props)
+  } catch (submitError) {
+    const error =
+      submitError instanceof SubmissionError ? submitError.errors : undefined
+    stopSubmit(error)
+    setSubmitFailed(...fields)
+    if (onSubmitFail) {
+      onSubmitFail(error, dispatch, submitError, props)
+    }
+    if (error || onSubmitFail) {
+      // if you've provided an onSubmitFail callback, don't re-throw the error
+      return error
+    } else {
+      throw submitError
+    }
+  }
+
+  if (submitAsSideEffect) {
+    dispatch(result)
+  } else {
+    if (isPromise(result)) {
+      startSubmit()
+      return result.then(
+        submitResult => {
+          stopSubmit()
+          setSubmitSucceeded()
+          if (onSubmitSuccess) {
+            onSubmitSuccess(submitResult, dispatch, props)
+          }
+          return submitResult
+        },
+        submitError => {
+          const error =
+            submitError instanceof SubmissionError
+              ? submitError.errors
+              : undefined
+          stopSubmit(error)
+          setSubmitFailed(...fields)
+          if (onSubmitFail) {
+            onSubmitFail(error, dispatch, submitError, props)
+          }
+          if (error || onSubmitFail) {
+            // if you've provided an onSubmitFail callback, don't re-throw the error
+            return error
+          } else {
+            throw submitError
+          }
+        }
+      )
+    } else {
+      setSubmitSucceeded()
+      if (onSubmitSuccess) {
+        onSubmitSuccess(result, dispatch, props)
+      }
+    }
+  }
+
+  return result
+}
+
 const handleSubmit = (
   submit: SubmitFunction,
   props: Props,
@@ -18,79 +97,17 @@ const handleSubmit = (
   const {
     dispatch,
     onSubmitFail,
-    onSubmitSuccess,
-    startSubmit,
-    stopSubmit,
     setSubmitFailed,
-    setSubmitSucceeded,
     syncErrors,
     asyncErrors,
     touch,
-    values,
     persistentSubmitErrors
   } = props
 
   touch(...fields) // mark all fields as touched
 
   if (valid || persistentSubmitErrors) {
-    const doSubmit = () => {
-      let result
-      try {
-        result = submit(values, dispatch, props)
-      } catch (submitError) {
-        const error =
-          submitError instanceof SubmissionError
-            ? submitError.errors
-            : undefined
-        stopSubmit(error)
-        setSubmitFailed(...fields)
-        if (onSubmitFail) {
-          onSubmitFail(error, dispatch, submitError, props)
-        }
-        if (error || onSubmitFail) {
-          // if you've provided an onSubmitFail callback, don't re-throw the error
-          return error
-        } else {
-          throw submitError
-        }
-      }
-      if (isPromise(result)) {
-        startSubmit()
-        return result.then(
-          submitResult => {
-            stopSubmit()
-            setSubmitSucceeded()
-            if (onSubmitSuccess) {
-              onSubmitSuccess(submitResult, dispatch, props)
-            }
-            return submitResult
-          },
-          submitError => {
-            const error =
-              submitError instanceof SubmissionError
-                ? submitError.errors
-                : undefined
-            stopSubmit(error)
-            setSubmitFailed(...fields)
-            if (onSubmitFail) {
-              onSubmitFail(error, dispatch, submitError, props)
-            }
-            if (error || onSubmitFail) {
-              // if you've provided an onSubmitFail callback, don't re-throw the error
-              return error
-            } else {
-              throw submitError
-            }
-          }
-        )
-      } else {
-        setSubmitSucceeded()
-        if (onSubmitSuccess) {
-          onSubmitSuccess(result, dispatch, props)
-        }
-      }
-      return result
-    }
+    const doSubmit = getExecuteSubmit(submit, fields, props)
 
     const asyncValidateResult = asyncValidate && asyncValidate()
     if (asyncValidateResult) {
