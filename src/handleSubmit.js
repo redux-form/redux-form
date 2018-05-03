@@ -45,7 +45,9 @@ const getExecuteSubmit = (
   }
 
   if (submitAsSideEffect) {
-    dispatch(result)
+    if (result) {
+      dispatch(result)
+    }
   } else {
     if (isPromise(result)) {
       startSubmit()
