@@ -986,7 +986,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
           let initial = initialValues || stateInitial || empty
 
-          if (shouldUpdateInitialValues) {
+          if (!shouldUpdateInitialValues) {
             initial = stateInitial || empty
           }
 
