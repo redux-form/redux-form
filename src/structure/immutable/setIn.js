@@ -35,7 +35,14 @@ export default function setIn(
   value: any
 ) {
   const path = toPath(field)
+
   if (!field || typeof field !== 'string' || !arrayPattern.test(field)) {
+    for (let pathPart = 1; pathPart < path.length; ++pathPart) {
+      const nextPart = path.slice(0, pathPart)
+      if (state.getIn(nextPart) == null) {
+        state = state.setIn(nextPart, new Map())
+      }
+    }
     return state.setIn(path, value)
   }
 
