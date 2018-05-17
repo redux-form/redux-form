@@ -20,6 +20,15 @@ const mergeLists = (originalList, value) => {
   return value
 }
 
+const assureComplexProps = (state, path) => {
+  for (let pathPart = 1; pathPart < path.length; ++pathPart) {
+    const nextPart = path.slice(0, pathPart)
+    if (state.getIn(nextPart) == null) {
+      return state.setIn(nextPart, new Map())
+    }
+  }
+  return state
+}
 /*
  * ImmutableJS' setIn function doesn't support array (List) creation
  * so we must pre-insert all arrays in the path ahead of time.
@@ -37,13 +46,8 @@ export default function setIn(
   const path = toPath(field)
 
   if (!field || typeof field !== 'string' || !arrayPattern.test(field)) {
-    for (let pathPart = 1; pathPart < path.length; ++pathPart) {
-      const nextPart = path.slice(0, pathPart)
-      if (state.getIn(nextPart) == null) {
-        state = state.setIn(nextPart, new Map())
-      }
-    }
-    return state.setIn(path, value)
+    const newState = assureComplexProps(state, path)
+    return newState.setIn(path, value)
   }
 
   return state.withMutations(mutable => {
