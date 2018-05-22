@@ -7,6 +7,7 @@ import type { Params as DefaultShouldErrorParams } from './defaultShouldError'
 import type { Params as DefaultShouldWarnParams } from './defaultShouldWarn'
 import type { Config as ReduxFormConfig } from './createReduxForm'
 import type { Props as _FormProps } from './Form'
+import type { Props as _FormNameProps } from './FormName'
 import type {
   DefaultProps as FormSectionDefaultProps,
   Props as FormSectionProps
@@ -77,6 +78,7 @@ import type {
 type StructureMap = Object
 
 export type FormProps = _FormProps
+export type FormNameProps = _FormNameProps
 export type FieldProps = _FieldProps
 export type FieldArrayProps = _FieldArrayProps
 
@@ -113,6 +115,8 @@ declare export var fieldArrayMetaPropTypes: Object
 declare export var fieldArrayPropTypes: Object
 
 declare export var formPropTypes: Object
+
+declare export var FormName: React.ComponentType<FormNameProps>
 
 declare export var Field: React.ComponentType<FieldInputProps>
 
