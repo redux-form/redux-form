@@ -1,9 +1,8 @@
 # `FormName`
 
-The `FormName` component allows you to get the name of the enclosing `reduxForm` wrapper.
+The `FormName` component allows you to get the name of the form in context - the name given to the enclosing `reduxForm` wrapper.
 It is a [render props component](https://reactjs.org/docs/render-props.html).
-This can be useful for building reusable components that show the status of any form in
-your app, for example.
+This can be useful for building reusable components that show the status of any form in your app, for example.
 
 ## Importing
 
@@ -19,5 +18,4 @@ import { FormName } from 'redux-form' // ES6
 
 ### `children : (props: { form: string }) => React.Node` [required]
 
-`FormName` will call this `children` function with the name of the enclosing
-form, and render whatever this function returns.
+`FormName` will call this `children` function with the name of the enclosing form, and render whatever this function returns.
