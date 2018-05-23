@@ -16,7 +16,7 @@ import immutableExpectations from '../structure/immutable/__tests__/expectations
 const describeFormName = (name, structure, combineReducers, setup) => {
   const reduxForm = createReduxForm(structure)
   const reducer = createReducer(structure)
-  const { fromJS, getIn } = structure
+  const { fromJS } = structure
   const makeStore = (initial = {}, logger) => {
     const reducers = { form: reducer }
     if (logger) {
@@ -38,7 +38,6 @@ const describeFormName = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const onSubmit = jest.fn()
       class TestForm extends Component {
         render() {
           return (
