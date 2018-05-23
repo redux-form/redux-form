@@ -126,8 +126,11 @@ const createField = (structure: Structure<*, *>) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     normalize: PropTypes.func,
     onBlur: PropTypes.func,

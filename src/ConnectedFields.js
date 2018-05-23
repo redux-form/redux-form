@@ -125,24 +125,25 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     render() {
       const { component, withRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
-      const { custom, ...props } = Object.keys(
-        _fields
-      ).reduce((accumulator, name) => {
-        const connectedProps = _fields[name]
-        const { custom, ...fieldProps } = createFieldProps(structure, name, {
-          ...connectedProps,
-          ...rest,
-          form,
-          onBlur: this.onBlurFns[name],
-          onChange: this.onChangeFns[name],
-          onFocus: this.onFocusFns[name]
-        })
-        accumulator.custom = custom
-        const fieldName = sectionPrefix
-          ? name.replace(`${sectionPrefix}.`, '')
-          : name
-        return plain.setIn(accumulator, fieldName, fieldProps)
-      }, {})
+      const { custom, ...props } = Object.keys(_fields).reduce(
+        (accumulator, name) => {
+          const connectedProps = _fields[name]
+          const { custom, ...fieldProps } = createFieldProps(structure, name, {
+            ...connectedProps,
+            ...rest,
+            form,
+            onBlur: this.onBlurFns[name],
+            onChange: this.onChangeFns[name],
+            onFocus: this.onFocusFns[name]
+          })
+          accumulator.custom = custom
+          const fieldName = sectionPrefix
+            ? name.replace(`${sectionPrefix}.`, '')
+            : name
+          return plain.setIn(accumulator, fieldName, fieldProps)
+        },
+        {}
+      )
       if (withRef) {
         props.ref = 'renderedComponent'
       }
@@ -152,15 +153,21 @@ const createConnectedFields = (structure: Structure<*, *>) => {
   }
 
   ConnectedFields.propTypes = {
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     _fields: PropTypes.object.isRequired,
     props: PropTypes.object
   }
 
   const connector = connect(
     (state, ownProps) => {
-      const { names, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {
+        names,
+        _reduxForm: { initialValues, getFormState }
+      } = ownProps
       const formState = getFormState(state)
       return {
         _fields: names.reduce((accumulator, name) => {

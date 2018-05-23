@@ -113,7 +113,11 @@ const createFieldArray = (structure: Structure<*, *>) => {
 
   FieldArray.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     props: PropTypes.object,
     validate: PropTypes.oneOfType([
       PropTypes.func,
