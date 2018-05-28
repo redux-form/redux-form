@@ -3,7 +3,7 @@ import * as React from 'react'
 
 export type Props = {
   name: string,
-  component: React.ComponentType<*> | Function,
+  component: React.ComponentType<*> | React.ElementType,
   props?: Object,
   rerenderOnEveryChange?: boolean,
   validate?: (value: any, allValues: Object, props: Object) => ?any,
