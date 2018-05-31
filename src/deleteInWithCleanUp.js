@@ -24,9 +24,8 @@ function createCreateDeleteInWithCleanUp<DIM, DIL>(
         // array path
         const pathTokens = toPath(path)
         pathTokens.pop()
-        if(getIn(state, pathTokens.join('.'))) {
-          setIn(state, path)
-        }
+        const parent = getIn(state, pathTokens.join('.'))
+        return parent ? setIn(state, path) : state
       }
 
       let result: DIM | DIL = state
@@ -38,8 +37,12 @@ function createCreateDeleteInWithCleanUp<DIM, DIL>(
       const dotIndex = path.lastIndexOf('.')
       if (dotIndex > 0) {
         const parentPath = path.substring(0, dotIndex)
-        const parent = getIn(result, parentPath)
-        return deleteInWithCleanUp(result, parentPath)
+        if (parentPath[parentPath.length - 1] !== ']') {
+          const parent = getIn(result, parentPath)
+          if (deepEqual(parent, empty)) {
+            return deleteInWithCleanUp(result, parentPath)
+          }
+        }
       }
       return result
     }
