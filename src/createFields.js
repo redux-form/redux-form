@@ -43,7 +43,9 @@ const createFields = (structure: Structure<*, *>) => {
         throw error
       }
       const { context } = this
-      const { _reduxForm: { register } } = context
+      const {
+        _reduxForm: { register }
+      } = context
       this.names.forEach(name => register(name, 'Field'))
     }
 
@@ -108,8 +110,11 @@ const createFields = (structure: Structure<*, *>) => {
 
   Fields.propTypes = {
     names: (props, propName) => validateNameProp(props[propName]),
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,

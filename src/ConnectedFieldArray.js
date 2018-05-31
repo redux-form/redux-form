@@ -122,8 +122,11 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
   }
 
   ConnectedFieldArray.propTypes = {
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     props: PropTypes.object,
     rerenderOnEveryChange: PropTypes.bool
   }
@@ -138,7 +141,10 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   const connector = connect(
     (state, ownProps) => {
-      const { name, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {
+        name,
+        _reduxForm: { initialValues, getFormState }
+      } = ownProps
       const formState = getFormState(state)
       const initial =
         getIn(formState, `initial.${name}`) ||
