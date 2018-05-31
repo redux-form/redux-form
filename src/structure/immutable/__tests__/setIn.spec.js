@@ -356,4 +356,25 @@ describe('structure.immutable.setIn', () => {
     let b64d = b64.get('d')
     expect(b64d).toEqual('12')
   })
+
+  it('should not break existing partially initialized Map', () => {
+    let initial = fromJS({
+      a: null,
+      d: 'val-d'
+    })
+    //let initialState = setIn(initial)
+    let result = setIn(initial, 'a.b.c', 'val')
+
+    let a = result.get('a')
+    expect(a).toBeTruthy()
+
+    let b = a.get('b')
+    expect(b).toBeTruthy()
+
+    let c = b.get('c')
+    expect(c).toEqual('val')
+
+    let d = result.get('d')
+    expect(d).toEqual('val-d')
+  })
 })
