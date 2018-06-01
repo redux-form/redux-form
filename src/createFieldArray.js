@@ -45,7 +45,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
       }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.context._reduxForm.register(
         this.name,
         'FieldArray',
@@ -54,7 +54,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
       )
     }
 
-    componentWillReceiveProps(nextProps: Props, nextContext: any) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)
 

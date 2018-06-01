@@ -37,7 +37,7 @@ const createFields = (structure: Structure<*, *>) => {
       return shallowCompare(this, nextProps)
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       const error = validateNameProp(this.props.names)
       if (error) {
         throw error
@@ -49,7 +49,7 @@ const createFields = (structure: Structure<*, *>) => {
       this.names.forEach(name => register(name, 'Field'))
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { context } = this
         const { register, unregister } = context._reduxForm

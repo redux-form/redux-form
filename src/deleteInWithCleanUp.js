@@ -6,9 +6,9 @@ type ShouldDelete<SDM, SDL> = (
   structure: Structure<SDM, SDL>
 ) => (state: SDM | SDL, path: string) => boolean
 
-function createCreateDeleteInWithCleanUp<DIM, DIL>(
-  structure: Structure<DIM, DIL>
-) {
+type DeleteInWithCleanup<DIM, DIL> = (DIM | DIL, string) => DIM | DIL
+
+function createDeleteInWithCleanUp<DIM, DIL>(structure: Structure<DIM, DIL>) {
   const shouldDeleteDefault: ShouldDelete<DIM, DIL> = structure => (
     state,
     path
@@ -18,7 +18,7 @@ function createCreateDeleteInWithCleanUp<DIM, DIL>(
 
   return (
     shouldDelete: ShouldDelete<DIM, DIL> = shouldDeleteDefault
-  ): DIM | DIL => {
+  ): DeleteInWithCleanup<DIM, DIL> => {
     const deleteInWithCleanUp = (state: DIM | DIL, path: string): DIM | DIL => {
       if (path[path.length - 1] === ']') {
         // array path
@@ -51,4 +51,4 @@ function createCreateDeleteInWithCleanUp<DIM, DIL>(
   }
 }
 
-export default createCreateDeleteInWithCleanUp
+export default createDeleteInWithCleanUp

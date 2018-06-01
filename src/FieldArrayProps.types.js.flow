@@ -46,5 +46,5 @@ export type FieldArrayProps = {
     valid: boolean,
     warning?: any
   },
-  ref?: (ref: ?React.Component<*, *>) => void
+  ref?: (ref: ?HTMLElement) => void
 }
