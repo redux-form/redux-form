@@ -20,4 +20,4 @@ checks:
   identical-code:
     enabled: true
 exclude_patterns:
-- "**.spec.js"
+- "**/*.spec.js"
