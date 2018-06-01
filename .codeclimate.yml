@@ -11,6 +11,8 @@ checks:
     enabled: true
     config:
       threshold: 4
+  file-lines:
+    enabled: false
   method-complexity:
     enabled: false
   method-lines:
