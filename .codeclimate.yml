@@ -8,6 +8,9 @@ engines:
     enabled: true
   method-complexity:
     enabled: false
+  method-lines:
+    config:
+      threshold: 100
 ratings:
   paths:
   - "**.js"
