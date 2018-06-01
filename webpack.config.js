@@ -1,6 +1,7 @@
 'use strict'
 var webpack = require('webpack')
 var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 var env = process.env.NODE_ENV
 
@@ -31,8 +32,9 @@ var config = {
     redux: reduxExternal,
     'react-redux': reactReduxExternal
   },
+  mode: 'development',
   module: {
-    loaders: [
+    rules: [
       { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
     ]
   },
@@ -49,16 +51,7 @@ var config = {
 }
 
 if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false
-      }
-    })
-  )
+  config.mode = 'production'
 }
 
 module.exports = config
