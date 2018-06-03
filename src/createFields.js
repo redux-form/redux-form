@@ -3,14 +3,13 @@ import { Component, createElement } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
-import { get, find } from 'lodash'
+import get from 'lodash/get'
 import createConnectedFields from './ConnectedFields'
 import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
-import type { Props } from './FieldsProps.types'
-import validateComponentProp from './util/validateComponentProp'
+import type { Props, WarnAndValidateProp } from './FieldsProps.types'
 
 const validateNameProp = prop => {
   if (!prop) {
@@ -22,6 +21,32 @@ const validateNameProp = prop => {
     )
   }
 }
+
+const warnAndValidatePropType = PropTypes.oneOfType([
+  PropTypes.func,
+  PropTypes.arrayOf(PropTypes.func),
+  PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)])
+  )
+])
+const fieldsPropTypes = {
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+    PropTypes.node
+  ]).isRequired,
+  format: PropTypes.func,
+  parse: PropTypes.func,
+  props: PropTypes.object,
+  validate: warnAndValidatePropType,
+  warn: warnAndValidatePropType,
+  withRef: PropTypes.bool
+}
+
+const getFieldWarnAndValidate = (prop?: WarnAndValidateProp, name) =>
+  Array.isArray(prop) || typeof prop === 'function'
+    ? prop
+    : get(prop, name, undefined)
 
 const createFields = (structure: Structure<*, *>) => {
   const ConnectedFields = createConnectedFields(structure)
@@ -45,33 +70,17 @@ const createFields = (structure: Structure<*, *>) => {
     }
 
     componentDidMount() {
-      const { context } = this
-      const { _reduxForm: { register } } = context
-      this.names.forEach(name =>
-        register(
-          name,
-          'Field',
-          () => get(find(this.props.validate, { name }), 'funcs', undefined),
-          () => get(find(this.props.validate, { name }), 'funcs', undefined)
-        )
-      )
+      this.registerFields(this.props.names)
     }
 
     componentWillReceiveProps(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { context } = this
-        const { register, unregister } = context._reduxForm
+        const { unregister } = context._reduxForm
         // unregister old name
         this.props.names.forEach(name => unregister(prefixName(context, name)))
         // register new name
-        nextProps.names.forEach(name =>
-          register(
-            prefixName(context, name),
-            'Field',
-            () => get(find(this.props.validate, { name }), 'funcs', undefined),
-            () => get(find(this.props.validate, { name }), 'funcs', undefined)
-          )
-        )
+        this.registerFields(nextProps.names)
       }
     }
 
@@ -79,6 +88,21 @@ const createFields = (structure: Structure<*, *>) => {
       const { context } = this
       const { unregister } = context._reduxForm
       this.props.names.forEach(name => unregister(prefixName(context, name)))
+    }
+
+    registerFields(names: string[]) {
+      const { context } = this
+      const {
+        _reduxForm: { register }
+      } = context
+      names.forEach(name =>
+        register(
+          prefixName(context, name),
+          'Field',
+          () => getFieldWarnAndValidate(this.props.validate, name),
+          () => getFieldWarnAndValidate(this.props.warn, name)
+        )
+      )
     }
 
     getRenderedComponent() {
@@ -123,29 +147,7 @@ const createFields = (structure: Structure<*, *>) => {
 
   Fields.propTypes = {
     names: (props, propName) => validateNameProp(props[propName]),
-    component: validateComponentProp,
-    format: PropTypes.func,
-    parse: PropTypes.func,
-    props: PropTypes.object,
-    validate: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        funcs: PropTypes.oneOfType([
-          PropTypes.func,
-          PropTypes.arrayOf(PropTypes.func)
-        ])
-      })
-    ),
-    warn: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        funcs: PropTypes.oneOfType([
-          PropTypes.func,
-          PropTypes.arrayOf(PropTypes.func)
-        ])
-      })
-    ),
-    withRef: PropTypes.bool
+    ...fieldsPropTypes
   }
   Fields.contextTypes = {
     _reduxForm: PropTypes.object
