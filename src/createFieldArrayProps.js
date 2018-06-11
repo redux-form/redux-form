@@ -101,6 +101,7 @@ const createFieldArrayProps = (
         arrayShift()
         return getIn(value, '0')
       },
+      splice: arraySplice,
       swap: arraySwap,
       unshift: arrayUnshift
     },
