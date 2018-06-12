@@ -19,7 +19,7 @@
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-form": "^7.4.0",
-    "redux-form-website-template": "0.0.112"
+    "redux-form-website-template": "0.0.123"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
