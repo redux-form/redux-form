@@ -1,4 +1,5 @@
 // @flow
+import * as React from 'react'
 import hoistStatics from 'hoist-non-react-statics'
 import invariant from 'invariant'
 import isPromise from 'is-promise'
@@ -175,6 +176,7 @@ export type Config = {
   forceUnregisterOnUnmount?: boolean,
   enableReinitialize?: boolean,
   keepDirtyOnReinitialize?: boolean,
+  keepValues?: boolean,
   form: string,
   immutableProps?: string[],
   initialValues?: Values,
@@ -212,6 +214,7 @@ export type Props = {
   asyncValidating: boolean,
   blur: BlurAction,
   change: ChangeAction,
+  children?: React.Node,
   clearSubmit: ClearSubmitAction,
   destroy: DestroyAction,
   destroyOnUnmount: boolean,
@@ -229,6 +232,7 @@ export type Props = {
   initialValues?: any,
   invalid: boolean,
   keepDirtyOnReinitialize: any,
+  keepValues?: boolean,
   updateUnregisteredFields: boolean,
   onChange?: OnChangeFunction,
   onSubmit?: OnSubmitFunction,
@@ -236,6 +240,7 @@ export type Props = {
   onSubmitSuccess?: OnSubmitSuccess,
   pristine: boolean,
   propNamespace?: string,
+  pure?: boolean,
   registeredFields: Array<{ name: string, type: FieldType, count: number }>,
   registerField: RegisterFieldAction,
   reset: ResetAction,
@@ -302,6 +307,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         static WrappedComponent: ComponentType<*>
 
         context: ReactContext
+        wrapped: ?React.Component<*, *>
 
         destroyed = false
         fieldCounts = {}
@@ -339,6 +345,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
               const keepDirty =
                 nextProps.initialized && this.props.keepDirtyOnReinitialize
               this.props.initialize(nextProps.initialValues, keepDirty, {
+                keepValues: nextProps.keepValues,
                 lastInitialValues: this.props.initialValues,
                 updateUnregisteredFields: nextProps.updateUnregisteredFields
               })
@@ -351,6 +358,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
               this.props.initialValues,
               this.props.keepDirtyOnReinitialize,
               {
+                keepValues: this.props.keepValues,
                 updateUnregisteredFields: this.props.updateUnregisteredFields
               }
             )
@@ -513,7 +521,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
         }
 
-        componentWillMount() {
+        UNSAFE_componentWillMount() {
           if (!isHotReloading()) {
             this.initIfNeeded()
             this.validateIfNeeded()
@@ -825,6 +833,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         reset = (): void => this.props.reset()
 
+        saveRef = (ref: ?React.Component<*, *>) => {
+          this.wrapped = ref
+        }
+
         render() {
           // remove some redux-form config-only props
           /* eslint-disable no-unused-vars */
@@ -863,6 +875,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             initialValues,
             invalid,
             keepDirtyOnReinitialize,
+            keepValues,
             updateUnregisteredFields,
             pristine,
             propNamespace,
@@ -935,7 +948,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             ...rest
           }
           if (isClassComponent(WrappedComponent)) {
-            propsToPass.ref = 'wrapped'
+            ;((propsToPass: any): Object).ref = this.saveRef
           }
           return createElement(WrappedComponent, propsToPass)
         }
@@ -1128,14 +1141,16 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         get wrappedInstance(): ?Component<*, *> {
           // for testing
-          return this.ref && this.ref.getWrappedInstance().refs.wrapped
+          return this.ref && this.ref.getWrappedInstance().wrapped
         }
 
         render() {
           const { initialValues, ...rest } = this.props
           return createElement(ConnectedForm, {
             ...rest,
-            ref: (ref: ?ConnectedComponent<Form>) => (this.ref = ref),
+            ref: (ref: ?ConnectedComponent<Form>) => {
+              this.ref = ref
+            },
             // convert initialValues if need to
             initialValues: fromJS(initialValues)
           })

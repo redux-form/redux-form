@@ -1,15 +1,25 @@
-engines:
-  duplication:
-    enabled: false
-    config:
-      languages:
-      - javascript
-  eslint:
+version: "2"         # required to adjust maintainability checks
+plugins:
+ eslint:
+  enabled: true
+checks:
+  argument-count:
     enabled: true
+    config:
+      threshold: 4
+  complex-logic:
+    enabled: true
+    config:
+      threshold: 4
+  file-lines:
+    enabled: false
   method-complexity:
     enabled: false
-ratings:
-  paths:
-  - "**.js"
+  method-lines:
+    enabled: true
+    config:
+      threshold: 100
+  identical-code:
+    enabled: true
 exclude_patterns:
-- "**.spec.js"
+- "**/*.spec.js"

@@ -43,7 +43,7 @@ const createField = (structure: Structure<*, *>) => {
       return shallowCompare(this, nextProps, nextState)
     }
     
-    componentWillReceiveProps(nextProps: Props, nextContext: any) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)
 
@@ -123,8 +123,11 @@ const createField = (structure: Structure<*, *>) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     normalize: PropTypes.func,
     onBlur: PropTypes.func,

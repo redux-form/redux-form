@@ -1939,6 +1939,230 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 2).input.value).toBe('bob')
     })
 
+    it('should keep old form values/initialValues on reinitialize if keepValues is true', () => {
+      const store = makeStore({})
+      const deepFooInputRender = jest.fn(props => <input {...props.input} />)
+      const helloInputRender = jest.fn(props => <input {...props.input} />)
+      const formRender = jest.fn()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        hello: 'world'
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={deepFooInputRender} type="text" />
+              <Field name="hello" component={helloInputRender} type="text" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true,
+        keepValues: true
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state} />
+              </Provider>
+              <button
+                onClick={() => this.setState({ initialValues: initialValues2 })}
+              >
+                Init
+              </button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container />)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 },
+              hello: { name: 'hello', type: 'Field', count: 1 }
+            },
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender).toHaveBeenCalledTimes(2)
+
+      expect(deepFooInputRender).toHaveBeenCalled()
+      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
+      
+      expect(helloInputRender).toHaveBeenCalled()
+      expect(helloInputRender).toHaveBeenCalledTimes(1)
+      
+
+      // Reinitialize the form
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(
+        dom,
+        'button'
+      )
+      TestUtils.Simulate.click(initButton)
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 },
+              hello: { name: 'hello', type: 'Field', count: 1 }
+            },
+            initial: {
+              ...initialValues1,
+              ...initialValues2
+            },
+            values: {
+              deep: {
+                foo: 'bar'
+              },
+              hello: 'world'
+            }
+          }
+        }
+      })
+
+      // Expect the form not to rerender
+      expect(formRender).toHaveBeenCalledTimes(2)
+
+      // should not rerender 'deep.foo' input since its value did not change.
+      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
+
+      // should rerender 'hello' input with new value and new meta.initial
+      expect(helloInputRender).toHaveBeenCalledTimes(2)
+    })
+
+    it('should not keep old form values/initialValues on reinitialize if keepValues is unset/false', () => {
+      const store = makeStore({})
+      const deepFooInputRender = jest.fn(props => <input {...props.input} />)
+      const helloInputRender = jest.fn(props => <input {...props.input} />)
+      const formRender = jest.fn()
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+      const initialValues2 = {
+        hello: 'world'
+      }
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="deep.foo" component={deepFooInputRender} type="text" />
+              <Field name="hello" component={helloInputRender} type="text" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true,
+        keepValues: false
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state} />
+              </Provider>
+              <button
+                onClick={() => this.setState({ initialValues: initialValues2 })}
+              >
+                Init
+              </button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container />)
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 },
+              hello: { name: 'hello', type: 'Field', count: 1 }
+            },
+            initial: initialValues1,
+            values: initialValues1
+          }
+        }
+      })
+      expect(formRender).toHaveBeenCalled()
+      expect(formRender).toHaveBeenCalledTimes(2)
+
+      expect(deepFooInputRender).toHaveBeenCalled()
+      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
+
+      expect(helloInputRender).toHaveBeenCalled()
+      expect(helloInputRender).toHaveBeenCalledTimes(1)
+
+
+      // Reinitialize the form
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(
+        dom,
+        'button'
+      )
+      TestUtils.Simulate.click(initButton)
+
+      // check initialized state
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: {
+              'deep.foo': { name: 'deep.foo', type: 'Field', count: 1 },
+              hello: { name: 'hello', type: 'Field', count: 1 }
+            },
+            initial: initialValues2,
+            values: {
+              hello: 'world'
+            }
+          }
+        }
+      })
+
+      // Expect the form not to rerender
+      expect(formRender).toHaveBeenCalledTimes(2)
+
+      // should rerender 'deep.foo' input with new value and new meta.initial
+      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
+
+      // should rerender 'hello' input with new value and new meta.initial
+      expect(helloInputRender).toHaveBeenCalledTimes(2)
+    })
+
     it('should keep a list of registered fields', () => {
       const store = makeStore({})
       const noopRender = () => <div />

@@ -5,7 +5,7 @@
 > The `props` listed on this page are the `props` that `redux-form` generates to
 > give to your decorated form component. The `props` that _you pass into your
 > wrapped component_ are listed
-> [here](https://redux-form.com/7.3.0/docs/api/ReduxForm.md/).
+> [here](https://redux-form.com/7.4.0/docs/api/ReduxForm.md/).
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of
 > these
@@ -95,10 +95,10 @@ class SimpleForm extends Component {
 
 > This value will be either:
 >
-> * `false` - No asynchronous validation is currently happening
-> * `true` - Asynchronous validation is currently running in preparation to
+> - `false` - No asynchronous validation is currently happening
+> - `true` - Asynchronous validation is currently running in preparation to
 >   submit a form
-> * a `string` - The name of the field that just blurred to trigger asynchronous
+> - a `string` - The name of the field that just blurred to trigger asynchronous
 >   validation
 
 ### `autofill(field:String, value:any) : Function`

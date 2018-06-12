@@ -43,7 +43,7 @@ const createFields = (structure: Structure<*, *>) => {
       return shallowCompare(this, nextProps)
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { context } = this
         const { register, unregister } = context._reduxForm
@@ -104,8 +104,11 @@ const createFields = (structure: Structure<*, *>) => {
 
   Fields.propTypes = {
     names: (props, propName) => validateNameProp(props[propName]),
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,

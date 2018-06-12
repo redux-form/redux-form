@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import type { Event, Context } from './types'
 
 export type InstanceApi = {
@@ -15,13 +15,20 @@ export type Props = {
   withRef?: boolean,
   _reduxForm: Context,
   immutableProps?: Array<string>,
+  children?: React.Node,
 
   // same as Props in createFieldProps.js:
   asyncError: any,
   asyncValidating: boolean,
-  onBlur: { (event: Event, newValue: ?any, previousValue: ?any, name: string): void },
-  onChange: { (event: Event, newValue: ?any, previousValue: ?any, name: string): void },
-  onDrop: { (event: Event, newValue: ?any, previousValue: ?any, name: string): void },
+  onBlur: {
+    (event: Event, newValue: ?any, previousValue: ?any, name: string): void
+  },
+  onChange: {
+    (event: Event, newValue: ?any, previousValue: ?any, name: string): void
+  },
+  onDrop: {
+    (event: Event, newValue: ?any, previousValue: ?any, name: string): void
+  },
   onDragStart: { (event: Event, name: string): void },
   onFocus: { (event: Event, name: string): void },
   dirty: boolean,

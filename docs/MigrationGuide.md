@@ -39,7 +39,10 @@ import { reduxForm } from 'redux-form'
 
 class MyForm extends Component {
   render() {
-    const { fields: { username, password }, handleSubmit } = this.props
+    const {
+      fields: { username, password },
+      handleSubmit
+    } = this.props
 
     return (
       <form onSubmit={handleSubmit}>
@@ -315,8 +318,8 @@ const upper = value => value && value.toUpperCase()
 ```
 
 See the
-[Normalizing Example](https://redux-form.com/7.3.0/examples/normalizing/) and
-[Value Lifecycle](https://redux-form.com/7.3.0/docs/ValueLifecycle.md/) for more
+[Normalizing Example](https://redux-form.com/7.4.0/examples/normalizing/) and
+[Value Lifecycle](https://redux-form.com/7.4.0/docs/ValueLifecycle.md/) for more
 details.
 
 ## Listening to other actions

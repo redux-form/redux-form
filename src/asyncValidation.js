@@ -19,14 +19,16 @@ const asyncValidation = (
     )
   }
   const handleErrors = rejected => errors => {
-    if (errors && Object.keys(errors).length) {
-      stop(errors)
-      return errors
-    } else if (rejected) {
-      stop()
-      throw new Error(
-        'Asynchronous validation promise was rejected without errors.'
-      )
+    if (rejected) {
+      if (errors && Object.keys(errors).length) {
+        stop(errors)
+        return errors
+      } else {
+        stop()
+        throw new Error(
+          'Asynchronous validation promise was rejected without errors.'
+        )
+      }
     }
     stop()
     return Promise.resolve()

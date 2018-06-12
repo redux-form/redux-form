@@ -51,7 +51,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
       )
     }
 
-    componentWillReceiveProps(nextProps: Props, nextContext: any) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)
 
@@ -110,7 +110,11 @@ const createFieldArray = (structure: Structure<*, *>) => {
 
   FieldArray.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     props: PropTypes.object,
     validate: PropTypes.oneOfType([
       PropTypes.func,

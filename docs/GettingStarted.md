@@ -3,8 +3,8 @@
 The basic implementation of `redux-form` is simple. However, to make the most of
 it, it's recommended to have basic knowledge on:
 
-* [Redux](http://redux.js.org/) state container,
-* [React](https://facebook.github.io/react/) and
+- [Redux](http://redux.js.org/) state container,
+- [React](https://facebook.github.io/react/) and
   [Higher-Order Components (HOCs)](https://facebook.github.io/react/docs/higher-order-components.html).
 
 ## Overview
@@ -12,8 +12,8 @@ it, it's recommended to have basic knowledge on:
 To connect your React form components to your Redux store you'll need the following
 pieces from the `redux-form` package:
 
-* Redux Reducer: `formReducer`,
-* React HOC `reduxForm()` and `<Field/>` component.
+- Redux Reducer: `formReducer`,
+- React HOC `reduxForm()` and `<Field/>` component.
 
 It's important to understand their responsibilities:
 
@@ -27,7 +27,7 @@ It's important to understand their responsibilities:
 
 The diagram below represents the simplified data flow. Note that in most cases
 you don't need to worry about the
-[action creators](http://redux-form.com/7.3.0/docs/api/ActionCreators.md/) for
+[action creators](http://redux-form.com/7.4.0/docs/api/ActionCreators.md/) for
 yourself, as they're already bound to dispatch for certain actions.
 
 <div style="text-align: center;">
@@ -76,7 +76,7 @@ Now your store knows how to handle actions coming from the form components.
 
 **NOTE:** The key used to pass the `redux-form` reducer should be named
 **`form`**. If you need a custom key for some reason see
-[`getFormState` config](http://redux-form.com/7.3.0/docs/api/ReduxForm.md/#-getformstate-function-optional-)
+[`getFormState` config](http://redux-form.com/7.4.0/docs/api/ReduxForm.md/#-getformstate-function-optional-)
 for more details.
 
 ### Step 2 of 4: Form component
@@ -134,7 +134,7 @@ maintain the input state under the hood.
 
 **NOTE**: `<Field/>` component is much more powerful. Apart from basic input
 types, it can take a class or a stateless component. When you're ready, go to
-the [docs](http://redux-form.com/7.3.0/docs/api/Field.md/#usage) to find out
+the [docs](http://redux-form.com/7.4.0/docs/api/Field.md/#usage) to find out
 more.
 
 Let's finish up our contact form:
@@ -196,12 +196,12 @@ class ContactPage extends React.Component {
 ```
 
 You can now take it from here. We recommend to check out the
-[examples](http://redux-form.com/7.3.0/examples/). The common next steps could
+[examples](http://redux-form.com/7.4.0/examples/). The common next steps could
 also be:
 
-* setting the
-  [initial form values](http://redux-form.com/7.3.0/examples/initializeFromState/),
-* implementing the
-  [validation](http://redux-form.com/7.3.0/examples/syncValidation/),
-* creating dynamic forms with
-  [arrays of fields](http://redux-form.com/7.3.0/examples/fieldArrays/).
+- setting the
+  [initial form values](http://redux-form.com/7.4.0/examples/initializeFromState/),
+- implementing the
+  [validation](http://redux-form.com/7.4.0/examples/syncValidation/),
+- creating dynamic forms with
+  [arrays of fields](http://redux-form.com/7.4.0/examples/fieldArrays/).
