@@ -2,8 +2,7 @@
   "private": true,
   "scripts": {
     "clean": "rimraf dist",
-    "build:webpack":
-      "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
     "lint": "eslint src",
     "start": "node devServer.js",
@@ -21,7 +20,7 @@
     "react-redux": "^5.0.3",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
-    "redux-form": "^7.3.0",
+    "redux-form": "^7.4.0",
     "redux-form-website-template": "0.0.112"
   },
   "devDependencies": {

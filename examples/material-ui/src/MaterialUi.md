@@ -9,7 +9,7 @@ component as custom component.
 
 For controls like `SelectField` we need to simulate the `onChange` manually. As
 props have been exposed in `redux-form` you can fire `onChange` manually. Read
-more [here](https://redux-form.com/7.3.0/docs/api/Field.md/#usage).
+more [here](https://redux-form.com/7.4.0/docs/api/Field.md/#usage).
 
 The delay between when you click "Submit" and when the alert dialog pops up is
 intentional, to simulate server latency.
@@ -43,4 +43,4 @@ Material UI:
 
 ## How to use async validation in form:
 
-* Emails that will _fail_ validation: `foo@foo.com`, `bar@bar.com`.
+- Emails that will _fail_ validation: `foo@foo.com`, `bar@bar.com`.
