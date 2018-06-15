@@ -1,5 +1,6 @@
 // @flow
 import { Component, createElement } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
@@ -122,6 +123,7 @@ const createFields = (structure: Structure<*, *>) => {
     _reduxForm: PropTypes.object
   }
 
+  polyfill(Fields)
   return Fields
 }
 

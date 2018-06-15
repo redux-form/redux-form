@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import hoistStatics from 'hoist-non-react-statics'
 import invariant from 'invariant'
 import isPromise from 'is-promise'
@@ -1157,6 +1158,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
       }
 
+      polyfill(ReduxForm)
       return hoistStatics(ReduxForm, WrappedComponent)
     }
   }
