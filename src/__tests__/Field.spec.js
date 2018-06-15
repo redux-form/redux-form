@@ -2210,6 +2210,88 @@ const describeField = (name, structure, combineReducers, setup) => {
       ).toBe('Required')
     })
 
+    it('should revalidate when Field unregisters and registers with new validate prop', () => {
+      const weightFieldName = 'weight'
+      const weightValue = 100
+      const initialWeightLimit = 20
+      const nextWeightLimit = 50
+      const store = makeStore({
+        testForm: {
+          values: {
+            weight: weightValue,
+          }
+        }
+      })
+      const renderWeight = jest.fn(props => <input {...props.input} />)
+      const weightValidationText = 'Max allowed weight is '
+      const getWeightLimitValidator = weightLimit => jest.fn(
+        value => (value > weightLimit ? weightValidationText + weightLimit : undefined)
+      )
+      class Form extends Component {
+
+        constructor() {
+          super()
+          this.state = { 
+            weightLimit: initialWeightLimit,
+            validate: [ getWeightLimitValidator(initialWeightLimit) ] 
+          }
+        }
+        
+        render() {
+          // This will trigger unregister and register Field
+          // and these must happen in correct order for Field validation to work
+          const someCrazyBusinessLogic = this.state.weightLimit > 30
+          return (
+            <div>
+              {someCrazyBusinessLogic &&
+                <Field
+                  name={weightFieldName}
+                  component={renderWeight}
+                  validate={this.state.validate}
+                />
+              }
+              {!someCrazyBusinessLogic &&
+                <Field
+                  name={weightFieldName}
+                  component={renderWeight}
+                  validate={this.state.validate}
+                />
+              }
+              <button onClick={() => this.setState({ 
+                weightLimit: nextWeightLimit,
+                validate: [ getWeightLimitValidator(nextWeightLimit) ] 
+              })}>
+                Change weight limit
+              </button>
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({form: testFormName})(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      testWeightValidator(initialWeightLimit)
+      const changeWeightLimit = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      TestUtils.Simulate.click(changeWeightLimit)
+      testWeightValidator(nextWeightLimit)
+
+      function testWeightValidator(weightLimit) {
+        expect(
+          renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
+            .valid
+        ).toBe(false)
+        expect(
+          renderWeight.mock.calls[renderWeight.mock.calls.length - 1][0].meta
+            .error
+        ).toBe(weightValidationText + weightLimit)
+      }
+
+    })
+
     it('should sync warn with field level warning function', () => {
       const store = makeStore()
       const usernameInput = jest.fn(props => <input {...props.input} />)

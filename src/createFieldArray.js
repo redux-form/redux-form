@@ -46,7 +46,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
       }
     }
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'FieldArray',

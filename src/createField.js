@@ -34,11 +34,7 @@ const createField = (structure: Structure<*, *>) => {
       }
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
-      return shallowCompare(this, nextProps, nextState)
-    }
-
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'Field',
@@ -47,6 +43,10 @@ const createField = (structure: Structure<*, *>) => {
       )
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
+      return shallowCompare(this, nextProps, nextState)
+    }
+    
     UNSAFE_componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)
