@@ -48,7 +48,7 @@ const createFields = (structure: Structure<*, *>) => {
       this.names.forEach(name => register(name, 'Field'))
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    componentWillReceiveProps(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { context } = this
         const { register, unregister } = context._reduxForm

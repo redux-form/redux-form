@@ -55,7 +55,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
       )
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: Props, nextContext: any) {
+    componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)
 

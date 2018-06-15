@@ -20,7 +20,7 @@ class Form extends Component<Props> {
     }
   }
 
-  UNSAFE_componentWillMount() {
+  componentWillMount() {
     this.context._reduxForm.registerInnerOnSubmit(this.props.onSubmit)
   }
 
