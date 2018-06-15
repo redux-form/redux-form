@@ -31,6 +31,9 @@ const createField = (structure: Structure<*, *>) => {
           'Field must be inside a component decorated with reduxForm()'
         )
       }
+    }
+
+    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'Field',
