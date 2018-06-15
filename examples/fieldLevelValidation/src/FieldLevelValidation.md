@@ -2,7 +2,7 @@
 
 As well as allowing you to provide a validation function to validate all the
 values in your form at once (see
-[Synchronous Validation Example](http://redux-form.com/7.4.0/examples/syncValidation/)),
+[Synchronous Validation Example](http://redux-form.com/7.4.1/examples/syncValidation/)),
 you may also provide individual value validation functions for each `Field` or
 `FieldArray`.
 
