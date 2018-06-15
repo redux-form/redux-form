@@ -31,12 +31,12 @@ Redux-form is proudly sponsored by [Rollbar](https://codesponsor.io/t/c/07f83dcd
 
 ## Documentation
 
-- [Getting Started](https://redux-form.com/7.4.1/docs/GettingStarted.md/)
-- [Examples](https://redux-form.com/7.4.1/examples/)
-- [API](https://redux-form.com/7.4.1/docs/api/)
-- [FAQ](https://redux-form.com/7.4.1/docs/faq/)
+- [Getting Started](https://redux-form.com/7.4.2/docs/GettingStarted.md/)
+- [Examples](https://redux-form.com/7.4.2/examples/)
+- [API](https://redux-form.com/7.4.2/docs/api/)
+- [FAQ](https://redux-form.com/7.4.2/docs/faq/)
 - [Release Notes](https://github.com/erikras/redux-form/releases)
-- [Older Documentation](https://redux-form.com/7.4.1/docs/DocumentationVersions.md/)
+- [Older Documentation](https://redux-form.com/7.4.2/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
 
