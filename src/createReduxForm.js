@@ -521,7 +521,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
         }
 
-        UNSAFE_componentWillMount() {
+        componentWillMount() {
           if (!isHotReloading()) {
             this.initIfNeeded()
             this.validateIfNeeded()
