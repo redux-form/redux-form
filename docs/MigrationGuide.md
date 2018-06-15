@@ -318,8 +318,8 @@ const upper = value => value && value.toUpperCase()
 ```
 
 See the
-[Normalizing Example](https://redux-form.com/7.4.0/examples/normalizing/) and
-[Value Lifecycle](https://redux-form.com/7.4.0/docs/ValueLifecycle.md/) for more
+[Normalizing Example](https://redux-form.com/7.4.1/examples/normalizing/) and
+[Value Lifecycle](https://redux-form.com/7.4.1/docs/ValueLifecycle.md/) for more
 details.
 
 ## Listening to other actions

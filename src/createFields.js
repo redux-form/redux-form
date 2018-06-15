@@ -1,5 +1,6 @@
 // @flow
 import { Component, createElement } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
@@ -31,21 +32,19 @@ const createFields = (structure: Structure<*, *>) => {
           'Fields must be inside a component decorated with reduxForm()'
         )
       }
+      const error = validateNameProp(props.names)
+      if (error) {
+        throw error
+      }
     }
 
     shouldComponentUpdate(nextProps: Props) {
       return shallowCompare(this, nextProps)
     }
 
-    componentWillMount() {
-      const error = validateNameProp(this.props.names)
-      if (error) {
-        throw error
-      }
+    componentDidMount() {
       const { context } = this
-      const {
-        _reduxForm: { register }
-      } = context
+      const { _reduxForm: { register } } = context
       this.names.forEach(name => register(name, 'Field'))
     }
 
@@ -124,6 +123,7 @@ const createFields = (structure: Structure<*, *>) => {
     _reduxForm: PropTypes.object
   }
 
+  polyfill(Fields)
   return Fields
 }
 
