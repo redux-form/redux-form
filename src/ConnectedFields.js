@@ -1,5 +1,5 @@
 // @flow
-import { Component, createElement } from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
@@ -28,10 +28,11 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedFields extends Component<Props> {
+  class ConnectedFields extends React.Component<Props> {
     onChangeFns = {}
     onFocusFns = {}
     onBlurFns = {}
+    ref: ?React.Component<*>
 
     constructor(props: Props) {
       super(props)
@@ -89,7 +90,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.refs.renderedComponent
+      return this.ref
     }
 
     handleChange = (name: string, event: any): void => {
@@ -122,45 +123,56 @@ const createConnectedFields = (structure: Structure<*, *>) => {
       }
     }
 
+    saveRef = (ref: ?React.Component<*>) => {
+      this.ref = ref
+    }
+
     render() {
       const { component, withRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
-      const { custom, ...props } = Object.keys(
-        _fields
-      ).reduce((accumulator, name) => {
-        const connectedProps = _fields[name]
-        const { custom, ...fieldProps } = createFieldProps(structure, name, {
-          ...connectedProps,
-          ...rest,
-          form,
-          onBlur: this.onBlurFns[name],
-          onChange: this.onChangeFns[name],
-          onFocus: this.onFocusFns[name]
-        })
-        accumulator.custom = custom
-        const fieldName = sectionPrefix
-          ? name.replace(`${sectionPrefix}.`, '')
-          : name
-        return plain.setIn(accumulator, fieldName, fieldProps)
-      }, {})
+      const { custom, ...props } = Object.keys(_fields).reduce(
+        (accumulator, name) => {
+          const connectedProps = _fields[name]
+          const { custom, ...fieldProps } = createFieldProps(structure, name, {
+            ...connectedProps,
+            ...rest,
+            form,
+            onBlur: this.onBlurFns[name],
+            onChange: this.onChangeFns[name],
+            onFocus: this.onFocusFns[name]
+          })
+          accumulator.custom = custom
+          const fieldName = sectionPrefix
+            ? name.replace(`${sectionPrefix}.`, '')
+            : name
+          return plain.setIn(accumulator, fieldName, fieldProps)
+        },
+        {}
+      )
       if (withRef) {
-        props.ref = 'renderedComponent'
+        props.ref = this.saveRef
       }
 
-      return createElement(component, { ...props, ...custom })
+      return React.createElement(component, { ...props, ...custom })
     }
   }
 
   ConnectedFields.propTypes = {
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     _fields: PropTypes.object.isRequired,
     props: PropTypes.object
   }
 
   const connector = connect(
     (state, ownProps) => {
-      const { names, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {
+        names,
+        _reduxForm: { initialValues, getFormState }
+      } = ownProps
       const formState = getFormState(state)
       return {
         _fields: names.reduce((accumulator, name) => {

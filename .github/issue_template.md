@@ -1,5 +1,7 @@
 ### Are you submitting a **bug report** or a **feature request**?
+<!-- !!! IMPORTANT !!! -->
 <!-- For support request, please use Stack Overflow instead. This issue tracker is reserved for bugs and features. -->
+<!-- !!! IMPORTANT !!! -->
 
 
 ### What is the current behavior?
@@ -10,7 +12,10 @@
 
 
 ### Sandbox Link
-<!-- Problems are much easier to understand and debug if they can be demonstrated in a minimal environment. Pick the example sandbox (linked on the README) that is most like your app, and see if you can reproduce the problem.  -->
+<!-- !!! IMPORTANT !!! -->
+<!-- If you're opening bug reports and not providing a Sandbox link, we may close your issue without notice. -->
+<!-- Start from https://codesandbox.io/s/gJjDoKYWl or pick one the linked sandboxes on the README that is most like your app -->
+<!-- !!! IMPORTANT !!! -->
 
 
 ### What's your environment?

@@ -58,7 +58,11 @@ class FormSection extends Component<Props> {
 
 FormSection.propTypes = {
   name: PropTypes.string.isRequired,
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+    PropTypes.node
+  ])
 }
 
 FormSection.defaultProps = {

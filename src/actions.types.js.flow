@@ -167,8 +167,13 @@ export type Initialize = {
   (
     form: string,
     values: Object,
+    otherMeta?: Object
+  ): InitializeAction,
+  (
+    form: string,
+    values: Object,
     keepDirty: boolean,
-    otherMeta: Object
+    otherMeta?: Object
   ): InitializeAction
 }
 export type RegisterFieldAction = {

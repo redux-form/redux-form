@@ -164,7 +164,7 @@ component.
 ## Props
 
 The props that `Fields` will pass to your component are
-[the same `input` and `meta` structures that `Field` generates](https://redux-form.com/7.3.0/docs/api/Field.md/#props),
+[the same `input` and `meta` structures that `Field` generates](https://redux-form.com/7.4.1/docs/api/Field.md/#props),
 except that they are broken up into the structure of the fields you gave as
 `names`.
 
@@ -174,7 +174,7 @@ the props structure given to your component
 For example, if the fields you gave are...
 
 ```jsx
-;<Fields
+<Fields
   names={[
     'name',
     'email',

@@ -1,5 +1,6 @@
 // @flow
 import { Component, createElement } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
@@ -37,17 +38,19 @@ const createFields = (structure: Structure<*, *>) => {
       return shallowCompare(this, nextProps)
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       const error = validateNameProp(this.props.names)
       if (error) {
         throw error
       }
       const { context } = this
-      const { _reduxForm: { register } } = context
+      const {
+        _reduxForm: { register }
+      } = context
       this.names.forEach(name => register(name, 'Field'))
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { context } = this
         const { register, unregister } = context._reduxForm
@@ -108,8 +111,11 @@ const createFields = (structure: Structure<*, *>) => {
 
   Fields.propTypes = {
     names: (props, propName) => validateNameProp(props[propName]),
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,
@@ -119,6 +125,7 @@ const createFields = (structure: Structure<*, *>) => {
     _reduxForm: PropTypes.object
   }
 
+  polyfill(Fields)
   return Fields
 }
 

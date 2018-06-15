@@ -8,7 +8,7 @@ const createIsDirty = (structure: Structure<*, *>) => (
   getFormState: ?GetFormState
 ): IsDirtyInterface => {
   const isPristine = createIsPristine(structure)(form, getFormState)
-  return (state: any) => !isPristine(state)
+  return (state: any, ...fields: string[]) => !isPristine(state, ...fields)
 }
 
 export default createIsDirty

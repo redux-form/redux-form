@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, createElement } from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -27,9 +27,9 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     return getIn(syncWarnings, `${name}._warning`)
   }
 
-  class ConnectedFieldArray extends Component<Props> {
+  class ConnectedFieldArray extends React.Component<Props> {
     static defaultProps: DefaultProps
-    ref: ?React.Component<*, *>
+    ref: ?HTMLElement
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
@@ -88,7 +88,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       return this.ref
     }
 
-    saveRef = (ref: ?React.Component<*, *>) => {
+    saveRef = (ref: ?HTMLElement) => {
       this.ref = ref
     }
 
@@ -117,13 +117,16 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       if (withRef) {
         props.ref = this.saveRef
       }
-      return createElement(component, props)
+      return React.createElement(component, props)
     }
   }
 
   ConnectedFieldArray.propTypes = {
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     props: PropTypes.object,
     rerenderOnEveryChange: PropTypes.bool
   }
@@ -138,7 +141,10 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   const connector = connect(
     (state, ownProps) => {
-      const { name, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {
+        name,
+        _reduxForm: { initialValues, getFormState }
+      } = ownProps
       const formState = getFormState(state)
       const initial =
         getIn(formState, `initial.${name}`) ||
