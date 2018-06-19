@@ -72,8 +72,8 @@ const createFieldArray = (structure: Structure<*, *>) => {
         this.context._reduxForm.register(
           newName,
           'FieldArray',
-          () => nextProps.validate,
-          () => nextProps.warn
+          () => wrapError(nextProps.validate, '_error'),
+          () => wrapError(nextProps.warn, '_warning')
         )
       }
     }
