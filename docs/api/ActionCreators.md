@@ -77,7 +77,9 @@ actions such as `CHANGE` or `BLUR`, the specific field.
 > Cleans fields values for all the fields passed in.
 
 > If the `keepTouched` parameter is `true`, the values of currently touched
-> fields will be retained If the `persistentSubmitErrors` parameter is `true`,
+> fields will be retained. 
+
+> If the `persistentSubmitErrors` parameter is `true`,
 > the values of currently submit errors fields will be retained
 
 ### `destroy(...forms:String)`
