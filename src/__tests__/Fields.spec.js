@@ -62,6 +62,24 @@ const describeFields = (name, structure, combineReducers, setup) => {
       }).toThrow(/must be inside a component decorated with reduxForm/)
     })
 
+    it('should throw an error if invalid component prop is provided', () => {
+      const store = makeStore()
+      const notAComponent = {}
+      class Form extends Component {
+        render() {
+          return <Fields names={['foo', 'bar']} component={notAComponent} />
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      expect(() => {
+        TestUtils.renderIntoDocument(
+          <Provider store={store}>
+            <TestForm />
+          </Provider>
+        )
+      }).toThrow(/Element type is invalid/)
+    })
+
     it('should warn if no names prop is provided', () => {
       const spy = jest.spyOn(console, 'error') // mutes prop type warning
       const store = makeStore()

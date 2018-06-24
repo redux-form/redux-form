@@ -9,6 +9,7 @@ import plain from './structure/plain'
 import isReactNative from './isReactNative'
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedField.types'
+import validateComponentProp from './util/validateComponentProp'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -296,11 +297,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
   }
 
   ConnectedField.propTypes = {
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    component: validateComponentProp,
     props: PropTypes.object
   }
 
