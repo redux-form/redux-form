@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, createElement } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
@@ -33,11 +34,7 @@ const createField = (structure: Structure<*, *>) => {
       }
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
-      return shallowCompare(this, nextProps, nextState)
-    }
-
-    componentWillMount() {
+    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'Field',
@@ -46,6 +43,10 @@ const createField = (structure: Structure<*, *>) => {
       )
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
+      return shallowCompare(this, nextProps, nextState)
+    }
+    
     componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)
@@ -126,8 +127,11 @@ const createField = (structure: Structure<*, *>) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     normalize: PropTypes.func,
     onBlur: PropTypes.func,
@@ -152,6 +156,7 @@ const createField = (structure: Structure<*, *>) => {
     _reduxForm: PropTypes.object
   }
 
+  polyfill(Field)
   return Field
 }
 

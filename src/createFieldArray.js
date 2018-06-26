@@ -1,5 +1,6 @@
 // @flow
 import React, { Component, createElement } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
@@ -45,7 +46,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
       }
     }
 
-    componentWillMount() {
+    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'FieldArray',
@@ -113,7 +114,11 @@ const createFieldArray = (structure: Structure<*, *>) => {
 
   FieldArray.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.func.isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     props: PropTypes.object,
     validate: PropTypes.oneOfType([
       PropTypes.func,
@@ -129,6 +134,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
     _reduxForm: PropTypes.object
   }
 
+  polyfill(FieldArray)
   return FieldArray
 }
 

@@ -1,9 +1,10 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import type { Context } from './types'
 
 export type Props = {
   name: string,
+  children?: React.Node,
   component: Function | string,
   withRef?: boolean,
   _reduxForm: Context,
