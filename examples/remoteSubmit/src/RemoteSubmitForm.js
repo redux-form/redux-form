@@ -29,15 +29,18 @@ const RemoteSubmitForm = props => {
         label="Password"
       />
       {error && <strong>{error}</strong>}
-      <div>
-        No submit button in the form. The submit button below is a separate
-        unlinked component.
-      </div>
+      <button type="submit">Submit</button>
     </form>
   )
 }
 
 export default reduxForm({
-  form: 'remoteSubmit', // a unique identifier for this form
-  onSubmit: submit // submit function must be passed to onSubmit
+  form: 'remoteSubmit', // a unique identifier for this form // submit function must be passed to onSubmit
+  submitAsSideEffect: true,
+  onSubmit: (data, dispatch, props) => {
+    return {
+      type: 'MY_FORM_SUBMISSION',
+      payload: data
+    }
+  }
 })(RemoteSubmitForm)

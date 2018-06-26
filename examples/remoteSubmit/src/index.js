@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
+import createSagaMiddleware from 'redux-saga'
 import {
   App,
   Code,
@@ -11,13 +12,23 @@ import {
   generateExampleBreadcrumbs
 } from 'redux-form-website-template'
 
+import { helloSaga } from './saga'
+
 const dest = document.getElementById('content')
 const reducer = combineReducers({
   form: reduxFormReducer // mounted under "form"
 })
-const store = (window.devToolsExtension
-  ? window.devToolsExtension()(createStore)
-  : createStore)(reducer)
+
+const sagaMiddleware = createSagaMiddleware()
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(
+  reducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware))
+)
+
+sagaMiddleware.run(helloSaga)
 
 let render = () => {
   const RemoteSubmitForm = require('./RemoteSubmitForm').default
