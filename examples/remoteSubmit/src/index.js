@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
 import createSagaMiddleware from 'redux-saga'
+import { combineEpics, createEpicMiddleware } from 'redux-observable'
 import {
   App,
   Code,
@@ -13,29 +14,29 @@ import {
 } from 'redux-form-website-template'
 
 import { helloSaga } from './saga'
-
+import { formEpic } from './epic'
 const dest = document.getElementById('content')
+
+const sagaMiddleware = createSagaMiddleware()
+const epicMiddleware = createEpicMiddleware()
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const reducer = combineReducers({
   form: reduxFormReducer // mounted under "form"
 })
 
-const sagaMiddleware = createSagaMiddleware()
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-
 const store = createStore(
   reducer,
-  composeEnhancers(applyMiddleware(sagaMiddleware))
+  composeEnhancers(applyMiddleware(sagaMiddleware, epicMiddleware))
 )
 
 sagaMiddleware.run(helloSaga)
+epicMiddleware.run(formEpic)
 
 let render = () => {
   const RemoteSubmitForm = require('./RemoteSubmitForm').default
-  const RemoteSubmitButton = require('./RemoteSubmitButton').default
   const readme = require('./RemoteSubmit.md')
   const raw = require('!!raw-loader!./RemoteSubmitForm')
-  const rawButton = require('!!raw-loader!./RemoteSubmitButton')
   const rawSubmit = require('!!raw-loader!./submit')
   ReactDOM.hydrate(
     <Provider store={store}>
@@ -69,8 +70,6 @@ let render = () => {
 
         <RemoteSubmitForm />
 
-        <RemoteSubmitButton />
-
         <Values form="remoteSubmit" />
 
         <h2>Code</h2>
@@ -82,10 +81,6 @@ let render = () => {
         <h4>RemoteSubmitForm.js</h4>
 
         <Code source={raw} />
-
-        <h4>RemoteSubmitButton.js</h4>
-
-        <Code source={rawButton} />
       </App>
     </Provider>,
     dest
@@ -111,11 +106,9 @@ if (module.hot) {
     setTimeout(render)
   }
   module.hot.accept('./RemoteSubmitForm', rerender)
-  module.hot.accept('./RemoteSubmitButton', rerender)
   module.hot.accept('./RemoteSubmit.md', rerender)
   module.hot.accept('./submit', rerender)
   module.hot.accept('!!raw-loader!./RemoteSubmitForm', rerender)
-  module.hot.accept('!!raw-loader!./RemoteSubmitButton', rerender)
   module.hot.accept('!!raw-loader!./submit', rerender)
 }
 
