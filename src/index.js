@@ -23,6 +23,7 @@ export {
   formPropTypes
 } from './propTypes'
 export { default as Field } from './Field'
+export { default as FieldQuery } from './FieldQuery'
 export { default as Fields } from './Fields'
 export { default as FieldArray } from './FieldArray'
 export { default as formValueSelector } from './formValueSelector'

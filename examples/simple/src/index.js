@@ -47,7 +47,7 @@ let render = () => {
           '7.4.2'
         )}
       >
-        <Markdown content={readme} />
+        {/* <Markdown content={readme} />
 
         <div style={{ textAlign: 'center' }}>
           <a
@@ -58,7 +58,7 @@ let render = () => {
           >
             <i className="fa fa-codepen" /> Open in Sandbox
           </a>
-        </div>
+        </div> */}
 
         <h2>Form</h2>
 
@@ -66,11 +66,11 @@ let render = () => {
 
         <Values form="simple" />
 
-        <h2>Code</h2>
+        {/* <h2>Code</h2>
 
         <h4>SimpleForm.js</h4>
 
-        <Code source={raw} />
+        <Code source={raw} /> */}
       </App>
     </Provider>,
     dest

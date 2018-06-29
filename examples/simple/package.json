@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
+    "babel-preset-flow": "^6.23.0",
+    "flow": "^0.2.3",
+    "flow-bin": "^0.75.0",
     "html-loader": "^0.5.1",
     "json-loader": "^0.5.7",
     "markdown-loader": "^2.0.0",
