@@ -47,20 +47,17 @@ const createConnectedQueryField = (structure: Structure<*, *>) => {
           }))
       )
     }
-
     render() {
-      const { renderProp, ...rest } = this.props
+      const { renderProp, _reduxForm, dispatch, ...rest } = this.props
 
       return renderProp(rest)
     }
   }
 
   ConnectedQueryField.propTypes = {
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    renderProp: PropTypes.func.isRequired,
+    _reduxForm: PropTypes.object,
+    dispatch: PropTypes.func,
     props: PropTypes.object
   }
 

@@ -2,7 +2,6 @@
 import React, { Component, createElement } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
-// import plain from './structure/plain'
 import type {
   ConnectedComponent,
   Structure,
@@ -12,6 +11,7 @@ import shallowCompare from './util/shallowCompare'
 import { connect } from 'react-redux'
 import type { Props } from './FieldProps.types'
 import createConnectedField from './ConnectedQueryField'
+import prefixName from './util/prefixName'
 
 const createQueryField = structure => {
   const ConnectedQueryField = createConnectedField(structure)
@@ -33,10 +33,11 @@ const createQueryField = structure => {
     }
 
     render() {
-      const { children, render, name } = this.props
+      const { children, render, ...rest } = this.props
+      const name = prefixName(this.context, this.props.name)
       const renderProp = children || render
       return createElement(ConnectedQueryField, {
-        ...this.props,
+        ...rest,
         _reduxForm: this.context._reduxForm,
         name,
         renderProp

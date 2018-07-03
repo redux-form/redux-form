@@ -2218,56 +2218,61 @@ const describeField = (name, structure, combineReducers, setup) => {
       const store = makeStore({
         testForm: {
           values: {
-            weight: weightValue,
+            weight: weightValue
           }
         }
       })
       const renderWeight = jest.fn(props => <input {...props.input} />)
       const weightValidationText = 'Max allowed weight is '
-      const getWeightLimitValidator = weightLimit => jest.fn(
-        value => (value > weightLimit ? weightValidationText + weightLimit : undefined)
-      )
+      const getWeightLimitValidator = weightLimit =>
+        jest.fn(
+          value =>
+            value > weightLimit ? weightValidationText + weightLimit : undefined
+        )
       class Form extends Component {
-
         constructor() {
           super()
-          this.state = { 
+          this.state = {
             weightLimit: initialWeightLimit,
-            validate: [ getWeightLimitValidator(initialWeightLimit) ] 
+            validate: [getWeightLimitValidator(initialWeightLimit)]
           }
         }
-        
+
         render() {
           // This will trigger unregister and register Field
           // and these must happen in correct order for Field validation to work
           const someCrazyBusinessLogic = this.state.weightLimit > 30
           return (
             <div>
-              {someCrazyBusinessLogic &&
+              {someCrazyBusinessLogic && (
                 <Field
                   name={weightFieldName}
                   component={renderWeight}
                   validate={this.state.validate}
                 />
-              }
-              {!someCrazyBusinessLogic &&
+              )}
+              {!someCrazyBusinessLogic && (
                 <Field
                   name={weightFieldName}
                   component={renderWeight}
                   validate={this.state.validate}
                 />
-              }
-              <button onClick={() => this.setState({ 
-                weightLimit: nextWeightLimit,
-                validate: [ getWeightLimitValidator(nextWeightLimit) ] 
-              })}>
+              )}
+              <button
+                onClick={() =>
+                  this.setState({
+                    weightLimit: nextWeightLimit,
+                    validate: [getWeightLimitValidator(nextWeightLimit)]
+                  })
+                }
+              >
                 Change weight limit
               </button>
             </div>
           )
         }
       }
-      const TestForm = reduxForm({form: testFormName})(Form)
+      const TestForm = reduxForm({ form: testFormName })(Form)
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
@@ -2275,7 +2280,10 @@ const describeField = (name, structure, combineReducers, setup) => {
       )
 
       testWeightValidator(initialWeightLimit)
-      const changeWeightLimit = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+      const changeWeightLimit = TestUtils.findRenderedDOMComponentWithTag(
+        dom,
+        'button'
+      )
       TestUtils.Simulate.click(changeWeightLimit)
       testWeightValidator(nextWeightLimit)
 
@@ -2289,7 +2297,6 @@ const describeField = (name, structure, combineReducers, setup) => {
             .error
         ).toBe(weightValidationText + weightLimit)
       }
-
     })
 
     it('should sync warn with field level warning function', () => {
