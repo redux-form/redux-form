@@ -39,15 +39,15 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="7.4.2"
+        version="7.4.1"
         path="/examples/simple"
         breadcrumbs={generateExampleBreadcrumbs(
           'simple',
           'Simple Form Example',
-          '7.4.2'
+          '7.4.1'
         )}
       >
-        {/* <Markdown content={readme} />
+        <Markdown content={readme} />
 
         <div style={{ textAlign: 'center' }}>
           <a
@@ -58,7 +58,7 @@ let render = () => {
           >
             <i className="fa fa-codepen" /> Open in Sandbox
           </a>
-        </div> */}
+        </div>
 
         <h2>Form</h2>
 
@@ -66,11 +66,11 @@ let render = () => {
 
         <Values form="simple" />
 
-        {/* <h2>Code</h2>
+        <h2>Code</h2>
 
         <h4>SimpleForm.js</h4>
 
-        <Code source={raw} /> */}
+        <Code source={raw} />
       </App>
     </Provider>,
     dest

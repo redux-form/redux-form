@@ -1,6 +1,5 @@
 import React from 'react'
-// import { Field, reduxForm } from 'redux-form'
-import { Field, reduxForm, FieldQuery } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 const SimpleForm = props => {
   const { handleSubmit, pristine, reset, submitting } = props
@@ -17,11 +16,17 @@ const SimpleForm = props => {
           />
         </div>
       </div>
-      <FieldQuery name="firstName">
-        {({ value }) => {
-          return <p>{value}</p>
-        }}
-      </FieldQuery>
+      <div>
+        <label>Last Name</label>
+        <div>
+          <Field
+            name="lastName"
+            component="input"
+            type="text"
+            placeholder="Last Name"
+          />
+        </div>
+      </div>
       <div>
         <label>Email</label>
         <div>
