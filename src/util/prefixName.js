@@ -4,6 +4,6 @@ import type { ReactContext } from '../types'
 const formatName = (
   { _reduxForm: { sectionPrefix } }: ReactContext,
   name: string
-) => (sectionPrefix ? `${sectionPrefix}.${name}` : name)
+) => (sectionPrefix ? `${sectionPrefix}${name ? '.' : ''}${name}` : name)
 
 export default formatName
