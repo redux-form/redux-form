@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import type { ReactContext } from './types'
 
@@ -7,8 +8,7 @@ export type Props = {
   onSubmit: Function
 }
 
-class Form extends Component {
-  props: Props
+class Form extends Component<Props> {
   context: ReactContext
 
   constructor(props: Props, context: ReactContext) {
@@ -36,4 +36,5 @@ Form.contextTypes = {
   _reduxForm: PropTypes.object
 }
 
+polyfill(Form)
 export default Form

@@ -1,9 +1,10 @@
 // @flow
-import type { Structure, Context } from './types'
-import type { Component as ReactComponent } from 'react'
+import * as React from 'react'
+import type { Context } from './types'
 
 export type Props = {
   name: string,
+  children?: React.Node,
   component: Function | string,
   withRef?: boolean,
   _reduxForm: Context,
@@ -40,9 +41,11 @@ export type DefaultProps = {
   rerenderOnEveryChange: boolean
 }
 
-export type InstanceApi = {
+type Api = {
   dirty: boolean,
-  getRenderedComponent: { (): ReactComponent<*, *, *> },
+  getRenderedComponent: { (): React.Component<*, *> },
   pristine: boolean,
   value: ?(any[])
-} & ReactComponent<*, *, *>
+}
+
+export type InstanceApi = Api & React.Component<Props, void>

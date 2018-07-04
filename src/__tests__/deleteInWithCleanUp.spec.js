@@ -1,15 +1,18 @@
 import createDeleteInWithCleanUp from '../deleteInWithCleanUp'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-const describeDeleteInWithCleanUp = (name, structure, expect) => {
+const describeDeleteInWithCleanUp = (name, structure, setup) => {
   const { fromJS } = structure
-  const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)
+  const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)()
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should delete from a flat structure', () => {
       expect(
         deleteInWithCleanUp(
@@ -142,16 +145,41 @@ const describeDeleteInWithCleanUp = (name, structure, expect) => {
         )
       ).toEqualMap({})
     })
+
+    it('should only delete cats because I am a dog person', () => {
+      const validation = structure => (state, path) => path.startsWith('cat')
+      const deleteInSpecial = createDeleteInWithCleanUp(structure)(validation)
+
+      expect(
+        deleteInSpecial(
+          fromJS({
+            dog: 'Scooby',
+            cat: 'Garfield'
+          }),
+          'dog'
+        )
+      ).toEqualMap({
+        dog: 'Scooby',
+        cat: 'Garfield'
+      })
+      expect(
+        deleteInSpecial(
+          fromJS({
+            dog: 'Scooby',
+            cat: 'Garfield'
+          }),
+          'cat'
+        )
+      ).toEqualMap({
+        dog: 'Scooby'
+      })
+    })
   })
 }
 
-describeDeleteInWithCleanUp(
-  'deleteInWithCleanUp.plain',
-  plain,
-  addExpectations(plainExpectations)
+describeDeleteInWithCleanUp('deleteInWithCleanUp.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeDeleteInWithCleanUp(
-  'deleteInWithCleanUp.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeDeleteInWithCleanUp('deleteInWithCleanUp.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

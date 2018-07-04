@@ -1,5 +1,6 @@
 // @flow
 import { Component, createElement } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
@@ -7,7 +8,7 @@ import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
-import type { Props } from './Fields.types.js.flow'
+import type { Props } from './FieldsProps.types'
 
 const validateNameProp = prop => {
   if (!prop) {
@@ -23,7 +24,7 @@ const validateNameProp = prop => {
 const createFields = (structure: Structure<*, *>) => {
   const ConnectedFields = createConnectedFields(structure)
 
-  class Fields extends Component {
+  class Fields extends Component<Props> {
     constructor(props: Props, context: ReactContext) {
       super((props: Props), (context: ReactContext))
       if (!context._reduxForm) {
@@ -31,17 +32,17 @@ const createFields = (structure: Structure<*, *>) => {
           'Fields must be inside a component decorated with reduxForm()'
         )
       }
+      const error = validateNameProp(props.names)
+      if (error) {
+        throw error
+      }
     }
 
     shouldComponentUpdate(nextProps: Props) {
       return shallowCompare(this, nextProps)
     }
 
-    componentWillMount() {
-      const error = validateNameProp(this.props.names)
-      if (error) {
-        throw error
-      }
+    componentDidMount() {
       const { context } = this
       const { _reduxForm: { register } } = context
       this.names.forEach(name => register(name, 'Field'))
@@ -108,8 +109,11 @@ const createFields = (structure: Structure<*, *>) => {
 
   Fields.propTypes = {
     names: (props, propName) => validateNameProp(props[propName]),
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,
@@ -119,6 +123,7 @@ const createFields = (structure: Structure<*, *>) => {
     _reduxForm: PropTypes.object
   }
 
+  polyfill(Fields)
   return Fields
 }
 

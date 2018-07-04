@@ -1,16 +1,24 @@
 // @flow
 import type { Event, Structure } from './types'
+import type { Dispatch } from 'redux'
+import type { FieldProps, InputProps } from './FieldProps.types'
 
 export type Props = {
   asyncError: any,
   asyncValidating: boolean,
-  onBlur: { (event: Event, newValue: ?any, previousValue: ?any): void },
-  onChange: { (event: Event, newValue: ?any, previousValue: ?any): void },
-  onDrop: { (event: Event, newValue: ?any, previousValue: ?any): void },
-  onDragStart: { (event: Event): void },
-  onFocus: { (event: Event): void },
+  onBlur: {
+    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
+  },
+  onChange: {
+    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
+  },
+  onDrop: {
+    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
+  },
+  onDragStart: { (event: Event, name: ?string): void },
+  onFocus: { (event: Event, name: ?string): void },
   dirty: boolean,
-  dispatch: { (action: any): void },
+  dispatch: Dispatch<*>,
   form: string,
   format?: { (value: any, name: string): any },
   initial: any,
@@ -24,44 +32,19 @@ export type Props = {
   submitting: boolean,
   syncError?: any,
   syncWarning?: any,
+  type?: string,
   validate?: { (values: any): Object },
   value: any,
   _value: any,
   warn?: { (values: any): Object }
 }
 
-type InputProps = {
-  onBlur: { (event: any): void },
-  onChange: { (event: any): void },
-  onDrop: { (event: any): void },
-  onDragStart: { (event: any): void },
-  onFocus: { (event: any): void },
-  value: any
-}
-
-type Result = {
-  input: InputProps,
-  meta: {
-    active: boolean,
-    asyncValidating: boolean,
-    autofilled: boolean,
-    dirty: boolean,
-    dispatch(action: any): void,
-    error: any,
-    form: string,
-    warning: any,
-    invalid: boolean,
-    pristine: boolean,
-    submitting: boolean,
-    submitFailed: boolean,
-    touched: boolean,
-    valid: boolean,
-    visited: boolean
-  },
-  custom: Object
-}
-
-const processProps = (type: string, props: InputProps, _value: any): Object => {
+const processProps = (
+  type: ?string,
+  props: InputProps,
+  _value: any,
+  deepEqual: Function
+): Object => {
   const { value } = props
   if (type === 'checkbox') {
     return {
@@ -72,7 +55,7 @@ const processProps = (type: string, props: InputProps, _value: any): Object => {
   if (type === 'radio') {
     return {
       ...props,
-      checked: value === _value,
+      checked: deepEqual(value, _value),
       value: _value
     }
   }
@@ -92,7 +75,7 @@ const processProps = (type: string, props: InputProps, _value: any): Object => {
 }
 
 const createFieldProps = (
-  { getIn, toJS }: Structure<*, *>,
+  { getIn, toJS, deepEqual }: Structure<*, *>,
   name: string,
   {
     asyncError,
@@ -122,7 +105,7 @@ const createFieldProps = (
     warn, // eslint-disable-line no-unused-vars
     ...custom
   }: Props
-): Result => {
+): FieldProps => {
   const error = syncError || asyncError || submitError
   const warning = syncWarning
 
@@ -148,7 +131,8 @@ const createFieldProps = (
         onFocus,
         value: formattedFieldValue
       },
-      _value
+      _value,
+      deepEqual
     ),
     meta: {
       ...toJS(state),

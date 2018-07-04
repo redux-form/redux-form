@@ -1,6 +1,5 @@
 /* eslint react/no-multi-comp:0 */
 import React from 'react'
-import { createSpy } from 'expect'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
 import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
@@ -12,17 +11,16 @@ import formValues from '../formValues'
 import immutableFormValues from '../immutable/formValues'
 import FormSection from '../FormSection'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
 const describeValues = (
   name,
   formValues,
   structure,
   combineReducers,
-  expect
+  setup
 ) => {
   const reducer = createReducer(structure)
   const reduxForm = createReduxForm(structure)
@@ -43,37 +41,46 @@ const describeValues = (
         },
         {
           rat: 'dog'
-        },
-      ]
+        }
+      ],
+      spider: 'mosquito'
     })
   })(props => <div {...props} />)
 
   const testProps = (useSection, ...config) => {
-    const Spy = createSpy(() => <div />).andCallThrough()
+    const Spy = jest.fn(() => <div />)
     const Decorated = formValues(...config)(Spy)
     TestUtils.renderIntoDocument(
       <Provider store={store}>
         <Form>
-          {useSection
-            ? <FormSection name="sub">
-                <Decorated />
-              </FormSection>
-            : <Decorated />}
+          {useSection ? (
+            <FormSection name="sub">
+              <Decorated />
+            </FormSection>
+          ) : (
+            <Decorated fooFormFieldName="cat" barFormFieldName="sub.dog" />
+          )}
         </Form>
       </Provider>
     )
     expect(Spy).toHaveBeenCalled()
-    return Spy.calls[0].arguments[0]
+    return Spy.mock.calls[0][0]
   }
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw on missing names', () => {
       expect(() => testProps(false)).toThrow()
       expect(() => testProps(false, {})).toThrow()
+      expect(() => testProps(false, () => {})).toThrow()
+      expect(() => testProps(false, () => ({}))).toThrow()
     })
 
     it('should throw on missing context', () => {
-      const Spy = createSpy(() => <div />).andCallThrough()
+      const Spy = jest.fn(() => <div />)
 
       const Decorated = formValues('meep')(Spy)
       expect(() =>
@@ -97,14 +104,28 @@ const describeValues = (
       expect(props.bar).toEqual('cat')
     })
 
+    it('should get values from Redux state when using a value mapper function', () => {
+      const props = testProps(false, props => props.fooFormFieldName)
+      expect(props.cat).toEqual('rat')
+    })
+
+    it('should use given prop names when using a value mapper function', () => {
+      const props = testProps(false, props => ({
+        foo: props.fooFormFieldName,
+        bar: props.barFormFieldName
+      }))
+      expect(props.foo).toEqual('rat')
+      expect(props.bar).toEqual('cat')
+    })
+
     it('should work in FormSection', () => {
       const props = testProps(true, 'dog')
       expect(props.dog).toEqual('cat')
     })
 
     it('should update props when FormSection name changes', () => {
-      const node = document.createElement('div');
-      const Spy = createSpy(() => <div />).andCallThrough()
+      const node = document.createElement('div')
+      const Spy = jest.fn(() => <div />)
       const Decorated = formValues('rat')(Spy)
 
       const Component = ({ name }) => (
@@ -117,20 +138,39 @@ const describeValues = (
         </Provider>
       )
 
-      ReactDOM.render(
-        <Component name='arr[0]' />,
-        node
-      );
+      ReactDOM.hydrate(<Component name="arr[0]" />, node)
 
-      ReactDOM.render(
-        <Component name='arr[1]' />,
-        node
-      );
+      ReactDOM.hydrate(<Component name="arr[1]" />, node)
 
-      expect(Spy.calls.length).toEqual(2)
+      expect(Spy.mock.calls.length).toEqual(2)
 
-      expect(Spy.calls[0].arguments[0].rat).toEqual('cat')
-      expect(Spy.calls[1].arguments[0].rat).toEqual('dog')
+      expect(Spy.mock.calls[0][0].rat).toEqual('cat')
+      expect(Spy.mock.calls[1][0].rat).toEqual('dog')
+    })
+
+    it('should update formValues props when props change', () => {
+      const node = document.createElement('div')
+      const Spy = jest.fn(() => <div />)
+      const Decorated = formValues(({ pet }) => ({
+        food: pet
+      }))(Spy)
+
+      const Component = ({ pet }) => (
+        <Provider store={store}>
+          <Form>
+            <Decorated pet={pet} />
+          </Form>
+        </Provider>
+      )
+
+      ReactDOM.hydrate(<Component pet="cat" />, node)
+
+      ReactDOM.hydrate(<Component pet="spider" />, node)
+
+      expect(Spy.mock.calls.length).toEqual(2)
+
+      expect(Spy.mock.calls[0][0].food).toEqual('rat')
+      expect(Spy.mock.calls[1][0].food).toEqual('mosquito')
     })
   })
 }
@@ -140,12 +180,12 @@ describeValues(
   formValues,
   plain,
   plainCombineReducers,
-  addExpectations(plainExpectations)
+  () => expect.extend(plainExpectations)
 )
 describeValues(
   'formValues.immutable',
   immutableFormValues,
   immutable,
   immutableCombineReducers,
-  addExpectations(immutableExpectations)
+  () => expect.extend(immutableExpectations)
 )

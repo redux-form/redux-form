@@ -1,5 +1,6 @@
 // @flow
-import { Component, createElement } from 'react'
+import React, { Component, createElement } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
@@ -11,20 +12,18 @@ import type {
   Structure,
   ReactContext
 } from './types.js.flow'
-import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types.js.flow'
-import type { Component as ReactComponent } from 'react'
-import type { Props } from './Field.types.js.flow'
+import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types'
+import type { Props } from './FieldProps.types'
 
 const createField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
 
   const { setIn } = structure
 
-  class Field extends Component {
-    props: Props
+  class Field extends Component<Props> {
     context: ReactContext
 
-    ref: ConnectedComponent<ConnectedFieldInstanceApi>
+    ref: ?ConnectedComponent<ConnectedFieldInstanceApi>
 
     constructor(props: Props, context: ReactContext) {
       super(props, context)
@@ -35,11 +34,7 @@ const createField = (structure: Structure<*, *>) => {
       }
     }
 
-    shouldComponentUpdate(nextProps: Props) {
-      return shallowCompare(this, nextProps)
-    }
-
-    componentWillMount() {
+    componentDidMount() {
       this.context._reduxForm.register(
         this.name,
         'Field',
@@ -48,18 +43,25 @@ const createField = (structure: Structure<*, *>) => {
       )
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
+      return shallowCompare(this, nextProps, nextState)
+    }
+    
+    componentWillReceiveProps(nextProps: Props, nextContext: any) {
+      const oldName = prefixName(this.context, this.props.name)
+      const newName = prefixName(nextContext, nextProps.name)
+
       if (
-        this.props.name !== nextProps.name ||
+        oldName !== newName ||
         // use deepEqual here because they could be a function or an array of functions
         !plain.deepEqual(this.props.validate, nextProps.validate) ||
         !plain.deepEqual(this.props.warn, nextProps.warn)
       ) {
         // unregister old name
-        this.context._reduxForm.unregister(this.name)
+        this.context._reduxForm.unregister(oldName)
         // register new name
         this.context._reduxForm.register(
-          prefixName(this.context, nextProps.name),
+          newName,
           'Field',
           () => nextProps.validate,
           () => nextProps.warn
@@ -71,16 +73,18 @@ const createField = (structure: Structure<*, *>) => {
       this.context._reduxForm.unregister(this.name)
     }
 
-    saveRef = (ref: ConnectedComponent<ConnectedFieldInstanceApi>) =>
+    saveRef = (ref: ?ConnectedComponent<ConnectedFieldInstanceApi>) =>
       (this.ref = ref)
 
-    getRenderedComponent(): ReactComponent<*, *, *> {
+    getRenderedComponent(): ?React.Component<*, *> {
       invariant(
         this.props.withRef,
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to Field'
       )
-      return this.ref.getWrappedInstance().getRenderedComponent()
+      return this.ref
+        ? this.ref.getWrappedInstance().getRenderedComponent()
+        : undefined
     }
 
     get name(): string {
@@ -92,7 +96,7 @@ const createField = (structure: Structure<*, *>) => {
     }
 
     get pristine(): boolean {
-      return this.ref.getWrappedInstance().isPristine()
+      return !!(this.ref && this.ref.getWrappedInstance().isPristine())
     }
 
     get value(): any {
@@ -123,8 +127,11 @@ const createField = (structure: Structure<*, *>) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     format: PropTypes.func,
     normalize: PropTypes.func,
     onBlur: PropTypes.func,
@@ -142,12 +149,14 @@ const createField = (structure: Structure<*, *>) => {
       PropTypes.func,
       PropTypes.arrayOf(PropTypes.func)
     ]),
-    withRef: PropTypes.bool
+    withRef: PropTypes.bool,
+    immutableProps: PropTypes.arrayOf(PropTypes.string)
   }
   Field.contextTypes = {
     _reduxForm: PropTypes.object
   }
 
+  polyfill(Field)
   return Field
 }
 

@@ -18,6 +18,7 @@ use:
 import reduxForm from 'redux-form/es/reduxForm'
 import Field from 'redux-form/es/Field'
 import FieldArray from 'redux-form/es/FieldArray'
+import actions from 'redux-form/es/actions';
 ```
 
 
@@ -55,7 +56,7 @@ One would import the actions binding and then extract the needed action creators
 Example:
 
 ```js
-import * as actions from 'redux-form/es/actions';
+import actions from 'redux-form/es/actions';
 
 const { change, destroy } = actions;
 ```

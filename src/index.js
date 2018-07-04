@@ -5,7 +5,10 @@ export {
   default as defaultShouldAsyncValidate
 } from './defaultShouldAsyncValidate'
 export { default as defaultShouldValidate } from './defaultShouldValidate'
+export { default as defaultShouldError } from './defaultShouldError'
+export { default as defaultShouldWarn } from './defaultShouldWarn'
 export { default as Form } from './Form'
+export { default as FormName } from './FormName'
 export { default as FormSection } from './FormSection'
 export { default as SubmissionError } from './SubmissionError'
 // alias for propTypes
@@ -14,6 +17,9 @@ export {
   fieldInputPropTypes,
   fieldMetaPropTypes,
   fieldPropTypes,
+  fieldArrayFieldsPropTypes,
+  fieldArrayMetaPropTypes,
+  fieldArrayPropTypes,
   formPropTypes
 } from './propTypes'
 export { default as Field } from './Field'
@@ -21,6 +27,7 @@ export { default as Fields } from './Fields'
 export { default as FieldArray } from './FieldArray'
 export { default as formValueSelector } from './formValueSelector'
 export { default as formValues } from './formValues'
+export { default as getFormError } from './getFormError'
 export { default as getFormNames } from './getFormNames'
 export { default as getFormValues } from './getFormValues'
 export { default as getFormInitialValues } from './getFormInitialValues'
@@ -29,6 +36,7 @@ export { default as getFormMeta } from './getFormMeta'
 export { default as getFormAsyncErrors } from './getFormAsyncErrors'
 export { default as getFormSyncWarnings } from './getFormSyncWarnings'
 export { default as getFormSubmitErrors } from './getFormSubmitErrors'
+export { default as isAsyncValidating } from './isAsyncValidating'
 export { default as isDirty } from './isDirty'
 export { default as isInvalid } from './isInvalid'
 export { default as isPristine } from './isPristine'
@@ -53,12 +61,15 @@ export const arrayUnshift = actions.arrayUnshift
 export const autofill = actions.autofill
 export const blur = actions.blur
 export const change = actions.change
+export const clearAsyncError = actions.clearAsyncError
+export const clearFields = actions.clearFields
 export const clearSubmitErrors = actions.clearSubmitErrors
 export const destroy = actions.destroy
 export const focus = actions.focus
 export const initialize = actions.initialize
 export const registerField = actions.registerField
 export const reset = actions.reset
+export const resetSection = actions.resetSection
 export const setSubmitFailed = actions.setSubmitFailed
 export const setSubmitSucceeded = actions.setSubmitSucceeded
 export const startAsyncValidation = actions.startAsyncValidation
@@ -69,3 +80,4 @@ export const submit = actions.submit
 export const touch = actions.touch
 export const unregisterField = actions.unregisterField
 export const untouch = actions.untouch
+export const updateSyncWarnings = actions.updateSyncWarnings

@@ -1,6 +1,6 @@
 // @flow
 import type { Structure, GetFormState } from '../types'
-import type { IsSubmittingInterface } from './isSubmitting.types.js.flow'
+import type { IsSubmittingInterface } from './isSubmitting.types'
 
 const createIsSubmitting = ({ getIn }: Structure<*, *>) => (
   form: string,

@@ -1,18 +1,21 @@
 import createGetFormMeta from '../getFormMeta'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-const describeGetFormMeta = (name, structure, expect) => {
+const describeGetFormMeta = (name, structure, setup) => {
   const getFormMeta = createGetFormMeta(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
-      expect(createGetFormMeta('foo')).toBeA('function')
+      expect(typeof createGetFormMeta('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {
@@ -47,7 +50,7 @@ const describeGetFormMeta = (name, structure, expect) => {
       })
     })
 
-    it('should return undefined if there are no fields', () => {
+    it('should return object if there are no fields', () => {
       expect(
         getFormMeta('foo')(
           fromJS({
@@ -56,7 +59,7 @@ const describeGetFormMeta = (name, structure, expect) => {
             }
           })
         )
-      ).toEqual(undefined)
+      ).toEqual(fromJS({}))
     })
 
     it('should use getFormState if provided', () => {
@@ -93,13 +96,9 @@ const describeGetFormMeta = (name, structure, expect) => {
   })
 }
 
-describeGetFormMeta(
-  'getFormMeta.plain',
-  plain,
-  addExpectations(plainExpectations)
+describeGetFormMeta('getFormMeta.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormMeta(
-  'getFormMeta.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeGetFormMeta('getFormMeta.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

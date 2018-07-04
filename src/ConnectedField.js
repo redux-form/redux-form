@@ -1,14 +1,14 @@
 // @flow
-import { Component, createElement } from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
+import isReactNative from './isReactNative'
 import type { Structure } from './types.js.flow'
-import type { Component as ReactComponent } from 'react'
-import type { Props } from './ConnectedField.types.js.flow'
+import type { Props } from './ConnectedField.types'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -58,32 +58,37 @@ const createConnectedField = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedField extends Component {
-    props: Props
-
-    ref: ReactComponent<*, *, *>
+  class ConnectedField extends Component<Props> {
+    ref: React.Component<*, *>
 
     shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
-      return (
-        nextPropsKeys.length !== thisPropsKeys.length ||
-        nextPropsKeys.some(prop => {
-          return (
-            !~propsToNotUpdateFor.indexOf(prop) &&
-            !deepEqual(this.props[prop], nextProps[prop])
-          )
-        })
+      // if we have children, we MUST update in React 16
+      // https://twitter.com/erikras/status/915866544558788608
+      return !!(
+        this.props.children ||
+        nextProps.children ||
+        (nextPropsKeys.length !== thisPropsKeys.length ||
+          nextPropsKeys.some(prop => {
+            if (~(nextProps.immutableProps || []).indexOf(prop)) {
+              return this.props[prop] !== nextProps[prop]
+            }
+            return (
+              !~propsToNotUpdateFor.indexOf(prop) &&
+              !deepEqual(this.props[prop], nextProps[prop])
+            )
+          }))
       )
     }
 
-    saveRef = (ref: ReactComponent<*, *, *>) => (this.ref = ref)
+    saveRef = (ref: React.Component<*, *>) => (this.ref = ref)
 
     isPristine = (): boolean => this.props.pristine
 
     getValue = (): any => this.props.value
 
-    getRenderedComponent(): ReactComponent<*, *, *> {
+    getRenderedComponent(): React.Component<*, *> {
       return this.ref
     }
 
@@ -101,21 +106,36 @@ const createConnectedField = (structure: Structure<*, *>) => {
 
       let defaultPrevented = false
       if (onChange) {
-        onChange(
-          {
-            ...event,
-            preventDefault: () => {
-              defaultPrevented = true
-              return eventPreventDefault(event)
-            }
-          },
-          newValue,
-          previousValue
-        )
+        // Can't seem to find a way to extend Event in React Native,
+        // thus I simply avoid adding preventDefault() in a RN environment
+        // to prevent the following error:
+        // `One of the sources for assign has an enumerable key on the prototype chain`
+        // Reference: https://github.com/facebook/react-native/issues/5507
+        if (!isReactNative) {
+          onChange(
+            {
+              ...event,
+              preventDefault: () => {
+                defaultPrevented = true
+                return eventPreventDefault(event)
+              }
+            },
+            newValue,
+            previousValue,
+            name
+          )
+        } else {
+          onChange(event, newValue, previousValue, name)
+        }
       }
       if (!defaultPrevented) {
         // dispatch change action
         dispatch(_reduxForm.change(name, newValue))
+
+        // call post-change callback
+        if (_reduxForm.asyncValidate) {
+          _reduxForm.asyncValidate(name, newValue, 'change')
+        }
       }
     }
 
@@ -124,13 +144,20 @@ const createConnectedField = (structure: Structure<*, *>) => {
 
       let defaultPrevented = false
       if (onFocus) {
-        onFocus({
-          ...event,
-          preventDefault: () => {
-            defaultPrevented = true
-            return eventPreventDefault(event)
-          }
-        })
+        if (!isReactNative) {
+          onFocus(
+            {
+              ...event,
+              preventDefault: () => {
+                defaultPrevented = true
+                return eventPreventDefault(event)
+              }
+            },
+            name
+          )
+        } else {
+          onFocus(event, name)
+        }
       }
 
       if (!defaultPrevented) {
@@ -159,17 +186,22 @@ const createConnectedField = (structure: Structure<*, *>) => {
 
       let defaultPrevented = false
       if (onBlur) {
-        onBlur(
-          {
-            ...event,
-            preventDefault: () => {
-              defaultPrevented = true
-              return eventPreventDefault(event)
-            }
-          },
-          newValue,
-          previousValue
-        )
+        if (!isReactNative) {
+          onBlur(
+            {
+              ...event,
+              preventDefault: () => {
+                defaultPrevented = true
+                return eventPreventDefault(event)
+              }
+            },
+            newValue,
+            previousValue,
+            name
+          )
+        } else {
+          onBlur(event, newValue, previousValue, name)
+        }
       }
 
       if (!defaultPrevented) {
@@ -178,17 +210,17 @@ const createConnectedField = (structure: Structure<*, *>) => {
 
         // call post-blur callback
         if (_reduxForm.asyncValidate) {
-          _reduxForm.asyncValidate(name, newValue)
+          _reduxForm.asyncValidate(name, newValue, 'blur')
         }
       }
     }
 
     handleDragStart = (event: any) => {
-      const { onDragStart, value } = this.props
+      const { name, onDragStart, value } = this.props
       eventDataTransferSetData(event, dataKey, value == null ? '' : value)
 
       if (onDragStart) {
-        onDragStart(event)
+        onDragStart(event, name)
       }
     }
 
@@ -213,7 +245,8 @@ const createConnectedField = (structure: Structure<*, *>) => {
             }
           },
           newValue,
-          previousValue
+          previousValue,
+          name
         )
       }
 
@@ -237,6 +270,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         onFocus, // eslint-disable-line no-unused-vars
         onDragStart, // eslint-disable-line no-unused-vars
         onDrop, // eslint-disable-line no-unused-vars
+        immutableProps, // eslint-disable-line no-unused-vars
         ...rest
       } = this.props
       const { custom, ...props } = createFieldProps(structure, name, {
@@ -262,14 +296,20 @@ const createConnectedField = (structure: Structure<*, *>) => {
   }
 
   ConnectedField.propTypes = {
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     props: PropTypes.object
   }
 
   const connector = connect(
     (state, ownProps) => {
-      const { name, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {
+        name,
+        _reduxForm: { initialValues, getFormState }
+      } = ownProps
       const formState = getFormState(state)
       const initialState = getIn(formState, `initial.${name}`)
       const initial =

@@ -1,11 +1,6 @@
 // @flow
-import type { Structure, ReactContext } from './types.js.flow'
+import type { Structure, ReactContext } from './types'
 
 export type FormValuesInterface = {
   (firstArg: string | Object, ...rest: string[]): Object
-}
-
-export type PropPath = {
-  prop: string,
-  path: string
 }

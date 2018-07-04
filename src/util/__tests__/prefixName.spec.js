@@ -1,4 +1,3 @@
-import expect from 'expect'
 import prefixName from '../prefixName'
 
 describe('prefixName', () => {

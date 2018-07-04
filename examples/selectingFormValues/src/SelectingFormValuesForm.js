@@ -47,7 +47,7 @@ let SelectingFormValuesForm = props => {
           />
         </div>
       </div>
-      {hasEmailValue &&
+      {hasEmailValue && (
         <div>
           <label>Email</label>
           <div>
@@ -58,7 +58,8 @@ let SelectingFormValuesForm = props => {
               placeholder="Email"
             />
           </div>
-        </div>}
+        </div>
+      )}
       <div>
         <label>Favorite Color</label>
         <div>
@@ -70,7 +71,7 @@ let SelectingFormValuesForm = props => {
           </Field>
         </div>
       </div>
-      {favoriteColorValue &&
+      {favoriteColorValue && (
         <div
           style={{
             height: 80,
@@ -78,7 +79,8 @@ let SelectingFormValuesForm = props => {
             margin: '10px auto',
             backgroundColor: favoriteColorValue
           }}
-        />}
+        />
+      )}
       <div>
         <button type="submit" disabled={pristine || submitting}>
           Submit {fullName}

@@ -1,7 +1,7 @@
 // @flow
 import createHasError from '../hasError'
 import type { Structure, GetFormState } from '../types'
-import type { IsValidInterface } from './isValid.types.js.flow'
+import type { IsValidInterface } from './isValid.types'
 
 const createIsValid = (structure: Structure<*, *>) => {
   const { getIn, keys } = structure

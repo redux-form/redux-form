@@ -1,5 +1,5 @@
 // @flow
-import type { Action, FieldType } from './types.js.flow'
+import type { Action, FieldType } from './types'
 
 export type ArrayInsertAction = {
   type: string,
@@ -103,8 +103,8 @@ export type ChangeAction = {
   meta: {
     form: string,
     field: string,
-    touch: boolean,
-    persistentSubmitErrors: boolean
+    touch: ?boolean,
+    persistentSubmitErrors: ?boolean
   },
   payload: any
 } & Action
@@ -113,8 +113,8 @@ export type Change = {
     form: string,
     field: string,
     value: any,
-    touch: boolean,
-    persistentSubmitErrors: boolean
+    touch?: boolean,
+    persistentSubmitErrors?: boolean
   ): ChangeAction
 }
 export type ClearSubmitAction = {
@@ -134,6 +134,23 @@ export type ClearAsyncErrorAction = {
 export type ClearAsyncError = {
   (form: string, field: string): ClearAsyncErrorAction
 }
+export type ClearFieldsAction = {
+  type: string,
+  meta: {
+    form: string,
+    keepTouched: boolean,
+    persistentSubmitErrors: boolean,
+    fields: string[]
+  }
+} & Action
+export type ClearFields = {
+  (
+    form: string,
+    keepTouched: boolean,
+    persistentSubmitErrors: boolean,
+    ...fields: string[]
+  ): ClearFieldsAction
+}
 export type DestroyAction = { type: string, meta: { form: string[] } } & Action
 export type Destroy = { (...forms: string[]): DestroyAction }
 export type FocusAction = {
@@ -150,8 +167,13 @@ export type Initialize = {
   (
     form: string,
     values: Object,
+    otherMeta?: Object
+  ): InitializeAction,
+  (
+    form: string,
+    values: Object,
     keepDirty: boolean,
-    otherMeta: Object
+    otherMeta?: Object
   ): InitializeAction
 }
 export type RegisterFieldAction = {
@@ -164,6 +186,8 @@ export type RegisterField = {
 }
 export type ResetAction = { type: string, meta: { form: string } } & Action
 export type Reset = { (form: string): ResetAction }
+export type ResetSectionAction = { type: string, meta: { form: string, sections: string[] } } & Action
+export type ResetSection = { (form: string, ...sections: string[] ): ResetSectionAction }
 export type StartAsyncValidationAction = {
   type: string,
   meta: { form: string, field: string }
@@ -267,11 +291,13 @@ export type Actions = {
   clearSubmit: ClearSubmit,
   clearSubmitErrors: ClearSubmitErrors,
   clearAsyncError: ClearAsyncError,
+  clearFields: ClearFields,
   destroy: Destroy,
   focus: Focus,
   initialize: Initialize,
   registerField: RegisterField,
   reset: Reset,
+  resetSection: ResetSection,
   startAsyncValidation: StartAsyncValidation,
   startSubmit: StartSubmit,
   stopAsyncValidation: StopAsyncValidation,

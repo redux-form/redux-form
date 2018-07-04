@@ -1,18 +1,21 @@
 import createGetFormSyncErrors from '../getFormSyncErrors'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-const describeGetFormSyncErrors = (name, structure, expect) => {
+const describeGetFormSyncErrors = (name, structure, setup) => {
   const getFormSyncErrors = createGetFormSyncErrors(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
-      expect(createGetFormSyncErrors('foo')).toBeA('function')
+      expect(typeof createGetFormSyncErrors('foo')).toBe('function')
     })
 
     it('should get the form values from state', () => {
@@ -35,7 +38,7 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
       })
     })
 
-    it('should return undefined if there are no syncErrors', () => {
+    it('should return object if there are no syncErrors', () => {
       expect(
         getFormSyncErrors('foo')(
           fromJS({
@@ -44,7 +47,7 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
             }
           })
         )
-      ).toEqual(undefined)
+      ).toEqual(fromJS({}))
     })
 
     it('should use getFormState if provided', () => {
@@ -69,13 +72,9 @@ const describeGetFormSyncErrors = (name, structure, expect) => {
   })
 }
 
-describeGetFormSyncErrors(
-  'getFormSyncErrors.plain',
-  plain,
-  addExpectations(plainExpectations)
+describeGetFormSyncErrors('getFormSyncErrors.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormSyncErrors(
-  'getFormSyncErrors.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeGetFormSyncErrors('getFormSyncErrors.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

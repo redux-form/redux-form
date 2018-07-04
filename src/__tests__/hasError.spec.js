@@ -1,15 +1,18 @@
 import createHasError from '../hasError'
 import plain from '../structure/plain'
-import plainExpectations from '../structure/plain/expectations'
+import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
-import immutableExpectations from '../structure/immutable/expectations'
-import addExpectations from './addExpectations'
+import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-const describeHasError = (name, structure, expect) => {
+const describeHasError = (name, structure, setup) => {
   const { fromJS, getIn } = structure
   const hasError = createHasError(structure)
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should throw an error for an invalid field type', () => {
       const field = fromJS({ name: 'foo', type: 'NotARealFieldType' })
       const obj = fromJS({})
@@ -34,7 +37,10 @@ const describeHasError = (name, structure, expect) => {
     })
 
     it('should return false for deeply nested structures with undefined values', () => {
-      const field1 = fromJS({ name: 'nested.myArrayField', type: 'FieldArray' })
+      const field1 = fromJS({
+        name: 'nested.myArrayField',
+        type: 'FieldArray'
+      })
       expect(
         hasError(
           field1,
@@ -141,9 +147,9 @@ const describeHasError = (name, structure, expect) => {
   })
 }
 
-describeHasError('hasError.plain', plain, addExpectations(plainExpectations))
-describeHasError(
-  'hasError.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeHasError('hasError.plain', plain, () =>
+  expect.extend(plainExpectations)
+)
+describeHasError('hasError.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

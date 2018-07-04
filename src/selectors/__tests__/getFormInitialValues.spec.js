@@ -1,18 +1,21 @@
 import createGetFormInitialValues from '../getFormInitialValues'
 import plain from '../../structure/plain'
-import plainExpectations from '../../structure/plain/expectations'
+import plainExpectations from '../../structure/plain/__tests__/expectations'
 import immutable from '../../structure/immutable'
-import immutableExpectations from '../../structure/immutable/expectations'
-import addExpectations from '../../__tests__/addExpectations'
+import immutableExpectations from '../../structure/immutable/__tests__/expectations'
 
-const describeGetFormInitialValues = (name, structure, expect) => {
+const describeGetFormInitialValues = (name, structure, setup) => {
   const getFormInitialValues = createGetFormInitialValues(structure)
 
   const { fromJS, getIn } = structure
 
   describe(name, () => {
+    beforeAll(() => {
+      setup()
+    })
+
     it('should return a function', () => {
-      expect(getFormInitialValues('foo')).toBeA('function')
+      expect(typeof getFormInitialValues('foo')).toBe('function')
     })
 
     it('should get the initial form values from state', () => {
@@ -57,13 +60,9 @@ const describeGetFormInitialValues = (name, structure, expect) => {
   })
 }
 
-describeGetFormInitialValues(
-  'getFormInitialValues.plain',
-  plain,
-  addExpectations(plainExpectations)
+describeGetFormInitialValues('getFormInitialValues.plain', plain, () =>
+  expect.extend(plainExpectations)
 )
-describeGetFormInitialValues(
-  'getFormInitialValues.immutable',
-  immutable,
-  addExpectations(immutableExpectations)
+describeGetFormInitialValues('getFormInitialValues.immutable', immutable, () =>
+  expect.extend(immutableExpectations)
 )

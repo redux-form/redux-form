@@ -27,9 +27,13 @@ const getValue = (event: Event, isReactNative: ?boolean) => {
     if (isReactNative && event.nativeEvent !== undefined) {
       return event.nativeEvent.text
     }
-    const { target: { type, value, checked, files }, dataTransfer } = event
+    const detypedEvent: any = event
+    const {
+      target: { type, value, checked, files },
+      dataTransfer
+    } = detypedEvent
     if (type === 'checkbox') {
-      return checked || ''
+      return !!checked
     }
     if (type === 'file') {
       return files || (dataTransfer && dataTransfer.files)

@@ -14,10 +14,9 @@ export type DefaultProps = {
   component: Function | string
 }
 
-class FormSection extends Component {
-  props: Props
-  context: ReactContext
+class FormSection extends Component<Props> {
   static defaultProps: DefaultProps
+  context: ReactContext
 
   constructor(props: Props, context: ReactContext) {
     super(props, context)
@@ -59,7 +58,11 @@ class FormSection extends Component {
 
 FormSection.propTypes = {
   name: PropTypes.string.isRequired,
-  component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
+  component: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.string,
+    PropTypes.node
+  ])
 }
 
 FormSection.defaultProps = {

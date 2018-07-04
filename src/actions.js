@@ -21,6 +21,8 @@ import {
   INITIALIZE,
   REGISTER_FIELD,
   RESET,
+  RESET_SECTION,
+  CLEAR_FIELDS,
   SET_SUBMIT_FAILED,
   SET_SUBMIT_SUCCEEDED,
   START_ASYNC_VALIDATION,
@@ -68,6 +70,8 @@ import type {
   ClearSubmitErrors,
   ClearAsyncErrorAction,
   ClearAsyncError,
+  ClearFieldsAction,
+  ClearFields,
   DestroyAction,
   Destroy,
   FocusAction,
@@ -78,6 +82,8 @@ import type {
   RegisterField,
   ResetAction,
   Reset,
+  ResetSectionAction,
+  ResetSection,
   StartAsyncValidationAction,
   StartAsyncValidation,
   StartSubmitAction,
@@ -102,7 +108,7 @@ import type {
   UpdateSyncErrors,
   UpdateSyncWarningsAction,
   UpdateSyncWarnings
-} from './actions.types.js.flow'
+} from './actions.types'
 
 const arrayInsert: ArrayInsert = (
   form: string,
@@ -232,8 +238,8 @@ const change: Change = (
   form: string,
   field: string,
   value: any,
-  touch: boolean,
-  persistentSubmitErrors: boolean
+  touch?: boolean,
+  persistentSubmitErrors?: boolean
 ): ChangeAction => ({
   type: CHANGE,
   meta: { form, field, touch, persistentSubmitErrors },
@@ -260,6 +266,16 @@ const clearAsyncError: ClearAsyncError = (
   meta: { form, field }
 })
 
+const clearFields: ClearFields = (
+  form: string,
+  keepTouched: boolean,
+  persistentSubmitErrors: boolean,
+  ...fields: string[]
+): ClearFieldsAction => ({
+  type: CLEAR_FIELDS,
+  meta: { form, keepTouched, persistentSubmitErrors, fields }
+})
+
 const destroy: Destroy = (...form: string[]): DestroyAction => ({
   type: DESTROY,
   meta: { form }
@@ -273,8 +289,8 @@ const focus: Focus = (form: string, field: string): FocusAction => ({
 const initialize: Initialize = (
   form: string,
   values: Object,
-  keepDirty: boolean,
-  otherMeta: Object = {}
+  keepDirty?: boolean | Object,
+  otherMeta?: Object = {}
 ): InitializeAction => {
   if (keepDirty instanceof Object) {
     otherMeta = keepDirty
@@ -300,6 +316,14 @@ const registerField: RegisterField = (
 const reset: Reset = (form: string): ResetAction => ({
   type: RESET,
   meta: { form }
+})
+
+const resetSection: ResetSection = (
+  form: string,
+  ...sections: string[]
+): ResetSectionAction => ({
+  type: RESET_SECTION,
+  meta: { form, sections }
 })
 
 const startAsyncValidation: StartAsyncValidation = (
@@ -415,6 +439,7 @@ const actions = {
   autofill,
   blur,
   change,
+  clearFields,
   clearSubmit,
   clearSubmitErrors,
   clearAsyncError,
@@ -423,6 +448,7 @@ const actions = {
   initialize,
   registerField,
   reset,
+  resetSection,
   startAsyncValidation,
   startSubmit,
   stopAsyncValidation,

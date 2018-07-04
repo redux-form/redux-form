@@ -4,12 +4,12 @@ import { Iterable } from 'immutable'
 import { isEqualWith } from 'lodash'
 
 const customizer = (obj: any, other: any) => {
-  if (obj == other) return true // eslint-disable-line eqeqeq
-  if (
-    (obj == null || obj === '' || obj === false) &&
-    (other == null || other === '' || other === false)
-  )
-    return true
+  if (obj === other) return true
+  if (!obj && !other) {
+    const objIsEmpty = obj === null || obj === undefined || obj === ''
+    const otherIsEmpty = other === null || other === undefined || other === ''
+    return objIsEmpty === otherIsEmpty
+  }
 
   if (Iterable.isIterable(obj) && Iterable.isIterable(other)) {
     return (

@@ -33,19 +33,19 @@ let render = () => {
   const rawValidate = require('!!raw-loader!./validate')
   const rawWarn = require('!!raw-loader!./warn')
   const rawReducer = require('!!raw-loader!./reducer')
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <Provider store={store}>
       <App
         /**
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="7.0.1"
+        version="7.4.2"
         path="/examples/immutable"
         breadcrumbs={generateExampleBreadcrumbs(
           'immutable',
           'Immutable JS Example',
-          '7.0.1'
+          '7.4.2'
         )}
       >
         <Markdown content={readme} />
@@ -96,7 +96,7 @@ if (module.hot) {
   const renderApp = render
   const renderError = error => {
     const RedBox = require('redbox-react')
-    ReactDOM.render(<RedBox error={error} className="redbox" />, dest)
+    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
   }
   render = () => {
     try {

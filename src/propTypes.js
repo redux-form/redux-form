@@ -1,7 +1,7 @@
 // @flow
 import PropTypes from 'prop-types'
 
-const { any, bool, func, shape, string, oneOfType, object } = PropTypes
+const { any, bool, func, shape, string, oneOfType, object, number } = PropTypes
 
 export const formPropTypes = {
   // State:
@@ -38,11 +38,14 @@ export const formPropTypes = {
   blur: func.isRequired, // action to mark a field as blurred
   change: func.isRequired, // action to change the value of a field
   clearAsyncError: func.isRequired, // action to clear the async error of a field
+  clearFields: func.isRequired, // action to clean fields values for all fields
+  clearSubmitErrors: func.isRequired, // action to remove submitErrors and error
   destroy: func.isRequired, // action to destroy the form's data in Redux
   dispatch: func.isRequired, // the Redux dispatch action
   handleSubmit: func.isRequired, // function to submit the form
   initialize: func.isRequired, // action to initialize form data
   reset: func.isRequired, // action to reset the form data to previously initialized values
+  resetSection: func.isRequired, // action to reset the form sections data to previously initialized values
   touch: func.isRequired, // action to mark fields as touched
   submit: func.isRequired, // action to trigger a submission of the specified form
   untouch: func.isRequired, // action to mark fields as untouched
@@ -69,7 +72,7 @@ export const fieldMetaPropTypes = {
   autofilled: bool.isRequired,
   dirty: bool.isRequired,
   dispatch: func.isRequired,
-  error: string,
+  error: any,
   form: string.isRequired,
   invalid: bool.isRequired,
   pristine: bool.isRequired,
@@ -81,9 +84,45 @@ export const fieldMetaPropTypes = {
   warning: string
 }
 
+export const fieldArrayMetaPropTypes = {
+  dirty: bool.isRequired,
+  error: any,
+  form: string.isRequired,
+  invalid: bool.isRequired,
+  pristine: bool.isRequired,
+  submitFailed: bool,
+  submitting: bool,
+  valid: bool.isRequired,
+  warning: string
+}
+
+export const fieldArrayFieldsPropTypes = {
+  name: string.isRequired,
+  forEach: func.isRequired,
+  get: func.isRequired,
+  getAll: func.isRequired,
+  insert: func.isRequired,
+  length: number.isRequired,
+  map: func.isRequired,
+  move: func.isRequired,
+  pop: func.isRequired,
+  push: func.isRequired,
+  reduce: func.isRequired,
+  remove: func.isRequired,
+  removeAll: func.isRequired,
+  shift: func.isRequired,
+  swap: func.isRequired,
+  unshift: func.isRequired
+}
+
 export const fieldPropTypes = {
   input: shape(fieldInputPropTypes).isRequired,
   meta: shape(fieldMetaPropTypes).isRequired
+}
+
+export const fieldArrayPropTypes = {
+  fields: shape(fieldArrayFieldsPropTypes).isRequired,
+  meta: shape(fieldArrayMetaPropTypes).isRequired
 }
 
 export default formPropTypes

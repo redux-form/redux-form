@@ -24,8 +24,11 @@ const shallowCompare = (
   instance: { props: any, state?: any },
   nextProps: Object,
   nextState?: Object
-): boolean =>
-  !isEqualWith(instance.props, nextProps, customizer) ||
-  !isEqualWith(instance.state, nextState, customizer)
+): boolean => {
+  const propsEqual = isEqualWith(instance.props, nextProps, customizer)
+  const stateEqual = isEqualWith(instance.state, nextState, customizer)
+
+  return !propsEqual || !stateEqual
+}
 
 export default shallowCompare

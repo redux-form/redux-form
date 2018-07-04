@@ -1,5 +1,5 @@
 // @flow
-import { Component, createElement } from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,7 +7,7 @@ import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
 import type { Structure } from './types'
-import type { Props, DefaultProps } from './ConnectedFieldArray.types.js.flow'
+import type { Props, DefaultProps } from './ConnectedFieldArray.types'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
@@ -27,9 +27,9 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     return getIn(syncWarnings, `${name}._warning`)
   }
 
-  class ConnectedFieldArray extends Component {
-    props: Props
+  class ConnectedFieldArray extends React.Component<Props> {
     static defaultProps: DefaultProps
+    ref: ?HTMLElement
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
@@ -37,8 +37,13 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       const nextValue = nextProps.value
 
       if (thisValue && nextValue) {
+        let nextValueItemsSame = nextValue.every(val => ~thisValue.indexOf(val))
+        let nextValueItemsOrderChanged = nextValue.some(
+          (val, index) => val !== thisValue[index]
+        )
         if (
           thisValue.length !== nextValue.length ||
+          (nextValueItemsSame && nextValueItemsOrderChanged) ||
           (nextProps.rerenderOnEveryChange &&
             thisValue.some((val, index) => !deepEqual(val, nextValue[index])))
         ) {
@@ -48,7 +53,11 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
       const nextPropsKeys = Object.keys(nextProps)
       const thisPropsKeys = Object.keys(this.props)
-      return (
+      // if we have children, we MUST update in React 16
+      // https://twitter.com/erikras/status/915866544558788608
+      return !!(
+        this.props.children ||
+        nextProps.children ||
         nextPropsKeys.length !== thisPropsKeys.length ||
         nextPropsKeys.some(prop => {
           // useful to debug rerenders
@@ -76,7 +85,11 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.refs.renderedComponent
+      return this.ref
+    }
+
+    saveRef = (ref: ?HTMLElement) => {
+      this.ref = ref
     }
 
     getValue = (index: number): any =>
@@ -102,15 +115,18 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
         rest
       )
       if (withRef) {
-        props.ref = 'renderedComponent'
+        props.ref = this.saveRef
       }
-      return createElement(component, props)
+      return React.createElement(component, props)
     }
   }
 
   ConnectedFieldArray.propTypes = {
-    component: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
-      .isRequired,
+    component: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.string,
+      PropTypes.node
+    ]).isRequired,
     props: PropTypes.object,
     rerenderOnEveryChange: PropTypes.bool
   }
@@ -125,7 +141,10 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   const connector = connect(
     (state, ownProps) => {
-      const { name, _reduxForm: { initialValues, getFormState } } = ownProps
+      const {
+        name,
+        _reduxForm: { initialValues, getFormState }
+      } = ownProps
       const formState = getFormState(state)
       const initial =
         getIn(formState, `initial.${name}`) ||

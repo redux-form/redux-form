@@ -2,7 +2,7 @@
 
 [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js)
 
-> The form reducer. Should be given to mounted to your Redux state at `form`.
+> The form reducer. Should be mounted to your Redux state at `form`.
 
 > If you absolutely must mount it somewhere other than `form`, you may provide a
 `getFormState(state)` function to the `reduxForm()` decorator, to get the slice of the Redux 
