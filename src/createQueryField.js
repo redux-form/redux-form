@@ -1,22 +1,18 @@
 // @flow
-import React, { Component, createElement } from 'react'
+import { PureComponent, createElement } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
-import type {
-  ConnectedComponent,
-  Structure,
-  ReactContext
-} from './types.js.flow'
-import shallowCompare from './util/shallowCompare'
-import { connect } from 'react-redux'
+import type { Structure, ReactContext } from './types.js.flow'
+import invariant from 'invariant'
 import type { Props } from './FieldProps.types'
-import createConnectedField from './ConnectedQueryField'
+import createConnectedField from './ConnectedField'
 import prefixName from './util/prefixName'
+import removeFieldHandler from './util/removeFieldHandler'
 
-const createQueryField = structure => {
-  const ConnectedQueryField = createConnectedField(structure)
+const createQueryField = (structure: Structure<*, *>) => {
+  const ConnectedField = createConnectedField(structure)
 
-  class QueryField extends Component<Props> {
+  class QueryField extends PureComponent<Props> {
     context: ReactContext
 
     constructor(props: Props, context: ReactContext) {
@@ -28,19 +24,21 @@ const createQueryField = structure => {
       }
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
-      return shallowCompare(this, nextProps, nextState)
-    }
-
     render() {
       const { children, render, ...rest } = this.props
       const name = prefixName(this.context, this.props.name)
-      const renderProp = children || render
-      return createElement(ConnectedQueryField, {
+
+      const component = field => {
+        const renderProp = render || children
+        invariant(renderProp, 'render or child prop is required')
+        return renderProp(removeFieldHandler(field))
+      }
+
+      return createElement(ConnectedField, {
         ...rest,
         _reduxForm: this.context._reduxForm,
         name,
-        renderProp
+        component
       })
     }
   }
