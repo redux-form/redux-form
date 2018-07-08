@@ -7,7 +7,8 @@ import createConnectedFields from './ConnectedFields'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
 import type { Props } from './FieldsProps.types'
-import removeFieldHandler from './util/removeFieldHandler'
+import { removeFieldsHandlers } from './util/removeHandlers'
+import { compose } from 'lodash/fp'
 
 const validateNameProp = prop => {
   if (!prop) {
@@ -38,26 +39,17 @@ const createQueryFields = (structure: Structure<*, *>) => {
     }
 
     render() {
-      const { context } = this
-      const { render, children } = this.props
-      const names = this.props.names.map(name => prefixName(context, name))
-
-      const component = fields => {
-        const normalizedFields = fields.names.reduce(
-          (acc, curr) => ({
-            ...acc,
-            [curr]: removeFieldHandler(fields[curr])
-          }),
-          {}
-        )
-        const renderProp = render || children
-        invariant(renderProp, 'render or child prop is required')
-        return renderProp(normalizedFields)
-      }
-
+      const { render, children, names } = this.props
+      const prefixedNames = names.map(name => prefixName(this.context, name))
+      const renderProp = render || children
+      invariant(renderProp, 'render or child prop is required')
+      const component = compose(
+        renderProp,
+        removeFieldsHandlers
+      )
       return createElement(ConnectedFields, {
         ...this.props,
-        names,
+        names: prefixedNames,
         _reduxForm: this.context._reduxForm,
         component
       })

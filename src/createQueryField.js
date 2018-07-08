@@ -7,7 +7,8 @@ import invariant from 'invariant'
 import type { Props } from './FieldProps.types'
 import createConnectedField from './ConnectedField'
 import prefixName from './util/prefixName'
-import removeFieldHandler from './util/removeFieldHandler'
+import { removeFieldHandlers } from './util/removeHandlers'
+import { compose } from 'lodash/fp'
 
 const createQueryField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
@@ -25,19 +26,20 @@ const createQueryField = (structure: Structure<*, *>) => {
     }
 
     render() {
-      const { children, render, ...rest } = this.props
-      const name = prefixName(this.context, this.props.name)
+      const { children, render, name, ...rest } = this.props
+      const prefixedName = prefixName(this.context, name)
 
-      const component = field => {
-        const renderProp = render || children
-        invariant(renderProp, 'render or child prop is required')
-        return renderProp(removeFieldHandler(field))
-      }
+      const renderProp = render || children
+      invariant(renderProp, 'render or child prop is required')
+      const component = compose(
+        renderProp,
+        removeFieldHandlers
+      )
 
       return createElement(ConnectedField, {
         ...rest,
         _reduxForm: this.context._reduxForm,
-        name,
+        name: prefixedName,
         component
       })
     }

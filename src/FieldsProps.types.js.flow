@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import type { FieldProps } from './FieldProps.types'
 
 export type Props = {
   names: string[],
@@ -8,4 +9,9 @@ export type Props = {
   parse?: (value: any, name: string) => ?any,
   props?: Object,
   withRef?: boolean
+}
+
+export type FieldsProps = {
+  [string]: FieldProps,
+  names: string[]
 }
