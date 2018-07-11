@@ -44,7 +44,7 @@ import type { Action, Structure } from './types.js.flow'
 const shouldDelete = ({ getIn }) => (state, path) => {
   let initialValuesPath = null
 
-  if (path.startsWith('values')) {
+  if (/^values/.test(path)) {
     initialValuesPath = path.replace('values', 'initial')
   }
 
