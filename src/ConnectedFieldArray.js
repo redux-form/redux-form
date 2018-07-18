@@ -8,6 +8,7 @@ import { mapValues } from 'lodash'
 import plain from './structure/plain'
 import type { Structure } from './types'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types'
+import validateComponentProp from './util/validateComponentProp'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
@@ -122,11 +123,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
   }
 
   ConnectedFieldArray.propTypes = {
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    component: validateComponentProp,
     props: PropTypes.object,
     rerenderOnEveryChange: PropTypes.bool
   }

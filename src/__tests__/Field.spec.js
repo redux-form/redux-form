@@ -67,6 +67,24 @@ const describeField = (name, structure, combineReducers, setup) => {
       }).toThrow(/must be inside a component decorated with reduxForm/)
     })
 
+    it('should throw an error if invalid component prop is provided', () => {
+      const store = makeStore()
+      const notAComponent = {}
+      class Form extends Component {
+        render() {
+          return <Field component={notAComponent} />
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      expect(() => {
+        TestUtils.renderIntoDocument(
+          <Provider store={store}>
+            <TestForm />
+          </Provider>
+        )
+      }).toThrow(/Element type is invalid/)
+    })
+
     it('should get value from Redux state', () => {
       const props = testProps({
         values: {
