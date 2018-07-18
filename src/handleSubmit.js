@@ -1,4 +1,5 @@
 // @flow
+import { Iterable } from 'immutable'
 import isPromise from 'is-promise'
 import type { Dispatch } from 'redux'
 import type { Props } from './createReduxForm'
@@ -8,6 +9,10 @@ type SubmitFunction = {
 }
 
 const isSubmissionError = error => error && error.name === 'SubmissionError'
+const mergeErrors = ({ asyncErrors, syncErrors }) =>
+  asyncErrors && Iterable.isIterable(asyncErrors)
+    ? asyncErrors.merge(syncErrors).toJS()
+    : { ...asyncErrors, ...syncErrors }
 
 const handleSubmit = (
   submit: SubmitFunction,
@@ -112,7 +117,7 @@ const handleSubmit = (
     }
   } else {
     setSubmitFailed(...fields)
-    const errors = { ...asyncErrors, ...syncErrors }
+    const errors = mergeErrors({ asyncErrors, syncErrors })
     if (onSubmitFail) {
       onSubmitFail(errors, dispatch, null, props)
     }
