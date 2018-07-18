@@ -113,7 +113,7 @@ export type FormProps = {
     unshift: (field: string, value: any) => void
   },
   asyncValidate: () => void,
-  asyncValidating: boolean,
+  asyncValidating: string | boolean,
   autofill: (field: string, value: any) => void,
   blur: (field: string, value: any) => void,
   change: (field: string, value: any) => void,

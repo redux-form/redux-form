@@ -1,4 +1,5 @@
 // @flow
+import { Iterable } from 'immutable'
 import isPromise from 'is-promise'
 import SubmissionError from './SubmissionError'
 import type { Dispatch } from 'redux'
@@ -89,6 +90,11 @@ const getExecuteSubmit = (
   return result
 }
 
+const mergeErrors = ({ asyncErrors, syncErrors }) =>
+  asyncErrors && Iterable.isIterable(asyncErrors)
+    ? asyncErrors.merge(syncErrors).toJS()
+    : { ...asyncErrors, ...syncErrors }
+
 const handleSubmit = (
   submit: SubmitFunction,
   props: Props,
@@ -132,7 +138,7 @@ const handleSubmit = (
     }
   } else {
     setSubmitFailed(...fields)
-    const errors = { ...asyncErrors, ...syncErrors }
+    const errors = mergeErrors({ asyncErrors, syncErrors })
     if (onSubmitFail) {
       onSubmitFail(errors, dispatch, null, props)
     }

@@ -77,7 +77,9 @@ actions such as `CHANGE` or `BLUR`, the specific field.
 > Cleans fields values for all the fields passed in.
 
 > If the `keepTouched` parameter is `true`, the values of currently touched
-> fields will be retained If the `persistentSubmitErrors` parameter is `true`,
+> fields will be retained. 
+
+> If the `persistentSubmitErrors` parameter is `true`,
 > the values of currently submit errors fields will be retained
 
 ### `destroy(...forms:String)`
@@ -117,12 +119,12 @@ actions such as `CHANGE` or `BLUR`, the specific field.
 
 ### `reset(form:String)`
 
-> Resets the values in the form back to the values past in with the most recent
+> Resets the values in the form back to the values passed in with the most recent
 > `initialize` action.
 
 ### `resetSection(form:String, ...sections:String)`
 
-> Resets the values in the form sections back to the values past in with the most recent
+> Resets the values in the form sections back to the values passed in with the most recent
 > `initialize` action.
 
 ### `setSubmitFailed(form:String, ...fields:String)`
@@ -167,4 +169,4 @@ actions such as `CHANGE` or `BLUR`, the specific field.
 
 ### `untouch(form:String, ...fields:String)`
 
-> Resets the 'touched' flag for all the fields passed in.
+> Resets the `touched` flag for all the fields passed in.
