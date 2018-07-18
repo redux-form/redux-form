@@ -9,6 +9,7 @@ import plain from './structure/plain'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
 import type { Props } from './FieldsProps.types'
+import validateComponentProp from './util/validateComponentProp'
 
 const validateNameProp = prop => {
   if (!prop) {
@@ -44,7 +45,9 @@ const createFields = (structure: Structure<*, *>) => {
 
     componentDidMount() {
       const { context } = this
-      const { _reduxForm: { register } } = context
+      const {
+        _reduxForm: { register }
+      } = context
       this.names.forEach(name => register(name, 'Field'))
     }
 
@@ -109,11 +112,7 @@ const createFields = (structure: Structure<*, *>) => {
 
   Fields.propTypes = {
     names: (props, propName) => validateNameProp(props[propName]),
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    component: validateComponentProp,
     format: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,

@@ -12,6 +12,7 @@ import type {
 } from './types.js.flow'
 import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types'
 import type { Props } from './FieldArrayProps.types'
+import validateComponentProp from './util/validateComponentProp'
 
 const toArray = (value: any): Array<*> =>
   Array.isArray(value) ? value : [value]
@@ -114,11 +115,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
 
   FieldArray.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    component: validateComponentProp,
     props: PropTypes.object,
     validate: PropTypes.oneOfType([
       PropTypes.func,
