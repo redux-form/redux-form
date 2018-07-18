@@ -21,6 +21,8 @@ const structure: Structure<Object, Array<*>> = {
   size: array => (array ? array.length : 0),
   some: (items, callback) => items.some(callback),
   splice,
+  equals: (arrayOne, arrayTwo) => arrayTwo.every(val => ~arrayOne.indexOf(val)),
+  equalsOrder: (a, b) => b.some((val, index) => val !== a[index]),
   toJS: value => value
 }
 

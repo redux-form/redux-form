@@ -12,7 +12,7 @@ import type { Props, DefaultProps } from './ConnectedFieldArray.types'
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
 const createConnectedFieldArray = (structure: Structure<*, *>) => {
-  const { deepEqual, getIn, size } = structure
+  const { deepEqual, getIn, size, equals, equalsOrder } = structure
   const getSyncError = (syncErrors: Object, name: string) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
@@ -37,10 +37,8 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       const nextValue = nextProps.value
 
       if (thisValue && nextValue) {
-        let nextValueItemsSame = nextValue.every(val => ~thisValue.indexOf(val))
-        let nextValueItemsOrderChanged = nextValue.some(
-          (val, index) => val !== thisValue[index]
-        )
+        let nextValueItemsSame = equals(nextValue, thisValue) //.every(val => ~thisValue.indexOf(val))
+        let nextValueItemsOrderChanged = equalsOrder(thisValue, nextValue)
         if (
           thisValue.length !== nextValue.length ||
           (nextValueItemsSame && nextValueItemsOrderChanged) ||
