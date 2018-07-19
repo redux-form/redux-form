@@ -33,8 +33,8 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
-      const thisValue = this.props.value
-      const nextValue = nextProps.value
+      const thisValue: any = this.props.value
+      const nextValue: any = nextProps.value
 
       if (thisValue && nextValue) {
         const nextValueItemsSame = equals(nextValue, thisValue) //.every(val => ~thisValue.indexOf(val))
