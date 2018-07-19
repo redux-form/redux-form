@@ -1,5 +1,5 @@
 // @flow
-import { Map, Iterable, List, fromJS, OrderedMap, OrderedSet } from 'immutable'
+import { Map, Iterable, List, fromJS } from 'immutable'
 import { toPath } from 'lodash'
 import deepEqual from './deepEqual'
 import keys from './keys'
@@ -38,10 +38,11 @@ const structure: Structure<ImmutableMap<string, *>, ImmutableList<*>> = {
   size: list => (list ? list.size : 0),
   some: (items, callback) => items.some(callback),
   splice,
-  equals: (a, b) => {
-    return b.equals(a)
-  },
-  equalsOrder: (a, b) => b.some((val, index) => val !== a.get(index)),
+  equals: (a, b) => (b.equals(a) ? true : b.toSet().equals(a.toSet())),
+  orderChanged: (a, b) =>
+    b.some((val, index) => {
+      return val !== a.get(index)
+    }),
   toJS: value => (Iterable.isIterable(value) ? value.toJS() : value)
 }
 
