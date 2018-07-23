@@ -61,7 +61,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
         TestUtils.renderIntoDocument(
           <QueryFields names={['foo', 'bar']} render={TestInput} />
         )
-      }).toThrow(/must be inside a component decorated with reduxForm/)
+      }).toThrow(/must be used inside a React tree decorated with reduxForm()/)
     })
 
     it('should throw an error if invalid component prop is provided', () => {

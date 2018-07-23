@@ -65,7 +65,7 @@ const describeQueryField = (name, structure, combineReducers, setup) => {
             <QueryField name="foo" render={TestInput} />
           </div>
         )
-      }).toThrow(/must be inside a component decorated with reduxForm/)
+      }).toThrow(/must be used inside a React tree decorated with reduxForm()/)
     })
 
     it('should throw an error if invalid component prop is provided', () => {
@@ -626,12 +626,12 @@ const describeQueryField = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeQueryField('QueryField2.plain', plain, plainCombineReducers, () =>
+describeQueryField('QueryField.plain', plain, plainCombineReducers, () =>
   expect.extend(plainExpectations)
 )
 
 describeQueryField(
-  'QueryField2.immutable',
+  'QueryField.immutable',
   immutable,
   immutableCombineReducers,
   () => expect.extend(immutableExpectations)
