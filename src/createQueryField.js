@@ -10,6 +10,7 @@ import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 import { removeFieldHandlers } from './util/removeHandlers'
 import { compose } from 'lodash/fp'
+import { MUST_BE_INSIDE_REDUX_FORM } from './util/errorMessage'
 
 const createQueryField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
@@ -20,9 +21,7 @@ const createQueryField = (structure: Structure<*, *>) => {
     constructor(props: Props, context: ReactContext) {
       super(props, context)
       if (!context._reduxForm) {
-        throw new Error(
-          'QueryField must be inside a component decorated with reduxForm()'
-        )
+        throw new Error(MUST_BE_INSIDE_REDUX_FORM('QueryField'))
       }
     }
 

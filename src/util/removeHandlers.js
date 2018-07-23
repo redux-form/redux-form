@@ -1,6 +1,6 @@
 import type { FieldProps } from './FieldProps.types'
 import type { FieldsProps } from './FieldsProps.types'
-import { omit, get } from 'lodash'
+import { omit, get, values } from 'lodash'
 
 const HANDLERS_TO_REMOVE = [
   'onChange',
@@ -21,7 +21,7 @@ export const removeFieldHandlers = (field: FieldProps) => {
 
 export const removeFieldsHandlers = (fields: FieldsProps) => {
   return fields.names.reduce((acc, name) => {
-    const field = Object.values(fields).find(
+    const field = values(fields).find(
       field => get(field, ['input', 'name']) === name
     )
 
