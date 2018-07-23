@@ -4,7 +4,7 @@ import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import type { Structure, ReactContext } from './types.js.flow'
 import invariant from 'invariant'
-import type { Props } from './FieldProps.types'
+import type { Props } from './QueryFieldProps.types'
 import createConnectedField from './ConnectedField'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
@@ -36,10 +36,7 @@ const createQueryField = (structure: Structure<*, *>) => {
 
       const renderProp = render || children
       invariant(renderProp, 'render or child prop is required')
-      const component = compose(
-        renderProp,
-        removeFieldHandlers
-      )
+      const component = compose([renderProp, removeFieldHandlers])
 
       return createElement(ConnectedField, {
         format,

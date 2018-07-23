@@ -6,9 +6,10 @@ import invariant from 'invariant'
 import createConnectedFields from './ConnectedFields'
 import prefixName from './util/prefixName'
 import type { Structure, ReactContext } from './types'
-import type { Props } from './FieldsProps.types'
+import type { Props } from './QueryFieldsProps.types'
 import { removeFieldsHandlers } from './util/removeHandlers'
 import { compose } from 'lodash/fp'
+
 const validateNameProp = prop => {
   if (!prop) {
     return new Error('No "names" prop was specified <QueryFields/>')
@@ -41,10 +42,7 @@ const createQueryFields = (structure: Structure<*, *>) => {
       const prefixedNames = names.map(name => prefixName(this.context, name))
       const renderProp = render || children
       invariant(renderProp, 'render or child prop is required')
-      const component = compose(
-        renderProp,
-        removeFieldsHandlers
-      )
+      const component = compose([renderProp, removeFieldsHandlers])
       return createElement(ConnectedFields, {
         ...this.props,
         names: prefixedNames,

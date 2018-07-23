@@ -1,0 +1,8 @@
+// @flow
+
+export type Props = {
+  name: string,
+  render?: Function,
+  children?: Function,
+  format?: ?(value: any, name: string) => ?string
+}
