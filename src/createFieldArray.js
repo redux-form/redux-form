@@ -13,6 +13,7 @@ import type {
 import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types'
 import type { Props } from './FieldArrayProps.types'
 import validateComponentProp from './util/validateComponentProp'
+import { MUST_BE_INSIDE_REDUX_FORM } from './util/errorMessage'
 
 const toArray = (value: any): Array<*> =>
   Array.isArray(value) ? value : [value]
@@ -41,9 +42,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
     constructor(props: Props, context: ReactContext) {
       super(props, context)
       if (!context._reduxForm) {
-        throw new Error(
-          'FieldArray must be inside a component decorated with reduxForm()'
-        )
+        throw new Error(MUST_BE_INSIDE_REDUX_FORM('FieldArray'))
       }
     }
 

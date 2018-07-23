@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import prefixName from './util/prefixName'
 import type { ReactContext } from './types'
 import validateComponentProp from './util/validateComponentProp'
+import { MUST_BE_INSIDE_REDUX_FORM } from './util/errorMessage'
 
 export type Props = {
   name: string,
@@ -22,9 +23,7 @@ class FormSection extends Component<Props> {
   constructor(props: Props, context: ReactContext) {
     super(props, context)
     if (!context._reduxForm) {
-      throw new Error(
-        'FormSection must be inside a component decorated with reduxForm()'
-      )
+      throw new Error(MUST_BE_INSIDE_REDUX_FORM('FormSection'))
     }
   }
 

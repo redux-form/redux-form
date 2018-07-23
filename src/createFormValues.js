@@ -7,6 +7,7 @@ import prefixName from './util/prefixName'
 import type { ComponentType } from 'react'
 import type { Structure, ReactContext } from './types'
 import type { FormValuesInterface } from './formValues.types'
+import { MUST_BE_INSIDE_REDUX_FORM } from './util/errorMessage'
 
 const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
   firstArg: string | Object | Function,
@@ -23,9 +24,7 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
       constructor(props: Object, context: ReactContext) {
         super(props, context)
         if (!context._reduxForm) {
-          throw new Error(
-            'formValues() must be used inside a React tree decorated with reduxForm()'
-          )
+          throw new Error(MUST_BE_INSIDE_REDUX_FORM('formValues()'))
         }
         this.updateComponent(props)
       }
