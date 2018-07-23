@@ -1,13 +1,13 @@
 // @flow
-import * as React from 'react'
+import type {Node, Component} from 'react'
 import type { Event, Context } from './types'
 
 export type InstanceApi = {
   name: string,
-  getRenderedComponent: { (): React.Component<*, *> },
+  getRenderedComponent: { (): Component<*, *> },
   isPristine: { (): boolean },
   getValue: { (): any }
-} & React.Component<*, *>
+} & Component<*, *>
 
 export type Props = {
   name: string,
@@ -15,7 +15,7 @@ export type Props = {
   withRef?: boolean,
   _reduxForm: Context,
   immutableProps?: Array<string>,
-  children?: React.Node,
+  children?: Node,
 
   // same as Props in createFieldProps.js:
   asyncError: any,
