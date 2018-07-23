@@ -34,6 +34,7 @@ describe('removeHandlers', () => {
     expect(field).not.toHaveProperty('onDrop')
     expect(field).not.toHaveProperty('onDragStart')
     expect(field).not.toHaveProperty('onFocus')
+    expect(field).not.toHaveProperty('dispatch')
   }
 
   describe('removeFieldHandlers', () => {
@@ -50,7 +51,8 @@ describe('removeHandlers', () => {
     })
 
     it('should send meta attributes in result', () => {
-      expect(result).toEqual(expect.objectContaining(field.meta))
+      const { dispatch, ...meta } = field.meta
+      expect(result).toEqual(expect.objectContaining(meta))
     })
   })
 
@@ -90,6 +92,16 @@ describe('removeHandlers', () => {
       const result = removeFieldsHandlers(fields)
       expect(result).toHaveProperty('fieldA')
       expect(result).not.toHaveProperty('fieldB')
+    })
+
+    it('should returns fields with nested form prefix', () => {
+      const fields = {
+        fieldA: createFieldProp('asd.fieldA'),
+        names: ['asd.fieldA']
+      }
+
+      const result = removeFieldsHandlers(fields)
+      expect(result).toHaveProperty(['asd.fieldA'])
     })
   })
 })

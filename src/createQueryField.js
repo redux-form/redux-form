@@ -1,11 +1,12 @@
 // @flow
-import { PureComponent, createElement } from 'react'
+import { Component, createElement } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import type { Structure, ReactContext } from './types.js.flow'
 import invariant from 'invariant'
 import type { Props } from './FieldProps.types'
 import createConnectedField from './ConnectedField'
+import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 import { removeFieldHandlers } from './util/removeHandlers'
 import { compose } from 'lodash/fp'
@@ -13,7 +14,7 @@ import { compose } from 'lodash/fp'
 const createQueryField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
 
-  class QueryField extends PureComponent<Props> {
+  class QueryField extends Component<Props> {
     context: ReactContext
 
     constructor(props: Props, context: ReactContext) {
@@ -25,8 +26,12 @@ const createQueryField = (structure: Structure<*, *>) => {
       }
     }
 
+    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
+      return shallowCompare(this, nextProps, nextState)
+    }
+
     render() {
-      const { children, render, name, ...rest } = this.props
+      const { children, render, name, format } = this.props
       const prefixedName = prefixName(this.context, name)
 
       const renderProp = render || children
@@ -37,7 +42,7 @@ const createQueryField = (structure: Structure<*, *>) => {
       )
 
       return createElement(ConnectedField, {
-        ...rest,
+        format,
         _reduxForm: this.context._reduxForm,
         name: prefixedName,
         component
@@ -48,7 +53,8 @@ const createQueryField = (structure: Structure<*, *>) => {
   QueryField.propTypes = {
     name: PropTypes.string.isRequired,
     children: PropTypes.func,
-    render: PropTypes.func
+    render: PropTypes.func,
+    format: PropTypes.func
   }
 
   QueryField.contextTypes = {
