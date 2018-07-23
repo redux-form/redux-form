@@ -1,5 +1,4 @@
 // @flow
-import React from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import hoistStatics from 'hoist-non-react-statics'
 import invariant from 'invariant'
