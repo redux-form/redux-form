@@ -108,6 +108,11 @@ at "design time" or passed in as props to your component at runtime.**
 > form submission; it prevents reinitialization from overwriting user changes.
 > Defaults to `false`.
 
+#### `submitAsSideEffect : boolean` [optional]
+
+> When set to `true`, the return value of `onSubmit` function will be dispatched
+> as a Redux action. **IMPORTANT: When set, submission lifecycle is not run automatically**
+
 #### `updateUnregisteredFields : boolean` [optional]
 
 > Used in combination with `keepDirtyOnReinitialize`. Will update every
