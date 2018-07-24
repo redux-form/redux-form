@@ -1,8 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
+import createSagaMiddleware from 'redux-saga'
+import { createEpicMiddleware } from 'redux-observable'
 import {
   App,
   Code,
@@ -11,21 +13,34 @@ import {
   generateExampleBreadcrumbs
 } from 'redux-form-website-template'
 
+import { helloSaga } from './saga'
+import { formEpic } from './epic'
 const dest = document.getElementById('content')
+
+const sagaMiddleware = createSagaMiddleware()
+const epicMiddleware = createEpicMiddleware()
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const reducer = combineReducers({
   form: reduxFormReducer // mounted under "form"
 })
-const store = (window.devToolsExtension
-  ? window.devToolsExtension()(createStore)
-  : createStore)(reducer)
+
+const store = createStore(
+  reducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware, epicMiddleware))
+)
+
+sagaMiddleware.run(helloSaga)
+epicMiddleware.run(formEpic)
 
 let render = () => {
-  const RemoteSubmitForm = require('./RemoteSubmitForm').default
-  const RemoteSubmitButton = require('./RemoteSubmitButton').default
-  const readme = require('./RemoteSubmit.md')
-  const raw = require('!!raw-loader!./RemoteSubmitForm')
-  const rawButton = require('!!raw-loader!./RemoteSubmitButton')
+  const DispatchSubmit = require('./DispatchSubmit').default
+  const readme = require('./DispatchSubmit.md')
+  const raw = require('!!raw-loader!./DispatchSubmit')
   const rawSubmit = require('!!raw-loader!./submit')
+  const rawEpic = require('!!raw-loader!./epic')
+  const rawSaga = require('!!raw-loader!./saga')
+
   ReactDOM.hydrate(
     <Provider store={store}>
       <App
@@ -34,16 +49,16 @@ let render = () => {
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
         version="7.4.2"
-        path="/examples/remoteSubmit"
+        path="/examples/dispatchSubmit"
         breadcrumbs={generateExampleBreadcrumbs(
-          'remoteSubmit',
-          'Remote Submit Example',
+          'dispatchSubmit',
+          'Dispatch Submit Example',
           '7.4.2'
         )}
       >
         <Markdown content={readme} />
 
-        <div style={{ textAlign: 'center' }}>
+        {/* <div style={{ textAlign: 'center' }}>
           <a
             href="https://codesandbox.io/s/ElYvJR21K"
             target="_blank"
@@ -52,15 +67,13 @@ let render = () => {
           >
             <i className="fa fa-codepen" /> Open in Sandbox
           </a>
-        </div>
+        </div> */}
 
         <h2>Form</h2>
 
-        <RemoteSubmitForm />
+        <DispatchSubmit />
 
-        <RemoteSubmitButton />
-
-        <Values form="remoteSubmit" />
+        <Values form="dispatchSubmit" />
 
         <h2>Code</h2>
 
@@ -68,13 +81,17 @@ let render = () => {
 
         <Code source={rawSubmit} />
 
-        <h4>RemoteSubmitForm.js</h4>
+        <h4>saga.js</h4>
+
+        <Code source={rawSaga} />
+
+        <h4>epic.js</h4>
+
+        <Code source={rawEpic} />
+
+        <h4>DispatchSubmit.js</h4>
 
         <Code source={raw} />
-
-        <h4>RemoteSubmitButton.js</h4>
-
-        <Code source={rawButton} />
       </App>
     </Provider>,
     dest
@@ -99,13 +116,15 @@ if (module.hot) {
   const rerender = () => {
     setTimeout(render)
   }
-  module.hot.accept('./RemoteSubmitForm', rerender)
-  module.hot.accept('./RemoteSubmitButton', rerender)
-  module.hot.accept('./RemoteSubmit.md', rerender)
+  module.hot.accept('./DispatchSubmit', rerender)
+  module.hot.accept('./DispatchSubmit.md', rerender)
+  module.hot.accept('./saga', rerender)
+  module.hot.accept('./epic', rerender)
   module.hot.accept('./submit', rerender)
-  module.hot.accept('!!raw-loader!./RemoteSubmitForm', rerender)
-  module.hot.accept('!!raw-loader!./RemoteSubmitButton', rerender)
+  module.hot.accept('!!raw-loader!./DispatchSubmit', rerender)
   module.hot.accept('!!raw-loader!./submit', rerender)
+  module.hot.accept('!!raw-loader!./saga', rerender)
+  module.hot.accept('!!raw-loader!./epic', rerender)
 }
 
 render()

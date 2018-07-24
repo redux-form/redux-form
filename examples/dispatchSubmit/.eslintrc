@@ -1,0 +1,7 @@
+{
+  "extends": "react-app",
+  "rules": {
+    "jsx-a11y/href-no-hash": 0,
+    "import/no-webpack-loader-syntax": 0
+  }
+}

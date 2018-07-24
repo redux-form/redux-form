@@ -1,16 +1,16 @@
 import { takeEvery, call, put } from 'redux-saga/effects'
-import { startSubmit, setSubmitSucceeded, setSubmitFailed } from 'redux-form'
+import { startSubmit, stopSubmit } from 'redux-form'
+
 import submit from './submit'
+import { FORM_NAME } from './DispatchSubmit'
 
 export function* submitForm(action) {
-  console.log(action)
-  yield put(startSubmit('remoteSubmit'))
+  yield put(startSubmit(FORM_NAME))
   try {
     yield call(submit, action.payload)
-    yield put(setSubmitSucceeded('remoteSubmit'))
+    yield put(stopSubmit(FORM_NAME))
   } catch (error) {
-    console.log(error)
-    yield put(setSubmitFailed('remoteSubmit'))
+    yield put(stopSubmit(FORM_NAME, error.errors))
   }
 }
 
