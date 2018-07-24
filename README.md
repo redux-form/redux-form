@@ -19,12 +19,6 @@ enable an html form in [React](https://github.com/facebook/react) to use
 [Redux](https://github.com/reactjs/redux) to store all of its state.
 [![Beerpay](https://beerpay.io/erikras/redux-form/badge.svg)](https://beerpay.io/erikras/redux-form)
 
-## Sponsorship
-
-Redux-form is proudly sponsored by [Rollbar](https://codesponsor.io/t/c/07f83dcd8b17080d225df0abb69cdd0a/). They provide real-time error monitoring, alerting, and analytics for developers. [Try Rollbar for free](https://codesponsor.io/t/c/07f83dcd8b17080d225df0abb69cdd0a/).
-
-![](https://codesponsor.io/t/l/07f83dcd8b17080d225df0abb69cdd0a/pixel.png)
-
 ## Installation
 
 `npm install --save redux-form`

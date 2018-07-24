@@ -3,6 +3,7 @@ import React, { createElement, Component } from 'react'
 import PropTypes from 'prop-types'
 import prefixName from './util/prefixName'
 import type { ReactContext } from './types'
+import validateComponentProp from './util/validateComponentProp'
 
 export type Props = {
   name: string,
@@ -28,7 +29,10 @@ class FormSection extends Component<Props> {
   }
 
   getChildContext() {
-    const { context, props: { name } } = this
+    const {
+      context,
+      props: { name }
+    } = this
     return {
       _reduxForm: {
         ...context._reduxForm,
@@ -58,11 +62,7 @@ class FormSection extends Component<Props> {
 
 FormSection.propTypes = {
   name: PropTypes.string.isRequired,
-  component: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-    PropTypes.node
-  ])
+  component: validateComponentProp
 }
 
 FormSection.defaultProps = {
