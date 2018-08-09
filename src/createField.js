@@ -128,6 +128,7 @@ const createField = (structure: Structure<*, *>) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
+    label: PropTypes.string,
     component: validateComponentProp,
     format: PropTypes.func,
     normalize: PropTypes.func,
