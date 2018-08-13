@@ -10,6 +10,7 @@ import isReactNative from './isReactNative'
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedField.types'
 import validateComponentProp from './util/validateComponentProp'
+import isEvent from './events/isEvent'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -112,7 +113,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         // to prevent the following error:
         // `One of the sources for assign has an enumerable key on the prototype chain`
         // Reference: https://github.com/facebook/react-native/issues/5507
-        if (!isReactNative) {
+        if (!isReactNative && isEvent(event)) {
           onChange(
             {
               ...event,
