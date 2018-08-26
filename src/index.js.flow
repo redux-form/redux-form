@@ -139,8 +139,9 @@ declare export function formValues(
 ): FormValuesInterface
 
 declare export function getFormError(
+  form: string,
   getFormState: ?GetFormState
-): GetFormErrorInterface<*>
+): GetFormErrorInterface
 
 declare export function getFormNames(
   getFormState: ?GetFormState
