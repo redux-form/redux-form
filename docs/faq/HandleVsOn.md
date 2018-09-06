@@ -54,7 +54,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
 
-let SearchContainer = ({ handleSearchSubmit, values }) => 
+let SearchContainer = ({ handleSearchSubmit }) => 
   <SearchBar
     onSubmit={values => handleSearchSubmit(values.search)}
   />
