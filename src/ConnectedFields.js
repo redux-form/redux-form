@@ -207,7 +207,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     },
     undefined,
     undefined,
-    { withRef: true }
+    { forwardRef: true }
   )
   return connector(ConnectedFields)
 }

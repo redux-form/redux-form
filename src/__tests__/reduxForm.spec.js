@@ -1958,7 +1958,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field name="deep.foo" component={deepFooInputRender} type="text" />
+              <Field
+                name="deep.foo"
+                component={deepFooInputRender}
+                type="text"
+              />
               <Field name="hello" component={helloInputRender} type="text" />
             </form>
           )
@@ -2010,10 +2014,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(deepFooInputRender).toHaveBeenCalled()
       expect(deepFooInputRender).toHaveBeenCalledTimes(1)
-      
+
       expect(helloInputRender).toHaveBeenCalled()
       expect(helloInputRender).toHaveBeenCalledTimes(1)
-      
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -2073,7 +2076,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field name="deep.foo" component={deepFooInputRender} type="text" />
+              <Field
+                name="deep.foo"
+                component={deepFooInputRender}
+                type="text"
+              />
               <Field name="hello" component={helloInputRender} type="text" />
             </form>
           )
@@ -2128,7 +2135,6 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(helloInputRender).toHaveBeenCalled()
       expect(helloInputRender).toHaveBeenCalledTimes(1)
-
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -4826,7 +4832,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
-      expect(decorated.ref.getWrappedInstance().getFieldList()).toEqual([])
+      expect(decorated.ref.getFieldList()).toEqual([])
     })
 
     it('should set autofilled and unset it on change', () => {

@@ -83,15 +83,15 @@ const createFieldArray = (structure: Structure<*, *>) => {
     }
 
     get dirty(): boolean {
-      return !this.ref || this.ref.getWrappedInstance().dirty
+      return !this.ref || this.ref.dirty
     }
 
     get pristine(): boolean {
-      return !!(this.ref && this.ref.getWrappedInstance().pristine)
+      return !!(this.ref && this.ref.pristine)
     }
 
     get value(): ?(any[]) {
-      return this.ref ? this.ref.getWrappedInstance().value : undefined
+      return this.ref ? this.ref.value : undefined
     }
 
     getRenderedComponent() {
@@ -100,7 +100,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to FieldArray'
       )
-      return this.ref && this.ref.getWrappedInstance().getRenderedComponent()
+      return this.ref && this.ref.getRenderedComponent()
     }
 
     render() {

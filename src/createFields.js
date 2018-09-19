@@ -76,7 +76,7 @@ const createFields = (structure: Structure<*, *>) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to Fields'
       )
-      return this.refs.connected.getWrappedInstance().getRenderedComponent()
+      return this.refs.connected.getRenderedComponent()
     }
 
     get names(): string[] {
@@ -85,7 +85,7 @@ const createFields = (structure: Structure<*, *>) => {
     }
 
     get dirty(): boolean {
-      return this.refs.connected.getWrappedInstance().isDirty()
+      return this.refs.connected.isDirty()
     }
 
     get pristine(): boolean {
@@ -93,10 +93,7 @@ const createFields = (structure: Structure<*, *>) => {
     }
 
     get values(): Object {
-      return (
-        this.refs.connected &&
-        this.refs.connected.getWrappedInstance().getValues()
-      )
+      return this.refs.connected && this.refs.connected.getValues()
     }
 
     render() {

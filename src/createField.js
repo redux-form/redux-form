@@ -83,9 +83,7 @@ const createField = (structure: Structure<*, *>) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a withRef prop to Field'
       )
-      return this.ref
-        ? this.ref.getWrappedInstance().getRenderedComponent()
-        : undefined
+      return this.ref ? this.ref.getRenderedComponent() : undefined
     }
 
     get name(): string {
@@ -97,11 +95,11 @@ const createField = (structure: Structure<*, *>) => {
     }
 
     get pristine(): boolean {
-      return !!(this.ref && this.ref.getWrappedInstance().isPristine())
+      return !!(this.ref && this.ref.isPristine())
     }
 
     get value(): any {
-      return this.ref && this.ref.getWrappedInstance().getValue()
+      return this.ref && this.ref.getValue()
     }
 
     normalize = (name: string, value: any): any => {

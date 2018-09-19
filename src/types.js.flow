@@ -39,9 +39,8 @@ export type Values = any
 export type GetFormState = { (state: any): any }
 
 export type ConnectedComponent<T: React.Component<*, *>> = {
-  getWrappedInstance: { (): T },
   wrapped: ?React.Component<*, *>
-} & React.Component<*, *>
+} & T
 
 export type Option = {
   selected: boolean,
