@@ -244,8 +244,6 @@ Otherwise, returns the `name` prop that you passed in.
 > Returns the instance of the rendered component. For this to work, you must provide a
 > `withRef` prop, and your component must not be a stateless function component.
 
-####
-
 ## Props
 
 These are props that `Field` will pass to your wrapped component. **The props provided by `redux-form`
