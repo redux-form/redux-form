@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import type { ComponentType } from 'react'
 import type { Action, GetFormState } from './types'
 import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
@@ -116,17 +116,17 @@ declare export var fieldArrayPropTypes: Object
 
 declare export var formPropTypes: Object
 
-declare export var FormName: React.ComponentType<FormNameProps>
+declare export var FormName: ComponentType<FormNameProps>
 
-declare export var Field: React.ComponentType<FieldInputProps>
+declare export var Field: ComponentType<FieldInputProps>
 
-declare export var Fields: React.ComponentType<FieldsInputProps>
+declare export var Fields: ComponentType<FieldsInputProps>
 
-declare export var FieldArray: React.ComponentType<FieldArrayInputProps>
+declare export var FieldArray: ComponentType<FieldArrayInputProps>
 
-declare export var Form: React.ComponentType<FormProps>
+declare export var Form: ComponentType<FormProps>
 
-declare export var FormSection: React.ComponentType<FormSectionProps>
+declare export var FormSection: ComponentType<FormSectionProps>
 
 declare export function formValueSelector(
   form: string,
@@ -219,7 +219,7 @@ declare export function isSubmitting(
 
 declare export function reduxForm(
   config: ReduxFormConfig
-): { (WrappedComponent: React.ComponentType<*>): React.ComponentType<*> }
+): { (WrappedComponent: ComponentType<*>): ComponentType<*> }
 
 declare export function reducer(state: any, action: Action): any
 
@@ -229,7 +229,7 @@ declare export class SubmissionError {
 
 declare export function values(
   config: ValuesConfig
-): { (React.ComponentType<*>): React.ComponentType<*> }
+): { (ComponentType<*>): ComponentType<*> }
 
 // Action creators
 declare export var arrayInsert: ArrayInsert
