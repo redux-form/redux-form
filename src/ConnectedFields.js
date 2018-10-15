@@ -199,7 +199,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
             syncError,
             syncWarning,
             value,
-            _value: ownProps.value // save value passed in (for checkboxes)
+            _value: ownProps.value // save value passed in (for radios)
           }
           return accumulator
         }, {})
