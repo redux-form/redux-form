@@ -125,7 +125,7 @@ The `<Field/>` component connects each input to the store. The basic usage goes
 as follows:
 
 ```js
-;<Field name="inputName" component="input" type="text" />
+<Field name="inputName" component="input" type="text" />
 ```
 
 It creates an HTML `<input/>` element of type `text`. It also passes additional
