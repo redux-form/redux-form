@@ -157,6 +157,14 @@ ImmutableJS `List`.
 > This is not a mutator; it dispatches an action which updates the state in Redux, which will
 > cause your component to rerender.
 
+#### `array.splice(field:String, index:Number, removeNum:Number, value:Any) : Function`
+
+> Performs an
+> [`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+> operation on the given array in your form.
+
+> This is a bound action creator, so it returns nothing.
+
 #### `fields.swap(indexA:Integer, indexB:Integer) : Function`
 
 > Swaps two items in the array at the given indexes. Returns nothing.
