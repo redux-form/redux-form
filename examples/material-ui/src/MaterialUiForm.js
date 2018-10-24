@@ -73,6 +73,14 @@ const radioButton = ({ input, ...rest }) => (
   </FormControl>
 )
 
+const renderFromHelper = ({ touched, error }) => {
+  if (!(touched && error)) {
+    return
+  } else {
+    return <FormHelperText>{touched && error}</FormHelperText>
+  }
+}
+
 const renderSelectField = ({
   input,
   label,
@@ -96,14 +104,6 @@ const renderSelectField = ({
     {renderFromHelper({ touched, error })}
   </FormControl>
 )
-
-const renderFromHelper = ({ touched, error }) => {
-  if (!(touched && error)) {
-    return
-  } else {
-    return <FormHelperText>{touched && error}</FormHelperText>
-  }
-}
 
 const MaterialUiForm = props => {
   const { handleSubmit, pristine, reset, submitting, classes } = props
