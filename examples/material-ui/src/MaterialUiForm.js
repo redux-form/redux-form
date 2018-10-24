@@ -1,36 +1,15 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import TextField from '@material-ui/core/TextField'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import SelectField from 'material-ui/SelectField'
 import FormControl from '@material-ui/core/FormControl'
-import asyncValidate from './asyncValidate'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiFormControl: {
-      root: {
-        '& p': {
-          fontSize: 12,
-          border: 0,
-          marginTop: 2,
-          padding: 0
-        }
-      }
-    },
-    MuiSelect: {
-      select: {
-        paddingBotton: 10
-      }
-    }
-  }
-})
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
+import asyncValidate from './asyncValidate'
 
 const validate = values => {
   const errors = {}
@@ -55,22 +34,20 @@ const validate = values => {
   return errors
 }
 
-const renderTextFieldMat2 = ({
+const renderTextField = ({
   label,
   input,
   meta: { touched, invalid, error },
-  custom
+  ...custom
 }) => (
-  <MuiThemeProvider theme={theme}>
-    <TextField
-      label={label}
-      placeholder={label}
-      error={touched && invalid}
-      helperText={touched && error}
-      {...input}
-      {...custom}
-    />
-  </MuiThemeProvider>
+  <TextField
+    label={label}
+    placeholder={label}
+    error={touched && invalid}
+    helperText={touched && error}
+    {...input}
+    {...custom}
+  />
 )
 
 const renderCheckbox = ({ input, label }) => (
@@ -87,13 +64,13 @@ const renderCheckbox = ({ input, label }) => (
   </div>
 )
 
-const renderRadioGroup = ({ input, ...rest }) => (
-  <RadioButtonGroup
-    {...input}
-    {...rest}
-    valueSelected={input.value}
-    onChange={(event, value) => input.onChange(value)}
-  />
+const radioButton = ({ input, ...rest }) => (
+  <FormControl>
+    <RadioGroup {...input} {...rest}>
+      <FormControlLabel value="female" control={<Radio />} label="Female" />
+      <FormControlLabel value="male" control={<Radio />} label="Male" />
+    </RadioGroup>
+  </FormControl>
 )
 
 const renderSelectField = ({
@@ -103,41 +80,21 @@ const renderSelectField = ({
   children,
   ...custom
 }) => (
-  <SelectField
-    error
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    onChange={(event, index, value) => input.onChange(value)}
-    children={children}
-    {...custom}
-  />
-)
-
-const renderSelectFieldMat2 = ({
-  input,
-  label,
-  meta: { touched, error },
-  children,
-  ...custom
-}) => (
-  <MuiThemeProvider theme={theme}>
-    <FormControl error={touched && error}>
-      <InputLabel htmlFor="age-native-simple">Age</InputLabel>
-      <Select
-        native
-        {...input}
-        {...custom}
-        inputProps={{
-          name: 'age',
-          id: 'age-native-simple'
-        }}
-      >
-        {children}
-      </Select>
-      {renderFromHelper({ touched, error })}
-    </FormControl>
-  </MuiThemeProvider>
+  <FormControl error={touched && error}>
+    <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+    <Select
+      native
+      {...input}
+      {...custom}
+      inputProps={{
+        name: 'age',
+        id: 'age-native-simple'
+      }}
+    >
+      {children}
+    </Select>
+    {renderFromHelper({ touched, error })}
+  </FormControl>
 )
 
 const renderFromHelper = ({ touched, error }) => {
@@ -155,49 +112,47 @@ const MaterialUiForm = props => {
       <div>
         <Field
           name="firstName"
-          component={renderTextFieldMat2}
+          component={renderTextField}
           label="First Name"
         />
       </div>
       <div>
-        <Field
-          name="lastName"
-          component={renderTextFieldMat2}
-          label="Last Name"
-        />
+        <Field name="lastName" component={renderTextField} label="Last Name" />
       </div>
       <div>
-        <Field name="email" component={renderTextFieldMat2} label="Email" />
+        <Field name="email" component={renderTextField} label="Email" />
       </div>
       <div>
-        <Field name="sex" component={renderRadioGroup}>
-          <RadioButton value="male" label="male" />
-          <RadioButton value="female" label="female" />
+        <Field name="sex" component={radioButton}>
+          <Radio value="male" label="male" />
+          <Radio value="female" label="female" />
         </Field>
       </div>
       <div>
         <Field
           classes={classes}
           name="favoriteColor"
-          component={renderSelectFieldMat2}
+          component={renderSelectField}
           label="Favorite Color"
         >
           <option value="" />
-          <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option>
+          <option value={'ff0000'}>Red</option>
+          <option value={'00ff00'}>Green</option>
+          <option value={'0000ff'}>Blue</option>
         </Field>
       </div>
       <div>
         <Field name="employed" component={renderCheckbox} label="Employed" />
       </div>
+      <div />
       <div>
         <Field
           name="notes"
-          component={renderTextFieldMat2}
+          component={renderTextField}
           label="Notes"
-          multiLine={true}
-          rows={2}
+          multiline
+          rowsMax="4"
+          margin="normal"
         />
       </div>
       <div>
