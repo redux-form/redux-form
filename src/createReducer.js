@@ -37,6 +37,7 @@ import {
   CLEAR_FIELDS,
   UPDATE_SYNC_WARNINGS
 } from './actionTypes'
+import createOverwritePristineValuesDeep from './createOverwritePristineValuesDeep'
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
 import type { Action, Structure } from './types.js.flow'
@@ -75,6 +76,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     some,
     splice
   } = structure
+  const overwritePristineValuesDeep = createOverwritePristineValuesDeep(
+    structure
+  )
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)(shouldDelete)
   const plainDeleteInWithCleanUp = createDeleteInWithCleanUp(plain)(
     shouldDelete
@@ -453,24 +457,26 @@ function createReducer<M, L>(structure: Structure<M, L>) {
             }
           }
 
-          if (!updateUnregisteredFields) {
+          if (updateUnregisteredFields) {
+            newValues = overwritePristineValuesDeep(
+              previousValues,
+              previousInitialValues,
+              newInitialValues
+            )
+          } else {
             forEach(keys(registeredFields), name =>
               overwritePristineValue(name)
             )
+
+            forEach(keys(newInitialValues), name => {
+              const previousInitialValue = getIn(previousInitialValues, name)
+              if (typeof previousInitialValue === 'undefined') {
+                // Add new values at the root level.
+                const newInitialValue = getIn(newInitialValues, name)
+                newValues = setIn(newValues, name, newInitialValue)
+              }
+            })
           }
-
-          forEach(keys(newInitialValues), name => {
-            const previousInitialValue = getIn(previousInitialValues, name)
-            if (typeof previousInitialValue === 'undefined') {
-              // Add new values at the root level.
-              const newInitialValue = getIn(newInitialValues, name)
-              newValues = setIn(newValues, name, newInitialValue)
-            }
-
-            if (updateUnregisteredFields) {
-              overwritePristineValue(name)
-            }
-          })
         }
       } else {
         newValues = newInitialValues

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`overwritePristineValuesDeep should update pristine values with new values 1`] = `
+Object {
+  "name": "name-dirty",
+  "new": "new",
+  "object": Object {
+    "a": "a-dirty",
+    "b": "b-new",
+    "d": "d",
+    "object2": Object {
+      "a2": "a2-dirty",
+      "b2": "b2-new",
+    },
+    "objectNew": Object {
+      "a3": "a3",
+      "b3": "b3",
+    },
+  },
+  "relatedContent": Object {
+    "0": Array [
+      "1",
+      "dirty",
+    ],
+    "new": Array [
+      "new",
+      "new2",
+      "new3",
+    ],
+  },
+  "title": "title-new",
+}
+`;

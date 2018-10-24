@@ -69,7 +69,10 @@
     "lodash-es": "^4.17.10",
     "prop-types": "^15.6.1",
     "react-is": "^16.4.1",
-    "react-lifecycles-compat": "^3.0.4"
+    "react-lifecycles-compat": "^3.0.4",
+    "traverse": "^0.6.6",
+    "arr-union": "^3.1.0",
+    "kind-of": "^3.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
