@@ -1,5 +1,5 @@
 // @flow
-import { toPath } from 'lodash'
+import toPath from 'lodash/toPath'
 import type { Structure } from './types'
 
 type ShouldDelete<SDM, SDL> = (

@@ -1,7 +1,7 @@
 // @flow
 import { Iterable } from 'immutable'
 
-import { isEqualWith } from 'lodash'
+import isEqualWith from 'lodash/isEqualWith'
 
 const customizer = (obj: any, other: any) => {
   if (obj === other) return true

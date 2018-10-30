@@ -1,6 +1,6 @@
 import handleSubmit from '../handleSubmit'
 import SubmissionError from '../SubmissionError'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 
 describe('handleSubmit', () => {
   it('should stop if sync validation fails', () => {

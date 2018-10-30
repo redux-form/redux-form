@@ -1,5 +1,5 @@
 // @flow
-import { toPath } from 'lodash'
+import toPath from 'lodash/toPath'
 
 const getIn = (state: Object | Array<*>, field: string): any => {
   if (!state) {

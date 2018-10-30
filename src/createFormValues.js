@@ -1,5 +1,7 @@
 // @flow
-import { isEmpty, isEqual, mapValues } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import mapValues from 'lodash/mapValues'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'

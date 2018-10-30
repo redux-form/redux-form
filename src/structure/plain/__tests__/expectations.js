@@ -1,5 +1,6 @@
 // @flow
-import { isEqual, isObject } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import isObject from 'lodash/isObject'
 import { matcherHint, printReceived, printExpected } from 'jest-matcher-utils'
 
 const expectations = {

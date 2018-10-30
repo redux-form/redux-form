@@ -1,4 +1,4 @@
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import silenceEvents from '../silenceEvents'
 
 describe('silenceEvents', () => {

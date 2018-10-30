@@ -1,6 +1,6 @@
 // @flow
 import { Map, Iterable, List, fromJS } from 'immutable'
-import { toPath } from 'lodash'
+import toPath from 'lodash/toPath'
 import deepEqual from './deepEqual'
 import keys from './keys'
 import setIn from './setIn'

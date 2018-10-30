@@ -1,6 +1,5 @@
 // @flow
-import { isEqualWith } from 'lodash'
-
+import isEqualWith from 'lodash/isEqualWith'
 const customizer = (
   objectValue,
   otherValue,

@@ -1,4 +1,4 @@
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import getValue from '../getValue'
 
 describe('getValue', () => {

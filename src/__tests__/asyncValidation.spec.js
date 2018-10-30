@@ -1,5 +1,5 @@
 import isPromise from 'is-promise'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 import asyncValidation from '../asyncValidation'
 
 describe('asyncValidation', () => {
