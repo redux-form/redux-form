@@ -65,7 +65,7 @@ by passing them into `props`.
 #### `parse : (value, name) => parsedValue` [optional]
 
 Parses the value given from the field input component to the type that you want
-stored in the Redux store. Common use cases are to parse currencies into
+to be stored in the Redux store. Common use cases are to parse currencies into
 `Number`s into currencies or localized date formats into `Date`s.
 
 `parse` is called with the field `value` and `name` as arguments and should
@@ -94,7 +94,7 @@ section below.
 ### 2. A stateless function
 
 This is the most flexible way to use `<Fields>`, as it gives you complete
-control over how the inputs is rendered. It is especially useful for displaying
+control over how the inputs are rendered. It is especially useful for displaying
 validation errors. It will also be the most familiar to people migrating from
 previous versions of `redux-form`. **You must define the stateless function
 outside of your `render()` method, or else it will be recreated on every render
