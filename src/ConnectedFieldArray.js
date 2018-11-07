@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -8,6 +8,7 @@ import { mapValues } from 'lodash'
 import plain from './structure/plain'
 import type { Structure } from './types'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types'
+import validateComponentProp from './util/validateComponentProp'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
@@ -27,7 +28,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     return getIn(syncWarnings, `${name}._warning`)
   }
 
-  class ConnectedFieldArray extends React.Component<Props> {
+  class ConnectedFieldArray extends Component<Props> {
     static defaultProps: DefaultProps
     ref: ?HTMLElement
 
@@ -118,16 +119,12 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       if (withRef) {
         props.ref = this.saveRef
       }
-      return React.createElement(component, props)
+      return createElement(component, props)
     }
   }
 
   ConnectedFieldArray.propTypes = {
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    component: validateComponentProp,
     props: PropTypes.object,
     rerenderOnEveryChange: PropTypes.bool
   }

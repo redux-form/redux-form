@@ -14,6 +14,7 @@ import type {
 } from './types.js.flow'
 import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types'
 import type { Props } from './FieldProps.types'
+import validateComponentProp from './util/validateComponentProp'
 
 const createField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
@@ -46,7 +47,7 @@ const createField = (structure: Structure<*, *>) => {
     shouldComponentUpdate(nextProps: Props, nextState?: Object) {
       return shallowCompare(this, nextProps, nextState)
     }
-    
+
     componentWillReceiveProps(nextProps: Props, nextContext: any) {
       const oldName = prefixName(this.context, this.props.name)
       const newName = prefixName(nextContext, nextProps.name)
@@ -127,11 +128,7 @@ const createField = (structure: Structure<*, *>) => {
 
   Field.propTypes = {
     name: PropTypes.string.isRequired,
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    component: validateComponentProp,
     format: PropTypes.func,
     normalize: PropTypes.func,
     onBlur: PropTypes.func,

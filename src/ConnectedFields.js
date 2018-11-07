@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
@@ -7,6 +7,7 @@ import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedFields.types'
+import validateComponentProp from './util/validateComponentProp'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -28,11 +29,11 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedFields extends React.Component<Props> {
+  class ConnectedFields extends Component<Props> {
     onChangeFns = {}
     onFocusFns = {}
     onBlurFns = {}
-    ref: ?React.Component<*>
+    ref: ?Component<*>
 
     constructor(props: Props) {
       super(props)
@@ -123,7 +124,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
       }
     }
 
-    saveRef = (ref: ?React.Component<*>) => {
+    saveRef = (ref: ?Component<*>) => {
       this.ref = ref
     }
 
@@ -153,16 +154,12 @@ const createConnectedFields = (structure: Structure<*, *>) => {
         props.ref = this.saveRef
       }
 
-      return React.createElement(component, { ...props, ...custom })
+      return createElement(component, { ...props, ...custom })
     }
   }
 
   ConnectedFields.propTypes = {
-    component: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.string,
-      PropTypes.node
-    ]).isRequired,
+    component: validateComponentProp,
     _fields: PropTypes.object.isRequired,
     props: PropTypes.object
   }

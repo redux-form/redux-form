@@ -1,12 +1,18 @@
 // @flow
+import { Iterable } from 'immutable'
 import isPromise from 'is-promise'
-import SubmissionError from './SubmissionError'
 import type { Dispatch } from 'redux'
 import type { Props } from './createReduxForm'
 
 type SubmitFunction = {
   (values: any, dispatch: Dispatch<*>, props: Object): any
 }
+
+const isSubmissionError = error => error && error.name === 'SubmissionError'
+const mergeErrors = ({ asyncErrors, syncErrors }) =>
+  asyncErrors && Iterable.isIterable(asyncErrors)
+    ? asyncErrors.merge(syncErrors).toJS()
+    : { ...asyncErrors, ...syncErrors }
 
 const handleSubmit = (
   submit: SubmitFunction,
@@ -38,10 +44,9 @@ const handleSubmit = (
       try {
         result = submit(values, dispatch, props)
       } catch (submitError) {
-        const error =
-          submitError instanceof SubmissionError
-            ? submitError.errors
-            : undefined
+        const error = isSubmissionError(submitError)
+          ? submitError.errors
+          : undefined
         stopSubmit(error)
         setSubmitFailed(...fields)
         if (onSubmitFail) {
@@ -66,10 +71,9 @@ const handleSubmit = (
             return submitResult
           },
           submitError => {
-            const error =
-              submitError instanceof SubmissionError
-                ? submitError.errors
-                : undefined
+            const error = isSubmissionError(submitError)
+              ? submitError.errors
+              : undefined
             stopSubmit(error)
             setSubmitFailed(...fields)
             if (onSubmitFail) {
@@ -113,7 +117,7 @@ const handleSubmit = (
     }
   } else {
     setSubmitFailed(...fields)
-    const errors = { ...asyncErrors, ...syncErrors }
+    const errors = mergeErrors({ asyncErrors, syncErrors })
     if (onSubmitFail) {
       onSubmitFail(errors, dispatch, null, props)
     }

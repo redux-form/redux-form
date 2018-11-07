@@ -159,8 +159,6 @@ component.
 > provide a `withRef` prop, and your component must not be a stateless function
 > component.
 
-####
-
 ## Props
 
 The props that `Fields` will pass to your component are

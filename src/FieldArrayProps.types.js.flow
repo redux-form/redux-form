@@ -1,9 +1,9 @@
 // @flow
-import * as React from 'react'
+import type {ElementType, ComponentType} from 'react'
 
 export type Props = {
   name: string,
-  component: React.ComponentType<*> | React.ElementType,
+  component: ComponentType<*> | ElementType,
   props?: Object,
   rerenderOnEveryChange?: boolean,
   validate?: (value: any, allValues: Object, props: Object) => ?any,

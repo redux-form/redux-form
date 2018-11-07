@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import hoistStatics from 'hoist-non-react-statics'
 import invariant from 'invariant'
@@ -23,7 +22,7 @@ import createIsValid from './selectors/isValid'
 import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
 import isHotReloading from './util/isHotReloading'
-import type { ComponentType } from 'react'
+import type { ComponentType, Node } from 'react'
 import type { Dispatch } from 'redux'
 import type {
   ConnectedComponent,
@@ -215,7 +214,7 @@ export type Props = {
   asyncValidating: boolean,
   blur: BlurAction,
   change: ChangeAction,
-  children?: React.Node,
+  children?: Node,
   clearSubmit: ClearSubmitAction,
   destroy: DestroyAction,
   destroyOnUnmount: boolean,
@@ -308,7 +307,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         static WrappedComponent: ComponentType<*>
 
         context: ReactContext
-        wrapped: ?React.Component<*, *>
+        wrapped: ?Component<*, *>
 
         destroyed = false
         fieldCounts = {}
@@ -834,7 +833,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         reset = (): void => this.props.reset()
 
-        saveRef = (ref: ?React.Component<*, *>) => {
+        saveRef = (ref: ?Component<*, *>) => {
           this.wrapped = ref
         }
 

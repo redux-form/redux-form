@@ -7,15 +7,15 @@ It's important to understand how your field value is flowing through `redux-form
 `redux-form` provides three value lifecycle hooks, provided as props to the `Field` component. 
 **They are all optional.**
 
-### `format(value:Any) => String`
+### `format(value:Any) => Any`
 
 > Formats the value from the Redux store to be used for your input component. Common use cases are 
 for maintaining data as `Number`s or `Date`s in the store, but formatting them a specific way in 
 your input.
 
-### `parse(value:String) => Any`
+### `parse(value:Any) => Any`
 
-> Parses a string input by the user into the data type that you want to use in the Redux store.
+> Parses the input by the user into the data type that you want to use in the Redux store.
 Common use cases are for maintaining data as `Number`s or `Date`s in the store.
 
 ### `normalize(value:Any, previousValue:Any, allValues:Object, previousAllValues:Object) => Any`
