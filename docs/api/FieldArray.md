@@ -32,11 +32,11 @@ A `Component` or stateless function to render the field array.
 
 #### `validate : (value, allValues, props) => error` [optional]
 
-Allows you to to provide a field-level validation rule. The function will be given the current value of the array field, all the other form values, and any props passed to the form. If the array is valid, it should return `undefined`, if the array is invalid, it should return an error (usually, but not necessarily, a `String`).
+Allows you to provide a field-level validation rule. The function will be given the current value of the array field, all the other form values, and any props passed to the form. If the array is valid, it should return `undefined`, if the array is invalid, it should return an error (usually, but not necessarily, a `String`).
 
 #### `warn : (value, allValues, props) => warning` [optional]
 
-Allows you to to provide a field-level warning rule. The function will be given the current value of the array field, all the other form values, and any props passed to the form. If the array needs a warning, it should return the warning (usually, but not necessarily, a `String`). If the array does not need a warning, it should return `undefined`.
+Allows you to provide a field-level warning rule. The function will be given the current value of the array field, all the other form values, and any props passed to the form. If the array needs a warning, it should return the warning (usually, but not necessarily, a `String`). If the array does not need a warning, it should return `undefined`.
 
 #### `withRef : boolean` [optional]
 
