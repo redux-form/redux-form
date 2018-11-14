@@ -75,6 +75,9 @@ import type {
   Untouch
 } from './actions.types'
 
+import { type Event as _Event } from './types'
+export type Event = _Event
+
 type StructureMap = Object
 
 export type FormProps = _FormProps
