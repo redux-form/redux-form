@@ -1,9 +1,9 @@
 // @flow
-import * as React from 'react'
+import type {ComponentType} from 'react'
 
 export type Props = {
   names: string[],
-  component: Function | React.ComponentType<*>,
+  component: Function | ComponentType<*>,
   format?: (value: any, name: string) => ?any,
   parse?: (value: any, name: string) => ?any,
   props?: Object,

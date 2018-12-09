@@ -7,9 +7,9 @@ design change.
 
 In `v5`, only the outer form component was connected to the Redux state, and the
 props for each field were passed in via the form component. The problem with
-this is that the _entire_ form component had to rerender _on every single
+this is that the _entire_ form component had to re-render _on every single
 keypress_ that changed a form value. This was fine for small login forms, but
-lead to extremely slow performance on larger forms with dozens or hundreds of
+lead to an extremely slow performance on larger forms with dozens or hundreds of
 fields.
 
 **In `v6`, every single field is connected to the Redux store.** The outer form

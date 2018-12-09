@@ -1,6 +1,6 @@
 // @flow
-import * as React from 'react'
+import type { Node } from 'react'
 
 export type Props = {
-  children: (form: {name: string}) => React.Node,
+  children: (form: { name: string }) => Node
 }

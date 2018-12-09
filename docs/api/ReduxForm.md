@@ -30,7 +30,7 @@ at "design time" or passed in as props to your component at runtime.**
 
 ### Optional
 
-#### -`asyncBlurFields : Array<String>` [optional]
+#### `asyncBlurFields : Array<String>` [optional]
 
 > field names for which `onBlur` should trigger a call to the `asyncValidate`
 > function. Defaults to triggering the async validation when any field is
@@ -42,7 +42,7 @@ at "design time" or passed in as props to your component at runtime.**
 > [Asynchronous Blur Validation Example](https://redux-form.com/7.4.2/examples/asyncValidation/)
 > for more details.
 
-#### -`asyncChangeFields : Array<String>` [optional]
+#### `asyncChangeFields : Array<String>` [optional]
 
 > field names for which `onChange` should trigger a call to the `asyncValidate`
 > function.

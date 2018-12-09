@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import hoistStatics from 'hoist-non-react-statics'
 import invariant from 'invariant'
@@ -24,7 +23,7 @@ import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
 import isHotReloading from './util/isHotReloading'
 import { withReduxForm, ReduxFormContext } from './ReduxFormContext'
-import type { ComponentType } from 'react'
+import type { ComponentType, Node } from 'react'
 import type { Dispatch } from 'redux'
 import type {
   ConnectedComponent,
@@ -216,7 +215,7 @@ export type Props = {
   asyncValidating: boolean,
   blur: BlurAction,
   change: ChangeAction,
-  children?: React.Node,
+  children?: Node,
   clearSubmit: ClearSubmitAction,
   destroy: DestroyAction,
   destroyOnUnmount: boolean,
