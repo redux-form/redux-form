@@ -35,7 +35,7 @@ const wrapError = (fn: ?Function, key: string): ?Function =>
 const createFieldArray = (structure: Structure<*, *>) => {
   const ConnectedFieldArray = createConnectedFieldArray(structure)
 
-  class FieldArray extends React.Component<Props> {
+  class FieldArray extends Component<Props> {
     name: string
     ref: ?ConnectedComponent<ConnectedFieldArrayInstanceApi>
 

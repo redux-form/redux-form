@@ -59,7 +59,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedField extends React.Component<Props> {
+  class ConnectedField extends Component<Props> {
     ref: React.Component<*, *>
 
     shouldComponentUpdate(nextProps: Props) {

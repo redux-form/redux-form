@@ -4,7 +4,7 @@ import WizardFormFirstPage from './WizardFormFirstPage'
 import WizardFormSecondPage from './WizardFormSecondPage'
 import WizardFormThirdPage from './WizardFormThirdPage'
 
-class WizardForm extends React.Component {
+class WizardForm extends Component {
   constructor(props) {
     super(props)
     this.nextPage = this.nextPage.bind(this)

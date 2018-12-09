@@ -24,7 +24,7 @@ const createField = (structure: Structure<*, *>) => {
 
   const { setIn } = structure
 
-  class Field extends React.Component<Props> {
+  class Field extends Component<Props> {
     ref: ?ConnectedComponent<ConnectedFieldInstanceApi>
 
     constructor(props: Props) {
@@ -77,7 +77,7 @@ const createField = (structure: Structure<*, *>) => {
 
     ref = React.createRef()
 
-    getRenderedComponent(): ?React.Component<*, *> {
+    getRenderedComponent(): ?Component<*, *> {
       invariant(
         this.props.forwardRef,
         'If you want to access getRenderedComponent(), ' +

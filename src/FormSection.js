@@ -18,7 +18,7 @@ export type DefaultProps = {
   component: Function | string
 }
 
-class FormSection extends React.Component<Props> {
+class FormSection extends Component<Props> {
   static defaultProps: DefaultProps
   context: ReactContext
 
