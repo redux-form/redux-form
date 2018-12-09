@@ -99,7 +99,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     render() {
       const {
         component,
-        withRef,
+        forwardRef,
         name,
         _reduxForm, // eslint-disable-line no-unused-vars
         validate, // eslint-disable-line no-unused-vars
@@ -115,7 +115,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
         this.getValue,
         rest
       )
-      if (withRef) {
+      if (forwardRef) {
         props.ref = this.saveRef
       }
       return React.createElement(component, props)
@@ -130,10 +130,6 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   ConnectedFieldArray.defaultProps = {
     rerenderOnEveryChange: false
-  }
-
-  ConnectedFieldArray.contextTypes = {
-    _reduxForm: PropTypes.object
   }
 
   const connector = connect(
@@ -197,7 +193,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       )
     },
     undefined,
-    { withRef: true }
+    { forwardRef: true }
   )
   return connector(ConnectedFieldArray)
 }

@@ -59,7 +59,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedField extends Component<Props> {
+  class ConnectedField extends React.Component<Props> {
     ref: React.Component<*, *>
 
     shouldComponentUpdate(nextProps: Props) {
@@ -261,7 +261,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
     render() {
       const {
         component,
-        withRef,
+        forwardRef,
         name,
         // remove props that are part of redux internals:
         _reduxForm, // eslint-disable-line no-unused-vars
@@ -283,7 +283,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         onDragStart: this.handleDragStart,
         onFocus: this.handleFocus
       })
-      if (withRef) {
+      if (forwardRef) {
         custom.ref = this.saveRef
       }
       if (typeof component === 'string') {
@@ -336,7 +336,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
     },
     undefined,
     undefined,
-    { withRef: true }
+    { forwardRef: true }
   )
   return connector(ConnectedField)
 }

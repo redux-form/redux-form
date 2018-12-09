@@ -8,7 +8,7 @@ export type Props = {
   rerenderOnEveryChange?: boolean,
   validate?: (value: any, allValues: Object, props: Object) => ?any,
   warn?: (value: any, allValues: Object, props: Object) => ?any,
-  withRef?: boolean
+  forwardRef?: boolean
 }
 
 export type Fields = {

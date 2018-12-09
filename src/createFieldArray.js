@@ -5,14 +5,17 @@ import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
 import prefixName from './util/prefixName'
+import { withReduxForm } from './ReduxFormContext'
 import type {
   ConnectedComponent,
   Structure,
   ReactContext
 } from './types.js.flow'
 import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types'
-import type { Props } from './FieldArrayProps.types'
+import type { Props as PropsWithoutContext } from './FieldArrayProps.types'
 import validateComponentProp from './util/validateComponentProp'
+
+type Props = { _reduxForm?: ReactContext } & PropsWithoutContext
 
 const toArray = (value: any): Array<*> =>
   Array.isArray(value) ? value : [value]
@@ -32,15 +35,13 @@ const wrapError = (fn: ?Function, key: string): ?Function =>
 const createFieldArray = (structure: Structure<*, *>) => {
   const ConnectedFieldArray = createConnectedFieldArray(structure)
 
-  class FieldArray extends Component<Props> {
-    context: ReactContext
-
+  class FieldArray extends React.Component<Props> {
     name: string
     ref: ?ConnectedComponent<ConnectedFieldArrayInstanceApi>
 
-    constructor(props: Props, context: ReactContext) {
-      super(props, context)
-      if (!context._reduxForm) {
+    constructor(props: Props) {
+      super(props)
+      if (!props._reduxForm) {
         throw new Error(
           'FieldArray must be inside a component decorated with reduxForm()'
         )
@@ -48,7 +49,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
     }
 
     componentDidMount() {
-      this.context._reduxForm.register(
+      this.props._reduxForm.register(
         this.name,
         'FieldArray',
         () => wrapError(this.props.validate, '_error'),
@@ -56,58 +57,55 @@ const createFieldArray = (structure: Structure<*, *>) => {
       )
     }
 
-    componentWillReceiveProps(nextProps: Props, nextContext: any) {
-      const oldName = prefixName(this.context, this.props.name)
-      const newName = prefixName(nextContext, nextProps.name)
+    componentWillReceiveProps(nextProps: Props) {
+      const oldName = prefixName(this.props, this.props.name)
+      const newName = prefixName(nextProps, nextProps.name)
 
       if (oldName !== newName) {
         // unregister old name
-        this.context._reduxForm.unregister(oldName)
+        this.props._reduxForm.unregister(oldName)
         // register new name
-        this.context._reduxForm.register(newName, 'FieldArray')
+        this.props._reduxForm.register(newName, 'FieldArray')
       }
     }
 
     componentWillUnmount() {
-      this.context._reduxForm.unregister(this.name)
+      this.props._reduxForm.unregister(this.name)
     }
 
     saveRef = (ref: ?React.Component<*, *>) => {
-      this.ref = ((ref: any): ?ConnectedComponent<
-        ConnectedFieldArrayInstanceApi
-      >)
+      this.ref = ((ref: any): ?ConnectedComponent<ConnectedFieldArrayInstanceApi>)
     }
 
     get name(): string {
-      return prefixName(this.context, this.props.name)
+      return prefixName(this.props, this.props.name)
     }
 
     get dirty(): boolean {
-      return !this.ref || this.ref.getWrappedInstance().dirty
+      return !this.ref || this.ref.dirty
     }
 
     get pristine(): boolean {
-      return !!(this.ref && this.ref.getWrappedInstance().pristine)
+      return !!(this.ref && this.ref.pristine)
     }
 
     get value(): ?(any[]) {
-      return this.ref ? this.ref.getWrappedInstance().value : undefined
+      return this.ref ? this.ref.value : undefined
     }
 
     getRenderedComponent() {
       invariant(
-        this.props.withRef,
+        this.props.forwardRef,
         'If you want to access getRenderedComponent(), ' +
-          'you must specify a withRef prop to FieldArray'
+          'you must specify a forwardRef prop to FieldArray'
       )
-      return this.ref && this.ref.getWrappedInstance().getRenderedComponent()
+      return this.ref && this.ref.getRenderedComponent()
     }
 
     render() {
       return createElement(ConnectedFieldArray, {
         ...this.props,
         name: this.name,
-        _reduxForm: this.context._reduxForm,
         ref: this.saveRef
       })
     }
@@ -125,14 +123,12 @@ const createFieldArray = (structure: Structure<*, *>) => {
       PropTypes.func,
       PropTypes.arrayOf(PropTypes.func)
     ]),
-    withRef: PropTypes.bool
-  }
-  FieldArray.contextTypes = {
+    forwardRef: PropTypes.bool,
     _reduxForm: PropTypes.object
   }
 
   polyfill(FieldArray)
-  return FieldArray
+  return withReduxForm(FieldArray)
 }
 
 export default createFieldArray

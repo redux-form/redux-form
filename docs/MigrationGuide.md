@@ -37,7 +37,7 @@ from the string name of your field is the new `Field` component.
 import React, { Component } from 'react'
 import { reduxForm } from 'redux-form'
 
-class MyForm extends Component {
+class MyForm extends React.Component {
   render() {
     const {
       fields: { username, password },
@@ -50,8 +50,9 @@ class MyForm extends Component {
           <label htmlFor="username">Username</label>
           <div>
             <input type="text" {...username} />
-            {username.touched &&
-              username.error && <span className="error">{username.error}</span>}
+            {username.touched && username.error && (
+              <span className="error">{username.error}</span>
+            )}
           </div>
         </div>
 
@@ -91,7 +92,7 @@ const renderInput = field =>   // Define stateless component to render input and
      <span className="error">{field.meta.error}</span>}
   </div>
 
-class MyForm extends Component {
+class MyForm extends React.Component {
   render() {
 
     const { handleSubmit } = this.props       // No fields prop

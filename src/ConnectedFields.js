@@ -129,7 +129,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     }
 
     render() {
-      const { component, withRef, _fields, _reduxForm, ...rest } = this.props
+      const { component, forwardRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
       const { custom, ...props } = Object.keys(_fields).reduce(
         (accumulator, name) => {
@@ -150,7 +150,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
         },
         {}
       )
-      if (withRef) {
+      if (forwardRef) {
         props.ref = this.saveRef
       }
 
@@ -207,7 +207,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     },
     undefined,
     undefined,
-    { withRef: true }
+    { forwardRef: true }
   )
   return connector(ConnectedFields)
 }

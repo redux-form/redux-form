@@ -22,7 +22,7 @@ export type Props = {
   props?: Object,
   validate?: Validator | Validator[],
   warn?: Validator | Validator[],
-  withRef?: boolean,
+  forwardRef?: boolean,
   immutableProps?: Array<string>
 }
 

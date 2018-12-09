@@ -2,18 +2,19 @@
 import React, { Component } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
+import { withReduxForm } from './ReduxFormContext'
 import type { ReactContext } from './types'
 
 export type Props = {
   onSubmit: Function
 }
 
-class Form extends Component<Props> {
-  context: ReactContext
+type PropsWithContext = { _reduxForm?: ReactContext } & Props
 
-  constructor(props: Props, context: ReactContext) {
-    super(props, context)
-    if (!context._reduxForm) {
+class Form extends Component<PropsWithContext> {
+  constructor(props: PropsWithContext) {
+    super(props)
+    if (!props._reduxForm) {
       throw new Error(
         'Form must be inside a component decorated with reduxForm()'
       )
@@ -21,7 +22,7 @@ class Form extends Component<Props> {
   }
 
   componentWillMount() {
-    this.context._reduxForm.registerInnerOnSubmit(this.props.onSubmit)
+    this.props._reduxForm.registerInnerOnSubmit(this.props.onSubmit)
   }
 
   render() {
@@ -30,11 +31,9 @@ class Form extends Component<Props> {
 }
 
 Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired
-}
-Form.contextTypes = {
+  onSubmit: PropTypes.func.isRequired,
   _reduxForm: PropTypes.object
 }
 
 polyfill(Form)
-export default Form
+export default withReduxForm(Form)
