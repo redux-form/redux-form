@@ -13,6 +13,8 @@
 [![PayPal donate button](http://img.shields.io/paypal/donate.png?color=yellowgreen)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
 [![Twitter URL](https://img.shields.io/twitter/url/https/github.com/erikras/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
 [![Patreon](https://img.shields.io/badge/patreon-support%20the%20author-blue.svg)](https://www.patreon.com/erikras)
+[![Backers on Open Collective](https://opencollective.com/redux-form/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/redux-form/sponsors/badge.svg)](#sponsors)
 
 `redux-form` works with [React Redux](https://github.com/reactjs/react-redux) to
 enable an html form in [React](https://github.com/facebook/react) to use
@@ -58,3 +60,29 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 | [![Abstracting Form State with Redux Form – JS Channel 2016](docs/JSChannel2016.gif)](https://youtu.be/eDTi7lYR1VU) |
 | :-----------------------------------------------------------------------------------------------------------------: |
 |                            **Abstracting Form State with Redux Form – JS Channel 2016**                             |
+
+## Contributors
+
+This project exists thanks to all the people who contribute.
+<a href="graphs/contributors"><img src="https://opencollective.com/redux-form/contributors.svg?width=890&button=false" /></a>
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/redux-form#backer)]
+
+<a href="https://opencollective.com/redux-form#backers" target="_blank"><img src="https://opencollective.com/redux-form/backers.svg?width=890"></a>
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/redux-form#sponsor)]
+
+<a href="https://opencollective.com/redux-form/sponsor/0/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/1/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/2/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/3/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/4/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/5/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/6/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/7/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/8/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/redux-form/sponsor/9/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/9/avatar.svg"></a>

@@ -42,7 +42,8 @@
     "test": "cross-env NODE_ENV=test jest --runInBand",
     "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov": "npm run test -- --coverage"
+    "test:cov": "npm run test -- --coverage",
+    "postinstall": "opencollective-postinstall"
   },
   "keywords": [
     "react",
@@ -67,6 +68,7 @@
     "is-promise": "^2.1.0",
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.11",
+    "opencollective-postinstall": "^2.0.0"
     "prop-types": "^15.6.1",
     "react-is": "^16.4.1",
     "react-lifecycles-compat": "^3.0.4"
@@ -164,5 +166,9 @@
         "*.js"
       ]
     }
-  ]
+  ],
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/redux-form"
+  }
 }
