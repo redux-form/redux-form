@@ -513,7 +513,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
           invariant(
             this.props.shouldValidate,
-            'shouldValidate() is deprecated and will be removed in v8.0.0. Use shouldWarn() or shouldError() instead.'
+            'shouldValidate() is deprecated and will be removed in v8.0.1. Use shouldWarn() or shouldError() instead.'
           )
         }
 
@@ -561,7 +561,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
           invariant(
             this.props.shouldValidate,
-            'shouldValidate() is deprecated and will be removed in v8.0.0. Use shouldWarn() or shouldError() instead.'
+            'shouldValidate() is deprecated and will be removed in v8.0.1. Use shouldWarn() or shouldError() instead.'
           )
         }
 

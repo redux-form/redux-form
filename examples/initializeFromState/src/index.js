@@ -43,12 +43,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="8.0.0"
+        version="8.0.1"
         path="/examples/initializeFromState"
         breadcrumbs={generateExampleBreadcrumbs(
           'initializeFromState',
           'Initialize From State Example',
-          '8.0.0'
+          '8.0.1'
         )}
       >
         <Markdown content={readme} />
