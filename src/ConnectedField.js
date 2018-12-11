@@ -330,7 +330,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         syncWarning,
         initial,
         value,
-        _value: ownProps.value // save value passed in (for checkboxes)
+        _value: ownProps.value // save value passed in (for radios)
       }
     },
     undefined,
