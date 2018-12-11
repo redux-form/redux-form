@@ -27,12 +27,12 @@ enable an html form in [React](https://github.com/facebook/react) to use
 
 ## Documentation
 
-- [Getting Started](https://redux-form.com/7.4.2/docs/GettingStarted.md/)
-- [Examples](https://redux-form.com/7.4.2/examples/)
-- [API](https://redux-form.com/7.4.2/docs/api/)
-- [FAQ](https://redux-form.com/7.4.2/docs/faq/)
+- [Getting Started](https://redux-form.com/8.0.0/docs/GettingStarted.md/)
+- [Examples](https://redux-form.com/8.0.0/examples/)
+- [API](https://redux-form.com/8.0.0/docs/api/)
+- [FAQ](https://redux-form.com/8.0.0/docs/faq/)
 - [Release Notes](https://github.com/erikras/redux-form/releases)
-- [Older Documentation](https://redux-form.com/7.4.2/docs/DocumentationVersions.md/)
+- [Older Documentation](https://redux-form.com/8.0.0/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
 
