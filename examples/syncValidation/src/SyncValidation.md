@@ -19,8 +19,8 @@ your application, you will want to build some type of reusable system of
 validators.
 
 Notice the reused stateless function component used to render each field. It is
-important that this not be defined inline (in the `render()` function), because
-it will be created anew on every render and trigger a rerender for the field,
+important that it is not defined inline (in the `render()` function), because
+it will create a new instance on every render and trigger a rerender for the field,
 because the `component` prop will have changed.
 
 **IMPORTANT**: If the validation function returns errors and the form does not

@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react'
+import { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -28,7 +28,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     return getIn(syncWarnings, `${name}._warning`)
   }
 
-  class ConnectedFieldArray extends React.Component<Props> {
+  class ConnectedFieldArray extends Component<Props> {
     static defaultProps: DefaultProps
     ref: ?HTMLElement
 
@@ -118,7 +118,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       if (withRef) {
         props.ref = this.saveRef
       }
-      return React.createElement(component, props)
+      return createElement(component, props)
     }
   }
 
