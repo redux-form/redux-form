@@ -38,13 +38,12 @@
     "example:wizard": "form=wizard npm run example",
     "precommit": "lint-staged",
     "prepublishOnly": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
-    "postinstall": "node scripts/patch-immutable-flow-error.js",
+    "postinstall": "node scripts/patch-immutable-flow-error.js && opencollective-postinstall",
     "validate": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
     "test": "cross-env NODE_ENV=test jest src --runInBand",
     "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov": "npm run test -- --coverage",
-    "postinstall": "opencollective-postinstall"
+    "test:cov": "npm run test -- --coverage"
   },
   "keywords": [
     "react",
@@ -69,7 +68,7 @@
     "is-promise": "^2.1.0",
     "lodash": "^4.17.11",
     "lodash-es": "^4.17.11",
-    "opencollective-postinstall": "^2.0.0"
+    "opencollective-postinstall": "^2.0.0",
     "prop-types": "^15.6.1",
     "react-is": "^16.6.3",
     "react-lifecycles-compat": "^3.0.4"
