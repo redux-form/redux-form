@@ -26,7 +26,8 @@ class Form extends Component<PropsWithContext> {
   }
 
   render() {
-    return <form {...this.props} />
+    const { _reduxForm, ...rest } = this.props
+    return <form {...rest} />
   }
 }
 
