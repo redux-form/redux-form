@@ -985,7 +985,8 @@ const describeField = (name, structure, combineReducers, setup) => {
           title: 'Redux Form',
           author: 'Erik Rasmussen',
           username: 'oldusername'
-        })
+        }),
+        'username'
       )
       expect(normalize).toHaveBeenCalledTimes(1)
 
@@ -1043,7 +1044,8 @@ const describeField = (name, structure, combineReducers, setup) => {
           title: 'Redux Form',
           author: 'Erik Rasmussen',
           username: 'oldusername'
-        })
+        }),
+        'username'
       )
       expect(normalize).toHaveBeenCalledTimes(1)
 

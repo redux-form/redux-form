@@ -11,7 +11,8 @@ export type Props = {
     value: any,
     previousValue: any,
     allValues: Object,
-    previousAllValues: Object
+    previousAllValues: Object,
+    name: string
   ) => ?any,
   onBlur?: (
     event: Event,

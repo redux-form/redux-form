@@ -108,7 +108,7 @@ const createField = (structure: Structure<*, *>) => {
       const previousValues = this.props._reduxForm.getValues()
       const previousValue = this.value
       const nextValues = setIn(previousValues, name, value)
-      return normalize(value, previousValue, nextValues, previousValues)
+      return normalize(value, previousValue, nextValues, previousValues, name)
     }
 
     render() {
