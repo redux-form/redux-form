@@ -33,6 +33,7 @@ class FormSection extends Component<PropsWithContext> {
 
   render() {
     const {
+      _reduxForm,
       children,
       name, // eslint-disable-line no-unused-vars
       component,
