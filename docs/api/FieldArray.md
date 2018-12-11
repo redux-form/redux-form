@@ -158,6 +158,15 @@ as a javascript `Array`, providing both reading and writing functionality.
 > This is not a mutator; it dispatches an action which updates the state in Redux, which will
 > cause your component to rerender.
 
+#### `fields.splice(index:Number, removeNum:Number|null, value:Any) : Function`
+
+> Performs an
+> [`Array.splice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+> operation on the given array in your form. Returns nothing.
+
+> This is not a mutator; it dispatches an action which updates the state in Redux, which will
+> cause your component to rerender.
+
 #### `fields.swap(indexA:Integer, indexB:Integer) : Function`
 
 > Swaps two items in the array at the given indexes. Returns nothing.
