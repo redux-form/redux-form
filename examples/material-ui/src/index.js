@@ -1,11 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import injectTapEventPlugin from 'react-tap-event-plugin'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import {
   App,
   Code,
@@ -13,11 +11,32 @@ import {
   Values,
   generateExampleBreadcrumbs
 } from 'redux-form-website-template'
-injectTapEventPlugin()
+
 const dest = document.getElementById('content')
 const reducer = combineReducers({
   form: reduxFormReducer // mounted under "form"
 })
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiFormControl: {
+      root: {
+        '& p': {
+          fontSize: 12,
+          border: 0,
+          marginTop: 2,
+          padding: 0
+        }
+      }
+    },
+    MuiSelect: {
+      select: {
+        paddingBotton: 10
+      }
+    }
+  }
+})
+
 const store = (window.devToolsExtension
   ? window.devToolsExtension()(createStore)
   : createStore)(reducer)
@@ -38,7 +57,7 @@ let render = () => {
   const asyncValidateraw = require('!!raw-loader!./asyncValidate')
   ReactDOM.hydrate(
     <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <MuiThemeProvider theme={theme}>
         <App
           /**
            * This <App/> component only provides the site wrapper.
@@ -65,7 +84,7 @@ let render = () => {
             </a>
           </div>
 
-          <h2>Form</h2>
+          <h2>Form </h2>
 
           <MaterialUiForm onSubmit={showResults} />
 

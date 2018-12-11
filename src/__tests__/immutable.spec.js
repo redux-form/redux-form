@@ -131,19 +131,19 @@ describe('immutable', () => {
     expect(typeof destroy).toBe('function')
   })
   it('should export Field', () => {
-    expect(typeof Field).toBe('function')
+    expect(typeof Field).toBe('object')
   })
   it('should export Fields', () => {
-    expect(typeof Fields).toBe('function')
+    expect(typeof Fields).toBe('object')
   })
   it('should export FieldArray', () => {
-    expect(typeof FieldArray).toBe('function')
+    expect(typeof FieldArray).toBe('object')
   })
   it('should export Form', () => {
-    expect(typeof Form).toBe('function')
+    expect(typeof Form).toBe('object')
   })
   it('should export FormSection', () => {
-    expect(typeof FormSection).toBe('function')
+    expect(typeof FormSection).toBe('object')
   })
   it('should export focus', () => {
     expect(typeof focus).toBe('function')

@@ -148,7 +148,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         props: {},
         validate: () => undefined,
         warn: () => undefined,
-        withRef: true
+        forwardRef: true
       }
       class Form extends Component {
         render() {
@@ -372,11 +372,17 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           return <div>TEST INPUT</div>
         }
       }
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={TestComponent} withRef />
+              <FieldArray
+                name="foo"
+                component={TestComponent}
+                forwardRef
+                ref={ref}
+              />
             </div>
           )
         }
@@ -387,13 +393,12 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           <TestForm />
         </Provider>
       )
-      const field = TestUtils.findRenderedComponentWithType(dom, FieldArray)
       const component = TestUtils.findRenderedComponentWithType(
         dom,
         TestComponent
       )
 
-      expect(field.getRenderedComponent()).toBe(component)
+      expect(ref.current.getRenderedComponent()).toBe(component)
     })
 
     it('should use initialValues', () => {
@@ -489,23 +494,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={TestComponent} />
+              <FieldArray name="foo" component={TestComponent} ref={ref} />
             </div>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.name).toEqual('foo')
+      expect(ref.current.name).toEqual('foo')
     })
 
     it('should provide value getter', () => {
@@ -516,23 +521,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={TestComponent} />
+              <FieldArray name="foo" component={TestComponent} ref={ref} />
             </div>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.value).toEqualMap(['bar'])
+      expect(ref.current.value).toEqualMap(['bar'])
     })
 
     it('should provide dirty getter that is true when dirty', () => {
@@ -546,23 +551,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={TestComponent} />
+              <FieldArray name="foo" component={TestComponent} ref={ref} />
             </div>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.dirty).toBe(true)
+      expect(ref.current.dirty).toBe(true)
     })
 
     it('should provide dirty getter that is false when pristine', () => {
@@ -576,23 +581,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={TestComponent} />
+              <FieldArray name="foo" component={TestComponent} ref={ref} />
             </div>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.dirty).toBe(false)
+      expect(ref.current.dirty).toBe(false)
     })
 
     it('should provide pristine getter that is true when pristine', () => {
@@ -606,23 +611,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={TestComponent} />
+              <FieldArray name="foo" component={TestComponent} ref={ref} />
             </div>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.pristine).toBe(true)
+      expect(ref.current.pristine).toBe(true)
     })
 
     it('should provide pristine getter that is false when dirty', () => {
@@ -636,23 +641,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray name="foo" component={TestComponent} />
+              <FieldArray name="foo" component={TestComponent} ref={ref} />
             </div>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.pristine).toBe(false)
+      expect(ref.current.pristine).toBe(false)
     })
 
     it('should provide sync error for array field', () => {
@@ -887,23 +892,23 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       )
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
-              <FieldArray name="bar" component={TestArray} />
+              <FieldArray name="bar" component={TestArray} ref={ref} />
             </FormSection>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.name).toBe('foo.bar')
+      expect(ref.current.name).toBe('foo.bar')
     })
 
     it('should not prefix name in fields map callback when inside multiple FormSection', () => {
@@ -988,25 +993,25 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       )
+      const ref = React.createRef()
       class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
               <FormSection name="fighter">
-                <FieldArray name="bar" component={TestArray} />
+                <FieldArray name="bar" component={TestArray} ref={ref} />
               </FormSection>
             </FormSection>
           )
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
       )
-      const stub = TestUtils.findRenderedComponentWithType(dom, FieldArray)
-      expect(stub.name).toBe('foo.fighter.bar')
+      expect(ref.current.name).toBe('foo.fighter.bar')
     })
 
     it('should provide field-level sync error for array field', () => {
@@ -1024,8 +1029,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const noMoreThanTwo = jest.fn(
-        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      const noMoreThanTwo = jest.fn(value =>
+        value && size(value) > 2 ? 'Too many' : undefined
       )
 
       class Form extends Component {
@@ -1066,9 +1071,9 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray).toHaveBeenCalledTimes(2)
-      expect(renderArray.mock.calls[1][0].meta.valid).toBe(false)
-      expect(renderArray.mock.calls[1][0].meta.error).toBe('Too many')
+      expect(renderArray).toHaveBeenCalledTimes(3)
+      expect(renderArray.mock.calls[2][0].meta.valid).toBe(false)
+      expect(renderArray.mock.calls[2][0].meta.error).toBe('Too many')
     })
 
     it('should provide field-level sync error for field added to a FieldArray that has been emptied', () => {
@@ -1079,8 +1084,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const required = jest.fn(
-        value => (value == null ? 'Required' : undefined)
+      const required = jest.fn(value =>
+        value == null ? 'Required' : undefined
       )
       const renderArray = jest.fn(({ fields }) => (
         <div>
@@ -1149,11 +1154,11 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const atLeastOne = jest.fn(
-        value => (value && size(value) < 1 ? 'Too few' : undefined)
+      const atLeastOne = jest.fn(value =>
+        value && size(value) < 1 ? 'Too few' : undefined
       )
-      const noMoreThanTwo = jest.fn(
-        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      const noMoreThanTwo = jest.fn(value =>
+        value && size(value) > 2 ? 'Too many' : undefined
       )
 
       class Form extends Component {
@@ -1194,9 +1199,9 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray).toHaveBeenCalledTimes(2)
-      expect(renderArray.mock.calls[1][0].meta.valid).toBe(false)
-      expect(renderArray.mock.calls[1][0].meta.error).toBe('Too many')
+      expect(renderArray).toHaveBeenCalledTimes(3)
+      expect(renderArray.mock.calls[2][0].meta.valid).toBe(false)
+      expect(renderArray.mock.calls[2][0].meta.error).toBe('Too many')
     })
 
     it('should provide field-level sync warning for array field', () => {
@@ -1214,8 +1219,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const noMoreThanTwo = jest.fn(
-        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      const noMoreThanTwo = jest.fn(value =>
+        value && size(value) > 2 ? 'Too many' : undefined
       )
 
       class Form extends Component {
@@ -1256,9 +1261,9 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray).toHaveBeenCalledTimes(2)
-      expect(renderArray.mock.calls[1][0].meta.valid).toBe(true) // just a warning
-      expect(renderArray.mock.calls[1][0].meta.warning).toBe('Too many')
+      expect(renderArray).toHaveBeenCalledTimes(3)
+      expect(renderArray.mock.calls[2][0].meta.valid).toBe(true) // just a warning
+      expect(renderArray.mock.calls[2][0].meta.warning).toBe('Too many')
     })
 
     it('should provide field-level sync warning (with multiple validators) for array field', () => {
@@ -1276,11 +1281,11 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const atLeastOne = jest.fn(
-        value => (value && size(value) < 1 ? 'Too few' : undefined)
+      const atLeastOne = jest.fn(value =>
+        value && size(value) < 1 ? 'Too few' : undefined
       )
-      const noMoreThanTwo = jest.fn(
-        value => (value && size(value) > 2 ? 'Too many' : undefined)
+      const noMoreThanTwo = jest.fn(value =>
+        value && size(value) > 2 ? 'Too many' : undefined
       )
 
       class Form extends Component {
@@ -1321,9 +1326,9 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(noMoreThanTwo.mock.calls[1][0]).toEqualMap(['dog', 'cat', 'rat'])
 
       // should rerender
-      expect(renderArray).toHaveBeenCalledTimes(2)
-      expect(renderArray.mock.calls[1][0].meta.valid).toBe(true) // just a warning
-      expect(renderArray.mock.calls[1][0].meta.warning).toBe('Too many')
+      expect(renderArray).toHaveBeenCalledTimes(3)
+      expect(renderArray.mock.calls[2][0].meta.valid).toBe(true) // just a warning
+      expect(renderArray.mock.calls[2][0].meta.warning).toBe('Too many')
     })
 
     it('should reconnect when props change', () => {
@@ -1557,7 +1562,9 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         })
         const renderFieldArray = jest.fn(({ fields }) => (
           <div>
-            {fields.map((field, index) => <div key={index}>{field}</div>)}
+            {fields.map((field, index) => (
+              <div key={index}>{field}</div>
+            ))}
             <button className="add" onClick={() => fields.push()}>
               Add Dog
             </button>
@@ -1604,39 +1611,39 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         // length is 0, ERROR!
         expect(renderFieldArray).toHaveBeenCalled()
         expect(renderFieldArray).toHaveBeenCalledTimes(2)
-        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs')
+        expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(0)
+        expect(renderFieldArray.mock.calls[1][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[1][0].meta.error).toBe('No dogs')
 
         renderFieldArray.mockClear()
         TestUtils.Simulate.click(addButton) // length goes to 1, no error yet
 
-        expect(renderFieldArray).toHaveBeenCalled()
+        expect(renderFieldArray).toHaveBeenCalledTimes(1)
         expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(1)
         expect(renderFieldArray.mock.calls[0][0].meta.error).toBeFalsy()
 
         renderFieldArray.mockClear()
         TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
-        expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(2)
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('Too many')
+        expect(renderFieldArray).toHaveBeenCalledTimes(2)
+        expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(2)
+        expect(renderFieldArray.mock.calls[1][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[1][0].meta.error).toBe('Too many')
 
         renderFieldArray.mockClear()
         TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
-        expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(1)
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeFalsy()
+        expect(renderFieldArray).toHaveBeenCalledTimes(2)
+        expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
+        expect(renderFieldArray.mock.calls[1][0].meta.error).toBeFalsy()
 
         renderFieldArray.mockClear()
         TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
-        expect(renderFieldArray).toHaveBeenCalled()
-        expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBeTruthy()
-        expect(renderFieldArray.mock.calls[0][0].meta.error).toBe('No dogs')
+        expect(renderFieldArray).toHaveBeenCalledTimes(2)
+        expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(0)
+        expect(renderFieldArray.mock.calls[1][0].meta.error).toBeTruthy()
+        expect(renderFieldArray.mock.calls[1][0].meta.error).toBe('No dogs')
       }
     })
 
@@ -1650,7 +1657,9 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       })
       const renderFieldArray = jest.fn(({ fields }) => (
         <div>
-          {fields.map((field, index) => <div key={index}>{field}</div>)}
+          {fields.map((field, index) => (
+            <div key={index}>{field}</div>
+          ))}
           <button className="add" onClick={() => fields.push()}>
             Add Dog
           </button>
@@ -1693,36 +1702,36 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 
       // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
-      expect(renderFieldArray).toHaveBeenCalledTimes(1)
-      expect(renderFieldArray.mock.calls[0][0].fields.length).toBe(0)
-      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBeTruthy()
-      expect(renderFieldArray.mock.calls[0][0].meta.warning).toBe('No dogs')
+      expect(renderFieldArray).toHaveBeenCalledTimes(2)
+      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls[1][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[1][0].meta.warning).toBe('No dogs')
 
       TestUtils.Simulate.click(addButton) // length goes to 1, no warning yet
 
-      expect(renderFieldArray).toHaveBeenCalledTimes(2)
-      expect(renderFieldArray.mock.calls[1][0].fields.length).toBe(1)
-      expect(renderFieldArray.mock.calls[1][0].meta.warning).toBeFalsy()
+      expect(renderFieldArray).toHaveBeenCalledTimes(3)
+      expect(renderFieldArray.mock.calls[2][0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBeFalsy()
 
       TestUtils.Simulate.click(addButton) // length goes to 2, ERROR!
 
-      expect(renderFieldArray).toHaveBeenCalledTimes(3)
-      expect(renderFieldArray.mock.calls[2][0].fields.length).toBe(2)
-      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBeTruthy()
-      expect(renderFieldArray.mock.calls[2][0].meta.warning).toBe('Too many')
+      expect(renderFieldArray).toHaveBeenCalledTimes(5)
+      expect(renderFieldArray.mock.calls[4][0].fields.length).toBe(2)
+      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBe('Too many')
 
       TestUtils.Simulate.click(removeButton) // length goes to 1, ERROR disappears!
 
-      expect(renderFieldArray).toHaveBeenCalledTimes(4)
-      expect(renderFieldArray.mock.calls[3][0].fields.length).toBe(1)
-      expect(renderFieldArray.mock.calls[3][0].meta.warning).toBeFalsy()
+      expect(renderFieldArray).toHaveBeenCalledTimes(7)
+      expect(renderFieldArray.mock.calls[6][0].fields.length).toBe(1)
+      expect(renderFieldArray.mock.calls[6][0].meta.warning).toBeFalsy()
 
       TestUtils.Simulate.click(removeButton) // length goes to 0, ERROR!
 
-      expect(renderFieldArray).toHaveBeenCalledTimes(5)
-      expect(renderFieldArray.mock.calls[4][0].fields.length).toBe(0)
-      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBeTruthy()
-      expect(renderFieldArray.mock.calls[4][0].meta.warning).toBe('No dogs')
+      expect(renderFieldArray).toHaveBeenCalledTimes(9)
+      expect(renderFieldArray.mock.calls[8][0].fields.length).toBe(0)
+      expect(renderFieldArray.mock.calls[8][0].meta.warning).toBeTruthy()
+      expect(renderFieldArray.mock.calls[8][0].meta.warning).toBe('No dogs')
     })
 
     it('should rerender when depending value has updated', () => {

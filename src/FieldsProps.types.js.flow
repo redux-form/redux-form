@@ -13,5 +13,5 @@ export type Props = {
   props?: Object,
   validate?: WarnAndValidateProp,
   warn?: WarnAndValidateProp,
-  withRef?: boolean
+  forwardRef?: boolean
 }

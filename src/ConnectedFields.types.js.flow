@@ -6,7 +6,7 @@ export type Props = {
   names: string[],
   component: Function | string,
   children?: Node,
-  withRef?: boolean,
+  forwardRef?: boolean,
   dispatch: Function,
   _reduxForm: Context,
   format?: { (value: any, name: string): any },

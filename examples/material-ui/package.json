@@ -9,6 +9,7 @@
     "prepublish": "npm run lint && npm run build"
   },
   "dependencies": {
+    "@material-ui/core": "^3.2.2",
     "babel-polyfill": "^6.16.0",
     "html-loader": "^0.5.1",
     "json-loader": "^0.5.7",
@@ -18,7 +19,6 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.3",
-    "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
     "redux-form": "^7.4.2",
     "redux-form-website-template": "0.0.123"

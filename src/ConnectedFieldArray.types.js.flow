@@ -6,7 +6,7 @@ export type Props = {
   name: string,
   children?: Node,
   component: Function | string,
-  withRef?: boolean,
+  forwardRef?: boolean,
   _reduxForm: Context,
   rerenderOnEveryChange?: boolean,
   validate?: { (value: any, allValues: Object, props: Object): any },

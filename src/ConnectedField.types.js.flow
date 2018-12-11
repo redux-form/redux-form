@@ -12,7 +12,7 @@ export type InstanceApi = {
 export type Props = {
   name: string,
   component: Function | string,
-  withRef?: boolean,
+  forwardRef?: boolean,
   _reduxForm: Context,
   immutableProps?: Array<string>,
   children?: Node,

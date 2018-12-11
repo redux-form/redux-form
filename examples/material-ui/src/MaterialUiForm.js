@@ -1,10 +1,14 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import TextField from 'material-ui/TextField'
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import Checkbox from 'material-ui/Checkbox'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import TextField from '@material-ui/core/TextField'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import InputLabel from '@material-ui/core/InputLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
 import asyncValidate from './asyncValidate'
 
 const validate = values => {
@@ -31,36 +35,51 @@ const validate = values => {
 }
 
 const renderTextField = ({
-  input,
   label,
-  meta: { touched, error },
+  input,
+  meta: { touched, invalid, error },
   ...custom
 }) => (
   <TextField
-    hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
+    label={label}
+    placeholder={label}
+    error={touched && invalid}
+    helperText={touched && error}
     {...input}
     {...custom}
   />
 )
 
 const renderCheckbox = ({ input, label }) => (
-  <Checkbox
-    label={label}
-    checked={input.value ? true : false}
-    onCheck={input.onChange}
-  />
+  <div>
+    <FormControlLabel
+      control={
+        <Checkbox
+          checked={input.value ? true : false}
+          onChange={input.onChange}
+        />
+      }
+      label={label}
+    />
+  </div>
 )
 
-const renderRadioGroup = ({ input, ...rest }) => (
-  <RadioButtonGroup
-    {...input}
-    {...rest}
-    valueSelected={input.value}
-    onChange={(event, value) => input.onChange(value)}
-  />
+const radioButton = ({ input, ...rest }) => (
+  <FormControl>
+    <RadioGroup {...input} {...rest}>
+      <FormControlLabel value="female" control={<Radio />} label="Female" />
+      <FormControlLabel value="male" control={<Radio />} label="Male" />
+    </RadioGroup>
+  </FormControl>
 )
+
+const renderFromHelper = ({ touched, error }) => {
+  if (!(touched && error)) {
+    return
+  } else {
+    return <FormHelperText>{touched && error}</FormHelperText>
+  }
+}
 
 const renderSelectField = ({
   input,
@@ -69,18 +88,25 @@ const renderSelectField = ({
   children,
   ...custom
 }) => (
-  <SelectField
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    onChange={(event, index, value) => input.onChange(value)}
-    children={children}
-    {...custom}
-  />
+  <FormControl error={touched && error}>
+    <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+    <Select
+      native
+      {...input}
+      {...custom}
+      inputProps={{
+        name: 'age',
+        id: 'age-native-simple'
+      }}
+    >
+      {children}
+    </Select>
+    {renderFromHelper({ touched, error })}
+  </FormControl>
 )
 
 const MaterialUiForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props
+  const { handleSubmit, pristine, reset, submitting, classes } = props
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -97,32 +123,36 @@ const MaterialUiForm = props => {
         <Field name="email" component={renderTextField} label="Email" />
       </div>
       <div>
-        <Field name="sex" component={renderRadioGroup}>
-          <RadioButton value="male" label="male" />
-          <RadioButton value="female" label="female" />
+        <Field name="sex" component={radioButton}>
+          <Radio value="male" label="male" />
+          <Radio value="female" label="female" />
         </Field>
       </div>
       <div>
         <Field
+          classes={classes}
           name="favoriteColor"
           component={renderSelectField}
           label="Favorite Color"
         >
-          <MenuItem value="ff0000" primaryText="Red" />
-          <MenuItem value="00ff00" primaryText="Green" />
-          <MenuItem value="0000ff" primaryText="Blue" />
+          <option value="" />
+          <option value={'ff0000'}>Red</option>
+          <option value={'00ff00'}>Green</option>
+          <option value={'0000ff'}>Blue</option>
         </Field>
       </div>
       <div>
         <Field name="employed" component={renderCheckbox} label="Employed" />
       </div>
+      <div />
       <div>
         <Field
           name="notes"
           component={renderTextField}
           label="Notes"
-          multiLine={true}
-          rows={2}
+          multiline
+          rowsMax="4"
+          margin="normal"
         />
       </div>
       <div>

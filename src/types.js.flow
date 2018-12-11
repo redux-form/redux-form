@@ -29,6 +29,8 @@ export interface Structure<M, L> {
   size(array: L): number;
   some(list: L, callback: { (item: any, index: number): boolean }): boolean;
   splice(array: L, index: number, removeNum: number, value: any): L;
+  equals(a: any, b: any): boolean;
+  orderChanged(a: any, b: any): boolean;
   toJS(value: M): any;
 }
 
@@ -37,11 +39,6 @@ export type FieldType = 'Field' | 'FieldArray'
 export type Values = any
 
 export type GetFormState = { (state: any): any }
-
-export type ConnectedComponent<T: React.Component<*, *>> = {
-  getWrappedInstance: { (): T },
-  wrapped: ?React.Component<*, *>
-} & React.Component<*, *>
 
 export type Option = {
   selected: boolean,
@@ -76,6 +73,7 @@ export type Context = {
   },
   getValues: { (): Object },
   sectionPrefix?: string,
+  prefixName?: string,
   register: (
     name: string,
     type: string,

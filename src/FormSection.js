@@ -2,6 +2,7 @@
 import React, { createElement, Component } from 'react'
 import PropTypes from 'prop-types'
 import prefixName from './util/prefixName'
+import { withReduxForm, ReduxFormContext } from './ReduxFormContext'
 import type { ReactContext } from './types'
 import validateComponentProp from './util/validateComponentProp'
 
@@ -11,38 +12,28 @@ export type Props = {
   children: any
 }
 
+type PropsWithContext = ReactContext & Props
+
 export type DefaultProps = {
   component: Function | string
 }
 
-class FormSection extends Component<Props> {
+class FormSection extends Component<PropsWithContext> {
   static defaultProps: DefaultProps
   context: ReactContext
 
-  constructor(props: Props, context: ReactContext) {
-    super(props, context)
-    if (!context._reduxForm) {
+  constructor(props: PropsWithContext) {
+    super(props)
+    if (!props._reduxForm) {
       throw new Error(
         'FormSection must be inside a component decorated with reduxForm()'
       )
     }
   }
 
-  getChildContext() {
-    const {
-      context,
-      props: { name }
-    } = this
-    return {
-      _reduxForm: {
-        ...context._reduxForm,
-        sectionPrefix: prefixName(context, name)
-      }
-    }
-  }
-
   render() {
     const {
+      _reduxForm,
       children,
       name, // eslint-disable-line no-unused-vars
       component,
@@ -50,12 +41,24 @@ class FormSection extends Component<Props> {
     } = this.props
 
     if (React.isValidElement(children)) {
-      return children
+      return createElement(ReduxFormContext.Provider, {
+        value: {
+          ...this.props._reduxForm,
+          sectionPrefix: prefixName(this.props, name)
+        },
+        children
+      })
     }
 
-    return createElement(component, {
-      ...rest,
-      children
+    return createElement(ReduxFormContext.Provider, {
+      value: {
+        ...this.props._reduxForm,
+        sectionPrefix: prefixName(this.props, name)
+      },
+      children: createElement(component, {
+        ...rest,
+        children
+      })
     })
   }
 }
@@ -69,12 +72,4 @@ FormSection.defaultProps = {
   component: 'div'
 }
 
-FormSection.childContextTypes = {
-  _reduxForm: PropTypes.object.isRequired
-}
-
-FormSection.contextTypes = {
-  _reduxForm: PropTypes.object
-}
-
-export default FormSection
+export default withReduxForm(FormSection)

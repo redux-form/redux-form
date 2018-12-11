@@ -5,7 +5,7 @@ import invariant from 'invariant'
 import isPromise from 'is-promise'
 import { mapValues, merge } from 'lodash'
 import PropTypes from 'prop-types'
-import { Component, createElement } from 'react'
+import React, { createElement } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import importedActions from './actions'
@@ -22,10 +22,10 @@ import createIsValid from './selectors/isValid'
 import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
 import isHotReloading from './util/isHotReloading'
-import type { ComponentType, Node } from 'react'
+import { withReduxForm, ReduxFormContext } from './ReduxFormContext'
+import type { ComponentType, Node, ElementRef } from 'react'
 import type { Dispatch } from 'redux'
 import type {
-  ConnectedComponent,
   ReactContext,
   GetFormState,
   FieldType,
@@ -277,6 +277,8 @@ export type Props = {
   warning: any
 }
 
+type PropsWithContext = { _reduxForm?: ReactContext } & Props
+
 /**
  * The decorator that is the main API to redux-form
  */
@@ -303,11 +305,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
     }
 
     return (WrappedComponent: ComponentType<*>) => {
-      class Form extends Component<Props> {
+      class Form extends React.Component<PropsWithContext> {
         static WrappedComponent: ComponentType<*>
 
-        context: ReactContext
-        wrapped: ?Component<*, *>
+        wrapped: ElementRef<*> = React.createRef()
 
         destroyed = false
         fieldCounts = {}
@@ -318,24 +319,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         innerOnSubmit = undefined
         submitPromise = undefined
 
-        getChildContext() {
-          return {
-            _reduxForm: {
-              ...this.props,
-              getFormState: state =>
-                getIn(this.props.getFormState(state), this.props.form),
-              asyncValidate: this.asyncValidate,
-              getValues: this.getValues,
-              sectionPrefix: undefined,
-              register: this.register,
-              unregister: this.unregister,
-              registerInnerOnSubmit: innerOnSubmit =>
-                (this.innerOnSubmit = innerOnSubmit)
-            }
-          }
-        }
-
-        initIfNeeded(nextProps: ?Props) {
+        initIfNeeded(nextProps: ?PropsWithContext) {
           const { enableReinitialize } = this.props
           if (nextProps) {
             if (
@@ -385,14 +369,14 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
         }
 
-        clearSubmitPromiseIfNeeded(nextProps: Props) {
+        clearSubmitPromiseIfNeeded(nextProps: PropsWithContext) {
           const { submitting } = this.props
           if (this.submitPromise && submitting && !nextProps.submitting) {
             delete this.submitPromise
           }
         }
 
-        submitIfNeeded(nextProps: Props) {
+        submitIfNeeded(nextProps: PropsWithContext) {
           const { clearSubmit, triggerSubmit } = this.props
           if (!triggerSubmit && nextProps.triggerSubmit) {
             clearSubmit()
@@ -411,7 +395,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             : shouldError
         }
 
-        validateIfNeeded(nextProps: ?Props) {
+        validateIfNeeded(nextProps: ?PropsWithContext) {
           const { validate, values } = this.props
           const shouldError = this.shouldErrorFunction()
           const fieldLevelValidate = this.generateValidator()
@@ -485,7 +469,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             : shouldWarn
         }
 
-        warnIfNeeded(nextProps: ?Props) {
+        warnIfNeeded(nextProps: ?PropsWithContext) {
           const { warn, values } = this.props
           const shouldWarn = this.shouldWarnFunction()
           const fieldLevelWarn = this.generateWarner()
@@ -533,7 +517,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           )
         }
 
-        componentWillReceiveProps(nextProps: Props) {
+        componentWillReceiveProps(nextProps: PropsWithContext) {
           this.initIfNeeded(nextProps)
           this.validateIfNeeded(nextProps)
           this.warnIfNeeded(nextProps)
@@ -545,7 +529,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           }
         }
 
-        shouldComponentUpdate(nextProps: Props): boolean {
+        shouldComponentUpdate(nextProps: PropsWithContext): boolean {
           if (!this.props.pure) return true
           const { immutableProps = [] } = config
           // if we have children, we MUST update in React 16
@@ -833,10 +817,6 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         reset = (): void => this.props.reset()
 
-        saveRef = (ref: ?Component<*, *>) => {
-          this.wrapped = ref
-        }
-
         render() {
           // remove some redux-form config-only props
           /* eslint-disable no-unused-vars */
@@ -948,16 +928,28 @@ const createReduxForm = (structure: Structure<*, *>) => {
             ...rest
           }
           if (isClassComponent(WrappedComponent)) {
-            ;((propsToPass: any): Object).ref = this.saveRef
+            ;((propsToPass: any): Object).ref = this.wrapped
           }
-          return createElement(WrappedComponent, propsToPass)
+          const _reduxForm = {
+            ...this.props,
+            getFormState: state =>
+              getIn(this.props.getFormState(state), this.props.form),
+            asyncValidate: this.asyncValidate,
+            getValues: this.getValues,
+            sectionPrefix: undefined,
+            register: this.register,
+            unregister: this.unregister,
+            registerInnerOnSubmit: innerOnSubmit =>
+              (this.innerOnSubmit = innerOnSubmit)
+          }
+          return createElement(ReduxFormContext.Provider, {
+            value: _reduxForm,
+            children: createElement(WrappedComponent, propsToPass)
+          })
         }
       }
       Form.displayName = `Form(${getDisplayName(WrappedComponent)})`
       Form.WrappedComponent = WrappedComponent
-      Form.childContextTypes = {
-        _reduxForm: PropTypes.object.isRequired
-      }
       Form.propTypes = {
         destroyOnUnmount: PropTypes.bool,
         forceUnregisterOnUnmount: PropTypes.bool,
@@ -1095,27 +1087,27 @@ const createReduxForm = (structure: Structure<*, *>) => {
           return () => computedActions
         },
         undefined,
-        { withRef: true }
+        { forwardRef: true }
       )
       const ConnectedForm = hoistStatics(connector(Form), WrappedComponent)
       ConnectedForm.defaultProps = config
 
       // build outer component to expose instance api
-      class ReduxForm extends Component<Props> {
-        ref: ?ConnectedComponent<Form>
+      class ReduxForm extends React.Component<Props> {
+        ref: ElementRef<*> = React.createRef()
 
         submit() {
-          return this.ref && this.ref.getWrappedInstance().submit()
+          return this.ref.current && this.ref.current.submit()
         }
 
         reset(): void {
           if (this.ref) {
-            this.ref.getWrappedInstance().reset()
+            this.ref.current.reset()
           }
         }
 
         get valid(): boolean {
-          return !!(this.ref && this.ref.getWrappedInstance().isValid())
+          return !!(this.ref.current && this.ref.current.isValid())
         }
 
         get invalid(): boolean {
@@ -1123,7 +1115,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         get pristine(): boolean {
-          return !!(this.ref && this.ref.getWrappedInstance().isPristine())
+          return !!(this.ref.current && this.ref.current.isPristine())
         }
 
         get dirty(): boolean {
@@ -1131,26 +1123,24 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         get values(): Values {
-          return this.ref ? this.ref.getWrappedInstance().getValues() : empty
+          return this.ref.current ? this.ref.current.getValues() : empty
         }
 
         get fieldList(): string[] {
           // mainly provided for testing
-          return this.ref ? this.ref.getWrappedInstance().getFieldList() : []
+          return this.ref.current ? this.ref.current.getFieldList() : []
         }
 
-        get wrappedInstance(): ?Component<*, *> {
+        get wrappedInstance(): ?HTMLElement {
           // for testing
-          return this.ref && this.ref.getWrappedInstance().wrapped
+          return this.ref.current && this.ref.current.wrapped.current
         }
 
         render() {
           const { initialValues, ...rest } = this.props
           return createElement(ConnectedForm, {
             ...rest,
-            ref: (ref: ?ConnectedComponent<Form>) => {
-              this.ref = ref
-            },
+            ref: this.ref,
             // convert initialValues if need to
             initialValues: fromJS(initialValues)
           })
@@ -1158,7 +1148,12 @@ const createReduxForm = (structure: Structure<*, *>) => {
       }
 
       polyfill(ReduxForm)
-      return hoistStatics(ReduxForm, WrappedComponent)
+      const WithContext = hoistStatics(
+        withReduxForm(ReduxForm),
+        WrappedComponent
+      )
+      WithContext.defaultProps = config
+      return WithContext
     }
   }
 }

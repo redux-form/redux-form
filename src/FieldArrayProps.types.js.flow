@@ -1,5 +1,5 @@
 // @flow
-import type {ElementType, ComponentType} from 'react'
+import type { ElementType, ElementRef, ComponentType } from 'react'
 
 export type Props = {
   name: string,
@@ -8,7 +8,7 @@ export type Props = {
   rerenderOnEveryChange?: boolean,
   validate?: (value: any, allValues: Object, props: Object) => ?any,
   warn?: (value: any, allValues: Object, props: Object) => ?any,
-  withRef?: boolean
+  forwardRef?: boolean
 }
 
 export type Fields = {
@@ -46,5 +46,5 @@ export type FieldArrayProps = {
     valid: boolean,
     warning?: any
   },
-  ref?: (ref: ?HTMLElement) => void
+  ref?: ElementRef<*>
 }
