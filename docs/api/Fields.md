@@ -71,6 +71,32 @@ to be stored in the Redux store. Common use cases are to parse currencies into
 `parse` is called with the field `value` and `name` as arguments and should
 return the new parsed value to be stored in the Redux store.
 
+#### `validate : (value, allValues, props, name) => error` [optional]
+
+Allows you to to provide a field-level validation rule. The function is given
+the fields current value, all other form values, the props passed to the form,
+and the name of field currently being validated. If the field is valid it should
+return `undefined`. If the field is invalid it should return an error (usually,
+but not necessarily, a `String`). Note: if the validate prop changes the field
+will be re-registered.
+
+`validate` can be a function, an array of functions or an object. In the
+latest case, a property of the object is an element of `names` array. See the
+[Usage](#usage) section below for details.
+
+#### `warn : (value, allValues, props) => warning` [optional]
+
+Allows you to to provide a field-level warning rule. The function is given the
+fields current value, all other form values, and the props passed to the form.
+If the field does not need a warning it should return `undefined`. If the
+field needs a warning it should return the warning (usually, but not
+necessarily, a `String`). Note: if the warn prop changes the field will
+be re-registered.
+
+`warn` can be a function, an array of functions or an object. In the
+latest case, a property of the object is an element of `names` array. See the
+[Usage](#usage) section below for details.
+
 #### `forwardRef : boolean` [optional]
 
 If `true`, the rendered component will be available with the
@@ -103,7 +129,7 @@ different.** If you are defining your stateless function inside of `render()`,
 it will not only be slower, but your input will lose focus whenever the entire
 form component rerenders.
 
-```js
+```jsx
 // outside your render() method
 const renderFields = (fields) => (
   <div>
@@ -126,6 +152,23 @@ const renderFields = (fields) => (
 
 To learn what props will be passed to your stateless function, see the
 [Props](#props) section below.
+
+### Passing an object in `validate` and `warn` props
+
+The `validate` and `warn` props accepts an object: keys of the objects are elements of the `names` prop, entries of the object are validate and warn functions.
+
+```jsx
+<Fields
+  names={['foo', 'bar']}
+  component={input}
+  validate={{
+    foo: (value, allValues, props, name) => 'error'
+  }}
+  warn={{
+    foo: (value, allValues, props) => 'warning'
+  }}
+/>
+```
 
 ## Instance API
 
