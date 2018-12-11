@@ -40,6 +40,7 @@ import {
 import createDeleteInWithCleanUp from './deleteInWithCleanUp'
 import plain from './structure/plain'
 import type { Action, Structure } from './types.js.flow'
+import { isFunction } from 'lodash'
 
 const shouldDelete = ({ getIn }) => (state, path) => {
   let initialValuesPath = null
@@ -304,6 +305,9 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       const initial = getIn(result, `initial.${field}`)
       if (initial === undefined && payload === '') {
         result = deleteInWithCleanUp(result, `values.${field}`)
+      } else if (isFunction(payload)) {
+        const fieldCurrentValue = getIn(state, `values.${field}`)
+        result = setIn(result, `values.${field}`, payload(fieldCurrentValue, state.values))
       } else if (payload !== undefined) {
         result = setIn(result, `values.${field}`, payload)
       }

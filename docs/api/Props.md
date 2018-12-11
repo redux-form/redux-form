@@ -118,6 +118,7 @@ class SimpleForm extends React.Component {
 
 > Changes the value of a field in the Redux store. This is a bound action
 > creator, so it returns nothing.
+> You could get current field-value & form-values while `value` is a function, For example: `change(field, (fieldValue, allValues) => {})`
 
 ### `clearAsyncError(field:String) : Function`
 
