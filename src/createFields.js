@@ -3,15 +3,13 @@ import { Component, createElement } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
-import get from 'lodash/get'
 import createConnectedFields from './ConnectedFields'
 import shallowCompare from './util/shallowCompare'
 import plain from './structure/plain'
 import prefixName from './util/prefixName'
 import { withReduxForm } from './ReduxFormContext'
 import type { Structure, ReactContext } from './types'
-import type { Props } from './FieldsProps.types'
-import type { Props as PropsWithoutContext, WarnAndValidateProp } from './FieldsProps.types'
+import type { Props as PropsWithoutContext } from './FieldsProps.types'
 import validateComponentProp from './util/validateComponentProp'
 
 type Props = ReactContext & PropsWithoutContext
@@ -26,32 +24,6 @@ const validateNameProp = prop => {
     )
   }
 }
-
-const warnAndValidatePropType = PropTypes.oneOfType([
-  PropTypes.func,
-  PropTypes.arrayOf(PropTypes.func),
-  PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)])
-  )
-])
-const fieldsPropTypes = {
-  component: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.string,
-    PropTypes.node
-  ]).isRequired,
-  format: PropTypes.func,
-  parse: PropTypes.func,
-  props: PropTypes.object,
-  validate: warnAndValidatePropType,
-  warn: warnAndValidatePropType,
-  withRef: PropTypes.bool
-}
-
-const getFieldWarnAndValidate = (prop?: WarnAndValidateProp, name) =>
-  Array.isArray(prop) || typeof prop === 'function'
-    ? prop
-    : get(prop, name, undefined)
 
 const createFields = (structure: Structure<*, *>) => {
   const ConnectedFields = createConnectedFields(structure)
@@ -99,21 +71,6 @@ const createFields = (structure: Structure<*, *>) => {
       const { props } = this
       const { unregister } = props._reduxForm
       this.props.names.forEach(name => unregister(prefixName(props, name)))
-    }
-
-    registerFields(names: string[]) {
-      const { context } = this
-      const {
-        _reduxForm: { register }
-      } = context
-      names.forEach(name =>
-        register(
-          prefixName(context, name),
-          'Field',
-          () => getFieldWarnAndValidate(this.props.validate, name),
-          () => getFieldWarnAndValidate(this.props.warn, name)
-        )
-      )
     }
 
     getRenderedComponent() {
