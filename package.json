@@ -38,10 +38,9 @@
     "example:wizard": "form=wizard npm run example",
     "precommit": "lint-staged",
     "prepublishOnly": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
-    "postinstall": "node scripts/patch-immutable-flow-error.js && opencollective-postinstall",
     "validate": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
     "test": "cross-env NODE_ENV=test jest src --runInBand",
-    "test:flow": "flow check",
+    "test:flow": "node scripts/patch-immutable-flow-error.js && opencollective-postinstall && flow check",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm run test -- --coverage"
   },
