@@ -20,6 +20,6 @@ checks:
     config:
       threshold: 100
   identical-code:
-    enabled: true
+    enabled: false
 exclude_patterns:
 - "**/*.spec.js"
