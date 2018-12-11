@@ -14,7 +14,7 @@ import validateComponentProp from './util/validateComponentProp'
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
 const createConnectedFieldArray = (structure: Structure<*, *>) => {
-  const { deepEqual, getIn, size } = structure
+  const { deepEqual, getIn, size, equals, orderChanged } = structure
   const getSyncError = (syncErrors: Object, name: string) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
@@ -35,16 +35,17 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
-      const thisValue = this.props.value
-      const nextValue = nextProps.value
+      const thisValue: any = this.props.value
+      const nextValue: any = nextProps.value
 
       if (thisValue && nextValue) {
-        let nextValueItemsSame = nextValue.every(val => ~thisValue.indexOf(val))
-        let nextValueItemsOrderChanged = nextValue.some(
-          (val, index) => val !== thisValue[index]
-        )
+        const nextValueItemsSame = equals(nextValue, thisValue) //.every(val => ~thisValue.indexOf(val))
+        const nextValueItemsOrderChanged = orderChanged(thisValue, nextValue)
+        const thisValueLength = thisValue.length || thisValue.size
+        const nextValueLength = nextValue.length || nextValue.size
+
         if (
-          thisValue.length !== nextValue.length ||
+          thisValueLength !== nextValueLength ||
           (nextValueItemsSame && nextValueItemsOrderChanged) ||
           (nextProps.rerenderOnEveryChange &&
             thisValue.some((val, index) => !deepEqual(val, nextValue[index])))

@@ -29,6 +29,8 @@ export interface Structure<M, L> {
   size(array: L): number;
   some(list: L, callback: { (item: any, index: number): boolean }): boolean;
   splice(array: L, index: number, removeNum: number, value: any): L;
+  equals(a: any, b: any): boolean;
+  orderChanged(a: any, b: any): boolean;
   toJS(value: M): any;
 }
 

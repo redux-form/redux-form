@@ -38,6 +38,8 @@ const structure: Structure<ImmutableMap<string, *>, ImmutableList<*>> = {
   size: list => (list ? list.size : 0),
   some: (items, callback) => items.some(callback),
   splice,
+  equals: (a, b) => (b.equals(a) ? true : b.toSet().equals(a.toSet())),
+  orderChanged: (a, b) => b.some((val, index) => val !== a.get(index)),
   toJS: value => (Iterable.isIterable(value) ? value.toJS() : value)
 }
 
