@@ -21,5 +21,8 @@ checks:
       threshold: 100
   identical-code:
     enabled: false
+  similar-code:
+    config:
+      threshold: 100
 exclude_patterns:
 - "**/*.spec.js"
