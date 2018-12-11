@@ -1,11 +1,12 @@
 // @flow
-import { Component, createElement } from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
+import type { ElementRef } from 'react'
 import type { Structure } from './types'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types'
 import validateComponentProp from './util/validateComponentProp'
@@ -30,7 +31,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   class ConnectedFieldArray extends Component<Props> {
     static defaultProps: DefaultProps
-    ref: ?HTMLElement
+    ref: ElementRef<*> = React.createRef()
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
@@ -86,11 +87,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.ref
-    }
-
-    saveRef = (ref: ?HTMLElement) => {
-      this.ref = ref
+      return this.ref.current
     }
 
     getValue = (index: number): any =>
@@ -116,7 +113,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
         rest
       )
       if (forwardRef) {
-        props.ref = this.saveRef
+        props.ref = this.ref
       }
       return createElement(component, props)
     }

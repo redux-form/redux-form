@@ -12,7 +12,7 @@ import type { Structure, ReactContext } from './types'
 import type { Props as PropsWithoutContext } from './FieldsProps.types'
 import validateComponentProp from './util/validateComponentProp'
 
-type Props = { _reduxForm?: ReactContext } & PropsWithoutContext
+type Props = ReactContext & PropsWithoutContext
 
 const validateNameProp = prop => {
   if (!prop) {

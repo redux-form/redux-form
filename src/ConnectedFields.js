@@ -1,10 +1,11 @@
 // @flow
-import { Component, createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
+import type { ElementRef } from 'react'
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedFields.types'
 import validateComponentProp from './util/validateComponentProp'
@@ -29,11 +30,11 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     return warning && warning._warning ? warning._warning : warning
   }
 
-  class ConnectedFields extends Component<Props> {
+  class ConnectedFields extends React.Component<Props> {
     onChangeFns = {}
     onFocusFns = {}
     onBlurFns = {}
-    ref: ?Component<*>
+    ref: ElementRef<*> = React.createRef()
 
     constructor(props: Props) {
       super(props)
@@ -91,7 +92,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.ref
+      return this.ref.current
     }
 
     handleChange = (name: string, event: any): void => {
@@ -124,10 +125,6 @@ const createConnectedFields = (structure: Structure<*, *>) => {
       }
     }
 
-    saveRef = (ref: ?Component<*>) => {
-      this.ref = ref
-    }
-
     render() {
       const { component, forwardRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
@@ -151,10 +148,10 @@ const createConnectedFields = (structure: Structure<*, *>) => {
         {}
       )
       if (forwardRef) {
-        props.ref = this.saveRef
+        props.ref = this.ref
       }
 
-      return createElement(component, { ...props, ...custom })
+      return React.createElement(component, { ...props, ...custom })
     }
   }
 

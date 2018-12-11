@@ -8,16 +8,12 @@ import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 import plain from './structure/plain'
 import { withReduxForm } from './ReduxFormContext'
-import type {
-  ConnectedComponent,
-  Structure,
-  ReactContext
-} from './types.js.flow'
-import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types'
+import type { ElementRef } from 'react'
+import type { Structure, ReactContext } from './types.js.flow'
 import type { Props as PropsWithoutContext } from './FieldProps.types'
 import validateComponentProp from './util/validateComponentProp'
 
-type Props = { _reduxForm?: ReactContext } & PropsWithoutContext
+type Props = ReactContext & PropsWithoutContext
 
 const createField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
@@ -25,7 +21,7 @@ const createField = (structure: Structure<*, *>) => {
   const { setIn } = structure
 
   class Field extends Component<Props> {
-    ref: ?ConnectedComponent<ConnectedFieldInstanceApi>
+    ref: ElementRef<*> = React.createRef()
 
     constructor(props: Props) {
       super(props)

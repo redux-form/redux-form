@@ -23,10 +23,9 @@ import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
 import isHotReloading from './util/isHotReloading'
 import { withReduxForm, ReduxFormContext } from './ReduxFormContext'
-import type { ComponentType, Node } from 'react'
+import type { ComponentType, Node, ElementRef } from 'react'
 import type { Dispatch } from 'redux'
 import type {
-  ConnectedComponent,
   ReactContext,
   GetFormState,
   FieldType,
@@ -309,7 +308,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
       class Form extends React.Component<PropsWithContext> {
         static WrappedComponent: ComponentType<*>
 
-        wrapped: ?React.Component<*, *>
+        wrapped: ElementRef<*> = React.createRef()
 
         destroyed = false
         fieldCounts = {}
@@ -818,8 +817,6 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         reset = (): void => this.props.reset()
 
-        wrapped = React.createRef()
-
         render() {
           // remove some redux-form config-only props
           /* eslint-disable no-unused-vars */
@@ -1097,20 +1094,20 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
       // build outer component to expose instance api
       class ReduxForm extends React.Component<Props> {
-        ref: ?ConnectedComponent<Form>
+        ref: ElementRef<*> = React.createRef()
 
         submit() {
-          return this.ref && this.ref.submit()
+          return this.ref.current && this.ref.current.submit()
         }
 
         reset(): void {
           if (this.ref) {
-            this.ref.reset()
+            this.ref.current.reset()
           }
         }
 
         get valid(): boolean {
-          return !!(this.ref && this.ref.isValid())
+          return !!(this.ref.current && this.ref.current.isValid())
         }
 
         get invalid(): boolean {
@@ -1118,7 +1115,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         get pristine(): boolean {
-          return !!(this.ref && this.ref.isPristine())
+          return !!(this.ref.current && this.ref.current.isPristine())
         }
 
         get dirty(): boolean {
@@ -1126,26 +1123,24 @@ const createReduxForm = (structure: Structure<*, *>) => {
         }
 
         get values(): Values {
-          return this.ref ? this.ref.getValues() : empty
+          return this.ref.current ? this.ref.current.getValues() : empty
         }
 
         get fieldList(): string[] {
           // mainly provided for testing
-          return this.ref ? this.ref.getFieldList() : []
+          return this.ref.current ? this.ref.current.getFieldList() : []
         }
 
-        get wrappedInstance(): ?Component<*, *> {
+        get wrappedInstance(): ?HTMLElement {
           // for testing
-          return this.ref && this.ref.wrapped && this.ref.wrapped.current
+          return this.ref.current && this.ref.current.wrapped.current
         }
 
         render() {
           const { initialValues, ...rest } = this.props
           return createElement(ConnectedForm, {
             ...rest,
-            ref: (ref: ?ConnectedComponent<Form>) => {
-              this.ref = ref
-            },
+            ref: this.ref,
             // convert initialValues if need to
             initialValues: fromJS(initialValues)
           })

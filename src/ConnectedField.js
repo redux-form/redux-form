@@ -7,6 +7,7 @@ import onChangeValue from './events/onChangeValue'
 import { dataKey } from './util/eventConsts'
 import plain from './structure/plain'
 import isReactNative from './isReactNative'
+import type { ElementRef } from 'react'
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedField.types'
 import validateComponentProp from './util/validateComponentProp'
@@ -60,7 +61,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
   }
 
   class ConnectedField extends Component<Props> {
-    ref: React.Component<*, *>
+    ref: ElementRef<*> = React.createRef()
 
     shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
@@ -83,14 +84,12 @@ const createConnectedField = (structure: Structure<*, *>) => {
       )
     }
 
-    saveRef = (ref: React.Component<*, *>) => (this.ref = ref)
-
     isPristine = (): boolean => this.props.pristine
 
     getValue = (): any => this.props.value
 
     getRenderedComponent(): React.Component<*, *> {
-      return this.ref
+      return this.ref.current
     }
 
     handleChange = (event: any) => {
@@ -284,7 +283,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         onFocus: this.handleFocus
       })
       if (forwardRef) {
-        custom.ref = this.saveRef
+        custom.ref = this.ref
       }
       if (typeof component === 'string') {
         const { input, meta } = props // eslint-disable-line no-unused-vars

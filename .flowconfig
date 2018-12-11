@@ -1,6 +1,7 @@
 [ignore]
 .*/node_modules/editions/.*
 .*/node_modules/@webassemblyjs/.*
+.*/examples/.*
 .*/__tests__/.*
 
 [include]

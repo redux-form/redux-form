@@ -6,16 +6,12 @@ import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
 import prefixName from './util/prefixName'
 import { withReduxForm } from './ReduxFormContext'
-import type {
-  ConnectedComponent,
-  Structure,
-  ReactContext
-} from './types.js.flow'
-import type { InstanceApi as ConnectedFieldArrayInstanceApi } from './ConnectedFieldArray.types'
+import type { ElementRef } from 'react'
+import type { Structure, ReactContext } from './types.js.flow'
 import type { Props as PropsWithoutContext } from './FieldArrayProps.types'
 import validateComponentProp from './util/validateComponentProp'
 
-type Props = { _reduxForm?: ReactContext } & PropsWithoutContext
+type Props = ReactContext & PropsWithoutContext
 
 const toArray = (value: any): Array<*> =>
   Array.isArray(value) ? value : [value]
@@ -37,7 +33,7 @@ const createFieldArray = (structure: Structure<*, *>) => {
 
   class FieldArray extends Component<Props> {
     name: string
-    ref: ?ConnectedComponent<ConnectedFieldArrayInstanceApi>
+    ref: ElementRef<*> = React.createRef()
 
     constructor(props: Props) {
       super(props)
@@ -73,24 +69,20 @@ const createFieldArray = (structure: Structure<*, *>) => {
       this.props._reduxForm.unregister(this.name)
     }
 
-    saveRef = (ref: ?React.Component<*, *>) => {
-      this.ref = ((ref: any): ?ConnectedComponent<ConnectedFieldArrayInstanceApi>)
-    }
-
     get name(): string {
       return prefixName(this.props, this.props.name)
     }
 
     get dirty(): boolean {
-      return !this.ref || this.ref.dirty
+      return !this.ref || this.ref.current.dirty
     }
 
     get pristine(): boolean {
-      return !!(this.ref && this.ref.pristine)
+      return !!(this.ref && this.ref.current.pristine)
     }
 
     get value(): ?(any[]) {
-      return this.ref ? this.ref.value : undefined
+      return this.ref ? this.ref.current.value : undefined
     }
 
     getRenderedComponent() {
@@ -99,14 +91,14 @@ const createFieldArray = (structure: Structure<*, *>) => {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a forwardRef prop to FieldArray'
       )
-      return this.ref && this.ref.getRenderedComponent()
+      return this.ref && this.ref.current.getRenderedComponent()
     }
 
     render() {
       return createElement(ConnectedFieldArray, {
         ...this.props,
         name: this.name,
-        ref: this.saveRef
+        ref: this.ref
       })
     }
   }

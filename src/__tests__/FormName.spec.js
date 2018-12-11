@@ -38,7 +38,7 @@ const describeFormName = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      class TestForm extends React.Component {
+      class TestForm extends Component {
         render() {
           return (
             <form>

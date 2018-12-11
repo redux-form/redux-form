@@ -5,7 +5,7 @@ import type { Structure, Event, Context } from './types'
 export type Props = {
   names: string[],
   component: Function | string,
-  children?: React.Node,
+  children?: Node,
   forwardRef?: boolean,
   dispatch: Function,
   _reduxForm: Context,

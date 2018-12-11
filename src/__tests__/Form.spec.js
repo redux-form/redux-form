@@ -121,7 +121,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
         }
       }
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm ref={ref} />
         </Provider>
@@ -199,7 +199,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
         }
       }
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <DecoratedTestForm ref={ref} />
         </Provider>

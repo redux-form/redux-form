@@ -6,23 +6,23 @@ import { withReduxForm, ReduxFormContext } from './ReduxFormContext'
 import type { ReactContext } from './types'
 import validateComponentProp from './util/validateComponentProp'
 
-export type PropsWithoutContext = {
+export type Props = {
   name: string,
   component: Function | string,
   children: any
 }
 
-type Props = { _reduxForm?: ReactContext } & PropsWithoutContext
+type PropsWithContext = ReactContext & Props
 
 export type DefaultProps = {
   component: Function | string
 }
 
-class FormSection extends Component<Props> {
+class FormSection extends Component<PropsWithContext> {
   static defaultProps: DefaultProps
   context: ReactContext
 
-  constructor(props: Props) {
+  constructor(props: PropsWithContext) {
     super(props)
     if (!props._reduxForm) {
       throw new Error(

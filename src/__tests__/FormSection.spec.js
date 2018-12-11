@@ -43,7 +43,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
     it('should throw an error if invalid component prop is provided', () => {
       const store = makeStore()
       const notAComponent = {}
-      class Form extends React.Component {
+      class Form extends Component {
         render() {
           return <FormSection component={notAComponent} />
         }
@@ -68,7 +68,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      class Form extends React.Component {
+      class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
@@ -99,7 +99,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      class Form extends React.Component {
+      class Form extends Component {
         render() {
           return (
             <FormSection
@@ -144,7 +144,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
         }
       })
       const input = jest.fn(props => <input {...props.input} />)
-      class Form extends React.Component {
+      class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
@@ -200,7 +200,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       })
       const input = jest.fn(props => <input {...props.bar.input} />)
 
-      class Form extends React.Component {
+      class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
@@ -272,7 +272,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
         </div>
       ))
 
-      class Form extends React.Component {
+      class Form extends Component {
         render() {
           return (
             <FormSection name="foo">
@@ -347,7 +347,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       })
       const input = jest.fn(props => <input {...props.input} />)
 
-      class Form extends React.Component {
+      class Form extends Component {
         render() {
           return (
             <FormSection name="deep">

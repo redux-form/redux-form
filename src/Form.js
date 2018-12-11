@@ -9,7 +9,7 @@ export type Props = {
   onSubmit: Function
 }
 
-type PropsWithContext = { _reduxForm?: ReactContext } & Props
+type PropsWithContext = ReactContext & Props
 
 class Form extends Component<PropsWithContext> {
   constructor(props: PropsWithContext) {

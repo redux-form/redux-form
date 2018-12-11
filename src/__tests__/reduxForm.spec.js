@@ -85,7 +85,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         props = p
         renderSpy(p)
       })
-      const dom = renderForm(Form, formState, config)
+      renderForm(Form, formState, config)
       return props
     }
 
@@ -2390,7 +2390,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2467,7 +2467,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2508,7 +2508,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2548,7 +2548,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2590,7 +2590,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2717,7 +2717,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2757,7 +2757,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2797,7 +2797,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2834,7 +2834,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2948,7 +2948,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -2985,7 +2985,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -3073,7 +3073,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -3110,7 +3110,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -3201,7 +3201,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -3279,7 +3279,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -4821,13 +4821,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
       )
 
-      expect(ref.current.ref.getFieldList()).toEqual([])
+      expect(ref.current.ref.current.getFieldList()).toEqual([])
     })
 
     it('should set autofilled and unset it on change', () => {
@@ -5156,7 +5156,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -5207,7 +5207,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>
@@ -5269,7 +5269,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })(Form)
 
       const ref = React.createRef()
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <Decorated ref={ref} />
         </Provider>

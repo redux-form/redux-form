@@ -728,7 +728,7 @@ const describeField = (name, structure, combineReducers, setup) => {
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
           <TestForm />
         </Provider>
