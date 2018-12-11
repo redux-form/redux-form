@@ -1000,7 +1000,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
 
       // rerender just because prop changed
-      expect(formRender).toHaveBeenCalledTimes(3)
+      expect(formRender).toHaveBeenCalledTimes(2)
 
       // no need to rerender input since nothing changed
       expect(inputRender).toHaveBeenCalledTimes(2)
