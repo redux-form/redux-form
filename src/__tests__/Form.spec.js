@@ -110,6 +110,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
         }
       })
       const onSubmit = jest.fn().mockImplementation(() => 7)
+      const ref = React.createRef()
       class TestForm extends Component {
         render() {
           return (
@@ -120,20 +121,15 @@ const describeForm = (name, structure, combineReducers, setup) => {
         }
       }
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <DecoratedTestForm />
+          <DecoratedTestForm ref={ref} />
         </Provider>
-      )
-
-      const decoratedForm = TestUtils.findRenderedComponentWithType(
-        dom,
-        DecoratedTestForm
       )
 
       expect(onSubmit).not.toHaveBeenCalled()
 
-      const result = decoratedForm.submit()
+      const result = ref.current.submit()
       expect(result).toBe(7)
 
       expect(onSubmit).toHaveBeenCalled()
@@ -191,6 +187,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
         throw new SubmissionError({ _error: 'Invalid' })
       })
       const formRender = jest.fn()
+      const ref = React.createRef()
       class TestForm extends Component {
         render() {
           formRender(this.props)
@@ -202,23 +199,18 @@ const describeForm = (name, structure, combineReducers, setup) => {
         }
       }
       const DecoratedTestForm = reduxForm({ form: 'testForm' })(TestForm)
-      const dom = TestUtils.renderIntoDocument(
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <DecoratedTestForm />
+          <DecoratedTestForm ref={ref} />
         </Provider>
       )
 
       expect(formRender).toHaveBeenCalled()
       expect(formRender).toHaveBeenCalledTimes(1)
 
-      const decoratedForm = TestUtils.findRenderedComponentWithType(
-        dom,
-        DecoratedTestForm
-      )
-
       expect(onSubmit).not.toHaveBeenCalled()
 
-      decoratedForm.submit()
+      ref.current.submit()
 
       expect(onSubmit).toHaveBeenCalled()
       expect(onSubmit).toHaveBeenCalledTimes(1)

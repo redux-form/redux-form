@@ -7,14 +7,13 @@ import createConnectedField from './ConnectedField'
 import shallowCompare from './util/shallowCompare'
 import prefixName from './util/prefixName'
 import plain from './structure/plain'
-import type {
-  ConnectedComponent,
-  Structure,
-  ReactContext
-} from './types.js.flow'
-import type { InstanceApi as ConnectedFieldInstanceApi } from './ConnectedField.types'
-import type { Props } from './FieldProps.types'
+import { withReduxForm } from './ReduxFormContext'
+import type { ElementRef } from 'react'
+import type { Structure, ReactContext } from './types.js.flow'
+import type { Props as PropsWithoutContext } from './FieldProps.types'
 import validateComponentProp from './util/validateComponentProp'
+
+type Props = ReactContext & PropsWithoutContext
 
 const createField = (structure: Structure<*, *>) => {
   const ConnectedField = createConnectedField(structure)
@@ -22,13 +21,11 @@ const createField = (structure: Structure<*, *>) => {
   const { setIn } = structure
 
   class Field extends Component<Props> {
-    context: ReactContext
+    ref: ElementRef<*> = React.createRef()
 
-    ref: ?ConnectedComponent<ConnectedFieldInstanceApi>
-
-    constructor(props: Props, context: ReactContext) {
-      super(props, context)
-      if (!context._reduxForm) {
+    constructor(props: Props) {
+      super(props)
+      if (!props._reduxForm) {
         throw new Error(
           'Field must be inside a component decorated with reduxForm()'
         )
@@ -36,7 +33,7 @@ const createField = (structure: Structure<*, *>) => {
     }
 
     componentDidMount() {
-      this.context._reduxForm.register(
+      this.props._reduxForm.register(
         this.name,
         'Field',
         () => this.props.validate,
@@ -48,9 +45,9 @@ const createField = (structure: Structure<*, *>) => {
       return shallowCompare(this, nextProps, nextState)
     }
 
-    componentWillReceiveProps(nextProps: Props, nextContext: any) {
-      const oldName = prefixName(this.context, this.props.name)
-      const newName = prefixName(nextContext, nextProps.name)
+    componentWillReceiveProps(nextProps: Props) {
+      const oldName = prefixName(this.props, this.props.name)
+      const newName = prefixName(nextProps, nextProps.name)
 
       if (
         oldName !== newName ||
@@ -59,9 +56,9 @@ const createField = (structure: Structure<*, *>) => {
         !plain.deepEqual(this.props.warn, nextProps.warn)
       ) {
         // unregister old name
-        this.context._reduxForm.unregister(oldName)
+        this.props._reduxForm.unregister(oldName)
         // register new name
-        this.context._reduxForm.register(
+        this.props._reduxForm.register(
           newName,
           'Field',
           () => nextProps.validate,
@@ -71,25 +68,24 @@ const createField = (structure: Structure<*, *>) => {
     }
 
     componentWillUnmount() {
-      this.context._reduxForm.unregister(this.name)
+      this.props._reduxForm.unregister(this.name)
     }
 
-    saveRef = (ref: ?ConnectedComponent<ConnectedFieldInstanceApi>) =>
-      (this.ref = ref)
+    ref = React.createRef()
 
-    getRenderedComponent(): ?React.Component<*, *> {
+    getRenderedComponent(): ?Component<*, *> {
       invariant(
-        this.props.withRef,
+        this.props.forwardRef,
         'If you want to access getRenderedComponent(), ' +
-          'you must specify a withRef prop to Field'
+          'you must specify a forwardRef prop to Field'
       )
-      return this.ref
-        ? this.ref.getWrappedInstance().getRenderedComponent()
+      return this.ref.current
+        ? this.ref.current.getRenderedComponent()
         : undefined
     }
 
     get name(): string {
-      return prefixName(this.context, this.props.name)
+      return prefixName(this.props, this.props.name)
     }
 
     get dirty(): boolean {
@@ -97,11 +93,11 @@ const createField = (structure: Structure<*, *>) => {
     }
 
     get pristine(): boolean {
-      return !!(this.ref && this.ref.getWrappedInstance().isPristine())
+      return !!(this.ref.current && this.ref.current.isPristine())
     }
 
     get value(): any {
-      return this.ref && this.ref.getWrappedInstance().getValue()
+      return this.ref.current && this.ref.current.getValue()
     }
 
     normalize = (name: string, value: any): any => {
@@ -109,7 +105,7 @@ const createField = (structure: Structure<*, *>) => {
       if (!normalize) {
         return value
       }
-      const previousValues = this.context._reduxForm.getValues()
+      const previousValues = this.props._reduxForm.getValues()
       const previousValue = this.value
       const nextValues = setIn(previousValues, name, value)
       return normalize(value, previousValue, nextValues, previousValues)
@@ -120,8 +116,7 @@ const createField = (structure: Structure<*, *>) => {
         ...this.props,
         name: this.name,
         normalize: this.normalize,
-        _reduxForm: this.context._reduxForm,
-        ref: this.saveRef
+        ref: this.ref
       })
     }
   }
@@ -146,15 +141,14 @@ const createField = (structure: Structure<*, *>) => {
       PropTypes.func,
       PropTypes.arrayOf(PropTypes.func)
     ]),
-    withRef: PropTypes.bool,
-    immutableProps: PropTypes.arrayOf(PropTypes.string)
-  }
-  Field.contextTypes = {
+    forwardRef: PropTypes.bool,
+    immutableProps: PropTypes.arrayOf(PropTypes.string),
     _reduxForm: PropTypes.object
   }
 
   polyfill(Field)
-  return Field
+
+  return withReduxForm(Field)
 }
 
 export default createField

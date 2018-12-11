@@ -1,11 +1,11 @@
 // @flow
 import { isEmpty, isEqual, mapValues } from 'lodash'
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import prefixName from './util/prefixName'
+import { withReduxForm } from './ReduxFormContext'
 import type { ComponentType } from 'react'
-import type { Structure, ReactContext } from './types'
+import type { Structure } from './types'
 import type { FormValuesInterface } from './formValues.types'
 
 const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
@@ -16,13 +16,12 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
   // return
   return (Component: ComponentType<*>): ComponentType<*> => {
     class FormValues extends React.Component<Object> {
-      context: ReactContext
       Component: ComponentType<*>
       _valuesMap: Object
 
-      constructor(props: Object, context: ReactContext) {
-        super(props, context)
-        if (!context._reduxForm) {
+      constructor(props: Object) {
+        super(props)
+        if (!props._reduxForm) {
           throw new Error(
             'formValues() must be used inside a React tree decorated with reduxForm()'
           )
@@ -39,7 +38,7 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         return (
           <Component
             // so that the connected component updates props when sectionPrefix has changed
-            sectionPrefix={this.context._reduxForm.sectionPrefix}
+            sectionPrefix={this.props._reduxForm.sectionPrefix}
             {...this.props}
           />
         )
@@ -78,10 +77,10 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
           // Yes, we're only using connect() for listening to updates.
           // The second argument needs to be there so that connect calls
           // the selector when props change
-          const { getValues } = this.context._reduxForm
+          const { getValues } = this.props._reduxForm
           const values = getValues()
           return mapValues(this._valuesMap, (path: string) =>
-            getIn(values, prefixName(this.context, path))
+            getIn(values, prefixName(this.props, path))
           )
         }
         this.Component = connect(
@@ -90,10 +89,7 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         )(({ sectionPrefix, ...otherProps }) => <Component {...otherProps} />)
       }
     }
-    FormValues.contextTypes = {
-      _reduxForm: PropTypes.object
-    }
-    return FormValues
+    return withReduxForm(FormValues)
   }
 }
 

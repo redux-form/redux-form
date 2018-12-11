@@ -12,10 +12,11 @@ With `FieldArray`, you provide a `name` just like with `Field`, but the `compone
 ## Importing
 
 ```javascript
-var FieldArray = require('redux-form').FieldArray;  // ES5
+var FieldArray = require('redux-form').FieldArray // ES5
 ```
+
 ```javascript
-import { FieldArray } from 'redux-form';  // ES6
+import { FieldArray } from 'redux-form' // ES6
 ```
 
 ## Props you can pass to `FieldArray`
@@ -38,7 +39,7 @@ Allows you to provide a field-level validation rule. The function will be given 
 
 Allows you to provide a field-level warning rule. The function will be given the current value of the array field, all the other form values, and any props passed to the form. If the array needs a warning, it should return the warning (usually, but not necessarily, a `String`). If the array does not need a warning, it should return `undefined`.
 
-#### `withRef : boolean` [optional]
+#### `forwardRef : boolean` [optional]
 
 If `true`, the rendered component will be available with the `getRenderedComponent()` method.
 Defaults to `false`. **Cannot be used if your component is a stateless function component.**
@@ -59,7 +60,7 @@ The following properties and methods are available on an instance of a `FieldArr
 #### `name : String`
 
 > When nested in `FormSection`, returns the `name` prop prefixed with the `FormSection` name.
-Otherwise, returns the `name` prop that you passed in.
+> Otherwise, returns the `name` prop that you passed in.
 
 #### `valid : boolean`
 
@@ -68,25 +69,25 @@ Otherwise, returns the `name` prop that you passed in.
 #### `getRenderedComponent()`
 
 > Returns the instance of the rendered component. For this to work, you must provide a
-> `withRef` prop, and your component must not be a stateless function component.
+> `forwardRef` prop, and your component must not be a stateless function component.
 
 ## Props
 
 These are props that `FieldArray` will pass to your wrapped component. **All the props provided
 to your component by `redux-form` are divided into `fields` and `meta` objects.**
 
-Any additional props that you pass to your `FieldArray` will be in the root of the `props` 
+Any additional props that you pass to your `FieldArray` will be in the root of the `props`
 object, alongside `fields` and `meta`.
 
 ### Fields Props
 
-The `fields` object is a "pseudo-array", in that it has many of the same properties and methods 
+The `fields` object is a "pseudo-array", in that it has many of the same properties and methods
 as a javascript `Array`, providing both reading and writing functionality.
 
 #### `fields.name : Function`
 
 > When nested in `FormSection`, returns the `name` prop prefixed with the `FormSection` name.
-Otherwise, returns the `name` prop that you passed in.
+> Otherwise, returns the `name` prop that you passed in.
 
 #### `fields.forEach(callback) : Function`
 
@@ -100,7 +101,7 @@ Otherwise, returns the `name` prop that you passed in.
 #### `fields.getAll() : Function`
 
 > A method to get all the values in the array. If you are using ImmutableJS, it will be an
-ImmutableJS `List`.
+> ImmutableJS `List`.
 
 #### `fields.insert(index:Integer, value:Any) : Function`
 
@@ -236,29 +237,35 @@ passed following parameters:
 
 > A reference to the [`fields` prop](#fields-props) to allow for the access to `swap`, `remove`,
 > `pop`, etc., without requiring closure scoping.
+
 ```javascript
 const renderSubFields = (member, index, fields) => (
-    <li key={index}>
-      <button
-        type="button"
-        title="Remove Member"
-        onClick={() => fields.remove(index)}/>
-      <h4>Member #{index + 1}</h4>
-      <Field
-        name={`${member}.firstName`}
-        type="text"
-        component={renderField}
-        label="First Name"/>
-      <Field
-        name={`${member}.lastName`}
-        type="text"
-        component={renderField}
-        label="Last Name"/>
-    </li>
+  <li key={index}>
+    <button
+      type="button"
+      title="Remove Member"
+      onClick={() => fields.remove(index)}
+    />
+    <h4>Member #{index + 1}</h4>
+    <Field
+      name={`${member}.firstName`}
+      type="text"
+      component={renderField}
+      label="First Name"
+    />
+    <Field
+      name={`${member}.lastName`}
+      type="text"
+      component={renderField}
+      label="Last Name"
+    />
+  </li>
 )
 const renderMembers = ({ fields }) => (
   <ul>
-    <button type="button" onClick={() => fields.push({})}>Add Member</button>
+    <button type="button" onClick={() => fields.push({})}>
+      Add Member
+    </button>
     {fields.map(renderSubFields)}
   </ul>
 )

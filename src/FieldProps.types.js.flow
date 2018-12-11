@@ -1,7 +1,7 @@
 // @flow
 import type { Dispatch } from 'redux'
 import type { Event, Validator } from './types'
-import type {ComponentType, ElementRef} from 'react'
+import type { ComponentType, ElementRef } from 'react'
 
 export type Props = {
   name: string,
@@ -13,16 +13,31 @@ export type Props = {
     allValues: Object,
     previousAllValues: Object
   ) => ?any,
-  onBlur?: (event: Event, newValue: any, previousValue: any, name: string) => void,
-  onChange?: (event: Event, newValue: any, previousValue: any, name: string) => void,
+  onBlur?: (
+    event: Event,
+    newValue: any,
+    previousValue: any,
+    name: string
+  ) => void,
+  onChange?: (
+    event: Event,
+    newValue: any,
+    previousValue: any,
+    name: string
+  ) => void,
   onDragStart?: (event: Event, name: string) => void,
-  onDrop?: (event: Event, newValue: any, previousValue: any, name: string) => void,
+  onDrop?: (
+    event: Event,
+    newValue: any,
+    previousValue: any,
+    name: string
+  ) => void,
   onFocus?: (event: Event, name: string) => void,
   parse?: (value: any, name: string) => any,
   props?: Object,
   validate?: Validator | Validator[],
   warn?: Validator | Validator[],
-  withRef?: boolean,
+  forwardRef?: boolean,
   immutableProps?: Array<string>
 }
 
@@ -58,6 +73,6 @@ export type FieldProps = {
     warning?: any
   },
   custom: {
-    ref?: (ref: ElementRef<*>) => ElementRef<*>
+    ref?: ElementRef<*>
   }
 }

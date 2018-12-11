@@ -1,11 +1,12 @@
 // @flow
-import { Component, createElement } from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
+import type { ElementRef } from 'react'
 import type { Structure } from './types'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types'
 import validateComponentProp from './util/validateComponentProp'
@@ -30,7 +31,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   class ConnectedFieldArray extends Component<Props> {
     static defaultProps: DefaultProps
-    ref: ?HTMLElement
+    ref: ElementRef<*> = React.createRef()
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
@@ -86,11 +87,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.ref
-    }
-
-    saveRef = (ref: ?HTMLElement) => {
-      this.ref = ref
+      return this.ref.current
     }
 
     getValue = (index: number): any =>
@@ -99,7 +96,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     render() {
       const {
         component,
-        withRef,
+        forwardRef,
         name,
         _reduxForm, // eslint-disable-line no-unused-vars
         validate, // eslint-disable-line no-unused-vars
@@ -115,8 +112,8 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
         this.getValue,
         rest
       )
-      if (withRef) {
-        props.ref = this.saveRef
+      if (forwardRef) {
+        props.ref = this.ref
       }
       return createElement(component, props)
     }
@@ -130,10 +127,6 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   ConnectedFieldArray.defaultProps = {
     rerenderOnEveryChange: false
-  }
-
-  ConnectedFieldArray.contextTypes = {
-    _reduxForm: PropTypes.object
   }
 
   const connector = connect(
@@ -197,7 +190,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       )
     },
     undefined,
-    { withRef: true }
+    { forwardRef: true }
   )
   return connector(ConnectedFieldArray)
 }

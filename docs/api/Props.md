@@ -15,7 +15,7 @@
 ```javascript
 import { reduxForm, propTypes } from 'redux-form'
 
-class SimpleForm extends Component {
+class SimpleForm extends React.Component {
   static propTypes = {
     ...propTypes
     // other props you might be using

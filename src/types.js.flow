@@ -38,11 +38,6 @@ export type Values = any
 
 export type GetFormState = { (state: any): any }
 
-export type ConnectedComponent<T: React.Component<*, *>> = {
-  getWrappedInstance: { (): T },
-  wrapped: ?React.Component<*, *>
-} & React.Component<*, *>
-
 export type Option = {
   selected: boolean,
   value: any
@@ -76,6 +71,7 @@ export type Context = {
   },
   getValues: { (): Object },
   sectionPrefix?: string,
+  prefixName?: string,
   register: (
     name: string,
     type: string,

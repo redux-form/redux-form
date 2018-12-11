@@ -71,7 +71,7 @@ to be stored in the Redux store. Common use cases are to parse currencies into
 `parse` is called with the field `value` and `name` as arguments and should
 return the new parsed value to be stored in the Redux store.
 
-#### `withRef : boolean` [optional]
+#### `forwardRef : boolean` [optional]
 
 If `true`, the rendered component will be available with the
 `getRenderedComponent()` method. Defaults to `false`. **Cannot be used if your
@@ -156,7 +156,7 @@ component.
 #### `getRenderedComponent()`
 
 > Returns the instance of the rendered component. For this to work, you must
-> provide a `withRef` prop, and your component must not be a stateless function
+> provide a `forwardRef` prop, and your component must not be a stateless function
 > component.
 
 ## Props

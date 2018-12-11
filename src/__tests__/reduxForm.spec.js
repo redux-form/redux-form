@@ -69,20 +69,24 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       }
     }
 
-    const renderForm = (Form, formState, config = {}) => {
+    const renderForm = (Form, formState, config = {}, ref) => {
       const store = makeStore({ testForm: formState })
       const Decorated = reduxForm({ form: 'testForm', ...config })(Form)
       return TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
     }
 
     const propChecker = (formState, renderSpy = noop, config = {}) => {
-      const Form = makeForm(renderSpy)
-      const dom = renderForm(Form, formState, config)
-      return TestUtils.findRenderedComponentWithType(dom, Form).props
+      let props
+      const Form = makeForm(p => {
+        props = p
+        renderSpy(p)
+      })
+      renderForm(Form, formState, config)
+      return props
     }
 
     it('should return a decorator function', () => {
@@ -140,6 +144,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('should provide the correct props', () => {
       const props = propChecker({})
       expect(Object.keys(props).sort()).toEqual([
+        '_reduxForm',
         'anyTouched',
         'array',
         'asyncValidate',
@@ -223,7 +228,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should have declared all propTypes passed to decorated component', () => {
       const passedProps = Object.keys(propChecker({})).sort()
-      const declaredPropTypes = Object.keys(formPropTypes).sort()
+      const declaredPropTypes = Object.keys(formPropTypes)
+        .concat('_reduxForm')
+        .sort()
 
       expect(passedProps).toEqual(declaredPropTypes)
     })
@@ -671,24 +678,24 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       ).find(element => element.getAttribute('name') === 'foo')
 
       expect(formRender).toHaveBeenCalledTimes(2)
-      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(2)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
 
-      expect(propsAtNthRender(inputRender, 0).input.checked).toBe(true)
+      expect(propsAtNthRender(inputRender, 1).input.checked).toBe(true)
       TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: false }
       })
 
-      expect(inputRender).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(inputRender, 1).input.checked).toBe(false)
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(inputRender, 2).input.checked).toBe(false)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(false)
 
       TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: true }
       })
 
-      expect(inputRender).toHaveBeenCalledTimes(3)
-      expect(propsAtNthRender(inputRender, 2).input.value).toBe(true)
+      expect(inputRender).toHaveBeenCalledTimes(4)
+      expect(propsAtNthRender(inputRender, 3).input.value).toBe(true)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
     })
 
@@ -739,10 +746,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkProps(propsAtNthRender(formRender, 1))
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(1)
-      expect(propsAtNthRender(inputRender, 0).meta.pristine).toBe(true)
-      expect(propsAtNthRender(inputRender, 0).meta.dirty).toBe(false)
-      expect(propsAtNthRender(inputRender, 0).input.value).toBe('bar')
+      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputRender, 1).meta.pristine).toBe(true)
+      expect(propsAtNthRender(inputRender, 1).meta.dirty).toBe(false)
+      expect(propsAtNthRender(inputRender, 1).input.value).toBe('bar')
     })
 
     it('should support calling change in Form componentDidMount', () => {
@@ -800,9 +807,6 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(inputRender).toHaveBeenCalled()
       expect(inputRender).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(inputRender, 0).meta.pristine).toBe(true)
-      expect(propsAtNthRender(inputRender, 0).meta.dirty).toBe(false)
-      expect(propsAtNthRender(inputRender, 0).input.value).toBe('bar')
 
       // should be dirty on second render, after change completes
       expect(propsAtNthRender(inputRender, 1).meta.pristine).toBe(false)
@@ -967,13 +971,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(2)
       const checkInputProps = (props, value) => {
         expect(props.meta.pristine).toBe(true)
         expect(props.meta.dirty).toBe(false)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[0][0], 'bar')
+      checkInputProps(inputRender.mock.calls[1][0], 'bar')
 
       // initialize
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -999,7 +1003,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(3)
 
       // no need to rerender input since nothing changed
-      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(2)
     })
 
     it('should reinitialize with initialValues if enableReinitialize', () => {
@@ -1085,23 +1089,22 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(2)
 
       // Expect that input value has been initialized
-      checkInputProps(inputRender.mock.calls[0][0], 'bar')
+      checkInputProps(inputRender.mock.calls[1][0], 'bar')
 
       // Change input value and check if it is dirty and not pristine
-      const onChange = inputRender.mock.calls[0][0].input.onChange
+      const onChange = inputRender.mock.calls[1][0].input.onChange
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
 
-      expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Expect that input value has been changed and is dirty now
-      checkInputProps(inputRender.mock.calls[1][0], 'dirtyvalue', false, true)
+      checkInputProps(inputRender.mock.calls[2][0], 'dirtyvalue', false, true)
 
       // Re-initialize form and check if it is pristine and not dirty
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1126,11 +1129,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       // Expect rerenders due to the re-initialization.
       expect(formRender).toHaveBeenCalledTimes(4)
 
-      expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(inputRender).toHaveBeenCalledTimes(4)
 
       // Expect that input value has been re-initialized and is not dirty anymore
-      checkInputProps(inputRender.mock.calls[2][0], 'baz')
+      checkInputProps(inputRender.mock.calls[3][0], 'baz')
     })
 
     it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
@@ -1202,21 +1204,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(2)
       const checkInputProps = (props, value, dirty) => {
         expect(props.meta.pristine).toBe(!dirty)
         expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[0][0], 'bar', false)
+      checkInputProps(inputRender.mock.calls[1][0], 'bar', false)
 
       // Change the input value.
-      const onChange = inputRender.mock.calls[0][0].input.onChange
+      const onChange = inputRender.mock.calls[1][0].input.onChange
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1246,9 +1248,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(3)
 
       // should rerender input with the dirty value and new meta.initial
-      expect(inputRender).toHaveBeenCalledTimes(3)
-      checkInputProps(inputRender.mock.calls[1][0], 'dirtyvalue', true)
+      expect(inputRender).toHaveBeenCalledTimes(4)
       checkInputProps(inputRender.mock.calls[2][0], 'dirtyvalue', true)
+      checkInputProps(inputRender.mock.calls[3][0], 'dirtyvalue', true)
     })
 
     it('should not retain dirty fields if keepDirtyOnReinitialize is not set', () => {
@@ -1319,21 +1321,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(2)
       const checkInputProps = (props, value, dirty) => {
         expect(props.meta.pristine).toBe(!dirty)
         expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[0][0], 'bar', false)
+      checkInputProps(inputRender.mock.calls[1][0], 'bar', false)
 
       // Change the input value.
-      const onChange = inputRender.mock.calls[0][0].input.onChange
+      const onChange = inputRender.mock.calls[1][0].input.onChange
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1359,8 +1361,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(4)
 
       // should rerender input with the pristine value.
-      expect(inputRender).toHaveBeenCalledTimes(3)
-      checkInputProps(inputRender.mock.calls[2][0], 'baz', false)
+      expect(inputRender).toHaveBeenCalledTimes(4)
+      checkInputProps(inputRender.mock.calls[3][0], 'baz', false)
     })
 
     it('should be pristine after initialize() if enableReinitialize', () => {
@@ -1569,21 +1571,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(inputRender).toHaveBeenCalledTimes(2)
       const checkInputProps = (props, value, dirty) => {
         expect(props.meta.pristine).toBe(!dirty)
         expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[0][0], 'bar', false)
+      checkInputProps(inputRender.mock.calls[1][0], 'bar', false)
 
       // Change the input value.
-      const onChange = inputRender.mock.calls[0][0].input.onChange
+      const onChange = inputRender.mock.calls[1][0].input.onChange
       onChange('futurevalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1610,8 +1612,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(4)
 
       // should rerender input with the new value that is now pristine.
-      expect(inputRender).toHaveBeenCalledTimes(3)
-      checkInputProps(inputRender.mock.calls[2][0], 'futurevalue', false)
+      expect(inputRender).toHaveBeenCalledTimes(4)
+      checkInputProps(inputRender.mock.calls[3][0], 'futurevalue', false)
     })
 
     // Test related to #1436
@@ -1958,7 +1960,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field name="deep.foo" component={deepFooInputRender} type="text" />
+              <Field
+                name="deep.foo"
+                component={deepFooInputRender}
+                type="text"
+              />
               <Field name="hello" component={helloInputRender} type="text" />
             </form>
           )
@@ -2009,11 +2015,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(deepFooInputRender).toHaveBeenCalled()
-      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
-      
+      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
+
       expect(helloInputRender).toHaveBeenCalled()
       expect(helloInputRender).toHaveBeenCalledTimes(1)
-      
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -2048,7 +2053,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       // should not rerender 'deep.foo' input since its value did not change.
-      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
+      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
 
       // should rerender 'hello' input with new value and new meta.initial
       expect(helloInputRender).toHaveBeenCalledTimes(2)
@@ -2073,7 +2078,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field name="deep.foo" component={deepFooInputRender} type="text" />
+              <Field
+                name="deep.foo"
+                component={deepFooInputRender}
+                type="text"
+              />
               <Field name="hello" component={helloInputRender} type="text" />
             </form>
           )
@@ -2124,11 +2133,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(deepFooInputRender).toHaveBeenCalled()
-      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
+      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
 
       expect(helloInputRender).toHaveBeenCalled()
       expect(helloInputRender).toHaveBeenCalledTimes(1)
-
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -2157,7 +2165,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       // should rerender 'deep.foo' input with new value and new meta.initial
-      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
+      expect(deepFooInputRender).toHaveBeenCalledTimes(3)
 
       // should rerender 'hello' input with new value and new meta.initial
       expect(helloInputRender).toHaveBeenCalledTimes(2)
@@ -2202,20 +2210,20 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       }
       const Decorated = reduxForm({ form: 'testForm' })(Form)
 
+      const ref = React.createRef()
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      expect(stub.fieldList).toContainExactly(['foo', 'fooArray'])
+      expect(ref.current.fieldList).toContainExactly(['foo', 'fooArray'])
 
       // switch fields
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(stub.fieldList).toContainExactly(['bar', 'barArray'])
+      expect(ref.current.fieldList).toContainExactly(['bar', 'barArray'])
     })
 
     it('should keep a list of registered fields inside a FormSection', () => {
@@ -2259,20 +2267,26 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       }
       const Decorated = reduxForm({ form: 'testForm' })(Form)
 
+      const ref = React.createRef()
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      expect(stub.fieldList).toContainExactly(['sec.foo', 'sec.fooArray'])
+      expect(ref.current.fieldList).toContainExactly([
+        'sec.foo',
+        'sec.fooArray'
+      ])
 
       // switch fields
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(stub.fieldList).toContainExactly(['sec.bar', 'sec.barArray'])
+      expect(ref.current.fieldList).toContainExactly([
+        'sec.bar',
+        'sec.barArray'
+      ])
     })
     it('should not set FieldArray as touched on submit', () => {
       const store = makeStore({})
@@ -2329,30 +2343,29 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         validate: values => (getIn(values, 'bar') ? {} : { bar: 'Required' })
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
       // invalid because no value for 'bar' field
-      expect(stub.dirty).toBe(false)
-      expect(stub.pristine).toBe(true)
-      expect(stub.valid).toBe(false)
-      expect(stub.invalid).toBe(true)
-      expect(stub.values).toEqualMap({})
+      expect(ref.current.dirty).toBe(false)
+      expect(ref.current.pristine).toBe(true)
+      expect(ref.current.valid).toBe(false)
+      expect(ref.current.invalid).toBe(true)
+      expect(ref.current.values).toEqualMap({})
 
       // set value for 'bar' field
       input.mock.calls[0][0].input.onChange('foo')
 
       // valid because we have a value for 'bar' field
-      expect(stub.dirty).toBe(true)
-      expect(stub.pristine).toBe(false)
-      expect(stub.valid).toBe(true)
-      expect(stub.invalid).toBe(false)
-      expect(stub.values).toEqualMap({ bar: 'foo' })
+      expect(ref.current.dirty).toBe(true)
+      expect(ref.current.pristine).toBe(false)
+      expect(ref.current.valid).toBe(true)
+      expect(ref.current.invalid).toBe(false)
+      expect(ref.current.values).toEqualMap({ bar: 'foo' })
     })
 
     it('should mark all fields as touched on submit', () => {
@@ -2376,13 +2389,12 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmit: () => ({ _error: 'Login Failed' })
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
-
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(store.getState()).toEqualMap({
         form: {
@@ -2401,8 +2413,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(password).toHaveBeenCalled()
       expect(propsAtNthRender(password, 0).meta.touched).toBe(false)
 
-      expect(typeof stub.submit).toBe('function')
-      stub.submit()
+      expect(typeof ref.current.submit).toBe('function')
+      ref.current.submit()
 
       expect(store.getState()).toEqualMap({
         form: {
@@ -2454,19 +2466,18 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmitFail
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(typeof stub.submit).toBe('function')
+      expect(typeof ref.current.submit).toBe('function')
 
       expect(onSubmitFail).not.toHaveBeenCalled()
 
-      const caught = stub.submit()
+      const caught = ref.current.submit()
 
       expect(onSubmitFail).toHaveBeenCalled()
       expect(onSubmitFail.mock.calls[0][0]).toEqual(errors)
@@ -2496,19 +2507,18 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmitFail
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(typeof stub.submit).toBe('function')
+      expect(typeof ref.current.submit).toBe('function')
 
       expect(onSubmitFail).not.toHaveBeenCalled()
 
-      const caught = stub.submit()
+      const caught = ref.current.submit()
 
       expect(onSubmitFail).toHaveBeenCalled()
       expect(onSubmitFail.mock.calls[0][0]).toEqual(undefined)
@@ -2537,19 +2547,18 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmitFail
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(typeof stub.submit).toBe('function')
+      expect(typeof ref.current.submit).toBe('function')
 
       expect(onSubmitFail).not.toHaveBeenCalled()
 
-      return stub.submit().then(caught => {
+      return ref.current.submit().then(caught => {
         expect(onSubmitFail).toHaveBeenCalled()
         expect(onSubmitFail.mock.calls[0][0]).toEqual(errors)
         expect(onSubmitFail.mock.calls[0][1]).toEqual(store.dispatch)
@@ -2580,20 +2589,19 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         validate: () => errors
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(typeof stub.submit).toBe('function')
+      expect(typeof ref.current.submit).toBe('function')
 
       expect(onSubmitFail).not.toHaveBeenCalled()
       expect(onSubmit).not.toHaveBeenCalled()
 
-      const result = stub.submit()
+      const result = ref.current.submit()
       expect(onSubmit).not.toHaveBeenCalled()
       expect(onSubmitFail).toHaveBeenCalled()
       expect(onSubmitFail.mock.calls[0][0]).toEqual(errors)
@@ -2630,20 +2638,19 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(error).toBe(errors)
     }
 
+    const ref = React.createRef()
     const wrappedInProvider = (TheComponent, store) => (
       <Provider store={store}>
-        <TheComponent />
+        <TheComponent ref={ref} />
       </Provider>
     )
 
     const rejectPromiseWith = errors => () => Promise.reject(errors)
 
     const renderAndFindComponent = (TheComponent, store) => {
-      const dom = TestUtils.renderIntoDocument(
-        wrappedInProvider(TheComponent, store)
-      )
+      TestUtils.renderIntoDocument(wrappedInProvider(TheComponent, store))
 
-      return TestUtils.findRenderedComponentWithType(dom, TheComponent)
+      return ref.current
     }
     const itShouldCallOnSubmitFailIfAsyncValidationPreventsSubmit = formProps => {
       const store = makeStore({
@@ -2709,19 +2716,18 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmitSuccess
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(typeof stub.submit).toBe('function')
+      expect(typeof ref.current.submit).toBe('function')
 
       expect(onSubmitSuccess).not.toHaveBeenCalled()
 
-      const returned = stub.submit()
+      const returned = ref.current.submit()
 
       expect(onSubmitSuccess).toHaveBeenCalled()
       expect(onSubmitSuccess.mock.calls[0][0]).toBe(result)
@@ -2750,19 +2756,18 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmitSuccess
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(typeof stub.submit).toBe('function')
+      expect(typeof ref.current.submit).toBe('function')
 
       expect(onSubmitSuccess).not.toHaveBeenCalled()
 
-      return stub.submit().then(returned => {
+      return ref.current.submit().then(returned => {
         expect(onSubmitSuccess).toHaveBeenCalled()
         expect(onSubmitSuccess.mock.calls[0][0]).toBe(result)
         expect(onSubmitSuccess.mock.calls[0][1]).toBe(store.dispatch)
@@ -2791,17 +2796,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
+      expect(typeof ref.current.submit).toBe('function')
 
-      expect(typeof stub.submit).toBe('function')
-
-      const caught = stub.submit()
+      const caught = ref.current.submit()
 
       expect(caught).toBe(errors)
     })
@@ -2829,19 +2833,18 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
-
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(input).toHaveBeenCalled()
       expect(propsAtNthRender(input, 0).input.value).toBe('foo')
 
-      expect(typeof stub.submit).toBe('function')
-      stub.submit()
+      expect(typeof ref.current.submit).toBe('function')
+      ref.current.submit()
     })
 
     it('should submit when "submit" button is clicked and handleSubmit provided function', () => {
@@ -2944,16 +2947,15 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmit: submitSpy
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      stub.submit()
-      stub.submit()
+      ref.current.submit()
+      ref.current.submit()
 
       expect(submitSpy.mock.calls.length).toEqual(1)
     })
@@ -2982,17 +2984,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmit: submitSpy
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      stub.submit()
+      ref.current.submit()
       store.dispatch(stopSubmit('testForm', {}))
-      stub.submit()
+      ref.current.submit()
 
       expect(submitSpy.mock.calls.length).toEqual(2)
     })
@@ -3071,14 +3072,14 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         form: 'testForm'
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      expect(() => stub.submit()).toThrow(
+      expect(() => ref.current.submit()).toThrow(
         /onSubmit function or pass onSubmit as a prop/
       )
     })
@@ -3108,21 +3109,20 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
-
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
       expect(input).toHaveBeenCalled()
       expect(propsAtNthRender(input, 0).input.value).toBe('foo')
 
       expect(asyncValidate).not.toHaveBeenCalled()
 
-      expect(typeof stub.submit).toBe('function')
-      stub.submit()
+      expect(typeof ref.current.submit).toBe('function')
+      ref.current.submit()
 
       expect(asyncValidate).toHaveBeenCalled()
       expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({ bar: 'foo' })
@@ -3200,14 +3200,14 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmit: () => Promise.reject(new SubmissionError('Rejection'))
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      return stub.submit().then(err => {
+      return ref.current.submit().then(err => {
         expect(err).toBe('Rejection')
       })
     })
@@ -3278,26 +3278,28 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         initialValues: { bar: 'initialBar' }
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
       expect(input).toHaveBeenCalled()
+      expect(input).toHaveBeenCalledTimes(2)
 
-      expect(propsAtNthRender(input, 0).input.value).toBe('initialBar')
+      expect(propsAtNthRender(input, 1).input.value).toBe('initialBar')
 
-      input.mock.calls[0][0].input.onChange('newBar')
+      input.mock.calls[1][0].input.onChange('newBar')
 
-      expect(propsAtNthRender(input, 1).input.value).toBe('newBar')
+      expect(input).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(input, 2).input.value).toBe('newBar')
 
-      expect(typeof stub.reset).toBe('function')
-      stub.reset()
+      expect(typeof ref.current.reset).toBe('function')
+      ref.current.reset()
 
-      expect(propsAtNthRender(input, 2).input.value).toBe('initialBar')
+      expect(input).toHaveBeenCalledTimes(4)
+      expect(propsAtNthRender(input, 3).input.value).toBe('initialBar')
     })
 
     it('should rerender form, but not fields, when non-redux-form props change', () => {
@@ -3614,8 +3616,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 1).invalid).toBe(true)
 
       expect(renderInput).toHaveBeenCalled()
-      expect(renderInput).toHaveBeenCalledTimes(1)
-      expect(propsAtNthRender(renderInput, 0).meta.error).toEqual(error)
+      expect(renderInput).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(renderInput, 1).meta.error).toEqual(error)
     })
 
     it('should allow sync validation for array props on push', () => {
@@ -3678,9 +3680,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // first input rendered
       expect(inputs[0]).toHaveBeenCalled()
-      expect(inputs[0]).toHaveBeenCalledTimes(1)
-      expect(propsAtNthRender(inputs[0], 0).meta.valid).toBe(false)
-      expect(propsAtNthRender(inputs[0], 0).meta.error).toBe('Too low')
+      expect(inputs[0]).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputs[0], 1).meta.valid).toBe(false)
+      expect(propsAtNthRender(inputs[0], 1).meta.error).toBe('Too low')
       expect(inputs[1]).not.toHaveBeenCalled()
       expect(inputs[2]).not.toHaveBeenCalled()
 
@@ -3688,7 +3690,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       propsAtNthRender(formRender, 0).array.push('foo', 13)
 
       // first input not rendered again
-      expect(inputs[0]).toHaveBeenCalledTimes(1)
+      expect(inputs[0]).toHaveBeenCalledTimes(2)
 
       // but second input now rendered
       expect(inputs[1]).toHaveBeenCalled()
@@ -3701,9 +3703,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       propsAtNthRender(inputs[0], 0).input.onChange(10)
 
       // first input rendered again
-      expect(inputs[0]).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(inputs[0], 1).meta.valid).toBe(true)
-      expect(propsAtNthRender(inputs[0], 1).meta.error).toBe(undefined)
+      expect(inputs[0]).toHaveBeenCalledTimes(4)
+      expect(propsAtNthRender(inputs[0], 3).meta.valid).toBe(true)
+      expect(propsAtNthRender(inputs[0], 3).meta.error).toBe(undefined)
       expect(inputs[1]).toHaveBeenCalled()
       expect(inputs[2]).not.toHaveBeenCalled()
     })
@@ -3813,8 +3815,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       // expect(formRender.calls.length).toBe(2) // TODO: This gets called only once. Why?
 
       expect(renderInput).toHaveBeenCalled()
-      expect(renderInput).toHaveBeenCalledTimes(1)
-      expect(propsAtNthRender(renderInput, 0).meta.warning).toEqual(warning)
+      expect(renderInput).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(renderInput, 1).meta.warning).toEqual(warning)
     })
 
     it('should call async on blur of async blur field', () => {
@@ -4269,9 +4271,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(formRender).toHaveBeenCalledTimes(5) // rerendered as pristine, and again with sync error
 
-      expect(renderName).toHaveBeenCalledTimes(2) // no need to rerender
-      expect(propsAtNthRender(renderName, 1).meta.error).toBe('Required')
-      expect(propsAtNthRender(renderName, 1).input.value).toBe('')
+      expect(renderName).toHaveBeenCalledTimes(4)
+      expect(propsAtNthRender(renderName, 3).meta.error).toBe('Required')
+      expect(propsAtNthRender(renderName, 3).input.value).toBe('')
 
       expect(renderAge).toHaveBeenCalledTimes(3) // rendered again as empty and pristine
       expect(propsAtNthRender(renderAge, 2).input.value).toBe('')
@@ -4397,9 +4399,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(formRender).toHaveBeenCalledTimes(3) // rerendered as pristine
 
-      expect(renderName).toHaveBeenCalledTimes(2) // no need to rerender
-      expect(propsAtNthRender(renderName, 1).meta.warning).toBe('Required')
-      expect(propsAtNthRender(renderName, 1).input.value).toBe('')
+      expect(renderName).toHaveBeenCalledTimes(4)
+      expect(propsAtNthRender(renderName, 3).meta.warning).toBe('Required')
+      expect(propsAtNthRender(renderName, 3).input.value).toBe('')
 
       expect(renderAge).toHaveBeenCalledTimes(3) // rendered again as empty and pristine
       expect(propsAtNthRender(renderAge, 2).input.value).toBe('')
@@ -4793,16 +4795,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         form: 'testForm'
       })(Form)
 
+      const ref = React.createRef()
       const dom = TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
       const wrapped = TestUtils.findRenderedComponentWithType(dom, Form)
-      const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
 
-      expect(decorated.wrappedInstance.props).toEqual(wrapped.props)
+      expect(ref.current.wrappedInstance.props).toEqual(wrapped.props)
     })
 
     it('should return an empty list if there are no registered fields', () => {
@@ -4818,15 +4820,14 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         form: 'testForm'
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
-      const decorated = TestUtils.findRenderedComponentWithType(dom, Decorated)
-
-      expect(decorated.ref.getWrappedInstance().getFieldList()).toEqual([])
+      expect(ref.current.ref.current.getFieldList()).toEqual([])
     })
 
     it('should set autofilled and unset it on change', () => {
@@ -4976,11 +4977,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // rendered with initial value
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(1)
-      expect(propsAtNthRender(inputRender, 0).input.value).toBe('fooInitial')
+      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputRender, 1).input.value).toBe('fooInitial')
 
       // change value
-      inputRender.mock.calls[0][0].input.onChange('fooChanged')
+      inputRender.mock.calls[1][0].input.onChange('fooChanged')
 
       // updated form state
       expect(store.getState()).toEqualMap({
@@ -4994,8 +4995,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
 
       // rendered with changed value
-      expect(inputRender).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(inputRender, 1).input.value).toBe('fooChanged')
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(inputRender, 2).input.value).toBe('fooChanged')
 
       // unmount form
       const toggle = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -5027,8 +5028,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
 
       // input rendered with changed value
-      expect(inputRender).toHaveBeenCalledTimes(3)
-      expect(propsAtNthRender(inputRender, 2).input.value).toBe('fooChanged')
+      expect(inputRender).toHaveBeenCalledTimes(4)
+      expect(propsAtNthRender(inputRender, 3).input.value).toBe('fooChanged')
     })
 
     it('should provide dispatch-bound blur() that modifies values', () => {
@@ -5154,15 +5155,15 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
       // unmount form
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      stub.submit()
+      ref.current.submit()
 
       return resolvedProm.then(() => {
         // form state not destroyed (just fields unregistered)
@@ -5205,15 +5206,15 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
       // submit form
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      stub.submit()
+      ref.current.submit()
 
       // form state not destroyed (just fields unregistered)
       expect(store.getState()).toEqualMap({
@@ -5267,9 +5268,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         onSubmit
       })(Form)
 
-      const dom = TestUtils.renderIntoDocument(
+      const ref = React.createRef()
+      TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated />
+          <Decorated ref={ref} />
         </Provider>
       )
 
@@ -5280,8 +5282,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onSubmit).not.toHaveBeenCalled()
 
       // submit form
-      const stub = TestUtils.findRenderedComponentWithType(dom, Decorated)
-      return stub
+      return ref.current
         .submit()
         .then(() => {
           expect(onSubmit).toHaveBeenCalled()
@@ -5291,7 +5292,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           expect(renderSpy.mock.calls[3][0]).toBe(false)
           expect(renderSpy.mock.calls[3][1]).toBe('Bad human!')
         })
-        .then(() => stub.submit()) // call submit again!
+        .then(() => ref.current.submit()) // call submit again!
         .then(() => {
           expect(onSubmit).toHaveBeenCalledTimes(2)
 
@@ -5712,88 +5713,6 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 0).valid).toBe(true)
       expect(propsAtNthRender(formRender, 1).valid).toBe(false)
       expect(propsAtNthRender(formRender, 2).valid).toBe(true)
-    })
-
-    it('should preserve validators when a duplicate field is unmounted', async () => {
-      const logger = jest.fn((state = {}) => state)
-      const store = makeStore({}, logger)
-      const inputRender = jest.fn(props => <input {...props.input} />)
-      const formRender = jest.fn()
-      const required = jest.fn(
-        value => (value == null || value === '' ? 'required' : undefined)
-      )
-
-      class Form extends Component {
-        constructor(props) {
-          super(props)
-          this.state = { fieldCount: 2 }
-        }
-        render() {
-          formRender(this.props)
-          const { fieldCount } = this.state
-          const keys = []
-          for (let i = 0; i < fieldCount; i++) keys.push(i)
-          return (
-            <form>
-              {keys.map(key => (
-                <Field
-                  key={key}
-                  name="foo"
-                  component={inputRender}
-                  validate={required}
-                />
-              ))}
-            </form>
-          )
-        }
-      }
-      const Decorated = reduxForm({
-        form: 'testForm'
-      })(Form)
-
-      const dom = TestUtils.renderIntoDocument(
-        <Provider store={store}>
-          <Decorated />
-        </Provider>
-      )
-      const form = TestUtils.findRenderedComponentWithType(dom, Form)
-
-      store.dispatch(initialize('testForm', { foo: '' }))
-
-      expect(required).toHaveBeenCalled()
-      expect(propsAtLastRender(inputRender).input.value).toEqual('')
-      expect(propsAtLastRender(inputRender).meta.error).toEqual('required')
-      expect(propsAtLastRender(formRender).valid).toEqual(false)
-
-      formRender.mockClear()
-      inputRender.mockClear()
-      required.mockClear()
-      await new Promise(resolve => form.setState({ fieldCount: 1 }, resolve))
-      store.dispatch(change('testForm', 'foo', 'bar'))
-
-      expect(required).toHaveBeenCalled()
-      expect(propsAtLastRender(inputRender).input.value).toEqual('bar')
-      expect(propsAtLastRender(inputRender).meta.error).toEqual(undefined)
-      expect(propsAtLastRender(formRender).valid).toEqual(true)
-
-      formRender.mockClear()
-      inputRender.mockClear()
-      required.mockClear()
-      store.dispatch(change('testForm', 'foo', ''))
-
-      expect(required).toHaveBeenCalled()
-      expect(propsAtLastRender(inputRender).input.value).toEqual('')
-      expect(propsAtLastRender(inputRender).meta.error).toEqual('required')
-      expect(propsAtLastRender(formRender).valid).toEqual(false)
-
-      formRender.mockClear()
-      inputRender.mockClear()
-      required.mockClear()
-      await new Promise(resolve => form.setState({ fieldCount: 0 }, resolve))
-
-      expect(required).not.toHaveBeenCalled()
-      expect(inputRender).not.toHaveBeenCalled()
-      expect(propsAtLastRender(formRender).valid).toEqual(true)
     })
   })
 }
