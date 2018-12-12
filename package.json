@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "8.0.3",
+  "version": "8.0.4",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "module": "./es/index.js",
@@ -19,7 +19,7 @@
     "build:flow": "cp src/*.js.flow lib && cp src/selectors/*.js.flow lib/selectors && cp src/*.js.flow es && cp src/selectors/*.js.flow es/selectors",
     "build:umd": "cross-env NODE_ENV=development webpack src/index.js -o dist/redux-form.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js -o dist/redux-form.min.js",
-    "clean": "rimraf $(cd src; ls) dist lib es",
+    "clean": "rimraf dist lib es",
     "lint": "eslint src",
     "example": "npm --prefix ./examples/$form install && npm --prefix ./examples/$form start",
     "example:asyncChangeValidation": "form=asyncChangeValidation npm run example",
