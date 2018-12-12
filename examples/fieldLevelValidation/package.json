@@ -14,12 +14,12 @@
     "json-loader": "^0.5.4",
     "markdown-loader": "^2.0.0",
     "raw-loader": "^0.5.1",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.3",
-    "redux": "^3.6.0",
-    "redux-form": "^8.0.1",
-    "redux-form-website-template": "0.0.123"
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-form": "^8.0.3",
+    "redux-form-website-template": "1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.0",

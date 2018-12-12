@@ -39,12 +39,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="8.0.1"
+        version="8.0.3"
         path="/examples/simple"
         breadcrumbs={generateExampleBreadcrumbs(
           'simple',
           'Simple Form Example',
-          '8.0.1'
+          '8.0.3'
         )}
       >
         <Markdown content={readme} />
@@ -75,21 +75,6 @@ let render = () => {
     </Provider>,
     dest
   )
-}
-
-if (module.hot) {
-  // Support hot reloading of components
-  // and display an overlay for runtime errors
-  const renderApp = render
-  render = () => {
-    renderApp()
-  }
-  const rerender = () => {
-    setTimeout(render)
-  }
-  module.hot.accept('./SimpleForm', rerender)
-  module.hot.accept('./Simple.md', rerender)
-  module.hot.accept('!!raw-loader!./SimpleForm', rerender)
 }
 
 render()

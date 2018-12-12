@@ -41,12 +41,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="8.0.1"
+        version="8.0.3"
         path="/examples/asyncValidation"
         breadcrumbs={generateExampleBreadcrumbs(
           'asyncValidation',
           'Async Validation Example',
-          '8.0.1'
+          '8.0.3'
         )}
       >
         <Markdown content={readme} />
@@ -85,31 +85,6 @@ let render = () => {
     </Provider>,
     dest
   )
-}
-
-if (module.hot) {
-  // Support hot reloading of components
-  // and display an overlay for runtime errors
-  const renderApp = render
-  const renderError = error => {
-    const RedBox = require('redbox-react')
-    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
-  }
-  render = () => {
-    try {
-      renderApp()
-    } catch (error) {
-      renderError(error)
-    }
-  }
-  const rerender = () => {
-    setTimeout(render)
-  }
-  module.hot.accept('./AsyncValidationForm', rerender)
-  module.hot.accept('./AsyncValidation.md', rerender)
-  module.hot.accept('!!raw-loader!./AsyncValidationForm', rerender)
-  module.hot.accept('!!raw-loader!./asyncValidate', rerender)
-  module.hot.accept('!!raw-loader!./validate', rerender)
 }
 
 render()

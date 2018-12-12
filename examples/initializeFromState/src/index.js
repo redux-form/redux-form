@@ -43,12 +43,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="8.0.1"
+        version="8.0.3"
         path="/examples/initializeFromState"
         breadcrumbs={generateExampleBreadcrumbs(
           'initializeFromState',
           'Initialize From State Example',
-          '8.0.1'
+          '8.0.3'
         )}
       >
         <Markdown content={readme} />
@@ -83,29 +83,6 @@ let render = () => {
     </Provider>,
     dest
   )
-}
-
-if (module.hot) {
-  // Support hot reloading of components
-  // and display an overlay for runtime errors
-  const renderApp = render
-  const renderError = error => {
-    const RedBox = require('redbox-react')
-    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
-  }
-  render = () => {
-    try {
-      renderApp()
-    } catch (error) {
-      renderError(error)
-    }
-  }
-  const rerender = () => {
-    setTimeout(render)
-  }
-  module.hot.accept('./InitializeFromStateForm', rerender)
-  module.hot.accept('./InitializeFromState.md', rerender)
-  module.hot.accept('!!raw-loader!./InitializeFromStateForm', rerender)
 }
 
 render()
