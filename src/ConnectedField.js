@@ -126,7 +126,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
             name
           )
         } else {
-          onChange(event, newValue, previousValue, name)
+          defaultPrevented = onChange(event, newValue, previousValue, name)
         }
       }
       if (!defaultPrevented) {
@@ -157,7 +157,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
             name
           )
         } else {
-          onFocus(event, name)
+          defaultPrevented = onFocus(event, name)
         }
       }
 
@@ -201,7 +201,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
             name
           )
         } else {
-          onBlur(event, newValue, previousValue, name)
+          defaultPrevented = onBlur(event, newValue, previousValue, name)
         }
       }
 
