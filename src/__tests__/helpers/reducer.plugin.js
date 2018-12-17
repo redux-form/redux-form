@@ -60,7 +60,7 @@ const describePlugin = (
     })
   })
 
-  it('should only respond to form specified', () => {
+  it('should only respond to form specified when receiveAllFormActions is not set', () => {
     const state1 = fromJS({
       foo: {
         values: {
@@ -120,6 +120,72 @@ const describePlugin = (
         fields: {
           cat: { touched: true },
           rat: { touched: true }
+        }
+      }
+    })
+  })
+
+  it('should respond to actions from all forms when receiveAllFormActions is true', () => {
+    const state1 = fromJS({
+      foo: {
+        values: {
+          cat: 'dog',
+          rat: 'hog'
+        },
+        fields: {
+          cat: { touched: true },
+          rat: { touched: true }
+        }
+      },
+      bar: {
+        values: {
+          cat: 'dog',
+          rat: 'hog'
+        },
+        fields: {
+          cat: { touched: true },
+          rat: { touched: true }
+        }
+      }
+    })
+
+    const plugin = (state, action) => {
+      if (action.type === 'RAT_POISON') {
+        let result = state
+        result = deleteIn(result, 'values.rat')
+        result = deleteIn(result, 'fields.rat')
+        return result
+      }
+      return state
+    }
+
+    const reducer = vanillaReducer.plugin(
+      { foo: plugin, bar: plugin },
+      { receiveAllFormActions: true }
+    )
+
+    const state2 = reducer(state1, { type: 'MILK', meta: { form: 'foo' } })
+    expect(state2).toBe(state1) // no change
+
+    const state3 = reducer(state2, {
+      type: 'RAT_POISON',
+      meta: { form: 'foo' }
+    })
+    expect(state3).toEqualMap({
+      foo: {
+        values: {
+          cat: 'dog'
+        },
+        fields: {
+          cat: { touched: true }
+        }
+      },
+      bar: {
+        values: {
+          cat: 'dog'
+        },
+        fields: {
+          cat: { touched: true }
         }
       }
     })
