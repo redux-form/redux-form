@@ -16,7 +16,10 @@ export const withReduxForm = Component => {
       })
     }
   }
-  return React.forwardRef((props, ref) =>
+
+  const ref = React.forwardRef((props, ref) =>
     React.createElement(Hoc, { ...props, forwardedRef: ref })
   )
+  ref.displayName = Component.displayName || Component.name || 'Component'
+  return ref
 }
