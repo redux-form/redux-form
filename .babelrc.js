@@ -16,6 +16,7 @@ module.exports = {
   ],
   plugins: [
     'lodash',
+    '@babel/plugin-transform-runtime',
     '@babel/plugin-transform-flow-strip-types',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-syntax-import-meta',
