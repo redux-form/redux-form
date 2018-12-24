@@ -1,5 +1,6 @@
-const { NODE_ENV } = process.env
+const { NODE_ENV, BABEL_ENV } = process.env
 const test = NODE_ENV === 'test'
+const isEs = BABEL_ENV === 'es'
 const loose = true
 
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
+        modules: isEs ? false : 'commonjs',
         loose,
         ...(test ? { targets: { node: '8' } } : {})
       }
