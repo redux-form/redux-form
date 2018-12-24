@@ -14,8 +14,8 @@
   "scripts": {
     "analyze": "webpack src/index.js dist/redux-form.js -p --bail --profile --json > stats.json && webpack-bundle-analyzer stats.json",
     "build": "npm run clean && npm run build:lib && npm run build:es && npm run build:umd && npm run build:umd:min && npm run build:flow",
-    "build:lib": "babel src --out-dir lib --ignore __tests__",
-    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore __tests__",
+    "build:lib": "babel src --out-dir lib --ignore \"src/**/__tests__\"",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore \"src/**/__tests__\"",
     "build:flow": "cp src/*.js.flow lib && cp src/selectors/*.js.flow lib/selectors && cp src/*.js.flow es && cp src/selectors/*.js.flow es/selectors",
     "build:umd": "cross-env NODE_ENV=development webpack src/index.js -o dist/redux-form.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js -o dist/redux-form.min.js",
