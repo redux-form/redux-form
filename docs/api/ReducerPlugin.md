@@ -3,8 +3,8 @@
 [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js#L369)
 
 > Returns a form reducer that will also pass each action through additional reducers specified.
-The parameter should be an object mapping from `formName` to a `(state, action) => nextState`
-reducer. **The `state` passed to each reducer will only be the slice that pertains to that form.**
+> The parameter should be an object mapping from `formName` to a `(state, action) => nextState`
+> reducer. **The `state` passed to each reducer will only be the slice that pertains to that form.**
 
 ## Explanation
 
@@ -17,9 +17,13 @@ your form can still respond.
 Rather than just using the vanilla reducer from `redux-form`, you can augment it to do other
 things by calling the `plugin()` function.
 
+Plugins receive all actions, except those targeting other forms. If you want plugins to receive
+actions from other forms, you can add the config { receiveAllFormActions: true } to
+reducer.plugin.
+
 ---
 
-**Note:** This is an advanced operation that allows you to modify the internal state of the 
+**Note:** This is an advanced operation that allows you to modify the internal state of the
 `redux-form` state slice. You can mess things up if you are not careful.
 
 ---
@@ -37,8 +41,9 @@ import { AUTH_LOGIN_FAIL } from '../actions/actionTypes'
 const reducers = {
   // ... your other reducers here ...
   form: formReducer.plugin({
-    login: (state, action) => {   // <----- 'login' is name of form given to reduxForm()
-      switch(action.type) {
+    login: (state, action) => {
+      // <----- 'login' is name of form given to reduxForm()
+      switch (action.type) {
         case AUTH_LOGIN_FAIL:
           return {
             ...state,

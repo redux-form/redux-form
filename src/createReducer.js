@@ -307,7 +307,11 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         result = deleteInWithCleanUp(result, `values.${field}`)
       } else if (isFunction(payload)) {
         const fieldCurrentValue = getIn(state, `values.${field}`)
-        result = setIn(result, `values.${field}`, payload(fieldCurrentValue, state.values))
+        result = setIn(
+          result,
+          `values.${field}`,
+          payload(fieldCurrentValue, state.values)
+        )
       } else if (payload !== undefined) {
         result = setIn(result, `values.${field}`, payload)
       }
@@ -784,7 +788,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
    * Adds additional functionality to the reducer
    */
   function decorate(target) {
-    target.plugin = function(reducers) {
+    target.plugin = function(reducers, config = {}) {
       // use 'function' keyword to enable 'this'
       return decorate(
         (state: any = empty, action: Action = { type: 'NONE' }) => {
@@ -803,7 +807,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           const processed = this(state, action) // run through redux-form reducer
           const form = action && action.meta && action.meta.form
 
-          if (form) {
+          if (form && !config.receiveAllFormActions) {
             // this is an action aimed at forms, so only give it to the specified form's plugin
             return reducers[form] ? callPlugin(processed, form) : processed
           } else {
