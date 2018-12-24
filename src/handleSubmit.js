@@ -36,7 +36,7 @@ const handleSubmit = (
     persistentSubmitErrors
   } = props
 
-  touch(...fields) // mark all fields as touched
+  touch(...Array.from(fields)) // mark all fields as touched
 
   if (valid || persistentSubmitErrors) {
     const doSubmit = () => {
