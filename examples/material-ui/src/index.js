@@ -63,12 +63,12 @@ let render = () => {
            * This <App/> component only provides the site wrapper.
            * Remove it on your dev server if you wish. It will not affect the functionality.
            */
-          version="8.0.4"
+          version="8.1.0"
           path="/examples/material-ui/"
           breadcrumbs={generateExampleBreadcrumbs(
             'material-ui',
             'Material Ui Form Example',
-            '8.0.4'
+            '8.1.0'
           )}
         >
           <Markdown content={readme} />
