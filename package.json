@@ -61,6 +61,7 @@
   },
   "homepage": "https://redux-form.com/",
   "dependencies": {
+    "@babel/runtime": "^7.2.0",
     "es6-error": "^4.1.1",
     "hoist-non-react-statics": "^3.2.1",
     "invariant": "^2.2.4",
@@ -86,6 +87,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.0.0",
     "@babel/plugin-transform-react-jsx-source": "^7.0.0",
     "@babel/plugin-transform-regenerator": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
