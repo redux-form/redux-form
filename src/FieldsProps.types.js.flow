@@ -1,11 +1,17 @@
 // @flow
-import type {ComponentType} from 'react'
+import type { ComponentType } from 'react'
+import type { Validator } from './types'
+
+export type WarnAndValidateProp =
+  Validator | Validator[] | { [string]: (Validator | Validator[]) }
 
 export type Props = {
   names: string[],
   component: Function | ComponentType<*>,
-  format?: (value: any, name: string) => ?any,
-  parse?: (value: any, name: string) => ?any,
+  format?: (value: any, name: string) =>?any,
+  parse?: (value: any, name: string) =>?any,
   props?: Object,
-  forwardRef?: boolean
+  forwardRef?: boolean,
+  validate?: WarnAndValidateProp,
+  warn?: WarnAndValidateProp,
 }
