@@ -110,7 +110,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "flow-bin": "^0.72.0",
+    "flow-bin": "^0.89.0",
     "flux-standard-action": "^2.0.3",
     "glow": "^1.2.2",
     "husky": "^1.2.1",
