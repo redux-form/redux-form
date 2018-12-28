@@ -46,7 +46,7 @@ The function returned from `formValueSelector()` has the following structure:
 > The field, or fields, you want to select. If you provide only one field name,
 > the function will return the value of that field. If you provide more than one
 > field name, it will return an object mapping fields to values. If your field
-> are "deep" (i.e. has one or more `.` in the name), the structure you get back
+> is "deep" (i.e. has one or more `.` in the name), the structure you get back
 > will also be deep. e.g. If your fields are `'a.b'` and `'a.c'`, the resulting
 > structure will be `{ a: { b: 'bValue', c: 'cValue' } }`.
 
