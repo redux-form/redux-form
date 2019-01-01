@@ -64,7 +64,7 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 ## Contributors
 
 This project exists thanks to all the people who contribute.
-<a href="graphs/contributors"><img src="https://opencollective.com/redux-form/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/erikras/redux-form/graphs/contributors"><img src="https://opencollective.com/redux-form/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
 
