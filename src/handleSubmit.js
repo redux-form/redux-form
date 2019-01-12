@@ -4,9 +4,11 @@ import type { Dispatch } from 'redux'
 import type { Props } from './createReduxForm'
 import SubmissionError from './SubmissionError'
 
-type SubmitFunction = {
-  (values: any, dispatch: Dispatch<*>, props: Object): any
-}
+export type SubmitFunction = (
+  values: any,
+  dispatch: Dispatch<*>,
+  props: Object
+) => any
 
 const isSubmissionError = error => error && error.name === SubmissionError.name
 const mergeErrors = ({ asyncErrors, syncErrors }) =>
