@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import type { Dispatch } from 'redux';
 
 export type Action = {
   type: string,
@@ -90,6 +91,12 @@ export type Context = {
 export type ReactContext = {
   _reduxForm: Context
 }
+
+export type SubmitFunction = (
+  values: any,
+  dispatch: Dispatch<*>,
+  props: Object
+) => any
 
 export type FormProps = {
   anyTouched: boolean,
