@@ -98,6 +98,8 @@ export type SubmitFunction = (
   props: Object
 ) => any
 
+type HandleSubmit = (event: ?Event) => void | Promise<*>
+
 export type FormProps = {
   anyTouched: boolean,
   array: {
@@ -129,7 +131,9 @@ export type FormProps = {
   dispatch: Function,
   error: any,
   form: string,
-  handleSubmit: (eventOrSubmit: any) => void | Promise<*>,
+  handleSubmit:
+    // '&' (intersection type) means function overloading
+    HandleSubmit & (SubmitFunction => HandleSubmit),
   initialize: (data: Object) => void,
   initialized: boolean,
   initialValues: Object,
