@@ -51,12 +51,10 @@ const handleSubmit = (
         setSubmitFailed(...fields)
         if (onSubmitFail) {
           onSubmitFail(error, dispatch, submitError, props)
-        }
-        if (error || onSubmitFail) {
           // if you've provided an onSubmitFail callback, don't re-throw the error
-          return error
+          return error || submitError
         } else {
-          throw submitError
+          throw error || submitError
         }
       }
       if (isPromise(result)) {
@@ -78,12 +76,10 @@ const handleSubmit = (
             setSubmitFailed(...fields)
             if (onSubmitFail) {
               onSubmitFail(error, dispatch, submitError, props)
-            }
-            if (error || onSubmitFail) {
               // if you've provided an onSubmitFail callback, don't re-throw the error
-              return error
+              return error || submitError
             } else {
-              throw submitError
+              throw error || submitError
             }
           }
         )
