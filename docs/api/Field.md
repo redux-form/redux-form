@@ -37,9 +37,9 @@ be as simple as `'firstName'` or as complicated as
 Numeric field names, e.g. `name="42"` or `name="foo.5.email"`, are not supported, as they can
 be confused for array indexes.
 
-#### `component : Component|Function|String` [required]
+#### `component : Component<FieldProps>|String` [required]
 
-A `Component`, stateless function, or string corresponding to a default JSX element.
+A `Component` (stateful class or stateless function), or string corresponding to a default JSX element.
 See the [Usage](#usage) section below for details.
 
 #### `format : (value, name) => formattedValue` [optional]
@@ -131,7 +131,7 @@ parsed value to be stored in the Redux store.
 Allows you to provide a field-level validation rule. The function is given the fields current value, all other form values, the props passed to the form, and the name of field currently being validated. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered.
 Note: If an array of functions is given, the validation chain is stopped whenever a function return an error and the next validation will not be called.
 
-#### `warn : Array<Function> | (value, allValues, props) => warning` [optional]
+#### `warn : Array<Function> | (value, allValues, props) => warning` [optional]
 
 Allows you to provide a field-level warning rule. The function is given the fields current value, all other form values, and the props passed to the form. If the field does not need a warning it should return `undefined`. If the field needs a warning it should return the warning (usually, but not necessarily, a `String`). Note: if the warn prop changes the field will be re-registered.
 Note: If an array of functions is given, the warn chain is stopped whenever a function return an error and the next warning will not be called.
@@ -153,7 +153,7 @@ The `component` prop will be passed to
 [`React.createElement()`](http://facebook.github.io/react/docs/top-level-api.html#react.createelement),
 which accepts one of three possible things:
 
-### 1. A component
+### 1. A normal component
 
 This can be any component class that you have written or have imported from a third party library.
 
