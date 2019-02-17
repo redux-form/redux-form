@@ -639,7 +639,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             }
             if (options.excludeUnregistered) {
               keySeq = keySeq.filter(
-                name => getIn(registeredFields, `${name}.count`) !== 0
+                name => getIn(registeredFields, `['${name}'].count`) !== 0
               )
             }
           }
