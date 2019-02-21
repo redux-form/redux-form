@@ -3,6 +3,14 @@ var webpack = require('webpack')
 
 module.exports = {
   devtool: 'source-map',
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    redux: 'Redux',
+    'react-redux': 'ReactRedux',
+    'redux-form': 'ReduxForm',
+    'redux-form-website-template': 'ReduxFormWebsiteTemplate'
+  },
   entry: ['babel-polyfill', './src/index'],
   output: {
     path: path.join(__dirname, 'dist'),

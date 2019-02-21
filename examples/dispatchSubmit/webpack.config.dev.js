@@ -3,6 +3,14 @@ var webpack = require('webpack')
 
 module.exports = {
   devtool: 'eval',
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    redux: 'Redux',
+    'react-redux': 'ReactRedux',
+    'redux-form': 'ReduxForm',
+    'redux-form-website-template': 'ReduxFormWebsiteTemplate'
+  },
   entry: [
     'babel-polyfill',
     'eventsource-polyfill', // necessary for hot reloading with IE
