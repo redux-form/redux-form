@@ -1,12 +1,17 @@
-var path = require('path');
-var webpack = require('webpack');
+var path = require('path')
+var webpack = require('webpack')
 
 module.exports = {
   devtool: 'source-map',
-  entry: [
-    'babel-polyfill',
-    './src/index'
-  ],
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    redux: 'Redux',
+    'react-redux': 'ReactRedux',
+    'redux-form': 'ReduxForm',
+    'redux-form-website-template': 'ReduxFormWebsiteTemplate'
+  },
+  entry: ['babel-polyfill', './src/index'],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -25,31 +30,31 @@ module.exports = {
     })
   ],
   resolve: {
-    modules: [ 'src', 'node_modules' ],
-    extensions: [ '.json', '.js' ]
+    modules: ['src', 'node_modules'],
+    extensions: ['.json', '.js']
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loaders: [ 'babel-loader' ],
+        loaders: ['babel-loader'],
         include: path.join(__dirname, 'src')
       },
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader"
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.gif$/,
-        loader: "url-loader?mimetype=image/png"
+        loader: 'url-loader?mimetype=image/png'
       },
       {
         test: /\.woff(2)?(\?v=[0-9].[0-9].[0-9])?$/,
-        loader: "url-loader?mimetype=application/font-woff"
+        loader: 'url-loader?mimetype=application/font-woff'
       },
       {
         test: /\.(ttf|eot|svg)(\?v=[0-9].[0-9].[0-9])?$/,
-        loader: "file-loader?name=[name].[ext]"
+        loader: 'file-loader?name=[name].[ext]'
       },
       {
         test: /\.json$/,
@@ -57,8 +62,8 @@ module.exports = {
       },
       {
         test: /\.md/,
-        loaders: [ "html-loader", "markdown-loader" ]
+        loaders: ['html-loader', 'markdown-loader']
       }
     ]
   }
-};
+}

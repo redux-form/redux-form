@@ -1,12 +1,17 @@
-var path = require('path');
-var webpack = require('webpack');
+var path = require('path')
+var webpack = require('webpack')
 
 module.exports = {
   devtool: 'source-map',
-  entry: [
-    'babel-polyfill',
-    './src/index'
-  ],
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    redux: 'Redux',
+    'react-redux': 'ReactRedux',
+    'redux-form': 'ReduxForm',
+    'redux-form-website-template': 'ReduxFormWebsiteTemplate'
+  },
+  entry: ['babel-polyfill', './src/index'],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -25,14 +30,14 @@ module.exports = {
     })
   ],
   resolve: {
-    modules: [ 'src', 'node_modules' ],
-    extensions: [ '.json', '.js' ]
+    modules: ['src', 'node_modules'],
+    extensions: ['.json', '.js']
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loaders: [ 'babel-loader' ],
+        loaders: ['babel-loader'],
         include: path.join(__dirname, 'src')
       },
       {
@@ -41,8 +46,8 @@ module.exports = {
       },
       {
         test: /\.md/,
-        loaders: [ "html-loader", "markdown-loader" ]
+        loaders: ['html-loader', 'markdown-loader']
       }
     ]
   }
-};
+}

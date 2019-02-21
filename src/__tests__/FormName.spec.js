@@ -42,9 +42,7 @@ const describeFormName = (name, structure, combineReducers, setup) => {
         render() {
           return (
             <form>
-              <FormName>
-                {({form}) => <h1>Form name: {form}</h1>}
-              </FormName>
+              <FormName>{({ form }) => <h1>Form name: {form}</h1>}</FormName>
             </form>
           )
         }
@@ -56,7 +54,9 @@ const describeFormName = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      expect(findDOMNode(comp).outerHTML).toBe('<form><h1>Form name: testForm</h1></form>')
+      expect(findDOMNode(comp).outerHTML).toBe(
+        '<form><h1>Form name: testForm</h1></form>'
+      )
     })
   })
 }
@@ -64,6 +64,9 @@ const describeFormName = (name, structure, combineReducers, setup) => {
 describeFormName('FormName.plain', plain, plainCombineReducers, () =>
   expect.extend(plainExpectations)
 )
-describeFormName('FormName.immutable', immutable, immutableCombineReducers, () =>
-  expect.extend(immutableExpectations)
+describeFormName(
+  'FormName.immutable',
+  immutable,
+  immutableCombineReducers,
+  () => expect.extend(immutableExpectations)
 )

@@ -5,7 +5,7 @@
 > The `props` listed on this page are the `props` that `redux-form` generates to
 > give to your decorated form component. The `props` that _you pass into your
 > wrapped component_ are listed
-> [here](https://redux-form.com/7.4.2/docs/api/ReduxForm.md/).
+> [here](https://redux-form.com/8.1.0/docs/api/ReduxForm.md/).
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of
 > these
@@ -15,7 +15,7 @@
 ```javascript
 import { reduxForm, propTypes } from 'redux-form'
 
-class SimpleForm extends Component {
+class SimpleForm extends React.Component {
   static propTypes = {
     ...propTypes
     // other props you might be using
@@ -118,6 +118,7 @@ class SimpleForm extends Component {
 
 > Changes the value of a field in the Redux store. This is a bound action
 > creator, so it returns nothing.
+> You could get current field-value & form-values while `value` is a function, For example: `change(field, (fieldValue, allValues) => {})`
 
 ### `clearAsyncError(field:String) : Function`
 
@@ -146,7 +147,7 @@ class SimpleForm extends Component {
 > The form name that you gave to the `reduxForm()` decorator or the prop you
 > passed in to your decorated form component.
 
-#### `handleSubmit(eventOrSubmit) : Function`
+### `handleSubmit(eventOrSubmit) : Function`
 
 > A function meant to be passed to `<form onSubmit={handleSubmit}>` or to
 > `<button onClick={handleSubmit}>`. It will run validation, both sync and
@@ -191,7 +192,7 @@ class SimpleForm extends Component {
 />
 ```
 
-#### `initialize(data:Object) : Function`
+### `initialize(data:Object) : Function`
 
 > Initializes the form data to the given values. All `dirty` and `pristine`
 > state will be determined by comparing the current data with these initialized
@@ -201,64 +202,64 @@ class SimpleForm extends Component {
 
 > `true` the form has been initialized with initial values, `false` otherwise.
 
-#### `initialValues : Object`
+### `initialValues : Object`
 
 > The same initialValues object passed to `reduxForm` to initialize the form
 > data.
 
-#### `invalid : boolean`
+### `invalid : boolean`
 
 > `true` if the form has validation errors. Opposite of `valid`.
 
-#### `pristine: boolean`
+### `pristine: boolean`
 
 > `true` if the form data is the same as its initialized values. Opposite of
 > `dirty`.
 
-#### `reset() : Function`
+### `reset() : Function`
 
 > Resets all the values in the form to the initialized state, making it pristine
 > again. This is a bound action creator, so it returns nothing.
 
-#### `resetSection(...sections:String) : Function`
+### `resetSection(...sections:String) : Function`
 
 > Resets all the values in the form sections to the initialized state, making it pristine
 > again. This is a bound action creator, so it returns nothing.
 
-#### `submitFailed : boolean`
+### `submitFailed : boolean`
 
 > Starts as `false`. If `onSubmit` is called, and fails to submit _for any
 > reason_, `submitFailed` will be set to `true`. A subsequent successful submit
 > will set it back to `false`.
 
-#### `submitSucceeded : boolean`
+### `submitSucceeded : boolean`
 
 > Starts as `false`. If `onSubmit` is called, and succeed to submit ,
 > `submitSucceeded` will be set to `true`. A subsequent unsuccessful submit will
 > set it back to `false`.
 
-#### `submitting : boolean`
+### `submitting : boolean`
 
 > Whether or not your form is currently submitting. This prop will only work if
 > you have passed an `onSubmit` function that returns a promise. It will be
 > `true` until the promise is resolved or rejected.
 
-#### `touch(...field:string) : Function`
+### `touch(...field:string) : Function`
 
 > Marks the given fields as "touched" to show errors. This is a bound action
 > creator, so it returns nothing.
 
-#### `untouch(...field:string) : Function`
+### `untouch(...field:string) : Function`
 
 > Clears the "touched" flag for the given fields This is a bound action creator,
 > so it returns nothing.
 
-#### `valid : boolean`
+### `valid : boolean`
 
 > `true` if the form passes validation (has no validation errors). Opposite of
 > `invalid`.
 
-#### `warning : any`
+### `warning : any`
 
 > A generic warning for the entire form given by the `_warning` key in the
 > result from the synchronous warning function.

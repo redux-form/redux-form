@@ -40,12 +40,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="7.4.2"
+        version="8.1.0"
         path="/examples/fieldArrays"
         breadcrumbs={generateExampleBreadcrumbs(
           'syncValidation',
           'Field Arrays Example',
-          '7.4.2'
+          '8.1.0'
         )}
       >
         <Markdown content={readme} />
@@ -80,30 +80,6 @@ let render = () => {
     </Provider>,
     dest
   )
-}
-
-if (module.hot) {
-  // Support hot reloading of components
-  // and display an overlay for runtime errors
-  const renderApp = render
-  const renderError = error => {
-    const RedBox = require('redbox-react')
-    ReactDOM.hydrate(<RedBox error={error} className="redbox" />, dest)
-  }
-  render = () => {
-    try {
-      renderApp()
-    } catch (error) {
-      renderError(error)
-    }
-  }
-  const rerender = () => {
-    setTimeout(render)
-  }
-  module.hot.accept('./validate', rerender)
-  module.hot.accept('./FieldArraysForm', rerender)
-  module.hot.accept('./FieldArrays.md', rerender)
-  module.hot.accept('!!raw-loader!./FieldArraysForm', rerender)
 }
 
 render()

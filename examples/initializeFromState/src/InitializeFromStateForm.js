@@ -7,6 +7,7 @@ const data = {
   firstName: 'Jane',
   lastName: 'Doe',
   age: '42',
+  anniversaryDate: '2018-08-22',
   sex: 'female',
   employed: true,
   favoriteColor: 'Blue',
@@ -52,24 +53,20 @@ let InitializeFromStateForm = props => {
         </div>
       </div>
       <div>
+        <label>Anniversary Date</label>
+        <div>
+          <Field name="anniversaryDate" component="input" type="date" />
+        </div>
+      </div>
+      <div>
         <label>Sex</label>
         <div>
           <label>
-            <Field
-              name="sex"
-              component="input"
-              type="radio"
-              value="male"
-            />{' '}
+            <Field name="sex" component="input" type="radio" value="male" />{' '}
             Male
           </label>
           <label>
-            <Field
-              name="sex"
-              component="input"
-              type="radio"
-              value="female"
-            />{' '}
+            <Field name="sex" component="input" type="radio" value="female" />{' '}
             Female
           </label>
         </div>

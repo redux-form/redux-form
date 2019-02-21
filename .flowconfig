@@ -1,6 +1,7 @@
 [ignore]
 .*/node_modules/editions/.*
 .*/node_modules/@webassemblyjs/.*
+.*/examples/.*
 .*/__tests__/.*
 
 [include]
@@ -10,4 +11,3 @@
 
 [options]
 esproposal.decorators=ignore
-unsafe.enable_getters_and_setters=true

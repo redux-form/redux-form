@@ -8,7 +8,7 @@ the validation function to the decorator as a config parameter, or to the
 decorated form component as a prop.
 
 The second is to use individual validators for each field. See
-[Field-Level Validation Example](http://redux-form.com/7.4.2/examples/fieldLevelValidation/).
+[Field-Level Validation Example](http://redux-form.com/8.1.0/examples/fieldLevelValidation/).
 
 Additionally, you can provide redux-form with a warn function with the same type
 signature as your validation function. Warnings are errors that do not mark a
@@ -19,8 +19,8 @@ your application, you will want to build some type of reusable system of
 validators.
 
 Notice the reused stateless function component used to render each field. It is
-important that this not be defined inline (in the `render()` function), because
-it will be created anew on every render and trigger a rerender for the field,
+important that it is not defined inline (in the `render()` function), because
+it will create a new instance on every render and trigger a rerender for the field,
 because the `component` prop will have changed.
 
 **IMPORTANT**: If the validation function returns errors and the form does not

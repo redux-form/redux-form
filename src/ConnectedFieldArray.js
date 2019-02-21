@@ -1,11 +1,12 @@
 // @flow
-import * as React from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import createFieldArrayProps from './createFieldArrayProps'
 import { mapValues } from 'lodash'
 import plain from './structure/plain'
+import type { ElementRef } from 'react'
 import type { Structure } from './types'
 import type { Props, DefaultProps } from './ConnectedFieldArray.types'
 import validateComponentProp from './util/validateComponentProp'
@@ -13,7 +14,7 @@ import validateComponentProp from './util/validateComponentProp'
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
 const createConnectedFieldArray = (structure: Structure<*, *>) => {
-  const { deepEqual, getIn, size } = structure
+  const { deepEqual, getIn, size, equals, orderChanged } = structure
   const getSyncError = (syncErrors: Object, name: string) => {
     // For an array, the error can _ONLY_ be under _error.
     // This is why this getSyncError is not the same as the
@@ -28,22 +29,23 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     return getIn(syncWarnings, `${name}._warning`)
   }
 
-  class ConnectedFieldArray extends React.Component<Props> {
+  class ConnectedFieldArray extends Component<Props> {
     static defaultProps: DefaultProps
-    ref: ?HTMLElement
+    ref: ElementRef<*> = React.createRef()
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
-      const thisValue = this.props.value
-      const nextValue = nextProps.value
+      const thisValue: any = this.props.value
+      const nextValue: any = nextProps.value
 
       if (thisValue && nextValue) {
-        let nextValueItemsSame = nextValue.every(val => ~thisValue.indexOf(val))
-        let nextValueItemsOrderChanged = nextValue.some(
-          (val, index) => val !== thisValue[index]
-        )
+        const nextValueItemsSame = equals(nextValue, thisValue) //.every(val => ~thisValue.indexOf(val))
+        const nextValueItemsOrderChanged = orderChanged(thisValue, nextValue)
+        const thisValueLength = thisValue.length || thisValue.size
+        const nextValueLength = nextValue.length || nextValue.size
+
         if (
-          thisValue.length !== nextValue.length ||
+          thisValueLength !== nextValueLength ||
           (nextValueItemsSame && nextValueItemsOrderChanged) ||
           (nextProps.rerenderOnEveryChange &&
             thisValue.some((val, index) => !deepEqual(val, nextValue[index])))
@@ -86,11 +88,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.ref
-    }
-
-    saveRef = (ref: ?HTMLElement) => {
-      this.ref = ref
+      return this.ref.current
     }
 
     getValue = (index: number): any =>
@@ -99,7 +97,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
     render() {
       const {
         component,
-        withRef,
+        forwardRef,
         name,
         _reduxForm, // eslint-disable-line no-unused-vars
         validate, // eslint-disable-line no-unused-vars
@@ -115,10 +113,10 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
         this.getValue,
         rest
       )
-      if (withRef) {
-        props.ref = this.saveRef
+      if (forwardRef) {
+        props.ref = this.ref
       }
-      return React.createElement(component, props)
+      return createElement(component, props)
     }
   }
 
@@ -130,10 +128,6 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   ConnectedFieldArray.defaultProps = {
     rerenderOnEveryChange: false
-  }
-
-  ConnectedFieldArray.contextTypes = {
-    _reduxForm: PropTypes.object
   }
 
   const connector = connect(
@@ -197,7 +191,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       )
     },
     undefined,
-    { withRef: true }
+    { forwardRef: true }
   )
   return connector(ConnectedFieldArray)
 }

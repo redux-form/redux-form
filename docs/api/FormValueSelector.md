@@ -22,7 +22,7 @@ import { formValueSelector } from 'redux-form' // ES6
 
 > The name of the form you are connecting to. Must be the same as the `form`
 > config value you gave to
-> [`reduxForm()`](https://redux-form.com/7.4.2/docs/api/ReduxForm.md/).
+> [`reduxForm()`](https://redux-form.com/8.1.0/docs/api/ReduxForm.md/).
 
 ### `getFormState : Function` [optional]
 
@@ -46,7 +46,7 @@ The function returned from `formValueSelector()` has the following structure:
 > The field, or fields, you want to select. If you provide only one field name,
 > the function will return the value of that field. If you provide more than one
 > field name, it will return an object mapping fields to values. If your field
-> are "deep" (i.e. has one or more `.` in the name), the structure you get back
+> is "deep" (i.e. has one or more `.` in the name), the structure you get back
 > will also be deep. e.g. If your fields are `'a.b'` and `'a.c'`, the resulting
 > structure will be `{ a: { b: 'bValue', c: 'cValue' } }`.
 
@@ -89,5 +89,5 @@ connect(state => selector(state, 'first', 'second'))(MyFormComponent)
 ## Example
 
 See the
-[Selecting Form Values](https://redux-form.com/7.4.2/examples/selectingFormValues/)
+[Selecting Form Values](https://redux-form.com/8.1.0/examples/selectingFormValues/)
 example.

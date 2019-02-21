@@ -1,22 +1,18 @@
 // @flow
-
 import * as React from 'react'
-import PropTypes from 'prop-types'
-import type {ReactContext} from './types'
+import { withReduxForm } from './ReduxFormContext'
+import type { ReactContext } from './types'
 
 export type Props = {
-  +children: (props: {form: string, sectionPrefix: ?string}) => React.Node,
+  +children: (props: { form: string, sectionPrefix: ?string }) => React.Node
 }
 
-const FormName = ({children}: Props, {_reduxForm}: ReactContext): React.Node => children({
-  form: _reduxForm && _reduxForm.form,
-  sectionPrefix: _reduxForm && _reduxForm.sectionPrefix,
-})
-FormName.contextTypes = {
-  _reduxForm: PropTypes.shape({
-    form: PropTypes.string.isRequired,
-    sectionPrefix: PropTypes.string,
-  }).isRequired,
-}
+type PropsWithContext = ReactContext & Props
 
-export default FormName
+const FormName = ({ children, _reduxForm }: PropsWithContext): React.Node =>
+  children({
+    form: _reduxForm && _reduxForm.form,
+    sectionPrefix: _reduxForm && _reduxForm.sectionPrefix
+  })
+
+export default withReduxForm(FormName)

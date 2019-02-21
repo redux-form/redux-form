@@ -1,10 +1,11 @@
 // @flow
-import * as React from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
+import type { ElementRef } from 'react'
 import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedFields.types'
 import validateComponentProp from './util/validateComponentProp'
@@ -33,7 +34,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     onChangeFns = {}
     onFocusFns = {}
     onBlurFns = {}
-    ref: ?React.Component<*>
+    ref: ElementRef<*> = React.createRef()
 
     constructor(props: Props) {
       super(props)
@@ -91,7 +92,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     }
 
     getRenderedComponent() {
-      return this.ref
+      return this.ref.current
     }
 
     handleChange = (name: string, event: any): void => {
@@ -124,12 +125,8 @@ const createConnectedFields = (structure: Structure<*, *>) => {
       }
     }
 
-    saveRef = (ref: ?React.Component<*>) => {
-      this.ref = ref
-    }
-
     render() {
-      const { component, withRef, _fields, _reduxForm, ...rest } = this.props
+      const { component, forwardRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
       const { custom, ...props } = Object.keys(_fields).reduce(
         (accumulator, name) => {
@@ -150,8 +147,8 @@ const createConnectedFields = (structure: Structure<*, *>) => {
         },
         {}
       )
-      if (withRef) {
-        props.ref = this.saveRef
+      if (forwardRef) {
+        props.ref = this.ref
       }
 
       return React.createElement(component, { ...props, ...custom })
@@ -199,7 +196,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
             syncError,
             syncWarning,
             value,
-            _value: ownProps.value // save value passed in (for checkboxes)
+            _value: ownProps.value // save value passed in (for radios)
           }
           return accumulator
         }, {})
@@ -207,7 +204,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     },
     undefined,
     undefined,
-    { withRef: true }
+    { forwardRef: true }
   )
   return connector(ConnectedFields)
 }

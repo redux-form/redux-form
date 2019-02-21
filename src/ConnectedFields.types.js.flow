@@ -1,12 +1,12 @@
 // @flow
-import * as React from 'react'
+import type { Node } from 'react'
 import type { Structure, Event, Context } from './types'
 
 export type Props = {
   names: string[],
   component: Function | string,
-  children?: React.Node,
-  withRef?: boolean,
+  children?: Node,
+  forwardRef?: boolean,
   dispatch: Function,
   _reduxForm: Context,
   format?: { (value: any, name: string): any },

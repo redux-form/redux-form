@@ -7,9 +7,9 @@ design change.
 
 In `v5`, only the outer form component was connected to the Redux state, and the
 props for each field were passed in via the form component. The problem with
-this is that the _entire_ form component had to rerender _on every single
+this is that the _entire_ form component had to re-render _on every single
 keypress_ that changed a form value. This was fine for small login forms, but
-lead to extremely slow performance on larger forms with dozens or hundreds of
+lead to an extremely slow performance on larger forms with dozens or hundreds of
 fields.
 
 **In `v6`, every single field is connected to the Redux store.** The outer form
@@ -37,7 +37,7 @@ from the string name of your field is the new `Field` component.
 import React, { Component } from 'react'
 import { reduxForm } from 'redux-form'
 
-class MyForm extends Component {
+class MyForm extends React.Component {
   render() {
     const {
       fields: { username, password },
@@ -50,8 +50,9 @@ class MyForm extends Component {
           <label htmlFor="username">Username</label>
           <div>
             <input type="text" {...username} />
-            {username.touched &&
-              username.error && <span className="error">{username.error}</span>}
+            {username.touched && username.error && (
+              <span className="error">{username.error}</span>
+            )}
           </div>
         </div>
 
@@ -91,7 +92,7 @@ const renderInput = field =>   // Define stateless component to render input and
      <span className="error">{field.meta.error}</span>}
   </div>
 
-class MyForm extends Component {
+class MyForm extends React.Component {
   render() {
 
     const { handleSubmit } = this.props       // No fields prop
@@ -318,8 +319,8 @@ const upper = value => value && value.toUpperCase()
 ```
 
 See the
-[Normalizing Example](https://redux-form.com/7.4.2/examples/normalizing/) and
-[Value Lifecycle](https://redux-form.com/7.4.2/docs/ValueLifecycle.md/) for more
+[Normalizing Example](https://redux-form.com/8.1.0/examples/normalizing/) and
+[Value Lifecycle](https://redux-form.com/8.1.0/docs/ValueLifecycle.md/) for more
 details.
 
 ## Listening to other actions
