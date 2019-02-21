@@ -8,11 +8,18 @@ type SubmitFunction = {
   (values: any, dispatch: Dispatch<*>, props: Object): any
 }
 
-const getExecuteSubmit = (
+const isSubmissionError = error => error && error.name === SubmissionError.name
+
+const mergeErrors = ({ asyncErrors, syncErrors }) =>
+  asyncErrors && typeof asyncErrors.merge === 'function'
+    ? asyncErrors.merge(syncErrors).toJS()
+    : { ...asyncErrors, ...syncErrors }
+
+const executeSubmit = (
   submit: SubmitFunction,
   fields: string[],
   props: Props
-) => () => {
+) => {
   const {
     dispatch,
     submitAsSideEffect,
@@ -29,8 +36,9 @@ const getExecuteSubmit = (
   try {
     result = submit(values, dispatch, props)
   } catch (submitError) {
-    const error =
-      submitError instanceof SubmissionError ? submitError.errors : undefined
+    const error = isSubmissionError(submitError)
+      ? submitError.errors
+      : undefined
     stopSubmit(error)
     setSubmitFailed(...fields)
     if (onSubmitFail) {
@@ -43,7 +51,6 @@ const getExecuteSubmit = (
       throw submitError
     }
   }
-
   if (submitAsSideEffect) {
     if (result) {
       dispatch(result)
@@ -61,10 +68,9 @@ const getExecuteSubmit = (
           return submitResult
         },
         submitError => {
-          const error =
-            submitError instanceof SubmissionError
-              ? submitError.errors
-              : undefined
+          const error = isSubmissionError(submitError)
+            ? submitError.errors
+            : undefined
           stopSubmit(error)
           setSubmitFailed(...fields)
           if (onSubmitFail) {
@@ -89,12 +95,6 @@ const getExecuteSubmit = (
   return result
 }
 
-const isSubmissionError = error => error && error.name === SubmissionError.name
-const mergeErrors = ({ asyncErrors, syncErrors }) =>
-  asyncErrors && typeof asyncErrors.merge === 'function'
-    ? asyncErrors.merge(syncErrors).toJS()
-    : { ...asyncErrors, ...syncErrors }
-
 const handleSubmit = (
   submit: SubmitFunction,
   props: Props,
@@ -115,8 +115,6 @@ const handleSubmit = (
   touch(...Array.from(fields)) // mark all fields as touched
 
   if (valid || persistentSubmitErrors) {
-    const doSubmit = getExecuteSubmit(submit, fields, props)
-
     const asyncValidateResult = asyncValidate && asyncValidate()
     if (asyncValidateResult) {
       return asyncValidateResult
@@ -124,7 +122,7 @@ const handleSubmit = (
           if (asyncErrors) {
             throw asyncErrors
           }
-          return doSubmit()
+          return executeSubmit(submit, fields, props)
         })
         .catch(asyncErrors => {
           setSubmitFailed(...fields)
@@ -134,7 +132,7 @@ const handleSubmit = (
           return Promise.reject(asyncErrors)
         })
     } else {
-      return doSubmit()
+      return executeSubmit(submit, fields, props)
     }
   } else {
     setSubmitFailed(...fields)

@@ -1,5 +1,5 @@
-import { from, of, merge, concat } from 'rxjs'
-import { map, mergeMap, catchError, scan } from 'rxjs/operators'
+import { from, of, concat } from 'rxjs'
+import { map, mergeMap, catchError } from 'rxjs/operators'
 import { ofType } from 'redux-observable'
 import { startSubmit, stopSubmit } from 'redux-form'
 
