@@ -532,4 +532,41 @@ describe('handleSubmit', () => {
     expect(setSubmitFailed).toHaveBeenCalledWith('foo', 'baz')
     expect(result).toEqual({ ...asyncErrors, ...syncErrors })
   })
+
+  it('should dispatch submission', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const mockAction = {}
+    const submit = jest.fn().mockImplementation(() => mockAction)
+
+    const dispatch = jest.fn()
+    const startSubmit = jest.fn()
+    const stopSubmit = jest.fn()
+    const touch = jest.fn()
+    const setSubmitFailed = jest.fn()
+    const setSubmitSucceeded = jest.fn()
+    const asyncValidate = undefined
+    const submitAsSideEffect = true
+    const props = {
+      dispatch,
+      startSubmit,
+      stopSubmit,
+      touch,
+      setSubmitFailed,
+      setSubmitSucceeded,
+      submitAsSideEffect,
+      values
+    }
+
+    expect(
+      handleSubmit(submit, props, true, asyncValidate, ['foo', 'baz'])
+    ).toBe(mockAction)
+
+    expect(submit).toHaveBeenCalledWith(values, dispatch, props)
+    expect(dispatch).toHaveBeenCalledWith(mockAction)
+    expect(startSubmit).not.toHaveBeenCalled()
+    expect(stopSubmit).not.toHaveBeenCalled()
+    expect(touch).toHaveBeenCalledWith('foo', 'baz')
+    expect(setSubmitFailed).not.toHaveBeenCalled()
+    expect(setSubmitSucceeded).not.toHaveBeenCalled()
+  })
 })

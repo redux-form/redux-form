@@ -131,7 +131,7 @@ parsed value to be stored in the Redux store.
 Allows you to provide a field-level validation rule. The function is given the fields current value, all other form values, the props passed to the form, and the name of field currently being validated. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered.
 Note: If an array of functions is given, the validation chain is stopped whenever a function return an error and the next validation will not be called.
 
-#### `warn : Array<Function> | (value, allValues, props) => warning` [optional]
+#### `warn : Array<Function> | (value, allValues, props) => warning` [optional]
 
 Allows you to provide a field-level warning rule. The function is given the fields current value, all other form values, and the props passed to the form. If the field does not need a warning it should return `undefined`. If the field needs a warning it should return the warning (usually, but not necessarily, a `String`). Note: if the warn prop changes the field will be re-registered.
 Note: If an array of functions is given, the warn chain is stopped whenever a function return an error and the next warning will not be called.

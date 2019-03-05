@@ -186,6 +186,7 @@ export type Config = {
   onSubmitFail?: OnSubmitFail,
   onSubmitSuccess?: OnSubmitSuccess,
   propNamespace?: string,
+  submitAsSideEffect?: boolean,
   validate?: ValidateFunction,
   warn?: ValidateFunction,
   touchOnBlur?: boolean,
@@ -255,6 +256,7 @@ export type Props = {
   startSubmit: StartSubmitAction,
   stopAsyncValidation: StopAsyncValidationAction,
   stopSubmit: StopSubmitAction,
+  submitAsSideEffect: boolean,
   submitting: boolean,
   submitFailed: boolean,
   submitSucceeded: boolean,
@@ -301,6 +303,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
       getFormState: state => getIn(state, 'form'),
       pure: true,
       forceUnregisterOnUnmount: false,
+      submitAsSideEffect: false,
       ...initialConfig
     }
 
@@ -873,6 +876,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             startSubmit,
             stopAsyncValidation,
             stopSubmit,
+            submitAsSideEffect,
             submitting,
             submitFailed,
             submitSucceeded,
@@ -914,8 +918,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
             reset,
             resetSection,
             submitting,
+            submitAsSideEffect,
             submitFailed,
             submitSucceeded,
+
             touch,
             untouch,
             valid,

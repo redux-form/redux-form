@@ -16,6 +16,7 @@ export const formPropTypes = {
   pristine: bool.isRequired, // true if the values are the same as initialValues
   pure: bool.isRequired, // if true, implements shouldComponentUpdate
   submitting: bool.isRequired, // true if the form is in the process of being submitted
+  submitAsSideEffect: bool.isRequired, // true if onSubmit result will be dispatched
   submitFailed: bool.isRequired, // true if the form was submitted and failed for any reason
   submitSucceeded: bool.isRequired, // true if the form was successfully submitted
   valid: bool.isRequired, // true if there are no validation errors
