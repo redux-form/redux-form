@@ -112,7 +112,7 @@ const handleSubmit = (
     persistentSubmitErrors
   } = props
 
-  touch(...Array.from(fields)) // mark all fields as touched
+  touch(...fields) // mark all fields as touched
 
   if (valid || persistentSubmitErrors) {
     const asyncValidateResult = asyncValidate && asyncValidate()
