@@ -133,7 +133,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       expect(props.style.fontWeight).toBe('bold')
     })
 
-    it('should update Field values at the right depth', () => {
+    it('should update Field values at the right depth', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -165,7 +165,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[0][0].input.value).toBe('42')
 
       // update value
-      input.mock.calls[0][0].input.onChange('15')
+      await input.mock.calls[0][0].input.onChange('15')
 
       // input displaying updated string value
       expect(input).toHaveBeenCalledTimes(2)
@@ -187,7 +187,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       })
     })
 
-    it('should update Fields values at the right depth', () => {
+    it('should update Fields values at the right depth', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -222,7 +222,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[0][0].baz.input.value).toBe('100')
 
       // update value
-      input.mock.calls[0][0].bar.input.onChange('15')
+      await input.mock.calls[0][0].bar.input.onChange('15')
 
       // input displaying updated string value
       expect(input).toHaveBeenCalledTimes(2)

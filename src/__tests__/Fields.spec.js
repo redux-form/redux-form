@@ -1303,7 +1303,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[0][0].name.input.value).toBe('redux form')
     })
 
-    it('should call parse function on change', () => {
+    it('should call parse function on change', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1334,7 +1334,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].name.input.value).toBe('redux form')
 
-      input.mock.calls[0][0].name.input.onChange('REDUX FORM ROCKS')
+      await input.mock.calls[0][0].name.input.onChange('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
       expect(parse).toHaveBeenCalledTimes(1)
@@ -1344,7 +1344,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[1][0].name.input.value).toBe('redux form rocks')
     })
 
-    it('should call parse function on blur', () => {
+    it('should call parse function on blur', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1375,7 +1375,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].name.input.value).toBe('redux form')
 
-      input.mock.calls[0][0].name.input.onBlur('REDUX FORM ROCKS')
+      await input.mock.calls[0][0].name.input.onBlur('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
       expect(parse).toHaveBeenCalledTimes(1)
@@ -1419,7 +1419,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[1][0].name.meta.visited).toBe(true)
     })
 
-    it('should parse and format to maintain different type in store', () => {
+    it('should parse and format to maintain different type in store', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1463,7 +1463,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[0][0].age.input.value).toBe('42')
 
       // update value
-      input.mock.calls[0][0].age.input.onChange('15')
+      await input.mock.calls[0][0].age.input.onChange('15')
 
       // parse was called
       expect(parse).toHaveBeenCalled()
@@ -1552,7 +1552,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(confirmInput.mock.calls[2][0].confirm.meta.error).toBe(undefined)
     })
 
-    it('should rerender when sync error is cleared', () => {
+    it('should rerender when sync error is cleared', async () => {
       const store = makeStore()
       const usernameInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
@@ -1589,7 +1589,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       )
 
       // update username field so it passes
-      usernameInput.mock.calls[1][0].username.input.onChange('erikras')
+      await usernameInput.mock.calls[1][0].username.input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput).toHaveBeenCalledTimes(4)
@@ -1659,7 +1659,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(confirmInput.mock.calls[2][0].confirm.meta.warning).toBe(undefined)
     })
 
-    it('should rerender when sync warning is cleared', () => {
+    it('should rerender when sync warning is cleared', async () => {
       const store = makeStore()
       const usernameInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
@@ -1695,7 +1695,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       )
 
       // update username field so it passes
-      usernameInput.mock.calls[1][0].username.input.onChange('erikras')
+      await usernameInput.mock.calls[1][0].username.input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput).toHaveBeenCalledTimes(4)

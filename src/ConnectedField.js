@@ -12,14 +12,13 @@ import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedField.types'
 import validateComponentProp from './util/validateComponentProp'
 import isEvent from './events/isEvent'
+import isPromise from 'is-promise'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
 const isObject = entity => entity && typeof entity === 'object'
 
 const isFunction = entity => entity && typeof entity === 'function'
-
-const isPromise = entity => entity && typeof entity.then === 'function'
 
 const eventPreventDefault = event => {
   if (isObject(event) && isFunction(event.preventDefault)) {
@@ -141,7 +140,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         }
       }
 
-      getDefaultPreventedResult(defaultPrevented).then(result => {
+      return getDefaultPreventedResult(defaultPrevented).then(result => {
         if (!result) {
           // dispatch change action
           dispatch(_reduxForm.change(name, newValue))
@@ -175,7 +174,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         }
       }
 
-      getDefaultPreventedResult(defaultPrevented).then(result => {
+      return getDefaultPreventedResult(defaultPrevented).then(result => {
         if (!result) {
           dispatch(_reduxForm.focus(name))
         }
@@ -221,7 +220,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         }
       }
 
-      getDefaultPreventedResult(defaultPrevented).then(result => {
+      return getDefaultPreventedResult(defaultPrevented).then(result => {
         if (!result) {
           // dispatch blur action
           dispatch(_reduxForm.blur(name, newValue))
