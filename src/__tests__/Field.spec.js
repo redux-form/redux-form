@@ -541,8 +541,8 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       expect(input).toHaveBeenCalled()
-      expect(input).toHaveBeenCalledTimes(2)
-      expect(input.mock.calls[1][0].input.value).toBe('bar')
+      expect(input).toHaveBeenCalledTimes(1)
+      expect(input.mock.calls[0][0].input.value).toBe('bar')
     })
 
     it('should provide sync error for array field', () => {
