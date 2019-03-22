@@ -1,9 +1,10 @@
 import {bindActionCreators} from 'redux';
+import {getDependsOnOwnProps} from './helpers';
 
 const wrapMapDispatchToProps = (mapDispatchToProps, actionCreators) => {
   if (mapDispatchToProps) {
     if (typeof mapDispatchToProps === 'function') {
-      if (mapDispatchToProps.length > 1) {
+      if (getDependsOnOwnProps(mapDispatchToProps)) {
         return (dispatch, ownProps) => ({
           dispatch,
           ...mapDispatchToProps(dispatch, ownProps),
