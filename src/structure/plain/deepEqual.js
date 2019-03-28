@@ -7,7 +7,7 @@ const customizer = (obj: any, other: any) => {
 
   if (!obj && !other) {
     const objIsEmpty = obj === null || obj === undefined || obj === ''|| isNaN(obj)
-    const otherIsEmpty = other === null || other === undefined || other === '' || isNaN(other);
+    const otherIsEmpty = other === null || other === undefined || other === '' || isNaN(other)
     return objIsEmpty === otherIsEmpty
   }
 
