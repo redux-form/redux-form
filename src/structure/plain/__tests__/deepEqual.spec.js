@@ -271,4 +271,12 @@ describe('structure.plain.deepEqual', () => {
       false
     )
   })
+  
+  it('should correct compare NaN and 0', function() {
+    testBothWays(
+      NaN,
+      0,
+      false
+    )
+  })
 })
