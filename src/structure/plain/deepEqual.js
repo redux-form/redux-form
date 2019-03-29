@@ -1,11 +1,9 @@
 // @flow
 import React from 'react'
-import { isEqualWith } from 'lodash'
+import { isEqualWith, isNil } from 'lodash'
 
 const isEmpty = (obj: any) => {
-    const isNil = obj === null || obj === undefined
-    
-    return isNil || obj === '' || isNaN(obj)
+  return isNil(obj) || obj === '' || isNaN(obj)
 }
 
 const customizer = (obj: any, other: any) => {
