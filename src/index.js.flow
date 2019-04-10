@@ -6,7 +6,7 @@ import type { Params as DefaultShouldValidateParams } from './defaultShouldValid
 import type { Params as DefaultShouldErrorParams } from './defaultShouldError'
 import type { Params as DefaultShouldWarnParams } from './defaultShouldWarn'
 import type { Config as ReduxFormConfig } from './createReduxForm'
-import type { Props as _FormProps } from './Form'
+import type { Props as FormInputProps } from './Form'
 import type { Props as _FormNameProps } from './FormName'
 import type {
   DefaultProps as FormSectionDefaultProps,
@@ -14,12 +14,10 @@ import type {
 } from './FormSection'
 import type {
   Props as FieldInputProps,
-  FieldProps as _FieldProps
 } from './FieldProps.types'
 import type { Props as FieldsInputProps } from './FieldsProps.types'
 import type {
   Props as FieldArrayInputProps,
-  FieldArrayProps as _FieldArrayProps
 } from './FieldArrayProps.types'
 import type { FormValueSelectorInterface } from './formValueSelector.types'
 import type { FormValuesInterface } from './formValues.types'
@@ -75,15 +73,13 @@ import type {
   Untouch
 } from './actions.types'
 
-import { type Event as _Event } from './types'
-export type Event = _Event
+export type { Event, FormProps } from './types'
 
 type StructureMap = Object
 
-export type FormProps = _FormProps
 export type FormNameProps = _FormNameProps
-export type FieldProps = _FieldProps
-export type FieldArrayProps = _FieldArrayProps
+export type { FieldProps } from './FieldProps.types'
+export type { FieldArrayProps } from './FieldArrayProps.types'
 
 declare export var actionTypes: ActionTypes
 
@@ -127,7 +123,7 @@ declare export var Fields: ComponentType<FieldsInputProps>
 
 declare export var FieldArray: ComponentType<FieldArrayInputProps>
 
-declare export var Form: ComponentType<FormProps>
+declare export var Form: ComponentType<FormInputProps>
 
 declare export var FormSection: ComponentType<FormSectionProps>
 
