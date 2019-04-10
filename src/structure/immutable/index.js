@@ -29,10 +29,8 @@ const structure: Structure<ImmutableMap<string, *>, ImmutableList<*>> = {
     items.forEach(callback)
   },
   fromJS: jsValue =>
-    fromJS(
-      jsValue,
-      (key, value) =>
-        Iterable.isIndexed(value) ? value.toList() : value.toMap()
+    fromJS(jsValue, (key, value) =>
+      Iterable.isIndexed(value) ? value.toList() : value.toMap()
     ),
   keys,
   size: list => (list ? list.size : 0),

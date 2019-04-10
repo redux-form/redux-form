@@ -108,6 +108,11 @@ at "design time" or passed in as props to your component at runtime.**
 > form submission; it prevents reinitialization from overwriting user changes.
 > Defaults to `false`.
 
+#### `submitAsSideEffect : boolean` [optional]
+
+> When set to `true`, the return value of `onSubmit` function will be dispatched
+> as a Redux action. **IMPORTANT: When set, submission lifecycle is not run automatically**
+
 #### `updateUnregisteredFields : boolean` [optional]
 
 > Used in combination with `keepDirtyOnReinitialize`. Will update every
@@ -241,9 +246,10 @@ at "design time" or passed in as props to your component at runtime.**
 
 > ##### `trigger : String` [required]
 
-> The reason to possibly run async validation. It will either be: `'blur'` or
-> `'submit'`, depending on whether an async blur field had triggered the async
-> validation or if submitting the form has triggered it, respectively.
+> The reason to possibly run async validation. It will be one of `'blur'`,
+> `'change'` and `'submit'`, depending on whether a field, either blurred or
+> changed, had triggered the async validation or if submitting the form has
+> triggered it, respectively.
 
 > ##### `blurredField : string` [optional]
 

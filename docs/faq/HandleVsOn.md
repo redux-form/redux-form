@@ -28,8 +28,8 @@ redux-form covers `handleSubmit` functionality by [providing a respective handle
 With that in mind, you can think of the redux-form `handleSubmit` as a middle layer for your form's `submit` handler. Simply write your components as you normally would, passing `handleSubmit` where appropriate:
 
 ```javascript
-import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import React from 'react'
+import { reduxForm, Field } from 'redux-form'
 
 const SearchBar = ({ handleChange, handleSubmit, value }) => (
   <form onSubmit={handleSubmit}>
@@ -50,20 +50,23 @@ export default reduxForm({ form: 'SearchBar' })(SearchBar)
 You can access your form's input values via the `values` parameter provided to the `onSubmit` prop:
 
 ```javascript
-import React from 'react';
-import { connect } from 'react-redux';
-import SearchBar from './SearchBar';
+import React from 'react'
+import { connect } from 'react-redux'
+import SearchBar from './SearchBar'
 
-let SearchContainer = ({ handleSearchSubmit }) => 
-  <SearchBar
-    onSubmit={values => handleSearchSubmit(values.search)}
-  />
+let SearchContainer = ({ handleSearchSubmit }) => (
+  <SearchBar onSubmit={values => handleSearchSubmit(values.search)} />
+)
 
-const mapDispatchToProps = (dispatch) => ({
-  handleSearchSubmit: value => dispatch({ type: 'SEARCH_CONTAINER_SUBMIT', payload: value }),
-});
+const mapDispatchToProps = dispatch => ({
+  handleSearchSubmit: value =>
+    dispatch({ type: 'SEARCH_CONTAINER_SUBMIT', payload: value })
+})
 
-export default connect(null, mapDispatchToProps)(SearchContainer);
+export default connect(
+  null,
+  mapDispatchToProps
+)(SearchContainer)
 ```
 
 That's it! No need to specify `event.preventDefault()`. All that's left to do is handle the dispatched form data in your reducer.

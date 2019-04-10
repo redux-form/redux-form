@@ -12,7 +12,7 @@ type FieldTypeProps = {
 
 export type Props = {
   name: string,
-  component: ComponentType<*> | Function | string,
+  component: ComponentType<FieldProps> | string,
   format?: ?(value: any, name: string) => ?string,
   normalize?: (
     value: any,

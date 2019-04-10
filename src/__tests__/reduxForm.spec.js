@@ -171,6 +171,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'reset',
         'resetSection',
         'submit',
+        'submitAsSideEffect',
         'submitFailed',
         'submitSucceeded',
         'submitting',

@@ -380,4 +380,20 @@ describe('structure.immutable.deepEqual', () => {
       false
     )
   })
+  
+  it('should treat NaN and 0 as NOT equal', () => {
+    testBothWays(
+      fromJS({
+        a: {
+          b: NaN
+        }
+      }),
+      fromJS({
+        a: {
+          b: 0
+        }
+      }),
+      false
+    )
+  })
 })
