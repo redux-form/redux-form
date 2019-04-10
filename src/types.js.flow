@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import type { Dispatch } from 'redux';
 
 export type Action = {
   type: string,
@@ -91,6 +92,14 @@ export type ReactContext = {
   _reduxForm: Context
 }
 
+export type SubmitFunction = (
+  values: any,
+  dispatch: Dispatch<*>,
+  props: Object
+) => any
+
+type HandleSubmit = (event: ?Event) => void | Promise<*>
+
 export type FormProps = {
   anyTouched: boolean,
   array: {
@@ -122,7 +131,9 @@ export type FormProps = {
   dispatch: Function,
   error: any,
   form: string,
-  handleSubmit: (eventOrSubmit: any) => void | Promise<*>,
+  handleSubmit:
+    // '&' (intersection type) means function overloading
+    HandleSubmit & (SubmitFunction => HandleSubmit),
   initialize: (data: Object) => void,
   initialized: boolean,
   initialValues: Object,

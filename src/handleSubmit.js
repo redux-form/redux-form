@@ -1,12 +1,8 @@
 // @flow
 import isPromise from 'is-promise'
-import type { Dispatch } from 'redux'
+import type { SubmitFunction } from './types'
 import type { Props } from './createReduxForm'
 import SubmissionError from './SubmissionError'
-
-type SubmitFunction = {
-  (values: any, dispatch: Dispatch<*>, props: Object): any
-}
 
 const isSubmissionError = error => error && error.name === SubmissionError.name
 
