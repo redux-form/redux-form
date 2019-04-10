@@ -37,9 +37,9 @@ be as simple as `'firstName'` or as complicated as
 Numeric field names, e.g. `name="42"` or `name="foo.5.email"`, are not supported, as they can
 be confused for array indexes.
 
-#### `component : Component|Function|String` [required]
+#### `component : Component<FieldProps>|String` [required]
 
-A `Component`, stateless function, or string corresponding to a default JSX element.
+A `Component` (stateful class or stateless function), or string corresponding to a default JSX element.
 See the [Usage](#usage) section below for details.
 
 #### `format : (value, name) => formattedValue` [optional]
@@ -153,7 +153,7 @@ The `component` prop will be passed to
 [`React.createElement()`](http://facebook.github.io/react/docs/top-level-api.html#react.createelement),
 which accepts one of three possible things:
 
-### 1. A component
+### 1. A normal component
 
 This can be any component class that you have written or have imported from a third party library.
 
