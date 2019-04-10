@@ -3,6 +3,13 @@ import type { Dispatch } from 'redux'
 import type { Event, Validator } from './types'
 import type { ComponentType, ElementRef } from 'react'
 
+type FieldTypeProps = {
+  type: 'radio',
+  value: any, // mandatory iff type === 'radio'
+} | {
+  type?: string,
+}
+
 export type Props = {
   name: string,
   component: ComponentType<FieldProps> | string,
@@ -36,11 +43,12 @@ export type Props = {
   onFocus?: (event: Event, name: string) => void,
   parse?: (value: any, name: string) => any,
   props?: Object,
+  type?: string,
   validate?: Validator | Validator[],
   warn?: Validator | Validator[],
   forwardRef?: boolean,
   immutableProps?: Array<string>
-}
+} & FieldTypeProps
 
 export type InputProps = {
   checked?: boolean,

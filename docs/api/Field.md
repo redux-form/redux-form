@@ -126,10 +126,31 @@ localized date formats into `Date`s.
 `parse` is called with the field `value` and `name` as arguments and should return the new
 parsed value to be stored in the Redux store.
 
+#### `type : string` [optional]
+
+Used to determine the exact shape of the `input` prop passed through to the component provided to
+`component` prop, as detailed below:
+
+- if `type === 'checkbox'` or `type === 'radio'`, the boolean `checked` field will be passed through
+- if `type === 'select-multi'`, the value will always be an array (i.e. will default to `[]` instead of an empty string)
+- if `type === 'file'`, the value will always be of type `?File` (i.e. will default to `undefined` instead of an empty string)
+
+Use this if either:
+
+1. `component` is a `string` value (i.e. a native HTML element)
+2. `component` requires the `input` prop to follow the special semantics described above
+
+`type` is unusual in that it is passed through to `component`, unlike other props consumed by `Field`.
+
 #### `validate : Array<Function> | (value, allValues, props, name) => error` [optional]
 
 Allows you to provide a field-level validation rule. The function is given the fields current value, all other form values, the props passed to the form, and the name of field currently being validated. If the field is valid it should return `undefined`. If the field is invalid it should return an error (usually, but not necessarily, a `String`). Note: if the validate prop changes the field will be re-registered.
 Note: If an array of functions is given, the validation chain is stopped whenever a function return an error and the next validation will not be called.
+
+#### `value : string` [optional]
+
+When `type === radio`, this value is compared with the current field value to determine the value of `checked` in the `input` prop passed to `component`.
+Otherwise, this prop is ignored.
 
 #### `warn : Array<Function> | (value, allValues, props) => warning` [optional]
 
