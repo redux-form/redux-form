@@ -1,6 +1,6 @@
 {
   "name": "redux-form",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "description": "A higher order component decorator for forms using Redux and React",
   "main": "./lib/index.js",
   "module": "./es/index.js",
@@ -117,7 +117,7 @@
     "immutable": "3.8.2",
     "insert-line": "^1.1.0",
     "jest": "^23.6.0",
-    "lint-staged": "^8.1.0",
+    "lint-staged": "^8.2.0",
     "lodash-webpack-plugin": "^0.11.5",
     "opencollective-postinstall": "^2.0.1",
     "prettier": "^1.15.3",
