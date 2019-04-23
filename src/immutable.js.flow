@@ -1,6 +1,7 @@
 // @flow
+import * as React from 'react'
 import type { ComponentType } from 'react'
-import type { Action, GetFormState } from './types'
+import type { Action, GetFormState, Context, ReactContext } from './types'
 import type { Params as DefaultShouldAsyncValidateParams } from './defaultShouldAsyncValidate'
 import type { Params as DefaultShouldValidateParams } from './defaultShouldValidate'
 import type { Params as DefaultShouldErrorParams } from './defaultShouldError'
@@ -76,6 +77,10 @@ import type {
 import type { Actions } from './actions.types'
 
 type StructureMap = Object
+
+declare export var ReduxFormContext: React.Context<Context>
+declare export var withReduxForm: <P>(React.ComponentType<P>) =>
+  React.ComponentType<P & ReactContext>
 
 export type FormProps = _FormProps
 export type FormNameProps = _FormNameProps
