@@ -127,6 +127,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
+    "react-test-renderer": "^16.8.6",
     "redux": "^4.0.1",
     "redux-immutablejs": "^0.0.8",
     "rifraf": "^2.0.3",
