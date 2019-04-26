@@ -48,6 +48,7 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 - [Remote Submit](https://codesandbox.io/s/ElYvJR21K)
 - [Normalizing](https://codesandbox.io/s/L8KWERjDw)
 - [Immutable JS](https://codesandbox.io/s/ZVGJQBJMw)
+- Redux-form-validators: [Synchronous Validation](https://codesandbox.io/s/y7pxov65mj) / [Field-Level-validation](https://codesandbox.io/s/y7pxov65mj) 
 - [Selecting Form Values](https://codesandbox.io/s/gJOBWZMRZ)
 - [Wizard Form](https://codesandbox.io/s/0Qzz3843)
 
