@@ -21,6 +21,12 @@ enable an html form in [React](https://github.com/facebook/react) to use
 [Redux](https://github.com/reactjs/redux) to store all of its state.
 [![Beerpay](https://beerpay.io/erikras/redux-form/badge.svg)](https://beerpay.io/erikras/redux-form)
 
+## ⚠️ ATTENTION ⚠️
+
+If you're just getting started with your application and are looking for a form solution, the [general consensus of the community](https://twitter.com/acemarke/status/1124771065115185152) is that you should _not_ put your form state in Redux. The author of Redux Form took all of the lessons he learned about form use cases from maintaining Redux Form and built [🏁 React Final Form](https://github.com/final-form/react-final-form#-react-final-form), which he recommends you use if you are just starting your project. It's also pretty easy to migrate to from Redux Form, because the `<Field>` component APIs are so similar. [Here is a blog post](https://codeburst.io/final-form-the-road-to-the-checkered-flag-cd9b75c25fe) where he explains his reasoning, or [there are two talks](https://github.com/final-form/react-final-form#videos) if you prefer video. [Formik](https://jaredpalmer.com/formik/) is also a nice solution.
+
+The only good reason, [in the author's view](https://twitter.com/erikras/status/1035082880341483520), to use Redux Form in your application is if you need _really_ tight coupling of your form data with Redux, specifically if you need to subscribe to it and modify it from parts of your application far from your form component, e.g. on another route. If you don't have that requirement, use [🏁 React Final Form](https://github.com/final-form/react-final-form#-react-final-form).
+
 ## Installation
 
 `npm install --save redux-form`
