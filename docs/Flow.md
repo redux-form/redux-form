@@ -25,7 +25,7 @@ Inside your `.flowconfig`, ensure the entire folder is not ignored:
 ## Props Types
 
 This will give you the types of the
-[`props`](http://redux-form.com/8.2.0/docs/api/Props.md/) that will be injected
+[`props`](http://redux-form.com/8.2.1/docs/api/Props.md/) that will be injected
 into your decorated form component by the `reduxForm()` higher order component.
 
 ### `FormProps`
@@ -51,7 +51,7 @@ class MyForm extends React.Component {
 ### `FieldProps`
 
 This will give you the shape of the props provided from
-[`Field`](http://redux-form.com/8.2.0/docs/api/Field.md/) to your field
+[`Field`](http://redux-form.com/8.2.1/docs/api/Field.md/) to your field
 component.
 
 ```jsx
@@ -72,7 +72,7 @@ const renderField = ({ input, meta, ...rest } : FieldProps) =>
 ### `FieldsProps`
 
 This will give you the shape of the props provided from
-[`Fields`](http://redux-form.com/8.2.0/docs/api/Fields.md/) to your fields
+[`Fields`](http://redux-form.com/8.2.1/docs/api/Fields.md/) to your fields
 component.
 
 ```jsx
@@ -97,7 +97,7 @@ const renderField = (fields : FieldsProps) =>
 ### `FieldArrayProps`
 
 This will give you the shape of the props provided from
-[`FieldArray`](http://redux-form.com/8.2.0/docs/api/FieldArray.md/) to your
+[`FieldArray`](http://redux-form.com/8.2.1/docs/api/FieldArray.md/) to your
 field array component.
 
 ```jsx

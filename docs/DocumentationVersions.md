@@ -1,6 +1,6 @@
 # Documentation Versions
 
-- [8.2.0](https://redux-form.com/8.2.0/)
+- [8.2.1](https://redux-form.com/8.2.1/)
 - [8.1.0](https://redux-form.com/8.1.0/)
 - [7.4.2](https://redux-form.com/7.4.2/)
 - [7.3.0](https://redux-form.com/7.3.0/)

@@ -33,12 +33,12 @@ The only good reason, [in the author's view](https://twitter.com/erikras/status/
 
 ## Documentation
 
-- [Getting Started](https://redux-form.com/8.2.0/docs/GettingStarted.md/)
-- [Examples](https://redux-form.com/8.2.0/examples/)
-- [API](https://redux-form.com/8.2.0/docs/api/)
-- [FAQ](https://redux-form.com/8.2.0/docs/faq/)
+- [Getting Started](https://redux-form.com/8.2.1/docs/GettingStarted.md/)
+- [Examples](https://redux-form.com/8.2.1/examples/)
+- [API](https://redux-form.com/8.2.1/docs/api/)
+- [FAQ](https://redux-form.com/8.2.1/docs/faq/)
 - [Release Notes](https://github.com/erikras/redux-form/releases)
-- [Older Documentation](https://redux-form.com/8.2.0/docs/DocumentationVersions.md/)
+- [Older Documentation](https://redux-form.com/8.2.1/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
 
