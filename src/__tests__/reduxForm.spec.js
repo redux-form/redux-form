@@ -144,7 +144,6 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     it('should provide the correct props', () => {
       const props = propChecker({})
       expect(Object.keys(props).sort()).toEqual([
-        '_reduxForm',
         'anyTouched',
         'array',
         'asyncValidate',
@@ -229,9 +228,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should have declared all propTypes passed to decorated component', () => {
       const passedProps = Object.keys(propChecker({})).sort()
-      const declaredPropTypes = Object.keys(formPropTypes)
-        .concat('_reduxForm')
-        .sort()
+      const declaredPropTypes = Object.keys(formPropTypes).sort()
 
       expect(passedProps).toEqual(declaredPropTypes)
     })

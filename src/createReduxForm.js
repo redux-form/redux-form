@@ -22,7 +22,7 @@ import createIsValid from './selectors/isValid'
 import plain from './structure/plain'
 import getDisplayName from './util/getDisplayName'
 import isHotReloading from './util/isHotReloading'
-import { withReduxForm, ReduxFormContext } from './ReduxFormContext'
+import { ReduxFormContext } from './ReduxFormContext'
 import type { ComponentType, Node, ElementRef } from 'react'
 import type { Dispatch } from 'redux'
 import type {
@@ -1167,10 +1167,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
       }
 
       polyfill(ReduxForm)
-      const WithContext = hoistStatics(
-        withReduxForm(ReduxForm),
-        WrappedComponent
-      )
+      const WithContext = hoistStatics(ReduxForm, WrappedComponent)
       WithContext.defaultProps = config
       return WithContext
     }
