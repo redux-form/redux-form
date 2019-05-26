@@ -194,6 +194,7 @@ type DefaultedConfig = {
 
 type OptionalConfig = {
   asyncBlurFields?: string[],
+  asyncChangeFields?: string[],
   asyncValidate?: AsyncValidateFunction,
   keepValues?: boolean,
   immutableProps?: string[],
