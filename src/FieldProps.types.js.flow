@@ -12,7 +12,11 @@ type FieldTypeProps = {
 
 export type Props = {
   name: string,
-  component: ComponentType<FieldProps> | string,
+
+  // this is hard (impossible?) to type strictly - should be ComponentType<FieldProps & Passthrough>
+  // where Passthrough is `Props.props & ${any other props passed to the Field component}`
+  component: ComponentType<*> | string,
+
   format?: ?(value: any, name: string) => ?string,
   normalize?: (
     value: any,
