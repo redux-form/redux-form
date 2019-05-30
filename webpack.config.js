@@ -26,11 +26,19 @@ var reactReduxExternal = {
   amd: 'react-redux'
 }
 
+var immutableExternal = {
+  root: 'Immutable',
+  commonjs2: 'immutable',
+  commonjs: 'immutable',
+  amd: 'immutable'
+}
+
 var config = {
   externals: {
     react: reactExternal,
     redux: reduxExternal,
-    'react-redux': reactReduxExternal
+    'react-redux': reactReduxExternal,
+    immutable: immutableExternal
   },
   mode: 'development',
   module: {

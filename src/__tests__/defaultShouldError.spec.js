@@ -1,4 +1,3 @@
-import expect from 'expect'
 import plain from '../structure/plain'
 import immutable from '../structure/immutable'
 import defaultShouldError from '../defaultShouldError'

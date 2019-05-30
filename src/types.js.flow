@@ -1,6 +1,5 @@
 // @flow
-import React from 'react'
-import type { Dispatch } from 'redux';
+import type { Dispatch } from 'redux'
 
 export type Action = {
   type: string,
@@ -131,9 +130,7 @@ export type FormProps = {
   dispatch: Function,
   error: any,
   form: string,
-  handleSubmit:
-    // '&' (intersection type) means function overloading
-    HandleSubmit & (SubmitFunction => HandleSubmit),
+  handleSubmit: HandleSubmit & (SubmitFunction => HandleSubmit), // '&' (intersection type) means function overloading
   initialize: (data: Object) => void,
   initialized: boolean,
   initialValues: Object,
