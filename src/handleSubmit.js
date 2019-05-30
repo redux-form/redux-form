@@ -3,7 +3,6 @@ import isPromise from 'is-promise'
 import type { SubmitFunction } from './types'
 import type { Props } from './createReduxForm'
 import SubmissionError from './SubmissionError'
-import { List } from 'immutable'
 
 const isSubmissionError = error => error && error.name === SubmissionError.name
 
@@ -12,14 +11,9 @@ const mergeErrors = ({ asyncErrors, syncErrors }) =>
     ? asyncErrors.merge(syncErrors).toJS()
     : { ...asyncErrors, ...syncErrors }
 
-// fields may be an Immutable List which cannot be spread
-// convert the fields to an array if necessary
-const makeFieldsArray = (fields: string[] | List<string>) =>
-  List.isList(fields) ? ((fields: any): List<string>).toArray() : fields
-
 const executeSubmit = (
   submit: SubmitFunction,
-  fields: string[] | List<string>,
+  fields: string[],
   props: Props
 ) => {
   const {
@@ -33,8 +27,6 @@ const executeSubmit = (
     setSubmitSucceeded,
     values
   } = props
-
-  fields = makeFieldsArray(fields)
 
   let result
   try {
@@ -104,7 +96,7 @@ const handleSubmit = (
   props: Props,
   valid: boolean,
   asyncValidate: Function,
-  fields: string[] | List<string>
+  fields: string[]
 ) => {
   const {
     dispatch,
@@ -116,9 +108,7 @@ const handleSubmit = (
     persistentSubmitErrors
   } = props
 
-  fields = makeFieldsArray(fields)
-
-  touch(...fields) // mark all fields as touched
+  touch(...Array.from(fields)) // mark all fields as touched
 
   if (valid || persistentSubmitErrors) {
     const asyncValidateResult = asyncValidate && asyncValidate()
