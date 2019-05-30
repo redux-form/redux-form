@@ -9,7 +9,8 @@ module.exports = {
       '@babel/preset-env',
       {
         modules: isEs ? false : 'commonjs',
-        loose
+        loose,
+        ...(test ? { targets: { node: '8' } } : {})
       }
     ],
     '@babel/preset-react',
