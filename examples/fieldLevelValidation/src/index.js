@@ -39,12 +39,12 @@ let render = () => {
          * This <App/> component only provides the site wrapper.
          * Remove it on your dev server if you wish. It will not affect the functionality.
          */
-        version="8.2.1"
+        version="8.2.2"
         path="/examples/fieldLevelValidation"
         breadcrumbs={generateExampleBreadcrumbs(
           'fieldLevelValidation',
           'Field-Level Validation Example',
-          '8.2.1'
+          '8.2.2'
         )}
       >
         <Markdown content={readme} />
