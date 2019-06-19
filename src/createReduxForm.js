@@ -1093,7 +1093,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             unshift: bindActionCreators(boundArrayACs.arrayUnshift, dispatch)
           }
 
-          const computedActions = {
+          return {
             ...connectedFormACs,
             ...boundArrayACs,
             blur: boundBlur,
@@ -1102,8 +1102,6 @@ const createReduxForm = (structure: Structure<*, *>) => {
             focus: boundFocus,
             dispatch
           }
-
-          return () => computedActions
         },
         undefined,
         { forwardRef: true }
