@@ -449,17 +449,71 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(props.fooProps.someOtherProp).toBeFalsy()
     })
 
-    it('should provide bound array action creators', () => {
-      const arrayProp = propChecker({}).array
-      expect(arrayProp).toBeTruthy()
-      expect(typeof arrayProp.insert).toBe('function')
-      expect(typeof arrayProp.pop).toBe('function')
-      expect(typeof arrayProp.push).toBe('function')
-      expect(typeof arrayProp.remove).toBe('function')
-      expect(typeof arrayProp.shift).toBe('function')
-      expect(typeof arrayProp.splice).toBe('function')
-      expect(typeof arrayProp.swap).toBe('function')
-      expect(typeof arrayProp.unshift).toBe('function')
+    describe('should bind action creators to form prop', () => {
+      it('should provide bound array action creators', () => {
+        const arrayProp = propChecker({}).array
+        expect(arrayProp).toBeTruthy()
+        expect(typeof arrayProp.insert).toBe('function')
+        expect(typeof arrayProp.pop).toBe('function')
+        expect(typeof arrayProp.push).toBe('function')
+        expect(typeof arrayProp.remove).toBe('function')
+        expect(typeof arrayProp.shift).toBe('function')
+        expect(typeof arrayProp.splice).toBe('function')
+        expect(typeof arrayProp.swap).toBe('function')
+        expect(typeof arrayProp.unshift).toBe('function')
+      })
+
+      it('should re-bind on form prop change', () => {
+        const logger = jest.fn((state = {}) => state)
+        const store = makeStore({}, logger)
+        const inputRender = jest.fn(props => <input {...props.input} />)
+        const Form = ({ onClick }) => (
+          <div>
+            <Field name="textfield" component={inputRender} type="text" />
+          </div>
+        )
+        const Decorated = reduxForm({})(Form)
+
+        class Container extends Component {
+          constructor(props) {
+            super(props)
+            this.state = { form: 'fooForm' }
+          }
+
+          render() {
+            return (
+              <Provider store={store}>
+                <div>
+                  <Decorated form={this.state.form} />
+                  <button onClick={() => this.setState({ form: 'barForm' })} />
+                </div>
+              </Provider>
+            )
+          }
+        }
+
+        const dom = TestUtils.renderIntoDocument(<Container />)
+        const input1 = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(input1, { target: { value: 'foo' } })
+
+        // the change action meta `form` is `fooForm`
+        let callIndex = logger.mock.calls.length - 1
+        expect(logger.mock.calls[callIndex++][1]).toEqual(
+          change('fooForm', 'textfield', 'foo', false, false)
+        )
+
+        // switch the form prop
+        const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+        TestUtils.Simulate.click(button)
+
+        const input2 = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
+        TestUtils.Simulate.change(input2, { target: { value: 'bar' } })
+
+        // check the change action meta `form` changed to `barForm`
+        expect(logger.mock.calls[callIndex++][1]).toEqual(
+          change('barForm', 'textfield', 'bar', false, false)
+        )
+      })
     })
 
     it('should not rerender unless form-wide props (except value!) change', () => {
