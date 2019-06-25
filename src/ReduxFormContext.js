@@ -2,17 +2,21 @@ import * as React from 'react'
 
 export const ReduxFormContext = React.createContext(null)
 
+export const renderChildren = (
+  Component,
+  { forwardedRef, ...rest }
+) => _reduxForm =>
+  React.createElement(Component, {
+    ...rest,
+    _reduxForm,
+    ref: forwardedRef
+  })
+
 export const withReduxForm = Component => {
   class Hoc extends React.Component {
     render() {
-      const { forwardedRef, ...rest } = this.props
       return React.createElement(ReduxFormContext.Consumer, {
-        children: _reduxForm =>
-          React.createElement(Component, {
-            _reduxForm,
-            ref: forwardedRef,
-            ...rest
-          })
+        children: renderChildren(Component, this.props)
       })
     }
   }
