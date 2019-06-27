@@ -360,6 +360,10 @@ function createReducer<M, L>(structure: Structure<M, L>) {
         if (!keepTouched) {
           result = deleteIn(result, `fields.${field}.touched`)
         }
+        const values = getIn(state, `initial.${field}`)
+        result = values
+          ? setIn(result, `values.${field}`, values)
+          : deleteInWithCleanUp(result, `values.${field}`)
       })
       const anyTouched = some(keys(getIn(result, 'registeredFields')), key =>
         getIn(result, `fields.${key}.touched`)
