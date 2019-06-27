@@ -1734,7 +1734,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderFieldArray.mock.calls[8][0].meta.warning).toBe('No dogs')
     })
 
-    it('should rerender when depending value has updated', () => {
+    it('should rerender when depending value has updated', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1794,20 +1794,20 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         'input'
       ).find(element => element.getAttribute('name') === 'dogs[0].hasCollar')
 
-      TestUtils.Simulate.change(checkbox, { target: { value: true } })
+      await TestUtils.Simulate.change(checkbox, { target: { value: true } })
 
       expect(
         TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length
       ).toBe(1)
 
-      TestUtils.Simulate.change(checkbox, { target: { value: false } })
+      await TestUtils.Simulate.change(checkbox, { target: { value: false } })
 
       expect(
         TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length
       ).toBe(0)
     })
 
-    it('should NOT rerender when a value changes', () => {
+    it('should NOT rerender when a value changes', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1845,7 +1845,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first field
-      renderField.mock.calls[0][0].input.onChange('Odie')
+      await renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first field rerendered, second field is NOT
       expect(renderField).toHaveBeenCalledTimes(3)
@@ -1856,7 +1856,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderFieldArray).toHaveBeenCalledTimes(1)
     })
 
-    it('should rerender when a value changes if rerenderOnEveryChange is set', () => {
+    it('should rerender when a value changes if rerenderOnEveryChange is set', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1900,7 +1900,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first field
-      renderField.mock.calls[0][0].input.onChange('Odie')
+      await renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first field rerendered, second field is NOT
       expect(renderField).toHaveBeenCalledTimes(3)
@@ -1911,7 +1911,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderFieldArray).toHaveBeenCalledTimes(2)
     })
 
-    it('should rerender when a value changes if rerenderOnEveryChange is set and FieldArray has multiple groups with same values', () => {
+    it('should rerender when a value changes if rerenderOnEveryChange is set and FieldArray has multiple groups with same values', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1975,7 +1975,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderField.mock.calls[0][0].input.value).toBe('Fido')
 
       // change first name field
-      renderField.mock.calls[0][0].input.onChange('Odie')
+      await renderField.mock.calls[0][0].input.onChange('Odie')
 
       // first name field rerendered, other fields is NOT
       expect(renderField).toHaveBeenCalledTimes(9)
@@ -2463,7 +2463,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderField.mock.calls[1][0].input.value).toBe('secondValue')
     })
 
-    it('should get() actual current value from redux store', () => {
+    it('should get() actual current value from redux store', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -2499,7 +2499,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       expect(renderFieldArray.mock.calls[0][0].fields.get(0)).toBe('Fido')
 
       // change first field
-      renderField.mock.calls[0][0].input.onChange('Odie')
+      await renderField.mock.calls[0][0].input.onChange('Odie')
 
       // field array NOT rerendered
       expect(renderFieldArray).toHaveBeenCalledTimes(1)

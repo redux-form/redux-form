@@ -222,7 +222,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       expect(formRender.mock.calls[2][0].error).toBe('Invalid')
     })
 
-    it('should NOT submit a form with sync validation errors', () => {
+    it('should NOT submit a form with sync validation errors', async () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
       const inputRender = jest.fn(props => <input {...props.input} />)
@@ -288,7 +288,7 @@ const describeForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 3).submitFailed).toBe(true)
 
       // update input
-      inputRender.mock.calls[0][0].input.onChange('hello')
+      await inputRender.mock.calls[0][0].input.onChange('hello')
 
       // check that change action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(

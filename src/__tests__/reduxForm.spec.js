@@ -653,7 +653,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(1)
     })
 
-    it('should set checkbox values to false when unchecked', () => {
+    it('should set checkbox values to false when unchecked', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => (
         <input {...props.input} type="checkbox" />
@@ -685,7 +685,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBeFalsy()
 
       expect(propsAtNthRender(inputRender, 0).input.checked).toBe(false)
-      TestUtils.Simulate.change(checkbox, {
+      await TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: true }
       })
 
@@ -693,7 +693,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 1).input.checked).toBe(true)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
 
-      TestUtils.Simulate.change(checkbox, {
+      await TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: false }
       })
 
@@ -702,7 +702,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(false)
     })
 
-    it('should set checkbox values to false when unchecked (when initialized)', () => {
+    it('should set checkbox values to false when unchecked (when initialized)', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => (
         <input {...props.input} type="checkbox" />
@@ -737,7 +737,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
 
       expect(propsAtNthRender(inputRender, 1).input.checked).toBe(true)
-      TestUtils.Simulate.change(checkbox, {
+      await TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: false }
       })
 
@@ -745,7 +745,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 2).input.checked).toBe(false)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(false)
 
-      TestUtils.Simulate.change(checkbox, {
+      await TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: true }
       })
 
@@ -1061,7 +1061,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(2)
     })
 
-    it('should reinitialize with initialValues if enableReinitialize', () => {
+    it('should reinitialize with initialValues if enableReinitialize', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -1151,7 +1151,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // Change input value and check if it is dirty and not pristine
       const onChange = inputRender.mock.calls[1][0].input.onChange
-      onChange('dirtyvalue')
+      await onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
@@ -1190,7 +1190,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkInputProps(inputRender.mock.calls[3][0], 'baz')
     })
 
-    it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
+    it('should retain dirty fields if keepDirtyOnReinitialize is set', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -1269,7 +1269,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // Change the input value.
       const onChange = inputRender.mock.calls[1][0].input.onChange
-      onChange('dirtyvalue')
+      await onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
@@ -1308,7 +1308,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkInputProps(inputRender.mock.calls[3][0], 'dirtyvalue', true)
     })
 
-    it('should not retain dirty fields if keepDirtyOnReinitialize is not set', () => {
+    it('should not retain dirty fields if keepDirtyOnReinitialize is not set', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -1386,7 +1386,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // Change the input value.
       const onChange = inputRender.mock.calls[1][0].input.onChange
-      onChange('dirtyvalue')
+      await onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
@@ -1420,7 +1420,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkInputProps(inputRender.mock.calls[3][0], 'baz', false)
     })
 
-    it('should be pristine after initialize() if enableReinitialize', () => {
+    it('should be pristine after initialize() if enableReinitialize', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -1464,7 +1464,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       TestUtils.renderIntoDocument(<Container />)
 
-      propsAtLastRender(inputRender).input.onChange('newBar')
+      await propsAtLastRender(inputRender).input.onChange('newBar')
 
       expect(propsAtLastRender(inputRender).input.value).toBe('newBar')
       expect(propsAtLastRender(inputRender).meta.pristine).toBe(false)
@@ -1557,7 +1557,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 1).initialized).toBe(true)
     })
 
-    it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', () => {
+    it('should make pristine any dirty field that has the new initial value, when keepDirtyOnReinitialize', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -1636,7 +1636,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // Change the input value.
       const onChange = inputRender.mock.calls[1][0].input.onChange
-      onChange('futurevalue')
+      await onChange('futurevalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
@@ -1766,7 +1766,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
      })
      */
 
-    it('should destroy on unmount by default', () => {
+    it('should destroy on unmount by default', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -1827,7 +1827,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 0).input.value).toBe('')
 
       // change field
-      inputRender.mock.calls[0][0].input.onChange('bob')
+      await inputRender.mock.calls[0][0].input.onChange('bob')
 
       // form rerenders because now dirty
       expect(formRender).toHaveBeenCalledTimes(2)
@@ -1875,7 +1875,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 2).input.value).toBe('')
     })
 
-    it('should not destroy on unmount if told not to', () => {
+    it('should not destroy on unmount if told not to', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -1937,7 +1937,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 0).input.value).toBe('')
 
       // change field
-      inputRender.mock.calls[0][0].input.onChange('bob')
+      await inputRender.mock.calls[0][0].input.onChange('bob')
 
       // form rerenders because now dirty
       expect(formRender).toHaveBeenCalledTimes(2)
@@ -2383,7 +2383,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
     })
 
-    it('should provide valid/invalid/values/dirty/pristine getters', () => {
+    it('should provide valid/invalid/values/dirty/pristine getters', async () => {
       const store = makeStore({})
       const input = jest.fn(props => <input {...props.input} />)
 
@@ -2413,7 +2413,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(ref.current.values).toEqualMap({})
 
       // set value for 'bar' field
-      input.mock.calls[0][0].input.onChange('foo')
+      await input.mock.calls[0][0].input.onChange('foo')
 
       // valid because we have a value for 'bar' field
       expect(ref.current.dirty).toBe(true)
@@ -3318,7 +3318,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(asyncValidate, 0)).toEqualMap({ bar: 'foo' })
     })
 
-    it('should reset when reset() called', () => {
+    it('should reset when reset() called', async () => {
       const store = makeStore({})
       const input = jest.fn(props => <input {...props.input} />)
 
@@ -3345,7 +3345,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(propsAtNthRender(input, 1).input.value).toBe('initialBar')
 
-      input.mock.calls[1][0].input.onChange('newBar')
+      await input.mock.calls[1][0].input.onChange('newBar')
 
       expect(input).toHaveBeenCalledTimes(3)
       expect(propsAtNthRender(input, 2).input.value).toBe('newBar')
@@ -3490,7 +3490,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
     })
 
-    it('should re-run sync validation when props change iff shouldValidate is overridden', () => {
+    it('should re-run sync validation when props change iff shouldValidate is overridden', async () => {
       const store = makeStore({})
       const formRender = jest.fn()
       const renderInput = jest.fn(props => <input {...props.input} />)
@@ -3579,7 +3579,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtLastRender(formRender).valid).toBe(true)
 
       // change amount to 6
-      propsAtNthRender(renderInput, 0).input.onChange(6)
+      await propsAtNthRender(renderInput, 0).input.onChange(6)
 
       // form is invalid (6 !<= 5)
       validateLastCalledWith(6, 5)
@@ -3594,7 +3594,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtLastRender(formRender).valid).toBe(true)
     })
 
-    it('should properly remove error prop from sync validation', () => {
+    it('should properly remove error prop from sync validation', async () => {
       const store = makeStore({})
       const input = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -3627,7 +3627,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 1).valid).toBe(false)
       expect(propsAtNthRender(formRender, 1).invalid).toBe(true)
 
-      input.mock.calls[0][0].input.onChange('bar')
+      await input.mock.calls[0][0].input.onChange('bar')
 
       expect(formRender).toHaveBeenCalledTimes(4)
       expect(propsAtNthRender(formRender, 3).error).toBeFalsy()
@@ -3675,7 +3675,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(renderInput, 1).meta.error).toEqual(error)
     })
 
-    it('should allow sync validation for array props on push', () => {
+    it('should allow sync validation for array props on push', async () => {
       const store = makeStore({})
       const formRender = jest.fn()
       const inputs = [
@@ -3755,7 +3755,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputs[2]).not.toHaveBeenCalled()
 
       // fix original error
-      propsAtNthRender(inputs[0], 0).input.onChange(10)
+      await propsAtNthRender(inputs[0], 0).input.onChange(10)
 
       // first input rendered again
       expect(inputs[0]).toHaveBeenCalledTimes(4)
@@ -3797,7 +3797,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       )
     })
 
-    it('should properly remove warning prop from sync warning', () => {
+    it('should properly remove warning prop from sync warning', async () => {
       const store = makeStore({})
       const input = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -3830,7 +3830,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         'form wide sync warning'
       )
 
-      input.mock.calls[0][0].input.onChange('bar')
+      await input.mock.calls[0][0].input.onChange('bar')
 
       // expect(formRender.calls.length).toBe(4) // TODO: this gets called an extra time (4 instead of 3). why?
       expect(propsAtNthRender(formRender, 3).warning).toBeFalsy()
@@ -3874,7 +3874,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(renderInput, 1).meta.warning).toEqual(warning)
     })
 
-    it('should call async on blur of async blur field', () => {
+    it('should call async on blur of async blur field', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -3934,7 +3934,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         dom,
         'input'
       )
-      TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+      await TestUtils.Simulate.change(inputElement, {
+        target: { value: 'bar' }
+      })
 
       expect(store.getState()).toEqualMap({
         form: {
@@ -4087,7 +4089,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
     })
 
-    it('should call form-level onChange when values change', () => {
+    it('should call form-level onChange when values change', async () => {
       const store = makeStore({})
       const renderFoo = jest.fn(props => <input {...props.input} />)
       const renderBar = jest.fn(props => <input {...props.input} />)
@@ -4118,7 +4120,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(onChange).not.toHaveBeenCalled()
 
-      changeFoo('dog')
+      await changeFoo('dog')
 
       expect(onChange).toHaveBeenCalled()
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -4128,7 +4130,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onChange.mock.calls[0][2].values).toEqualMap({ foo: 'dog' })
       expect(onChange.mock.calls[0][3]).toEqualMap({})
 
-      changeBar('cat')
+      await changeBar('cat')
 
       expect(onChange).toHaveBeenCalledTimes(2)
       expect(onChange.mock.calls[1][0]).toEqualMap({
@@ -4149,7 +4151,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       // onChange NOT called since value did not change
       expect(onChange).toHaveBeenCalledTimes(2)
 
-      changeFoo('doggy')
+      await changeFoo('doggy')
       expect(onChange).toHaveBeenCalledTimes(3)
       expect(onChange.mock.calls[2][0]).toEqualMap({
         foo: 'doggy',
@@ -4166,7 +4168,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
     })
 
-    it('should call form-level onChange when values change using ===', () => {
+    it('should call form-level onChange when values change using ===', async () => {
       const store = makeStore({})
       const renderFoo = jest.fn(props => <input {...props.input} />)
       const onChange = jest.fn()
@@ -4194,20 +4196,20 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(onChange).not.toHaveBeenCalled()
 
-      changeFoo(1)
+      await changeFoo(1)
 
       expect(onChange).toHaveBeenCalledTimes(1)
 
-      changeFoo('1.')
+      await changeFoo('1.')
 
       expect(onChange).toHaveBeenCalledTimes(2)
 
-      changeFoo(1.2)
+      await changeFoo(1.2)
 
       expect(onChange).toHaveBeenCalledTimes(3)
     })
 
-    it('should update sync errors after reset when using field-level validation', () => {
+    it('should update sync errors after reset when using field-level validation', async () => {
       const store = makeStore({})
       const renderName = jest.fn(props => <input {...props.input} />)
       const renderAge = jest.fn(props => <input {...props.input} />)
@@ -4307,7 +4309,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(store.getState()).toEqualMap(originalState)
 
       // update age
-      propsAtNthRender(renderAge, 0).input.onChange('4')
+      await propsAtNthRender(renderAge, 0).input.onChange('4')
 
       // verify props
       expect(formRender).toHaveBeenCalledTimes(3) // again for dirty flag
@@ -4335,7 +4337,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(renderAge, 2).meta.pristine).toBe(true)
     })
 
-    it('should update sync warnings after reset when using field-level validation', () => {
+    it('should update sync warnings after reset when using field-level validation', async () => {
       const store = makeStore({})
       const renderName = jest.fn(props => <input {...props.input} />)
       const renderAge = jest.fn(props => <input {...props.input} />)
@@ -4435,7 +4437,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(store.getState()).toEqualMap(originalState)
 
       // update age
-      propsAtNthRender(renderAge, 0).input.onChange('4')
+      await propsAtNthRender(renderAge, 0).input.onChange('4')
 
       // verify props
       expect(formRender).toHaveBeenCalledTimes(2) // again for dirty flag
@@ -4464,7 +4466,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     })
 
     describe('validateIfNeeded', () => {
-      it('should not call validate if shouldValidate returns false', () => {
+      it('should not call validate if shouldValidate returns false', async () => {
         const validate = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = jest.fn().mockImplementation(() => false)
 
@@ -4483,14 +4485,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(false)
         expect(validate).not.toHaveBeenCalled()
       })
 
-      it('should not call validate if shouldError returns false', () => {
+      it('should not call validate if shouldError returns false', async () => {
         const validate = jest.fn().mockImplementation(() => ({}))
         const shouldError = jest.fn().mockImplementation(() => false)
 
@@ -4509,14 +4513,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldError).toHaveBeenCalled()
         expect(shouldError.mock.calls[0][0].initialRender).toBe(false)
         expect(validate).not.toHaveBeenCalled()
       })
 
-      it('should call validate if shouldValidate returns true', () => {
+      it('should call validate if shouldValidate returns true', async () => {
         const validate = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = jest.fn().mockImplementation(() => true)
 
@@ -4535,14 +4541,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(false)
         expect(validate).toHaveBeenCalled()
       })
 
-      it('should call validate if shouldError returns true', () => {
+      it('should call validate if shouldError returns true', async () => {
         const validate = jest.fn().mockImplementation(() => ({}))
         const shouldError = jest.fn().mockImplementation(() => true)
 
@@ -4561,14 +4569,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldError).toHaveBeenCalled()
         expect(shouldError.mock.calls[0][0].initialRender).toBe(false)
         expect(validate).toHaveBeenCalled()
       })
 
-      it('should pass values and props to validate if called', () => {
+      it('should pass values and props to validate if called', async () => {
         const propsSpy = jest.fn()
         const validate = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = args => {
@@ -4585,7 +4595,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         // compare values
         expect(validate.mock.calls[0][0]).toEqualMap({ foo: 'bar' })
@@ -4595,7 +4607,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(Object.keys(validate.mock.calls[0][1])).toEqual(propArray)
       })
 
-      it('should pass values and props to validate if shouldError called', () => {
+      it('should pass values and props to validate if shouldError called', async () => {
         const propsSpy = jest.fn()
         const validate = jest.fn().mockImplementation(() => ({}))
         const shouldError = args => {
@@ -4612,7 +4624,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         // compare values
         expect(validate.mock.calls[0][0]).toEqualMap({ foo: 'bar' })
@@ -4624,7 +4638,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
     })
 
     describe('warnIfNeeded', () => {
-      it('should not call warn if shouldValidate returns false', () => {
+      it('should not call warn if shouldValidate returns false', async () => {
         const warn = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = jest.fn().mockImplementation(() => false)
 
@@ -4643,14 +4657,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(false)
         expect(warn).not.toHaveBeenCalled()
       })
 
-      it('should not call warn if shouldWarn returns false', () => {
+      it('should not call warn if shouldWarn returns false', async () => {
         const warn = jest.fn().mockImplementation(() => ({}))
         const shouldWarn = jest.fn().mockImplementation(() => false)
 
@@ -4669,14 +4685,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldWarn).toHaveBeenCalled()
         expect(shouldWarn.mock.calls[0][0].initialRender).toBe(false)
         expect(warn).not.toHaveBeenCalled()
       })
 
-      it('should call warn if shouldValidate returns true', () => {
+      it('should call warn if shouldValidate returns true', async () => {
         const warn = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = jest.fn().mockImplementation(() => true)
 
@@ -4695,14 +4713,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldValidate).toHaveBeenCalled()
         expect(shouldValidate.mock.calls[0][0].initialRender).toBe(false)
         expect(warn).toHaveBeenCalled()
       })
 
-      it('should call warn if shouldWarn returns true', () => {
+      it('should call warn if shouldWarn returns true', async () => {
         const warn = jest.fn().mockImplementation(() => ({}))
         const shouldWarn = jest.fn().mockImplementation(() => true)
 
@@ -4721,14 +4741,16 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         expect(shouldWarn).toHaveBeenCalled()
         expect(shouldWarn.mock.calls[0][0].initialRender).toBe(false)
         expect(warn).toHaveBeenCalled()
       })
 
-      it('should pass values and props to warn if called', () => {
+      it('should pass values and props to warn if called', async () => {
         const propsSpy = jest.fn()
         const warn = jest.fn().mockImplementation(() => ({}))
         const shouldValidate = args => {
@@ -4745,7 +4767,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         // compare values
         expect(warn.mock.calls[0][0]).toEqualMap({ foo: 'bar' })
@@ -4755,7 +4779,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         expect(Object.keys(warn.mock.calls[0][1])).toEqual(propArray)
       })
 
-      it('should pass values and props to warn if shouldWarn called', () => {
+      it('should pass values and props to warn if shouldWarn called', async () => {
         const propsSpy = jest.fn()
         const warn = jest.fn().mockImplementation(() => ({}))
         const shouldWarn = args => {
@@ -4772,7 +4796,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           dom,
           'input'
         )
-        TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
+        await TestUtils.Simulate.change(inputElement, {
+          target: { value: 'bar' }
+        })
 
         // compare values
         expect(warn.mock.calls[0][0]).toEqualMap({ foo: 'bar' })
@@ -4783,7 +4809,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
     })
 
-    it('should not call async validate if shouldAsyncValidate returns false', () => {
+    it('should not call async validate if shouldAsyncValidate returns false', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const asyncValidate = jest.fn(() => Promise.reject({ foo: 'bad user!' }))
@@ -4826,7 +4852,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(shouldAsyncValidate).not.toHaveBeenCalled()
 
-      TestUtils.Simulate.blur(inputElement, { target: { value: 'bar' } })
+      await TestUtils.Simulate.blur(inputElement, { target: { value: 'bar' } })
 
       expect(shouldAsyncValidate).toHaveBeenCalled()
 
@@ -4885,7 +4911,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(ref.current.ref.current.getFieldList()).toEqual([])
     })
 
-    it('should set autofilled and unset it on change', () => {
+    it('should set autofilled and unset it on change', async () => {
       const store = makeStore({})
 
       const renderInput = jest.fn(props => <input {...props.input} />)
@@ -4955,7 +4981,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
 
       // user edits field
-      renderInput.mock.calls[1][0].input.onChange('user value')
+      await renderInput.mock.calls[1][0].input.onChange('user value')
 
       // check field
       expect(renderInput).toHaveBeenCalled()
@@ -4975,7 +5001,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
     })
 
-    it('should not reinitialize values on remount if destroyOnMount is false', () => {
+    it('should not reinitialize values on remount if destroyOnMount is false', async () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const initialValues = {
@@ -5036,7 +5062,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 1).input.value).toBe('fooInitial')
 
       // change value
-      inputRender.mock.calls[1][0].input.onChange('fooChanged')
+      await inputRender.mock.calls[1][0].input.onChange('fooChanged')
 
       // updated form state
       expect(store.getState()).toEqualMap({
@@ -5357,7 +5383,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         })
     })
 
-    it('submits (via config) when the SUBMIT action is dispatched', () => {
+    it('submits (via config) when the SUBMIT action is dispatched', async () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
       const inputRender = jest.fn(props => <input {...props.input} />)
@@ -5387,7 +5413,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       let callIndex = logger.mock.calls.length
 
       // update input
-      inputRender.mock.calls[0][0].input.onChange('hello')
+      await inputRender.mock.calls[0][0].input.onChange('hello')
 
       // check that change action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -5423,7 +5449,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 'hello' })
     })
 
-    it('submits (via prop) when the SUBMIT action is dispatched', () => {
+    it('submits (via prop) when the SUBMIT action is dispatched', async () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
       const inputRender = jest.fn(props => <input {...props.input} />)
@@ -5452,7 +5478,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       let callIndex = logger.mock.calls.length
 
       // update input
-      inputRender.mock.calls[0][0].input.onChange('hello')
+      await inputRender.mock.calls[0][0].input.onChange('hello')
 
       // check that change action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -5488,7 +5514,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 'hello' })
     })
 
-    it('does NOT submit (via config) invalid form when the SUBMIT action is dispatched', () => {
+    it('does NOT submit (via config) invalid form when the SUBMIT action is dispatched', async () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
       const inputRender = jest.fn(props => <input {...props.input} />)
@@ -5558,7 +5584,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 3).submitFailed).toBe(true)
 
       // update input
-      inputRender.mock.calls[0][0].input.onChange('hello')
+      await inputRender.mock.calls[0][0].input.onChange('hello')
 
       // check that change action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(
@@ -5607,7 +5633,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onSubmit.mock.calls[0][2].values).toEqualMap({ foo: 'hello' })
     })
 
-    it('does NOT submit (via prop) invalid form when the SUBMIT action is dispatched', () => {
+    it('does NOT submit (via prop) invalid form when the SUBMIT action is dispatched', async () => {
       const logger = jest.fn((state = {}) => state)
       const store = makeStore({}, logger)
       const inputRender = jest.fn(props => <input {...props.input} />)
@@ -5676,7 +5702,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(formRender, 3).submitFailed).toBe(true)
 
       // update input
-      inputRender.mock.calls[0][0].input.onChange('hello')
+      await inputRender.mock.calls[0][0].input.onChange('hello')
 
       // check that change action was dispatched
       expect(logger.mock.calls[callIndex++][1]).toEqual(

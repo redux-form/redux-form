@@ -934,7 +934,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input).toHaveBeenCalledTimes(1)
     })
 
-    it('should call normalize function on change', () => {
+    it('should call normalize function on change', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -971,7 +971,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(normalize).not.toHaveBeenCalled()
 
       expect(renderUsername.mock.calls[0][0].input.value).toBe('oldusername')
-      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
 
       expect(normalize).toHaveBeenCalledWith(
         'ERIKRAS',
@@ -993,7 +993,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(renderUsername.mock.calls[1][0].input.value).toBe('erikras')
     })
 
-    it('should call normalize function on blur', () => {
+    it('should call normalize function on blur', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1030,7 +1030,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(normalize).not.toHaveBeenCalled()
 
       expect(renderUsername.mock.calls[0][0].input.value).toBe('oldusername')
-      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
 
       expect(normalize).toHaveBeenCalledWith(
         'ERIKRAS',
@@ -1052,7 +1052,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(renderUsername.mock.calls[1][0].input.value).toBe('erikras')
     })
 
-    it('should call asyncValidate function on blur', () => {
+    it('should call asyncValidate function on blur', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1082,12 +1082,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
 
       expect(asyncValidate).toHaveBeenCalled()
     })
 
-    it('should call asyncValidate function on change', () => {
+    it('should call asyncValidate function on change', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1117,12 +1117,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
 
       expect(asyncValidate).toHaveBeenCalled()
     })
 
-    it('should call asyncValidate function on blur if field is specified', () => {
+    it('should call asyncValidate function on blur if field is specified', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1156,12 +1156,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
 
       expect(asyncValidate).toHaveBeenCalled()
     })
 
-    it('should call asyncValidate function on change if field is specified', () => {
+    it('should call asyncValidate function on change if field is specified', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1195,12 +1195,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
 
       expect(asyncValidate).toHaveBeenCalled()
     })
 
-    it('should not call asyncValidate function on blur if field is specified and different', () => {
+    it('should not call asyncValidate function on blur if field is specified and different', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1234,12 +1234,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
 
       expect(asyncValidate).not.toHaveBeenCalled()
     })
 
-    it('should not call asyncValidate function on change if field is specified and different', () => {
+    it('should not call asyncValidate function on change if field is specified and different', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1273,12 +1273,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
 
       expect(asyncValidate).not.toHaveBeenCalled()
     })
 
-    it('should not call asyncValidate function on change if field is specified as onBlur', () => {
+    it('should not call asyncValidate function on change if field is specified as onBlur', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1312,12 +1312,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onChange('ERIKRAS')
 
       expect(asyncValidate).not.toHaveBeenCalled()
     })
 
-    it('should not call asyncValidate function on blur if field is specified as onChange', () => {
+    it('should not call asyncValidate function on blur if field is specified as onChange', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1351,12 +1351,12 @@ const describeField = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
+      await renderUsername.mock.calls[0][0].input.onBlur('ERIKRAS')
 
       expect(asyncValidate).not.toHaveBeenCalled()
     })
 
-    it('should call handle on focus', () => {
+    it('should call handle on focus', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1378,11 +1378,11 @@ const describeField = (name, structure, combineReducers, setup) => {
       )
 
       expect(renderTitle.mock.calls[0][0].meta.visited).toBe(false)
-      renderTitle.mock.calls[0][0].input.onFocus()
+      await renderTitle.mock.calls[0][0].input.onFocus()
       expect(renderTitle.mock.calls[1][0].meta.visited).toBe(true)
     })
 
-    it('should not change the value of a radio when blur', () => {
+    it('should not change the value of a radio when blur', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1424,7 +1424,7 @@ const describeField = (name, structure, combineReducers, setup) => {
 
       expect(renderSex.mock.calls[0][0].input.checked).toBe(false)
       expect(renderSex.mock.calls[1][0].input.checked).toBe(true)
-      renderSex.mock.calls[0][0].input.onBlur('female')
+      await renderSex.mock.calls[0][0].input.onBlur('female')
 
       expect(renderSex.mock.calls[2][0].input.checked).toBe(false)
       expect(renderSex.mock.calls[3][0].input.checked).toBe(true)
@@ -1549,7 +1549,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
     })
 
-    it('should call parse function on change', () => {
+    it('should call parse function on change', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1580,7 +1580,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
-      input.mock.calls[0][0].input.onChange('REDUX FORM ROCKS')
+      await input.mock.calls[0][0].input.onChange('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
       expect(parse).toHaveBeenCalledTimes(1)
@@ -1590,7 +1590,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[1][0].input.value).toBe('redux form rocks')
     })
 
-    it('should call parse function on blur', () => {
+    it('should call parse function on blur', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1621,7 +1621,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input).toHaveBeenCalledTimes(1)
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
-      input.mock.calls[0][0].input.onBlur('REDUX FORM ROCKS')
+      await input.mock.calls[0][0].input.onBlur('REDUX FORM ROCKS')
 
       expect(parse).toHaveBeenCalled()
       expect(parse).toHaveBeenCalledTimes(1)
@@ -1631,7 +1631,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[1][0].input.value).toBe('redux form rocks')
     })
 
-    it('should not update a value if onBlur is passed undefined', () => {
+    it('should not update a value if onBlur is passed undefined', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1681,7 +1681,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[0][0].input.value).toBe('redux form')
 
       // call onFocus
-      input.mock.calls[0][0].input.onFocus()
+      await input.mock.calls[0][0].input.onFocus()
 
       // verify state
       expect(store.getState()).toEqualMap({
@@ -1714,7 +1714,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[1][0].input.value).toBe('redux form')
 
       // call onBlur
-      input.mock.calls[0][0].input.onBlur()
+      await input.mock.calls[0][0].input.onBlur()
 
       // verify state
       expect(store.getState()).toEqualMap({
@@ -1747,7 +1747,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[2][0].input.value).toBe('redux form') // UNCHANGED!
     })
 
-    it('should parse and format to maintain different type in store', () => {
+    it('should parse and format to maintain different type in store', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1791,7 +1791,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[0][0].input.value).toBe('42')
 
       // update value
-      input.mock.calls[0][0].input.onChange('15')
+      await input.mock.calls[0][0].input.onChange('15')
 
       // parse was called
       expect(parse).toHaveBeenCalled()
@@ -1820,7 +1820,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input.mock.calls[1][0].input.value).toBe('15')
     })
 
-    it('should rerender when sync error changes', () => {
+    it('should rerender when sync error changes', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1867,7 +1867,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(confirmInput.mock.calls[1][0].meta.error).toBe('Must match!')
 
       // update password field so that they match
-      passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
+      await passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
 
       // password input rerendered
       expect(passwordInput).toHaveBeenCalledTimes(2)
@@ -1878,7 +1878,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(confirmInput.mock.calls[2][0].meta.error).toBe(undefined)
     })
 
-    it('should rerender when sync error is cleared', () => {
+    it('should rerender when sync error is cleared', async () => {
       const store = makeStore()
       const usernameInput = jest.fn(props => <input {...props.input} />)
       const validate = values => {
@@ -1913,7 +1913,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls[1][0].meta.error).toBe('Required')
 
       // update username field so it passes
-      usernameInput.mock.calls[1][0].input.onChange('erikras')
+      await usernameInput.mock.calls[1][0].input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput).toHaveBeenCalledTimes(4)
@@ -1923,7 +1923,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls[3][0].meta.error).toBe(undefined)
     })
 
-    it('should rerender when sync warning changes', () => {
+    it('should rerender when sync warning changes', async () => {
       const store = makeStore({
         testForm: {
           values: {
@@ -1973,7 +1973,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       )
 
       // update password field so that they match
-      passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
+      await passwordInput.mock.calls[0][0].input.onChange('redux-form rocks')
 
       // password input rerendered
       expect(passwordInput).toHaveBeenCalledTimes(2)
@@ -1983,7 +1983,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(confirmInput.mock.calls[2][0].meta.warning).toBe(undefined)
     })
 
-    it('should rerender when sync warning is cleared', () => {
+    it('should rerender when sync warning is cleared', async () => {
       const store = makeStore()
       const usernameInput = jest.fn(props => <input {...props.input} />)
       const warn = values => {
@@ -2017,7 +2017,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls[1][0].meta.warning).toBe('Recommended')
 
       // update username field so it passes
-      usernameInput.mock.calls[1][0].input.onChange('erikras')
+      await usernameInput.mock.calls[1][0].input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput).toHaveBeenCalledTimes(4)
@@ -2026,7 +2026,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls[3][0].meta.warning).toBe(undefined)
     })
 
-    it('should sync validate with field level validator', () => {
+    it('should sync validate with field level validator', async () => {
       const store = makeStore()
       const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(value =>
@@ -2065,7 +2065,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls[1][0].meta.error).toBe('Required')
 
       // update username field so it passes
-      usernameInput.mock.calls[0][0].input.onChange('erikras')
+      await usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput).toHaveBeenCalledTimes(4)
@@ -2274,7 +2274,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       }
     })
 
-    it('should sync warn with field level warning function', () => {
+    it('should sync warn with field level warning function', async () => {
       const store = makeStore()
       const usernameInput = jest.fn(props => <input {...props.input} />)
       const required = jest.fn(value =>
@@ -2313,7 +2313,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls[1][0].meta.warning).toBe('Recommended')
 
       // update username field so it passes
-      usernameInput.mock.calls[0][0].input.onChange('erikras')
+      await usernameInput.mock.calls[0][0].input.onChange('erikras')
 
       // username input rerendered
       expect(usernameInput).toHaveBeenCalledTimes(4)
@@ -2421,7 +2421,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       Object.keys(apiProps).forEach(key => expect(props[key]).toBeFalsy())
     })
 
-    it('should only rerender field that has changed', () => {
+    it('should only rerender field that has changed', async () => {
       const store = makeStore()
       const input1 = jest.fn(props => <input {...props.input} />)
       const input2 = jest.fn(props => <input {...props.input} />)
@@ -2450,7 +2450,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input2.mock.calls[0][0].input.value).toBe('')
 
       // change input #1
-      input1.mock.calls[0][0].input.onChange('foo')
+      await input1.mock.calls[0][0].input.onChange('foo')
 
       // expect input #1 to have been rerendered
       expect(input1).toHaveBeenCalledTimes(2)
@@ -2460,7 +2460,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(input2).toHaveBeenCalledTimes(1)
     })
 
-    it('should allow onChange callback', () => {
+    it('should allow onChange callback', async () => {
       const store = makeStore()
       const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
@@ -2489,7 +2489,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onChange).toBeFalsy()
 
-      TestUtils.Simulate.change(input)
+      await TestUtils.Simulate.change(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
@@ -2548,7 +2548,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
-    it('should allow onBlur callback', () => {
+    it('should allow onBlur callback', async () => {
       const store = makeStore()
       const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
@@ -2577,7 +2577,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(renderInput).toHaveBeenCalledTimes(1)
       expect(renderInput.mock.calls[0][0].onBlur).toBeFalsy()
 
-      TestUtils.Simulate.blur(input)
+      await TestUtils.Simulate.blur(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()
@@ -2636,7 +2636,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(renderInput.mock.calls[0][0].input.value).toBe('')
     })
 
-    it('should allow onFocus callback', () => {
+    it('should allow onFocus callback', async () => {
       const store = makeStore()
       const renderInput = jest.fn(props => <input {...props.input} />)
       const callback = jest.fn()
@@ -2667,7 +2667,7 @@ const describeField = (name, structure, combineReducers, setup) => {
       // not marked as active
       expect(renderInput.mock.calls[0][0].meta.active).toBe(false)
 
-      TestUtils.Simulate.focus(input)
+      await TestUtils.Simulate.focus(input)
 
       // call back was called
       expect(callback).toHaveBeenCalled()

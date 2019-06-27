@@ -12,6 +12,7 @@ import type { Structure } from './types.js.flow'
 import type { Props } from './ConnectedField.types'
 import validateComponentProp from './util/validateComponentProp'
 import isEvent from './events/isEvent'
+import isPromise from 'is-promise'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
@@ -44,6 +45,15 @@ const eventDataTransferSetData = (event, key, value) => {
     event.dataTransfer.setData(key, value)
   }
 }
+
+const getDefaultPreventedResult = defaultPrevented =>
+  new Promise(resolve => {
+    if (isPromise(defaultPrevented)) {
+      return defaultPrevented.then(resolve)
+    }
+
+    return resolve(defaultPrevented)
+  })
 
 const createConnectedField = (structure: Structure<*, *>) => {
   const { deepEqual, getIn } = structure
@@ -129,15 +139,18 @@ const createConnectedField = (structure: Structure<*, *>) => {
           defaultPrevented = onChange(event, newValue, previousValue, name)
         }
       }
-      if (!defaultPrevented) {
-        // dispatch change action
-        dispatch(_reduxForm.change(name, newValue))
 
-        // call post-change callback
-        if (_reduxForm.asyncValidate) {
-          _reduxForm.asyncValidate(name, newValue, 'change')
+      return getDefaultPreventedResult(defaultPrevented).then(result => {
+        if (!result) {
+          // dispatch change action
+          dispatch(_reduxForm.change(name, newValue))
+
+          // call post-change callback
+          if (_reduxForm.asyncValidate) {
+            _reduxForm.asyncValidate(name, newValue, 'change')
+          }
         }
-      }
+      })
     }
 
     handleFocus = (event: any) => {
@@ -161,9 +174,11 @@ const createConnectedField = (structure: Structure<*, *>) => {
         }
       }
 
-      if (!defaultPrevented) {
-        dispatch(_reduxForm.focus(name))
-      }
+      return getDefaultPreventedResult(defaultPrevented).then(result => {
+        if (!result) {
+          dispatch(_reduxForm.focus(name))
+        }
+      })
     }
 
     handleBlur = (event: any) => {
@@ -205,15 +220,17 @@ const createConnectedField = (structure: Structure<*, *>) => {
         }
       }
 
-      if (!defaultPrevented) {
-        // dispatch blur action
-        dispatch(_reduxForm.blur(name, newValue))
+      return getDefaultPreventedResult(defaultPrevented).then(result => {
+        if (!result) {
+          // dispatch blur action
+          dispatch(_reduxForm.blur(name, newValue))
 
-        // call post-blur callback
-        if (_reduxForm.asyncValidate) {
-          _reduxForm.asyncValidate(name, newValue, 'blur')
+          // call post-blur callback
+          if (_reduxForm.asyncValidate) {
+            _reduxForm.asyncValidate(name, newValue, 'blur')
+          }
         }
-      }
+      })
     }
 
     handleDragStart = (event: any) => {
