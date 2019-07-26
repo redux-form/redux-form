@@ -3874,6 +3874,38 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(renderInput, 1).meta.warning).toEqual(warning)
     })
 
+    it.only('should not warn with initialValues', () => {
+      const store = makeStore({})
+      const formRender = jest.fn()
+      const renderInput = jest.fn(props => <input {...props.input} />)
+
+      class Form extends Component {
+        render() {
+          formRender(this.props)
+          return (
+            <form>
+              <Field name="foo" component={renderInput} type="text" />
+            </form>
+          )
+        }
+      }
+      const Decorated = reduxForm({
+        form: 'testForm',
+        initialValues: { foo: 'test' },
+        warn: values => (getIn(values, 'foo') ? {} : { foo: 'foo warning' })
+      })(Form)
+
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <Decorated />
+        </Provider>
+      )
+
+      expect(propsAtLastRender(renderInput).meta.warning).not.toEqual(
+        'foo warning'
+      )
+    })
+
     it('should call async on blur of async blur field', () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)

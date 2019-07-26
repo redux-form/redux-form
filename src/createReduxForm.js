@@ -446,9 +446,10 @@ const createReduxForm = (structure: Structure<*, *>) => {
           nextWarning: any,
           lastSyncWarnings: ?Object
         ) {
-          const { warning, syncWarnings, updateSyncWarnings } = this.props
+          const { warning, updateSyncWarnings } = this.props
           const noWarnings =
-            (!syncWarnings || !Object.keys(syncWarnings).length) && !warning
+            (!lastSyncWarnings || !Object.keys(lastSyncWarnings).length) &&
+            !warning
           const nextNoWarnings =
             (!nextSyncWarnings || !Object.keys(nextSyncWarnings).length) &&
             !nextWarning
