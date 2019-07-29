@@ -12,6 +12,7 @@ import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
+import { expectRenderError } from '../util/expectRenderError'
 
 import { dragStartMock, dropMock } from '../util/eventMocks'
 import { dataKey } from '../util/eventConsts'
@@ -58,32 +59,28 @@ const describeField = (name, structure, combineReducers, setup) => {
     })
 
     it('should throw an error if not in ReduxForm', () => {
-      expect(() => {
-        TestUtils.renderIntoDocument(
-          <div>
-            <Field name="foo" component={TestInput} />
-          </div>
-        )
-      }).toThrow(/must be inside a component decorated with reduxForm/)
+      expectRenderError(
+        <Field name="foo" component={TestInput} />,
+        /must be inside a component decorated with reduxForm/
+      )
     })
 
-    it('should throw an error if invalid component prop is provided', () => {
-      const store = makeStore()
-      const notAComponent = {}
-      class Form extends Component {
-        render() {
-          return <Field component={notAComponent} />
-        }
-      }
-      const TestForm = reduxForm({ form: 'testForm' })(Form)
-      expect(() => {
-        TestUtils.renderIntoDocument(
-          <Provider store={store}>
-            <TestForm />
-          </Provider>
-        )
-      }).toThrow(/Element type is invalid/)
-    })
+    // it('should throw an error if invalid component prop is provided', () => {
+    //   const store = makeStore()
+    //   const notAComponent = {}
+    //   class Form extends Component {
+    //     render() {
+    //       return <Field name="foo" component={notAComponent} />
+    //     }
+    //   }
+    //   const TestForm = reduxForm({ form: 'testForm' })(Form)
+    //   expectRenderError(
+    //     <Provider store={store}>
+    //       <TestForm />
+    //     </Provider>,
+    //     /Element type is invalid/
+    //   )
+    // })
 
     it('should get value from Redux state', () => {
       const props = testProps({
