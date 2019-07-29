@@ -4,6 +4,10 @@
 
 ---
 
+💰**Psst!! Do you know React and Redux? [Sign up with Triplebyte](https://triplebyte.com/a/V6j0KPS/rf) to get offers from top tech companies!** 💰
+
+---
+
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://npmcharts.com/compare/redux-form?minimal=true)
 [![Build Status](https://img.shields.io/travis/erikras/redux-form/v6.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
