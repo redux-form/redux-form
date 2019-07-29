@@ -187,7 +187,6 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
       foo: {
         anyTouched: true,
         values: {
-        },
         fields: {
           myField: {
             touched: true
