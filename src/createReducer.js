@@ -303,7 +303,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     ) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
-      if (payload === '') {
+      if ((initial === undefined && payload === '') || payload === undefined) {
         result = deleteInWithCleanUp(result, `values.${field}`)
       } else if (isFunction(payload)) {
         const fieldCurrentValue = getIn(state, `values.${field}`)
