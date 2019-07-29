@@ -186,7 +186,6 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
     expect(state).toEqualMap({
       foo: {
         anyTouched: true,
-        values: {
         fields: {
           myField: {
             touched: true
