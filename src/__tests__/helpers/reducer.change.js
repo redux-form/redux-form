@@ -172,7 +172,7 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
     })
   })
 
-  it('should not modify a value if called with undefined', () => {
+  it('should modify a value if called with undefined', () => {
     const state = reducer(
       fromJS({
         foo: {
@@ -186,9 +186,6 @@ const describeChange = (reducer, expect, { fromJS }) => () => {
     expect(state).toEqualMap({
       foo: {
         anyTouched: true,
-        values: {
-          myField: 'initialValue'
-        },
         fields: {
           myField: {
             touched: true

@@ -303,7 +303,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     ) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
-      if (initial === undefined && payload === '') {
+      if ((initial === undefined && payload === '') || payload === undefined) {
         result = deleteInWithCleanUp(result, `values.${field}`)
       } else if (isFunction(payload)) {
         const fieldCurrentValue = getIn(state, `values.${field}`)
@@ -312,7 +312,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           `values.${field}`,
           payload(fieldCurrentValue, state.values)
         )
-      } else if (payload !== undefined) {
+      } else {
         result = setIn(result, `values.${field}`, payload)
       }
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
