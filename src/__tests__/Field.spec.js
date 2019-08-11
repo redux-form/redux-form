@@ -1433,7 +1433,8 @@ const describeField = (name, structure, combineReducers, setup) => {
       renderSex.mock.calls[0][0].input.onBlur('female')
 
       expect(renderSex.mock.calls[2][0].input.checked).toBe(false)
-      expect(renderSex.mock.calls[3][0].input.checked).toBe(true)
+      expect(renderSex.mock.calls[3][0].input.checked).toBe(false)
+      expect(renderSex.mock.calls[4][0].input.checked).toBe(true)
     })
 
     it('should call handle on drag start with value', () => {
