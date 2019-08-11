@@ -78,7 +78,7 @@ let ReactWidgetsForm = props => {
         <Field
           name="sex"
           component={renderSelectList}
-          data={['male', 'female']}
+          data={['male', 'female', 'other']}
         />
       </div>
       <div>

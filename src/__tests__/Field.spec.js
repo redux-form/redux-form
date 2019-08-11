@@ -1411,6 +1411,12 @@ const describeField = (name, structure, combineReducers, setup) => {
                 type="radio"
                 component={renderSex}
               />
+              <Field
+                name="sex"
+                value="other"
+                type="radio"
+                component={renderSex}
+              />
             </div>
           )
         }

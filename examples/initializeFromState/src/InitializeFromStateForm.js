@@ -69,6 +69,10 @@ let InitializeFromStateForm = props => {
             <Field name="sex" component="input" type="radio" value="female" />{' '}
             Female
           </label>
+          <label>
+            <Field name="sex" component="input" type="radio" value="other" />{' '}
+            Other
+          </label>
         </div>
       </div>
       <div>
