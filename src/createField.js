@@ -45,7 +45,7 @@ const createField = (structure: Structure<*, *>) => {
       return shallowCompare(this, nextProps, nextState)
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       const oldName = prefixName(this.props, this.props.name)
       const newName = prefixName(nextProps, nextProps.name)
 

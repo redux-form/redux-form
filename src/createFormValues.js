@@ -28,7 +28,7 @@ const createValues = ({ getIn }: Structure<*, *>): FormValuesInterface => (
         }
         this.updateComponent(props)
       }
-      componentWillReceiveProps(props) {
+      UNSAFE_componentWillReceiveProps(props) {
         if (typeof firstArg === 'function') {
           this.updateComponent(props)
         }

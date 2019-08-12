@@ -76,7 +76,7 @@ const createFields = (structure: Structure<*, *>) => {
       this.registerFields(this.props.names)
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    UNSAFE_componentWillReceiveProps(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { props } = this
         const { unregister } = props._reduxForm
