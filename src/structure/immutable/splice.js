@@ -18,8 +18,8 @@ export default (
         .splice(index, 0, true) // placeholder
         .set(index, undefined)
     }
-    if (value != null) {
-      return list.splice(index, removeNum, value) // removing and adding
+    if (Array.isArray(value)) {
+      return list.splice(index, removeNum, ...value) // removing and adding
     } else {
       return list.splice(index, removeNum) // removing
     }
@@ -29,5 +29,10 @@ export default (
     return list
   }
   // trying to add outside of range: just set value
-  return list.set(index, value)
+  if (Array.isArray(value)) {
+    value.forEach(value => (list = list.set(index++, value)))
+  } else {
+    list = list.set(index, value)
+  }
+  return list
 }

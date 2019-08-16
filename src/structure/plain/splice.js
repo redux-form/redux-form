@@ -15,9 +15,9 @@ const splice = (
       copy[index] = undefined // set to undefined
       return copy
     }
-    if (value != null) {
+    if (Array.isArray(value)) {
       const copy = [...array]
-      copy.splice(index, removeNum, value) // removing and adding
+      copy.splice(index, removeNum, ...value) // removing and adding
       return copy
     }
     const copy = [...array]
@@ -30,7 +30,11 @@ const splice = (
   }
   // trying to add outside of range: just set value
   const copy = [...array]
-  copy[index] = value
+  if (Array.isArray(value)) {
+    value.forEach(value => (copy[index++] = value))
+  } else {
+    copy[index] = value
+  }
   return copy
 }
 
