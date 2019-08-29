@@ -293,7 +293,7 @@ type PropsWithContext = { _reduxForm?: ReactContext } & Props
  * The decorator that is the main API to redux-form
  */
 const createReduxForm = (structure: Structure<*, *>) => {
-  const { deepEqual, empty, getIn, setIn, keys, fromJS } = structure
+  const { deepEqual, empty, getIn, setIn, keys, fromJS, toJS } = structure
   const isValid = createIsValid(structure)
   return (initialConfig: Config) => {
     const config = {
@@ -637,9 +637,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
 
         getFieldList = (options: Object): string[] => {
           let registeredFields = this.props.registeredFields
-          let list = []
           if (!registeredFields) {
-            return list
+            return []
           }
           let keySeq = keys(registeredFields)
           if (options) {
@@ -655,12 +654,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
               )
             }
           }
-          return fromJS(
-            keySeq.reduce((acc, key) => {
-              acc.push(key)
-              return acc
-            }, list)
-          )
+          return toJS(keySeq)
         }
 
         getValidators = (): Object => {

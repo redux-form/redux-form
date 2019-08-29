@@ -54,10 +54,10 @@ const api = {
     }
   },
 
-  toContainExactly(actual: any, expected: any[]) {
+  toContainExactly(actual: any[], expected: any[]) {
     const expectedItems = expected.map(expectedItem => fromJS(expectedItem))
     const pass =
-      actual.count() === expected.length &&
+      actual.length === expected.length &&
       actual.every(actualItem =>
         expectedItems.some(expectedItem =>
           deepEqualValues(actualItem, expectedItem)
