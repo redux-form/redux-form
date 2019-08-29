@@ -96,7 +96,7 @@
     "flow-bin": "^0.79.1",
     "flux-standard-action": "^2.1.1",
     "husky": "^1.2.1",
-    "immutable": "3.8.2",
+    "immutable": "^3.8.2",
     "insert-line": "^1.1.0",
     "jest": "^24.9.0",
     "jest-matcher-utils": "^24.9.0",
@@ -120,10 +120,8 @@
   "peerDependencies": {
     "react": "^16.4.0",
     "react-redux": "^6.0.0 || ^7.0.0",
-    "redux": "^3.0.0 || ^4.0.0"
-  },
-  "optionalDependencies": {
-    "immutable": "*"
+    "redux": "^3.0.0 || ^4.0.0",
+    "immutable": "^3.8.2"
   },
   "files": [
     "README.md",

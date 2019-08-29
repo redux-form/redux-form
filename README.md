@@ -4,7 +4,7 @@
   </a>
 </p>
 
-[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](https://redux-form.com/)
+[<img src="https://raw.githubusercontent.com/redux-form/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](https://redux-form.com/)
 
 # redux-form
 
