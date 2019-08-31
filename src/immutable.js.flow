@@ -79,8 +79,6 @@ import type { Actions } from './actions.types'
 type StructureMap = Object
 
 declare export var ReduxFormContext: React.Context<Context>
-declare export var withReduxForm: <P>(React.ComponentType<P>) =>
-  React.ComponentType<P & ReactContext>
 
 export type FormProps = _FormProps
 export type FormNameProps = _FormNameProps

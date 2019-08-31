@@ -13,13 +13,9 @@ import type {
   DefaultProps as FormSectionDefaultProps,
   Props as FormSectionProps
 } from './FormSection'
-import type {
-  Props as FieldInputProps,
-} from './FieldProps.types'
+import type { Props as FieldInputProps } from './FieldProps.types'
 import type { Props as FieldsInputProps } from './FieldsProps.types'
-import type {
-  Props as FieldArrayInputProps,
-} from './FieldArrayProps.types'
+import type { Props as FieldArrayInputProps } from './FieldArrayProps.types'
 import type { FormValueSelectorInterface } from './formValueSelector.types'
 import type { FormValuesInterface } from './formValues.types'
 import type { GetFormErrorInterface } from './selectors/getFormError.types'
@@ -77,8 +73,6 @@ import type {
 export type { Event, FormProps } from './types'
 
 declare export var ReduxFormContext: React.Context<Context>
-declare export var withReduxForm: <P>(React.ComponentType<P>) =>
-  React.ComponentType<P & ReactContext>
 
 type StructureMap = Object
 
