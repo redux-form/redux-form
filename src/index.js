@@ -1,7 +1,7 @@
 // @flow
 import actions from './actions'
 import * as _actionTypes from './actionTypes'
-export { ReduxFormContext, withReduxForm } from './ReduxFormContext'
+export { ReduxFormContext } from './ReduxFormContext'
 export {
   default as defaultShouldAsyncValidate
 } from './defaultShouldAsyncValidate'
