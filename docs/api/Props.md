@@ -115,8 +115,9 @@ class SimpleForm extends React.Component {
 > so it returns nothing.
 
 ### `change(field:String, value:any) : Function`
+### `change(formSectionName:String, value:any) : Function`
 
-> Changes the value of a field in the Redux store. This is a bound action
+> Changes the value of a field or a whole FormSection in the Redux store. This is a bound action
 > creator, so it returns nothing.
 > You could get current field-value & form-values while `value` is a function, For example: `change(field, (fieldValue, allValues) => {})`
 
