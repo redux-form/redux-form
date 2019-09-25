@@ -3,7 +3,7 @@
 ## [`reduxForm(config:Object)`](ReduxForm.md)
 
 > The decorator you use to connect your form component to Redux.
-[See details](ReduxForm.md).
+> [See details](ReduxForm.md).
 
 > [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reduxForm.js)
 
@@ -66,7 +66,7 @@
 ## [`Form`](Form.md)
 
 > A simple wrapper for the React `<form>` component that allows
-the surrounding `redux-form`-decorated component to trigger its `onSubmit` function.
+> the surrounding `redux-form`-decorated component to trigger its `onSubmit` function.
 
 > [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Form.js)
 
@@ -85,6 +85,14 @@ the surrounding `redux-form`-decorated component to trigger its `onSubmit` funct
 > A special error type for returning submit validation errors
 
 > [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/SubmissionError.js)
+
+---
+
+## [`ReduxFormContext`](ReduxFormContext.md)
+
+> A react context that allows to manipulate a form in any way, can create form components
+
+> [`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/ReduxFormContext.js)
 
 ---
 

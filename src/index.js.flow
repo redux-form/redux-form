@@ -70,7 +70,7 @@ import type {
   Untouch
 } from './actions.types'
 
-export type { Event, FormProps } from './types'
+export type { Event, FormProps, Context } from './types'
 
 declare export var ReduxFormContext: React.Context<Context>
 
