@@ -3874,7 +3874,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(renderInput, 1).meta.warning).toEqual(warning)
     })
 
-    it.only('should not warn with initialValues', () => {
+    it('should not warn with initialValues', () => {
       const store = makeStore({})
       const formRender = jest.fn()
       const renderInput = jest.fn(props => <input {...props.input} />)
