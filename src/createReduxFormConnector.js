@@ -30,8 +30,8 @@ const createReduxFormConnector =
           });
         }
 
-        componentWillReceiveProps(nextProps) {
-          this.cache.componentWillReceiveProps(nextProps);
+        UNSAFE_componentWillReceiveProps(nextProps) {
+          this.cache.UNSAFE_componentWillReceiveProps(nextProps);
         }
 
         render() {

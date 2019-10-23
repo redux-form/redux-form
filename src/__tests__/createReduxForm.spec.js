@@ -2818,7 +2818,7 @@ describe('createReduxForm', () => {
     let lastNextBarValue; // eslint-disable-line
 
     class FormComponent extends Component {
-      componentWillReceiveProps(nextProps) {
+      UNSAFE_componentWillReceiveProps(nextProps) {
         /*
          console.info(
          this.props.fields.foo.bar.value,
