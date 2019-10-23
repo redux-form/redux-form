@@ -87,7 +87,6 @@
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.1.0",
     "react": "^16.11.0",
-    "react-addons-test-utils": "^15.0.0",
     "react-dom": "^16.11.0",
     "react-redux": "^5.0.1",
     "redux": "^3.3.1",
