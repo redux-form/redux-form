@@ -34,6 +34,7 @@ var immutableExternal = {
 }
 
 var config = {
+  devtool: 'none',
   externals: {
     react: reactExternal,
     redux: reduxExternal,
