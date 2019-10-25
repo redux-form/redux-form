@@ -90,14 +90,14 @@ const renderSelectField = ({
   ...custom
 }) => (
   <FormControl error={touched && error}>
-    <InputLabel htmlFor="age-native-simple">Age</InputLabel>
+    <InputLabel htmlFor="color-native-simple">{label}</InputLabel>
     <Select
       native
       {...input}
       {...custom}
       inputProps={{
-        name: 'age',
-        id: 'age-native-simple'
+        name: input.name,
+        id: 'color-native-simple'
       }}
     >
       {children}
