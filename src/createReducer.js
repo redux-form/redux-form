@@ -351,7 +351,6 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     ) {
       let result = state
       fields.forEach(field => {
-        result = deleteInWithCleanUp(result, `values.${field}`)
         result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
         if (!persistentSubmitErrors) {
           result = deleteInWithCleanUp(result, `submitErrors.${field}`)
