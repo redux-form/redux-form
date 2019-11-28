@@ -127,9 +127,9 @@ class SimpleForm extends React.Component {
 
 ### `clearFields(keepTouched: boolean, persistentSubmitErrors: boolean, ...fields:String)`
 
-Cleans fields values for all the fields passed in. Will reset to initialValue for each field if has any.  
-If the keepTouched parameter is true, the values of currently touched fields will be retained.  
-If the persistentSubmitErrors parameter is true, the values of currently submit errors fields will be retained
+> Cleans fields values for all the fields passed in. Will reset to initialValue for each field if has any.  
+> If the keepTouched parameter is true, the values of currently touched fields will be retained.  
+> If the persistentSubmitErrors parameter is true, the values of currently submit errors fields will be retained
 
 ### `destroy() : Function`
 
