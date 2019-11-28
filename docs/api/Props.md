@@ -126,6 +126,12 @@ class SimpleForm extends React.Component {
 > Clear async error of a field in the Redux store. This is a bound action
 > creator, so it returns nothing.
 
+### `clearFields(keepTouched: boolean, persistentSubmitErrors: boolean, ...fields:String)`
+
+> Cleans fields values for all the fields passed in. Will reset to initialValue for each field if has any.  
+> If the keepTouched parameter is true, the values of currently touched fields will be retained.  
+> If the persistentSubmitErrors parameter is true, the values of currently submit errors fields will be retained
+
 ### `destroy() : Function`
 
 > Destroys the form state in the Redux store. By default, this will be called
