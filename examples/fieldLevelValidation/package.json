@@ -28,7 +28,7 @@
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-react": "^6.24.1",
     "cross-env": "^3.2.4",
-    "eslint": "^3.18.0",
+    "eslint": "^4.18.2",
     "eslint-config-rackt": "^1.1.1",
     "eslint-config-react-app": "^1.0.5",
     "eslint-loader": "^1.7.0",
