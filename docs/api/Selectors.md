@@ -36,7 +36,7 @@ import {
 } from 'redux-form'
 
 MyComponent = connect(state => ({
-  values: getFormValues('myForm')(state),
+  formValues: getFormValues('myForm')(state),
   initialValues: getFormInitialValues('myForm')(state),
   formSyncErrors: getFormSyncErrors('myForm')(state),
   fields: getFormMeta('myForm')(state),
@@ -59,7 +59,7 @@ MyComponent = connect(state => ({
 
 ### `getFormValues(formName:String)` returns `(state) => formValues:Object`
 
-> Gets the form values. Shocking, right?
+> Gets the current form values in real-time.
 
 ### `getFormInitialValues(formName:String)` returns `(state) => formInitialValues:Object`
 
