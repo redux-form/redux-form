@@ -8,7 +8,7 @@ Before opening an issue, please search the [issue tracker](https://github.com/re
 
 **We use the issue tracker to keep track of bugs and improvements** to Redux Form itself, its examples, and the documentation. We encourage you to open issues to discuss improvements, architecture, internal implementation, etc. If a topic has been discussed before, we will ask you to join the previous discussion.
 
-For support or usage questions, please search and ask on [StackOverflow with a `redux-form` tag](https://stackoverflow.com/questions/tagged/redux-form) or [Gitter](https://gitter.im/erikras/redux-form). We ask you to do this because StackOverflow has a much better job at keeping popular questions visible. Unfortunately good answers get lost and outdated on GitHub.
+For support or usage questions, please search and ask on [StackOverflow with a `redux-form` tag](https://stackoverflow.com/questions/tagged/redux-form), [Spectrum](https://spectrum.chat/redux-form) or [Gitter](https://gitter.im/erikras/redux-form). We ask you to do this because StackOverflow has a much better job at keeping popular questions visible. Unfortunately good answers get lost and outdated on GitHub.
 
 **If you already asked at StackOverflow or Gitter and still got no answers, post an issue with the question link, so we can either answer it or evolve into a bug/feature request.**
 
