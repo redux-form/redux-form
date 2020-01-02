@@ -1,6 +1,6 @@
 # `FieldArray`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/FieldArray.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/FieldArray.js)
 
 The `FieldArray` component is how you render an array of fields. It works a lot like `Field`.
 With `Field`, you give a `name`, referring to the location of the field in the Redux state, and a

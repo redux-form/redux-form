@@ -1,6 +1,6 @@
 # Selectors
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/tree/master/src/selectors)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/tree/master/src/selectors)
 
 `redux-form` provides a set of useful Redux state
 [**selectors**](https://redux.js.org/recipes/computing-derived-data/) that may be used in

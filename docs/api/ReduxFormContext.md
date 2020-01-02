@@ -1,6 +1,6 @@
 # `ReduxFormContext`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/ReduxFormContext.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/ReduxFormContext.js)
 
 `ReduxFormContext` is a `React.Context` that allows to hook into parent `redux-form`. All this `redux-form` components use `ReduxFormContext` to hook into parent form.
 

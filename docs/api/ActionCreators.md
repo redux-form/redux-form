@@ -1,6 +1,6 @@
 # Action Creators
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/actions.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/actions.js)
 
 `redux-form` exports all of its internal action creators, allowing you complete
 control to dispatch any action you wish. However, it is recommended that you use

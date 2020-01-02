@@ -47,7 +47,7 @@ The only good reason, [in the author's view](https://twitter.com/erikras/status/
 - [Examples](https://redux-form.com/8.2.2/examples/)
 - [API](https://redux-form.com/8.2.2/docs/api/)
 - [FAQ](https://redux-form.com/8.2.2/docs/faq/)
-- [Release Notes](https://github.com/erikras/redux-form/releases)
+- [Release Notes](https://github.com/redux-form/redux-form/releases)
 - [Older Documentation](https://redux-form.com/8.2.2/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
@@ -80,7 +80,7 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 ## Contributors
 
 This project exists thanks to all the people who contribute.
-<a href="https://github.com/erikras/redux-form/graphs/contributors"><img src="https://opencollective.com/redux-form/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/redux-form/redux-form/graphs/contributors"><img src="https://opencollective.com/redux-form/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
 

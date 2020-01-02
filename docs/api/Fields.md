@@ -1,6 +1,6 @@
 # `Fields`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Fields.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/Fields.js)
 
 The `Fields` component is similar to the
 [`Field`](https://redux-form.com/6.2.0/docs/api/Field.md/) component, but

@@ -1,6 +1,6 @@
 # `Field`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Field.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/Field.js)
 
 The `Field` component is how you connect each individual input to the Redux store. There are
 three fundamental things that you need to understand in order to use `Field` correctly:

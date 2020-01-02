@@ -31,7 +31,7 @@ you don't need to worry about the
 yourself, as they're already bound to dispatch for certain actions.
 
 <div style="text-align: center;">
-  <img src="https://github.com/erikras/redux-form/raw/master/docs/reduxFormDiagram.png" width="500" style="max-width: 100%;"/>
+  <img src="https://github.com/redux-form/redux-form/raw/master/docs/reduxFormDiagram.png" width="500" style="max-width: 100%;"/>
 </div>
 
 Let's go through a simple example. We have a form component wrapped with
