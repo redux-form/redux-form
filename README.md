@@ -4,7 +4,7 @@
   </a>
 </p>
 
-[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](http://erikras.github.io/redux-form/)
+[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](https://redux-form.com/)
 
 # redux-form
 
@@ -18,10 +18,10 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://npmcharts.com/compare/redux-form?minimal=true)
 [![Build Status](https://img.shields.io/travis/redux-form/redux-form/v6.svg?style=flat)](https://travis-ci.com/redux-form/redux-form)
 [![codecov.io](https://codecov.io/gh/redux-form/redux-form/branch/master/graph/badge.svg)](https://codecov.io/gh/redux-form/redux-form)
-[![Code Climate](https://codeclimate.com/github/erikras/redux-form/badges/gpa.svg)](https://codeclimate.com/github/erikras/redux-form)
+[![Code Climate](https://codeclimate.com/github/redux-form/redux-form/badges/gpa.svg)](https://codeclimate.com/github/redux-form/redux-form)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![PayPal donate button](http://img.shields.io/paypal/donate.png?color=yellowgreen)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
-[![Twitter URL](https://img.shields.io/twitter/url/https/github.com/erikras/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
+[![PayPal donate button](https://img.shields.io/badge/PayPal-Donate-yellowgreen?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
+[![Twitter URL](https://img.shields.io/twitter/url/https/github.com/redux-form/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
 [![Patreon](https://img.shields.io/badge/patreon-support%20the%20author-blue.svg)](https://www.patreon.com/erikras)
 [![Backers on Open Collective](https://opencollective.com/redux-form/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/redux-form/sponsors/badge.svg)](#sponsors)

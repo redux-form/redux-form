@@ -23,9 +23,10 @@
     "lint": "eslint src",
     "precommit": "lint-staged",
     "prepublishOnly": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
+    "postinstall": "node scripts/patch-immutable-flow-error.js && opencollective-postinstall",
     "validate": "npm run lint && npm run test:cov && npm run test:flow && npm run clean && npm run build",
     "test": "cross-env NODE_ENV=test jest src --runInBand",
-    "test:flow": "node scripts/patch-immutable-flow-error.js && opencollective-postinstall && flow check",
+    "test:flow": "flow check",
     "test:watch": "npm test -- --watch",
     "test:cov": "npm run test -- --coverage"
   },
@@ -39,7 +40,7 @@
     "form",
     "decorator"
   ],
-  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (http://github.com/erikras)",
+  "author": "Erik Rasmussen <rasmussenerik@gmail.com> (https://github.com/erikras)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/redux-form/redux-form/issues"

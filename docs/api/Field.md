@@ -171,7 +171,7 @@ Defaults to `false`. **Cannot be used if your component is a stateless function 
 ## Usage
 
 The `component` prop will be passed to
-[`React.createElement()`](http://facebook.github.io/react/docs/top-level-api.html#react.createelement),
+[`React.createElement()`](https://reactjs.org/docs/react-api.html#createelement),
 which accepts one of three possible things:
 
 ### 1. A normal component
@@ -304,13 +304,13 @@ to be destructured into your `<input/>` component.
 #### `input.onBlur(eventOrValue) : Function`
 
 > A function to call when the form field loses focus. It expects to _either_ receive the
-> [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) _or_ the current
+> [React SyntheticEvent](https://reactjs.org/docs/events.html) _or_ the current
 > value of the field.
 
 #### `input.onChange(eventOrValue) : Function`
 
 > A function to call when the form field is changed. It expects to _either_ receive the
-> [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) _or_ the new value
+> [React SyntheticEvent](https://reactjs.org/docs/events.html) _or_ the new value
 > of the field.
 
 #### `input.onDragStart(event) : Function`

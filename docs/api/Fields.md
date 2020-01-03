@@ -106,7 +106,7 @@ component is a stateless function component.**
 ## Usage
 
 The `component` prop will be passed to
-[`React.createElement()`](http://facebook.github.io/react/docs/top-level-api.html#react.createelement),
+[`React.createElement()`](https://reactjs.org/docs/react-api.html#createelement),
 which accepts one of two possible things:
 
 ### 1. A component
