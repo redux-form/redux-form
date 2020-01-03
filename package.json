@@ -83,7 +83,7 @@
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-preset-es2015-no-commonjs": "^0.0.2",
-    "codecov.io": "^0.1.6",
+    "codecov": "^3.6.1",
     "cross-env": "^5.2.1",
     "deep-equal": "^1.1.1",
     "eslint": "^5.11.0",
