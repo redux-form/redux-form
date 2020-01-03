@@ -33,7 +33,6 @@ module.exports = {
     '@babel/plugin-proposal-export-namespace-from',
     '@babel/plugin-proposal-numeric-separator',
     '@babel/plugin-proposal-throw-expressions',
-    test && '@babel/plugin-transform-react-jsx-source',
-    test && 'istanbul'
+    test && '@babel/plugin-transform-react-jsx-source'
   ].filter(Boolean)
 }
