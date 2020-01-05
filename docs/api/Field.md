@@ -132,7 +132,7 @@ Used to determine the exact shape of the `input` prop passed through to the comp
 `component` prop, as detailed below:
 
 - if `type === 'checkbox'` or `type === 'radio'`, the boolean `checked` field will be passed through
-- if `type === 'select-multi'`, the value will always be an array (i.e. will default to `[]` instead of an empty string)
+- if `type === 'select-multiple'`, the value will always be an array (i.e. will default to `[]` instead of an empty string)
 - if `type === 'file'`, the value will always be of type `?File` (i.e. will default to `undefined` instead of an empty string)
 
 Use this if either:
