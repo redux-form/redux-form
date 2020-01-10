@@ -126,7 +126,12 @@ const createConnectedField = (structure: Structure<*, *>) => {
             name
           )
         } else {
-          defaultPrevented = onChange(event, newValue, previousValue, name)
+          const onChangeResult = onChange(event, newValue, previousValue, name)
+          // Return value of change handler affecting preventDefault is RN
+          // specific behavior.
+          if (isReactNative) {
+            defaultPrevented = onChangeResult
+          }
         }
       }
       if (!defaultPrevented) {
