@@ -71,8 +71,6 @@ const createField = (structure: Structure<*, *>) => {
       this.props._reduxForm.unregister(this.name)
     }
 
-    ref = React.createRef()
-
     getRenderedComponent(): ?Component<*, *> {
       invariant(
         this.props.forwardRef,
