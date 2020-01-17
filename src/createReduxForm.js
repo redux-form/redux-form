@@ -312,6 +312,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
       pure: true,
       forceUnregisterOnUnmount: false,
       submitAsSideEffect: false,
+      keepValues: true,
       ...initialConfig
     }
 
@@ -333,6 +334,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
         initIfNeeded(nextProps: ?PropsWithContext) {
           const {
             initialValues,
+            initialized,
             initialize,
             enableReinitialize,
             keepDirtyOnReinitialize,
@@ -340,16 +342,16 @@ const createReduxForm = (structure: Structure<*, *>) => {
             updateUnregisteredFields
           } = this.props
 
-          if (nextProps) {
+          if (nextProps && nextProps.initialValues) {
             const shouldReinitialize =
-              nextProps.initialized && enableReinitialize &&
+              nextProps.initialized &&
+              enableReinitialize &&
               !deepEqual(initialValues, nextProps.initialValues)
             const shouldUpdateInitial =
               !nextProps.initialized || shouldReinitialize
 
             if (shouldUpdateInitial) {
-              const keepDirty =
-                nextProps.initialized && keepDirtyOnReinitialize
+              const keepDirty = nextProps.initialized && keepDirtyOnReinitialize
 
               initialize(nextProps.initialValues, keepDirty, {
                 keepValues: nextProps.keepValues,
@@ -357,9 +359,8 @@ const createReduxForm = (structure: Structure<*, *>) => {
                 updateUnregisteredFields: nextProps.updateUnregisteredFields
               })
             }
-          } else {
-            const shouldUpdateInitial =
-              !initialized || enableReinitialize
+          } else if (initialValues) {
+            const shouldUpdateInitial = !initialized || enableReinitialize
 
             if (shouldUpdateInitial) {
               initialize(initialValues, keepDirtyOnReinitialize, {
@@ -1025,15 +1026,17 @@ const createReduxForm = (structure: Structure<*, *>) => {
           const valuesInitialized = !!stateValues
 
           const shouldReinitialize =
-            initialized && enableReinitialize &&
+            initialized &&
+            enableReinitialize &&
             !deepEqual(stateInitial, initialValues)
-          const shouldUpdateInitial =
-            !initialized || shouldReinitialize
+          const shouldUpdateInitial = !initialized || shouldReinitialize
           const shouldUpdateValues =
-            (!valuesInitialized || shouldUpdateInitial) &&
+            (!valuesInitialized || shouldReinitialize) &&
             !keepDirtyOnReinitialize
 
-          const initial = shouldUpdateInitial ? initialValues : stateInitial
+          const initial = shouldUpdateInitial
+            ? initialValues || empty
+            : stateInitial
           const values = shouldUpdateValues ? initial : stateValues
 
           const pristine = shouldUpdateValues || deepEqual(initial, values)
