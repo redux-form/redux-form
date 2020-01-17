@@ -312,7 +312,6 @@ const createReduxForm = (structure: Structure<*, *>) => {
       pure: true,
       forceUnregisterOnUnmount: false,
       submitAsSideEffect: false,
-      keepValues: true,
       ...initialConfig
     }
 
