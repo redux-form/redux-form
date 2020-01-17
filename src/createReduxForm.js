@@ -341,22 +341,25 @@ const createReduxForm = (structure: Structure<*, *>) => {
             updateUnregisteredFields
           } = this.props
 
-          if (nextProps && nextProps.initialValues) {
-            const shouldReinitialize =
-              nextProps.initialized &&
-              enableReinitialize &&
-              !deepEqual(initialValues, nextProps.initialValues)
-            const shouldUpdateInitial =
-              !nextProps.initialized || shouldReinitialize
+          if (nextProps) {
+            if (nextProps.initialValues) {
+              const shouldReinitialize =
+                nextProps.initialized &&
+                enableReinitialize &&
+                !deepEqual(initialValues, nextProps.initialValues)
+              const shouldUpdateInitial =
+                !nextProps.initialized || shouldReinitialize
 
-            if (shouldUpdateInitial) {
-              const keepDirty = nextProps.initialized && keepDirtyOnReinitialize
+              if (shouldUpdateInitial) {
+                const keepDirty =
+                  nextProps.initialized && keepDirtyOnReinitialize
 
-              initialize(nextProps.initialValues, keepDirty, {
-                keepValues: nextProps.keepValues,
-                lastInitialValues: initialValues,
-                updateUnregisteredFields: nextProps.updateUnregisteredFields
-              })
+                initialize(nextProps.initialValues, keepDirty, {
+                  keepValues: nextProps.keepValues,
+                  lastInitialValues: initialValues,
+                  updateUnregisteredFields: nextProps.updateUnregisteredFields
+                })
+              }
             }
           } else if (initialValues) {
             const shouldUpdateInitial = !initialized || enableReinitialize
