@@ -331,32 +331,42 @@ const createReduxForm = (structure: Structure<*, *>) => {
         submitPromise = undefined
 
         initIfNeeded(nextProps: ?PropsWithContext) {
-          const { enableReinitialize } = this.props
+          const {
+            initialValues,
+            initialize,
+            enableReinitialize,
+            keepDirtyOnReinitialize,
+            keepValues,
+            updateUnregisteredFields
+          } = this.props
+
           if (nextProps) {
-            if (
-              (enableReinitialize || !nextProps.initialized) &&
-              !deepEqual(this.props.initialValues, nextProps.initialValues)
-            ) {
+            const shouldReinitialize =
+              nextProps.initialized && enableReinitialize &&
+              !deepEqual(initialValues, nextProps.initialValues)
+            const shouldUpdateInitial =
+              !nextProps.initialized || shouldReinitialize
+
+            if (shouldUpdateInitial) {
               const keepDirty =
-                nextProps.initialized && this.props.keepDirtyOnReinitialize
-              this.props.initialize(nextProps.initialValues, keepDirty, {
+                nextProps.initialized && keepDirtyOnReinitialize
+
+              initialize(nextProps.initialValues, keepDirty, {
                 keepValues: nextProps.keepValues,
-                lastInitialValues: this.props.initialValues,
+                lastInitialValues: initialValues,
                 updateUnregisteredFields: nextProps.updateUnregisteredFields
               })
             }
-          } else if (
-            this.props.initialValues &&
-            (!this.props.initialized || enableReinitialize)
-          ) {
-            this.props.initialize(
-              this.props.initialValues,
-              this.props.keepDirtyOnReinitialize,
-              {
-                keepValues: this.props.keepValues,
-                updateUnregisteredFields: this.props.updateUnregisteredFields
-              }
-            )
+          } else {
+            const shouldUpdateInitial =
+              !initialized || enableReinitialize
+
+            if (shouldUpdateInitial) {
+              initialize(initialValues, keepDirtyOnReinitialize, {
+                keepValues,
+                updateUnregisteredFields
+              })
+            }
           }
         }
 
@@ -1007,29 +1017,26 @@ const createReduxForm = (structure: Structure<*, *>) => {
             keepDirtyOnReinitialize
           } = props
           const formState = getIn(getFormState(state) || empty, form) || empty
+
           const stateInitial = getIn(formState, 'initial')
+          const stateValues = getIn(formState, 'values')
+
           const initialized = !!stateInitial
+          const valuesInitialized = !!stateValues
 
-          const shouldUpdateInitialValues =
-            enableReinitialize &&
-            initialized &&
-            !deepEqual(initialValues, stateInitial)
-          const shouldResetValues =
-            shouldUpdateInitialValues && !keepDirtyOnReinitialize
+          const shouldReinitialize =
+            initialized && enableReinitialize &&
+            !deepEqual(stateInitial, initialValues)
+          const shouldUpdateInitial =
+            !initialized || shouldReinitialize
+          const shouldUpdateValues =
+            (!valuesInitialized || shouldUpdateInitial) &&
+            !keepDirtyOnReinitialize
 
-          let initial = initialValues || stateInitial || empty
+          const initial = shouldUpdateInitial ? initialValues : stateInitial
+          const values = shouldUpdateValues ? initial : stateValues
 
-          if (!shouldUpdateInitialValues) {
-            initial = stateInitial || empty
-          }
-
-          let values = getIn(formState, 'values') || initial
-
-          if (shouldResetValues) {
-            values = initial
-          }
-
-          const pristine = shouldResetValues || deepEqual(initial, values)
+          const pristine = shouldUpdateValues || deepEqual(initial, values)
           const asyncErrors = getIn(formState, 'asyncErrors')
           const syncErrors = getIn(formState, 'syncErrors') || plain.empty
           const syncWarnings = getIn(formState, 'syncWarnings') || plain.empty
