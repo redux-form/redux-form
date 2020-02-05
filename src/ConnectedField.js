@@ -72,16 +72,16 @@ const createConnectedField = (structure: Structure<*, *>) => {
       return !!(
         this.props.children ||
         nextProps.children ||
-        (nextPropsKeys.length !== thisPropsKeys.length ||
-          nextPropsKeys.some(prop => {
-            if (~(nextProps.immutableProps || []).indexOf(prop)) {
-              return this.props[prop] !== nextProps[prop]
-            }
-            return (
-              !~propsToNotUpdateFor.indexOf(prop) &&
-              !deepEqual(this.props[prop], nextProps[prop])
-            )
-          }))
+        nextPropsKeys.length !== thisPropsKeys.length ||
+        nextPropsKeys.some(prop => {
+          if (~(nextProps.immutableProps || []).indexOf(prop)) {
+            return this.props[prop] !== nextProps[prop]
+          }
+          return (
+            !~propsToNotUpdateFor.indexOf(prop) &&
+            !deepEqual(this.props[prop], nextProps[prop])
+          )
+        })
       )
     }
 
@@ -93,7 +93,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
       return this.ref.current
     }
 
-    handleChange = (event: any) => {
+    handleChange = (eventOrValue: any) => {
       const {
         name,
         dispatch,
@@ -103,7 +103,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
         _reduxForm,
         value: previousValue
       } = this.props
-      const newValue = onChangeValue(event, { name, parse, normalize })
+      const newValue = onChangeValue(eventOrValue, { name, parse, normalize })
 
       let defaultPrevented = false
       if (onChange) {
@@ -112,13 +112,13 @@ const createConnectedField = (structure: Structure<*, *>) => {
         // to prevent the following error:
         // `One of the sources for assign has an enumerable key on the prototype chain`
         // Reference: https://github.com/facebook/react-native/issues/5507
-        if (!isReactNative && isEvent(event)) {
+        if (!isReactNative) {
           onChange(
             {
-              ...event,
+              ...(isEvent(eventOrValue) ? eventOrValue : (undefined: any)),
               preventDefault: () => {
                 defaultPrevented = true
-                return eventPreventDefault(event)
+                return eventPreventDefault(eventOrValue)
               }
             },
             newValue,
@@ -126,7 +126,12 @@ const createConnectedField = (structure: Structure<*, *>) => {
             name
           )
         } else {
-          const onChangeResult = onChange(event, newValue, previousValue, name)
+          const onChangeResult = onChange(
+            eventOrValue,
+            newValue,
+            previousValue,
+            name
+          )
           // Return value of change handler affecting preventDefault is RN
           // specific behavior.
           if (isReactNative) {
