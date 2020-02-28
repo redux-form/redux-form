@@ -2082,59 +2082,67 @@ const describeField = (name, structure, combineReducers, setup) => {
       expect(usernameInput.mock.calls[3][0].meta.error).toBe(undefined)
     })
 
-    //it('should sync validate with multiple field level validators', () => {
-    //  const store = makeStore()
-    //  const usernameInput = createSpy(props =>
-    //    <input {...props.input} />
-    //  ).andCallThrough()
-    //  const required = createSpy(
-    //    value => (value == null ? 'Required' : undefined)
-    //  ).andCallThrough()
-    //  const minLength5 = createSpy(
-    //    value => (value && value.length < 5 ? 'Min length 5' : undefined)
-    //  ).andCallThrough()
-    //  class Form extends Component {
-    //    render() {
-    //      return (
-    //        <div>
-    //          <Field
-    //            name="username"
-    //            component={usernameInput}
-    //            validate={[required, minLength5]}
-    //          />
-    //        </div>
-    //      )
-    //    }
-    //  }
-    //  const TestForm = reduxForm({
-    //    form: 'testForm'
-    //  })(Form)
-    //  TestUtils.renderIntoDocument(
-    //    <Provider store={store}>
-    //      <TestForm />
-    //    </Provider>
-    //  )
-    //
-    //  // username input rendered
-    //  expect(usernameInput).toHaveBeenCalled()
-    //  expect(usernameInput.calls.length).toBe(2)
-    //  expect(required).toHaveBeenCalled()
-    //  expect(required.calls.length).toBe(1)
-    //
-    //  // username field has error
-    //  expect(usernameInput.calls[1].arguments[0].meta.valid).toBe(false)
-    //  expect(usernameInput.calls[1].arguments[0].meta.error).toBe('Required')
-    //
-    //  // update username field so it passes
-    //  usernameInput.calls[0].arguments[0].input.onChange('erikras')
-    //
-    //  // username input rerendered
-    //  expect(usernameInput.calls.length).toBe(3)
-    //
-    //  // should be valid now
-    //  expect(usernameInput.calls[2].arguments[0].meta.valid).toBe(true)
-    //  expect(usernameInput.calls[2].arguments[0].meta.error).toBe(undefined)
-    //})
+    it('should sync validate with multiple field level validators', () => {
+      const store = makeStore()
+      const usernameInput = jest.fn(props => <input {...props.input} />)
+      const required = jest.fn(value =>
+        value == null ? 'Required' : undefined
+      )
+      const minLength5 = jest.fn(value =>
+        value && value.length < 5 ? 'Min length 5' : undefined
+      )
+      class Form extends Component {
+        render() {
+          return (
+            <div>
+              <Field
+                name="username"
+                component={usernameInput}
+                validate={[required, minLength5]}
+              />
+            </div>
+          )
+        }
+      }
+      const TestForm = reduxForm({
+        form: 'testForm'
+      })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm />
+        </Provider>
+      )
+
+      // username input rendered
+      expect(usernameInput).toHaveBeenCalled()
+      expect(usernameInput).toHaveBeenCalledTimes(2)
+      expect(required).toHaveBeenCalled()
+      expect(required).toHaveBeenCalledTimes(1)
+
+      // username field has error
+      expect(usernameInput.mock.calls[1][0].meta.valid).toBe(false)
+      expect(usernameInput.mock.calls[1][0].meta.error).toBe('Required')
+
+      // update username field so it fails min length 5
+      usernameInput.mock.calls[0][0].input.onChange('erik')
+
+      // username input rerendered
+      expect(usernameInput).toHaveBeenCalledTimes(4)
+
+      // should be valid now
+      expect(usernameInput.mock.calls[3][0].meta.valid).toBe(false)
+      expect(usernameInput.mock.calls[3][0].meta.error).toBe('Min length 5')
+
+      // update username field so it passes
+      usernameInput.mock.calls[0][0].input.onChange('erikasa')
+
+      // username input rerendered
+      expect(usernameInput).toHaveBeenCalledTimes(6)
+
+      // should be valid now
+      expect(usernameInput.mock.calls[5][0].meta.valid).toBe(true)
+      expect(usernameInput.mock.calls[5][0].meta.error).toBe(undefined)
+    })
 
     it('should update field level validation when validate prop changes', () => {
       const store = makeStore()
