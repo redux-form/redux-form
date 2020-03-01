@@ -17,12 +17,12 @@ https://github.com/redux-form/redux-form/blob/master/CONTRIBUTING.md
 
 Describe your issue here.
 
-This is _not_ a place to ask questions.
+This is _not_ a place to ask questions. Questions asked here will be closed.
 For that, you can go to this places:
 
-- [Spectrum](https://spectrum.chat/redux-form)
-- [StackOverflow](https://stackoverflow.com/questions/tagged/redux-form)
 - [Gitter](https://gitter.im/erikras/redux-form)
+- [StackOverflow](https://stackoverflow.com/questions/tagged/redux-form)
+- [Spectrum](https://spectrum.chat/redux-form)
 
 ### Your environment
 
