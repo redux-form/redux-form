@@ -10,7 +10,7 @@
 
 ---
 
-💰**Psst!! Do you know React and Redux? [Sign up with Triplebyte](https://triplebyte.com/a/V6j0KPS/rf) to get offers from top tech companies!** 💰
+[<img src="form-nerd-logo.png" align="left"/>](https://formnerd.co/redux-form-readme) **You build great forms, but do you know HOW users use your forms? [Find out with Form Nerd!](https://formnerd.co/redux-form-readme) Professional analytics from the creator of Redux Form.**
 
 ---
 
