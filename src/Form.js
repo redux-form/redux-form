@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import { withReduxForm } from './ReduxFormContext'
 import type { ReactContext } from './types'
@@ -36,5 +35,4 @@ Form.propTypes = {
   _reduxForm: PropTypes.object
 }
 
-polyfill(Form)
 export default withReduxForm(Form)
