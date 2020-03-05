@@ -1,0 +1,18 @@
+[
+  {
+    "path": "lib/index.js",
+    "limit": "29 kb"
+  },
+  {
+    "path": "es/index.js",
+    "limit": "26 kb"
+  },
+  {
+    "path": "dist/redux-form.js",
+    "limit": "64 kb"
+  },
+  {
+    "path": "dist/redux-form.min.js",
+    "limit": "25 kb"
+  }
+]
