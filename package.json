@@ -53,8 +53,7 @@
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",
     "prop-types": "^15.6.1",
-    "react-is": "^16.12.0",
-    "react-lifecycles-compat": "^3.0.4"
+    "react-is": "^16.12.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

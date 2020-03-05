@@ -1,6 +1,5 @@
 // @flow
 import React, { Component, createElement } from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
@@ -119,7 +118,6 @@ const createFieldArray = (structure: Structure<*, *>) => {
     _reduxForm: PropTypes.object
   }
 
-  polyfill(FieldArray)
   return withReduxForm(FieldArray)
 }
 
