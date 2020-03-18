@@ -155,7 +155,7 @@
     "testRegex": "__tests__/.*\\.spec\\.js$",
     "testEnvironment": "jsdom"
   },
-  "collective": {
+  "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/redux-form"
   },
