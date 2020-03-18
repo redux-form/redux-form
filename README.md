@@ -1,9 +1,3 @@
- <p align="center">
-  <a href="https://codefund.io/properties/21/visit-sponsor">
-    <img src="https://codefund.io/properties/21/sponsor" />
-  </a>
-</p>
-
 [<img src="https://raw.githubusercontent.com/redux-form/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](https://redux-form.com/)
 
 # redux-form
