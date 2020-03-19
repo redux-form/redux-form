@@ -13,6 +13,6 @@
   },
   {
     "path": "dist/redux-form.min.js",
-    "limit": "25 kb"
+    "limit": "26 kb"
   }
 ]

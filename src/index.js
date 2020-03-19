@@ -1,10 +1,8 @@
 // @flow
 import actions from './actions'
-import * as _actionTypes from './actionTypes'
+export { default as actionTypes } from './actionTypes'
 export { ReduxFormContext } from './ReduxFormContext'
-export {
-  default as defaultShouldAsyncValidate
-} from './defaultShouldAsyncValidate'
+export { default as defaultShouldAsyncValidate } from './defaultShouldAsyncValidate'
 export { default as defaultShouldValidate } from './defaultShouldValidate'
 export { default as defaultShouldError } from './defaultShouldError'
 export { default as defaultShouldWarn } from './defaultShouldWarn'
@@ -48,7 +46,6 @@ export { default as hasSubmitFailed } from './hasSubmitFailed'
 export { default as reduxForm } from './reduxForm'
 export { default as reducer } from './reducer'
 export { default as values } from './values'
-export const actionTypes = _actionTypes
 export const arrayInsert = actions.arrayInsert
 export const arrayMove = actions.arrayMove
 export const arrayPop = actions.arrayPop
