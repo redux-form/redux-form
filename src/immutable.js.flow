@@ -70,6 +70,7 @@ import type {
   StopAsyncValidation,
   StopSubmit,
   Submit,
+  Touch,
   UnregisterField,
   Untouch
 } from './actions.types'
