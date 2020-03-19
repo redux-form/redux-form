@@ -124,6 +124,11 @@
     "redux": "^3.0.0 || ^4.0.0",
     "immutable": "^3.8.2"
   },
+  "peerDependenciesMeta": {
+    "immutable": {
+      "optional": true
+    }
+  },
   "files": [
     "README.md",
     "es",
