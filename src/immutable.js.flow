@@ -43,38 +43,37 @@ import type { IsSubmittingInterface } from './selectors/isSubmitting.types'
 import type { Config as ValuesConfig } from './values.types'
 import type { ActionTypes } from './actionTypes.types'
 import type {
-  ArrayInsertAction,
-  ArrayMoveAction,
-  ArrayPopAction,
-  ArrayPushAction,
-  ArrayRemoveAction,
-  ArrayRemoveAllAction,
-  ArrayShiftAction,
-  ArraySpliceAction,
-  ArraySwapAction,
-  ArrayUnshiftAction,
-  AutofillAction,
-  BlurAction,
-  ChangeAction,
-  ClearSubmitErrorsAction,
-  DestroyAction,
-  FocusAction,
-  InitializeAction,
-  RegisterFieldAction,
-  ResetAction,
-  ResetSectionAction,
-  SetSubmitFailedAction,
-  SetSubmitSucceededAction,
-  StartAsyncValidationAction,
-  StartSubmitAction,
-  StopAsyncValidationAction,
-  StopSubmitAction,
-  SubmitAction,
-  TouchAction,
-  UnregisterFieldAction,
-  UntouchAction
+  ArrayInsert,
+  ArrayMove,
+  ArrayPop,
+  ArrayPush,
+  ArrayRemove,
+  ArrayRemoveAll,
+  ArrayShift,
+  ArraySplice,
+  ArraySwap,
+  ArrayUnshift,
+  Autofill,
+  Blur,
+  Change,
+  ClearSubmitErrors,
+  Destroy,
+  Focus,
+  Initialize,
+  RegisterField,
+  Reset,
+  ResetSection,
+  SetSubmitFailed,
+  SetSubmitSucceeded,
+  StartAsyncValidation,
+  StartSubmit,
+  StopAsyncValidation,
+  StopSubmit,
+  Submit,
+  Touch,
+  UnregisterField,
+  Untouch
 } from './actions.types'
-import type { Actions } from './actions.types'
 
 type StructureMap = Object
 
@@ -235,33 +234,33 @@ declare export function values(
 ): { (ComponentType<*>): ComponentType<*> }
 
 // Action creators
-declare export var arrayInsert: ArrayInsertAction
-declare export var arrayMove: ArrayMoveAction
-declare export var arrayPop: ArrayPopAction
-declare export var arrayPush: ArrayPushAction
-declare export var arrayRemove: ArrayRemoveAction
-declare export var arrayRemoveAll: ArrayRemoveAllAction
-declare export var arrayShift: ArrayShiftAction
-declare export var arraySplice: ArraySpliceAction
-declare export var arraySwap: ArraySwapAction
-declare export var arrayUnshift: ArrayUnshiftAction
-declare export var autofill: AutofillAction
-declare export var blur: BlurAction
-declare export var change: ChangeAction
-declare export var clearSubmitErrors: ClearSubmitErrorsAction
-declare export var destroy: DestroyAction
-declare export var focus: FocusAction
-declare export var initialize: InitializeAction
-declare export var registerField: RegisterFieldAction
-declare export var reset: ResetAction
-declare export var resetSection: ResetSectionAction
-declare export var setSubmitFailed: SetSubmitFailedAction
-declare export var setSubmitSucceeded: SetSubmitSucceededAction
-declare export var startAsyncValidation: StartAsyncValidationAction
-declare export var startSubmit: StartSubmitAction
-declare export var stopAsyncValidation: StopAsyncValidationAction
-declare export var stopSubmit: StopSubmitAction
-declare export var submit: SubmitAction
-declare export var touch: TouchAction
-declare export var unregisterField: UnregisterFieldAction
-declare export var untouch: UntouchAction
+declare export var arrayInsert: ArrayInsert
+declare export var arrayMove: ArrayMove
+declare export var arrayPop: ArrayPop
+declare export var arrayPush: ArrayPush
+declare export var arrayRemove: ArrayRemove
+declare export var arrayRemoveAll: ArrayRemoveAll
+declare export var arrayShift: ArrayShift
+declare export var arraySplice: ArraySplice
+declare export var arraySwap: ArraySwap
+declare export var arrayUnshift: ArrayUnshift
+declare export var autofill: Autofill
+declare export var blur: Blur
+declare export var change: Change;
+declare export var clearSubmitErrors: ClearSubmitErrors
+declare export var destroy: Destroy
+declare export var focus: Focus
+declare export var initialize: Initialize
+declare export var registerField: RegisterField
+declare export var reset: Reset
+declare export var resetSection: ResetSection
+declare export var setSubmitFailed: SetSubmitFailed
+declare export var setSubmitSucceeded: SetSubmitSucceeded
+declare export var startAsyncValidation: StartAsyncValidation
+declare export var startSubmit: StartSubmit
+declare export var stopAsyncValidation: StopAsyncValidation
+declare export var stopSubmit: StopSubmit
+declare export var submit: Submit
+declare export var touch: Touch
+declare export var unregisterField: UnregisterField
+declare export var untouch: Untouch
