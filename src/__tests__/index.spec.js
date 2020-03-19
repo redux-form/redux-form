@@ -72,7 +72,7 @@ import {
 
 describe('index', () => {
   it('should export actionTypes', () => {
-    expect(actionTypes).toEqual(expectedActionTypes)
+    expect(actionTypes).toEqual(expectedActionTypes.default)
   })
   it('should export arrayInsert', () => {
     expect(typeof arrayInsert).toBe('function')
