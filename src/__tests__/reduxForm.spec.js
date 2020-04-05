@@ -733,24 +733,24 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       ).find(element => element.getAttribute('name') === 'foo')
 
       expect(formRender).toHaveBeenCalledTimes(2)
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
 
-      expect(propsAtNthRender(inputRender, 1).input.checked).toBe(true)
+      expect(propsAtNthRender(inputRender, 0).input.checked).toBe(true)
       TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: false }
       })
 
-      expect(inputRender).toHaveBeenCalledTimes(3)
-      expect(propsAtNthRender(inputRender, 2).input.checked).toBe(false)
+      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputRender, 1).input.checked).toBe(false)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(false)
 
       TestUtils.Simulate.change(checkbox, {
         target: { type: 'checkbox', checked: true }
       })
 
-      expect(inputRender).toHaveBeenCalledTimes(4)
-      expect(propsAtNthRender(inputRender, 3).input.value).toBe(true)
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(inputRender, 2).input.value).toBe(true)
       expect(getIn(store.getState(), 'form.testForm.values.foo')).toBe(true)
     })
 
@@ -801,10 +801,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkProps(propsAtNthRender(formRender, 1))
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(inputRender, 1).meta.pristine).toBe(true)
-      expect(propsAtNthRender(inputRender, 1).meta.dirty).toBe(false)
-      expect(propsAtNthRender(inputRender, 1).input.value).toBe('bar')
+      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(propsAtNthRender(inputRender, 0).meta.pristine).toBe(true)
+      expect(propsAtNthRender(inputRender, 0).meta.dirty).toBe(false)
+      expect(propsAtNthRender(inputRender, 0).input.value).toBe('bar')
     })
 
     it('should support calling change in Form componentDidMount', () => {
@@ -1026,13 +1026,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
       const checkInputProps = (props, value) => {
         expect(props.meta.pristine).toBe(true)
         expect(props.meta.dirty).toBe(false)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[1][0], 'bar')
+      checkInputProps(inputRender.mock.calls[0][0], 'bar')
 
       // initialize
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1058,7 +1058,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       // no need to rerender input since nothing changed
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
     })
 
     it('should reinitialize with initialValues if enableReinitialize', () => {
@@ -1144,22 +1144,22 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
 
       // Expect that input value has been initialized
-      checkInputProps(inputRender.mock.calls[1][0], 'bar')
+      checkInputProps(inputRender.mock.calls[0][0], 'bar')
 
       // Change input value and check if it is dirty and not pristine
-      const onChange = inputRender.mock.calls[1][0].input.onChange
+      const onChange = inputRender.mock.calls[0][0].input.onChange
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
 
-      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(inputRender).toHaveBeenCalledTimes(2)
 
       // Expect that input value has been changed and is dirty now
-      checkInputProps(inputRender.mock.calls[2][0], 'dirtyvalue', false, true)
+      checkInputProps(inputRender.mock.calls[1][0], 'dirtyvalue', false, true)
 
       // Re-initialize form and check if it is pristine and not dirty
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1184,10 +1184,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       // Expect rerenders due to the re-initialization.
       expect(formRender).toHaveBeenCalledTimes(4)
 
-      expect(inputRender).toHaveBeenCalledTimes(4)
+      expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Expect that input value has been re-initialized and is not dirty anymore
-      checkInputProps(inputRender.mock.calls[3][0], 'baz')
+      checkInputProps(inputRender.mock.calls[2][0], 'baz')
     })
 
     it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
@@ -1259,21 +1259,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
       const checkInputProps = (props, value, dirty) => {
         expect(props.meta.pristine).toBe(!dirty)
         expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[1][0], 'bar', false)
+      checkInputProps(inputRender.mock.calls[0][0], 'bar', false)
 
       // Change the input value.
-      const onChange = inputRender.mock.calls[1][0].input.onChange
+      const onChange = inputRender.mock.calls[0][0].input.onChange
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
-      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(inputRender).toHaveBeenCalledTimes(2)
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1303,9 +1303,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(3)
 
       // should rerender input with the dirty value and new meta.initial
-      expect(inputRender).toHaveBeenCalledTimes(4)
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      checkInputProps(inputRender.mock.calls[1][0], 'dirtyvalue', true)
       checkInputProps(inputRender.mock.calls[2][0], 'dirtyvalue', true)
-      checkInputProps(inputRender.mock.calls[3][0], 'dirtyvalue', true)
     })
 
     it('should not retain dirty fields if keepDirtyOnReinitialize is not set', () => {
@@ -1376,21 +1376,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
       const checkInputProps = (props, value, dirty) => {
         expect(props.meta.pristine).toBe(!dirty)
         expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[1][0], 'bar', false)
+      checkInputProps(inputRender.mock.calls[0][0], 'bar', false)
 
       // Change the input value.
-      const onChange = inputRender.mock.calls[1][0].input.onChange
+      const onChange = inputRender.mock.calls[0][0].input.onChange
       onChange('dirtyvalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
-      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(inputRender).toHaveBeenCalledTimes(2)
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1416,8 +1416,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(4)
 
       // should rerender input with the pristine value.
-      expect(inputRender).toHaveBeenCalledTimes(4)
-      checkInputProps(inputRender.mock.calls[3][0], 'baz', false)
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      checkInputProps(inputRender.mock.calls[2][0], 'baz', false)
     })
 
     it('should be pristine after initialize() if enableReinitialize', () => {
@@ -1626,21 +1626,21 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(inputRender).toHaveBeenCalledTimes(1)
       const checkInputProps = (props, value, dirty) => {
         expect(props.meta.pristine).toBe(!dirty)
         expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
       }
-      checkInputProps(inputRender.mock.calls[1][0], 'bar', false)
+      checkInputProps(inputRender.mock.calls[0][0], 'bar', false)
 
       // Change the input value.
-      const onChange = inputRender.mock.calls[1][0].input.onChange
+      const onChange = inputRender.mock.calls[0][0].input.onChange
       onChange('futurevalue')
 
       // Expect rerenders due to the change.
       expect(formRender).toHaveBeenCalledTimes(3)
-      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(inputRender).toHaveBeenCalledTimes(2)
 
       // Reinitialize the form
       const initButton = TestUtils.findRenderedDOMComponentWithTag(
@@ -1667,8 +1667,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(4)
 
       // should rerender input with the new value that is now pristine.
-      expect(inputRender).toHaveBeenCalledTimes(4)
-      checkInputProps(inputRender.mock.calls[3][0], 'futurevalue', false)
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      checkInputProps(inputRender.mock.calls[2][0], 'futurevalue', false)
     })
 
     // Test related to #1436
@@ -2070,7 +2070,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(deepFooInputRender).toHaveBeenCalled()
-      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
+      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
 
       expect(helloInputRender).toHaveBeenCalled()
       expect(helloInputRender).toHaveBeenCalledTimes(1)
@@ -2108,7 +2108,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       // should not rerender 'deep.foo' input since its value did not change.
-      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
+      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
 
       // should rerender 'hello' input with new value and new meta.initial
       expect(helloInputRender).toHaveBeenCalledTimes(2)
@@ -2188,7 +2188,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       expect(deepFooInputRender).toHaveBeenCalled()
-      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
+      expect(deepFooInputRender).toHaveBeenCalledTimes(1)
 
       expect(helloInputRender).toHaveBeenCalled()
       expect(helloInputRender).toHaveBeenCalledTimes(1)
@@ -2220,7 +2220,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(formRender).toHaveBeenCalledTimes(2)
 
       // should rerender 'deep.foo' input with new value and new meta.initial
-      expect(deepFooInputRender).toHaveBeenCalledTimes(3)
+      expect(deepFooInputRender).toHaveBeenCalledTimes(2)
 
       // should rerender 'hello' input with new value and new meta.initial
       expect(helloInputRender).toHaveBeenCalledTimes(2)
@@ -3341,20 +3341,20 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       )
 
       expect(input).toHaveBeenCalled()
+      expect(input).toHaveBeenCalledTimes(1)
+
+      expect(propsAtNthRender(input, 0).input.value).toBe('initialBar')
+
+      input.mock.calls[0][0].input.onChange('newBar')
+
       expect(input).toHaveBeenCalledTimes(2)
-
-      expect(propsAtNthRender(input, 1).input.value).toBe('initialBar')
-
-      input.mock.calls[1][0].input.onChange('newBar')
-
-      expect(input).toHaveBeenCalledTimes(3)
-      expect(propsAtNthRender(input, 2).input.value).toBe('newBar')
+      expect(propsAtNthRender(input, 1).input.value).toBe('newBar')
 
       expect(typeof ref.current.reset).toBe('function')
       ref.current.reset()
 
-      expect(input).toHaveBeenCalledTimes(4)
-      expect(propsAtNthRender(input, 3).input.value).toBe('initialBar')
+      expect(input).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(input, 2).input.value).toBe('initialBar')
     })
 
     it('should rerender form, but not fields, when non-redux-form props change', () => {
@@ -5064,11 +5064,11 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       // rendered with initial value
       expect(inputRender).toHaveBeenCalled()
-      expect(inputRender).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(inputRender, 1).input.value).toBe('fooInitial')
+      expect(inputRender).toHaveBeenCalledTimes(1)
+      expect(propsAtNthRender(inputRender, 0).input.value).toBe('fooInitial')
 
       // change value
-      inputRender.mock.calls[1][0].input.onChange('fooChanged')
+      inputRender.mock.calls[0][0].input.onChange('fooChanged')
 
       // updated form state
       expect(store.getState()).toEqualMap({
@@ -5082,8 +5082,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
 
       // rendered with changed value
-      expect(inputRender).toHaveBeenCalledTimes(3)
-      expect(propsAtNthRender(inputRender, 2).input.value).toBe('fooChanged')
+      expect(inputRender).toHaveBeenCalledTimes(2)
+      expect(propsAtNthRender(inputRender, 1).input.value).toBe('fooChanged')
 
       // unmount form
       const toggle = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
@@ -5115,8 +5115,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       })
 
       // input rendered with changed value
-      expect(inputRender).toHaveBeenCalledTimes(4)
-      expect(propsAtNthRender(inputRender, 3).input.value).toBe('fooChanged')
+      expect(inputRender).toHaveBeenCalledTimes(3)
+      expect(propsAtNthRender(inputRender, 2).input.value).toBe('fooChanged')
     })
 
     it('should provide dispatch-bound blur() that modifies values', () => {
