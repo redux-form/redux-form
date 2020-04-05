@@ -807,7 +807,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 1).input.value).toBe('bar')
     })
 
-    it('should support calling change in Form componentDidMount', () => {
+    it('should support calling change in Form componentDidMount with keepValues', () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
       const formRender = jest.fn()
@@ -832,7 +832,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       const Decorated = reduxForm({ form: 'testForm' })(Form)
       TestUtils.renderIntoDocument(
         <Provider store={store}>
-          <Decorated initialValues={initialValues} />
+          <Decorated initialValues={initialValues} keepValues />
         </Provider>
       )
       expect(store.getState()).toEqualMap({
