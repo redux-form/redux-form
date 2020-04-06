@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/redux-form/redux-form"
   },
+  "engines": {
+    "node": ">=8.10"
+  },
   "scripts": {
     "analyze": "webpack src/index.js dist/redux-form.js -p --bail --profile --json > stats.json && webpack-bundle-analyzer stats.json",
     "build": "npm run clean && npm run build:lib && npm run build:es && npm run build:umd && npm run build:umd:min && npm run build:flow",
