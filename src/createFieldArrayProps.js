@@ -27,8 +27,8 @@ type Props = {
   props?: Object
 }
 
-const createFieldArrayProps = (
-  { getIn }: Structure<*, *>,
+export default function createFieldArrayProps(
+  { getIn }: Structure<any, any>,
   name: string,
   form: string,
   sectionPrefix?: string,
@@ -58,7 +58,7 @@ const createFieldArrayProps = (
     props,
     ...rest
   }: Props
-): FieldArrayProps => {
+): FieldArrayProps {
   const error = syncError || asyncError || submitError
   const warning = syncWarning
   const fieldName = sectionPrefix ? name.replace(`${sectionPrefix}.`, '') : name
@@ -87,12 +87,7 @@ const createFieldArrayProps = (
       reduce: (callback, initial) =>
         (value || []).reduce(
           (accumulator, item, index) =>
-            callback(
-              accumulator,
-              `${fieldName}[${index}]`,
-              index,
-              finalProps.fields
-            ),
+            callback(accumulator, `${fieldName}[${index}]`, index, finalProps.fields),
           initial
         ),
       remove: arrayRemove,
@@ -121,5 +116,3 @@ const createFieldArrayProps = (
   }
   return finalProps
 }
-
-export default createFieldArrayProps

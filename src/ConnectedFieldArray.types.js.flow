@@ -43,7 +43,7 @@ export type DefaultProps = {
 
 type Api = {
   dirty: boolean,
-  getRenderedComponent: { (): Component<*, *> },
+  getRenderedComponent: { (): Component<any, any> },
   pristine: boolean,
   value: ?(any[])
 }

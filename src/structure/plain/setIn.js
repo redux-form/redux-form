@@ -2,18 +2,17 @@
 import { toPath } from 'lodash'
 
 const setInWithPath = (
-  state: Object | Array<*>,
+  state: Object | Array<any>,
   value: any,
   path: string[],
   pathIndex: number
-): Object | Array<*> => {
+): Object | Array<any> => {
   if (pathIndex >= path.length) {
     return value
   }
 
   const first = path[pathIndex]
-  const firstState =
-    state && (Array.isArray(state) ? state[Number(first)] : state[first])
+  const firstState = state && (Array.isArray(state) ? state[Number(first)] : state[first])
   const next = setInWithPath(firstState, value, path, pathIndex + 1)
 
   if (!state) {
@@ -37,7 +36,7 @@ const setInWithPath = (
   }
 }
 
-const setIn = (state: Object | Array<*>, field: string, value: any) =>
+const setIn = (state: Object | Array<any>, field: string, value: any) =>
   setInWithPath(state, value, toPath(field), 0)
 
 export default setIn

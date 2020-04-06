@@ -12,4 +12,4 @@ trim_trailing_whitespace = false
 
 [*.js]
 trim_trailing_whitespace = false
-max_line_length = 80
+max_line_length = 100

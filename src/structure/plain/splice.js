@@ -1,10 +1,5 @@
 // @flow
-const splice = (
-  array: Array<*>,
-  index: number,
-  removeNum: number,
-  value: any
-): Array<*> => {
+const splice = (array: Array<any>, index: number, removeNum: number, value: any): Array<any> => {
   array = array || []
 
   if (index < array.length) {
