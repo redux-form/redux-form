@@ -1,49 +1,53 @@
 'use strict'
-var webpack = require('webpack')
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+const webpack = require('webpack')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-var env = process.env.NODE_ENV
+const env = process.env.NODE_ENV
 
-var reactExternal = {
+const reactExternal = {
   root: 'React',
   commonjs2: 'react',
   commonjs: 'react',
   amd: 'react'
 }
 
-var reduxExternal = {
+const reduxExternal = {
   root: 'Redux',
   commonjs2: 'redux',
   commonjs: 'redux',
   amd: 'redux'
 }
 
-var reactReduxExternal = {
+const reactReduxExternal = {
   root: 'ReactRedux',
   commonjs2: 'react-redux',
   commonjs: 'react-redux',
   amd: 'react-redux'
 }
 
-var immutableExternal = {
+const immutableExternal = {
   root: 'Immutable',
   commonjs2: 'immutable',
   commonjs: 'immutable',
   amd: 'immutable'
 }
 
-var config = {
+module.exports = {
   externals: {
     react: reactExternal,
     redux: reduxExternal,
     'react-redux': reactReduxExternal,
     immutable: immutableExternal
   },
-  mode: 'development',
+  mode: env === 'production' ? 'production' : 'development',
   module: {
     rules: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      }
     ]
   },
   output: {
@@ -57,9 +61,3 @@ var config = {
     })
   ]
 }
-
-if (env === 'production') {
-  config.mode = 'production'
-}
-
-module.exports = config
