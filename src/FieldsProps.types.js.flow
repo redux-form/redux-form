@@ -7,7 +7,7 @@ export type WarnAndValidateProp =
 
 export type Props = {
   names: string[],
-  component: Function | ComponentType<*>,
+  component: Function | ComponentType<any>,
   format?: (value: any, name: string) =>?any,
   parse?: (value: any, name: string) =>?any,
   props?: Object,

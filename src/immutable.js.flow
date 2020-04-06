@@ -143,11 +143,11 @@ declare export function formValues(
 
 declare export function getFormError(
   getFormState: ?GetFormState
-): GetFormErrorInterface<*>
+): GetFormErrorInterface<any>
 
 declare export function getFormNames(
   getFormState: ?GetFormState
-): GetFormNamesInterface<*>
+): GetFormNamesInterface<any>
 
 declare export function getFormValues(
   form: string,
@@ -221,7 +221,7 @@ declare export function isSubmitting(
 
 declare export function reduxForm(
   config: ReduxFormConfig
-): { (WrappedComponent: ComponentType<*>): ComponentType<*> }
+): { (WrappedComponent: ComponentType<any>): ComponentType<any> }
 
 declare export function reducer(state: any, action: Action): any
 
@@ -231,7 +231,7 @@ declare export class SubmissionError {
 
 declare export function values(
   config: ValuesConfig
-): { (ComponentType<*>): ComponentType<*> }
+): { (ComponentType<any>): ComponentType<any> }
 
 // Action creators
 declare export var arrayInsert: ArrayInsert

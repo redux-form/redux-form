@@ -26,26 +26,18 @@ const eventPreventDefault = event => {
 }
 
 const eventDataTransferGetData = (event, key) => {
-  if (
-    isObject(event) &&
-    isObject(event.dataTransfer) &&
-    isFunction(event.dataTransfer.getData)
-  ) {
+  if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.getData)) {
     return event.dataTransfer.getData(key)
   }
 }
 
 const eventDataTransferSetData = (event, key, value) => {
-  if (
-    isObject(event) &&
-    isObject(event.dataTransfer) &&
-    isFunction(event.dataTransfer.setData)
-  ) {
+  if (isObject(event) && isObject(event.dataTransfer) && isFunction(event.dataTransfer.setData)) {
     event.dataTransfer.setData(key, value)
   }
 }
 
-const createConnectedField = (structure: Structure<*, *>) => {
+function createConnectedField<L, M>(structure: Structure<L, M>) {
   const { deepEqual, getIn } = structure
   const getSyncError = (syncErrors: Object, name: string) => {
     const error = plain.getIn(syncErrors, name)
@@ -62,7 +54,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
   }
 
   class ConnectedField extends Component<Props> {
-    ref: ElementRef<*> = React.createRef()
+    ref: ElementRef<any> = React.createRef()
 
     shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
@@ -72,16 +64,15 @@ const createConnectedField = (structure: Structure<*, *>) => {
       return !!(
         this.props.children ||
         nextProps.children ||
-        (nextPropsKeys.length !== thisPropsKeys.length ||
-          nextPropsKeys.some(prop => {
-            if (~(nextProps.immutableProps || []).indexOf(prop)) {
-              return this.props[prop] !== nextProps[prop]
-            }
-            return (
-              !~propsToNotUpdateFor.indexOf(prop) &&
-              !deepEqual(this.props[prop], nextProps[prop])
-            )
-          }))
+        nextPropsKeys.length !== thisPropsKeys.length ||
+        nextPropsKeys.some(prop => {
+          if (~(nextProps.immutableProps || []).indexOf(prop)) {
+            return this.props[prop] !== nextProps[prop]
+          }
+          return (
+            !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[prop], nextProps[prop])
+          )
+        })
       )
     }
 
@@ -89,7 +80,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
 
     getValue = (): any => this.props.value
 
-    getRenderedComponent(): React.Component<*, *> {
+    getRenderedComponent(): React.Component<any, any> {
       return this.ref.current
     }
 
@@ -231,13 +222,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
     }
 
     handleDrop = (event: any) => {
-      const {
-        name,
-        dispatch,
-        onDrop,
-        _reduxForm,
-        value: previousValue
-      } = this.props
+      const { name, dispatch, onDrop, _reduxForm, value: previousValue } = this.props
       const newValue = eventDataTransferGetData(event, dataKey)
 
       let defaultPrevented = false
@@ -315,9 +300,7 @@ const createConnectedField = (structure: Structure<*, *>) => {
       const formState = getFormState(state)
       const initialState = getIn(formState, `initial.${name}`)
       const initial =
-        initialState !== undefined
-          ? initialState
-          : initialValues && getIn(initialValues, name)
+        initialState !== undefined ? initialState : initialValues && getIn(initialValues, name)
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
