@@ -1,6 +1,5 @@
 // @flow
 import { isEqual, isObject } from 'lodash'
-import { matcherHint, printReceived, printExpected } from 'jest-matcher-utils'
 
 const expectations = {
   toBeAMap(actual: any) {
@@ -32,12 +31,12 @@ const expectations = {
     return {
       pass,
       message: () =>
-        matcherHint('.toEqualMap') +
+        this.utils.matcherHint('.toEqualMap') +
         '\n\n' +
         `Expected value to equal:\n` +
-        `  ${printExpected(expected)}\n` +
+        `  ${this.utils.printExpected(expected)}\n` +
         `Received:\n` +
-        `  ${printReceived(actual)}`
+        `  ${this.utils.printReceived(actual)}`
     }
   },
 
@@ -51,12 +50,12 @@ const expectations = {
     return {
       pass,
       message: () =>
-        matcherHint('.toContainExactly') +
+        this.utils.matcherHint('.toContainExactly') +
         '\n\n' +
         `Expected value to contain:\n` +
-        `  ${printExpected(sortedExpected)}\n` +
+        `  ${this.utils.printExpected(sortedExpected)}\n` +
         `Received:\n` +
-        `  ${printReceived(sortedActual)}`
+        `  ${this.utils.printReceived(sortedActual)}`
     }
   }
 }
