@@ -2,8 +2,6 @@
 import deepEqual from 'deep-equal'
 import { Map, List, Iterable, fromJS } from 'immutable'
 
-import { matcherHint, printReceived, printExpected } from 'jest-matcher-utils'
-
 const deepEqualValues = (a: any, b: any) => {
   if (Iterable.isIterable(a)) {
     return (
@@ -45,12 +43,12 @@ const api = {
     return {
       pass,
       message: () =>
-        matcherHint('.toEqualMap') +
+        this.utils.matcherHint('.toEqualMap') +
         '\n\n' +
         `Expected value to equal map:\n` +
-        `  ${printExpected(fromJS(expected))}\n` +
+        `  ${this.utils.printExpected(fromJS(expected))}\n` +
         `Received:\n` +
-        `  ${printReceived(actual)}`
+        `  ${this.utils.printReceived(actual)}`
     }
   },
 
@@ -59,20 +57,18 @@ const api = {
     const pass =
       actual.length === expected.length &&
       actual.every(actualItem =>
-        expectedItems.some(expectedItem =>
-          deepEqualValues(actualItem, expectedItem)
-        )
+        expectedItems.some(expectedItem => deepEqualValues(actualItem, expectedItem))
       )
 
     return {
       pass,
       message: () =>
-        matcherHint('.toContainExactly') +
+        this.utils.matcherHint('.toContainExactly') +
         '\n\n' +
         `Expected value to contain:\n` +
-        `  ${printExpected(fromJS(expected))}\n` +
+        `  ${this.utils.printExpected(fromJS(expected))}\n` +
         `Received:\n` +
-        `  ${printReceived(actual)}`
+        `  ${this.utils.printReceived(actual)}`
     }
   }
 }
