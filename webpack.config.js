@@ -34,6 +34,7 @@ const immutableExternal = {
 }
 
 module.exports = {
+  devtool: env === 'production' ? 'source-map' : false,
   externals: {
     react: reactExternal,
     redux: reduxExternal,
