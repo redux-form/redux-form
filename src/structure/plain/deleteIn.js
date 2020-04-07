@@ -1,25 +1,18 @@
 // @flow
 import { toPath } from 'lodash'
 
-function deleteInWithPath<T: Object | Array<*>>(
+function deleteInWithPath<T: Object | Array<any>>(
   state: ?T,
   first: ?string,
   ...rest: string[]
 ): ?T {
-  if (
-    state === undefined ||
-    state === null ||
-    first === undefined ||
-    first === null
-  ) {
+  if (state === undefined || state === null || first === undefined || first === null) {
     return state
   }
   if (rest.length) {
     if (Array.isArray(state)) {
       if (isNaN(first)) {
-        throw new Error(
-          `Must access array elements with a number, not "${String(first)}".`
-        )
+        throw new Error(`Must access array elements with a number, not "${String(first)}".`)
       }
       const firstIndex = Number(first)
       if (firstIndex < state.length) {
@@ -45,11 +38,7 @@ function deleteInWithPath<T: Object | Array<*>>(
   }
   if (Array.isArray(state)) {
     if (isNaN(first)) {
-      throw new Error(
-        `Cannot delete non-numerical index from an array. Given: "${String(
-          first
-        )}`
-      )
+      throw new Error(`Cannot delete non-numerical index from an array. Given: "${String(first)}`)
     }
     const firstIndex = Number(first)
     if (firstIndex < state.length) {
@@ -67,9 +56,7 @@ function deleteInWithPath<T: Object | Array<*>>(
   return state
 }
 
-const deleteIn = (
-  state: Object | Array<*>,
-  field: string
-): ?(Object | Array<*>) => deleteInWithPath(state, ...toPath(field))
+const deleteIn = (state: Object | Array<any>, field: string): ?(Object | Array<any>) =>
+  deleteInWithPath(state, ...toPath(field))
 
 export default deleteIn

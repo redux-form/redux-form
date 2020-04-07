@@ -1,2 +1,6 @@
+flow-typed
 webpack.config*.js
 node_modules
+dist
+es
+lib

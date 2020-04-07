@@ -69,7 +69,7 @@ export type Context = {
   form: string,
   getFormState: GetFormState,
   asyncValidate: {
-    (name: ?string, value: ?any, trigger: 'blur' | 'change'): Promise<*>
+    (name: ?string, value: ?any, trigger: 'blur' | 'change'): Promise<any>
   },
   getValues: { (): Object },
   sectionPrefix?: string,
@@ -93,11 +93,11 @@ export type ReactContext = {
 
 export type SubmitFunction = (
   values: any,
-  dispatch: Dispatch<*>,
+  dispatch: Dispatch,
   props: Object
 ) => any
 
-type HandleSubmit = (event: ?Event) => void | Promise<*>
+type HandleSubmit = (event: ?Event) => void | Promise<any>
 
 export type FormProps = {
   anyTouched: boolean,

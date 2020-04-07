@@ -27,5 +27,5 @@ It's important to understand how your field value is flowing through `redux-form
 ## Value Lifecycle
 
 <div style="text-align: center;">
-<img align="center" src="https://github.com/erikras/redux-form/raw/master/docs/valueLifecycle.png"/>
+<img align="center" src="https://github.com/redux-form/redux-form/raw/master/docs/valueLifecycle.png"/>
 </div>

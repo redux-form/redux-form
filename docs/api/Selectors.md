@@ -1,9 +1,9 @@
 # Selectors
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/tree/master/src/selectors)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/tree/master/src/selectors)
 
 `redux-form` provides a set of useful Redux state
-[**selectors**](http://redux.js.org/docs/recipes/ComputingDerivedData.html) that may be used in
+[**selectors**](https://redux.js.org/recipes/computing-derived-data/) that may be used in
 any part of your application to query the state of any of your forms.
 
 All of the selectors listed below have the same usage pattern: they all (apart from
@@ -36,7 +36,7 @@ import {
 } from 'redux-form'
 
 MyComponent = connect(state => ({
-  values: getFormValues('myForm')(state),
+  formValues: getFormValues('myForm')(state),
   initialValues: getFormInitialValues('myForm')(state),
   formSyncErrors: getFormSyncErrors('myForm')(state),
   fields: getFormMeta('myForm')(state),
@@ -59,7 +59,7 @@ MyComponent = connect(state => ({
 
 ### `getFormValues(formName:String)` returns `(state) => formValues:Object`
 
-> Gets the form values. Shocking, right?
+> Gets the current form values in real-time.
 
 ### `getFormInitialValues(formName:String)` returns `(state) => formInitialValues:Object`
 

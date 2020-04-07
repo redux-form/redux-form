@@ -1,6 +1,6 @@
 # `reducer.plugin(Object<String, Function>)`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reducer.js#L369)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/reducer.js#L369)
 
 > Returns a form reducer that will also pass each action through additional reducers specified.
 > The parameter should be an object mapping from `formName` to a `(state, action) => nextState`

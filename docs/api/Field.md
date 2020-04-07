@@ -1,6 +1,6 @@
 # `Field`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Field.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/Field.js)
 
 The `Field` component is how you connect each individual input to the Redux store. There are
 three fundamental things that you need to understand in order to use `Field` correctly:
@@ -132,7 +132,7 @@ Used to determine the exact shape of the `input` prop passed through to the comp
 `component` prop, as detailed below:
 
 - if `type === 'checkbox'` or `type === 'radio'`, the boolean `checked` field will be passed through
-- if `type === 'select-multi'`, the value will always be an array (i.e. will default to `[]` instead of an empty string)
+- if `type === 'select-multiple'`, the value will always be an array (i.e. will default to `[]` instead of an empty string)
 - if `type === 'file'`, the value will always be of type `?File` (i.e. will default to `undefined` instead of an empty string)
 
 Use this if either:
@@ -171,7 +171,7 @@ Defaults to `false`. **Cannot be used if your component is a stateless function 
 ## Usage
 
 The `component` prop will be passed to
-[`React.createElement()`](http://facebook.github.io/react/docs/top-level-api.html#react.createelement),
+[`React.createElement()`](https://reactjs.org/docs/react-api.html#createelement),
 which accepts one of three possible things:
 
 ### 1. A normal component
@@ -304,13 +304,13 @@ to be destructured into your `<input/>` component.
 #### `input.onBlur(eventOrValue) : Function`
 
 > A function to call when the form field loses focus. It expects to _either_ receive the
-> [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) _or_ the current
+> [React SyntheticEvent](https://reactjs.org/docs/events.html) _or_ the current
 > value of the field.
 
 #### `input.onChange(eventOrValue) : Function`
 
 > A function to call when the form field is changed. It expects to _either_ receive the
-> [React SyntheticEvent](http://facebook.github.io/react/docs/events.html) _or_ the new value
+> [React SyntheticEvent](https://reactjs.org/docs/events.html) _or_ the new value
 > of the field.
 
 #### `input.onDragStart(event) : Function`

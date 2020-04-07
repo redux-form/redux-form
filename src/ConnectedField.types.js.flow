@@ -4,10 +4,10 @@ import type { Event, Context } from './types'
 
 export type InstanceApi = {
   name: string,
-  getRenderedComponent: { (): Component<*, *> },
+  getRenderedComponent: { (): Component<any, any> },
   isPristine: { (): boolean },
   getValue: { (): any }
-} & Component<*, *>
+} & Component<any, any>
 
 export type Props = {
   name: string,

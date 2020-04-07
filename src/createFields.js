@@ -1,6 +1,5 @@
 // @flow
 import { Component, createElement } from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import get from 'lodash/get'
@@ -10,10 +9,7 @@ import plain from './structure/plain'
 import prefixName from './util/prefixName'
 import { withReduxForm } from './ReduxFormContext'
 import type { Structure, ReactContext } from './types'
-import type {
-  Props as PropsWithoutContext,
-  WarnAndValidateProp
-} from './FieldsProps.types'
+import type { Props as PropsWithoutContext, WarnAndValidateProp } from './FieldsProps.types'
 import validateComponentProp from './util/validateComponentProp'
 
 type Props = ReactContext & PropsWithoutContext
@@ -32,9 +28,7 @@ const validateNameProp = prop => {
 const warnAndValidatePropType = PropTypes.oneOfType([
   PropTypes.func,
   PropTypes.arrayOf(PropTypes.func),
-  PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)])
-  )
+  PropTypes.objectOf(PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)]))
 ])
 const fieldsPropTypes = {
   component: validateComponentProp,
@@ -47,20 +41,16 @@ const fieldsPropTypes = {
 }
 
 const getFieldWarnAndValidate = (prop?: WarnAndValidateProp, name) =>
-  Array.isArray(prop) || typeof prop === 'function'
-    ? prop
-    : get(prop, name, undefined)
+  Array.isArray(prop) || typeof prop === 'function' ? prop : get(prop, name, undefined)
 
-const createFields = (structure: Structure<*, *>) => {
+export default function createFields(structure: Structure<any, any>) {
   const ConnectedFields = createConnectedFields(structure)
 
   class Fields extends Component<Props> {
     constructor(props: Props) {
       super((props: Props))
       if (!props._reduxForm) {
-        throw new Error(
-          'Fields must be inside a component decorated with reduxForm()'
-        )
+        throw new Error('Fields must be inside a component decorated with reduxForm()')
       }
       const error = validateNameProp(props.names)
       if (error) {
@@ -149,8 +139,5 @@ const createFields = (structure: Structure<*, *>) => {
     ...fieldsPropTypes
   }
 
-  polyfill(Fields)
   return withReduxForm(Fields)
 }
-
-export default createFields

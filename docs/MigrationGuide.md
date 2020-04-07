@@ -138,7 +138,7 @@ location of each field.
 The only thing that has changed about form submission is that your submit
 validation errors must now be wrapped in a `SubmissionError` object. This is to
 distinguish between validation errors and AJAX or server errors.
-[See discussion on PR #602](https://github.com/erikras/redux-form/pull/602)
+[See discussion on PR #602](https://github.com/redux-form/redux-form/pull/602)
 
 #### `v5`
 
@@ -195,10 +195,10 @@ a plain JS object, like always.
 ## Initialization with `initialValues`
 
 Nothing has changed with this, apart from fixing some pesky bugs like
-[#514](https://github.com/erikras/redux-form/issues/514),
-[#621](https://github.com/erikras/redux-form/issues/621),
-[#628](https://github.com/erikras/redux-form/issues/628), and
-[#756](https://github.com/erikras/redux-form/issues/756). In `v6`, each field
+[#514](https://github.com/redux-form/redux-form/issues/514),
+[#621](https://github.com/redux-form/redux-form/issues/621),
+[#628](https://github.com/redux-form/redux-form/issues/628), and
+[#756](https://github.com/redux-form/redux-form/issues/756). In `v6`, each field
 will have its initial value on the very first render.
 
 ## Async Validation

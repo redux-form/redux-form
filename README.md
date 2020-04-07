@@ -1,27 +1,21 @@
- <p align="center">
-  <a href="https://codefund.io/properties/21/visit-sponsor">
-    <img src="https://codefund.io/properties/21/sponsor" />
-  </a>
-</p>
-
-[<img src="https://raw.githubusercontent.com/erikras/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](http://erikras.github.io/redux-form/)
+[<img src="https://raw.githubusercontent.com/redux-form/redux-form/master/logo.png" align="right" class="logo" height="100" width="165"/>](https://redux-form.com/)
 
 # redux-form
 
 ---
 
-💰**Psst!! Do you know React and Redux? [Sign up with Triplebyte](https://triplebyte.com/a/V6j0KPS/rf) to get offers from top tech companies!** 💰
+[<img src="form-nerd-logo.png" align="left"/>](https://formnerd.co/redux-form-readme) **You build great forms, but do you know HOW users use your forms? [Find out with Form Nerd!](https://formnerd.co/redux-form-readme) Professional analytics from the creator of Redux Form.**
 
 ---
 
 [![NPM Version](https://img.shields.io/npm/v/redux-form.svg?style=flat)](https://www.npmjs.com/package/redux-form)
 [![NPM Downloads](https://img.shields.io/npm/dm/redux-form.svg?style=flat)](https://npmcharts.com/compare/redux-form?minimal=true)
-[![Build Status](https://img.shields.io/travis/erikras/redux-form/v6.svg?style=flat)](https://travis-ci.org/erikras/redux-form)
-[![codecov.io](https://codecov.io/gh/erikras/redux-form/branch/master/graph/badge.svg)](https://codecov.io/gh/erikras/redux-form)
-[![Code Climate](https://codeclimate.com/github/erikras/redux-form/badges/gpa.svg)](https://codeclimate.com/github/erikras/redux-form)
+[![Build Status](https://img.shields.io/travis/redux-form/redux-form/v6.svg?style=flat)](https://travis-ci.com/redux-form/redux-form)
+[![codecov.io](https://codecov.io/gh/redux-form/redux-form/branch/master/graph/badge.svg)](https://codecov.io/gh/redux-form/redux-form)
+[![Code Climate](https://codeclimate.com/github/redux-form/redux-form/badges/gpa.svg)](https://codeclimate.com/github/redux-form/redux-form)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![PayPal donate button](http://img.shields.io/paypal/donate.png?color=yellowgreen)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
-[![Twitter URL](https://img.shields.io/twitter/url/https/github.com/erikras/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
+[![PayPal donate button](https://img.shields.io/badge/PayPal-Donate-yellowgreen?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
+[![Twitter URL](https://img.shields.io/twitter/url/https/github.com/redux-form/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
 [![Patreon](https://img.shields.io/badge/patreon-support%20the%20author-blue.svg)](https://www.patreon.com/erikras)
 [![Backers on Open Collective](https://opencollective.com/redux-form/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/redux-form/sponsors/badge.svg)](#sponsors)
@@ -47,7 +41,7 @@ The only good reason, [in the author's view](https://twitter.com/erikras/status/
 - [Examples](https://redux-form.com/8.2.2/examples/)
 - [API](https://redux-form.com/8.2.2/docs/api/)
 - [FAQ](https://redux-form.com/8.2.2/docs/faq/)
-- [Release Notes](https://github.com/erikras/redux-form/releases)
+- [Release Notes](https://github.com/redux-form/redux-form/releases)
 - [Older Documentation](https://redux-form.com/8.2.2/docs/DocumentationVersions.md/)
 
 ## 🏖 Code Sandboxes 🏖
@@ -80,7 +74,7 @@ You can play around with `redux-form` in these sandbox versions of the Examples.
 ## Contributors
 
 This project exists thanks to all the people who contribute.
-<a href="https://github.com/erikras/redux-form/graphs/contributors"><img src="https://opencollective.com/redux-form/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/redux-form/redux-form/graphs/contributors"><img src="https://opencollective.com/redux-form/contributors.svg?width=890&button=false" /></a>
 
 ## Backers
 

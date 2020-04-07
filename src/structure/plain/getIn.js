@@ -1,7 +1,7 @@
 // @flow
 import { toPath } from 'lodash'
 
-const getIn = (state: Object | Array<*>, field: string): any => {
+const getIn = (state: Object | Array<any>, field: string): any => {
   if (!state) {
     return state
   }

@@ -1,6 +1,5 @@
 // @flow
 import React, { Component, createElement } from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedField from './ConnectedField'
@@ -15,20 +14,18 @@ import validateComponentProp from './util/validateComponentProp'
 
 type Props = ReactContext & PropsWithoutContext
 
-const createField = (structure: Structure<*, *>) => {
+function createField(structure: Structure<any, any>) {
   const ConnectedField = createConnectedField(structure)
 
   const { setIn } = structure
 
   class Field extends Component<Props> {
-    ref: ElementRef<*> = React.createRef()
+    ref: ElementRef<any> = React.createRef()
 
     constructor(props: Props) {
       super(props)
       if (!props._reduxForm) {
-        throw new Error(
-          'Field must be inside a component decorated with reduxForm()'
-        )
+        throw new Error('Field must be inside a component decorated with reduxForm()')
       }
     }
 
@@ -71,17 +68,13 @@ const createField = (structure: Structure<*, *>) => {
       this.props._reduxForm.unregister(this.name)
     }
 
-    ref = React.createRef()
-
-    getRenderedComponent(): ?Component<*, *> {
+    getRenderedComponent(): ?Component<any, any> {
       invariant(
         this.props.forwardRef,
         'If you want to access getRenderedComponent(), ' +
           'you must specify a forwardRef prop to Field'
       )
-      return this.ref.current
-        ? this.ref.current.getRenderedComponent()
-        : undefined
+      return this.ref.current ? this.ref.current.getRenderedComponent() : undefined
     }
 
     get name(): string {
@@ -133,20 +126,12 @@ const createField = (structure: Structure<*, *>) => {
     onDrop: PropTypes.func,
     parse: PropTypes.func,
     props: PropTypes.object,
-    validate: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func)
-    ]),
-    warn: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func)
-    ]),
+    validate: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)]),
+    warn: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)]),
     forwardRef: PropTypes.bool,
     immutableProps: PropTypes.arrayOf(PropTypes.string),
     _reduxForm: PropTypes.object
   }
-
-  polyfill(Field)
 
   return withReduxForm(Field)
 }

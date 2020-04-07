@@ -1,6 +1,6 @@
 # `props`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/reduxForm.js#L347)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/reduxForm.js#L347)
 
 > The `props` listed on this page are the `props` that `redux-form` generates to
 > give to your decorated form component. The `props` that _you pass into your
@@ -9,7 +9,7 @@
 
 > If you are a strict `PropTypes` completionist, `redux-form` exports all of
 > these
-> [`propTypes`](https://github.com/erikras/redux-form/blob/master/src/propTypes.js),
+> [`propTypes`](https://github.com/redux-form/redux-form/blob/master/src/propTypes.js),
 > so you may import them, like so:
 
 ```javascript
@@ -115,6 +115,7 @@ class SimpleForm extends React.Component {
 > so it returns nothing.
 
 ### `change(field:String, value:any) : Function`
+
 ### `change(formSectionName:String, value:any) : Function`
 
 > Changes the value of a field or a whole FormSection in the Redux store. This is a bound action
@@ -125,6 +126,12 @@ class SimpleForm extends React.Component {
 
 > Clear async error of a field in the Redux store. This is a bound action
 > creator, so it returns nothing.
+
+### `clearFields(keepTouched: boolean, persistentSubmitErrors: boolean, ...fields:String)`
+
+> Cleans fields values for all the fields passed in. Will reset to initialValue for each field if has any.  
+> If the keepTouched parameter is true, the values of currently touched fields will be retained.  
+> If the persistentSubmitErrors parameter is true, the values of currently submit errors fields will be retained
 
 ### `destroy() : Function`
 

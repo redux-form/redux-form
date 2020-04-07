@@ -1,37 +1,31 @@
 // @flow
-import { Map, Iterable, List, fromJS } from 'immutable'
+import type { List as ImmutableList, Map as ImmutableMap } from 'immutable'
+import { fromJS, Iterable, List, Map } from 'immutable'
 import { toPath } from 'lodash'
+import type { Structure } from '../../types'
+import plainGetIn from '../plain/getIn'
 import deepEqual from './deepEqual'
 import keys from './keys'
 import setIn from './setIn'
 import splice from './splice'
-import plainGetIn from '../plain/getIn'
-import type { Structure } from '../../types'
-import type { Map as ImmutableMap, List as ImmutableList } from 'immutable'
 
 const emptyList = List()
 
-const structure: Structure<ImmutableMap<string, *>, ImmutableList<*>> = {
+const structure: Structure<ImmutableMap<string, any>, ImmutableList<any>> = {
   allowsArrayErrors: false,
   empty: Map(),
   emptyList,
-  getIn: (state: ImmutableMap<string, *> | ImmutableList<*>, field: string) =>
-    Iterable.isIterable(state)
-      ? state.getIn(toPath(field))
-      : plainGetIn(state, field),
+  getIn: (state: ImmutableMap<string, any> | ImmutableList<any>, field: string) =>
+    Iterable.isIterable(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
   setIn,
   deepEqual,
-  deleteIn: (
-    state: ImmutableMap<string, *> | ImmutableList<*>,
-    field: string
-  ) => state.deleteIn(toPath(field)),
+  deleteIn: (state: ImmutableMap<string, any> | ImmutableList<any>, field: string) =>
+    state.deleteIn(toPath(field)),
   forEach: (items, callback) => {
     items.forEach(callback)
   },
   fromJS: jsValue =>
-    fromJS(jsValue, (key, value) =>
-      Iterable.isIndexed(value) ? value.toList() : value.toMap()
-    ),
+    fromJS(jsValue, (key, value) => (Iterable.isIndexed(value) ? value.toList() : value.toMap())),
   keys,
   size: list => (list ? list.size : 0),
   some: (items, callback) => items.some(callback),

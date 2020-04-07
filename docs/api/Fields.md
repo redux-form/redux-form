@@ -1,6 +1,6 @@
 # `Fields`
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/Fields.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/Fields.js)
 
 The `Fields` component is similar to the
 [`Field`](https://redux-form.com/6.2.0/docs/api/Field.md/) component, but
@@ -106,7 +106,7 @@ component is a stateless function component.**
 ## Usage
 
 The `component` prop will be passed to
-[`React.createElement()`](http://facebook.github.io/react/docs/top-level-api.html#react.createelement),
+[`React.createElement()`](https://reactjs.org/docs/react-api.html#createelement),
 which accepts one of two possible things:
 
 ### 1. A component

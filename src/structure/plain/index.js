@@ -7,7 +7,7 @@ import deleteIn from './deleteIn'
 import keys from './keys'
 import type { Structure } from '../../types'
 
-const structure: Structure<Object, Array<*>> = {
+const structure: Structure<Object, Array<any>> = {
   allowsArrayErrors: true,
   empty: {},
   emptyList: [],

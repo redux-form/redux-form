@@ -12,13 +12,8 @@ const getErrorKeys = (name, type) => {
   }
 }
 
-const createHasError = ({ getIn }: Structure<*, *>) => {
-  const hasError = (
-    field: any,
-    syncErrors: any,
-    asyncErrors: any,
-    submitErrors: any
-  ) => {
+export default function createHasError({ getIn }: Structure<any, any>) {
+  return (field: any, syncErrors: any, asyncErrors: any, submitErrors: any) => {
     if (!syncErrors && !asyncErrors && !submitErrors) {
       return false
     }
@@ -26,13 +21,7 @@ const createHasError = ({ getIn }: Structure<*, *>) => {
     const name = getIn(field, 'name')
     const type = getIn(field, 'type')
     return getErrorKeys(name, type).some(
-      key =>
-        getIn(syncErrors, key) ||
-        getIn(asyncErrors, key) ||
-        getIn(submitErrors, key)
+      key => getIn(syncErrors, key) || getIn(asyncErrors, key) || getIn(submitErrors, key)
     )
   }
-  return hasError
 }
-
-export default createHasError

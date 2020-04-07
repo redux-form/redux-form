@@ -1,13 +1,17 @@
-[ignore]
-.*/node_modules/editions/.*
-.*/node_modules/@webassemblyjs/.*
-.*/examples/.*
-.*/__tests__/.*
-
 [include]
-./src/**
-
-[libs]
+.*/src/.*
 
 [options]
-esproposal.decorators=ignore
+include_warnings=true
+
+[lints]
+all=warn
+unclear-type=off
+sketchy-null-bool=off
+untyped-import=off
+sketchy-null-string=off
+sketchy-null-number=off
+unsafe-getters-setters=off
+inexact-spread=off
+untyped-type-import=off
+unnecessary-invariant=off

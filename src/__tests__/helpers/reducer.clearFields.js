@@ -381,6 +381,64 @@ const describeClearFields = (reducer, expect, { fromJS }) => () => {
       }
     })
   })
+
+  it('should clear fields value and set it to inital, clear touched,  clear submitErrors', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          registeredFields: {
+            myField: { type: 'Field', name: 'myField' },
+            myOtherField: { type: 'Field', name: 'myOtherField' }
+          },
+          values: {
+            myField: 'value',
+            myOtherField: 'otherValue'
+          },
+          initial: {
+            myField: 'initialValue'
+          },
+          asyncErrors: {
+            myField: 'async error',
+            myOtherField: 'async error'
+          },
+          submitErrors: {
+            myField: 'submit error',
+            myOtherField: 'submit error'
+          },
+          fields: {
+            myField: {
+              touched: true
+            },
+            myOtherField: {
+              touched: true
+            }
+          },
+          error: 'some global error',
+          anyTouched: true
+        }
+      }),
+      clearFields('foo', false, false, 'myField', 'myOtherField')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        registeredFields: {
+          myField: { type: 'Field', name: 'myField' },
+          myOtherField: { type: 'Field', name: 'myOtherField' }
+        },
+        fields: {
+          myField: {},
+          myOtherField: {}
+        },
+        initial: {
+          myField: 'initialValue'
+        },
+        values: {
+          myField: 'initialValue'
+        },
+        error: 'some global error'
+      }
+    })
+  })
 }
 
 export default describeClearFields

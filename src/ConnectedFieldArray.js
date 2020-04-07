@@ -13,7 +13,7 @@ import validateComponentProp from './util/validateComponentProp'
 
 const propsToNotUpdateFor = ['_reduxForm', 'value']
 
-const createConnectedFieldArray = (structure: Structure<*, *>) => {
+export default function createConnectedFieldArray(structure: Structure<any, any>) {
   const { deepEqual, getIn, size, equals, orderChanged } = structure
   const getSyncError = (syncErrors: Object, name: string) => {
     // For an array, the error can _ONLY_ be under _error.
@@ -31,7 +31,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
 
   class ConnectedFieldArray extends Component<Props> {
     static defaultProps: DefaultProps
-    ref: ElementRef<*> = React.createRef()
+    ref: ElementRef<any> = React.createRef()
 
     shouldComponentUpdate(nextProps: Props) {
       // Update if the elements of the value array was updated.
@@ -68,8 +68,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
           //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
           // }
           return (
-            !~propsToNotUpdateFor.indexOf(prop) &&
-            !deepEqual(this.props[prop], nextProps[prop])
+            !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[prop], nextProps[prop])
           )
         })
       )
@@ -91,8 +90,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       return this.ref.current
     }
 
-    getValue = (index: number): any =>
-      this.props.value && getIn(this.props.value, String(index))
+    getValue = (index: number): any => this.props.value && getIn(this.props.value, String(index))
 
     render() {
       const {
@@ -138,8 +136,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
       } = ownProps
       const formState = getFormState(state)
       const initial =
-        getIn(formState, `initial.${name}`) ||
-        (initialValues && getIn(initialValues, name))
+        getIn(formState, `initial.${name}`) || (initialValues && getIn(initialValues, name))
       const value = getIn(formState, `values.${name}`)
       const submitting = getIn(formState, 'submitting')
       const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
@@ -186,8 +183,7 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
           arraySwap,
           arrayUnshift
         },
-        actionCreator =>
-          bindActionCreators(actionCreator.bind(null, name), dispatch)
+        actionCreator => bindActionCreators(actionCreator.bind(null, name), dispatch)
       )
     },
     undefined,
@@ -195,5 +191,3 @@ const createConnectedFieldArray = (structure: Structure<*, *>) => {
   )
   return connector(ConnectedFieldArray)
 }
-
-export default createConnectedFieldArray

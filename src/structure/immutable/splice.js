@@ -2,12 +2,7 @@
 import { List } from 'immutable'
 import type { List as ImmutableList } from 'immutable'
 
-export default (
-  list: ImmutableList<*>,
-  index: number,
-  removeNum: number,
-  value: any
-) => {
+export default (list: ImmutableList<any>, index: number, removeNum: number, value: any) => {
   list = List.isList(list) ? list : List()
 
   if (index < list.count()) {

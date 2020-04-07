@@ -12,15 +12,13 @@ import validateComponentProp from './util/validateComponentProp'
 
 const propsToNotUpdateFor = ['_reduxForm']
 
-const createConnectedFields = (structure: Structure<*, *>) => {
+export default function createConnectedFields(structure: Structure<any, any>) {
   const { deepEqual, getIn, size } = structure
 
   const getSyncError = (syncErrors: Object, name: string) => {
     // Because the error for this field might not be at a level in the error structure where
     // it can be set directly, it might need to be unwrapped from the _error property
-    return (
-      plain.getIn(syncErrors, `${name}._error`) || plain.getIn(syncErrors, name)
-    )
+    return plain.getIn(syncErrors, `${name}._error`) || plain.getIn(syncErrors, name)
   }
 
   const getSyncWarning = (syncWarnings: Object, name: string) => {
@@ -34,7 +32,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     onChangeFns = {}
     onFocusFns = {}
     onBlurFns = {}
-    ref: ElementRef<*> = React.createRef()
+    ref: ElementRef<any> = React.createRef()
 
     constructor(props: Props) {
       super(props)
@@ -70,8 +68,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
         nextPropsKeys.length !== thisPropsKeys.length ||
         nextPropsKeys.some(prop => {
           return (
-            !~propsToNotUpdateFor.indexOf(prop) &&
-            !deepEqual(this.props[prop], nextProps[prop])
+            !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[prop], nextProps[prop])
           )
         })
       )
@@ -85,8 +82,7 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     getValues(): Object {
       const { _fields } = this.props
       return Object.keys(_fields).reduce(
-        (accumulator, name) =>
-          plain.setIn(accumulator, name, _fields[name].value),
+        (accumulator, name) => plain.setIn(accumulator, name, _fields[name].value),
         {}
       )
     }
@@ -128,25 +124,20 @@ const createConnectedFields = (structure: Structure<*, *>) => {
     render() {
       const { component, forwardRef, _fields, _reduxForm, ...rest } = this.props
       const { sectionPrefix, form } = _reduxForm
-      const { custom, ...props } = Object.keys(_fields).reduce(
-        (accumulator, name) => {
-          const connectedProps = _fields[name]
-          const { custom, ...fieldProps } = createFieldProps(structure, name, {
-            ...connectedProps,
-            ...rest,
-            form,
-            onBlur: this.onBlurFns[name],
-            onChange: this.onChangeFns[name],
-            onFocus: this.onFocusFns[name]
-          })
-          accumulator.custom = custom
-          const fieldName = sectionPrefix
-            ? name.replace(`${sectionPrefix}.`, '')
-            : name
-          return plain.setIn(accumulator, fieldName, fieldProps)
-        },
-        {}
-      )
+      const { custom, ...props } = Object.keys(_fields).reduce((accumulator, name) => {
+        const connectedProps = _fields[name]
+        const { custom, ...fieldProps } = createFieldProps(structure, name, {
+          ...connectedProps,
+          ...rest,
+          form,
+          onBlur: this.onBlurFns[name],
+          onChange: this.onChangeFns[name],
+          onFocus: this.onFocusFns[name]
+        })
+        accumulator.custom = custom
+        const fieldName = sectionPrefix ? name.replace(`${sectionPrefix}.`, '') : name
+        return plain.setIn(accumulator, fieldName, fieldProps)
+      }, {})
       if (forwardRef) {
         props.ref = this.ref
       }
@@ -172,15 +163,10 @@ const createConnectedFields = (structure: Structure<*, *>) => {
         _fields: names.reduce((accumulator, name) => {
           const initialState = getIn(formState, `initial.${name}`)
           const initial =
-            initialState !== undefined
-              ? initialState
-              : initialValues && getIn(initialValues, name)
+            initialState !== undefined ? initialState : initialValues && getIn(initialValues, name)
           const value = getIn(formState, `values.${name}`)
           const syncError = getSyncError(getIn(formState, 'syncErrors'), name)
-          const syncWarning = getSyncWarning(
-            getIn(formState, 'syncWarnings'),
-            name
-          )
+          const syncWarning = getSyncWarning(getIn(formState, 'syncWarnings'), name)
           const submitting = getIn(formState, 'submitting')
           const pristine = value === initial
           accumulator[name] = {
@@ -208,5 +194,3 @@ const createConnectedFields = (structure: Structure<*, *>) => {
   )
   return connector(ConnectedFields)
 }
-
-export default createConnectedFields

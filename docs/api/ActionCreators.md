@@ -1,6 +1,6 @@
 # Action Creators
 
-[`View source on GitHub`](https://github.com/erikras/redux-form/blob/master/src/actions.js)
+[`View source on GitHub`](https://github.com/redux-form/redux-form/blob/master/src/actions.js)
 
 `redux-form` exports all of its internal action creators, allowing you complete
 control to dispatch any action you wish. However, it is recommended that you use
@@ -74,10 +74,10 @@ actions such as `CHANGE` or `BLUR`, the specific field.
 
 ### `clearFields(form:String, keepTouched: boolean, persistentSubmitErrors: boolean, ...fields:String)`
 
-> Cleans fields values for all the fields passed in.
+> Cleans fields values for all the fields passed in. Will reset to initialValue for each field if has any.
 
 > If the `keepTouched` parameter is `true`, the values of currently touched
-> fields will be retained. 
+> fields will be retained.
 
 > If the `persistentSubmitErrors` parameter is `true`,
 > the values of currently submit errors fields will be retained

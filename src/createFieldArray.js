@@ -1,6 +1,5 @@
 // @flow
 import React, { Component, createElement } from 'react'
-import { polyfill } from 'react-lifecycles-compat'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import createConnectedFieldArray from './ConnectedFieldArray'
@@ -13,8 +12,7 @@ import validateComponentProp from './util/validateComponentProp'
 
 type Props = ReactContext & PropsWithoutContext
 
-const toArray = (value: any): Array<*> =>
-  Array.isArray(value) ? value : [value]
+const toArray = (value: any): Array<any> => (Array.isArray(value) ? value : [value])
 
 const wrapError = (fn: ?Function, key: string): ?Function =>
   fn &&
@@ -28,19 +26,17 @@ const wrapError = (fn: ?Function, key: string): ?Function =>
     }
   })
 
-const createFieldArray = (structure: Structure<*, *>) => {
+export default function createFieldArray(structure: Structure<any, any>) {
   const ConnectedFieldArray = createConnectedFieldArray(structure)
 
   class FieldArray extends Component<Props> {
     name: string
-    ref: ElementRef<*> = React.createRef()
+    ref: ElementRef<any> = React.createRef()
 
     constructor(props: Props) {
       super(props)
       if (!props._reduxForm) {
-        throw new Error(
-          'FieldArray must be inside a component decorated with reduxForm()'
-        )
+        throw new Error('FieldArray must be inside a component decorated with reduxForm()')
       }
     }
 
@@ -107,20 +103,11 @@ const createFieldArray = (structure: Structure<*, *>) => {
     name: PropTypes.string.isRequired,
     component: validateComponentProp,
     props: PropTypes.object,
-    validate: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func)
-    ]),
-    warn: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.arrayOf(PropTypes.func)
-    ]),
+    validate: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)]),
+    warn: PropTypes.oneOfType([PropTypes.func, PropTypes.arrayOf(PropTypes.func)]),
     forwardRef: PropTypes.bool,
     _reduxForm: PropTypes.object
   }
 
-  polyfill(FieldArray)
   return withReduxForm(FieldArray)
 }
-
-export default createFieldArray
