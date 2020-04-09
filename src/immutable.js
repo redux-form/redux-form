@@ -2,16 +2,14 @@
 import actions from './actions'
 import * as _actionTypes from './actionTypes'
 export { ReduxFormContext } from './ReduxFormContext'
-export {
-  default as defaultShouldAsyncValidate
-} from './defaultShouldAsyncValidate'
+export { default as defaultShouldAsyncValidate } from './defaultShouldAsyncValidate'
 export { default as defaultShouldValidate } from './defaultShouldValidate'
 export { default as defaultShouldError } from './defaultShouldError'
 export { default as defaultShouldWarn } from './defaultShouldWarn'
 export { default as Form } from './Form'
 export { default as FormName } from './FormName'
 export { default as FormSection } from './FormSection'
-export { default as SubmissionError } from './SubmissionError'
+export { SubmissionError } from './SubmissionError'
 // alias for propTypes
 export {
   default as propTypes,
@@ -31,9 +29,7 @@ export { default as formValues } from './immutable/formValues'
 export { default as getFormError } from './immutable/getFormError'
 export { default as getFormNames } from './immutable/getFormNames'
 export { default as getFormValues } from './immutable/getFormValues'
-export {
-  default as getFormInitialValues
-} from './immutable/getFormInitialValues'
+export { default as getFormInitialValues } from './immutable/getFormInitialValues'
 export { default as getFormSyncErrors } from './immutable/getFormSyncErrors'
 export { default as getFormMeta } from './immutable/getFormMeta'
 export { default as getFormAsyncErrors } from './immutable/getFormAsyncErrors'
