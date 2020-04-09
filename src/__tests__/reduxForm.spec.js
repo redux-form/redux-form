@@ -16,7 +16,7 @@ import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
 import plain from '../structure/plain'
 import plainExpectations from '../structure/plain/__tests__/expectations'
-import SubmissionError from '../SubmissionError'
+import { SubmissionError } from '../SubmissionError'
 
 import FormWrapper from '../Form'
 
@@ -33,8 +33,7 @@ const {
   updateSyncErrors
 } = actions
 const propsAtNthRender = (spy, callNumber) => spy.mock.calls[callNumber][0]
-const propsAtLastRender = spy =>
-  propsAtNthRender(spy, spy.mock.calls.length - 1)
+const propsAtLastRender = spy => propsAtNthRender(spy, spy.mock.calls.length - 1)
 
 const describeReduxForm = (name, structure, combineReducers, setup) => {
   const { fromJS, getIn, setIn } = structure
@@ -612,9 +611,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           this.state = {
             foo: {
               get no() {
-                throw new Error(
-                  'props inside an immutableProps object should not be looked at'
-                )
+                throw new Error('props inside an immutableProps object should not be looked at')
               }
             }
           }
@@ -626,9 +623,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} foo={this.state.foo} />
               </Provider>
-              <button onClick={() => this.setState({ foo: { no: undefined } })}>
-                Init
-              </button>
+              <button onClick={() => this.setState({ foo: { no: undefined } })}>Init</button>
             </div>
           )
         }
@@ -642,10 +637,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(1)
 
       // initialize
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
 
       TestUtils.Simulate.click(initButton)
 
@@ -655,9 +647,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should set checkbox values to false when unchecked', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props => (
-        <input {...props.input} type="checkbox" />
-      ))
+      const inputRender = jest.fn(props => <input {...props.input} type="checkbox" />)
       const formRender = jest.fn()
       class Form extends Component {
         render() {
@@ -675,10 +665,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           <Decorated />
         </Provider>
       )
-      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(
-        dom,
-        'input'
-      ).find(element => element.getAttribute('name') === 'foo')
+      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'input').find(
+        element => element.getAttribute('name') === 'foo'
+      )
 
       expect(formRender).toHaveBeenCalledTimes(1)
       expect(inputRender).toHaveBeenCalledTimes(1)
@@ -704,9 +693,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
     it('should set checkbox values to false when unchecked (when initialized)', () => {
       const store = makeStore({})
-      const inputRender = jest.fn(props => (
-        <input {...props.input} type="checkbox" />
-      ))
+      const inputRender = jest.fn(props => <input {...props.input} type="checkbox" />)
       const formRender = jest.fn()
       class Form extends Component {
         render() {
@@ -727,10 +714,9 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           <Decorated />
         </Provider>
       )
-      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(
-        dom,
-        'input'
-      ).find(element => element.getAttribute('name') === 'foo')
+      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'input').find(
+        element => element.getAttribute('name') === 'foo'
+      )
 
       expect(formRender).toHaveBeenCalledTimes(2)
       expect(inputRender).toHaveBeenCalledTimes(2)
@@ -903,9 +889,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button onClick={() => this.setState({ initialValues })}>
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues })}>Init</button>
             </div>
           )
         }
@@ -934,10 +918,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkInputProps(inputRender.mock.calls[0][0], '')
 
       // initialize
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // check initialized state
@@ -1000,11 +981,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
-              >
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
             </div>
           )
         }
@@ -1035,10 +1012,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkInputProps(inputRender.mock.calls[1][0], 'bar')
 
       // initialize
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // check initialized state
@@ -1103,11 +1077,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
-              >
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
             </div>
           )
         }
@@ -1115,12 +1085,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       const dom = TestUtils.renderIntoDocument(<Container />)
 
-      const checkInputProps = (
-        props,
-        value,
-        pristine = true,
-        dirty = false
-      ) => {
+      const checkInputProps = (props, value, pristine = true, dirty = false) => {
         expect(props.meta.pristine).toBe(pristine)
         expect(props.meta.dirty).toBe(dirty)
         expect(props.input.value).toBe(value)
@@ -1162,10 +1127,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkInputProps(inputRender.mock.calls[2][0], 'dirtyvalue', false, true)
 
       // Re-initialize form and check if it is pristine and not dirty
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // Check re-initialized state
@@ -1233,11 +1195,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
-              >
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
             </div>
           )
         }
@@ -1276,10 +1234,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Reinitialize the form
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // check initialized state
@@ -1350,11 +1305,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
-              >
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
             </div>
           )
         }
@@ -1393,10 +1344,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Reinitialize the form
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // check initialized state
@@ -1600,11 +1548,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
-              >
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
             </div>
           )
         }
@@ -1643,10 +1587,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(3)
 
       // Reinitialize the form
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // check initialized state
@@ -1798,9 +1739,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <div>{showForm && <Decorated {...this.state} />}</div>
               </Provider>
-              <button onClick={() => this.setState({ showForm: !showForm })}>
-                Toggle
-              </button>
+              <button onClick={() => this.setState({ showForm: !showForm })}>Toggle</button>
             </div>
           )
         }
@@ -1908,9 +1847,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <div>{showForm && <Decorated {...this.state} />}</div>
               </Provider>
-              <button onClick={() => this.setState({ showForm: !showForm })}>
-                Toggle
-              </button>
+              <button onClick={() => this.setState({ showForm: !showForm })}>Toggle</button>
             </div>
           )
         }
@@ -2015,11 +1952,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field
-                name="deep.foo"
-                component={deepFooInputRender}
-                type="text"
-              />
+              <Field name="deep.foo" component={deepFooInputRender} type="text" />
               <Field name="hello" component={helloInputRender} type="text" />
             </form>
           )
@@ -2043,11 +1976,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
-              >
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
             </div>
           )
         }
@@ -2076,10 +2005,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(helloInputRender).toHaveBeenCalledTimes(1)
 
       // Reinitialize the form
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // check initialized state
@@ -2133,11 +2059,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field
-                name="deep.foo"
-                component={deepFooInputRender}
-                type="text"
-              />
+              <Field name="deep.foo" component={deepFooInputRender} type="text" />
               <Field name="hello" component={helloInputRender} type="text" />
             </form>
           )
@@ -2161,11 +2083,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button
-                onClick={() => this.setState({ initialValues: initialValues2 })}
-              >
-                Init
-              </button>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
             </div>
           )
         }
@@ -2194,10 +2112,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(helloInputRender).toHaveBeenCalledTimes(1)
 
       // Reinitialize the form
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // check initialized state
@@ -2241,24 +2156,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           return (
             <form>
               {!showBar && <Field name="foo" component="input" type="text" />}
-              {!showBar && (
-                <FieldArray
-                  name="fooArray"
-                  component={noopRender}
-                  type="text"
-                />
-              )}
+              {!showBar && <FieldArray name="fooArray" component={noopRender} type="text" />}
               {showBar && <Field name="bar" component="input" type="text" />}
-              {showBar && (
-                <FieldArray
-                  name="barArray"
-                  component={noopRender}
-                  type="text"
-                />
-              )}
-              <button onClick={() => this.setState({ showBar: true })}>
-                Show Bar
-              </button>
+              {showBar && <FieldArray name="barArray" component={noopRender} type="text" />}
+              <button onClick={() => this.setState({ showBar: true })}>Show Bar</button>
             </form>
           )
         }
@@ -2297,24 +2198,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
             <form>
               <FormSection name="sec">
                 {!showBar && <Field name="foo" component="input" type="text" />}
-                {!showBar && (
-                  <FieldArray
-                    name="fooArray"
-                    component={noopRender}
-                    type="text"
-                  />
-                )}
+                {!showBar && <FieldArray name="fooArray" component={noopRender} type="text" />}
                 {showBar && <Field name="bar" component="input" type="text" />}
-                {showBar && (
-                  <FieldArray
-                    name="barArray"
-                    component={noopRender}
-                    type="text"
-                  />
-                )}
-                <button onClick={() => this.setState({ showBar: true })}>
-                  Show Bar
-                </button>
+                {showBar && <FieldArray name="barArray" component={noopRender} type="text" />}
+                <button onClick={() => this.setState({ showBar: true })}>Show Bar</button>
               </FormSection>
             </form>
           )
@@ -2329,19 +2216,13 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      expect(ref.current.fieldList).toContainExactly([
-        'sec.foo',
-        'sec.fooArray'
-      ])
+      expect(ref.current.fieldList).toContainExactly(['sec.foo', 'sec.fooArray'])
 
       // switch fields
       const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(button)
 
-      expect(ref.current.fieldList).toContainExactly([
-        'sec.bar',
-        'sec.barArray'
-      ])
+      expect(ref.current.fieldList).toContainExactly(['sec.bar', 'sec.barArray'])
     })
     it('should not set FieldArray as touched on submit', () => {
       const store = makeStore({})
@@ -2428,9 +2309,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         testForm: {}
       })
       const username = jest.fn(props => <input {...props.input} type="text" />)
-      const password = jest.fn(props => (
-        <input {...props.input} type="password" />
-      ))
+      const password = jest.fn(props => <input {...props.input} type="password" />)
 
       const Form = () => (
         <form>
@@ -2679,12 +2558,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(onSubmitFail).not.toHaveBeenCalled()
     }
 
-    const expectSubmitFailedWithErrors = (
-      onSubmit,
-      onSubmitFail,
-      dispatch,
-      errors
-    ) => error => {
+    const expectSubmitFailedWithErrors = (onSubmit, onSubmitFail, dispatch, errors) => error => {
       expect(onSubmit).not.toHaveBeenCalled()
       expect(onSubmitFail).toHaveBeenCalled()
       expect(onSubmitFail.mock.calls[0][0]).toEqual(errors)
@@ -2728,14 +2602,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expectReadyForFirstSubmission(stub.submit, onSubmit, onSubmitFail)
       return stub
         .submit()
-        .catch(
-          expectSubmitFailedWithErrors(
-            onSubmit,
-            onSubmitFail,
-            store.dispatch,
-            errors
-          )
-        )
+        .catch(expectSubmitFailedWithErrors(onSubmit, onSubmitFail, store.dispatch, errors))
     }
 
     it('should call onSubmitFail if async validation prevents submit', () =>
@@ -3134,9 +3001,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      expect(() => ref.current.submit()).toThrow(
-        /onSubmit function or pass onSubmit as a prop/
-      )
+      expect(() => ref.current.submit()).toThrow(/onSubmit function or pass onSubmit as a prop/)
     })
 
     it('should submit (with async validation) when submit() called', () => {
@@ -3192,9 +3057,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })
       const input = jest.fn(props => <input {...props.input} />)
-      const asyncValidate = jest.fn(
-        () => new Promise(resolve => setTimeout(resolve, 100))
-      )
+      const asyncValidate = jest.fn(() => new Promise(resolve => setTimeout(resolve, 100)))
       const onSubmit = values => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
@@ -3276,9 +3139,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
       })
       const input = jest.fn(props => <input {...props.input} />)
-      const asyncValidate = jest.fn(
-        () => new Promise(resolve => setTimeout(resolve, 100))
-      )
+      const asyncValidate = jest.fn(() => new Promise(resolve => setTimeout(resolve, 100)))
       const onSubmit = values => {
         expect(values).toEqualMap({ bar: 'foo' })
       }
@@ -3386,9 +3247,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
               <Provider store={store}>
                 <Decorated {...this.state} />
               </Provider>
-              <button onClick={() => this.setState({ someOtherProp: 42 })}>
-                Init
-              </button>
+              <button onClick={() => this.setState({ someOtherProp: 42 })}>Init</button>
             </div>
           )
         }
@@ -3412,10 +3271,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(inputRender).toHaveBeenCalledTimes(1)
 
       // initialize
-      const initButton = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'button'
-      )
+      const initButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
       TestUtils.Simulate.click(initButton)
 
       // rerender form on prop change
@@ -3501,13 +3357,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         }
         return errors
       })
-      const shouldValidate = ({
-        values,
-        nextProps,
-        props,
-        initialRender,
-        structure
-      }) => {
+      const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
         if (initialRender) {
           return true
         }
@@ -3544,11 +3394,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           return (
             <div>
               <Decorated {...this.state} />}
-              <button
-                onClick={() => this.setState({ max: this.state.max + 1 })}
-              >
-                Increment
-              </button>
+              <button onClick={() => this.setState({ max: this.state.max + 1 })}>Increment</button>
             </div>
           )
         }
@@ -3561,15 +3407,8 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       )
 
       const validateLastCalledWith = (amount, max) => {
-        expect(
-          getIn(
-            validate.mock.calls[validate.mock.calls.length - 1][0],
-            'amount'
-          )
-        ).toBe(amount)
-        expect(validate.mock.calls[validate.mock.calls.length - 1][1].max).toBe(
-          max
-        )
+        expect(getIn(validate.mock.calls[validate.mock.calls.length - 1][0], 'amount')).toBe(amount)
+        expect(validate.mock.calls[validate.mock.calls.length - 1][1].max).toBe(max)
       }
 
       expect(formRender).toHaveBeenCalled()
@@ -3611,8 +3450,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        validate: values =>
-          getIn(values, 'foo') ? {} : { _error: 'form wide sync error' }
+        validate: values => (getIn(values, 'foo') ? {} : { _error: 'form wide sync error' })
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3792,9 +3630,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(formRender).toHaveBeenCalled()
       expect(formRender).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(formRender, 1).warning).toBe(
-        'form wide sync warning'
-      )
+      expect(propsAtNthRender(formRender, 1).warning).toBe('form wide sync warning')
     })
 
     it('should properly remove warning prop from sync warning', () => {
@@ -3814,8 +3650,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       }
       const Decorated = reduxForm({
         form: 'testForm',
-        warn: values =>
-          getIn(values, 'foo') ? {} : { _warning: 'form wide sync warning' }
+        warn: values => (getIn(values, 'foo') ? {} : { _warning: 'form wide sync warning' })
       })(Form)
 
       TestUtils.renderIntoDocument(
@@ -3826,9 +3661,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(formRender).toHaveBeenCalled()
       expect(formRender).toHaveBeenCalledTimes(2)
-      expect(propsAtNthRender(formRender, 1).warning).toBe(
-        'form wide sync warning'
-      )
+      expect(propsAtNthRender(formRender, 1).warning).toBe('form wide sync warning')
 
       input.mock.calls[0][0].input.onChange('bar')
 
@@ -3901,9 +3734,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      expect(propsAtLastRender(renderInput).meta.warning).not.toEqual(
-        'foo warning'
-      )
+      expect(propsAtLastRender(renderInput).meta.warning).not.toEqual('foo warning')
     })
 
     it('should call async on blur of async blur field', () => {
@@ -3915,9 +3746,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           foo: 'async error'
         }
       }
-      const asyncValidate = jest
-        .fn()
-        .mockImplementation(() => Promise.reject(asyncErrors))
+      const asyncValidate = jest.fn().mockImplementation(() => Promise.reject(asyncErrors))
 
       class Form extends Component {
         render() {
@@ -3962,10 +3791,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(propsAtNthRender(inputRender, 0).meta.valid).toBe(true)
       expect(propsAtNthRender(inputRender, 0).meta.error).toBe(undefined)
 
-      const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'input'
-      )
+      const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
       TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
       expect(store.getState()).toEqualMap({
@@ -4044,9 +3870,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           foo: 'async error'
         }
       }
-      const asyncValidate = jest
-        .fn()
-        .mockImplementation(() => Promise.reject(asyncErrors))
+      const asyncValidate = jest.fn().mockImplementation(() => Promise.reject(asyncErrors))
 
       class Form extends Component {
         render() {
@@ -4071,10 +3895,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'input'
-      )
+      const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
 
       TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
@@ -4252,12 +4073,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field
-                name="name"
-                component={renderName}
-                type="text"
-                validate={required}
-              />
+              <Field name="name" component={renderName} type="text" validate={required} />
               <Field name="age" component={renderAge} type="text" />
             </form>
           )
@@ -4380,12 +4196,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           formRender(this.props)
           return (
             <form>
-              <Field
-                name="name"
-                component={renderName}
-                type="text"
-                warn={required}
-              />
+              <Field name="name" component={renderName} type="text" warn={required} />
               <Field name="age" component={renderAge} type="text" />
             </form>
           )
@@ -4511,10 +4322,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldValidate.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldValidate).toHaveBeenCalled()
@@ -4537,10 +4345,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldError.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldError).toHaveBeenCalled()
@@ -4563,10 +4368,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldValidate.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldValidate).toHaveBeenCalled()
@@ -4589,10 +4391,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldError.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldError).toHaveBeenCalled()
@@ -4613,10 +4412,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         validate.mockClear()
 
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         // compare values
@@ -4640,10 +4436,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         validate.mockClear()
 
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         // compare values
@@ -4671,10 +4464,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldValidate.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldValidate).toHaveBeenCalled()
@@ -4697,10 +4487,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldWarn.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldWarn).toHaveBeenCalled()
@@ -4723,10 +4510,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldValidate.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldValidate).toHaveBeenCalled()
@@ -4749,10 +4533,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
         shouldWarn.mockClear()
 
         // on change
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         expect(shouldWarn).toHaveBeenCalled()
@@ -4773,10 +4554,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         warn.mockClear()
 
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         // compare values
@@ -4800,10 +4578,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
         warn.mockClear()
 
-        const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-          dom,
-          'input'
-        )
+        const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
         TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
         // compare values
@@ -4850,10 +4625,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 
       expect(asyncValidate).not.toHaveBeenCalled()
 
-      const inputElement = TestUtils.findRenderedDOMComponentWithTag(
-        dom,
-        'input'
-      )
+      const inputElement = TestUtils.findRenderedDOMComponentWithTag(dom, 'input')
       TestUtils.Simulate.change(inputElement, { target: { value: 'bar' } })
 
       expect(shouldAsyncValidate).not.toHaveBeenCalled()
@@ -5037,9 +4809,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
           return (
             <div>
               {showForm && <Decorated initialValues={initialValues} />}
-              <button onClick={() => this.setState({ showForm: !showForm })}>
-                Toggle Form
-              </button>
+              <button onClick={() => this.setState({ showForm: !showForm })}>Toggle Form</button>
             </div>
           )
         }
@@ -5436,14 +5206,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        touch('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(touch('testForm', 'foo'))
 
       // check that submit succeeded action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        setSubmitSucceeded('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(setSubmitSucceeded('testForm'))
 
       // check no additional actions dispatched
       expect(logger).toHaveBeenCalledTimes(callIndex)
@@ -5501,14 +5267,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        touch('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(touch('testForm', 'foo'))
 
       // check that submit succeeded action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        setSubmitSucceeded('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(setSubmitSucceeded('testForm'))
 
       // check no additional actions dispatched
       expect(logger).toHaveBeenCalledTimes(callIndex)
@@ -5575,14 +5337,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        touch('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(touch('testForm', 'foo'))
 
       // check that setSubmitFailed action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        setSubmitFailed('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(setSubmitFailed('testForm', 'foo'))
 
       // form rerendered twice, once with submit trigger, and then after submit failure
       expect(formRender).toHaveBeenCalledTimes(4)
@@ -5598,9 +5356,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       )
 
       // check that updateSyncErrors action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        updateSyncErrors('testForm', {})
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(updateSyncErrors('testForm', {}))
 
       // rerendered once to flip dirty flag, and again to flip invalid flag
       expect(formRender).toHaveBeenCalledTimes(6)
@@ -5620,14 +5376,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        touch('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(touch('testForm', 'foo'))
 
       // check that submit succeeded action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        setSubmitSucceeded('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(setSubmitSucceeded('testForm'))
 
       // check no additional actions dispatched
       expect(logger).toHaveBeenCalledTimes(callIndex)
@@ -5693,14 +5445,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        touch('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(touch('testForm', 'foo'))
 
       // check that setSubmitFailed action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        setSubmitFailed('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(setSubmitFailed('testForm', 'foo'))
 
       // form rerendered twice, once with submit trigger, and then after submit failure
       expect(formRender).toHaveBeenCalledTimes(4)
@@ -5716,9 +5464,7 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       )
 
       // check that updateSyncErrors action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        updateSyncErrors('testForm', {})
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(updateSyncErrors('testForm', {}))
 
       // rerendered once to flip dirty flag, and again to flip invalid flag
       expect(formRender).toHaveBeenCalledTimes(6)
@@ -5738,14 +5484,10 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       expect(logger.mock.calls[callIndex++][1]).toEqual(clearSubmit('testForm'))
 
       // check that touch action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        touch('testForm', 'foo')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(touch('testForm', 'foo'))
 
       // check that submit succeeded action was dispatched
-      expect(logger.mock.calls[callIndex++][1]).toEqual(
-        setSubmitSucceeded('testForm')
-      )
+      expect(logger.mock.calls[callIndex++][1]).toEqual(setSubmitSucceeded('testForm'))
 
       // check no additional actions dispatched
       expect(logger).toHaveBeenCalledTimes(callIndex)
@@ -5807,9 +5549,6 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
 describeReduxForm('reduxForm.plain', plain, plainCombineReducers, () =>
   expect.extend(plainExpectations)
 )
-describeReduxForm(
-  'reduxForm.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeReduxForm('reduxForm.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )

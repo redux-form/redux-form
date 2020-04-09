@@ -9,7 +9,7 @@ export { default as defaultShouldWarn } from './defaultShouldWarn'
 export { default as Form } from './Form'
 export { default as FormName } from './FormName'
 export { default as FormSection } from './FormSection'
-export { default as SubmissionError } from './SubmissionError'
+export { SubmissionError } from './SubmissionError'
 // alias for propTypes
 export {
   default as propTypes,

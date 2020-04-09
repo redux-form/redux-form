@@ -2,20 +2,14 @@
 import isPromise from 'is-promise'
 import type { SubmitFunction } from './types'
 import type { Props } from './createReduxForm'
-import SubmissionError from './SubmissionError'
-
-const isSubmissionError = error => error && error.name === SubmissionError.name
+import { isSubmissionError } from './SubmissionError'
 
 const mergeErrors = ({ asyncErrors, syncErrors }) =>
   asyncErrors && typeof asyncErrors.merge === 'function'
     ? asyncErrors.merge(syncErrors).toJS()
     : { ...asyncErrors, ...syncErrors }
 
-const executeSubmit = (
-  submit: SubmitFunction,
-  fields: string[],
-  props: Props
-) => {
+const executeSubmit = (submit: SubmitFunction, fields: string[], props: Props) => {
   const {
     dispatch,
     submitAsSideEffect,
@@ -32,9 +26,7 @@ const executeSubmit = (
   try {
     result = submit(values, dispatch, props)
   } catch (submitError) {
-    const error = isSubmissionError(submitError)
-      ? submitError.errors
-      : undefined
+    const error = isSubmissionError(submitError) ? submitError.errors : undefined
     stopSubmit(error)
     setSubmitFailed(...fields)
     if (onSubmitFail) {
@@ -64,9 +56,7 @@ const executeSubmit = (
           return submitResult
         },
         submitError => {
-          const error = isSubmissionError(submitError)
-            ? submitError.errors
-            : undefined
+          const error = isSubmissionError(submitError) ? submitError.errors : undefined
           stopSubmit(error)
           setSubmitFailed(...fields)
           if (onSubmitFail) {
