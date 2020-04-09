@@ -290,7 +290,7 @@ const initialize: Initialize = (
   form: string,
   values: Object,
   keepDirty?: boolean | Object,
-  otherMeta?: Object = {}
+  otherMeta: Object = {}
 ): InitializeAction => {
   if (keepDirty instanceof Object) {
     otherMeta = keepDirty
