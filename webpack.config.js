@@ -1,7 +1,6 @@
 'use strict'
 const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = process.env.NODE_ENV
 
