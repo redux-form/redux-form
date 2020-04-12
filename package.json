@@ -114,7 +114,6 @@
     "rimraf": "^2.7.1",
     "size-limit": "^4.4.5",
     "tmp": "0.0.33",
-    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.42.1",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.11"
