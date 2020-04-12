@@ -86,8 +86,13 @@ const checkSubmit = submit => {
   return submit
 }
 
-type OnSubmitFail = (errors: ?Object, dispatch: Dispatch, submitError: ?any, props: Object) => void
-type OnSubmitSuccess = (result: ?any, dispatch: Dispatch, props: Object) => void
+type OnSubmitFail = (
+  errors: ?Object,
+  dispatch: Dispatch<any>,
+  submitError: ?any,
+  props: Object
+) => void
+type OnSubmitSuccess = (result: ?any, dispatch: Dispatch<any>, props: Object) => void
 type InitializeAction = (initialValues: ?Values, keepDirty: boolean, otherMeta: ?Object) => void
 type FocusAction = (field: string) => void
 type ChangeAction = (field: string, value: any) => void
@@ -301,7 +306,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
         innerOnSubmit = undefined
         submitPromise = undefined
 
-        initIfNeeded(nextProps: ?PropsWithContext) {
+        initIfNeeded = (nextProps: ?PropsWithContext): void => {
           const { enableReinitialize } = this.props
           if (nextProps) {
             if (
@@ -323,11 +328,11 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        updateSyncErrorsIfNeeded(
+        updateSyncErrorsIfNeeded = (
           nextSyncErrors: ?Object,
           nextError: ?any,
           lastSyncErrors: ?Object
-        ) {
+        ): void => {
           const { error, updateSyncErrors } = this.props
           const noErrors = (!lastSyncErrors || !Object.keys(lastSyncErrors).length) && !error
           const nextNoErrors =
@@ -340,14 +345,14 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        clearSubmitPromiseIfNeeded(nextProps: PropsWithContext) {
+        clearSubmitPromiseIfNeeded = (nextProps: PropsWithContext): void => {
           const { submitting } = this.props
           if (this.submitPromise && submitting && !nextProps.submitting) {
             delete this.submitPromise
           }
         }
 
-        submitIfNeeded(nextProps: PropsWithContext) {
+        submitIfNeeded = (nextProps: PropsWithContext): void => {
           const { clearSubmit, triggerSubmit } = this.props
           if (!triggerSubmit && nextProps.triggerSubmit) {
             clearSubmit()
@@ -355,7 +360,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        shouldErrorFunction(): ShouldValidateFunction | ShouldErrorFunction {
+        shouldErrorFunction = (): ShouldValidateFunction | ShouldErrorFunction => {
           const { shouldValidate, shouldError } = this.props
           const shouldValidateOverridden = shouldValidate !== defaultShouldValidate
           const shouldErrorOverridden = shouldError !== defaultShouldError
@@ -363,7 +368,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           return shouldValidateOverridden && !shouldErrorOverridden ? shouldValidate : shouldError
         }
 
-        validateIfNeeded(nextProps: ?PropsWithContext) {
+        validateIfNeeded = (nextProps: ?PropsWithContext): void => {
           const { validate, values } = this.props
           const shouldError = this.shouldErrorFunction()
           const fieldLevelValidate = this.generateValidator()
@@ -396,11 +401,11 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        updateSyncWarningsIfNeeded(
+        updateSyncWarningsIfNeeded = (
           nextSyncWarnings: ?Object,
           nextWarning: any,
           lastSyncWarnings: ?Object
-        ) {
+        ): void => {
           const { warning, updateSyncWarnings } = this.props
           const noWarnings =
             (!lastSyncWarnings || !Object.keys(lastSyncWarnings).length) && !warning
@@ -415,7 +420,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        shouldWarnFunction(): ShouldValidateFunction | ShouldWarnFunction {
+        shouldWarnFunction = (): ShouldValidateFunction | ShouldWarnFunction => {
           const { shouldValidate, shouldWarn } = this.props
           const shouldValidateOverridden = shouldValidate !== defaultShouldValidate
           const shouldWarnOverridden = shouldWarn !== defaultShouldWarn
@@ -423,7 +428,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           return shouldValidateOverridden && !shouldWarnOverridden ? shouldValidate : shouldWarn
         }
 
-        warnIfNeeded(nextProps: ?PropsWithContext) {
+        warnIfNeeded = (nextProps: ?PropsWithContext): void => {
           const { warn, values } = this.props
           const shouldWarn = this.shouldWarnFunction()
           const fieldLevelWarn = this.generateWarner()
@@ -452,7 +457,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        UNSAFE_componentWillMount() {
+        UNSAFE_componentWillMount(): void {
           if (!isHotReloading()) {
             this.initIfNeeded()
             this.validateIfNeeded()
@@ -464,7 +469,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           )
         }
 
-        UNSAFE_componentWillReceiveProps(nextProps: PropsWithContext) {
+        UNSAFE_componentWillReceiveProps(nextProps: PropsWithContext): void {
           this.initIfNeeded(nextProps)
           this.validateIfNeeded(nextProps)
           this.warnIfNeeded(nextProps)
@@ -499,7 +504,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           )
         }
 
-        componentDidMount() {
+        componentDidMount(): void {
           if (!isHotReloading()) {
             this.initIfNeeded(this.props)
             this.validateIfNeeded()
@@ -511,7 +516,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           )
         }
 
-        componentWillUnmount() {
+        componentWillUnmount(): void {
           const { destroyOnUnmount, destroy } = this.props
           if (destroyOnUnmount && !isHotReloading()) {
             this.destroyed = true
@@ -525,7 +530,12 @@ export default function createReduxForm(structure: Structure<any, any>) {
 
         isPristine = (): boolean => this.props.pristine
 
-        register = (name: string, type: FieldType, getValidator: Function, getWarner: Function) => {
+        register = (
+          name: string,
+          type: FieldType,
+          getValidator: Function,
+          getWarner: Function
+        ): void => {
           const lastCount = this.fieldCounts[name]
           const nextCount = (lastCount || 0) + 1
           this.fieldCounts[name] = nextCount
@@ -538,7 +548,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        unregister = (name: string) => {
+        unregister = (name: string): void => {
           const lastCount = this.fieldCounts[name]
           if (lastCount === 1) delete this.fieldCounts[name]
           else if (lastCount != null) this.fieldCounts[name] = lastCount - 1
@@ -590,7 +600,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           return validators
         }
 
-        generateValidator = (): ?Function => {
+        generateValidator = (): Function | void => {
           const validators = this.getValidators()
           return Object.keys(validators).length
             ? generateValidator(validators, structure)
@@ -608,12 +618,16 @@ export default function createReduxForm(structure: Structure<any, any>) {
           return warners
         }
 
-        generateWarner = (): ?Function => {
+        generateWarner = (): Function | void => {
           const warners = this.getWarners()
           return Object.keys(warners).length ? generateValidator(warners, structure) : undefined
         }
 
-        asyncValidate = (name: string, value: any, trigger: 'blur' | 'change') => {
+        asyncValidate = (
+          name: string,
+          value: any,
+          trigger: 'blur' | 'change'
+        ): Promise<void> | void => {
           const {
             asyncBlurFields,
             asyncChangeFields,
@@ -632,11 +646,11 @@ export default function createReduxForm(structure: Structure<any, any>) {
 
           const fieldNeedsValidation = () => {
             const fieldNeedsValidationForBlur =
-              asyncBlurFields && name && ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+              asyncBlurFields && name && ~asyncBlurFields.indexOf(name.replace(/\[[0-9]+]/g, '[]'))
             const fieldNeedsValidationForChange =
               asyncChangeFields &&
               name &&
-              ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+\]/g, '[]'))
+              ~asyncChangeFields.indexOf(name.replace(/\[[0-9]+]/g, '[]'))
             const asyncValidateByDefault = !(asyncBlurFields || asyncChangeFields)
 
             return (
@@ -680,7 +694,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
           throw error
         }
 
-        listenToSubmit = (promise: any) => {
+        listenToSubmit = (promise: any): Promise<any> => {
           if (!isPromise(promise)) {
             return promise
           }
@@ -702,10 +716,10 @@ export default function createReduxForm(structure: Structure<any, any>) {
                 return this.listenToSubmit(
                   handleSubmit(
                     checkSubmit(onSubmit),
-                    {
+                    ({
                       ...this.props,
                       ...bindActionCreators({ blur, change }, dispatch)
-                    },
+                    }: any), // TODO: fix type, should be `Props`
                     this.props.validExceptSubmit,
                     this.asyncValidate,
                     this.getFieldList({
@@ -724,10 +738,10 @@ export default function createReduxForm(structure: Structure<any, any>) {
                 this.listenToSubmit(
                   handleSubmit(
                     checkSubmit(submitOrEvent),
-                    {
+                    ({
                       ...this.props,
                       ...bindActionCreators({ blur, change }, dispatch)
-                    },
+                    }: any), // TODO: fix type, should be `Props`
                     this.props.validExceptSubmit,
                     this.asyncValidate,
                     this.getFieldList({

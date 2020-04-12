@@ -93,7 +93,7 @@ export type ReactContext = {
 
 export type SubmitFunction = (
   values: any,
-  dispatch: Dispatch,
+  dispatch: Dispatch<any>,
   props: Object
 ) => any
 

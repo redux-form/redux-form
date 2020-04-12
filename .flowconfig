@@ -13,5 +13,4 @@ sketchy-null-string=off
 sketchy-null-number=off
 unsafe-getters-setters=off
 inexact-spread=off
-untyped-type-import=off
 unnecessary-invariant=off
