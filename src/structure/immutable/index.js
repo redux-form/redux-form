@@ -9,12 +9,10 @@ import keys from './keys'
 import setIn from './setIn'
 import splice from './splice'
 
-const emptyList = List()
-
 const structure: Structure<ImmutableMap<string, any>, ImmutableList<any>> = {
   allowsArrayErrors: false,
   empty: Map(),
-  emptyList,
+  emptyList: List(),
   getIn: (state: ImmutableMap<string, any> | ImmutableList<any>, field: string) =>
     Iterable.isIterable(state) ? state.getIn(toPath(field)) : plainGetIn(state, field),
   setIn,

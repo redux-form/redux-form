@@ -1,8 +1,10 @@
-[include]
-.*/src/.*
+[version]
+0.79.1
 
-[options]
-include_warnings=true
+[ignore]
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/es/.*
+<PROJECT_ROOT>/lib/.*
 
 [lints]
 all=warn
@@ -14,3 +16,6 @@ sketchy-null-number=off
 unsafe-getters-setters=off
 inexact-spread=off
 unnecessary-invariant=off
+
+[options]
+include_warnings=true
