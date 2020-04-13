@@ -6,6 +6,7 @@ const __FLAG__ = '@@redux-form/submission-error-flag'
 export class SubmissionError extends ExtendableError {
   /** @private */
   static __FLAG__ = __FLAG__
+  errors: Object
 
   constructor(errors: Object) {
     super('Submit Validation Failed')

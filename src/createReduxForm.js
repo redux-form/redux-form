@@ -1020,7 +1020,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
         undefined,
         { forwardRef: true }
       )
-      const ConnectedForm = hoistStatics(connector(Form), WrappedComponent)
+      const ConnectedForm = hoistStatics<any, any, any, any>(connector(Form), WrappedComponent)
       ConnectedForm.defaultProps = config
 
       // build outer component to expose instance api
@@ -1078,7 +1078,10 @@ export default function createReduxForm(structure: Structure<any, any>) {
         }
       }
 
-      const WithContext = hoistStatics(withReduxForm(ReduxForm), WrappedComponent)
+      const WithContext = hoistStatics<any, any, any, any>(
+        withReduxForm(ReduxForm),
+        WrappedComponent
+      )
       WithContext.defaultProps = config
       return WithContext
     }
