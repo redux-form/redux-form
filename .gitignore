@@ -8,6 +8,7 @@ node_modules
 dist
 lib
 es
+flow-typed
 npm-debug.log
 .DS_Store
 stats.json

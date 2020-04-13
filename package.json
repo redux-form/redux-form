@@ -29,7 +29,8 @@
     "test": "jest",
     "test:flow": "node scripts/patch-immutable-flow-error.js && flow check",
     "test:watch": "npm test -- --watch",
-    "test:cov": "npm run test -- --coverage"
+    "test:cov": "npm run test -- --coverage",
+    "postinstall": "flow-typed install"
   },
   "keywords": [
     "react",
@@ -82,6 +83,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
     "flow-bin": "^0.84.0",
+    "flow-typed": "^2.6.2",
     "flux-standard-action": "^2.1.1",
     "husky": "^1.2.1",
     "immutable": "^3.8.2",
