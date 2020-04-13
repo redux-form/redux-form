@@ -1,7 +1,5 @@
 // @flow
-type Named = {
-  name: string
-}
+type Named = { name: string, ... }
 
 function keys<T: Object | Named[]>(value: ?T): Array<any> {
   if (!value) {

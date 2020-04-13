@@ -77,17 +77,11 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     splice
   } = structure
   const deleteInWithCleanUp = createDeleteInWithCleanUp(structure)(shouldDelete)
-  const plainDeleteInWithCleanUp = createDeleteInWithCleanUp(plain)(
-    shouldDelete
-  )
+  const plainDeleteInWithCleanUp = createDeleteInWithCleanUp(plain)(shouldDelete)
   const doSplice = (state, key, field, index, removeNum, value, force) => {
     const existing = getIn(state, `${key}.${field}`)
     return existing || force
-      ? setIn(
-          state,
-          `${key}.${field}`,
-          splice(existing, index, removeNum, value)
-        )
+      ? setIn(state, `${key}.${field}`, splice(existing, index, removeNum, value))
       : state
   }
   const doPlainSplice = (state, key, field, index, removeNum, value, force) => {
@@ -97,11 +91,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       ? setIn(
           state,
           key,
-          plain.setIn(
-            slice,
-            field,
-            plain.splice(existing, index, removeNum, value)
-          )
+          plain.setIn(slice, field, plain.splice(existing, index, removeNum, value))
         )
       : state
   }
@@ -111,50 +101,18 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     const nonValuesValue = value != null ? empty : undefined
     result = doSplice(result, 'values', field, index, removeNum, value, true)
     result = doSplice(result, 'fields', field, index, removeNum, nonValuesValue)
-    result = doPlainSplice(
-      result,
-      'syncErrors',
-      field,
-      index,
-      removeNum,
-      undefined
-    )
-    result = doPlainSplice(
-      result,
-      'syncWarnings',
-      field,
-      index,
-      removeNum,
-      undefined
-    )
-    result = doSplice(
-      result,
-      'submitErrors',
-      field,
-      index,
-      removeNum,
-      undefined
-    )
+    result = doPlainSplice(result, 'syncErrors', field, index, removeNum, undefined)
+    result = doPlainSplice(result, 'syncWarnings', field, index, removeNum, undefined)
+    result = doSplice(result, 'submitErrors', field, index, removeNum, undefined)
     result = doSplice(result, 'asyncErrors', field, index, removeNum, undefined)
     return result
   }
 
-  const behaviors: { [string]: { (state: any, action: Action): M } } = {
-    [ARRAY_INSERT](
-      state,
-      {
-        meta: { field, index },
-        payload
-      }
-    ) {
+  const behaviors: { [string]: { (state: any, action: Action): M, ... }, ... } = {
+    [ARRAY_INSERT](state, { meta: { field, index }, payload }) {
       return arraySplice(state, field, index, 0, payload)
     },
-    [ARRAY_MOVE](
-      state,
-      {
-        meta: { field, from, to }
-      }
-    ) {
+    [ARRAY_MOVE](state, { meta: { field, from, to } }) {
       const array = getIn(state, `values.${field}`)
       const length = array ? size(array) : 0
       let result = state
@@ -164,78 +122,37 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           if (getIn(result, path)) {
             const value = getIn(result, `${path}[${from}]`)
             result = setIn(result, path, splice(getIn(result, path), from, 1)) // remove
-            result = setIn(
-              result,
-              path,
-              splice(getIn(result, path), to, 0, value)
-            ) // insert
+            result = setIn(result, path, splice(getIn(result, path), to, 0, value)) // insert
           }
         })
       }
       return result
     },
-    [ARRAY_POP](
-      state,
-      {
-        meta: { field }
-      }
-    ) {
+    [ARRAY_POP](state, { meta: { field } }) {
       const array = getIn(state, `values.${field}`)
       const length = array ? size(array) : 0
       return length ? arraySplice(state, field, length - 1, 1) : state
     },
-    [ARRAY_PUSH](
-      state,
-      {
-        meta: { field },
-        payload
-      }
-    ) {
+    [ARRAY_PUSH](state, { meta: { field }, payload }) {
       const array = getIn(state, `values.${field}`)
       const length = array ? size(array) : 0
       return arraySplice(state, field, length, 0, payload)
     },
-    [ARRAY_REMOVE](
-      state,
-      {
-        meta: { field, index }
-      }
-    ) {
+    [ARRAY_REMOVE](state, { meta: { field, index } }) {
       return arraySplice(state, field, index, 1)
     },
-    [ARRAY_REMOVE_ALL](
-      state,
-      {
-        meta: { field }
-      }
-    ) {
+    [ARRAY_REMOVE_ALL](state, { meta: { field } }) {
       const array = getIn(state, `values.${field}`)
       const length = array ? size(array) : 0
       return length ? arraySplice(state, field, 0, length) : state
     },
-    [ARRAY_SHIFT](
-      state,
-      {
-        meta: { field }
-      }
-    ) {
+    [ARRAY_SHIFT](state, { meta: { field } }) {
       return arraySplice(state, field, 0, 1)
     },
-    [ARRAY_SPLICE](
-      state,
-      {
-        meta: { field, index, removeNum },
-        payload
-      }
-    ) {
+    [ARRAY_SPLICE](state, { meta: { field, index, removeNum }, payload }) {
       return arraySplice(state, field, index, removeNum, payload)
     },
-    [ARRAY_SWAP](
-      state,
-      {
-        meta: { field, indexA, indexB }
-      }
-    ) {
+    [ARRAY_SWAP](state, { meta: { field, indexA, indexB } }) {
       let result = state
       rootKeys.forEach(key => {
         const valueA = getIn(result, `${key}.${field}[${indexA}]`)
@@ -247,22 +164,10 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       })
       return result
     },
-    [ARRAY_UNSHIFT](
-      state,
-      {
-        meta: { field },
-        payload
-      }
-    ) {
+    [ARRAY_UNSHIFT](state, { meta: { field }, payload }) {
       return arraySplice(state, field, 0, 0, payload)
     },
-    [AUTOFILL](
-      state,
-      {
-        meta: { field },
-        payload
-      }
-    ) {
+    [AUTOFILL](state, { meta: { field }, payload }) {
       let result: any = state
       result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
       result = deleteInWithCleanUp(result, `submitErrors.${field}`)
@@ -270,13 +175,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, `values.${field}`, payload)
       return result
     },
-    [BLUR](
-      state,
-      {
-        meta: { field, touch },
-        payload
-      }
-    ) {
+    [BLUR](state, { meta: { field, touch }, payload }) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
       if (initial === undefined && payload === '') {
@@ -294,24 +193,14 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
       return result
     },
-    [CHANGE](
-      state,
-      {
-        meta: { field, touch, persistentSubmitErrors },
-        payload
-      }
-    ) {
+    [CHANGE](state, { meta: { field, touch, persistentSubmitErrors }, payload }) {
       let result = state
       const initial = getIn(result, `initial.${field}`)
       if ((initial === undefined && payload === '') || payload === undefined) {
         result = deleteInWithCleanUp(result, `values.${field}`)
       } else if (isFunction(payload)) {
         const fieldCurrentValue = getIn(state, `values.${field}`)
-        result = setIn(
-          result,
-          `values.${field}`,
-          payload(fieldCurrentValue, state.values)
-        )
+        result = setIn(result, `values.${field}`, payload(fieldCurrentValue, state.values))
       } else {
         result = setIn(result, `values.${field}`, payload)
       }
@@ -335,20 +224,10 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = deleteIn(result, 'error')
       return result
     },
-    [CLEAR_ASYNC_ERROR](
-      state,
-      {
-        meta: { field }
-      }
-    ) {
+    [CLEAR_ASYNC_ERROR](state, { meta: { field } }) {
       return deleteIn(state, `asyncErrors.${field}`)
     },
-    [CLEAR_FIELDS](
-      state,
-      {
-        meta: { keepTouched, persistentSubmitErrors, fields }
-      }
-    ) {
+    [CLEAR_FIELDS](state, { meta: { keepTouched, persistentSubmitErrors, fields } }) {
       let result = state
       fields.forEach(field => {
         result = deleteInWithCleanUp(result, `asyncErrors.${field}`)
@@ -367,17 +246,10 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       const anyTouched = some(keys(getIn(result, 'registeredFields')), key =>
         getIn(result, `fields.${key}.touched`)
       )
-      result = anyTouched
-        ? setIn(result, 'anyTouched', true)
-        : deleteIn(result, 'anyTouched')
+      result = anyTouched ? setIn(result, 'anyTouched', true) : deleteIn(result, 'anyTouched')
       return result
     },
-    [FOCUS](
-      state,
-      {
-        meta: { field }
-      }
-    ) {
+    [FOCUS](state, { meta: { field } }) {
       let result = state
       const previouslyActive = getIn(state, 'active')
       result = deleteIn(result, `fields.${previouslyActive}.active`)
@@ -388,15 +260,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     },
     [INITIALIZE](
       state,
-      {
-        payload,
-        meta: {
-          keepDirty,
-          keepSubmitSucceeded,
-          updateUnregisteredFields,
-          keepValues
-        }
-      }
+      { payload, meta: { keepDirty, keepSubmitSucceeded, updateUnregisteredFields, keepValues } }
     ) {
       const mapData = fromJS(payload)
       let result = empty // clean all field state
@@ -465,9 +329,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
           }
 
           if (!updateUnregisteredFields) {
-            forEach(keys(registeredFields), name =>
-              overwritePristineValue(name)
-            )
+            forEach(keys(registeredFields), name => overwritePristineValue(name))
           }
 
           forEach(keys(newInitialValues), name => {
@@ -508,12 +370,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'initial', newInitialValues)
       return result
     },
-    [REGISTER_FIELD](
-      state,
-      {
-        payload: { name, type }
-      }
-    ) {
+    [REGISTER_FIELD](state, { payload: { name, type } }) {
       const key = `registeredFields['${name}']`
       let field = getIn(state, key)
       if (field) {
@@ -537,12 +394,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
       return result
     },
-    [RESET_SECTION](
-      state,
-      {
-        meta: { sections }
-      }
-    ) {
+    [RESET_SECTION](state, { meta: { sections } }) {
       let result = state
 
       sections.forEach(section => {
@@ -559,21 +411,14 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       const anyTouched = some(keys(getIn(result, 'registeredFields')), key =>
         getIn(result, `fields.${key}.touched`)
       )
-      result = anyTouched
-        ? setIn(result, 'anyTouched', true)
-        : deleteIn(result, 'anyTouched')
+      result = anyTouched ? setIn(result, 'anyTouched', true) : deleteIn(result, 'anyTouched')
 
       return result
     },
     [SUBMIT](state) {
       return setIn(state, 'triggerSubmit', true)
     },
-    [START_ASYNC_VALIDATION](
-      state,
-      {
-        meta: { field }
-      }
-    ) {
+    [START_ASYNC_VALIDATION](state, { meta: { field } }) {
       return setIn(state, 'asyncValidating', field || true)
     },
     [START_SUBMIT](state) {
@@ -620,19 +465,12 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
       return result
     },
-    [SET_SUBMIT_FAILED](
-      state,
-      {
-        meta: { fields }
-      }
-    ) {
+    [SET_SUBMIT_FAILED](state, { meta: { fields } }) {
       let result = state
       result = setIn(result, 'submitFailed', true)
       result = deleteIn(result, 'submitSucceeded')
       result = deleteIn(result, 'submitting')
-      fields.forEach(
-        field => (result = setIn(result, `fields.${field}.touched`, true))
-      )
+      fields.forEach(field => (result = setIn(result, `fields.${field}.touched`, true)))
       if (fields.length) {
         result = setIn(result, 'anyTouched', true)
       }
@@ -644,25 +482,13 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       result = setIn(result, 'submitSucceeded', true)
       return result
     },
-    [TOUCH](
-      state,
-      {
-        meta: { fields }
-      }
-    ) {
+    [TOUCH](state, { meta: { fields } }) {
       let result = state
-      fields.forEach(
-        field => (result = setIn(result, `fields.${field}.touched`, true))
-      )
+      fields.forEach(field => (result = setIn(result, `fields.${field}.touched`, true)))
       result = setIn(result, 'anyTouched', true)
       return result
     },
-    [UNREGISTER_FIELD](
-      state,
-      {
-        payload: { name, destroyOnUnmount }
-      }
-    ) {
+    [UNREGISTER_FIELD](state, { payload: { name, destroyOnUnmount } }) {
       let result = state
       const key = `registeredFields['${name}']`
       let field = getIn(result, key)
@@ -703,30 +529,16 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
       return result
     },
-    [UNTOUCH](
-      state,
-      {
-        meta: { fields }
-      }
-    ) {
+    [UNTOUCH](state, { meta: { fields } }) {
       let result = state
-      fields.forEach(
-        field => (result = deleteIn(result, `fields.${field}.touched`))
-      )
+      fields.forEach(field => (result = deleteIn(result, `fields.${field}.touched`)))
       const anyTouched = some(keys(getIn(result, 'registeredFields')), key =>
         getIn(result, `fields.${key}.touched`)
       )
-      result = anyTouched
-        ? setIn(result, 'anyTouched', true)
-        : deleteIn(result, 'anyTouched')
+      result = anyTouched ? setIn(result, 'anyTouched', true) : deleteIn(result, 'anyTouched')
       return result
     },
-    [UPDATE_SYNC_ERRORS](
-      state,
-      {
-        payload: { syncErrors, error }
-      }
-    ) {
+    [UPDATE_SYNC_ERRORS](state, { payload: { syncErrors, error } }) {
       let result = state
       if (error) {
         result = setIn(result, 'error', error)
@@ -742,12 +554,7 @@ function createReducer<M, L>(structure: Structure<M, L>) {
       }
       return result
     },
-    [UPDATE_SYNC_WARNINGS](
-      state,
-      {
-        payload: { syncWarnings, warning }
-      }
-    ) {
+    [UPDATE_SYNC_WARNINGS](state, { payload: { syncWarnings, warning } }) {
       let result = state
       if (warning) {
         result = setIn(result, 'warning', warning)
@@ -768,19 +575,13 @@ function createReducer<M, L>(structure: Structure<M, L>) {
     return behavior ? behavior(state, action) : state
   }
 
-  const byForm = reducer => (
-    state: any = empty,
-    action: Action = { type: 'NONE' }
-  ) => {
+  const byForm = reducer => (state: any = empty, action: Action = { type: 'NONE' }) => {
     const form = action && action.meta && action.meta.form
     if (!form || !isReduxFormAction(action)) {
       return state
     }
     if (action.type === DESTROY && action.meta && action.meta.form) {
-      return action.meta.form.reduce(
-        (result, form) => deleteInWithCleanUp(result, form),
-        state
-      )
+      return action.meta.form.reduce((result, form) => deleteInWithCleanUp(result, form), state)
     }
     const formState = getIn(state, form)
     const result = reducer(formState, action)
@@ -793,32 +594,24 @@ function createReducer<M, L>(structure: Structure<M, L>) {
   function decorate(target) {
     target.plugin = function(reducers, config = {}) {
       // use 'function' keyword to enable 'this'
-      return decorate(
-        (state: any = empty, action: Action = { type: 'NONE' }) => {
-          const callPlugin = (processed: any, key: string) => {
-            const previousState = getIn(processed, key)
-            const nextState = reducers[key](
-              previousState,
-              action,
-              getIn(state, key)
-            )
-            return nextState !== previousState
-              ? setIn(processed, key, nextState)
-              : processed
-          }
-
-          const processed = this(state, action) // run through redux-form reducer
-          const form = action && action.meta && action.meta.form
-
-          if (form && !config.receiveAllFormActions) {
-            // this is an action aimed at forms, so only give it to the specified form's plugin
-            return reducers[form] ? callPlugin(processed, form) : processed
-          } else {
-            // this is not a form-specific action, so send it to all the plugins
-            return Object.keys(reducers).reduce(callPlugin, processed)
-          }
+      return decorate((state: any = empty, action: Action = { type: 'NONE' }) => {
+        const callPlugin = (processed: any, key: string) => {
+          const previousState = getIn(processed, key)
+          const nextState = reducers[key](previousState, action, getIn(state, key))
+          return nextState !== previousState ? setIn(processed, key, nextState) : processed
         }
-      )
+
+        const processed = this(state, action) // run through redux-form reducer
+        const form = action && action.meta && action.meta.form
+
+        if (form && !config.receiveAllFormActions) {
+          // this is an action aimed at forms, so only give it to the specified form's plugin
+          return reducers[form] ? callPlugin(processed, form) : processed
+        } else {
+          // this is not a form-specific action, so send it to all the plugins
+          return Object.keys(reducers).reduce(callPlugin, processed)
+        }
+      })
     }
 
     return target

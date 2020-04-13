@@ -6,24 +6,18 @@ import type { FieldProps, InputProps } from './FieldProps.types'
 export type Props = {
   asyncError: any,
   asyncValidating: boolean,
-  onBlur: {
-    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
-  },
-  onChange: {
-    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
-  },
-  onDrop: {
-    (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void
-  },
-  onDragStart: { (event: Event, name: ?string): void },
-  onFocus: { (event: Event, name: ?string): void },
+  onBlur: { (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void, ... },
+  onChange: { (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void, ... },
+  onDrop: { (event: Event, newValue: ?any, previousValue: ?any, name: ?string): void, ... },
+  onDragStart: { (event: Event, name: ?string): void, ... },
+  onFocus: { (event: Event, name: ?string): void, ... },
   dirty: boolean,
   dispatch: Dispatch<any>,
   form: string,
-  format?: { (value: any, name: string): any },
+  format?: { (value: any, name: string): any, ... },
   initial: any,
-  parse?: { (value: any, name: string): any },
-  normalize?: { (value: any): any },
+  parse?: { (value: any, name: string): any, ... },
+  normalize?: { (value: any): any, ... },
   pristine: boolean,
   props?: Object,
   state: any,
@@ -33,10 +27,11 @@ export type Props = {
   syncError?: any,
   syncWarning?: any,
   type?: string,
-  validate?: { (values: any): Object },
+  validate?: { (values: any): Object, ... },
   value: any,
   _value: any,
-  warn?: { (values: any): Object }
+  warn?: { (values: any): Object, ... },
+  ...
 }
 
 const processProps = (

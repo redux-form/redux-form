@@ -4,7 +4,8 @@ export type Params = {
   trigger: string,
   blurredField: string,
   pristine: boolean,
-  syncValidationPasses: boolean
+  syncValidationPasses: boolean,
+  ...
 }
 
 const defaultShouldAsyncValidate = ({

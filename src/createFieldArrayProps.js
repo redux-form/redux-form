@@ -24,7 +24,8 @@ type Props = {
   syncError: any,
   syncWarning: any,
   value: Array<any>,
-  props?: Object
+  props?: Object,
+  ...
 }
 
 export default function createFieldArrayProps(

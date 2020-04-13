@@ -146,9 +146,7 @@ type OnChangeFunction = (
   previousValues: Values
 ) => void
 
-type RequiredConfig = {
-  form: string
-}
+type RequiredConfig = { form: string, ... }
 
 type DefaultedConfig = {
   destroyOnUnmount: boolean,
@@ -165,7 +163,8 @@ type DefaultedConfig = {
   submitAsSideEffect: boolean,
   touchOnBlur: boolean,
   touchOnChange: boolean,
-  updateUnregisteredFields: boolean
+  updateUnregisteredFields: boolean,
+  ...
 }
 
 type OptionalConfig = {
@@ -181,7 +180,8 @@ type OptionalConfig = {
   onSubmitSuccess?: OnSubmitSuccess,
   propNamespace?: string,
   validate?: ValidateFunction,
-  warn?: ValidateFunction
+  warn?: ValidateFunction,
+  ...
 }
 
 // the options that users pass in to the @reduxForm decorator, or other decorators created with createReduxForm()
@@ -228,7 +228,12 @@ export type Props = RequiredConfig &
     pristine: boolean,
     propNamespace?: string,
     pure?: boolean,
-    registeredFields: Array<{ name: string, type: FieldType, count: number }>,
+    registeredFields: Array<{
+      name: string,
+      type: FieldType,
+      count: number,
+      ...
+    }>,
     registerField: RegisterFieldAction,
     reset: ResetAction,
     resetSection: ResetSectionAction,
@@ -260,10 +265,11 @@ export type Props = RequiredConfig &
     validExceptSubmit: boolean,
     values: Values,
     warn: ValidateFunction,
-    warning: any
+    warning: any,
+    ...
   }
 
-type PropsWithContext = { _reduxForm?: ReactContext } & Props
+type PropsWithContext = { _reduxForm?: ReactContext, ... } & Props
 
 /**
  * The decorator that is the main API to redux-form

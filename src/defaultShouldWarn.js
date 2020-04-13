@@ -9,7 +9,8 @@ export type Params = {
   initialRender: boolean,
   lastFieldValidatorKeys: string[],
   fieldValidatorKeys: string[],
-  structure: Structure<any, any>
+  structure: Structure<any, any>,
+  ...
 }
 
 const defaultShouldWarn = ({

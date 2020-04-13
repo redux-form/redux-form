@@ -9,14 +9,13 @@ import validateComponentProp from './util/validateComponentProp'
 export type Props = {
   name: string,
   component: Function | string,
-  children: any
+  children: any,
+  ...
 }
 
 type PropsWithContext = ReactContext & Props
 
-export type DefaultProps = {
-  component: Function | string
-}
+export type DefaultProps = { component: Function | string, ... }
 
 class FormSection extends Component<PropsWithContext> {
   static defaultProps: DefaultProps
@@ -25,9 +24,7 @@ class FormSection extends Component<PropsWithContext> {
   constructor(props: PropsWithContext) {
     super(props)
     if (!props._reduxForm) {
-      throw new Error(
-        'FormSection must be inside a component decorated with reduxForm()'
-      )
+      throw new Error('FormSection must be inside a component decorated with reduxForm()')
     }
   }
 

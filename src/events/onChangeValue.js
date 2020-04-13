@@ -9,7 +9,12 @@ const onChangeValue = (
     name,
     parse,
     normalize
-  }: { name: string, parse?: Function, normalize?: Function }
+  }: {
+    name: string,
+    parse?: Function,
+    normalize?: Function,
+    ...
+  }
 ) => {
   // read value from input
   let value = getValue(event, isReactNative)

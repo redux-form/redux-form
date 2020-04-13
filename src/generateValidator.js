@@ -2,7 +2,7 @@
 import plain from './structure/plain'
 import type { Structure } from './types'
 
-export type Validator = { (values: any, props: Object): Object }
+export type Validator = { (values: any, props: Object): Object, ... }
 
 const toArray = value => (Array.isArray(value) ? value : [value])
 
