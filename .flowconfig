@@ -1,5 +1,5 @@
 [version]
-0.79.1
+0.84.0
 
 [ignore]
 <PROJECT_ROOT>/dist/.*

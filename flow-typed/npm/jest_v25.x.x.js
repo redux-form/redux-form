@@ -1,5 +1,5 @@
-// flow-typed signature: f1c890c0bc8178f13f15d0443b34bd5f
-// flow-typed version: 7223a8293e/jest_v25.x.x/flow_>=v0.39.x <=v0.103.x
+// flow-typed signature: f3e5d388b2c86a25ffee45e89bc98e87
+// flow-typed version: dd2428a21d/jest_v25.x.x/flow_>=v0.39.x <=v0.103.x
 
 type JestMockFn<TArguments: $ReadOnlyArray<*>, TReturn> = {
   (...args: TArguments): TReturn,
@@ -574,13 +574,36 @@ type JestExtendedMatchersType = {
   toIncludeMultiple(substring: string[]): void,
 };
 
+// Diffing snapshot utility for Jest (snapshot-diff)
+// https://github.com/jest-community/snapshot-diff
+type SnapshotDiffType = {
+  /**
+   * Compare the difference between the actual in the `expect()`
+   * vs the object inside `valueB` with some extra options.
+   */
+  toMatchDiffSnapshot(
+    valueB: any,
+    options?: {|
+      expand?: boolean;
+      colors?: boolean;
+      contextLines?: number;
+      stablePatchmarks?: boolean;
+      aAnnotation?: string;
+      bAnnotation?: string;
+    |},
+    testName?: string
+  ): void,
+  ...
+}
+
 interface JestExpectType {
   not: JestExpectType &
     EnzymeMatchersType &
     DomTestingLibraryType &
     JestJQueryMatchersType &
     JestStyledComponentsMatchersType &
-    JestExtendedMatchersType;
+    JestExtendedMatchersType &
+    SnapshotDiffType;
   /**
    * If you have a mock function, you can use .lastCalledWith to test what
    * arguments it was last called with.
@@ -1158,7 +1181,8 @@ declare var expect: {
     DomTestingLibraryType &
     JestJQueryMatchersType &
     JestStyledComponentsMatchersType &
-    JestExtendedMatchersType,
+    JestExtendedMatchersType &
+    SnapshotDiffType,
 
   /** Add additional Jasmine matchers to Jest's roster */
   extend(matchers: { [name: string]: JestMatcher }): void,
