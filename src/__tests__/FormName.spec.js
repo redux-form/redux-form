@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
-import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
+import { combineReducers as immutableCombineReducers } from 'redux-immutable'
 import TestUtils from 'react-dom/test-utils'
 import createReduxForm from '../createReduxForm'
 import createReducer from '../createReducer'
@@ -54,9 +54,7 @@ const describeFormName = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      expect(findDOMNode(comp).outerHTML).toBe(
-        '<form><h1>Form name: testForm</h1></form>'
-      )
+      expect(findDOMNode(comp).outerHTML).toBe('<form><h1>Form name: testForm</h1></form>')
     })
   })
 }
@@ -64,9 +62,6 @@ const describeFormName = (name, structure, combineReducers, setup) => {
 describeFormName('FormName.plain', plain, plainCombineReducers, () =>
   expect.extend(plainExpectations)
 )
-describeFormName(
-  'FormName.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeFormName('FormName.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )

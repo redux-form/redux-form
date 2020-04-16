@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
-import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
+import { combineReducers as immutableCombineReducers } from 'redux-immutable'
 import TestUtils from 'react-dom/test-utils'
 import createReduxForm from '../createReduxForm'
 import createReducer from '../createReducer'
@@ -289,10 +289,7 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
       )
 
       const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-      const removeButton = TestUtils.findRenderedDOMComponentWithClass(
-        dom,
-        'remove'
-      )
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
       TestUtils.Simulate.click(addButton)
 
       expect(store.getState()).toEqualMap({
@@ -377,9 +374,6 @@ const describeFormSection = (name, structure, combineReducers, setup) => {
 describeFormSection('FormSection.plain', plain, plainCombineReducers, () =>
   expect.extend(plainExpectations)
 )
-describeFormSection(
-  'FormSection.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeFormSection('FormSection.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )

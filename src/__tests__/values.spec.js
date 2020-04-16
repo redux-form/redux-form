@@ -2,7 +2,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
-import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
+import { combineReducers as immutableCombineReducers } from 'redux-immutable'
 import TestUtils from 'react-dom/test-utils'
 import createReducer from '../createReducer'
 import createValues from '../createValues'
@@ -57,9 +57,7 @@ const describeValues = (name, structure, combineReducers, setup) => {
   })
 }
 
-describeValues('values.plain', plain, plainCombineReducers, () =>
-  expect.extend(plainExpectations)
-)
+describeValues('values.plain', plain, plainCombineReducers, () => expect.extend(plainExpectations))
 describeValues('values.immutable', immutable, immutableCombineReducers, () =>
   expect.extend(immutableExpectations)
 )

@@ -2,7 +2,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
-import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
+import { combineReducers as immutableCombineReducers } from 'redux-immutable'
 import TestUtils from 'react-dom/test-utils'
 import ReactDOM from 'react-dom'
 import createReducer from '../createReducer'
@@ -15,13 +15,7 @@ import plainExpectations from '../structure/plain/__tests__/expectations'
 import immutable from '../structure/immutable'
 import immutableExpectations from '../structure/immutable/__tests__/expectations'
 
-const describeValues = (
-  name,
-  formValues,
-  structure,
-  combineReducers,
-  setup
-) => {
+const describeValues = (name, formValues, structure, combineReducers, setup) => {
   const reducer = createReducer(structure)
   const reduxForm = createReduxForm(structure)
   const { fromJS } = structure
@@ -175,12 +169,8 @@ const describeValues = (
   })
 }
 
-describeValues(
-  'formValues.plain',
-  formValues,
-  plain,
-  plainCombineReducers,
-  () => expect.extend(plainExpectations)
+describeValues('formValues.plain', formValues, plain, plainCombineReducers, () =>
+  expect.extend(plainExpectations)
 )
 describeValues(
   'formValues.immutable',

@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
-import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
+import { combineReducers as immutableCombineReducers } from 'redux-immutable'
 import TestUtils from 'react-dom/test-utils'
 import createReduxForm from '../createReduxForm'
 import createReducer from '../createReducer'
@@ -652,9 +652,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       )
       expect(input).toHaveBeenCalled()
       expect(input).toHaveBeenCalledTimes(2)
-      expect(input.mock.calls[1][0].authors[0].meta.warning).toBe(
-        'Object Error'
-      )
+      expect(input.mock.calls[1][0].authors[0].meta.warning).toBe('Object Error')
     })
 
     it('should provide Fields validation for each field', () => {
@@ -674,11 +672,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
         render() {
           return (
             <div>
-              <Fields
-                names={['author']}
-                component={input}
-                validate={validate}
-              />
+              <Fields names={['author']} component={input} validate={validate} />
             </div>
           )
         }
@@ -842,12 +836,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
         render() {
           return (
             <div>
-              <Fields
-                names={['foo', 'bar']}
-                component={TestInput}
-                forwardRef
-                ref={ref}
-              />
+              <Fields names={['foo', 'bar']} component={TestInput} forwardRef ref={ref} />
             </div>
           )
         }
@@ -878,9 +867,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
             <div>
               {!toggle && <Fields names={['dog', 'cat']} component={input} />}
               {toggle && <Fields names={['cow', 'ewe']} component={input} />}
-              <button onClick={() => this.setState({ toggle: true })}>
-                Toggle
-              </button>
+              <button onClick={() => this.setState({ toggle: true })}>Toggle</button>
             </div>
           )
         }
@@ -943,9 +930,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           return (
             <div>
               <Fields names={[this.state.field]} component={input} />
-              <button onClick={() => this.setState({ field: 'bar' })}>
-                Change
-              </button>
+              <button onClick={() => this.setState({ field: 'bar' })}>Change</button>
             </div>
           )
         }
@@ -982,11 +967,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
         render() {
           return (
             <FormSection name="foo">
-              <Fields
-                names={['foo', 'bar']}
-                component={renderFields}
-                ref={ref}
-              />
+              <Fields names={['foo', 'bar']} component={renderFields} ref={ref} />
             </FormSection>
           )
         }
@@ -1013,11 +994,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
           return (
             <FormSection name="foo">
               <FormSection name="fighter">
-                <Fields
-                  names={['foo', 'bar']}
-                  component={renderFields}
-                  ref={ref}
-                />
+                <Fields names={['foo', 'bar']} component={renderFields} ref={ref} />
               </FormSection>
             </FormSection>
           )
@@ -1132,14 +1109,8 @@ const describeFields = (name, structure, combineReducers, setup) => {
           const { highlighted } = this.state
           return (
             <div>
-              <Fields
-                names={['foo']}
-                highlighted={highlighted}
-                component={renderFields}
-              />
-              <button
-                onClick={() => this.setState({ highlighted: highlighted + 1 })}
-              >
+              <Fields names={['foo']} highlighted={highlighted} component={renderFields} />
+              <button onClick={() => this.setState({ highlighted: highlighted + 1 })}>
                 Change
               </button>
             </div>
@@ -1177,14 +1148,8 @@ const describeFields = (name, structure, combineReducers, setup) => {
           renderSpy()
           return (
             <div>
-              <Fields
-                names={['myField']}
-                component={input}
-                props={{ rel: 'test' }}
-              />
-              <button onClick={() => this.setState({ foo: 'qux' })}>
-                Change
-              </button>
+              <Fields names={['myField']} component={input} props={{ rel: 'test' }} />
+              <button onClick={() => this.setState({ foo: 'qux' })}>Change</button>
             </div>
           )
         }
@@ -1434,12 +1399,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
         render() {
           return (
             <div>
-              <Fields
-                names={['age']}
-                component={input}
-                format={format}
-                parse={parse}
-              />
+              <Fields names={['age']} component={input} format={format} parse={parse} />
             </div>
           )
         }
@@ -1536,9 +1496,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(confirmInput).toHaveBeenCalled()
       expect(confirmInput).toHaveBeenCalledTimes(2)
       expect(confirmInput.mock.calls[1][0].confirm.meta.valid).toBe(false)
-      expect(confirmInput.mock.calls[1][0].confirm.meta.error).toBe(
-        'Must match!'
-      )
+      expect(confirmInput.mock.calls[1][0].confirm.meta.error).toBe('Must match!')
 
       // update password field so that they match
       passwordInput.mock.calls[0][0].password.input.onChange('redux-form rocks')
@@ -1584,9 +1542,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
 
       // username field has error
       expect(usernameInput.mock.calls[1][0].username.meta.valid).toBe(false)
-      expect(usernameInput.mock.calls[1][0].username.meta.error).toBe(
-        'Required'
-      )
+      expect(usernameInput.mock.calls[1][0].username.meta.error).toBe('Required')
 
       // update username field so it passes
       usernameInput.mock.calls[1][0].username.input.onChange('erikras')
@@ -1613,9 +1569,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       const warn = values => {
         const password = getIn(values, 'password')
         const confirm = getIn(values, 'confirm')
-        return password === confirm
-          ? {}
-          : { confirm: 'Should match. Or not. Whatever.' }
+        return password === confirm ? {} : { confirm: 'Should match. Or not. Whatever.' }
       }
       class Form extends Component {
         render() {
@@ -1690,9 +1644,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(usernameInput).toHaveBeenCalledTimes(2)
 
       // username field has warning
-      expect(usernameInput.mock.calls[1][0].username.meta.warning).toBe(
-        'Recommended'
-      )
+      expect(usernameInput.mock.calls[1][0].username.meta.warning).toBe('Recommended')
 
       // update username field so it passes
       usernameInput.mock.calls[1][0].username.input.onChange('erikras')
@@ -1701,9 +1653,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       expect(usernameInput).toHaveBeenCalledTimes(4)
 
       // should be valid now
-      expect(usernameInput.mock.calls[3][0].username.meta.warning).toBe(
-        undefined
-      )
+      expect(usernameInput.mock.calls[3][0].username.meta.warning).toBe(undefined)
     })
 
     it('should provide correct prop structure', () => {
@@ -1919,9 +1869,7 @@ const describeFields = (name, structure, combineReducers, setup) => {
       // fighter is changed
       expect(renderFields).toHaveBeenCalledTimes(7)
       expect(renderFields.mock.calls[6][0].fighter.meta.active).toBe(true)
-      expect(renderFields.mock.calls[6][0].fighter.input.value).toBe(
-        'reduxForm'
-      )
+      expect(renderFields.mock.calls[6][0].fighter.input.value).toBe('reduxForm')
 
       // blur fighter
       renderFields.mock.calls[6][0].fighter.input.onBlur('@reduxForm')
@@ -1929,16 +1877,12 @@ const describeFields = (name, structure, combineReducers, setup) => {
       // fighter is blurred
       expect(renderFields).toHaveBeenCalledTimes(8)
       expect(renderFields.mock.calls[7][0].fighter.meta.active).toBe(false)
-      expect(renderFields.mock.calls[7][0].fighter.input.value).toBe(
-        '@reduxForm'
-      )
+      expect(renderFields.mock.calls[7][0].fighter.input.value).toBe('@reduxForm')
     })
   })
 }
 
-describeFields('Fields.plain', plain, plainCombineReducers, () =>
-  expect.extend(plainExpectations)
-)
+describeFields('Fields.plain', plain, plainCombineReducers, () => expect.extend(plainExpectations))
 describeFields('Fields.immutable', immutable, immutableCombineReducers, () =>
   expect.extend(immutableExpectations)
 )

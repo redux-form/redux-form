@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import TestUtils from 'react-dom/test-utils'
 import { Provider } from 'react-redux'
 import { combineReducers as plainCombineReducers, createStore } from 'redux'
-import { combineReducers as immutableCombineReducers } from 'redux-immutablejs'
+import { combineReducers as immutableCombineReducers } from 'redux-immutable'
 import createField from '../createField'
 import createFieldArray from '../createFieldArray'
 import createFields from '../createFields'
@@ -206,8 +206,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           <TestForm />
         </Provider>
       )
-      const props = TestUtils.findRenderedComponentWithType(dom, TestComponent)
-        .props
+      const props = TestUtils.findRenderedComponentWithType(dom, TestComponent).props
       expect(props.fields.name).toBe('foo.bar')
     })
     it('should provide forEach', () => {
@@ -336,12 +335,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         render() {
           return (
             <div>
-              <FieldArray
-                name="foo"
-                component={renderArray}
-                otherProp="dog"
-                anotherProp="cat"
-              />
+              <FieldArray name="foo" component={renderArray} otherProp="dog" anotherProp="cat" />
             </div>
           )
         }
@@ -377,12 +371,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         render() {
           return (
             <div>
-              <FieldArray
-                name="foo"
-                component={TestComponent}
-                forwardRef
-                ref={ref}
-              />
+              <FieldArray name="foo" component={TestComponent} forwardRef ref={ref} />
             </div>
           )
         }
@@ -393,10 +382,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           <TestForm />
         </Provider>
       )
-      const component = TestUtils.findRenderedComponentWithType(
-        dom,
-        TestComponent
-      )
+      const component = TestUtils.findRenderedComponentWithType(dom, TestComponent)
 
       expect(ref.current.getRenderedComponent()).toBe(component)
     })
@@ -686,10 +672,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
             <div key={index}>
               <Field name={`${name}.library`} component="input" />
               <Field name={`${name}.author`} component="input" />
-              <Field
-                name={name}
-                component={props => <strong>{props.meta.error}</strong>}
-              />
+              <Field name={name} component={props => <strong>{props.meta.error}</strong>} />
             </div>
           ))}
         </div>
@@ -742,10 +725,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
             <div key={index}>
               <Field name={`${name}.library`} component="input" />
               <Field name={`${name}.author`} component="input" />
-              <Field
-                name={name}
-                component={props => <strong>{props.meta.warning}</strong>}
-              />
+              <Field name={name} component={props => <strong>{props.meta.warning}</strong>} />
             </div>
           ))}
         </div>
@@ -792,9 +772,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           return (
             <div>
               <FieldArray name={this.state.field} component={component} />
-              <button onClick={() => this.setState({ field: 'bar' })}>
-                Change
-              </button>
+              <button onClick={() => this.setState({ field: 'bar' })}>Change</button>
             </div>
           )
         }
@@ -869,10 +847,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         }
       })
 
-      const components = TestUtils.scryRenderedComponentsWithType(
-        dom,
-        TestComponent
-      )
+      const components = TestUtils.scryRenderedComponentsWithType(dom, TestComponent)
       expect(components[0].props.input.name).toBe('foo.bar[0].val')
       expect(components[1].props.input.name).toBe('foo.bar[1].val')
     })
@@ -971,10 +946,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         }
       })
 
-      const components = TestUtils.scryRenderedComponentsWithType(
-        dom,
-        TestComponent
-      )
+      const components = TestUtils.scryRenderedComponentsWithType(dom, TestComponent)
       expect(components[0].props.input.name).toBe('foo.fighter.bar[0].val')
       expect(components[1].props.input.name).toBe('foo.fighter.bar[1].val')
     })
@@ -1029,19 +1001,13 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const noMoreThanTwo = jest.fn(value =>
-        value && size(value) > 2 ? 'Too many' : undefined
-      )
+      const noMoreThanTwo = jest.fn(value => (value && size(value) > 2 ? 'Too many' : undefined))
 
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray
-                name="foo"
-                component={renderArray}
-                validate={noMoreThanTwo}
-              />
+              <FieldArray name="foo" component={renderArray} validate={noMoreThanTwo} />
             </div>
           )
         }
@@ -1084,18 +1050,11 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           }
         }
       })
-      const required = jest.fn(value =>
-        value == null ? 'Required' : undefined
-      )
+      const required = jest.fn(value => (value == null ? 'Required' : undefined))
       const renderArray = jest.fn(({ fields }) => (
         <div>
           {fields.map((name, index) => (
-            <Field
-              name={`${name}`}
-              component="input"
-              key={index}
-              validate={required}
-            />
+            <Field name={`${name}`} component="input" key={index} validate={required} />
           ))}
         </div>
       ))
@@ -1154,12 +1113,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const atLeastOne = jest.fn(value =>
-        value && size(value) < 1 ? 'Too few' : undefined
-      )
-      const noMoreThanTwo = jest.fn(value =>
-        value && size(value) > 2 ? 'Too many' : undefined
-      )
+      const atLeastOne = jest.fn(value => (value && size(value) < 1 ? 'Too few' : undefined))
+      const noMoreThanTwo = jest.fn(value => (value && size(value) > 2 ? 'Too many' : undefined))
 
       class Form extends Component {
         render() {
@@ -1219,19 +1174,13 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const noMoreThanTwo = jest.fn(value =>
-        value && size(value) > 2 ? 'Too many' : undefined
-      )
+      const noMoreThanTwo = jest.fn(value => (value && size(value) > 2 ? 'Too many' : undefined))
 
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray
-                name="foo"
-                component={renderArray}
-                warn={noMoreThanTwo}
-              />
+              <FieldArray name="foo" component={renderArray} warn={noMoreThanTwo} />
             </div>
           )
         }
@@ -1281,22 +1230,14 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           ))}
         </div>
       ))
-      const atLeastOne = jest.fn(value =>
-        value && size(value) < 1 ? 'Too few' : undefined
-      )
-      const noMoreThanTwo = jest.fn(value =>
-        value && size(value) > 2 ? 'Too many' : undefined
-      )
+      const atLeastOne = jest.fn(value => (value && size(value) < 1 ? 'Too few' : undefined))
+      const noMoreThanTwo = jest.fn(value => (value && size(value) > 2 ? 'Too many' : undefined))
 
       class Form extends Component {
         render() {
           return (
             <div>
-              <FieldArray
-                name="foo"
-                component={renderArray}
-                warn={[atLeastOne, noMoreThanTwo]}
-              />
+              <FieldArray name="foo" component={renderArray} warn={[atLeastOne, noMoreThanTwo]} />
             </div>
           )
         }
@@ -1349,9 +1290,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
                 bar={this.state.bar}
                 component={component}
               />
-              <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>
-                Change
-              </button>
+              <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
             </div>
           )
         }
@@ -1393,9 +1332,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
                 bar={this.state.bar}
                 component={component}
               />
-              <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>
-                Change
-              </button>
+              <button onClick={() => this.setState({ foo: 'qux', bar: 'baz' })}>Change</button>
             </div>
           )
         }
@@ -1447,10 +1384,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-      const removeButton = TestUtils.findRenderedDOMComponentWithClass(
-        dom,
-        'remove'
-      )
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
@@ -1523,10 +1457,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
           <TestForm />
         </Provider>
       )
-      const swapButton = TestUtils.findRenderedDOMComponentWithClass(
-        dom,
-        'swap'
-      )
+      const swapButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'swap')
 
       // length is 0
       expect(renderFieldArray).toHaveBeenCalled()
@@ -1599,14 +1530,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
             <TestForm />
           </Provider>
         )
-        const addButton = TestUtils.findRenderedDOMComponentWithClass(
-          dom,
-          'add'
-        )
-        const removeButton = TestUtils.findRenderedDOMComponentWithClass(
-          dom,
-          'remove'
-        )
+        const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
+        const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
 
         // length is 0, ERROR!
         expect(renderFieldArray).toHaveBeenCalled()
@@ -1695,10 +1620,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
       const addButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'add')
-      const removeButton = TestUtils.findRenderedDOMComponentWithClass(
-        dom,
-        'remove'
-      )
+      const removeButton = TestUtils.findRenderedDOMComponentWithClass(dom, 'remove')
 
       // length is 0, ERROR!
       expect(renderFieldArray).toHaveBeenCalled()
@@ -1755,14 +1677,8 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         <div>
           {fields.map((field, index) => (
             <div key={index}>
-              {getIn(fields.get(index), 'hasCollar') && (
-                <span className="collar" />
-              )}
-              <Field
-                name={`${field}.hasCollar`}
-                component="input"
-                type="checkbox"
-              />
+              {getIn(fields.get(index), 'hasCollar') && <span className="collar" />}
+              <Field name={`${field}.hasCollar`} component="input" type="checkbox" />
               <Field name={`${field}.name`} component="input" />
             </div>
           ))}
@@ -1789,22 +1705,17 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
         </Provider>
       )
 
-      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(
-        dom,
-        'input'
-      ).find(element => element.getAttribute('name') === 'dogs[0].hasCollar')
+      const checkbox = TestUtils.scryRenderedDOMComponentsWithTag(dom, 'input').find(
+        element => element.getAttribute('name') === 'dogs[0].hasCollar'
+      )
 
       TestUtils.Simulate.change(checkbox, { target: { value: true } })
 
-      expect(
-        TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length
-      ).toBe(1)
+      expect(TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length).toBe(1)
 
       TestUtils.Simulate.change(checkbox, { target: { value: false } })
 
-      expect(
-        TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length
-      ).toBe(0)
+      expect(TestUtils.scryRenderedDOMComponentsWithClass(dom, 'collar').length).toBe(0)
     })
 
     it('should NOT rerender when a value changes', () => {
@@ -1874,13 +1785,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       ))
       class Form extends Component {
         render() {
-          return (
-            <FieldArray
-              name="dogs"
-              component={renderFieldArray}
-              rerenderOnEveryChange
-            />
-          )
+          return <FieldArray name="dogs" component={renderFieldArray} rerenderOnEveryChange />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -1949,13 +1854,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       ))
       class Form extends Component {
         render() {
-          return (
-            <FieldArray
-              name="dogs"
-              component={renderFieldArray}
-              rerenderOnEveryChange
-            />
-          )
+          return <FieldArray name="dogs" component={renderFieldArray} rerenderOnEveryChange />
         }
       }
       const TestForm = reduxForm({ form: 'testForm' })(Form)
@@ -2428,9 +2327,7 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
       })
       const renderField = jest.fn(field => <input {...field.input} />)
 
-      const renderFields = jest.fn(({ foo }) => (
-        <div>{foo.map(renderField)}</div>
-      ))
+      const renderFields = jest.fn(({ foo }) => <div>{foo.map(renderField)}</div>)
 
       const component = jest.fn(({ fields }) => (
         <div>
@@ -2514,9 +2411,6 @@ const describeFieldArray = (name, structure, combineReducers, setup) => {
 describeFieldArray('FieldArray.plain', plain, plainCombineReducers, () =>
   expect.extend(plainExpectations)
 )
-describeFieldArray(
-  'FieldArray.immutable',
-  immutable,
-  immutableCombineReducers,
-  () => expect.extend(immutableExpectations)
+describeFieldArray('FieldArray.immutable', immutable, immutableCombineReducers, () =>
+  expect.extend(immutableExpectations)
 )
