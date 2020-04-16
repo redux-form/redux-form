@@ -1,5 +1,5 @@
 // @flow
-import { Component, createElement } from 'react'
+import { Component, createElement, createRef } from 'react'
 import PropTypes from 'prop-types'
 import invariant from 'invariant'
 import get from 'lodash/get'
@@ -47,6 +47,8 @@ export default function createFields(structure: Structure<any, any>) {
   const ConnectedFields = createConnectedFields(structure)
 
   class Fields extends Component<Props> {
+    connected = createRef<ConnectedFields>()
+
     constructor(props: Props) {
       super((props: Props))
       if (!props._reduxForm) {
@@ -104,7 +106,7 @@ export default function createFields(structure: Structure<any, any>) {
         'If you want to access getRenderedComponent(), ' +
           'you must specify a forwardRef prop to Fields'
       )
-      return this.refs.connected.getRenderedComponent()
+      return this.connected.current ? this.connected.current.getRenderedComponent() : null
     }
 
     get names(): string[] {
@@ -113,7 +115,7 @@ export default function createFields(structure: Structure<any, any>) {
     }
 
     get dirty(): boolean {
-      return this.refs.connected.isDirty()
+      return this.connected.current ? this.connected.current.isDirty() : false
     }
 
     get pristine(): boolean {
@@ -121,7 +123,7 @@ export default function createFields(structure: Structure<any, any>) {
     }
 
     get values(): Object {
-      return this.refs.connected && this.refs.connected.getValues()
+      return this.connected.current ? this.connected.current.getValues() : {}
     }
 
     render() {
@@ -129,7 +131,7 @@ export default function createFields(structure: Structure<any, any>) {
       return createElement(ConnectedFields, {
         ...this.props,
         names: this.props.names.map(name => prefixName(props, name)),
-        ref: 'connected'
+        ref: this.connected
       })
     }
   }
