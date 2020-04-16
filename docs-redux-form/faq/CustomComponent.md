@@ -1,7 +1,7 @@
 # Will `redux-form` work with my custom input component?
-  
+
 The minimum interface needed for a custom component to work with `redux-form` is to make sure that
-`value` and `onChange` are passed properly. These are pretty standard prop names, so it's 
+`value` and `onChange` are passed properly. These are pretty standard prop names, so it's
 possible that your component will work right out of the box.
 
 But let's say that you have a custom component called `MyStrangeInput` that has `currentValue`
@@ -10,9 +10,9 @@ would have to do something like:
 
 ```javascript
 const renderMyStrangeInput = field => (
-  <MyStrangeInput 
+  <MyStrangeInput
     currentValue={{val: field.input.value}}
-    thingsChanged={param => field.input.onChange(param.val)}/> 
+    thingsChanged={param => field.input.onChange(param.val)}/>
 )
 
 ...

@@ -1,13 +1,14 @@
 # Does `redux-form` work with ImmutableJS?
-  
+
 Yes!
 
 As of `v6`, `redux-form` has support for ImmutableJS built in.
 
-Simply import from a different endpoint and all of `redux-form`'s internal state will be kept 
+Simply import from a different endpoint and all of `redux-form`'s internal state will be kept
 with ImmutableJS data structures.
 
 Instead of...
+
 ```js
 import { reduxForm } from 'redux-form'
 ```

@@ -250,24 +250,10 @@ passed following parameters:
 ```javascript
 const renderSubFields = (member, index, fields) => (
   <li key={index}>
-    <button
-      type="button"
-      title="Remove Member"
-      onClick={() => fields.remove(index)}
-    />
+    <button type="button" title="Remove Member" onClick={() => fields.remove(index)} />
     <h4>Member #{index + 1}</h4>
-    <Field
-      name={`${member}.firstName`}
-      type="text"
-      component={renderField}
-      label="First Name"
-    />
-    <Field
-      name={`${member}.lastName`}
-      type="text"
-      component={renderField}
-      label="Last Name"
-    />
+    <Field name={`${member}.firstName`} type="text" component={renderField} label="First Name" />
+    <Field name={`${member}.lastName`} type="text" component={renderField} label="Last Name" />
   </li>
 )
 const renderMembers = ({ fields }) => (

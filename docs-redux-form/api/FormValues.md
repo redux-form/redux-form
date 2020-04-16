@@ -47,9 +47,7 @@ const ItemList = formValues(props => props.formValueName)(MyItemizedList)
 ```
 
 ```javascript
-const ItemList = formValues(props => ({ showVat: props.formValueName }))(
-  MyItemizedList
-)
+const ItemList = formValues(props => ({ showVat: props.formValueName }))(MyItemizedList)
 ```
 
 These decorated components will now get the props `withVat` and `showVat`,

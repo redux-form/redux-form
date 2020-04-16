@@ -216,13 +216,7 @@ For example, if the fields you gave are...
 
 ```jsx
 <Fields
-  names={[
-    'name',
-    'email',
-    'address.street',
-    'address.city',
-    'address.postalCode'
-  ]}
+  names={['name', 'email', 'address.street', 'address.city', 'address.postalCode']}
   component={MyMultiFieldComponent}
   anotherCustomProp="Some other information"
 />

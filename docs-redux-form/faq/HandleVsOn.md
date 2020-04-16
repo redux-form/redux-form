@@ -34,13 +34,7 @@ import { reduxForm, Field } from 'redux-form'
 const SearchBar = ({ handleChange, handleSubmit, value }) => (
   <form onSubmit={handleSubmit}>
     <div>
-      <Field
-        component="input"
-        name="search"
-        onChange={handleChange}
-        type="text"
-        value={value}
-      />
+      <Field component="input" name="search" onChange={handleChange} type="text" value={value} />
     </div>
   </form>
 )
@@ -59,14 +53,10 @@ let SearchContainer = ({ handleSearchSubmit }) => (
 )
 
 const mapDispatchToProps = dispatch => ({
-  handleSearchSubmit: value =>
-    dispatch({ type: 'SEARCH_CONTAINER_SUBMIT', payload: value })
+  handleSearchSubmit: value => dispatch({ type: 'SEARCH_CONTAINER_SUBMIT', payload: value })
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SearchContainer)
+export default connect(null, mapDispatchToProps)(SearchContainer)
 ```
 
 That's it! No need to specify `event.preventDefault()`. All that's left to do is handle the dispatched form data in your reducer.

@@ -19,10 +19,7 @@ const mapDispatchToProps = dispatch => ({
   // ...
 })
 
-Example = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Example)
+Example = connect(mapStateToProps, mapDispatchToProps)(Example)
 
 export default reduxForm({
   form: 'example' // a unique name for this form

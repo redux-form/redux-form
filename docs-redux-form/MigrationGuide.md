@@ -50,17 +50,14 @@ class MyForm extends React.Component {
           <label htmlFor="username">Username</label>
           <div>
             <input type="text" {...username} />
-            {username.touched && username.error && (
-              <span className="error">{username.error}</span>
-            )}
+            {username.touched && username.error && <span className="error">{username.error}</span>}
           </div>
         </div>
 
         <div>
           <label htmlFor="password">Password</label>
           <div>
-            <input type="password" {...password} /> // Duplicating same code as
-            above
+            <input type="password" {...password} /> // Duplicating same code as above
             {password.touched && // except for "type" prop
               password.error && <span className="error">{password.error}</span>}
           </div>

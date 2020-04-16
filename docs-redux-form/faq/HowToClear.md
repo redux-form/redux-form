@@ -1,5 +1,5 @@
 # How can I clear my form after my submission succeeds?
-  
+
 Excellent question. You have several options:
 
 ### A) You can use [the `plugin()` API](../../api/ReducerPlugin.md) to teach the `redux-form` reducer to respond to the action dispatched when your submission succeeds.
@@ -7,32 +7,33 @@ Excellent question. You have several options:
 > This is the proper Redux way to do it and has the benefit of not dispatching another action.
 
 ```javascript
-import {createStore, combineReducers} from 'redux';
-import {reducer as formReducer} from 'redux-form';
-import {ACCOUNT_SAVE_SUCCESS} from '../actions/actionTypes';
+import { createStore, combineReducers } from 'redux'
+import { reducer as formReducer } from 'redux-form'
+import { ACCOUNT_SAVE_SUCCESS } from '../actions/actionTypes'
 
 const reducers = {
   // ... your other reducers here ...
   form: formReducer.plugin({
-    account: (state, action) => { // <------ 'account' is name of form given to reduxForm()
-      switch(action.type) {
+    account: (state, action) => {
+      // <------ 'account' is name of form given to reduxForm()
+      switch (action.type) {
         case ACCOUNT_SAVE_SUCCESS:
-          return undefined;       // <--- blow away form data
+          return undefined // <--- blow away form data
         default:
-          return state;
+          return state
       }
     }
   })
 }
-const reducer = combineReducers(reducers);
-const store = createStore(reducer);
+const reducer = combineReducers(reducers)
+const store = createStore(reducer)
 ```
 
 ### B) Simply unmount your form component
 
-> For many use cases, you will want to either hide your form component after submission succeeds or navigate away to 
-another page, which will cause `redux-form`'s default behavior of destroying the form data in the reducer in 
-`componentWillUnmount`.
+> For many use cases, you will want to either hide your form component after submission succeeds or navigate away to
+> another page, which will cause `redux-form`'s default behavior of destroying the form data in the reducer in
+> `componentWillUnmount`.
 
 ### C) You can call `this.props.reset()` from inside your form after your submission succeeds.
 

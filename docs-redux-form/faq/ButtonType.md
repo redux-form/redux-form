@@ -4,7 +4,7 @@ You may want to add a 'reset' or 'cancel' button to your form. When doing so, be
 
 `<button/>` elements are automatically associated with parent `<form/>` elements:
 
-> If *[the `form` property]* is not specified, the `<button>` element will be associated to an ancestor `<form>` element, if one exists.
+> If _[the `form` property]_ is not specified, the `<button>` element will be associated to an ancestor `<form>` element, if one exists.
 
 The default `type` property assigned to `<button/>` elements is `submit`. This causes the button to attempt to trigger their parent form's `onSubmit` handler, regardless of the button's own click handler. By changing `type` to `button`, your button will trigger your passed event handler instead of trying to submit the form.
 
