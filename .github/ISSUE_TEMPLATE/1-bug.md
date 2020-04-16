@@ -15,6 +15,7 @@ https://github.com/redux-form/redux-form/blob/master/CONTRIBUTING.md
 
 ### Subject of the issue
 
+<!--
 Describe your issue here.
 
 This is _not_ a place to ask questions. Questions asked here will be closed.
@@ -23,30 +24,44 @@ For that, you can go to this places:
 - [Gitter](https://gitter.im/erikras/redux-form)
 - [StackOverflow](https://stackoverflow.com/questions/tagged/redux-form)
 - [Spectrum](https://spectrum.chat/redux-form)
+-->
 
 ### Your environment
 
-- **OS**: <!-- Name and version of operating system -->
-- **Packages**: <!-- Names and version of required packages -->
-- **Env**: <!-- Version of node, npm, yarn, or names and versions of browser -->
+| Software              | Version(s) |
+| --------------------- | ---------- |
+| `redux-form`          | 
+| `redux`               | 
+| `react-redux`         | 
+| `react`               | 
+| `react-dom`           | 
+| `node`                | 
+| `npm` if using        | 
+| `yarn` if using       | 
+| `flow` if using       | 
+| `typescript` if using | 
+| Browser               | 
+| Operating System      | 
 
 ### Steps to reproduce
 
-<!-- !!! IMPORTANT !!! -->
-<!-- Tell us how to reproduce this issue. Please provide a working and simplified example. -->
-<!-- If you're opening bug reports and not providing a Sandbox link, we may close your issue without notice. -->
-<!-- Start from https://codesandbox.io/s/gJjDoKYWl or pick one the linked sandboxes on the README that is most like your app -->
-<!-- !!! IMPORTANT !!! -->
+<!--
+!!! IMPORTANT !!!
+Tell us how to reproduce this issue. Please provide a working and simplified example.
+If you're opening bug reports and not providing a Sandbox link, we may close your issue without notice.
+Start from https://codesandbox.io/s/gJjDoKYWl or pick one the linked sandboxes on the README that is most like your app
+!!! IMPORTANT !!!
 
 🎉 BONUS POINTS for creating a [minimal reproduction](https://stackoverflow.com/help/mcve) and uploading it to GitHub. This will get you the fastest support. 🎉
+-->
 
 ### Expected behaviour
 
-What should happen?
+<!-- What should happen? -->
 
 ### Actual behaviour
 
-What happens instead?
+<!-- What happens instead? -->
 
 ### Other information
 
