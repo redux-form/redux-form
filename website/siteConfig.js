@@ -83,7 +83,8 @@ const siteConfig = {
 
   // Open Graph and Twitter card images.
   ogImage: 'img/undraw_online.svg',
-  twitterImage: 'img/undraw_tweetstorm.svg'
+  twitterImage: 'img/undraw_tweetstorm.svg',
+  twitterUsername: 'ReduxForm'
 
   // For sites with a sizable amount of content, set collapsible to true.
   // Expand/collapse the links and subcategories under categories.

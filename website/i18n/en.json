@@ -3,7 +3,7 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "A website for testing",
+    "tagline": "The best way to manage your form state in Redux.",
     "docs": {
       "doc1": {
         "title": "Latin-ish",
@@ -25,8 +25,8 @@
     "links": {
       "Docs": "Docs",
       "API": "API",
-      "Help": "Help",
-      "Blog": "Blog"
+      "Examples": "Examples",
+      "FAQ": "FAQ"
     },
     "categories": {
       "Docusaurus": "Docusaurus",

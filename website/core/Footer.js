@@ -37,44 +37,24 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Docs</h5>
-            <a href={this.docUrl('doc1.html', this.props.language)}>
-              Getting Started (or other categories)
-            </a>
-            <a href={this.docUrl('doc2.html', this.props.language)}>Guides (or other categories)</a>
-            <a href={this.docUrl('doc3.html', this.props.language)}>
-              API Reference (or other categories)
-            </a>
+            <a href={this.docUrl('doc1.html', this.props.language)}>Getting Started</a>
+            <a href={this.docUrl('doc3.html', this.props.language)}>API Reference</a>
+            <a href={this.docUrl('doc2.html', this.props.language)}>FAQ</a>
           </div>
           <div>
             <h5>Community</h5>
-            <a href={this.pageUrl('users.html', this.props.language)}>User Showcase</a>
             <a
-              href="https://stackoverflow.com/questions/tagged/"
+              href="https://stackoverflow.com/questions/ask?tags=redux-form"
               target="_blank"
               rel="noreferrer noopener"
             >
               Stack Overflow
             </a>
-            <a href="https://discordapp.com/">Project Chat</a>
-            <a href="https://twitter.com/" target="_blank" rel="noreferrer noopener">
-              Twitter
-            </a>
+            <a href="https://spectrum.chat/redux-form">Spectrum</a>
+            <a href="https://gitter.im/erikras/redux-form">Gitter</a>
           </div>
           <div>
             <h5>More</h5>
-            <a href={`${this.props.config.baseUrl}blog`}>Blog</a>
-            <a href="https://github.com/">GitHub</a>
-            <a
-              className="github-button"
-              href={this.props.config.repoUrl}
-              data-icon="octicon-star"
-              data-count-href="/facebook/docusaurus/stargazers"
-              data-show-count="true"
-              data-count-aria-label="# stargazers on GitHub"
-              aria-label="Star this project on GitHub"
-            >
-              Star
-            </a>
             {this.props.config.twitterUsername && (
               <div className="social">
                 <a
@@ -98,22 +78,22 @@ class Footer extends React.Component {
                 />
               </div>
             )}
+            <iframe
+              key="github-stars"
+              title="github-stars"
+              src="https://ghbtns.com/github-btn.html?user=redux-form&repo=redux-form&type=star&count=true&size=large"
+              frameborder="0"
+              scrolling="0"
+              width="160px"
+              height="30px"
+            />
+            <div>
+              <a href="https://www.netlify.com" target="_blank">
+                <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg" />
+              </a>
+            </div>
           </div>
         </section>
-
-        <a
-          href="https://opensource.facebook.com/"
-          target="_blank"
-          rel="noreferrer noopener"
-          className="fbOpenSource"
-        >
-          <img
-            src={`${this.props.config.baseUrl}img/oss_logo.png`}
-            alt="Facebook Open Source"
-            width="170"
-            height="45"
-          />
-        </a>
         <section className="copyright">{this.props.config.copyright}</section>
       </footer>
     )
