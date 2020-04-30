@@ -1,10 +1,29 @@
 {
   "docs": {
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
+    "Getting Started": [
+      "getting-started/introduction",
+      "getting-started/usage-guide",
+      "getting-started/value-lifecyle",
+      "getting-started/flow"
+    ]
   },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
+  "api": {
+    "API": [
+      "api/redux-form",
+      "api/props",
+      "api/field",
+      "api/fields",
+      "api/field-array",
+      "api/form",
+      "api/form-name",
+      "api/form-section",
+      "api/form-values",
+      "api/form-values-selector",
+      "api/reducer",
+      "api/reducer-plugin",
+      "api/submission-error",
+      "api/action-creators",
+      "api/selectors"
+    ]
   }
 }

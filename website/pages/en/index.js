@@ -8,6 +8,19 @@
 const React = require('react')
 
 class HomeSplash extends React.Component {
+  docUrl(doc, language) {
+    const baseUrl = this.props.siteConfig.baseUrl
+    const docsUrl = this.props.siteConfig.docsUrl
+    const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`
+    const langPart = `${language ? `${language}/` : ''}`
+    return `${baseUrl}${docsPart}${langPart}${doc}`
+  }
+
+  pageUrl(doc, language) {
+    const baseUrl = this.props.siteConfig.baseUrl
+    return baseUrl + (language ? `${language}/` : '') + doc
+  }
+
   render() {
     const { siteConfig } = this.props
     const { baseUrl } = siteConfig
@@ -55,7 +68,7 @@ class HomeSplash extends React.Component {
           <Logo img_src={`${baseUrl}img/reduxform.svg`} />
           <ProjectTitle tagline={siteConfig.tagline} title={siteConfig.title} />
           <PromoSection>
-            <Button href="#try">Get Started</Button>
+            <Button href={this.docUrl('getting-started/introduction')}>Get Started</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -67,12 +80,7 @@ class Index extends React.Component {
   render() {
     const { config: siteConfig } = this.props
 
-    return (
-      <>
-        <HomeSplash siteConfig={siteConfig} />
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
-      </>
-    )
+    return <HomeSplash siteConfig={siteConfig} />
   }
 }
 

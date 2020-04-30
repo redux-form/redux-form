@@ -9,16 +9,7 @@
 // site configuration options.
 
 // List of projects/orgs using your project for the users page.
-const users = [
-  {
-    caption: 'User1',
-    // You will need to prepend the image path with your baseUrl
-    // if it is not '/', like: '/test-site/img/image.jpg'.
-    image: '/img/undraw_open_source.svg',
-    infoLink: 'https://www.facebook.com',
-    pinned: true
-  }
-]
+// const users = []
 
 const siteConfig = {
   title: 'Redux Form',
@@ -31,8 +22,8 @@ const siteConfig = {
   organizationName: 'redux-form',
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: 'doc1', label: 'Docs' },
-    { doc: 'doc4', label: 'API' },
+    { doc: 'getting-started/introduction', label: 'Docs' },
+    { doc: 'api/redux-form', label: 'API' },
     { page: 'help', label: 'Examples' },
     { page: 'faq', label: 'FAQ' }
   ],
@@ -74,7 +65,7 @@ const siteConfig = {
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  // scripts: ['https://buttons.github.io/buttons.js'],
+  scripts: ['https://buttons.github.io/buttons.js', 'https://platform.twitter.com/widgets.js'],
 
   // On page navigation for the current documentation page.
   onPageNav: 'separate',
@@ -84,11 +75,11 @@ const siteConfig = {
   // Open Graph and Twitter card images.
   ogImage: 'img/undraw_online.svg',
   twitterImage: 'img/undraw_tweetstorm.svg',
-  twitterUsername: 'ReduxForm'
+  twitterUsername: 'ReduxForm',
 
   // For sites with a sizable amount of content, set collapsible to true.
   // Expand/collapse the links and subcategories under categories.
-  // docsSideNavCollapsible: true,
+  docsSideNavCollapsible: true
 
   // Show documentation's last contributor's name.
   // enableUpdateBy: true,

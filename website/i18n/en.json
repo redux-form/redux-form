@@ -5,21 +5,85 @@
     "previous": "Previous",
     "tagline": "The best way to manage your form state in Redux.",
     "docs": {
-      "doc1": {
-        "title": "Latin-ish",
-        "sidebar_label": "Example Page"
+      "api/action-creators": {
+        "title": "Action Creators",
+        "sidebar_label": "Action Creators"
       },
-      "doc2": {
-        "title": "document number 2"
+      "api/field": {
+        "title": "Field",
+        "sidebar_label": "Field"
       },
-      "doc3": {
-        "title": "This is document number 3"
+      "api/field-array": {
+        "title": "Field Array",
+        "sidebar_label": "Field Array"
       },
-      "doc4": {
-        "title": "Other Document"
+      "api/fields": {
+        "title": "Fields",
+        "sidebar_label": "Fields"
       },
-      "doc5": {
-        "title": "Fifth Document"
+      "api/form": {
+        "title": "Form",
+        "sidebar_label": "Form"
+      },
+      "api/form-name": {
+        "title": "Form Name",
+        "sidebar_label": "Form Name"
+      },
+      "api/form-section": {
+        "title": "Form Section",
+        "sidebar_label": "Form Section"
+      },
+      "api/form-values": {
+        "title": "Form Values",
+        "sidebar_label": "Form Values"
+      },
+      "api/form-value-selector": {
+        "title": "Form Value Selector",
+        "sidebar_label": "Form Value Selector"
+      },
+      "api/props": {
+        "title": "Props",
+        "sidebar_label": "props"
+      },
+      "api/reducer": {
+        "title": "Reducer",
+        "sidebar_label": "Reducer"
+      },
+      "api/reducer-plugin": {
+        "title": "Reducer Plugin",
+        "sidebar_label": "Reducer Plugin"
+      },
+      "api/redux-form": {
+        "title": "HOC",
+        "sidebar_label": "reduxForm()"
+      },
+      "api/redux-form-context": {
+        "title": "Redux Form Context",
+        "sidebar_label": "Redux Form Context"
+      },
+      "api/selectors": {
+        "title": "Selectors",
+        "sidebar_label": "Selectors"
+      },
+      "api/submission-error": {
+        "title": "Submission Error",
+        "sidebar_label": "Submission Error"
+      },
+      "getting-started/flow": {
+        "title": "Flow Typing",
+        "sidebar_label": "Flow"
+      },
+      "getting-started/introduction": {
+        "title": "Introduction",
+        "sidebar_label": "Introduction"
+      },
+      "getting-started/usage-guide": {
+        "title": "Usage Guide",
+        "sidebar_label": "Usage Guide"
+      },
+      "getting-started/value-lifecyle": {
+        "title": "Understanding Field Value Lifecycle",
+        "sidebar_label": "Value Lifecycle"
       }
     },
     "links": {
@@ -29,9 +93,8 @@
       "FAQ": "FAQ"
     },
     "categories": {
-      "Docusaurus": "Docusaurus",
-      "First Category": "First Category",
-      "Second Category": "Second Category"
+      "Getting Started": "Getting Started",
+      "API": "API"
     }
   },
   "pages-strings": {

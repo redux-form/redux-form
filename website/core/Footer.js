@@ -37,8 +37,8 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Docs</h5>
-            <a href={this.docUrl('doc1.html', this.props.language)}>Getting Started</a>
-            <a href={this.docUrl('doc3.html', this.props.language)}>API Reference</a>
+            <a href={this.docUrl('getting-started/introduction')}>Getting Started</a>
+            <a href={this.docUrl('api/redux-form')}>API Reference</a>
             <a href={this.docUrl('doc2.html', this.props.language)}>FAQ</a>
           </div>
           <div>
@@ -78,15 +78,14 @@ class Footer extends React.Component {
                 />
               </div>
             )}
-            <iframe
-              key="github-stars"
-              title="github-stars"
-              src="https://ghbtns.com/github-btn.html?user=redux-form&repo=redux-form&type=star&count=true&size=large"
-              frameborder="0"
-              scrolling="0"
-              width="160px"
-              height="30px"
-            />
+            <a
+              className="github-button"
+              href="https://github.com/redux-form/redux-form"
+              data-show-count="true"
+              aria-label="Star redux-form/redux-form on GitHub"
+            >
+              Star
+            </a>
             <div>
               <a href="https://www.netlify.com" target="_blank">
                 <img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg" />
