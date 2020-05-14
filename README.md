@@ -23,11 +23,11 @@
 enable an html form in [React](https://github.com/facebook/react) to use
 [Redux](https://github.com/reactjs/redux) to store all of its state.
 
---
+---
 
 💰**Psst!! Do you know React and Redux? [Sign up with Triplebyte](https://triplebyte.com/a/V6j0KPS/rf) to get offers from top tech companies!** 💰
 
---
+---
 
 ## ⚠️ ATTENTION ⚠️
 
