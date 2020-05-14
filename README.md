@@ -14,7 +14,6 @@
 [![codecov.io](https://codecov.io/gh/redux-form/redux-form/branch/master/graph/badge.svg)](https://codecov.io/gh/redux-form/redux-form)
 [![Code Climate](https://codeclimate.com/github/redux-form/redux-form/badges/gpa.svg)](https://codeclimate.com/github/redux-form/redux-form)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![PayPal donate button](https://img.shields.io/badge/PayPal-Donate-yellowgreen?logo=paypal)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3QQPTMLGV6GU2)
 [![Twitter URL](https://img.shields.io/twitter/url/https/github.com/redux-form/redux-form.svg?style=social)](https://twitter.com/intent/tweet?text=With%20@ReduxForm,%20I%20can%20keep%20all%20my%20form%20state%20in%20Redux!%20Thanks,%20@erikras!)
 [![Patreon](https://img.shields.io/badge/patreon-support%20the%20author-blue.svg)](https://www.patreon.com/erikras)
 [![Backers on Open Collective](https://opencollective.com/redux-form/backers/badge.svg)](#backers)
@@ -23,7 +22,12 @@
 `redux-form` works with [React Redux](https://github.com/reactjs/react-redux) to
 enable an html form in [React](https://github.com/facebook/react) to use
 [Redux](https://github.com/reactjs/redux) to store all of its state.
-[![Beerpay](https://beerpay.io/erikras/redux-form/badge.svg)](https://beerpay.io/erikras/redux-form)
+
+--
+
+💰**Psst!! Do you know React and Redux? [Sign up with Triplebyte](https://triplebyte.com/a/V6j0KPS/rf) to get offers from top tech companies!** 💰
+
+--
 
 ## ⚠️ ATTENTION ⚠️
 
