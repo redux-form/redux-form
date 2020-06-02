@@ -175,7 +175,7 @@ describe('handleSubmit', () => {
     })
   })
 
-  it('should not submit if async validation fails and return rejected promise', () => {
+  it('should not submit if async validation fails and returns errors', () => {
     expect.assertions(8)
 
     const values = { foo: 'bar', baz: 42 }
