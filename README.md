@@ -39,8 +39,6 @@ The only good reason, [in the author's view](https://twitter.com/erikras/status/
 
 `npm install --save redux-form`
 
-Redux Form uses [scarf-js](https://www.npmjs.com/package/@scarf/scarf) to collect anonymized installation analytics. These analytics help support the maintainers of this library. However, if you'd like to opt out, you can do so by setting `scarfSettings.enabled = false` in your project's `package.json`. Alternatively, you can set the environment variable `SCARF_ANALYTICS=false` before you install.
-
 ## Documentation
 
 - [Getting Started](https://redux-form.com/8.2.2/docs/GettingStarted.md/)
