@@ -22,8 +22,10 @@ class Form extends Component<PropsWithContext> {
     this.props._reduxForm.registerInnerOnSubmit(this.props.onSubmit)
   }
 
-  componentDidUpdate(nextProps: Props) {
-    this.props._reduxForm.registerInnerOnSubmit(nextProps.onSubmit)
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.onSubmit !== prevProps.onSubmit) {
+      this.props._reduxForm.registerInnerOnSubmit(this.props.onSubmit)
+    }
   }
 
   render() {
