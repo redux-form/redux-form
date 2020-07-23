@@ -14,14 +14,18 @@ class Form extends Component<PropsWithContext> {
   constructor(props: PropsWithContext) {
     super(props)
     if (!props._reduxForm) {
-      throw new Error(
-        'Form must be inside a component decorated with reduxForm()'
-      )
+      throw new Error('Form must be inside a component decorated with reduxForm()')
     }
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.props._reduxForm.registerInnerOnSubmit(this.props.onSubmit)
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.onSubmit !== prevProps.onSubmit) {
+      this.props._reduxForm.registerInnerOnSubmit(this.props.onSubmit)
+    }
   }
 
   render() {
