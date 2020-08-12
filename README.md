@@ -102,3 +102,5 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://opencollective.com/redux-form/sponsor/7/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/7/avatar.svg"></a>
 <a href="https://opencollective.com/redux-form/sponsor/8/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/8/avatar.svg"></a>
 <a href="https://opencollective.com/redux-form/sponsor/9/website" target="_blank"><img src="https://opencollective.com/redux-form/sponsor/9/avatar.svg"></a>
+
+<img src="https://static.scarf.sh/a.png?x-pxid=e5d6d8d5-b770-4097-a65e-8daa6251800f" />
