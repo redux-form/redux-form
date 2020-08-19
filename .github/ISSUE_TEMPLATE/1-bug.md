@@ -23,7 +23,6 @@ For that, you can go to this places:
 
 - [Gitter](https://gitter.im/erikras/redux-form)
 - [StackOverflow](https://stackoverflow.com/questions/tagged/redux-form)
-- [Spectrum](https://spectrum.chat/redux-form)
 -->
 
 ### Your environment
