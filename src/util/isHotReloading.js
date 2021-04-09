@@ -1,6 +1,6 @@
 // @flow
 const isHotReloading = (): boolean => {
-  const castModule = (module: any)
+  const castModule = (globalThis.module: any)
   return !!(
     typeof castModule !== 'undefined' &&
     castModule.hot &&
