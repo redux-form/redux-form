@@ -928,7 +928,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
 
           let initial = initialValues || stateInitial || empty
 
-          if (!shouldUpdateInitialValues) {
+          if (shouldUpdateInitialValues) {
             initial = stateInitial || empty
           }
 
