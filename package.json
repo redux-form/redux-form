@@ -1,7 +1,7 @@
 {
-  "name": "redux-form",
+  "name": "redux-form-immutablejs",
   "version": "8.3.8",
-  "description": "A higher order component decorator for forms using Redux and React",
+  "description": "A higher order component decorator for forms using Redux and React. Forked to support latest immutablejs changes.",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "modules.root": "./es",
@@ -84,7 +84,7 @@
     "flow-bin": "^0.84.0",
     "flux-standard-action": "^2.1.1",
     "husky": "^1.2.1",
-    "immutable": "^3.8.2",
+    "immutable": "^4.0.0",
     "insert-line": "^1.1.0",
     "jest": "^25.3.0",
     "lint-staged": "^8.2.1",
@@ -105,10 +105,10 @@
     "webpack-cli": "^3.3.11"
   },
   "peerDependencies": {
+    "immutable": "^3.8.2 || ^4.0.0",
     "react": "^16.4.2 || ^17.0.0",
     "react-redux": "^6.0.1 || ^7.0.0",
-    "redux": "^3.7.2 || ^4.0.0",
-    "immutable": "^3.8.2 || ^4.0.0"
+    "redux": "^3.7.2 || ^4.0.0"
   },
   "peerDependenciesMeta": {
     "immutable": {
