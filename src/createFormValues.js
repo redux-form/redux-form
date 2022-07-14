@@ -8,12 +8,16 @@ import type { ComponentType } from 'react'
 import type { Structure } from './types'
 import type { FormValuesInterface } from './formValues.types'
 
+interface State {
+  updateComponent: (newProps: Object) => void;
+}
+
 export default function createValues({ getIn }: Structure<any, any>): FormValuesInterface {
   return (firstArg: string | Object | Function, ...rest: string[]) => {
     // create a class that reads current form name and creates a selector
     // return
     return (Component: ComponentType<any>): ComponentType<any> => {
-      class FormValues extends React.Component<Object> {
+      class FormValues extends React.Component<Object, State> {
         Component: ComponentType<any>
         _valuesMap: Object
 
@@ -24,13 +28,17 @@ export default function createValues({ getIn }: Structure<any, any>): FormValues
               'formValues() must be used inside a React tree decorated with reduxForm()'
             )
           }
+          this.state = {
+            updateComponent: this.updateComponent.bind(this)
+          }
           this.updateComponent(props)
         }
 
-        UNSAFE_componentWillReceiveProps(props) {
+        static getDerivedStateFromProps(nextProps, state) {
           if (typeof firstArg === 'function') {
-            this.updateComponent(props)
+            state.updateComponent(nextProps)
           }
+          return null
         }
 
         render() {

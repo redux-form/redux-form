@@ -264,6 +264,9 @@ export type Props = RequiredConfig &
   }
 
 type PropsWithContext = { _reduxForm?: ReactContext } & Props
+interface State {
+  handleUpdates: (nextProps: PropsWithContext) => void;
+}
 
 /**
  * The decorator that is the main API to redux-form
@@ -292,7 +295,22 @@ export default function createReduxForm(structure: Structure<any, any>) {
     }
 
     return (WrappedComponent: ComponentType<any>) => {
-      class Form extends React.Component<PropsWithContext> {
+      class Form extends React.Component<PropsWithContext, State> {
+        constructor(props: PropsWithContext) {
+          super(props)
+          this.state = {
+            handleUpdates: this.handleUpdates.bind(this)
+          }
+          if (!isHotReloading()) {
+            this.initIfNeeded()
+            this.validateIfNeeded()
+            this.warnIfNeeded()
+          }
+          invariant(
+            this.props.shouldValidate,
+            'shouldValidate() is deprecated and will be removed in v9.0.0. Use shouldWarn() or shouldError() instead.'
+          )
+        }
         static WrappedComponent: ComponentType<any>
 
         wrapped: ElementRef<any> = React.createRef()
@@ -457,19 +475,12 @@ export default function createReduxForm(structure: Structure<any, any>) {
           }
         }
 
-        UNSAFE_componentWillMount(): void {
-          if (!isHotReloading()) {
-            this.initIfNeeded()
-            this.validateIfNeeded()
-            this.warnIfNeeded()
-          }
-          invariant(
-            this.props.shouldValidate,
-            'shouldValidate() is deprecated and will be removed in v9.0.0. Use shouldWarn() or shouldError() instead.'
-          )
+        static getDerivedStateFromProps(props: PropsWithContext, state: State) {
+          state.handleUpdates(props)
+          return null
         }
 
-        UNSAFE_componentWillReceiveProps(nextProps: PropsWithContext): void {
+        handleUpdates(nextProps: PropsWithContext): void {
           this.initIfNeeded(nextProps)
           this.validateIfNeeded(nextProps)
           this.warnIfNeeded(nextProps)

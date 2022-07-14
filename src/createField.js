@@ -13,19 +13,25 @@ import type { Props as PropsWithoutContext } from './FieldProps.types'
 import validateComponentProp from './util/validateComponentProp'
 
 type Props = ReactContext & PropsWithoutContext
+interface State {
+  updateComponent: (nextProps: Props) => void;
+}
 
 function createField(structure: Structure<any, any>) {
   const ConnectedField = createConnectedField(structure)
 
   const { setIn } = structure
 
-  class Field extends Component<Props> {
+  class Field extends Component<Props, State> {
     ref: ElementRef<any> = React.createRef()
 
     constructor(props: Props) {
       super(props)
       if (!props._reduxForm) {
         throw new Error('Field must be inside a component decorated with reduxForm()')
+      }
+      this.state = {
+        updateComponent: this.updateComponent.bind(this)
       }
     }
 
@@ -38,11 +44,16 @@ function createField(structure: Structure<any, any>) {
       )
     }
 
-    shouldComponentUpdate(nextProps: Props, nextState?: Object) {
-      return shallowCompare(this, nextProps, nextState)
+    shouldComponentUpdate(nextProps: Props, nextState?: State) {
+      return shallowCompare({ props: this.props, state: this.state }, nextProps, nextState)
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    static getDerivedStateFromProps(props: Props, state: State) {
+      state.updateComponent(props)
+      return null
+    }
+
+    updateComponent(nextProps: Props) {
       const oldName = prefixName(this.props, this.props.name)
       const newName = prefixName(nextProps, nextProps.name)
 

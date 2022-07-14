@@ -40,13 +40,17 @@ const fieldsPropTypes = {
   warn: warnAndValidatePropType
 }
 
+interface State {
+  registerFieldsIfNecessary: (nextProps: Props) => void;
+}
+
 const getFieldWarnAndValidate = (prop?: WarnAndValidateProp, name) =>
   Array.isArray(prop) || typeof prop === 'function' ? prop : get(prop, name, undefined)
 
 export default function createFields(structure: Structure<any, any>) {
   const ConnectedFields = createConnectedFields(structure)
 
-  class Fields extends Component<Props> {
+  class Fields extends Component<Props, State> {
     connected = createRef<ConnectedFields>()
 
     constructor(props: Props) {
@@ -58,17 +62,20 @@ export default function createFields(structure: Structure<any, any>) {
       if (error) {
         throw error
       }
+      this.state = {
+        registerFieldsIfNecessary: this.registerFieldsIfNecessary.bind(this)
+      }
     }
 
     shouldComponentUpdate(nextProps: Props) {
-      return shallowCompare(this, nextProps)
+      return shallowCompare({ state: this.state, props: this.props }, nextProps)
     }
 
     componentDidMount() {
       this.registerFields(this.props.names)
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    registerFieldsIfNecessary(nextProps: Props) {
       if (!plain.deepEqual(this.props.names, nextProps.names)) {
         const { props } = this
         const { unregister } = props._reduxForm
@@ -77,6 +84,11 @@ export default function createFields(structure: Structure<any, any>) {
         // register new name
         this.registerFields(nextProps.names)
       }
+    }
+
+    static getDerivedStateFromProps(nextProps: Props, state: State) {
+      state.registerFieldsIfNecessary(nextProps)
+      return null
     }
 
     componentWillUnmount() {

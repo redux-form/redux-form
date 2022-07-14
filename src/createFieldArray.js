@@ -12,6 +12,10 @@ import validateComponentProp from './util/validateComponentProp'
 
 type Props = ReactContext & PropsWithoutContext
 
+type State = {
+  updateRegisterForm: (newProps: Props) => void
+}
+
 const toArray = (value: any): Array<any> => (Array.isArray(value) ? value : [value])
 
 const wrapError = (fn: ?Function, key: string): ?Function =>
@@ -29,7 +33,7 @@ const wrapError = (fn: ?Function, key: string): ?Function =>
 export default function createFieldArray(structure: Structure<any, any>) {
   const ConnectedFieldArray = createConnectedFieldArray(structure)
 
-  class FieldArray extends Component<Props> {
+  class FieldArray extends Component<Props, State> {
     name: string
     ref: ElementRef<any> = React.createRef()
 
@@ -38,6 +42,14 @@ export default function createFieldArray(structure: Structure<any, any>) {
       if (!props._reduxForm) {
         throw new Error('FieldArray must be inside a component decorated with reduxForm()')
       }
+      this.state = {
+        updateRegisterForm: this.updateRegisterForm.bind(this)
+      }
+    }
+
+    static getDerivedStateFromProps(newProps, state) {
+      state.updateRegisterForm(newProps)
+      return null
     }
 
     componentDidMount() {
@@ -49,7 +61,7 @@ export default function createFieldArray(structure: Structure<any, any>) {
       )
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    updateRegisterForm(nextProps: Props) {
       const oldName = prefixName(this.props, this.props.name)
       const newName = prefixName(nextProps, nextProps.name)
 
