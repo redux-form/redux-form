@@ -9,7 +9,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/emreyeter/redux-form.git"
+    "url": "https://github.com/redux-form/redux-form.git"
   },
   "engines": {
     "node": ">=8.10"
