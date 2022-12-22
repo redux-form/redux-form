@@ -552,7 +552,6 @@ const describeField = (name, structure, combineReducers, setup) => {
         console.trace('required', value)
         return value == null ? 'Required' : undefined
       })
-      // const required = jest.fn(value => (value == null ? 'Required' : undefined))
       class Form extends Component {
         render() {
           return (
