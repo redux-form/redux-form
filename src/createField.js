@@ -14,6 +14,7 @@ import validateComponentProp from './util/validateComponentProp'
 
 type Props = ReactContext & PropsWithoutContext
 interface State {
+  renderPhaseDone: boolean;
   updateComponent: (nextProps: Props) => void;
 }
 
@@ -31,6 +32,7 @@ function createField(structure: Structure<any, any>) {
         throw new Error('Field must be inside a component decorated with reduxForm()')
       }
       this.state = {
+        renderPhaseDone: false,
         updateComponent: this.updateComponent.bind(this)
       }
     }
@@ -49,6 +51,7 @@ function createField(structure: Structure<any, any>) {
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
+      if (!state.renderPhaseDone) return { renderPhaseDone: true }
       state.updateComponent(props)
       return null
     }

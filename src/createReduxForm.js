@@ -265,6 +265,7 @@ export type Props = RequiredConfig &
 
 type PropsWithContext = { _reduxForm?: ReactContext } & Props
 interface State {
+  renderPhaseDone: boolean;
   handleUpdates: (nextProps: PropsWithContext) => void;
 }
 
@@ -299,6 +300,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
         constructor(props: PropsWithContext) {
           super(props)
           this.state = {
+            renderPhaseDone: false,
             handleUpdates: this.handleUpdates.bind(this)
           }
           if (!isHotReloading()) {
@@ -476,6 +478,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
         }
 
         static getDerivedStateFromProps(props: PropsWithContext, state: State) {
+          if (!state.renderPhaseDone) return { renderPhaseDone: true }
           state.handleUpdates(props)
           return null
         }

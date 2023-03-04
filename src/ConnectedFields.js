@@ -14,6 +14,7 @@ const propsToNotUpdateFor = ['_reduxForm']
 
 interface State {
   prepareEventHandlerIfNecessary: (newProps: Props) => void;
+  renderPhaseDone: boolean;
 }
 
 export default function createConnectedFields(structure: Structure<any, any>) {
@@ -41,6 +42,7 @@ export default function createConnectedFields(structure: Structure<any, any>) {
     constructor(props: Props) {
       super(props)
       this.state = {
+        renderPhaseDone: false,
         prepareEventHandlerIfNecessary: this.prepareEventHandlerIfNecessary.bind(this)
       }
       this.prepareEventHandlers(props)
@@ -54,6 +56,7 @@ export default function createConnectedFields(structure: Structure<any, any>) {
       })
 
     static getDerivedStateFromProps(nextProps: Props, state: State) {
+      if (!state.renderPhaseDone) return { renderPhaseDone: true }
       state.prepareEventHandlerIfNecessary(nextProps)
       return null
     }

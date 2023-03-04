@@ -13,6 +13,7 @@ import validateComponentProp from './util/validateComponentProp'
 type Props = ReactContext & PropsWithoutContext
 
 type State = {
+  renderPhaseDone: boolean,
   updateRegisterForm: (newProps: Props) => void
 }
 
@@ -43,11 +44,13 @@ export default function createFieldArray(structure: Structure<any, any>) {
         throw new Error('FieldArray must be inside a component decorated with reduxForm()')
       }
       this.state = {
+        renderPhaseDone: false,
         updateRegisterForm: this.updateRegisterForm.bind(this)
       }
     }
 
     static getDerivedStateFromProps(newProps, state) {
+      if (!state.renderPhaseDone) return { renderPhaseDone: true }
       state.updateRegisterForm(newProps)
       return null
     }

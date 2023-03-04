@@ -9,6 +9,7 @@ import type { Structure } from './types'
 import type { FormValuesInterface } from './formValues.types'
 
 interface State {
+  renderPhaseDone: boolean;
   updateComponent: (newProps: Object) => void;
 }
 
@@ -29,12 +30,14 @@ export default function createValues({ getIn }: Structure<any, any>): FormValues
             )
           }
           this.state = {
+            renderPhaseDone: false,
             updateComponent: this.updateComponent.bind(this)
           }
           this.updateComponent(props)
         }
 
         static getDerivedStateFromProps(nextProps, state) {
+          if (!state.renderPhaseDone) return { renderPhaseDone: true }
           if (typeof firstArg === 'function') {
             state.updateComponent(nextProps)
           }

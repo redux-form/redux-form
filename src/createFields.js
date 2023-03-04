@@ -41,6 +41,7 @@ const fieldsPropTypes = {
 }
 
 interface State {
+  renderPhaseDone: boolean;
   registerFieldsIfNecessary: (nextProps: Props) => void;
 }
 
@@ -63,6 +64,7 @@ export default function createFields(structure: Structure<any, any>) {
         throw error
       }
       this.state = {
+        renderPhaseDone: false,
         registerFieldsIfNecessary: this.registerFieldsIfNecessary.bind(this)
       }
     }
@@ -87,6 +89,7 @@ export default function createFields(structure: Structure<any, any>) {
     }
 
     static getDerivedStateFromProps(nextProps: Props, state: State) {
+      if (!state.renderPhaseDone) return { renderPhaseDone: true }
       state.registerFieldsIfNecessary(nextProps)
       return null
     }
