@@ -1152,6 +1152,80 @@ const describeReduxForm = (name, structure, combineReducers, setup) => {
       checkInputProps(inputRender.mock.calls[3][0], 'baz')
     })
 
+    it('should revalidate when enableReinitialize=true and initialValues is changed', () => {
+      const store = makeStore({})
+      const validityClassName = 'validity'
+      const inputRender = jest.fn(props => (
+        <>
+          <input {...props.input} />
+          <span className={validityClassName}>{JSON.stringify(props.meta.valid)}</span>
+        </>
+      ))
+      const validate = jest.fn()
+
+      const initialValues1 = {
+        deep: {
+          foo: 'bar'
+        }
+      }
+
+      const initialValues2 = {
+        deep: {
+          foo: 'baz'
+        }
+      }
+
+      class Form extends Component {
+        render() {
+          return (
+            <form>
+              <Field name="deep.foo" component={inputRender} type="text" />
+            </form>
+          )
+        }
+      }
+
+      const Decorated = reduxForm({
+        form: 'testForm',
+        enableReinitialize: true,
+        validate
+      })(Form)
+
+      class Container extends Component {
+        constructor(props) {
+          super(props)
+          this.state = { initialValues: initialValues1 }
+        }
+
+        render() {
+          return (
+            <div>
+              <Provider store={store}>
+                <Decorated {...this.state} />
+              </Provider>
+              <button onClick={() => this.setState({ initialValues: initialValues2 })}>Init</button>
+            </div>
+          )
+        }
+      }
+
+      const dom = TestUtils.renderIntoDocument(<Container />)
+      const validitySpan = TestUtils.findRenderedDOMComponentWithClass(dom, validityClassName)
+      const reinitButton = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+
+      expect(validitySpan.textContent).toBe('true')
+
+      validate.mockImplementation(() => ({
+        deep: {
+          foo: 'Error'
+        }
+      }))
+
+      TestUtils.Simulate.click(reinitButton)
+
+      expect(validitySpan.textContent).toBe('false')
+    })
+
     it('should retain dirty fields if keepDirtyOnReinitialize is set', () => {
       const store = makeStore({})
       const inputRender = jest.fn(props => <input {...props.input} />)
