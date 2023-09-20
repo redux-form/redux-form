@@ -331,7 +331,7 @@ export default function createReduxForm(structure: Structure<any, any>) {
                 lastInitialValues: this.props.initialValues,
                 updateUnregisteredFields: nextProps.updateUnregisteredFields
               })
-              return true
+              return false
             }
           } else if (this.props.initialValues && (!this.props.initialized || enableReinitialize)) {
             this.props.initialize(this.props.initialValues, this.props.keepDirtyOnReinitialize, {
