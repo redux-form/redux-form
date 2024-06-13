@@ -27,13 +27,10 @@ export default function createValues({ getIn }: Structure<any, any>): FormValues
           this.updateComponent(props)
         }
 
-        UNSAFE_componentWillReceiveProps(props) {
-          if (typeof firstArg === 'function') {
-            this.updateComponent(props)
-          }
-        }
-
         render() {
+          if (typeof firstArg === 'function') {
+            this.updateComponent(this.props)
+          }
           const { Component } = this
           return (
             <Component

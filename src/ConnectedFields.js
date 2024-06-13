@@ -2,6 +2,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { memoize } from 'lodash'
 import createFieldProps from './createFieldProps'
 import plain from './structure/plain'
 import onChangeValue from './events/onChangeValue'
@@ -13,7 +14,7 @@ import validateComponentProp from './util/validateComponentProp'
 const propsToNotUpdateFor = ['_reduxForm']
 
 export default function createConnectedFields(structure: Structure<any, any>) {
-  const { deepEqual, getIn, size } = structure
+  const { deepEqual, getIn } = structure
 
   const getSyncError = (syncErrors: Object, name: string) => {
     // Because the error for this field might not be at a level in the error structure where
@@ -29,33 +30,7 @@ export default function createConnectedFields(structure: Structure<any, any>) {
   }
 
   class ConnectedFields extends React.Component<Props> {
-    onChangeFns = {}
-    onFocusFns = {}
-    onBlurFns = {}
     ref: ElementRef<any> = React.createRef()
-
-    constructor(props: Props) {
-      super(props)
-      this.prepareEventHandlers(props)
-    }
-
-    prepareEventHandlers = ({ names }: Props) =>
-      names.forEach(name => {
-        this.onChangeFns[name] = event => this.handleChange(name, event)
-        this.onFocusFns[name] = () => this.handleFocus(name)
-        this.onBlurFns[name] = event => this.handleBlur(name, event)
-      })
-
-    UNSAFE_componentWillReceiveProps(nextProps: Props) {
-      if (
-        this.props.names !== nextProps.names &&
-        (size(this.props.names) !== size(nextProps.names) ||
-          nextProps.names.some(nextName => !this.props._fields[nextName]))
-      ) {
-        // names has changed. The cached event handlers need to be updated
-        this.prepareEventHandlers(nextProps)
-      }
-    }
 
     shouldComponentUpdate(nextProps: Props) {
       const nextPropsKeys = Object.keys(nextProps)
@@ -91,7 +66,7 @@ export default function createConnectedFields(structure: Structure<any, any>) {
       return this.ref.current
     }
 
-    handleChange = (name: string, event: any): void => {
+    handleChange = memoize((name: string) => (event: any): void => {
       const { dispatch, parse, _reduxForm } = this.props
       const value = onChangeValue(event, { name, parse })
 
@@ -101,14 +76,14 @@ export default function createConnectedFields(structure: Structure<any, any>) {
       if (_reduxForm.asyncValidate) {
         _reduxForm.asyncValidate(name, value, 'change')
       }
-    }
+    })
 
-    handleFocus = (name: string): void => {
+    handleFocus = memoize((name: string) => () => {
       const { dispatch, _reduxForm } = this.props
       dispatch(_reduxForm.focus(name))
-    }
+    })
 
-    handleBlur = (name: string, event: any): void => {
+    handleBlur = memoize((name: string) => (event: any): void => {
       const { dispatch, parse, _reduxForm } = this.props
       const value = onChangeValue(event, { name, parse })
 
@@ -119,7 +94,7 @@ export default function createConnectedFields(structure: Structure<any, any>) {
       if (_reduxForm.asyncValidate) {
         _reduxForm.asyncValidate(name, value, 'blur')
       }
-    }
+    })
 
     render() {
       const { component, forwardRef, _fields, _reduxForm, ...rest } = this.props
@@ -130,9 +105,9 @@ export default function createConnectedFields(structure: Structure<any, any>) {
           ...connectedProps,
           ...rest,
           form,
-          onBlur: this.onBlurFns[name],
-          onChange: this.onChangeFns[name],
-          onFocus: this.onFocusFns[name]
+          onBlur: this.handleBlur(name),
+          onChange: this.handleChange(name),
+          onFocus: this.handleFocus(name)
         })
         accumulator.custom = custom
         const fieldName = sectionPrefix ? name.replace(`${sectionPrefix}.`, '') : name

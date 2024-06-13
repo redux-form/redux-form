@@ -265,12 +265,24 @@ export type Props = RequiredConfig &
 
 type PropsWithContext = { _reduxForm?: ReactContext } & Props
 
+type WrapperPropsWithContext = PropsWithContext & {
+  _formRef: ElementRef<any>
+}
+
+type FormPropsWithContext = PropsWithContext & {
+  registerFieldValidator: (name: string, getValidator: Function) => void,
+  unregisterFieldValidator: (name: string) => void,
+  registerFieldWarner: (name: string, getWarner: Function) => void,
+  unregisterFieldWarner: (name: string) => void
+}
+
 /**
  * The decorator that is the main API to redux-form
  */
 export default function createReduxForm(structure: Structure<any, any>) {
   const { deepEqual, empty, getIn, setIn, keys, fromJS, toJS } = structure
   const isValid = createIsValid(structure)
+
   return (initialConfig: Config) => {
     const config = {
       touchOnBlur: true,
@@ -292,203 +304,39 @@ export default function createReduxForm(structure: Structure<any, any>) {
     }
 
     return (WrappedComponent: ComponentType<any>) => {
-      class Form extends React.Component<PropsWithContext> {
+      class Form extends React.Component<FormPropsWithContext> {
         static WrappedComponent: ComponentType<any>
 
         wrapped: ElementRef<any> = React.createRef()
 
         destroyed = false
         fieldCounts = {}
-        fieldValidators = {}
-        lastFieldValidatorKeys = []
-        fieldWarners = {}
-        lastFieldWarnerKeys = []
         innerOnSubmit = undefined
         submitPromise = undefined
-        initializedOnLoad = false
 
-        constructor(...args) {
-          super(...args)
-          if (!isHotReloading()) {
-            this.initializedOnLoad = this.initIfNeeded()
-          }
+        constructor(props, ...args) {
+          super(props, ...args)
           invariant(
             this.props.shouldValidate,
             'shouldValidate() is deprecated and will be removed in v9.0.0. Use shouldWarn() or shouldError() instead.'
           )
         }
 
-        initIfNeeded = (nextProps: ?PropsWithContext): boolean => {
-          const { enableReinitialize } = this.props
-          if (nextProps) {
-            if (
-              (enableReinitialize || !nextProps.initialized) &&
-              !deepEqual(this.props.initialValues, nextProps.initialValues)
-            ) {
-              const keepDirty = nextProps.initialized && this.props.keepDirtyOnReinitialize
-              this.props.initialize(nextProps.initialValues, keepDirty, {
-                keepValues: nextProps.keepValues,
-                lastInitialValues: this.props.initialValues,
-                updateUnregisteredFields: nextProps.updateUnregisteredFields
-              })
-              return true
-            }
-          } else if (this.props.initialValues && (!this.props.initialized || enableReinitialize)) {
-            this.props.initialize(this.props.initialValues, this.props.keepDirtyOnReinitialize, {
-              keepValues: this.props.keepValues,
-              updateUnregisteredFields: this.props.updateUnregisteredFields
-            })
-            return true
-          }
-          return false
-        }
-
-        updateSyncErrorsIfNeeded = (
-          nextSyncErrors: ?Object,
-          nextError: ?any,
-          lastSyncErrors: ?Object
-        ): void => {
-          const { error, updateSyncErrors } = this.props
-          const noErrors = (!lastSyncErrors || !Object.keys(lastSyncErrors).length) && !error
-          const nextNoErrors =
-            (!nextSyncErrors || !Object.keys(nextSyncErrors).length) && !nextError
-          if (
-            !(noErrors && nextNoErrors) &&
-            (!plain.deepEqual(lastSyncErrors, nextSyncErrors) || !plain.deepEqual(error, nextError))
-          ) {
-            updateSyncErrors(nextSyncErrors, nextError)
-          }
-        }
-
-        clearSubmitPromiseIfNeeded = (nextProps: PropsWithContext): void => {
-          const { submitting } = this.props
-          if (this.submitPromise && submitting && !nextProps.submitting) {
+        componentDidUpdate(prevProps: PropsWithContext): void {
+          if (this.submitPromise && prevProps.submitting && !this.props.submitting) {
             delete this.submitPromise
           }
-        }
 
-        submitIfNeeded = (nextProps: PropsWithContext): void => {
-          const { clearSubmit, triggerSubmit } = this.props
-          if (!triggerSubmit && nextProps.triggerSubmit) {
-            clearSubmit()
+          if (!prevProps.triggerSubmit && this.props.triggerSubmit) {
+            this.props.clearSubmit()
             this.submit()
-          }
-        }
-
-        shouldErrorFunction = (): ShouldValidateFunction | ShouldErrorFunction => {
-          const { shouldValidate, shouldError } = this.props
-          const shouldValidateOverridden = shouldValidate !== defaultShouldValidate
-          const shouldErrorOverridden = shouldError !== defaultShouldError
-
-          return shouldValidateOverridden && !shouldErrorOverridden ? shouldValidate : shouldError
-        }
-
-        validateIfNeeded = (nextProps: ?PropsWithContext): void => {
-          const { validate, values } = this.props
-          const shouldError = this.shouldErrorFunction()
-          const fieldLevelValidate = this.generateValidator()
-          if (validate || fieldLevelValidate) {
-            const initialRender = nextProps === undefined
-            const fieldValidatorKeys = Object.keys(this.getValidators())
-            const validateParams = {
-              values,
-              nextProps,
-              props: this.props,
-              initialRender,
-              lastFieldValidatorKeys: this.lastFieldValidatorKeys,
-              fieldValidatorKeys,
-              structure
-            }
-
-            if (shouldError(validateParams)) {
-              const propsToValidate = initialRender || !nextProps ? this.props : nextProps
-              const { _error, ...nextSyncErrors } = merge(
-                validate ? validate(propsToValidate.values, propsToValidate) || {} : {},
-                fieldLevelValidate
-                  ? fieldLevelValidate(propsToValidate.values, propsToValidate) || {}
-                  : {}
-              )
-              this.lastFieldValidatorKeys = fieldValidatorKeys
-              this.updateSyncErrorsIfNeeded(nextSyncErrors, _error, propsToValidate.syncErrors)
-            }
-          } else {
-            this.lastFieldValidatorKeys = []
-          }
-        }
-
-        updateSyncWarningsIfNeeded = (
-          nextSyncWarnings: ?Object,
-          nextWarning: any,
-          lastSyncWarnings: ?Object
-        ): void => {
-          const { warning, updateSyncWarnings } = this.props
-          const noWarnings =
-            (!lastSyncWarnings || !Object.keys(lastSyncWarnings).length) && !warning
-          const nextNoWarnings =
-            (!nextSyncWarnings || !Object.keys(nextSyncWarnings).length) && !nextWarning
-          if (
-            !(noWarnings && nextNoWarnings) &&
-            (!plain.deepEqual(lastSyncWarnings, nextSyncWarnings) ||
-              !plain.deepEqual(warning, nextWarning))
-          ) {
-            updateSyncWarnings(nextSyncWarnings, nextWarning)
-          }
-        }
-
-        shouldWarnFunction = (): ShouldValidateFunction | ShouldWarnFunction => {
-          const { shouldValidate, shouldWarn } = this.props
-          const shouldValidateOverridden = shouldValidate !== defaultShouldValidate
-          const shouldWarnOverridden = shouldWarn !== defaultShouldWarn
-
-          return shouldValidateOverridden && !shouldWarnOverridden ? shouldValidate : shouldWarn
-        }
-
-        warnIfNeeded = (nextProps: ?PropsWithContext): void => {
-          const { warn, values } = this.props
-          const shouldWarn = this.shouldWarnFunction()
-          const fieldLevelWarn = this.generateWarner()
-          if (warn || fieldLevelWarn) {
-            const initialRender = nextProps === undefined
-            const fieldWarnerKeys = Object.keys(this.getWarners())
-            const validateParams = {
-              values,
-              nextProps,
-              props: this.props,
-              initialRender,
-              lastFieldValidatorKeys: this.lastFieldWarnerKeys,
-              fieldValidatorKeys: fieldWarnerKeys,
-              structure
-            }
-
-            if (shouldWarn(validateParams)) {
-              const propsToWarn = initialRender || !nextProps ? this.props : nextProps
-              const { _warning, ...nextSyncWarnings } = merge(
-                warn ? warn(propsToWarn.values, propsToWarn) : {},
-                fieldLevelWarn ? fieldLevelWarn(propsToWarn.values, propsToWarn) : {}
-              )
-              this.lastFieldWarnerKeys = fieldWarnerKeys
-              this.updateSyncWarningsIfNeeded(nextSyncWarnings, _warning, propsToWarn.syncWarnings)
-            }
-          }
-        }
-
-        UNSAFE_componentWillReceiveProps(nextProps: PropsWithContext): void {
-          const isValueReset = this.initIfNeeded(nextProps)
-          // initialize will dispatch a redux action and call componentWillReceiveProps again; hence we can skip reinitialize if needed.
-          if (isValueReset) return
-          this.validateIfNeeded(nextProps)
-          this.warnIfNeeded(nextProps)
-          this.clearSubmitPromiseIfNeeded(nextProps)
-          this.submitIfNeeded(nextProps)
-          const { onChange, values, dispatch } = nextProps
-          if (onChange && !deepEqual(values, this.props.values)) {
-            onChange(values, dispatch, nextProps, this.props.values)
           }
         }
 
         shouldComponentUpdate(nextProps: PropsWithContext): boolean {
           if (!this.props.pure) return true
           const { immutableProps = [] } = config
+
           // if we have children, we MUST update in React 16
           // https://twitter.com/erikras/status/915866544558788608
           return !!(
@@ -499,24 +347,17 @@ export default function createReduxForm(structure: Structure<any, any>) {
               // if (!plain.deepEqual(this.props[ prop ], nextProps[ prop ])) {
               //   console.info(prop, 'changed', this.props[ prop ], '==>', nextProps[ prop ])
               // }
-              if (~immutableProps.indexOf(prop)) {
+              if (immutableProps.includes(prop)) {
                 return this.props[prop] !== nextProps[prop]
               }
               return (
-                !~propsToNotUpdateFor.indexOf(prop) && !deepEqual(this.props[prop], nextProps[prop])
+                !propsToNotUpdateFor.includes(prop) && !deepEqual(this.props[prop], nextProps[prop])
               )
             })
           )
         }
 
         componentDidMount(): void {
-          if (!isHotReloading()) {
-            // initialize in constructor function will dispatch a redux action and call componentWillReceiveProps which checks for validate;
-            // hence we can skip validate and warning if initialize has been triggered in constructor
-            if (this.initializedOnLoad) return
-            this.validateIfNeeded()
-            this.warnIfNeeded()
-          }
           invariant(
             this.props.shouldValidate,
             'shouldValidate() is deprecated and will be removed in v9.0.0. Use shouldWarn() or shouldError() instead.'
@@ -548,10 +389,10 @@ export default function createReduxForm(structure: Structure<any, any>) {
           this.fieldCounts[name] = nextCount
           this.props.registerField(name, type)
           if (getValidator) {
-            this.fieldValidators[name] = getValidator
+            this.props.registerFieldValidator(name, getValidator)
           }
           if (getWarner) {
-            this.fieldWarners[name] = getWarner
+            this.props.registerFieldWarner(name, getWarner)
           }
         }
 
@@ -565,11 +406,8 @@ export default function createReduxForm(structure: Structure<any, any>) {
             if (destroyOnUnmount || forceUnregisterOnUnmount) {
               unregisterField(name, destroyOnUnmount)
               if (!this.fieldCounts[name]) {
-                delete this.fieldValidators[name]
-                delete this.fieldWarners[name]
-                this.lastFieldValidatorKeys = this.lastFieldValidatorKeys.filter(
-                  key => key !== name
-                )
+                this.props.unregisterFieldValidator(name)
+                this.props.unregisterFieldWarner(name)
               }
             } else {
               unregisterField(name, false)
@@ -594,40 +432,6 @@ export default function createReduxForm(structure: Structure<any, any>) {
             }
           }
           return toJS(keySeq)
-        }
-
-        getValidators = (): Object => {
-          const validators = {}
-          Object.keys(this.fieldValidators).forEach(name => {
-            const validator = this.fieldValidators[name]()
-            if (validator) {
-              validators[name] = validator
-            }
-          })
-          return validators
-        }
-
-        generateValidator = (): Function | void => {
-          const validators = this.getValidators()
-          return Object.keys(validators).length
-            ? generateValidator(validators, structure)
-            : undefined
-        }
-
-        getWarners = (): Object => {
-          const warners = {}
-          Object.keys(this.fieldWarners).forEach(name => {
-            const warner = this.fieldWarners[name]()
-            if (warner) {
-              warners[name] = warner
-            }
-          })
-          return warners
-        }
-
-        generateWarner = (): Function | void => {
-          const warners = this.getWarners()
-          return Object.keys(warners).length ? generateValidator(warners, structure) : undefined
         }
 
         asyncValidate = (
@@ -808,6 +612,8 @@ export default function createReduxForm(structure: Structure<any, any>) {
             propNamespace,
             registeredFields,
             registerField,
+            registerFieldValidator,
+            registerFieldWarner,
             reset,
             resetSection,
             setSubmitFailed,
@@ -831,6 +637,8 @@ export default function createReduxForm(structure: Structure<any, any>) {
             syncErrors,
             syncWarnings,
             unregisterField,
+            unregisterFieldValidator,
+            unregisterFieldWarner,
             untouch,
             updateSyncErrors,
             updateSyncWarnings,
@@ -914,6 +722,240 @@ export default function createReduxForm(structure: Structure<any, any>) {
         triggerSubmit: PropTypes.bool,
         persistentSubmitErrors: PropTypes.bool,
         registeredFields: PropTypes.any
+      }
+
+      /**
+       * This wrapper is needed for the effects after update. Since the Form component
+       * does not rerender on every change, componentDidUpdate is not always called.
+       */
+      class EffectWrapper extends React.Component<WrapperPropsWithContext> {
+        fieldValidators = {}
+        fieldWarners = {}
+        lastFieldValidatorKeys = []
+        lastFieldWarnerKeys = []
+
+        registerFieldValidator = (name: string, getValidator: Function): void => {
+          this.fieldValidators[name] = getValidator
+        }
+        unregisterFieldValidator = (name: string): void => {
+          delete this.fieldValidators[name]
+        }
+        registerFieldWarner = (name: string, getWarner: Function): void => {
+          this.fieldWarners[name] = getWarner
+        }
+        unregisterFieldWarner = (name: string): void => {
+          delete this.fieldWarners[name]
+          this.lastFieldValidatorKeys = this.lastFieldValidatorKeys.filter(key => key !== name)
+        }
+
+        initIfNeeded = (prevProps: PropsWithContext, nextProps: ?PropsWithContext): boolean => {
+          const { enableReinitialize } = prevProps
+          if (nextProps) {
+            if (
+              (enableReinitialize || !nextProps.initialized) &&
+              !deepEqual(prevProps.initialValues, nextProps.initialValues)
+            ) {
+              const keepDirty = nextProps.initialized && prevProps.keepDirtyOnReinitialize
+              prevProps.initialize(nextProps.initialValues, keepDirty, {
+                keepValues: nextProps.keepValues,
+                lastInitialValues: prevProps.initialValues,
+                updateUnregisteredFields: nextProps.updateUnregisteredFields
+              })
+              return true
+            }
+          } else if (prevProps.initialValues && (!prevProps.initialized || enableReinitialize)) {
+            prevProps.initialize(prevProps.initialValues, prevProps.keepDirtyOnReinitialize, {
+              keepValues: prevProps.keepValues,
+              updateUnregisteredFields: prevProps.updateUnregisteredFields
+            })
+            return true
+          }
+          return false
+        }
+
+        constructor(props: PropsWithContext, ...args) {
+          super(props, ...args)
+          if (!isHotReloading()) {
+            this.initIfNeeded(props)
+            this.validateIfNeeded(props)
+            this.warnIfNeeded(props)
+          }
+        }
+
+        componentDidUpdate(prevProps: PropsWithContext) {
+          const { onChange, values, dispatch } = this.props
+          // console.log('componentDidUpdate', { oldValues: prevProps.values, newValues: values })
+          if (!isHotReloading()) {
+            this.initIfNeeded(prevProps, this.props)
+            this.validateIfNeeded(prevProps, this.props)
+            this.warnIfNeeded(prevProps, this.props)
+          }
+
+          if (onChange && !deepEqual(values, prevProps.values)) {
+            onChange(values, dispatch, this.props, prevProps.values)
+          }
+        }
+
+        shouldErrorFunction = (): ShouldValidateFunction | ShouldErrorFunction => {
+          const { shouldValidate, shouldError } = this.props
+          const shouldValidateOverridden = shouldValidate !== defaultShouldValidate
+          const shouldErrorOverridden = shouldError !== defaultShouldError
+
+          return shouldValidateOverridden && !shouldErrorOverridden ? shouldValidate : shouldError
+        }
+
+        shouldWarnFunction = (): ShouldValidateFunction | ShouldWarnFunction => {
+          const { shouldValidate, shouldWarn } = this.props
+          const shouldValidateOverridden = shouldValidate !== defaultShouldValidate
+          const shouldWarnOverridden = shouldWarn !== defaultShouldWarn
+
+          return shouldValidateOverridden && !shouldWarnOverridden ? shouldValidate : shouldWarn
+        }
+
+        updateSyncErrorsIfNeeded = (
+          nextSyncErrors: ?Object,
+          nextError: ?any,
+          lastSyncErrors: ?Object,
+          error: ?any
+        ): void => {
+          const noErrors = (!lastSyncErrors || !Object.keys(lastSyncErrors).length) && !error
+          const nextNoErrors =
+            (!nextSyncErrors || !Object.keys(nextSyncErrors).length) && !nextError
+          if (
+            !(noErrors && nextNoErrors) &&
+            (!plain.deepEqual(lastSyncErrors, nextSyncErrors) || !plain.deepEqual(error, nextError))
+          ) {
+            this.props.updateSyncErrors(nextSyncErrors, nextError)
+          }
+        }
+
+        getValidators = (): Object => {
+          const validators = {}
+          Object.keys(this.fieldValidators).forEach(name => {
+            const validator = this.fieldValidators[name]()
+            if (validator) {
+              validators[name] = validator
+            }
+          })
+          return validators
+        }
+
+        generateValidator = (): Function | void => {
+          const validators = this.getValidators()
+          return Object.keys(validators).length
+            ? generateValidator(validators, structure)
+            : undefined
+        }
+
+        getWarners = (): Object => {
+          const warners = {}
+          Object.keys(this.fieldWarners).forEach(name => {
+            const warner = this.fieldWarners[name]()
+            if (warner) {
+              warners[name] = warner
+            }
+          })
+          return warners
+        }
+
+        generateWarner = (): Function | void => {
+          const warners = this.getWarners()
+          return Object.keys(warners).length ? generateValidator(warners, structure) : undefined
+        }
+
+        validateIfNeeded = (prevProps: PropsWithContext, nextProps: ?PropsWithContext): void => {
+          // values update does not trigger rerender
+          const { validate, values } = prevProps
+          const shouldError = this.shouldErrorFunction()
+          const fieldLevelValidate = this.generateValidator()
+          if (validate || fieldLevelValidate) {
+            const initialRender = nextProps === undefined
+            const fieldValidatorKeys = Object.keys(this.getValidators())
+            const validateParams = {
+              values,
+              nextProps,
+              props: prevProps,
+              initialRender,
+              lastFieldValidatorKeys: this.lastFieldValidatorKeys,
+              fieldValidatorKeys,
+              structure
+            }
+
+            if (shouldError(validateParams)) {
+              const propsToValidate = initialRender || !nextProps ? prevProps : nextProps
+              const { _error, ...nextSyncErrors } = merge(
+                validate ? validate(propsToValidate.values, propsToValidate) || {} : {},
+                fieldLevelValidate
+                  ? fieldLevelValidate(propsToValidate.values, propsToValidate) || {}
+                  : {}
+              )
+              this.lastFieldValidatorKeys = fieldValidatorKeys
+              this.updateSyncErrorsIfNeeded(
+                nextSyncErrors,
+                _error,
+                propsToValidate.syncErrors,
+                prevProps.error
+              )
+            }
+          } else {
+            this.lastFieldValidatorKeys = []
+          }
+        }
+
+        warnIfNeeded = (prevProps: PropsWithContext, nextProps: ?PropsWithContext): void => {
+          const { warn, values } = prevProps
+          const shouldWarn = this.shouldWarnFunction()
+          const fieldLevelWarn = this.generateWarner()
+          if (warn || fieldLevelWarn) {
+            const initialRender = nextProps === undefined
+            const fieldWarnerKeys = Object.keys(this.getWarners())
+            const validateParams = {
+              values,
+              nextProps,
+              props: prevProps,
+              initialRender,
+              lastFieldValidatorKeys: this.lastFieldWarnerKeys,
+              fieldValidatorKeys: fieldWarnerKeys,
+              structure
+            }
+
+            if (shouldWarn(validateParams)) {
+              const propsToWarn = initialRender || !nextProps ? prevProps : nextProps
+              const { _warning, ...nextSyncWarnings } = merge(
+                warn ? warn(propsToWarn.values, propsToWarn) : {},
+                fieldLevelWarn ? fieldLevelWarn(propsToWarn.values, propsToWarn) : {}
+              )
+              this.lastFieldWarnerKeys = fieldWarnerKeys
+              const noWarnings =
+                (!propsToWarn.syncWarnings || !Object.keys(propsToWarn.syncWarnings).length) &&
+                !prevProps.warning
+              const nextNoWarnings =
+                (!nextSyncWarnings || !Object.keys(nextSyncWarnings).length) && !_warning
+              if (
+                !(noWarnings && nextNoWarnings) &&
+                (!plain.deepEqual(propsToWarn.syncWarnings, nextSyncWarnings) ||
+                  !plain.deepEqual(prevProps.warning, _warning))
+              ) {
+                this.props.updateSyncWarnings(nextSyncWarnings, _warning)
+              }
+            }
+          }
+        }
+
+        render() {
+          const { _formRef, ...rest } = this.props
+
+          return (
+            <Form
+              {...rest}
+              ref={_formRef}
+              registerFieldValidator={this.registerFieldValidator}
+              unregisterFieldValidator={this.unregisterFieldValidator}
+              registerFieldWarner={this.registerFieldWarner}
+              unregisterFieldWarner={this.unregisterFieldWarner}
+            />
+          )
+        }
       }
 
       const connector = connect(
@@ -1023,11 +1065,14 @@ export default function createReduxForm(structure: Structure<any, any>) {
             focus: boundFocus,
             dispatch
           }
-        },
-        undefined,
-        { forwardRef: true }
+        }
+        // undefined,
+        // { forwardRef: true }
       )
-      const ConnectedForm = hoistStatics<any, any, any, any>(connector(Form), WrappedComponent)
+      const ConnectedForm = hoistStatics<any, any, any, any>(
+        connector(EffectWrapper),
+        WrappedComponent
+      )
       ConnectedForm.defaultProps = config
 
       // build outer component to expose instance api
@@ -1076,9 +1121,10 @@ export default function createReduxForm(structure: Structure<any, any>) {
 
         render() {
           const { initialValues, ...rest } = this.props
+
           return createElement(ConnectedForm, {
             ...rest,
-            ref: this.ref,
+            _formRef: this.ref,
             // convert initialValues if need to
             initialValues: fromJS(initialValues)
           })
