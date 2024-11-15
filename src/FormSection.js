@@ -19,15 +19,15 @@ export type DefaultProps = {
 }
 
 class FormSection extends Component<PropsWithContext> {
-  static defaultProps: DefaultProps
+  static defaultProps: DefaultProps = {
+    component: 'div'
+  }
   context: ReactContext
 
   constructor(props: PropsWithContext) {
     super(props)
     if (!props._reduxForm) {
-      throw new Error(
-        'FormSection must be inside a component decorated with reduxForm()'
-      )
+      throw new Error('FormSection must be inside a component decorated with reduxForm()')
     }
   }
 
@@ -66,10 +66,6 @@ class FormSection extends Component<PropsWithContext> {
 FormSection.propTypes = {
   name: PropTypes.string.isRequired,
   component: validateComponentProp
-}
-
-FormSection.defaultProps = {
-  component: 'div'
 }
 
 export default withReduxForm(FormSection)

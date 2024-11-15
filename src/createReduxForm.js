@@ -29,6 +29,7 @@ import type { Params as ShouldAsyncValidateParams } from './defaultShouldAsyncVa
 import type { Params as ShouldValidateParams } from './defaultShouldValidate'
 import type { Params as ShouldErrorParams } from './defaultShouldError'
 import type { Params as ShouldWarnParams } from './defaultShouldWarn'
+import { withDefaultProps } from './util/withDefaultProps'
 
 const isClassComponent = (Component: ?any) =>
   Boolean(
@@ -1027,8 +1028,9 @@ export default function createReduxForm(structure: Structure<any, any>) {
         undefined,
         { forwardRef: true }
       )
-      const ConnectedForm = hoistStatics<any, any, any, any>(connector(Form), WrappedComponent)
-      ConnectedForm.defaultProps = config
+      const ConnectedForm = withDefaultProps(
+        hoistStatics<any, any, any, any>(connector(Form), WrappedComponent)
+      )(config)
 
       // build outer component to expose instance api
       class ReduxForm extends React.Component<Props> {
@@ -1085,12 +1087,9 @@ export default function createReduxForm(structure: Structure<any, any>) {
         }
       }
 
-      const WithContext = hoistStatics<any, any, any, any>(
-        withReduxForm(ReduxForm),
-        WrappedComponent
-      )
-      WithContext.defaultProps = config
-      return WithContext
+      return withDefaultProps(
+        hoistStatics<any, any, any, any>(withReduxForm(ReduxForm), WrappedComponent)
+      )(config)
     }
   }
 }

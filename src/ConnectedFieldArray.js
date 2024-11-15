@@ -30,7 +30,9 @@ export default function createConnectedFieldArray(structure: Structure<any, any>
   }
 
   class ConnectedFieldArray extends Component<Props> {
-    static defaultProps: DefaultProps
+    static defaultProps: DefaultProps = {
+      rerenderOnEveryChange: false
+    }
     ref: ElementRef<any> = React.createRef()
 
     shouldComponentUpdate(nextProps: Props) {
@@ -122,10 +124,6 @@ export default function createConnectedFieldArray(structure: Structure<any, any>
     component: validateComponentProp,
     props: PropTypes.object,
     rerenderOnEveryChange: PropTypes.bool
-  }
-
-  ConnectedFieldArray.defaultProps = {
-    rerenderOnEveryChange: false
   }
 
   const connector = connect(
