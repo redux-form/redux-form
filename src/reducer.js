@@ -75,7 +75,7 @@ const createReducer = structure => {
       const length = array ? size(array) : 0
       return length ? arraySplice(state, field, length - 1, 1) : state
     },
-    [ARRAY_PUSH](state, { meta: { field }, payload = empty }) {
+    [ARRAY_PUSH](state, { meta: { field }, payload }) {
       const array = getIn(state, `values.${field}`)
       const length = array ? size(array) : 0
       return arraySplice(state, field, length, 0, payload)

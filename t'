@@ -1,0 +1,19 @@
+[33mcommit e6fec6e3df23e55fddfdd95320ada975655d97a2[m
+Author: Erik Rasmussen <rasmussenerik@gmail.com>
+Date:   Tue Aug 23 07:51:06 2016 +0200
+
+    Fixed immutable array reducer bug
+
+ src/__tests__/FieldArray.spec.js                 | 478 [32m+++++++++++++++++++++[m[31m--[m
+ src/__tests__/actions.spec.js                    |  73 [32m+++[m[31m-[m
+ src/__tests__/reducer.arrayPush.spec.js          |  12 [32m+[m
+ src/reducer.js                                   |  16 [32m+[m[31m-[m
+ src/structure/immutable/__tests__/splice.spec.js |  55 [32m+[m[31m--[m
+ src/structure/immutable/expectations.js          |  13 [32m+[m[31m-[m
+ src/structure/immutable/index.js                 |   1 [32m+[m
+ src/structure/immutable/splice.js                |  11 [32m+[m[31m-[m
+ src/structure/plain/__tests__/splice.spec.js     |  55 [32m+[m[31m--[m
+ src/structure/plain/expectations.js              |   9 [32m+[m
+ src/structure/plain/index.js                     |   1 [32m+[m
+ src/structure/plain/splice.js                    |  22 [32m+[m[31m-[m
+ 12 files changed, 642 insertions(+), 104 deletions(-)

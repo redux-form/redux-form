@@ -777,45 +777,461 @@ const describeFieldArray = (name, structure, combineReducers, expect) => {
       // field array NOT rerendered
       expect(renderFieldArray.calls.length).toBe(1)
     })
-  })
 
-  it('should work with Fields', () => {
-    const store = makeStore({
-      testForm: {
-        values: {
-          foo: [ 'firstValue', 'secondValue' ]
+    it('should create a list in the store on push(undefined)', () => {
+      const store = makeStore({})
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+          <button onClick={() => fields.push()}>Add Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
         }
       }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+
+      // only registered field array in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' }
+            ]
+          }
+        }
+      })
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+
+      // add field
+      TestUtils.Simulate.click(button)
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+
+      // field rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(1)
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+
+      // field registered in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              dogs: [ undefined ]
+            },
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' },
+              { name: 'dogs[0]', type: 'Field' }
+            ]
+          }
+        }
+      })
+
+      // values list is a list
+      expect(getIn(store.getState(), 'form.testForm.values.dogs')).toBeAList()
     })
-    const renderField = createSpy(field => <input {...field.input}/>)
 
-    const renderFields = createSpy(({ foo }) => <div>{foo.map(renderField)}</div>).andCallThrough()
-
-    const component = createSpy(({ fields }) => <div>
-      <Fields names={fields} component={renderFields}/>
-    </div>).andCallThrough()
-
-    class Form extends Component {
-      render() {
-        return (<div>
-          <FieldArray name="foo" component={component}/>
-        </div>)
+    it('should create a list in the store on push(value)', () => {
+      const store = makeStore({})
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+          <button onClick={() => fields.push('Fido')}>Add Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
       }
-    }
-    const TestForm = reduxForm({ form: 'testForm' })(Form)
-    TestUtils.renderIntoDocument(
-      <Provider store={store}>
-        <TestForm/>
-      </Provider>
-    )
-    expect(renderFields).toHaveBeenCalled()
-    expect(renderFields.calls.length).toBe(1)
-    expect(renderFields.calls[ 0 ].arguments[ 0 ].foo.length).toBe(2)
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
 
-    expect(renderField).toHaveBeenCalled()
-    expect(renderField.calls.length).toBe(2)
-    expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('firstValue')
-    expect(renderField.calls[ 1 ].arguments[ 0 ].input.value).toBe('secondValue')
+      // only registered field array in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' }
+            ]
+          }
+        }
+      })
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+
+      // add field
+      TestUtils.Simulate.click(button)
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+
+      // field rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(1)
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('Fido')
+
+      // field registered in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              dogs: [ 'Fido' ]
+            },
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' },
+              { name: 'dogs[0]', type: 'Field' }
+            ]
+          }
+        }
+      })
+
+      // values list is a list
+      expect(getIn(store.getState(), 'form.testForm.values.dogs')).toBeAList()
+    })
+
+    it('should create a list in the store on unshift(undefined)', () => {
+      const store = makeStore({})
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+          <button onClick={() => fields.unshift()}>Add Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+
+      // only registered field array in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' }
+            ]
+          }
+        }
+      })
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+
+      // add field
+      TestUtils.Simulate.click(button)
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+
+      // field rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(1)
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+
+      // field registered in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              dogs: [ undefined ]
+            },
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' },
+              { name: 'dogs[0]', type: 'Field' }
+            ]
+          }
+        }
+      })
+
+      // values list is a list
+      expect(getIn(store.getState(), 'form.testForm.values.dogs')).toBeAList()
+    })
+
+    it('should create a list in the store on unshift(value)', () => {
+      const store = makeStore({})
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+          <button onClick={() => fields.unshift('Fido')}>Add Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+
+      // only registered field array in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' }
+            ]
+          }
+        }
+      })
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+
+      // add field
+      TestUtils.Simulate.click(button)
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+
+      // field rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(1)
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('Fido')
+
+      // field registered in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              dogs: [ 'Fido' ]
+            },
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' },
+              { name: 'dogs[0]', type: 'Field' }
+            ]
+          }
+        }
+      })
+
+      // values list is a list
+      expect(getIn(store.getState(), 'form.testForm.values.dogs')).toBeAList()
+    })
+
+
+    it('should create a list in the store on insert(undefined)', () => {
+      const store = makeStore({})
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+          <button onClick={() => fields.insert(0)}>Add Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+
+      // only registered field array in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' }
+            ]
+          }
+        }
+      })
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+
+      // add field
+      TestUtils.Simulate.click(button)
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+
+      // field rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(1)
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('')
+
+      // field registered in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              dogs: [ undefined ]
+            },
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' },
+              { name: 'dogs[0]', type: 'Field' }
+            ]
+          }
+        }
+      })
+
+      // values list is a list
+      expect(getIn(store.getState(), 'form.testForm.values.dogs')).toBeAList()
+    })
+
+    it('should create a list in the store on insert(value)', () => {
+      const store = makeStore({})
+      const renderField = createSpy(props => <input {...props.input}/>).andCallThrough()
+      const renderFieldArray =
+        createSpy(({ fields }) => (<div>
+          {fields.map(field => <Field name={field} component={renderField} key={field}/>)}
+          <button onClick={() => fields.insert(0, 'Fido')}>Add Dog</button>
+        </div>)).andCallThrough()
+      class Form extends Component {
+        render() {
+          return <FieldArray name="dogs" component={renderFieldArray}/>
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      const dom = TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      const button = TestUtils.findRenderedDOMComponentWithTag(dom, 'button')
+
+      // only registered field array in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' }
+            ]
+          }
+        }
+      })
+
+      // length is 0
+      expect(renderFieldArray).toHaveBeenCalled()
+      expect(renderFieldArray.calls.length).toBe(1)
+      expect(renderFieldArray.calls[ 0 ].arguments[ 0 ].fields.length).toBe(0)
+
+      // add field
+      TestUtils.Simulate.click(button)
+
+      // field array rerendered
+      expect(renderFieldArray.calls.length).toBe(2)
+      expect(renderFieldArray.calls[ 1 ].arguments[ 0 ].fields.length).toBe(1)
+
+      // field rendered
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(1)
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.name).toBe('dogs[0]')
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('Fido')
+
+      // field registered in store
+      expect(store.getState()).toEqualMap({
+        form: {
+          testForm: {
+            values: {
+              dogs: [ 'Fido' ]
+            },
+            registeredFields: [
+              { name: 'dogs', type: 'FieldArray' },
+              { name: 'dogs[0]', type: 'Field' }
+            ]
+          }
+        }
+      })
+
+      // values list is a list
+      expect(getIn(store.getState(), 'form.testForm.values.dogs')).toBeAList()
+    })
+
+    it('should work with Fields', () => {
+      const store = makeStore({
+        testForm: {
+          values: {
+            foo: [ 'firstValue', 'secondValue' ]
+          }
+        }
+      })
+      const renderField = createSpy(field => <input {...field.input}/>)
+
+      const renderFields = createSpy(({ foo }) =>
+        <div>{foo.map(renderField)}</div>).andCallThrough()
+
+      const component = createSpy(({ fields }) => <div>
+        <Fields names={fields} component={renderFields}/>
+      </div>).andCallThrough()
+
+      class Form extends Component {
+        render() {
+          return (<div>
+            <FieldArray name="foo" component={component}/>
+          </div>)
+        }
+      }
+      const TestForm = reduxForm({ form: 'testForm' })(Form)
+      TestUtils.renderIntoDocument(
+        <Provider store={store}>
+          <TestForm/>
+        </Provider>
+      )
+      expect(renderFields).toHaveBeenCalled()
+      expect(renderFields.calls.length).toBe(1)
+      expect(renderFields.calls[ 0 ].arguments[ 0 ].foo.length).toBe(2)
+
+      expect(renderField).toHaveBeenCalled()
+      expect(renderField.calls.length).toBe(2)
+      expect(renderField.calls[ 0 ].arguments[ 0 ].input.value).toBe('firstValue')
+      expect(renderField.calls[ 1 ].arguments[ 0 ].input.value).toBe('secondValue')
+    })
   })
 }
 

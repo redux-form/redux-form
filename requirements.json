@@ -1,0 +1,6 @@
+{
+  "requirements": [
+    "Pushing undefined to a FieldArray should result in an empty string, not an empty object.",
+    "Arrays in redux-form/immutable should be instances of Immutable.List."
+  ]
+}

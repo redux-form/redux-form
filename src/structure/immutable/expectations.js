@@ -1,6 +1,6 @@
 import expect from 'expect'
 import deepEqual from 'deep-equal'
-import { Map, Iterable, fromJS } from 'immutable'
+import { Map, List, Iterable, fromJS } from 'immutable'
 
 const deepEqualValues = (a, b) => {
   if (Iterable.isIterable(a)) {
@@ -15,7 +15,16 @@ const api = {
   toBeAMap() {
     expect.assert(
       Map.isMap(this.actual),
-      'expected %s to be an immutable map',
+      'expected %s to be an immutable Map',
+      this.actual
+    )
+    return this
+  },
+
+  toBeAList() {
+    expect.assert(
+      List.isList(this.actual),
+      'expected %s to be an immutable List',
       this.actual
     )
     return this

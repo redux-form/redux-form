@@ -1,0 +1,14 @@
+{
+  "criteria": [
+    {
+      "description": "Verify that pushing undefined to a FieldArray results in an empty string.",
+      "category": "Functionality",
+      "weight": 1
+    },
+    {
+      "description": "Ensure that arrays are Immutable.List when using redux-form/immutable.",
+      "category": "Functionality",
+      "weight": 1
+    }
+  ]
+}

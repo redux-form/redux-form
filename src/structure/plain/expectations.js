@@ -11,6 +11,15 @@ const expectations = {
     return this
   },
 
+  toBeAList() {
+    expect.assert(
+      Array.isArray(this.actual),
+      'expected %s to be an array',
+      this.actual
+    )
+    return this
+  },
+
   toBeSize(size) {
     expect.assert(
       this.actual && Object.keys(this.actual).length === size,
